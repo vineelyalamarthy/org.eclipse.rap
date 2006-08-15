@@ -503,6 +503,8 @@
         http_request.setRequestHeader( 'Connection', 'close' );
         http_request.send( postContent );
       }
+      // reset the ajax flag, since the next request may not be an ajax request
+      _assignHiddenInput( "w4t_isAjaxRequest", "false" );
     }
   }
   

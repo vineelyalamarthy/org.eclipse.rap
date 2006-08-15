@@ -44,7 +44,6 @@ public class ConfigurationReader {
   private static final class ConfigurationImpl implements IConfiguration {
 
     private IInitialization initialization = null;
-    private IPreloaderBuffer preloaderBuffer = null;
     private IFileUpload fileUpload = null;
     
     public IInitialization getInitialization() {
@@ -52,13 +51,6 @@ public class ConfigurationReader {
         initialization = new InitializationImpl();
       }
       return initialization;
-    }
-
-    public IPreloaderBuffer getPreloaderBuffer() {
-      if( preloaderBuffer == null ) {
-        preloaderBuffer = new PreloaderBufferImpl();
-      }
-      return preloaderBuffer;
     }
 
     public IFileUpload getFileUpload() {
@@ -149,50 +141,9 @@ public class ConfigurationReader {
       return Long.parseLong( value );
     }
 
-    public String getGlobalClassesList() {
-      return getConfigValue( "globalClassesList", "" );
-    }
-
     public String getHandleMissingI18NResource() {
       String defaultValue = IInitialization.HANDLE_MISSING_I18N_RESOURCE_EMPTY;
       return getConfigValue( "handleMissingI18NResource", defaultValue );
-    }
-
-    public boolean isUseSessionNameSpace() {
-      String value = getConfigValue( "useSessionNameSpace", "false" );
-      return Boolean.valueOf( value ).booleanValue();
-    }
-
-    public boolean isUseRequestWorker() {
-      String value = getConfigValue( "useRequestWorker", "false" );
-      return Boolean.valueOf( value ).booleanValue();
-    }
-  }
-  
-  private static final class PreloaderBufferImpl implements IPreloaderBuffer {
-
-    public boolean isUsePreloaderBuffer() {
-      String value = getConfigValue( "usePreloaderBuffer", "false" );
-      return Boolean.valueOf( value ).booleanValue();
-    }
-
-    public long getMaxSize() {
-      String value = getConfigValue( "maxSize", "20" );
-      return Long.parseLong( value );
-    }
-
-    public long getMinThreshold() {
-      String value = getConfigValue( "minThreshold", "10" );
-      return Long.parseLong( value );
-    }
-
-    public boolean isPreloadStartupForm() {
-      String value = getConfigValue( "preloadStartupForm", "true" );
-      return Boolean.valueOf( value ).booleanValue();
-    }
-
-    public String getPreloadList() {
-      return getConfigValue( "preloadList", IPreloaderBuffer.PRELOAD_LIST_FIX );
     }
   }
 

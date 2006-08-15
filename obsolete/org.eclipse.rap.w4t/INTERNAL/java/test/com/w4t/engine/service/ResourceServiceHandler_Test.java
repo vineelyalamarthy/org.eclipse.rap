@@ -55,7 +55,7 @@ public class ResourceServiceHandler_Test extends TestCase {
   }
   
   public void testUnknown() throws Exception {
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     IResourceManager resourceManager = W4TContext.getResourceManager();
     resourceManager.register( UNKNOWN_RESOURCE_XYZ );
     Fixture.fakeRequestParam( RequestParams.RESOURCE, UNKNOWN_RESOURCE_XYZ );
@@ -71,7 +71,7 @@ public class ResourceServiceHandler_Test extends TestCase {
   }
   
   public void testUnversionedJavaScript() throws Exception {
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     IResourceManager resourceManager = W4TContext.getResourceManager();
     resourceManager.register( RESOURCETEST1_JS, 
                               HTML.CHARSET_NAME_ISO_8859_1, 
@@ -85,7 +85,7 @@ public class ResourceServiceHandler_Test extends TestCase {
   }
   
   public void testVersionedJavaScript() throws Exception {
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     IResourceManager resourceManager = W4TContext.getResourceManager();
     resourceManager.register( RESOURCETEST1_JS, 
                               HTML.CHARSET_NAME_ISO_8859_1, 

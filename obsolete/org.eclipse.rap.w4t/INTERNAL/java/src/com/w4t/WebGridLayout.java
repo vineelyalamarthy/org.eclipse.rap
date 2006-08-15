@@ -57,8 +57,8 @@ public class WebGridLayout extends WebTable implements WebLayout {
     int result = 17;
     result = 73 * result + ( parent == null ? 0 : parent.hashCode() );
     HashCodeBuilderSupport support = AjaxStatusUtil.newHashCodeBuilderSupport();
-    DefaultHashCodeBuilder builder
-      = new DefaultHashCodeBuilder( WebTableCell.class );
+    HashCodeBuilder builder 
+      = HashCodeBuilderFactory.getBuilder( WebTableCell.class );            
     for( int i = 0; i < rowCount; i++ ) {
       Vector row = ( Vector )tableCells.get( i );
       for( int j = 0; j < colCount; j++ ) {

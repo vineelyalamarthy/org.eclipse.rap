@@ -8,7 +8,7 @@
  * Contributors:
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
-package com.w4t.engine.classloader;
+package com.w4t.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class Response implements HttpServletResponse {
+class Response implements HttpServletResponse {
 
   public void addCookie( final Cookie arg0 ) {
   }

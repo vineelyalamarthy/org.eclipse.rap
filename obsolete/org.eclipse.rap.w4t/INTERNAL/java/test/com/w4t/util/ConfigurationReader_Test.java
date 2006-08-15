@@ -80,30 +80,10 @@ public class ConfigurationReader_Test extends TestCase {
     long maxSessionUnboundToForceGC
       = initialization.getMaxSessionUnboundToForceGC();
     assertEquals( 0, maxSessionUnboundToForceGC );
-    String globalClassesList = initialization.getGlobalClassesList();
-    assertEquals( "", globalClassesList );
     String handleMissingI18NResource
       = initialization.getHandleMissingI18NResource();
     assertEquals( IInitialization.HANDLE_MISSING_I18N_RESOURCE_EMPTY,
-                  handleMissingI18NResource );
-    boolean useSessionNameSpace = initialization.isUseSessionNameSpace();
-    assertEquals( false, useSessionNameSpace );
-    boolean useReqeustWorker = initialization.isUseRequestWorker();
-    assertEquals( false, useReqeustWorker );
-    
-    
-    // preloader buffer
-    IPreloaderBuffer preloader = application.getPreloaderBuffer();
-    boolean usePreloaderBuffer = preloader.isUsePreloaderBuffer();
-    assertEquals( false, usePreloaderBuffer );
-    long maxSize = preloader.getMaxSize();
-    assertEquals( 20, maxSize );
-    long minThreshold = preloader.getMinThreshold();
-    assertEquals( 10, minThreshold );
-    boolean preloadStartupForm = preloader.isPreloadStartupForm();
-    assertEquals( true, preloadStartupForm );
-    String preloadList = preloader.getPreloadList();
-    assertEquals( IPreloaderBuffer.PRELOAD_LIST_FIX, preloadList );
+                  handleMissingI18NResource );    
     
     // file upload
     IFileUpload fileUpload = application.getFileUpload();
@@ -123,10 +103,6 @@ public class ConfigurationReader_Test extends TestCase {
     String compatibilityMode = initialization.getCompatibilityMode();
     String expected = IInitialization.COMPATIBILITY_MODE_STANDARD;
     assertEquals( expected, compatibilityMode );
-    
-    IPreloaderBuffer preloaderBuffer = application.getPreloaderBuffer();
-    boolean usePreloaderBuffer = preloaderBuffer.isUsePreloaderBuffer();
-    assertFalse( usePreloaderBuffer );
   }
   
   public void testConfigurationOverridingWithSystemProps() throws Exception {

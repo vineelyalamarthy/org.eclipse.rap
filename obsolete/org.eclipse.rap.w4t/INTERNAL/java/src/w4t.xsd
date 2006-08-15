@@ -6,7 +6,6 @@
   <xsd:complexType name="ApplicationType">
     <xsd:sequence>
       <xsd:element maxOccurs="1" minOccurs="0" name="initialisation" type="w4t:InitialisationType"/>
-      <xsd:element maxOccurs="1" minOccurs="0" name="preloaderBuffer" type="w4t:PreloaderBufferType"/>
       <xsd:element maxOccurs="1" minOccurs="0" name="fileUpload" type="w4t:FileUploadType"/>
     </xsd:sequence>
   </xsd:complexType>
@@ -206,16 +205,6 @@
             specified number of sessions has been invalidated.                                                            
           </xsd:documentation>
         </xsd:annotation>
-      </xsd:element>
-      
-      <xsd:element default="" maxOccurs="1" minOccurs="0" name="globalClassesList" type="xsd:string">
-        <xsd:annotation>
-          <xsd:documentation>
-            a file that lists fully qualified names of classes to be
-            loaded in a classloader namespace global for all sessions
-            (relative to the web application's root path).
-          </xsd:documentation>
-        </xsd:annotation>
       </xsd:element>    
       
       <xsd:element default="Empty" maxOccurs="1" minOccurs="0" name="handleMissingI18NResource">
@@ -250,120 +239,9 @@
         </xsd:simpleType>
       </xsd:element>    
 
-      <xsd:element default="false" maxOccurs="1" minOccurs="0" name="useSessionNameSpace" type="xsd:boolean">
-        <xsd:annotation>
-          <xsd:documentation>
-            whether application classes will be loaded with an own
-            ClassLoader per user session
-            Note that the ClassLoader architecture of W4 Toolkit
-            was originally designed to provide the possibility of session local 
-            singletons via class variables. In the meantime though W4 Toolkit 
-            provides a different approach for session singletons 
-            (see: com.w4t.SessionSingletonBase) that needs less  memory and 
-            causes less problems with third party libraries
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      
-      <xsd:element default="false" maxOccurs="1" minOccurs="0" name="useRequestWorker" type="xsd:boolean">
-        <xsd:annotation>
-          <xsd:documentation>
-            whether each request will be processed by an own  Thread instance.
-            Might be true or false, default is true for compatibility reasons
-            This may be helpful in case of problems releasing the memory 
-            allocated in the permanent space from a session ClassLoader. The 
-            cause of these problems is often improperly used ThreadLocals 
-            that binds classes permanently to a thread. Therefore the 
-            ClassLoaders of these bound classes can not be released.
-            Note that this is useful if  'useSessionNameSpace' is set to true, 
-            that means each W4 Toolkit session is loaded with it's own 
-            ClassLoader.
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-
     </xsd:all>
   </xsd:complexType>
   <!-- InitialisationType -->
-
-  <xsd:complexType name="PreloaderBufferType">
-    <xsd:all>
-      <xsd:element default="true" maxOccurs="1" minOccurs="0" name="usePreloaderBuffer" type="xsd:boolean">
-        <xsd:annotation>
-          <xsd:documentation>
-            whether the PreloaderBuffer is used. Can be
-            'true' or 'false'. If set to 'true' the library will
-            preload all classes needed for starting up a
-            new session with its own classloader and 
-            buffer it . If a new session is requested,
-            the buffered session content is handed to
-            the new session. This reduces  the libraries 
-            startup time for a new session.  If set to 
-            'false' the session is initialised on demand.
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      
-      <xsd:element default="10" maxOccurs="1" minOccurs="0" name="maxSize" type="xsd:long">
-        <xsd:annotation>
-          <xsd:documentation>
-            the maximum amount of preloaded sessions.
-            Note: Be careful with the size, because 
-            preloaded sessions consume memory.
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      
-      <xsd:element default="5" maxOccurs="1" minOccurs="0" name="minThreshold" type="xsd:long">
-        <xsd:annotation>
-          <xsd:documentation>
-            the minimum amount of preloaded sessions
-            in the cache. If this amount is undercut the
-            will be filled up to its maximum.          
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      
-      <xsd:element default="true" maxOccurs="1" minOccurs="0" name="preloadStartupForm" type="xsd:boolean">
-        <xsd:annotation>
-          <xsd:documentation>
-            whether an instance of the StartupFormluar
-            (see 'initialisation') is preloaded. Setting this
-            to 'true' will speed up the request answering
-            time of a newly created session.          
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      
-      <xsd:element default="fix" maxOccurs="1" minOccurs="0" name="preloadList">
-        <xsd:annotation>
-          <xsd:documentation>
-            whether  classes are preloaded from a fixed
-            size list or a dynamically growing list.
-            This list is located in the webapplications
-            working directory on hard disk (w4t_lcf.tmp).
-            The classes to preload are specified with their fully
-            qualified classname seperated by linefeeds.
-            - fix
-              the list is not changed during the lifecycle of
-              a W4Toolkit webapplication.
-            - dynamic
-              the list grows dynamically with classes loaded
-              the first time during the lifecycle of a W4Toolkit
-              application. The list grows over multiple lifecycles.          
-          </xsd:documentation>
-        </xsd:annotation>
-        <xsd:simpleType>
-          <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="fix"/>
-            <xsd:enumeration value="dynamic"/>
-          </xsd:restriction>
-        </xsd:simpleType>
-      </xsd:element>
-
-    </xsd:all>
-  </xsd:complexType>
-  <!-- PreloaderBufferType -->
 
   <!-- FileUpload -->
   <xsd:complexType name="FileUploadType">
@@ -388,9 +266,5 @@
     </xsd:all>
   </xsd:complexType>
   <!-- FileUpload -->
-
-  <!-- DatabasePoolType -->
-
-  <!-- SAPPoolType -->
 
 </xsd:schema>

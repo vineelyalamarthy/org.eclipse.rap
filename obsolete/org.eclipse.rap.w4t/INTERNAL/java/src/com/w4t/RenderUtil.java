@@ -17,8 +17,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.dhtml.event.DragDropEvent;
-import com.w4t.engine.classloader.NoCacheResourceBundle;
-import com.w4t.engine.lifecycle.LifeCycle;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.requests.URLHelper;
 import com.w4t.engine.service.ContextProvider;
@@ -744,12 +742,13 @@ public final class RenderUtil {
                   ? SessionLocale.get()
                   : W4TContext.getBrowser().getLocale();
     ClassLoader loader = RenderUtil.class.getClassLoader();
+    IResourceManager manager = ResourceManager.getInstance();
+    ClassLoader ctxLoader = manager.getContextLoader();
     ResourceBundle result;
-    if( LifeCycle.isDevelopmentMode ) {
-      result 
-        = NoCacheResourceBundle.getBundle( bundleBaseName, locale, loader );
-    } else {
+    if( ctxLoader == null ) {
       result = ResourceBundle.getBundle( bundleBaseName, locale, loader );
+    } else {
+      result = ResourceBundle.getBundle( bundleBaseName, locale, ctxLoader );
     }
     return result;
   }

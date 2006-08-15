@@ -47,33 +47,20 @@ public class AdapterManagerImpl
                             final Class adapter )
   {
     Object result = null;
-    if( !factoryCache.containsKey( adaptable ) ) {
-      factoryCache.put( adaptable, new HashMap( 4, 1f ) );
-    }
-    Map cachedFactories = ( Map )factoryCache.get( adaptable );
-    if( cachedFactories.containsKey( adapter ) ) {
-      AdapterFactory cachedFactory 
-        = ( AdapterFactory )cachedFactories.get( adapter );
-      result = cachedFactory.getAdapter( adaptable, adapter );
-    }
-    
-    if( result == null ) {
-      Class[] keys = new Class[ registry.size() ];
-      registry.keySet().toArray( keys );
-      for( int i = 0; result == null && i < keys.length; i++ ) {
-        if( keys[ i ].isAssignableFrom( adaptable.getClass() ) ) {
-          List factoryList = ( List )registry.get( keys[ i ] );
-          AdapterFactory[] factories = new AdapterFactory[ factoryList.size() ];
-          factoryList.toArray( factories );
-          for( int j = 0; result == null && j < factories.length; j++ ) {
-            Class[] adapters = factories[ j ].getAdapterList();
-            for( int k = 0; result == null && k < adapters.length; k++ ) {
-              if( adapter.isAssignableFrom( adapters[ k ] ) ) {
-                result = factories[ j ].getAdapter( adaptable, adapter );
-                cachedFactories.put( adapter, factories[ j ] );
-              }
-            }          
-          }
+    Class[] keys = new Class[ registry.size() ];
+    registry.keySet().toArray( keys );
+    for( int i = 0; result == null && i < keys.length; i++ ) {
+      if( keys[ i ].isAssignableFrom( adaptable.getClass() ) ) {
+        List factoryList = ( List )registry.get( keys[ i ] );
+        AdapterFactory[] factories = new AdapterFactory[ factoryList.size() ];
+        factoryList.toArray( factories );
+        for( int j = 0; result == null && j < factories.length; j++ ) {
+          Class[] adapters = factories[ j ].getAdapterList();
+          for( int k = 0; result == null && k < adapters.length; k++ ) {
+            if( adapter.isAssignableFrom( adapters[ k ] ) ) {
+              result = factories[ j ].getAdapter( adaptable, adapter );
+            }
+          }          
         }
       }
     }

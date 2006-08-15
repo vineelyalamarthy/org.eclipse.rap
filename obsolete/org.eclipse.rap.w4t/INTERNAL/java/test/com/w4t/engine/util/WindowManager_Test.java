@@ -208,7 +208,7 @@ public class WindowManager_Test extends TestCase {
     assertEquals( false, WindowManager.isClosed( window ) );
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( true, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     IFormAdapter adapter = Fixture.getFormAdapter( form );
     adapter.increase();
     String formId = form.getUniqueID();

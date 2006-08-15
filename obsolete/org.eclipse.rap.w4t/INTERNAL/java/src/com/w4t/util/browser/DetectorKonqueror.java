@@ -15,11 +15,8 @@ package com.w4t.util.browser;
  */
 public class DetectorKonqueror extends DetectorBase {
 
+  private static final String VERSION_PREFIX = "konqueror/";
   private final static String ID_KONQUEROR = "konqueror";
-  private final static String ID_KONQUEROR31 = "konqueror/3.1";
-  private final static String ID_KONQUEROR32 = "konqueror/3.2";
-  private final static String ID_KONQUEROR33 = "konqueror/3.3";
-  private final static String ID_KONQUEROR34 = "konqueror/3.4";
   
 
   public DetectorKonqueror() {
@@ -31,8 +28,7 @@ public class DetectorKonqueror extends DetectorBase {
   }
 
   public String getBrowserName( final String userAgent ) {
-    String result = "Konqueror";
-    return result;
+    return "Konqueror";
   }
 
   public String getBrowserClassName( final String userAgent ) {
@@ -44,32 +40,42 @@ public class DetectorKonqueror extends DetectorBase {
 
   public String getBrowserVersion( final String userAgent ) {
     String result = "";
-    if( isKonqueror3_1( userAgent ) ) {
-      result = "3_1";
-    } else if( isKonqueror3_2( userAgent ) ) {
-      result = "3_2";
-    } else if( isKonqueror3_3( userAgent ) ) {
-      result = "3_3";
-    } else if( isKonqueror3_4( userAgent ) ) {
-      result = "3_4";
+    int[] versions = getVersions( userAgent );
+    if( versions[ 0 ] == 3 ) {
+      if( versions[ 1 ] == 1 ) {
+        result = "3_1";
+      } else if( versions[ 1 ] == 2 ) {
+        result = "3_2";
+      } else if( versions[ 1 ] == 3 ) {
+        result = "3_3";
+      } else if( versions[ 1 ] >= 4 ) {
+        result = "3_4";
+      }
     }
     return result;
   }
 
-  private boolean isKonqueror3_4( final String userAgent ) {
-    return contains( userAgent, ID_KONQUEROR34 );
-  }
-  
-  private boolean isKonqueror3_3( final String userAgent ) {
-    return contains( userAgent, ID_KONQUEROR33 );
-  }
-  
-  private boolean isKonqueror3_2( final String userAgent ) {
-    return contains( userAgent, ID_KONQUEROR32 );
-  }
-
-  private boolean isKonqueror3_1( final String userAgent ) {
-    return contains( userAgent, ID_KONQUEROR31 );
+  private int[] getVersions( final String userAgent ) {
+    int result[] = new int[]{ -1, -1 };
+    int startIndex = userAgent.indexOf( VERSION_PREFIX );
+    if( startIndex != -1 ) {
+      int endIndex = userAgent.substring( startIndex ).indexOf( ";" );
+      if( endIndex != -1 ) {
+        int absoluteStart = startIndex + VERSION_PREFIX.length();
+        int absoluteEnd = startIndex + endIndex;
+        String version = userAgent.substring( absoluteStart, absoluteEnd );
+        String[] parts = version.split( "\\.", 2 );
+        if( parts.length == 2 ) {
+          try {
+            result[ 0 ] = Integer.parseInt( parts[ 0 ] );
+            result[ 1 ] = Integer.parseInt( parts[ 1 ] );
+          } catch( NumberFormatException e) {
+            // ignore
+          }
+        }
+      }
+    }
+    return result;
   }
 
 }

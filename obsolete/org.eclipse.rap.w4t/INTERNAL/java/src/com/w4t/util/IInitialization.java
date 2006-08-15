@@ -156,14 +156,6 @@ public interface IInitialization {
   long getMaxSessionUnboundToForceGC();
 
   /**
-   * <p>Names a file that lists fully qualified names of classes to be
-   * loaded in a classloader namespace global for all sessions
-   * (relative to the web application's root path).</p>
-   */
-  String getGlobalClassesList();
-
-
-  /**
    * <p>W4 Toolkit supports i18n by accepting values like 
    * 'property://someKey@some.package.SomePropertiesFile'
    * which are resolved on rendering, so that the specified
@@ -188,36 +180,4 @@ public interface IInitialization {
    * </p>
    */
   String getHandleMissingI18NResource();
-
-  /**
-   * <p>Returns whether application classes will be loaded with an own
-   * <code>ClassLoader</code> per user session.</p>
-   * 
-   * <p>Note that the <code>ClassLoader</code> architecture of W4 Toolkit
-   * was originally designed to provide the possibility of session local 
-   * singletons via class variables. In the meantime though W4 Toolkit provides
-   * a different approach for 
-   * {@link com.w4t.SessionSingletonBase session singletons} that needs less 
-   * memory and causes less problems with third party libraries.</p>
-   */
-  boolean isUseSessionNameSpace();
-
-  /** 
-   * <p>Returns whether each request will be processed by an own 
-   * <code>Thread</code> instance. Might be true or false, default is true for 
-   * compatibility reasons.</p>
-   * 
-   * <p>This may be helpful in case of problems releasing the memory allocated 
-   * in the permanent space from a session <code>ClassLoader</code>. The cause 
-   * of these problems is often improperly used <code>ThreadLocal</code>s that 
-   * binds classes permanently to a thread. Therefore the 
-   * <code>ClassLoader</code>s of these bound classes can not be released.</p>
-   * 
-   * <p>Note that this is useful if 
-   * {@link IInitialization#isUseSessionNameSpace()} is set to true, that
-   * means each W4 Toolkit session is loaded with it's own 
-   * <code>ClassLoader</code>. </p>
-   */
-  boolean isUseRequestWorker();
-
 }

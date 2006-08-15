@@ -103,20 +103,6 @@ public class DefaultHashCodeBuilder_Test extends TestCase {
     assertTrue( hashCode1 != hashCode2 );
   }
   
-  public void testExcludedPropertyNames() throws Exception {
-    WebForm webForm = new TestForm();
-    webForm.setWebLayout( new WebGridLayout() );
-    WebTextWithoutTitleMock textless = new WebTextWithoutTitleMock();
-    webForm.add( textless, new Position( 1, 1 ) );
-    textless.setTitle( "text is not relevant for rendering" );
-    AjaxStatusUtil.preRender( webForm );
-    int hashCode1 = getHashCode( textless );
-    textless.setTitle( "... and this is also not relevant" );
-    AjaxStatusUtil.preRender( webForm );
-    int hashCode2 = getHashCode( textless );
-    assertEquals( hashCode1, hashCode2 );
-  }
-  
   /** Ensure that component with a setter-only property is handled correctly */
   public void testWebColorHashCodeBuilder() throws Exception {
     // due to a bug in WebColor.hashCode a custom hashCodeBuilder for WebColor

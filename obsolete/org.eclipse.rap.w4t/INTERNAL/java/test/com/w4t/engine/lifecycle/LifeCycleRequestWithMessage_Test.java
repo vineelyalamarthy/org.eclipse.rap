@@ -53,7 +53,7 @@ public class LifeCycleRequestWithMessage_Test extends TestCase {
   public void testRequestWithMessageScript() throws Exception {
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( true, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm form = prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();

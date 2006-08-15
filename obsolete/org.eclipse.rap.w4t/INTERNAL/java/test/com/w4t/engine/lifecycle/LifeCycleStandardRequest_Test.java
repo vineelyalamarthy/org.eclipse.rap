@@ -56,7 +56,7 @@ public class LifeCycleStandardRequest_Test extends TestCase {
   public void testStandardRequestNoScript() throws Exception {
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( false, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();
@@ -104,7 +104,7 @@ public class LifeCycleStandardRequest_Test extends TestCase {
   public void testStandardRequestScript() throws Exception {
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( true, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();
@@ -194,7 +194,7 @@ public class LifeCycleStandardRequest_Test extends TestCase {
   public void testStandardRequestAjaxPartial() throws Exception {
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Ie5_5up( true, true ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     prepareFormAndRequestParamsAjaxPartial();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();
@@ -232,7 +232,7 @@ public class LifeCycleStandardRequest_Test extends TestCase {
     Fixture.fakeResponseWriter();
     Fixture.fakeRequestParam( RequestParams.STARTUP, "true" );
     Fixture.fakeBrowser( new Ie5_5up( true, true ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();
 

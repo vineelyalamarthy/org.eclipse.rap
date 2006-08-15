@@ -19,7 +19,6 @@ import com.w4t.dhtml.menubarkit.*;
 import com.w4t.dhtml.treeviewkit.*;
 import com.w4t.dhtml.webscrollpanekit.WebScrollPaneRenderer_Test;
 import com.w4t.engine.W4TModelUtil_Test;
-import com.w4t.engine.classloader.DelegateClassLoader_Test;
 import com.w4t.engine.lifecycle.*;
 import com.w4t.engine.lifecycle.standard.*;
 import com.w4t.engine.service.ResourceServiceHandler_Test;
@@ -63,7 +62,6 @@ public class AllTests_Suite {
   public static Test suite() {
     TestSuite suite = new TestSuite( "Test for com.w4t" );
     //$JUnit-BEGIN$
-    suite.addTestSuite( DelegateClassLoader_Test.class ) ;
     suite.addTestSuite( AjaxStatusUpdate_Test.class );
     suite.addTestSuite( TreeViewRenderer_Default_Script_Test.class );
     suite.addTestSuite( TreeViewRenderer_Ie5up_Ajax_Test.class );

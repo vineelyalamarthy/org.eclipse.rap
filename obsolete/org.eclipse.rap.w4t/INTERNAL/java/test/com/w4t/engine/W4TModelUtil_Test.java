@@ -21,7 +21,7 @@ public class W4TModelUtil_Test extends TestCase {
   
   public void testW4TModelCreation() throws Exception {
     try {
-      W4TModelUtil.getW4TModel();
+      W4TModelUtil.initModel();
       fail();
     } catch( IllegalStateException iae ) {
       // no request context available
@@ -30,11 +30,12 @@ public class W4TModelUtil_Test extends TestCase {
     Fixture.setUp();
     W4TModel model1;
     try {
-      model1 = W4TModelUtil.getW4TModel();
+      W4TModelUtil.initModel();
+      model1 = W4TModel.getInstance();
       assertNotNull( model1 );
       
       HttpSession session = ContextProvider.getSession();
-      Object storedModel = session.getAttribute( W4TModel.ID_W4T_MODEL );
+      Object storedModel = W4TModel.getInstance();
       assertSame( model1, storedModel );
       storedModel = W4TModelList.getInstance().get( session.getId() );
       assertSame( model1, storedModel );
@@ -45,7 +46,8 @@ public class W4TModelUtil_Test extends TestCase {
     Fixture.setUp();
     W4TModel model2;
     try {
-      model2 = W4TModelUtil.getW4TModel();
+      W4TModelUtil.initModel();
+      model2 = W4TModel.getInstance();
       assertNotNull( model2 );
     } finally {
       Fixture.tearDown();

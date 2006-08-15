@@ -29,8 +29,6 @@ public class Startup extends AdminBase {
   WebPanel wplCenter;
 
   private RegistryMonitor registryMonitor;
-  private PreloadBufferMonitor preloadBufferMonitor;
-
   
   public Startup() {
     super();
@@ -59,7 +57,6 @@ public class Startup extends AdminBase {
     addRegistryMonitor();
     addSeparator();
     addSeparator();
-    addPreloadBufferMonitor();
   }
 
   private void addSeparator() {
@@ -82,24 +79,6 @@ public class Startup extends AdminBase {
         }
     } );
     wplMenu.add( wbtRegistryMonitor, posMenuLeft );
-  }
-
-  private void addPreloadBufferMonitor() {  
-    wbtPreloadBufferMonitor = new LinkButton( "Preload Monitor" );
-    wbtPreloadBufferMonitor.addWebActionListener( new WebActionListener() {
-        public void webActionPerformed( WebActionEvent evt ) {
-          if( preloadBufferMonitor == null ) {
-            String formName = PreloadBufferMonitor.class.getName();
-            preloadBufferMonitor 
-              = ( PreloadBufferMonitor )W4TContext.loadForm( formName );
-            W4TContext.showInNewWindow( preloadBufferMonitor );
-          } else {
-            preloadBufferMonitor.refresh();
-            preloadBufferMonitor.refreshWindow();
-          }
-        }
-    } );
-    wplMenu.add( wbtPreloadBufferMonitor, posMenuLeft );
   }
   
   private void initCenter() {

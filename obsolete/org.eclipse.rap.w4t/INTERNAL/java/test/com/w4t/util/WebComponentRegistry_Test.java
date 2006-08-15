@@ -30,7 +30,7 @@ public class WebComponentRegistry_Test extends TestCase {
   }
 
   public void testRegistry() throws Exception {
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm form = Fixture.getEmptyWebFormInstance();
     form.add( new WebButton(), WebBorderLayout.NORTH );
     form.add( new WebText(), WebBorderLayout.NORTH );

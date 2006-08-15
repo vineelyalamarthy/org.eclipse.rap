@@ -75,7 +75,7 @@ public class Fixture {
     }
     
     public String getHeader( final String arg0 ) {
-      return headers.get( arg0 ).toString();
+      return ( String )headers.get( arg0 );
     }
     
     public void setHeader(final String arg0, final String arg1) {

@@ -59,7 +59,7 @@ public class LifeCycleRequestWithException_Test extends TestCase {
     Fixture.fakeResponseWriter();
     Fixture.fakeRequestParam( RequestParams.STARTUP, "true" );
     Fixture.fakeBrowser( new Default( true, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.addPhaseListener( new ExceptionHandler() );
     lifeCycle.execute();
@@ -79,7 +79,7 @@ public class LifeCycleRequestWithException_Test extends TestCase {
   public void testExceptionDuringStandardRequest() throws Exception {
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( true, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm form = prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();

@@ -168,30 +168,34 @@ public class RendererCache {
     // for perfomance reasons we buffer the created keys since the
     // StringBuffer-concatenation showed up in yourkit-profiler.
     String renderMode = determineRendererMode( browser );
-    if( !keyCache.containsKey( componentClass.getName() ) ) {
-      keyCache.put( componentClass.getName() , new HashMap() );
-    }
     Map components = ( Map )keyCache.get( componentClass.getName() );
+    if( components == null ) {
+      components = new HashMap();
+      keyCache.put( componentClass.getName(), components );
+    }
     
     String browserName = browser.getClass().getName();
-    if( !components.containsKey( browserName ) ) {
+    Map browsers = ( Map )components.get( browserName );
+    if( browsers == null ) {
       // Since we know that there are only 3 modes (currently) we can set
       // the exact size of the Map - note that we must use '4' since adding
       // the third element causes the capacity to be increased
-      components.put( browserName, new HashMap( 4, 1f ) );
+      browsers = new HashMap( 4, 1f );
+      components.put( browserName, browsers );
     }
-    Map browsers = ( Map )components.get( browserName );
     
-    if( !browsers.containsKey( renderMode ) ) {
+    String result = ( String )browsers.get( renderMode );
+    if( result == null ) {
       StringBuffer buffer = new StringBuffer();
       buffer.append( componentClass.getName() );
       buffer.append( "_" );
       buffer.append( browser.toString() );
       buffer.append( "_" );
       buffer.append( renderMode );
-      browsers.put( renderMode, buffer.toString() );
+      result = buffer.toString();
+      browsers.put( renderMode, result );
     }          
-    return ( String )browsers.get( renderMode );
+    return result;
   }
 
   private String determineRendererMode( final Browser browser ) {

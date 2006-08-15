@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import com.w4t.Browser;
 import com.w4t.HtmlResponseWriter;
+import com.w4t.engine.W4TModel;
 import com.w4t.engine.W4TModelUtil;
 import com.w4t.engine.requests.RequestCancelledException;
 import com.w4t.engine.requests.RequestParams;
@@ -31,7 +32,8 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
     try {
       detectBrowser();
       if( isBrowserDetected() ) {
-        getServiceAdapter( W4TModelUtil.getW4TModel() ).execute();
+        W4TModelUtil.initModel();
+        getServiceAdapter( W4TModel.getInstance() ).execute();
       } else {
         BrowserSurvey.sendBrowserSurvey();
       }

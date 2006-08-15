@@ -287,7 +287,7 @@ public class WebFormRenderer_Test extends TestCase {
   protected void setUp() throws Exception {
     Fixture.setUp();
     try {
-      W4TModelUtil.getW4TModel();
+      W4TModelUtil.initModel();
     } catch( Exception e ) {
       e.printStackTrace();
       Assert.fail( "Failed to create W4TModelCore. Reason: " + e );

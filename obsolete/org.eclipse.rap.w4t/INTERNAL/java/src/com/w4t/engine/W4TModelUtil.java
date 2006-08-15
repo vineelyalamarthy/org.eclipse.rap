@@ -12,9 +12,9 @@ package com.w4t.engine;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import com.w4t.engine.classloader.ClassLoaderCache;
 import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.*;
+import com.w4t.engine.service.ContextProvider;
+import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.W4TModelList;
 
 /**
@@ -27,20 +27,13 @@ public final class W4TModelUtil {
     // prevent instantiation
   }
 
-  public static W4TModel getW4TModel() {
+  public static void initModel() {
     HttpSession session = getRequest().getSession( true );
-    W4TModel result = ( W4TModel )session.getAttribute( W4TModel.ID_W4T_MODEL );
-    if( result == null ) {
+    if( W4TModelList.getInstance().get( session.getId() ) == null ) {
       getStateInfo().setFirstAccess( true );
-      if( ClassLoaderCache.getInstance().isBusy() ) {
-        throw new EngineBusyException( "No more sessions available!" );
-      }
-      result = new W4TModel();
-      W4TModelList.getInstance().add( session, result );
-      session.setAttribute( W4TModel.ID_W4T_MODEL, result );
+      W4TModelList.getInstance().add( session, W4TModel.getInstance() );
     }
     getStateInfo().setFirstAccess( isStartupRequested() );
-    return result;
   }
   
   private static boolean isStartupRequested() {

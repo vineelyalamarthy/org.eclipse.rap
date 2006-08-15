@@ -8,7 +8,7 @@
  * Contributors:
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
-package com.w4t.engine.classloader;
+package com.w4t.util;
 
 import java.io.*;
 import java.security.Principal;
@@ -18,11 +18,11 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.*;
 
 
-public class Request implements HttpServletRequest {
+class Request implements HttpServletRequest {
   
   private final HttpSession session;
   
-  public Request( final HttpSession session ) {
+  Request( final HttpSession session ) {
     this.session = session;
   }
 

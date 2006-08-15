@@ -112,12 +112,6 @@
               specified number of sessions has been invalidated.
         //-->
         <maxSessionUnboundToForceGC>0</maxSessionUnboundToForceGC>
-        <!--  names a file that lists fully qualified names of classes to be
-              loaded in a classloader namespace global for all sessions
-              (relative to the web application's root path).
-        //-->
-        <globalClassesList></globalClassesList>
-
         <!--  W4 Toolkit supports i18n by accepting values like
               property://someKey@some.package.SomePropertiesFile
               which are resolved on rendering, so that the specified
@@ -139,51 +133,6 @@
         //-->
         <handleMissingI18NResource>Empty</handleMissingI18NResource>
 	</initialisation>
-        <preloaderBuffer>
-                <!-- whether the PreloaderBuffer is used. Can be
-                      'true' or 'false'. If set to 'true' the library will
-                      preload all classes needed for starting up a
-                      new session with its own classloader and 
-                      buffer it . If a new session is requested,
-                      the buffered session content is handed to
-                      the new session. This reduces  the libraries 
-                      startup time for a new session.  If set to 
-                      'false' the session is initialised on demand.
-                //-->
-                <usePreloaderBuffer>false</usePreloaderBuffer>
-                <!-- the maximum amount of preloaded sessions.
-                      Note: Be careful with the size, because 
-                      preloaded sessions consume memory.
-                //-->
-                <maxSize>20</maxSize>
-                <!-- the minimum amount of preloaded sessions
-                     in the cache. If this amount is undercut the
-                     cache will be filled up to its maximum.
-               //-->
-                <minThreshold>10</minThreshold>
-                <!-- whether an instance of the StartupFormluar
-                     (see 'initialisation') is preloaded. Setting this
-                     to 'true' will speed up the request answering
-                     time of a newly created session.
-                //-->
-                <preloadStartupForm>true</preloadStartupForm>
-                <!--whether  classes are preloaded from a fixed
-                     size list or a dynamically growing list.
-                     This list is located in the webapplications
-                     working directory on hard disk (w4t_lcf.tmp).
-                     The classes to preload are specified with their fully
-                  qualified classname seperated by linefeeds.
-                     - fix
-                       the list is not changed during the lifecycle of
-                       a W4Toolkit webapplication.
-                     -dynamic
-                       the list grows dynamically with classes loaded
-                       the first time during the lifecycle of a W4Toolkit
-                       application. The list grows over multiple lifecycles.                       
-                //-->
-                <preloadList>fix</preloadList>
-        </preloaderBuffer>
-			        
 			  <fileUpload>
 			      <!-- Sets the maximum allowed upload size in bytes or -1 for 
 			           no maximum.

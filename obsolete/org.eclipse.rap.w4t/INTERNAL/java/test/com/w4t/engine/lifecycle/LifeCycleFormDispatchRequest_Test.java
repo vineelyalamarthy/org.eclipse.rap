@@ -71,7 +71,7 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
   public void testFormDispatchNoScript() throws Exception {
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( false, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm originatingForm = prepareFormAndRequestParms();
     
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -123,7 +123,7 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
   public void testFormDispatchScript() throws Exception {
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( true, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm originatingForm = prepareFormAndRequestParms();
 
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -218,7 +218,7 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
   public void testFormDispatchAjax() throws Exception {
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Ie5_5up( true, true ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm originatingForm = prepareFormAndRequestParamsAjax();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     DispatchHandler dispatchHandler = new DispatchHandler();

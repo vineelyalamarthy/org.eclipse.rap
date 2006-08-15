@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.w4t.webformkit;
 
-import java.io.IOException;
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.lifecycle.standard.EventQueueFilter;
@@ -40,8 +39,7 @@ public class WebFormRenderer_Default_Noscript extends WebFormRenderer {
   }
   
   /** renders the basic html structure of the head of a page, which is
-    * the same in every page 
-   * @throws IOException */
+    * the same in every page */
   StringBuffer createPageHeader() {
     StringBuffer html = new StringBuffer();
     String ieSpecial = "";

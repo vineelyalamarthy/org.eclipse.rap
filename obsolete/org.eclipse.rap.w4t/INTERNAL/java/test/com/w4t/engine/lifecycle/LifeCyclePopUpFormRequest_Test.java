@@ -55,7 +55,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     // actually no popups in noscript -> use of FormCache
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( false, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     PopUpHandler popUpHandler = new PopUpHandler();
@@ -102,7 +102,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     // set up environment 
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( false, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     //
@@ -225,7 +225,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
   public void testOpenPopUpScript() throws Exception {
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( true, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.addPhaseListener( new PopUpHandler() );
@@ -311,7 +311,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
   public void testOpenPopUpAjax() throws Exception {
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Ie5_5up( true, true ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     prepareFormAndRequestParamsAjax();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     PopUpHandler popUpHandler = new PopUpHandler();

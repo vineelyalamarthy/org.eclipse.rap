@@ -51,7 +51,7 @@ public class AjaxStatusUpdate_Test extends TestCase {
     tree.setDynLoading( TreeNode.DYNLOAD_NEVER );
     // Fake "execution" environment
     Fixture.fakeResponseWriter();
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     Fixture.fakeBrowser( new Ie6( true, true ) );
     prepareInitialRequest( form );
     Fixture.forceAjaxRendering( form );

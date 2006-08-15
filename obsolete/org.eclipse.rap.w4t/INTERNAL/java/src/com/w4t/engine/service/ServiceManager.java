@@ -34,7 +34,6 @@ public class ServiceManager {
   private static IServiceHandler formRequestHandler;
   private static IServiceHandler resourceRequestHandler;
   private static IServiceHandler triggerFormHandler;
-  private static IServiceHandler engineBusyPageHandler;
   private static HandlerDispatcher handlerDispatcher;
   private static Map customHandlers = new HashMap();
   
@@ -78,22 +77,18 @@ public class ServiceManager {
   private static final class HandlerDispatcher implements IServiceHandler {
     
     public void service() throws ServletException, IOException {
-      try {
-        if( isCustomHandler() ) {
-          IServiceHandler customHandler
-            = ( IServiceHandler )customHandlers.get( getCustomHandlerId() );
-          customHandler.service();
-        } else if( isResourceRequest() ) {
-          getResourceRequestHandler().service();
-        } else if( isTimeStampTrigger() ) {
-          getTriggerFormRequestHandler().service();
-        } else {
-          // TODO [rh] We should check if the minimum required request
-          //      parmeters exist and render an error page if not
-          getFormRequestHandler().service();
-        }
-      } catch( final EngineBusyException ebe ) {
-        getEngineBusyPageHandler().service();
+      if( isCustomHandler() ) {
+        IServiceHandler customHandler
+          = ( IServiceHandler )customHandlers.get( getCustomHandlerId() );
+        customHandler.service();
+      } else if( isResourceRequest() ) {
+        getResourceRequestHandler().service();
+      } else if( isTimeStampTrigger() ) {
+        getTriggerFormRequestHandler().service();
+      } else {
+        // TODO [rh] We should check if the minimum required request
+        //      parmeters exist and render an error page if not
+        getFormRequestHandler().service();
       }
     }
   }
@@ -150,12 +145,5 @@ public class ServiceManager {
       triggerFormHandler = new TriggerFormRequestServiceHandler();
     }
     return triggerFormHandler;
-  }
-  
-  private synchronized static IServiceHandler getEngineBusyPageHandler() {
-    if( engineBusyPageHandler == null ) {
-      engineBusyPageHandler = new EngineBusyPageServiceHandler();
-    }
-    return engineBusyPageHandler;
   }
 }

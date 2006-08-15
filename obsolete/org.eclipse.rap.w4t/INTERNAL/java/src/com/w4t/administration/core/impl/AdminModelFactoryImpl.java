@@ -10,7 +10,8 @@
  ******************************************************************************/
 package com.w4t.administration.core.impl;
 
-import com.w4t.administration.core.*;
+import com.w4t.administration.core.IAdminModelFactory;
+import com.w4t.administration.core.IReport;
 
 
 /** 
@@ -23,9 +24,7 @@ public class AdminModelFactoryImpl implements IAdminModelFactory {
   
   public Object create( final Class type ) {
     Object result = null;
-    if( type == IPreloadBuffer.class ) {
-      result = new PreloadBufferImpl();
-    } else if( type == IReport.class ) {
+    if( type == IReport.class ) {
       result = new ReportImpl();
     }
     return result;

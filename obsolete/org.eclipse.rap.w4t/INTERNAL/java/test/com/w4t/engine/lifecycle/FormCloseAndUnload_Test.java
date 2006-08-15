@@ -69,7 +69,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     // prepare 'fake' environment
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( true, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     final WebForm form = prepareFormAndRequestParms();
     //
     // run request -> closes the window of the current form
@@ -99,7 +99,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     // prepare 'fake' environment
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( true, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     final WebForm form1 = prepareFormAndRequestParms();
     final WebForm form2 = Fixture.getEmptyWebFormInstance();
     FormManager.add( form2 );
@@ -154,7 +154,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     // prepare 'fake' environment
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Ie6( true, true ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     final WebForm form = prepareFormAndRequestParms();
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );
@@ -189,7 +189,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     // prepare 'fake' environment
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Ie6( true, true ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     final WebForm form1 = prepareFormAndRequestParms();
     final WebForm form2 = Fixture.getEmptyWebFormInstance();
     FormManager.add( form2 );
@@ -230,7 +230,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     // prepare 'fake' environment
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( false, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm originatingForm = prepareFormAndRequestParms();
     IWindow originatingWindow 
       = WindowManager.getInstance().findWindow( originatingForm );
@@ -284,7 +284,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     // prepare 'fake' environment
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Default( true, false ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm originatingForm = prepareFormAndRequestParms();
     IWindow originatingWindow 
       = WindowManager.getInstance().findWindow( originatingForm );
@@ -326,7 +326,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     // prepare 'fake' environment
     Fixture.fakeResponseWriter();
     Fixture.fakeBrowser( new Ie6( true, true ) );
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm originatingForm = prepareFormAndRequestParms();
     AjaxStatusUtil.preRender( originatingForm );
     AjaxStatusUtil.postRender( originatingForm );

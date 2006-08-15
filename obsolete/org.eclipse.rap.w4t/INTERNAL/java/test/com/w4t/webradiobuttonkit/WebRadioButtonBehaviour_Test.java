@@ -61,7 +61,7 @@ public class WebRadioButtonBehaviour_Test extends TestCase {
   public void testNoscript() throws Exception {
     // prepare
     Fixture.fakeResponseWriter();
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     RadioButtonForm form = new RadioButtonForm();
     form.setWebComponents();
     Fixture.fakeEngineForRequestLifeCycle( form );

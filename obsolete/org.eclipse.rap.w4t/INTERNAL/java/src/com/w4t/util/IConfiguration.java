@@ -19,7 +19,5 @@ public interface IConfiguration {
 
   IInitialization getInitialization();
 
-  IPreloaderBuffer getPreloaderBuffer();
-
   IFileUpload getFileUpload();
 }

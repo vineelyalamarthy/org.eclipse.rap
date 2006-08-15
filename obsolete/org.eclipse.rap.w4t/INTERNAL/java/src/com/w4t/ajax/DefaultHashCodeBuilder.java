@@ -11,11 +11,8 @@
 package com.w4t.ajax;
 
 import java.beans.*;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import java.util.HashSet;
-import java.util.Set;
 import com.w4t.*;
 import com.w4t.dhtml.Node;
 import com.w4t.dhtml.menustyle.MenuProperties;
@@ -26,21 +23,18 @@ import com.w4t.types.WebPropertyBase;
  * <p><code>AbstractHashCodeBuilder</code> implementation which uses all public 
  * read- and writable (bean-style) properties to compute the hash code.</p>
  */
-public final class DefaultHashCodeBuilder implements HashCodeBuilder {
-
-  private static final String RENDER_PROPERTY_FILTER 
-      = "RenderPropertyFilter";
-  private static final String EXCLUDED_PROPERTY_NAMES 
-      = "EXCLUDED_PROPERTY_NAMES";
+final class DefaultHashCodeBuilder implements HashCodeBuilder {
 
   private static final Object[] NO_ARGS = new Object[ 0 ];
   
   private BeanInfo beanInfo;
-  private final Set excludedPropertyNames = new HashSet();
 
-  public DefaultHashCodeBuilder( final Class clazz ) {
+  private Method[] readMethods;
+
+  private Method[] writeMethods;
+
+  DefaultHashCodeBuilder( final Class clazz ) {
     this.beanInfo = getBeanInfo( clazz );
-    collectExcludedPropertyNames( clazz );
   }
   
   
@@ -68,8 +62,8 @@ public final class DefaultHashCodeBuilder implements HashCodeBuilder {
           }
           area = webLayout.getArea( constraint );
           if( area != null ) {
-            DefaultHashCodeBuilder builder 
-              = new DefaultHashCodeBuilder( area.getClass() );
+            HashCodeBuilder builder 
+              = HashCodeBuilderFactory.getBuilder( area.getClass() );            
             calculator.append( builder.compute( support, area ) );
           }
         }
@@ -88,22 +82,31 @@ public final class DefaultHashCodeBuilder implements HashCodeBuilder {
     }
 
     // standard java-beans style properties
-    PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
-    for( int i = 0; i < descriptors.length; i++ ) {
-      if(    !isExcludedProperty( descriptors[ i ].getName() ) 
-          && descriptors[ i ].getReadMethod() != null
-          && descriptors[ i ].getWriteMethod() != null ) 
-      {
-        Object propertyValue = getPropertyValue( object, descriptors[ i ] );
+    initPerfomantMethodCaches();
+    for( int i = 0; i < readMethods.length; i++ ) {
+      if( readMethods[ i ] != null && writeMethods[ i ] != null ) { 
+        Object propertyValue = getPropertyValue( object, readMethods[ i ] );
         internalCompute( support, calculator, propertyValue );
       }
     }
     return calculator.toHashCode();
   }
-  
+
   /////////////////////////////
   // Private helper methods
 
+  private void initPerfomantMethodCaches() {
+    PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
+    if( readMethods == null ) {
+      readMethods = new Method[ descriptors.length ];
+      writeMethods = new Method[ descriptors.length ];
+      for( int i = 0; i < descriptors.length; i++ ) {
+        readMethods[ i ] = descriptors[ i ].getReadMethod();
+        writeMethods[ i ] = descriptors[ i ].getWriteMethod();
+      }
+    }
+  }
+  
   private static void internalCompute( final HashCodeBuilderSupport support, 
                                        final HashCodeCalculator calculator, 
                                        final Object value )
@@ -145,26 +148,23 @@ public final class DefaultHashCodeBuilder implements HashCodeBuilder {
   }
   
   private Object getPropertyValue( final Object object, 
-                                   final PropertyDescriptor propertyDescriptor ) 
+                                   final Method readMethod ) 
   {
-    Method readMethod = propertyDescriptor.getReadMethod();
     try {
       // In case we have a package private or protected WebComponent, we
       // have to change the access modifier.
-      readMethod.setAccessible( true );
+      if( !readMethod.isAccessible() ) {
+        readMethod.setAccessible( true );
+      }
       return readMethod.invoke( object, NO_ARGS );
     } catch( Exception e ) {
-      String text = "Failed to obtain value of property ''{0}#{1}''.";
+      String text = "Failed to obtain value of accessor ''{0}#{1}''.";
       Object[] args = new Object[]{
         beanInfo.getBeanDescriptor().getBeanClass().getName(),
-        propertyDescriptor.getName()
+        readMethod.getName()
       };
       throw new RuntimeException( MessageFormat.format( text, args ), e );
     } 
-  }
-  
-  private boolean isExcludedProperty( final String propertyName ) {
-    return excludedPropertyNames.contains( propertyName );
   }
   
   private void checkComputeArgument( final Object object ) {
@@ -173,25 +173,6 @@ public final class DefaultHashCodeBuilder implements HashCodeBuilder {
       String text = "The argument ''object'' must be of type ''{0}''.";
       Object[] args = new Object[] { beanClass.getName() };
       throw new IllegalArgumentException( MessageFormat.format( text, args ) );
-    }
-  }
-  
-  private void collectExcludedPropertyNames( final Class clazz ) {
-    String className = clazz.getName() + RENDER_PROPERTY_FILTER;
-    try {
-      Class filterClass = Class.forName( className );
-      Field field = filterClass.getField( EXCLUDED_PROPERTY_NAMES );
-      String[] excluded = ( String[] )field.get( null );
-      for( int i = 0; i < excluded.length; i++ ) {
-        if( !excludedPropertyNames.contains( excluded[ i ] ) ) {
-          excludedPropertyNames.add( excluded[ i ] );
-        }
-      }
-    } catch ( Exception e ) {
-      // ignore
-    }
-    if ( clazz.getSuperclass() != null ) {
-      collectExcludedPropertyNames( clazz.getSuperclass() );
     }
   }
   

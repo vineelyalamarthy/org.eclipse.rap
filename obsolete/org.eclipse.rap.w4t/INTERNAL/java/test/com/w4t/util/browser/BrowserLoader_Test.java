@@ -25,6 +25,8 @@ import com.w4t.engine.requests.RequestParams;
  */
 public class BrowserLoader_Test extends TestCase {
   
+  private final static String USERAGENT_STRANGE = "Mozilla/4.0 (compatible;)";
+  
   private final static String USERAGENT_DEFAULT 
     = "DEFAULT/0.8.15 (SPIN i686; de)";
   private final static String USERAGENT_IE_2_0_WIN
@@ -60,6 +62,9 @@ public class BrowserLoader_Test extends TestCase {
     = "Mozilla/5.0 (compatible; Konqueror/3.1; Linux)";
   private final static String USERAGENT_KONQUEROR_3_2
     = "Mozilla/5.0 (compatible; Konqueror/3.2; Linux) (KHTML, like Gecko)";
+  private final static String USERAGENT_KONQUEROR_3_5
+    = "Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.4 (like Gecko) " 
+    + "(Debian)";
   private final static String USERAGENT_MOZILLA_1_6 
     = "Mozilla/5.0 (X11; U; Linux i686; de-AT; rv:1.6) Gecko/20040119";
   private final static String USERAGENT_FIREFOX_0_8_LINUX
@@ -119,6 +124,17 @@ public class BrowserLoader_Test extends TestCase {
     assertEquals( false, browser.isAjaxEnabled() );
   }
 
+  public void testStrange() {
+    Fixture.fakeUserAgent( USERAGENT_STRANGE );
+    Fixture.fakeRequestParam( RequestParams.SCRIPT, "true" );
+    Fixture.fakeRequestParam( RequestParams.AJAX_ENABLED, "true" );
+    Browser browser = BrowserLoader.load();
+    assertEquals( Default.class, browser.getClass() );
+    assertEquals( false, browser.isScriptEnabled() );
+    assertEquals( false, browser.isAjaxEnabled() );
+    assertNoSystemOut();
+  }
+  
   public void testDefault() {
     Fixture.fakeUserAgent( USERAGENT_DEFAULT );
     Fixture.fakeRequestParam( RequestParams.SCRIPT, "true" );
@@ -188,6 +204,9 @@ public class BrowserLoader_Test extends TestCase {
     Fixture.fakeUserAgent( USERAGENT_KONQUEROR_3_2 );
     browser = BrowserLoader.load();
     assertEquals( Konqueror3_2.class, browser.getClass() ); 
+    Fixture.fakeUserAgent( USERAGENT_KONQUEROR_3_5 );
+    browser = BrowserLoader.load();
+    assertEquals( Konqueror3_4.class, browser.getClass() ); 
     assertNoSystemOut();
   }
   

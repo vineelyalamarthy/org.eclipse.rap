@@ -116,16 +116,17 @@ public class BrowserDetector {
     } catch( final Throwable thr ) {
       // too many different exceptions may occur to handle each, 
       // so if something goes wrong just throw an illegal state exception
-      String msg 
-         = "BROWSERDETECTOR error: "
-         + "Unable to load browserdetection classes (caused by " 
-         + thr.getClass().getName() 
-         + " with message: "
-         + thr.getMessage()
-         + ").";
+      StringBuffer msg = new StringBuffer();
+      msg.append( new Date() );
+      msg.append( " BROWSERDETECTOR error: " );
+      msg.append( "Unable to load browserdetection classes (caused by " );
+      msg.append( thr.getClass().getName() );
+      msg.append( " with message: " );
+      msg.append( thr.getMessage() );
+      msg.append( ")." );
       System.out.println( msg );
       // TODO [rh] An exception thrown from here never gets through (I think
-      //      due to the fact that it is called during class initialization)
+      // due to the fact that it is called during class initialization)
       //      REWORK THIS!
     }
   }

@@ -90,7 +90,7 @@ public class SessionUnbound_Test extends TestCase {
     W4TModel[] models = W4TModelList.getInstance().getList();
     assertEquals( "initial condition invalid", 0, models.length );
     Fixture.TestSession session = new Fixture.TestSession();
-    W4TModelList.getInstance().add( session, new W4TModel() );
+    W4TModelList.getInstance().add( session, W4TModel.getInstance() );
     session.invalidate();
     models = W4TModelList.getInstance().getList();
     assertEquals( 0, models.length );
@@ -108,7 +108,7 @@ public class SessionUnbound_Test extends TestCase {
   public void testW4TContextInvalidate_Noscript() throws Exception {
     // prepare
     Fixture.fakeResponseWriter();
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm form = Fixture.getEmptyWebFormInstance();
     Fixture.fakeEngineForRequestLifeCycle( form );
     Fixture.fakeBrowser( new Default( false ) );
@@ -133,7 +133,7 @@ public class SessionUnbound_Test extends TestCase {
   public void testW4TContextInvalidate_Script() throws Exception {
     // prepare
     Fixture.fakeResponseWriter();
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     WebForm form = Fixture.getEmptyWebFormInstance();
     Fixture.fakeEngineForRequestLifeCycle( form );
     Fixture.fakeBrowser( new Default( true ) );
@@ -156,7 +156,7 @@ public class SessionUnbound_Test extends TestCase {
   
   public void testW4TContextInvalidate_Ajax() throws Exception {
     // prepare
-    W4TModelUtil.getW4TModel();
+    W4TModelUtil.initModel();
     Fixture.fakeResponseWriter();
     WebForm form = Fixture.getEmptyWebFormInstance();
     Fixture.fakeEngineForRequestLifeCycle( form );

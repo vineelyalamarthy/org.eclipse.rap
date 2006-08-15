@@ -14,8 +14,6 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 import javax.servlet.http.HttpSession;
 import com.w4t.*;
-import com.w4t.engine.classloader.Request;
-import com.w4t.engine.classloader.Response;
 import com.w4t.engine.service.*;
 import com.w4t.event.WebFormEvent;
 import com.w4t.internal.adaptable.IFormAdapter;

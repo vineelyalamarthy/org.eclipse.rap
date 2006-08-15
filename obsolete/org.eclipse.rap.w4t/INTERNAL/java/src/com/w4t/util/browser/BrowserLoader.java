@@ -11,6 +11,7 @@
 package com.w4t.util.browser;
 
 import java.lang.reflect.Constructor;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import com.w4t.Browser;
 import com.w4t.engine.requests.RequestParams;
@@ -23,6 +24,8 @@ import com.w4t.engine.service.ContextProvider;
  */
 public final class BrowserLoader {
   
+  public static final String USER_AGENT = "User-Agent";
+
   /**
    * <p>Loads the browser object matching the browser, script- and
    * AJaX-settings extracted from the current context, or a default browser
@@ -67,14 +70,7 @@ public final class BrowserLoader {
       };
       result = ( Browser )constructor.newInstance( params );
     } catch( final Exception shouldNotHappen ) {
-      String msg =   "\nBROWSERLOADER: Browser instantiation fault.\n"
-        + "Could not load a valid com.w4t.Browser "
-        + "subclass for the received name '" 
-        + browserClassName 
-        + "'. Switch to default Browser.\n" 
-        + "Reason:\n" 
-        + shouldNotHappen.getMessage();
-      System.out.println( msg );
+      System.out.println( createMessage( browserClassName ) );
       result = new Default( scriptEnabled, ajaxEnabled );
     }
     return result;
@@ -100,17 +96,25 @@ public final class BrowserLoader {
       result = ( Browser )constructor.newInstance( params );
       
     } catch( final Exception ex ) {
-      String msg =   "\nBROWSERLOADER: Browser instantiation fault.\n"
-        + "Could not load a valid com.w4t.Browser "
-        + "subclass for the received name '" 
-        + browserClassName 
-        + "'. Switch to default Browser.\n" 
-        + "Reason:\n" 
-        + ex.getMessage();
-      System.out.println( msg );                   
+      System.out.println( createMessage( browserClassName ) );                   
       result = loadDefaultBrowser( browser );
     }
     return result;
+  }
+
+  private static String createMessage( final String browserClassName ) {
+    HttpServletRequest request = ContextProvider.getContext().getRequest();
+    String userAgent = request.getHeader( USER_AGENT );
+    StringBuffer result = new StringBuffer();
+    result.append( new Date() );
+    result.append( " BROWSERLOADER: Browser instantiation fault.\n" );
+    result.append( "Could not load a valid com.w4t.Browser " );
+    result.append( "subclass for the received name '" ); 
+    result.append( browserClassName ); 
+    result.append( "'. Switch to default Browser.\n" );
+    result.append( "User-Agent: " );
+    result.append( userAgent );
+    return result.toString();
   }  
   
    // Helper methods
@@ -122,7 +126,7 @@ public final class BrowserLoader {
    * @return className of the Browser
    */
   private static String detectBrowserClassName() {
-    String userAgent = ContextProvider.getRequest().getHeader( "User-Agent" );
+    String userAgent = ContextProvider.getRequest().getHeader( USER_AGENT );
     BrowserDetector detector = BrowserDetector.getInstance();
     return detector.getBrowserClassName( userAgent );
   }
