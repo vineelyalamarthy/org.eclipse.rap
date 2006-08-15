@@ -1,0 +1,161 @@
+/*******************************************************************************
+ * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Innoopract Informationssysteme GmbH - initial API and implementation
+ ******************************************************************************/
+package com.w4t.engine.service;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.*;
+import com.w4t.IResourceManager;
+import com.w4t.engine.requests.RequestParams;
+import com.w4t.engine.util.ResourceManager;
+
+
+/** <p>provides the appropriate HttpServlet request service handler for the
+ *  given runtime mode.</p> 
+ */ 
+public class ServiceManager {
+  
+  private static final String SERVICEHANDLER_XML = "servicehandler.xml";
+  private static IServiceHandler formRequestHandler;
+  private static IServiceHandler resourceRequestHandler;
+  private static IServiceHandler triggerFormHandler;
+  private static IServiceHandler engineBusyPageHandler;
+  private static HandlerDispatcher handlerDispatcher;
+  private static Map customHandlers = new HashMap();
+  
+  static {
+    try {
+      IResourceManager manager = ResourceManager.getInstance();
+      Enumeration resources = manager.getResources( SERVICEHANDLER_XML );
+      while( resources.hasMoreElements() ) {
+        URL url = ( URL )resources.nextElement();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        URLConnection con = url.openConnection();
+        con.setUseCaches( false );
+        InputStream is = null;
+        Document document;
+        try {
+          is = con.getInputStream();
+          document = builder.parse( is );
+        } finally {
+          is.close();
+        }
+        NodeList handlers = document.getElementsByTagName( "handler" );
+        int count = handlers.getLength();
+        for( int i = 0; i < count; i++ ) {
+          Node handler = handlers.item( i );
+          NamedNodeMap attributes = handler.getAttributes();
+          String name = attributes.getNamedItem( "class" ).getNodeValue();
+          String param = "requestparameter";
+          String id = attributes.getNamedItem( param ).getNodeValue();
+          Class clazz = ServiceManager.class.getClassLoader().loadClass( name );
+          Object handlerInstance = clazz.newInstance();
+          customHandlers .put( id, handlerInstance );
+        }
+      }
+    } catch( final Throwable thr ) {
+      System.err.println( "Could not load custom service handlers." );
+      thr.printStackTrace();
+    }
+  }
+
+  private static final class HandlerDispatcher implements IServiceHandler {
+    
+    public void service() throws ServletException, IOException {
+      try {
+        if( isCustomHandler() ) {
+          IServiceHandler customHandler
+            = ( IServiceHandler )customHandlers.get( getCustomHandlerId() );
+          customHandler.service();
+        } else if( isResourceRequest() ) {
+          getResourceRequestHandler().service();
+        } else if( isTimeStampTrigger() ) {
+          getTriggerFormRequestHandler().service();
+        } else {
+          // TODO [rh] We should check if the minimum required request
+          //      parmeters exist and render an error page if not
+          getFormRequestHandler().service();
+        }
+      } catch( final EngineBusyException ebe ) {
+        getEngineBusyPageHandler().service();
+      }
+    }
+  }
+  
+  
+  /** <p>returns the appropriate service handler.</p> */
+  public static IServiceHandler getHandler() {
+    if( handlerDispatcher == null ) {
+      handlerDispatcher = new HandlerDispatcher();
+    }
+    return handlerDispatcher;
+  }
+  
+  static boolean isTimeStampTrigger() {
+    HttpServletRequest request = ContextProvider.getRequest();
+    return request.getParameter( RequestParams.REQUEST_TIMESTAMP_NAME ) != null;
+  }
+  
+  static boolean isResourceRequest() {
+    HttpServletRequest request = ContextProvider.getRequest();
+    String resource = request.getParameter( RequestParams.RESOURCE );
+    return resource != null && !resource.equals( "" );
+  }
+    
+  
+  //////////////////
+  // helping methods
+  
+  private static boolean isCustomHandler() {
+    return customHandlers.containsKey( getCustomHandlerId() );
+  }
+
+  private static String getCustomHandlerId() {
+    HttpServletRequest request = ContextProvider.getRequest();
+    return request.getParameter( IServiceHandler.REQUEST_PARAM );
+  }
+  
+  private static IServiceHandler getFormRequestHandler() {
+    if( formRequestHandler == null ) {
+      formRequestHandler = new FormRequestServiceHandler();
+    }
+    return formRequestHandler;
+  }
+  
+  private synchronized static IServiceHandler getResourceRequestHandler() {
+    if( resourceRequestHandler == null ) {
+      resourceRequestHandler = new ResourceRequestServiceHandler();
+    }
+    return resourceRequestHandler;
+  }
+  
+  private synchronized static IServiceHandler getTriggerFormRequestHandler() {
+    if( triggerFormHandler == null ) {
+      triggerFormHandler = new TriggerFormRequestServiceHandler();
+    }
+    return triggerFormHandler;
+  }
+  
+  private synchronized static IServiceHandler getEngineBusyPageHandler() {
+    if( engineBusyPageHandler == null ) {
+      engineBusyPageHandler = new EngineBusyPageServiceHandler();
+    }
+    return engineBusyPageHandler;
+  }
+}

@@ -1,0 +1,27 @@
+/*******************************************************************************
+ * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Innoopract Informationssysteme GmbH - initial API and implementation
+ ******************************************************************************/
+package com.w4t.dhtml.menukit;
+
+import com.w4t.ProcessActionUtil;
+import com.w4t.WebComponent;
+
+/** <p>The renderer for com.w4t.dhtml.CMenu on browsers with
+  * javascript support.</p>
+  */
+public class MenuRenderer_Default_Script extends MenuRenderer_DOM {
+
+  public void processAction( final WebComponent component ) {
+    ProcessActionUtil.processActionPerformedScript( component );
+  }
+
+}
+  
+

@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns:w4t="http://w4toolkit.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" jxb:version="1.0" targetNamespace="http://w4toolkit.com/">
+
+  <xsd:element name="application" type="w4t:ApplicationType"/>
+
+  <xsd:complexType name="ApplicationType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="0" name="initialisation" type="w4t:InitialisationType"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="preloaderBuffer" type="w4t:PreloaderBufferType"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="fileUpload" type="w4t:FileUploadType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="InitialisationType">
+    <xsd:all>
+      <xsd:element maxOccurs="1" minOccurs="0" name="startUpForm" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            the fully qualified class name of the WebForm
+            that is displayed when the web application starts.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+
+      <xsd:element default="Standard" maxOccurs="1" minOccurs="0" name="compatibilityMode" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            the working mode for the W4T engine.
+            Currently only "Standard" is supported.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element default="com.w4t.administration.Startup" maxOccurs="1" minOccurs="0" name="administrationStartupForm" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            the fully qualified class name of a WebForm that is used as
+            entry point for an web-application providing administration
+            information about the main application.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element default="com.w4t.administration.ErrorForm" maxOccurs="1" minOccurs="0" name="errorPage" type="xsd:string">
+
+        <xsd:annotation>
+          <xsd:documentation>
+            the fully qualified class name of a WebForm that
+            displays Exceptions that broke the control flow within
+            the web application.
+            If user-defined, this must be a subclass of 
+            com.w4t.WebForm and must implement the 
+            com.w4t.WebErrorForm interface.          
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element default="com.w4t.administration.MessageForm" maxOccurs="1" minOccurs="0" name="messagePage" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            the fully qualified class name of a WebForm that
+            displays messages that were created within the web
+            application.
+            If user-defined, this must be a subclass of 
+            com.w4t.WebForm and must implement the 
+            com.w4t.MessageForm interface.          
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element default="WEB-INF/classes" maxOccurs="1" minOccurs="0" name="workDirectory" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            the path to a writeable directory, used for temporary
+            files (relative to the web application's root path).
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+
+      <xsd:element default="900000" maxOccurs="1" minOccurs="0" name="closingTimeout">
+        <xsd:annotation>
+          <xsd:documentation>
+            maximum time till the closing of a WebForm on the
+            client is recognized at server side.
+            Time interval, in ms.          
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:long">
+            <xsd:minInclusive value="30"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      
+      <xsd:element default="60000" maxOccurs="1" minOccurs="0" name="skimmerFrequency">
+        <xsd:annotation>
+          <xsd:documentation>
+            time interval between scans for closed WebForm at
+            the server side. This value should not be greater than
+            half of the closingTimeout value.
+            Time interval, in ms.          
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:long">
+            <xsd:minInclusive value="30"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      
+      <xsd:element default="false" maxOccurs="1" minOccurs="0" name="directMonitoringAccess" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>
+            whether the w4t administration pages are accessible
+            via the admin.html page. (Shoud be 'false' for productive 
+            versions.)
+            Can be 'true' or 'false'.          
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+
+      <xsd:element default="true" maxOccurs="1" minOccurs="0" name="compression" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>
+            whether the html output of the web appliction is sent
+            gzipped to browsers that support gzipped network 
+            communication. (Should be 'true' for productive versions
+            to save network traffic and shorten loading time.)
+            Can be 'true' or 'false'.          
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+                  
+      <xsd:element default="false" maxOccurs="1" minOccurs="0" name="processTime" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>
+            whether the server-side processing time of the html
+            page is displayed (on the bottom of the page). This
+            may be useful for application tuning. (Will be 'false'
+            for productive versions.)
+            Can be 'true' or 'false'.          
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+
+      <xsd:element default="None" maxOccurs="1" minOccurs="0" name="noscriptSubmitters">
+        <xsd:annotation>
+          <xsd:documentation>
+            whether special submitter images are used for 
+            browsers that have javascript disabled.
+            Possible values are:
+            - None
+              If set to 'None', a standard submitter image 
+              rendered in addition to the labels on link 
+              buttons, tree nodes etc.;                 	
+            - Create 
+              If set to 'Create', a special image is created 
+              automatically with the appropriate text and colors.
+              Images created only once and buffered on harddisk
+              in the webapplications image directory.
+              Setting this to 'create' requires an available X 
+              server on Unixes, however.
+            - Use 
+              If set to 'Use' earlier generated images are used
+              but no new images are generated. If no image is 
+              available from disk, a standard submitter image 
+              is rendered in addition to the labels on link 
+              tree nodes etc.;                 	
+            Can be 'None', 'Create' or 'Use'.          
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="None"/>
+            <xsd:enumeration value="Use"/>
+            <xsd:enumeration value="Create"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      
+      <xsd:element default="deliverFromDisk" maxOccurs="1" minOccurs="0" name="resources">
+        <xsd:annotation>
+          <xsd:documentation>
+             whether static resources like javascript-libraries, images, 
+             css-files etc. which are available on the applications 
+             classpath are copied to disk and delivered as static files by 
+             a web-server or delivered directly by the servlet engine.
+             Should be 'deliverFromDisk' in most cases.
+             Can be 'deliverFromDisk' or 'deliverByServlet'.
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="deliverFromDisk"/>
+            <xsd:enumeration value="deliverByServlet"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      
+      <xsd:element default="0" maxOccurs="1" minOccurs="0" name="maxSessionUnboundToForceGC" type="xsd:long">
+        <xsd:annotation>
+          <xsd:documentation>
+            this is a special option for certain environments, where
+            the gc algorithm comes too late to unload classes.
+            If set to a number &gt; 0, this will enforce a gc after the
+            specified number of sessions has been invalidated.                                                            
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element default="" maxOccurs="1" minOccurs="0" name="globalClassesList" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            a file that lists fully qualified names of classes to be
+            loaded in a classloader namespace global for all sessions
+            (relative to the web application's root path).
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>    
+      
+      <xsd:element default="Empty" maxOccurs="1" minOccurs="0" name="handleMissingI18NResource">
+        <xsd:annotation>
+          <xsd:documentation>
+              W4 Toolkit supports i18n by accepting values like
+              property://someKey@some.package.SomePropertiesFile
+              which are resolved on rendering, so that the specified
+              property is displayed in the HTML output that the user
+              sees.
+              This attribute specifies the behaviour of the resolver
+              when the specifed resource could not be found as expected.
+              (For development, it may be convenient to set this to 
+              "Fail", whereas probably in productive environments
+              the most sensible setting would be "Empty" here.)
+              Possible values are:
+              - "Fail"     behaves like a failed assertion, that is 
+                           a runtime exception is fired.
+              - "Empty"    does nothing and renders an empty String 
+                           into the component's output.
+              - "Explicit" does nothing and renders the property URI
+                           literally into the component's output.
+              Can be "Fail", "Empty" or "Explicit"          
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Fail"/>
+            <xsd:enumeration value="Empty"/>
+            <xsd:enumeration value="Explicit"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>    
+
+      <xsd:element default="false" maxOccurs="1" minOccurs="0" name="useSessionNameSpace" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>
+            whether application classes will be loaded with an own
+            ClassLoader per user session
+            Note that the ClassLoader architecture of W4 Toolkit
+            was originally designed to provide the possibility of session local 
+            singletons via class variables. In the meantime though W4 Toolkit 
+            provides a different approach for session singletons 
+            (see: com.w4t.SessionSingletonBase) that needs less  memory and 
+            causes less problems with third party libraries
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element default="false" maxOccurs="1" minOccurs="0" name="useRequestWorker" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>
+            whether each request will be processed by an own  Thread instance.
+            Might be true or false, default is true for compatibility reasons
+            This may be helpful in case of problems releasing the memory 
+            allocated in the permanent space from a session ClassLoader. The 
+            cause of these problems is often improperly used ThreadLocals 
+            that binds classes permanently to a thread. Therefore the 
+            ClassLoaders of these bound classes can not be released.
+            Note that this is useful if  'useSessionNameSpace' is set to true, 
+            that means each W4 Toolkit session is loaded with it's own 
+            ClassLoader.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+
+    </xsd:all>
+  </xsd:complexType>
+  <!-- InitialisationType -->
+
+  <xsd:complexType name="PreloaderBufferType">
+    <xsd:all>
+      <xsd:element default="true" maxOccurs="1" minOccurs="0" name="usePreloaderBuffer" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>
+            whether the PreloaderBuffer is used. Can be
+            'true' or 'false'. If set to 'true' the library will
+            preload all classes needed for starting up a
+            new session with its own classloader and 
+            buffer it . If a new session is requested,
+            the buffered session content is handed to
+            the new session. This reduces  the libraries 
+            startup time for a new session.  If set to 
+            'false' the session is initialised on demand.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element default="10" maxOccurs="1" minOccurs="0" name="maxSize" type="xsd:long">
+        <xsd:annotation>
+          <xsd:documentation>
+            the maximum amount of preloaded sessions.
+            Note: Be careful with the size, because 
+            preloaded sessions consume memory.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element default="5" maxOccurs="1" minOccurs="0" name="minThreshold" type="xsd:long">
+        <xsd:annotation>
+          <xsd:documentation>
+            the minimum amount of preloaded sessions
+            in the cache. If this amount is undercut the
+            will be filled up to its maximum.          
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element default="true" maxOccurs="1" minOccurs="0" name="preloadStartupForm" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>
+            whether an instance of the StartupFormluar
+            (see 'initialisation') is preloaded. Setting this
+            to 'true' will speed up the request answering
+            time of a newly created session.          
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      
+      <xsd:element default="fix" maxOccurs="1" minOccurs="0" name="preloadList">
+        <xsd:annotation>
+          <xsd:documentation>
+            whether  classes are preloaded from a fixed
+            size list or a dynamically growing list.
+            This list is located in the webapplications
+            working directory on hard disk (w4t_lcf.tmp).
+            The classes to preload are specified with their fully
+            qualified classname seperated by linefeeds.
+            - fix
+              the list is not changed during the lifecycle of
+              a W4Toolkit webapplication.
+            - dynamic
+              the list grows dynamically with classes loaded
+              the first time during the lifecycle of a W4Toolkit
+              application. The list grows over multiple lifecycles.          
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="fix"/>
+            <xsd:enumeration value="dynamic"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+
+    </xsd:all>
+  </xsd:complexType>
+  <!-- PreloaderBufferType -->
+
+  <!-- FileUpload -->
+  <xsd:complexType name="FileUploadType">
+    <xsd:all>
+      <xsd:element default="4194304" maxOccurs="1" minOccurs="0" name="maxUploadSize" type="xsd:long">
+        <xsd:annotation>
+          <xsd:documentation>
+            Sets the maximum allowed upload size in bytes or -1 for no maximum.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+
+      <xsd:element default="524288" maxOccurs="1" minOccurs="0" name="maxMemorySize" type="xsd:long">
+        <xsd:annotation>
+          <xsd:documentation>
+            Sets the threshold of the allowed upload size in bytes which is kept
+            in memory.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+
+    </xsd:all>
+  </xsd:complexType>
+  <!-- FileUpload -->
+
+  <!-- DatabasePoolType -->
+
+  <!-- SAPPoolType -->
+
+</xsd:schema>
