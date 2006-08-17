@@ -752,6 +752,10 @@ public class Fixture {
     webInf.mkdirs();
     File conf = new File( webInf, "conf" );
     conf.mkdirs();
+    File classes = new File( webInf, "classes" );
+    classes.mkdirs();
+    File libDir = new File( webInf, "lib" );
+    libDir.mkdirs();
     File w4tXml = new File( conf, "W4T.xml" );
     copyTestResource( "resources/w4t_fixture.xml", w4tXml );
     File colorScheme = new File( conf, "defaultColorScheme.properties" );
@@ -802,14 +806,11 @@ public class Fixture {
     }
   }
   
-  public static File getWebAppBase() {
-    File result = new File( "C:\\projects\\w4toolkit\\" );    
-    if( !result.exists() ) {
-      result = new File( "T:\\tomcat\\webapps\\w4toolkit\\" );
-    }
-    if( !result.exists() ) {
-      String home = System.getProperty( "user.home" );
-      result = new File( home + "/work/w4toolkit/" );
+  public static File getWebAppBase() throws Exception {
+    File result = CONTEXT_DIR;
+    if( !result.exists() )  {
+      createContextWithoutResourceManager();
+      result = CONTEXT_DIR;
     }
     return result;
   }

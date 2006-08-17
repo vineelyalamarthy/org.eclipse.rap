@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/commons-fileupload-1.0.jar"/>
 	<classpathentry kind="lib" path="INTERNAL/lib/js.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.equinox.servlet.api"/>
+	<classpathentry kind="lib" path="INTERNAL/testlib/resource_manager_test.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>

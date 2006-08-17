@@ -22,6 +22,10 @@ public class EngineConfig_Test extends TestCase {
     super( name );
   }
   
+  protected void tearDown() throws Exception {
+    Fixture.removeContext();
+  }
+  
   public void testConfig() throws Exception {
     File appRootDir = Fixture.getWebAppBase();
     

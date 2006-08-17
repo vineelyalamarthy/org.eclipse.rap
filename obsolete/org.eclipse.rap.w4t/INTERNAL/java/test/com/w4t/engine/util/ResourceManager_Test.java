@@ -1,12 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *     Innoopract Informationssysteme GmbH - initial API and implementation
+ * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH. All rights
+ * reserved. This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Contributors: Innoopract Informationssysteme GmbH - initial API and
+ * implementation
  ******************************************************************************/
 package com.w4t.engine.util;
 
@@ -24,190 +22,176 @@ import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.ServiceContext;
 
 public class ResourceManager_Test extends TestCase {
-  
-  
-  ///////////////////////
+
+  // /////////////////////
   // constant definitions
-  
-  private final static String TEST_RESOURCE_1_JAR 
-    = "jscalendar/calendar.js";
-  private final static String TEST_RESOURCE_1
-    = "com/w4t/engine/util/resourcetest1.js";
-  private final static String TEST_RESOURCE_1_VERSIONED
-    = "com/w4t/engine/util/resourcetest1665215413.js";
-  private final static String TEST_RESOURCE_2 
-    = "com/w4t/engine/util/resourcetest2.gif";
-  private final static String TEST_RESOURCE_3 
-    = "com/w4t/engine/util/resourcetest3.gif";
-  private final static String ISO_RESOURCE
-    = "com/w4t/engine/util/iso-resource.js";
-  private final static String UTF_8_RESOURCE
-    = "com/w4t/engine/util/utf-8-resource.js";
+  private final static String TEST_RESOURCE_1_JAR = "resources/js/resourcetest.js";
+  private final static String TEST_RESOURCE_1 = "com/w4t/engine/util/resourcetest1.js";
+  private final static String TEST_RESOURCE_1_VERSIONED = "com/w4t/engine/util/resourcetest11895582734.js";
+  private final static String TEST_RESOURCE_2 = "com/w4t/engine/util/resourcetest2.gif";
+  private final static String TEST_RESOURCE_3 = "com/w4t/engine/util/resourcetest3.gif";
+  private final static String ISO_RESOURCE = "com/w4t/engine/util/iso-resource.js";
+  private final static String UTF_8_RESOURCE = "com/w4t/engine/util/utf-8-resource.js";
   private static final String TEST_CONTEXT = "/test/";
   private static final int TEST_PORT = 4711;
   private static final String TEST_SERVER = "TestCase";
   private static final String TEST_SERVLET_PATH = "/W4TDelegate";
-  private static final String TEST_REQUEST_URI 
-    = TEST_CONTEXT + "W4TDelegate?anyParam=true";
-  private static final String TEST_CONTEXT_URL
-    = "http://" + TEST_SERVER + ":" + TEST_PORT + TEST_CONTEXT;
-  private static final String TEST_LOCATION_DISK 
-    = TEST_CONTEXT_URL + TEST_RESOURCE_1;
-  private static final String TEST_LOCATION_VERSIONED_DISK
-    = TEST_CONTEXT_URL + TEST_RESOURCE_1_VERSIONED;
-  private static final String TEST_LOCATION_SERVLET
-    =   TEST_CONTEXT_URL 
-      + "W4TDelegate?"  
-      + RequestParams.RESOURCE 
-      + "=" 
-      + TEST_RESOURCE_2;
-  private static final String TEST_LOCATION_VERSIONED_SERVLET
-    = TEST_CONTEXT_URL 
-    + "W4TDelegate?"  
-    + RequestParams.RESOURCE + "=" + TEST_RESOURCE_1
-    + "&"
-    + RequestParams.RESOURCE_VERSION + "=" + "665215413";
-  
-  /////////
+  private static final String TEST_REQUEST_URI = TEST_CONTEXT
+                                                 + "W4TDelegate?anyParam=true";
+  private static final String TEST_CONTEXT_URL = "http://"
+                                                 + TEST_SERVER
+                                                 + ":"
+                                                 + TEST_PORT
+                                                 + TEST_CONTEXT;
+  private static final String TEST_LOCATION_DISK = TEST_CONTEXT_URL
+                                                   + TEST_RESOURCE_1;
+  private static final String TEST_LOCATION_VERSIONED_DISK = TEST_CONTEXT_URL
+                                                             + TEST_RESOURCE_1_VERSIONED;
+  private static final String TEST_LOCATION_SERVLET = TEST_CONTEXT_URL
+                                                      + "W4TDelegate?"
+                                                      + RequestParams.RESOURCE
+                                                      + "="
+                                                      + TEST_RESOURCE_2;
+  private static final String TEST_LOCATION_VERSIONED_SERVLET = TEST_CONTEXT_URL
+                                                                + "W4TDelegate?"
+                                                                + RequestParams.RESOURCE
+                                                                + "="
+                                                                + TEST_RESOURCE_1
+                                                                + "&"
+                                                                + RequestParams.RESOURCE_VERSION
+                                                                + "="
+                                                                + "1895582734";
+  // ///////
   // fields
-  
   private String webAppRoot;
 
-  /** <p>creates a new instance of ResourceManager_Test.</p> */
+  /**
+   * <p>
+   * creates a new instance of ResourceManager_Test.
+   * </p>
+   */
   public ResourceManager_Test( final String name ) {
     super( name );
   }
-  
+
   protected void tearDown() throws Exception {
     ContextProvider.disposeContext();
     Fixture.removeContext();
     Fixture.clearSingletons();
   }
-  
+
   protected void setUp() throws Exception {
     Fixture.createContextWithoutResourceManager();
   }
-  
+
   public void testInstanceCreationDisk() throws Exception {
     IResourceManager manager = getManager( ResourceBase.DELIVER_FROM_DISK );
     assertNotNull( "The ResourceManager instance was not created", manager );
   }
-  
+
   public void testInstanceCreationServlet() throws Exception {
     IResourceManager manager = getManager( ResourceBase.DELIVER_BY_SERVLET );
     assertNotNull( "The ResourceManager instance was not created", manager );
   }
-  
+
   public void testInstanceCreationServletTempDir() throws Exception {
-    IResourceManager manager 
-      = getManager( ResourceBase.DELIVER_BY_SERVLET_AND_TEMP_DIR );
+    IResourceManager manager = getManager( ResourceBase.DELIVER_BY_SERVLET_AND_TEMP_DIR );
     assertNotNull( "The ResourceManager instance was not created", manager );
   }
 
   public void testRegistrationDisk() throws Exception {
     IResourceManager manager = getManager( ResourceBase.DELIVER_FROM_DISK );
     clearTempFile();
-    
     // register only existing resources
-    Exception ioe = null; 
+    Exception ioe = null;
     try {
       manager.register( "trallala" );
     } catch( ResourceRegistrationException e ) {
       ioe = e;
     }
     assertNotNull( "resource registered which does not exist", ioe );
-    assertTrue( "dummy resource is registered", 
+    assertTrue( "dummy resource is registered",
                 !manager.isRegistered( "trallala" ) );
     // write file
     manager.register( TEST_RESOURCE_1_JAR );
     String name = getResourceCopyFile( TEST_RESOURCE_1_JAR );
     assertTrue( "file was not written to disk", new File( name ).exists() );
-    assertTrue( "resource not registered", 
+    assertTrue( "resource not registered",
                 manager.isRegistered( TEST_RESOURCE_1_JAR ) );
-    
     // compare content
     int[] origin = read( openStream( TEST_RESOURCE_1_JAR ) );
     int[] copy = read( new FileInputStream( name ) );
-    String msg =   "origin and copy must have the same size should be [" 
-                 + origin.length 
-                 + "]  is [" 
-                 + copy.length 
+    String msg = "origin and copy must have the same size should be ["
+                 + origin.length
+                 + "]  is ["
+                 + copy.length
                  + "]";
-    assertTrue( msg, 
-                copy.length == origin.length );
+    assertTrue( msg, copy.length == origin.length );
     for( int i = 0; i < copy.length; i++ ) {
       assertTrue( "origin and copy must have the same content",
                   origin[ i ] == copy[ i ] );
     }
-    
     // check that the file only is written once per application lifecycle
     clearTempFile();
     manager.register( TEST_RESOURCE_1_JAR );
     assertTrue( "file must not be written twice", !new File( name ).exists() );
   }
-  
+
   public void testRegistrationServlet() throws Exception {
     IResourceManager manager = getManager( ResourceBase.DELIVER_BY_SERVLET );
     clearTempFile();
-    
     // register only existing resources
-    Exception ioe = null; 
+    Exception ioe = null;
     try {
       manager.register( "trallala" );
     } catch( ResourceRegistrationException e ) {
       ioe = e;
     }
     assertNotNull( "resource registered which does not exist", ioe );
-    
     // register resource
     manager.register( TEST_RESOURCE_2 );
     String name = getResourceCopyFile( TEST_RESOURCE_2 );
     assertTrue( "file written to disk", !new File( name ).exists() );
-    assertTrue( "resource not registered", 
+    assertTrue( "resource not registered",
                 manager.isRegistered( TEST_RESOURCE_2 ) );
   }
-  
+
   public void testRegistrationServletTempDir() throws Exception {
-    IResourceManager manager 
-      = getManager( ResourceBase.DELIVER_BY_SERVLET_AND_TEMP_DIR );
+    IResourceManager manager = getManager( ResourceBase.DELIVER_BY_SERVLET_AND_TEMP_DIR );
     clearTempFile();
-    
     // register only existing resources
-    Exception ioe = null; 
+    Exception ioe = null;
     try {
       manager.register( "trallala" );
     } catch( ResourceRegistrationException e ) {
       ioe = e;
     }
     assertNotNull( "resource registered which does not exist", ioe );
-    
     // register resource
     manager.register( TEST_RESOURCE_3 );
     String name = getResourceCopyFile( TEST_RESOURCE_3 );
     assertTrue( "file written to disk", !new File( name ).exists() );
     String tempName = getResourceCopyInTempFile( TEST_RESOURCE_3 );
-    assertTrue( "file not written to temporary directory", 
+    assertTrue( "file not written to temporary directory",
                 new File( tempName ).exists() );
-    assertTrue( "resource not registered", 
+    assertTrue( "resource not registered",
                 manager.isRegistered( TEST_RESOURCE_3 ) );
-    
     // compare content
     int[] origin = read( openStream( TEST_RESOURCE_3 ) );
     int[] copy = read( new FileInputStream( tempName ) );
-    assertTrue( "origin and copy must have the same size", 
+    assertTrue( "origin and copy must have the same size",
                 copy.length == origin.length );
     for( int i = 0; i < copy.length; i++ ) {
       assertTrue( "origin and copy must have the same content",
                   origin[ i ] == copy[ i ] );
     }
-    
     // check that the file only is written once per application lifecycle
     clearTempFile();
     manager.register( TEST_RESOURCE_3 );
-    assertTrue( "file must not be written twice", 
+    assertTrue( "file must not be written twice",
                 !new File( tempName ).exists() );
   }
-  
+
   public void testRegistrationWithNullParams() throws Exception {
     IResourceManager manager = getManager( ResourceBase.DELIVER_FROM_DISK );
     try {
@@ -235,27 +219,27 @@ public class ResourceManager_Test extends TestCase {
       // expected
     }
   }
-  
+
   public void testVersionedRegistrationDisk() throws Exception {
     System.setProperty( SystemProps.USE_VERSIONED_JAVA_SCRIPT, "true" );
     IResourceManager manager = getManager( ResourceBase.DELIVER_FROM_DISK );
     clearTempFile();
     // register only existing resources
     try {
-      manager.register( "trallala", 
-                        "UTF-8", 
+      manager.register( "trallala",
+                        "UTF-8",
                         IResourceManager.RegisterOptions.NONE );
       fail( "resource registered which does not exist" );
     } catch( ResourceRegistrationException e ) {
       // expected
     }
-    assertFalse( "dummy resource must not be registered", 
+    assertFalse( "dummy resource must not be registered",
                  manager.isRegistered( "trallala" ) );
     // register resource which will be written to disk
-    manager.register( TEST_RESOURCE_1, 
-                      HTML.CHARSET_NAME_ISO_8859_1, 
+    manager.register( TEST_RESOURCE_1,
+                      HTML.CHARSET_NAME_ISO_8859_1,
                       IResourceManager.RegisterOptions.VERSION );
-    assertTrue( "resource not registered", 
+    assertTrue( "resource not registered",
                 manager.isRegistered( TEST_RESOURCE_1 ) );
     assertNotNull( "Versioned resource must have version number",
                    ResourceManager.findVersion( TEST_RESOURCE_1 ) );
@@ -264,53 +248,52 @@ public class ResourceManager_Test extends TestCase {
     // compare content
     int[] origin = read( openStream( TEST_RESOURCE_1 ) );
     int[] copy = read( new FileInputStream( name ) );
-    String msg =   "origin and copy must have the same size should be [" 
-                 + origin.length 
-                 + "]  is [" 
-                 + copy.length 
+    String msg = "origin and copy must have the same size should be ["
+                 + origin.length
+                 + "]  is ["
+                 + copy.length
                  + "]";
-    assertTrue( msg, 
-                copy.length == origin.length );
+    assertTrue( msg, copy.length == origin.length );
     for( int i = 0; i < copy.length; i++ ) {
       assertTrue( "origin and copy must have the same content",
                   origin[ i ] == copy[ i ] );
     }
     // check that the file only is written once per application lifecycle
     clearTempFile();
-    manager.register( TEST_RESOURCE_1, 
-                      HTML.CHARSET_NAME_ISO_8859_1, 
+    manager.register( TEST_RESOURCE_1,
+                      HTML.CHARSET_NAME_ISO_8859_1,
                       IResourceManager.RegisterOptions.VERSION );
     assertFalse( "file must not be written twice", new File( name ).exists() );
   }
-  
+
   public void testCompressedRegistrationDisk() throws Exception {
     System.setProperty( SystemProps.USE_VERSIONED_JAVA_SCRIPT, "false" );
     IResourceManager manager = getManager( ResourceBase.DELIVER_FROM_DISK );
     clearTempFile();
     // register resource which will be written to disk
-    manager.register( TEST_RESOURCE_1, 
-                      HTML.CHARSET_NAME_ISO_8859_1, 
+    manager.register( TEST_RESOURCE_1,
+                      HTML.CHARSET_NAME_ISO_8859_1,
                       IResourceManager.RegisterOptions.COMPRESS );
-    assertTrue( "resource not registered", 
+    assertTrue( "resource not registered",
                 manager.isRegistered( TEST_RESOURCE_1 ) );
     String name = getResourceCopyFile( TEST_RESOURCE_1 );
     assertTrue( "file was not written to disk", new File( name ).exists() );
     // compare content
     int[] origin = read( openStream( TEST_RESOURCE_1 ) );
     int[] copy = read( new FileInputStream( name ) );
-    String msg =   "copy must be smaller in size, since it is compressed"; 
+    String msg = "copy must be smaller in size, since it is compressed";
     assertTrue( msg, origin.length > copy.length );
     // check that the file only is written once per application lifecycle
     clearTempFile();
-    manager.register( TEST_RESOURCE_1, 
-                      HTML.CHARSET_NAME_ISO_8859_1, 
+    manager.register( TEST_RESOURCE_1,
+                      HTML.CHARSET_NAME_ISO_8859_1,
                       IResourceManager.RegisterOptions.COMPRESS );
     assertFalse( "file must not be written twice", new File( name ).exists() );
   }
-  
+
   public void testLocationRetrievalDisk() throws Exception {
-    ServiceContext context
-      = new ServiceContext( new TestRequest(), new TestResponse() );
+    ServiceContext context = new ServiceContext( new TestRequest(),
+                                                 new TestResponse() );
     ContextProvider.setContext( context );
     // unversioned
     IResourceManager manager = getManager( ResourceBase.DELIVER_FROM_DISK );
@@ -322,18 +305,16 @@ public class ResourceManager_Test extends TestCase {
     System.setProperty( SystemProps.USE_VERSIONED_JAVA_SCRIPT, "true" );
     manager = getManager( ResourceBase.DELIVER_FROM_DISK );
     clearTempFile();
-    manager.register( TEST_RESOURCE_1, 
-                      HTML.CHARSET_NAME_ISO_8859_1, 
+    manager.register( TEST_RESOURCE_1,
+                      HTML.CHARSET_NAME_ISO_8859_1,
                       IResourceManager.RegisterOptions.VERSION );
     location = manager.getLocation( TEST_RESOURCE_1 );
-    assertEquals( "different locations", 
-                  TEST_LOCATION_VERSIONED_DISK, 
-                  location );
+    assertEquals( "different locations", TEST_LOCATION_VERSIONED_DISK, location );
   }
-  
+
   public void testLocationRetrievalServlet() throws Exception {
-    ServiceContext context
-      = new ServiceContext( new TestRequest(), new TestResponse() );
+    ServiceContext context = new ServiceContext( new TestRequest(),
+                                                 new TestResponse() );
     ContextProvider.setContext( context );
     // unversioned
     IResourceManager manager = getManager( ResourceBase.DELIVER_BY_SERVLET );
@@ -344,49 +325,48 @@ public class ResourceManager_Test extends TestCase {
     System.setProperty( SystemProps.USE_VERSIONED_JAVA_SCRIPT, "true" );
     manager = getManager( ResourceBase.DELIVER_BY_SERVLET );
     manager.register( TEST_RESOURCE_1,
-                      HTML.CHARSET_NAME_ISO_8859_1, 
+                      HTML.CHARSET_NAME_ISO_8859_1,
                       IResourceManager.RegisterOptions.VERSION );
     location = manager.getLocation( TEST_RESOURCE_1 );
-    assertEquals( "different locations", 
-                  TEST_LOCATION_VERSIONED_SERVLET, 
+    assertEquals( "different locations",
+                  TEST_LOCATION_VERSIONED_SERVLET,
                   location );
   }
-  
+
   public void testFindResourceDisk() throws Exception {
-    ServiceContext context
-      = new ServiceContext( new TestRequest(), new TestResponse() );
+    ServiceContext context = new ServiceContext( new TestRequest(),
+                                                 new TestResponse() );
     ContextProvider.setContext( context );
-    IResourceManager manager  = getManager( ResourceBase.DELIVER_FROM_DISK );
+    IResourceManager manager = getManager( ResourceBase.DELIVER_FROM_DISK );
     clearTempFile();
     manager.register( TEST_RESOURCE_1 );
     assertNull( ResourceManager.findResource( TEST_RESOURCE_1, null ) );
     assertNull( ResourceManager.findResource( "not registered", null ) );
-    manager.register( TEST_RESOURCE_2, HTML.CHARSET_NAME_ISO_8859_1, IResourceManager.RegisterOptions.VERSION );
+    manager.register( TEST_RESOURCE_2,
+                      HTML.CHARSET_NAME_ISO_8859_1,
+                      IResourceManager.RegisterOptions.VERSION );
     assertNull( ResourceManager.findResource( TEST_RESOURCE_2, null ) );
   }
-  
+
   public void testFindResourceServlet() throws Exception {
-    ServiceContext context
-      = new ServiceContext( new TestRequest(), new TestResponse() );
+    ServiceContext context = new ServiceContext( new TestRequest(),
+                                                 new TestResponse() );
     ContextProvider.setContext( context );
     IResourceManager manager = getManager( ResourceBase.DELIVER_BY_SERVLET );
-
     manager.register( TEST_RESOURCE_2 );
     assertNotNull( ResourceManager.findResource( TEST_RESOURCE_2, null ) );
     assertNull( ResourceManager.findResource( "not registered", null ) );
   }
 
-  
   public void testRegisterDiskWithCharset() throws Exception {
-    ServiceContext context
-      = new ServiceContext( new TestRequest(), new TestResponse() );
+    ServiceContext context = new ServiceContext( new TestRequest(),
+                                                 new TestResponse() );
     ContextProvider.setContext( context );
     IResourceManager manager = getManager( ResourceBase.DELIVER_FROM_DISK );
     clearTempFile();
     String charset = "ISO-8859-1";
     manager.register( ISO_RESOURCE, charset );
     assertEquals( charset, manager.getCharset( ISO_RESOURCE ) );
-    
     int[] expected = read( openStream( UTF_8_RESOURCE ) );
     String copiedFile = getResourceCopyFile( ISO_RESOURCE );
     int[] actual = read( new FileInputStream( copiedFile ) );
@@ -395,21 +375,18 @@ public class ResourceManager_Test extends TestCase {
   }
 
   public void testRegisterServletWithCharset() throws Exception {
-    ServiceContext context
-      = new ServiceContext( new TestRequest(), new TestResponse() );
+    ServiceContext context = new ServiceContext( new TestRequest(),
+                                                 new TestResponse() );
     ContextProvider.setContext( context );
     IResourceManager manager = getManager( ResourceBase.DELIVER_BY_SERVLET );
-
     String charset = "ISO-8859-1";
     manager.register( ISO_RESOURCE, charset );
-
     int[] expected = read( openStream( UTF_8_RESOURCE ) );
     int[] actual = ResourceManager.findResource( ISO_RESOURCE, null );
-    
     assertEquals( expected.length, actual.length );
     assertTrue( Arrays.equals( actual, expected ) );
   }
-  
+
   public void testVersionedResourceName() {
     String name;
     Integer version = new Integer( 1 );
@@ -429,17 +406,17 @@ public class ResourceManager_Test extends TestCase {
     name = ResourceManager.versionedResourceName( resource, version );
     assertEquals( "path.width.dot/andnamew/osuffix1", name );
   }
-  
+
   public void testGetLocationWithWrongParams() throws Exception {
-    ServiceContext context
-      = new ServiceContext( new TestRequest(), new TestResponse() );
+    ServiceContext context = new ServiceContext( new TestRequest(),
+                                                 new TestResponse() );
     ContextProvider.setContext( context );
     IResourceManager manager = getManager( ResourceBase.DELIVER_BY_SERVLET );
     try {
       manager.getLocation( "trallala" );
       fail( "should not accept a not existing key." );
     } catch( RuntimeException e ) {
-      // expected 
+      // expected
     }
     try {
       manager.getLocation( null );
@@ -448,10 +425,9 @@ public class ResourceManager_Test extends TestCase {
       // expected
     }
   }
-  
-  //////////////////
+
+  // ////////////////
   // helping methods
-  
   private static int[] read( final InputStream input ) throws IOException {
     int[] result = null;
     try {
@@ -464,7 +440,7 @@ public class ResourceManager_Test extends TestCase {
     }
     return result;
   }
-  
+
   private void clearTempFile() {
     doClearTempFile( TEST_RESOURCE_1_JAR );
     doClearTempFile( TEST_RESOURCE_1 );
@@ -472,7 +448,7 @@ public class ResourceManager_Test extends TestCase {
     doClearTempFile( TEST_RESOURCE_2 );
     doClearTempFile( TEST_RESOURCE_3 );
   }
-  
+
   private void doClearTempFile( final String fileName ) {
     deleteFile( getResourceCopyFile( fileName ) );
     deleteFile( getResourceCopyInTempFile( fileName ) );
@@ -488,7 +464,7 @@ public class ResourceManager_Test extends TestCase {
   private String getResourceCopyFile( final String resourceName ) {
     return webAppRoot + File.separator + resourceName;
   }
-  
+
   private String getResourceCopyInTempFile( final String resourceName ) {
     String tempDir = System.getProperty( "java.io.tmpdir" );
     String user = System.getProperty( "user.name" );
@@ -507,16 +483,19 @@ public class ResourceManager_Test extends TestCase {
     Field instance = ResourceManager.class.getDeclaredField( "_instance" );
     instance.setAccessible( true );
     instance.set( ResourceManager.class, null );
-    
-    webAppRoot = System.getProperty( "java.io.tmpdir" );
-    Class[] paramTypes = new Class[]{ String.class, String.class };
-    Method creator
-      = ResourceManager.class.getMethod( "createInstance", paramTypes );
-    Object[] params = new Object[]{ webAppRoot, mode };
+    webAppRoot = Fixture.getWebAppBase().toString();
+    Class[] paramTypes = new Class[]{
+      String.class, String.class
+    };
+    Method creator = ResourceManager.class.getMethod( "createInstance",
+                                                      paramTypes );
+    Object[] params = new Object[]{
+      webAppRoot, mode
+    };
     creator.invoke( null, params );
     ResourceBase.setDeliveryMode( mode );
   }
-  
+
   private static InputStream openStream( final String name ) {
     ClassLoader loader = ResourceManager_Test.class.getClassLoader();
     InputStream result = loader.getResourceAsStream( name );
@@ -526,11 +505,8 @@ public class ResourceManager_Test extends TestCase {
     }
     return result;
   }
-    
-  
-  ////////////////
+  // //////////////
   // inner classes
-
   private class TestRequest implements HttpServletRequest {
 
     public String getAuthType() {
@@ -645,8 +621,8 @@ public class ResourceManager_Test extends TestCase {
       return null;
     }
 
-    public void setCharacterEncoding( String arg0 ) 
-      throws UnsupportedEncodingException 
+    public void setCharacterEncoding( String arg0 )
+      throws UnsupportedEncodingException
     {
     }
 
@@ -730,9 +706,8 @@ public class ResourceManager_Test extends TestCase {
 
     public String getRealPath( String arg0 ) {
       return null;
-    } 
+    }
   }
-  
   private class TestResponse implements HttpServletResponse {
 
     public void addCookie( Cookie arg0 ) {
@@ -834,6 +809,6 @@ public class ResourceManager_Test extends TestCase {
 
     public Locale getLocale() {
       return null;
-    } 
+    }
   }
 }

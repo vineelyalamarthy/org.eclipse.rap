@@ -28,7 +28,7 @@ import com.w4t.util.image.ImageCache;
 
 public class ProcessAction_Test extends TestCase {
   
-  private final static String webAppRoot = Fixture.getWebAppBase().toString();
+//  private final static String webAppRoot = Fixture.getWebAppBase().toString();
   private final static String SUFFIX = ".x";
   
   protected void setUp() throws Exception {
@@ -450,7 +450,7 @@ public class ProcessAction_Test extends TestCase {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     stateInfo.setResponseWriter( new HtmlResponseWriter() );
     RendererCache instance = RendererCache.getInstance();
-    ImageCache.createInstance( webAppRoot, "" );
+    ImageCache.createInstance( Fixture.getWebAppBase().toString(), "" );
     Renderer renderer = instance.retrieveRenderer( WebCardLayout.class );
     renderer.render( form );
     WebButton[] cards = ( WebButton[] )adapter.getRenderState( "cardList" );

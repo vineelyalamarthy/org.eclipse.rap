@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.w4t.dhtml.treeviewkit;
 
+import java.io.File;
 import com.w4t.*;
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.event.DragDropEvent;
@@ -34,7 +35,22 @@ public class TreeViewRenderer_Ie5up_NoScript_Test extends RenderingTestCase {
     super.setUp();
     Fixture.setPrivateField( ImageCache.class, null, "_instance", null );
     ImageCache.createInstance( Fixture.getWebAppBase().toString(), 
-    IInitialization.NOSCRIPT_SUBMITTERS_USE );
+                               IInitialization.NOSCRIPT_SUBMITTERS_USE );
+    String img1Name = "resources/images/generated/82f7c683860a85c182.gif";
+    File img1 = new File( Fixture.getWebAppBase(), img1Name );
+    Fixture.copyTestResource( img1Name, img1 );
+    String img2Name = "resources/images/generated/a2fb9a01c602ae.gif";
+    File img2 = new File( Fixture.getWebAppBase(), img2Name );
+    Fixture.copyTestResource( img2Name, img2 );
+    String img3Name = "resources/images/generated/b0f7e8cebcdea2bd.gif";
+    File img3 = new File( Fixture.getWebAppBase(), img3Name );
+    Fixture.copyTestResource( img3Name, img3 );
+    String img4Name = "resources/images/generated/bcd0970bc68fbca0.gif";
+    File img4 = new File( Fixture.getWebAppBase(), img4Name );
+    Fixture.copyTestResource( img4Name, img4 );
+    String img5Name = "resources/images/generated/dff8c3a4e2b4c79080.gif";
+    File img5 = new File( Fixture.getWebAppBase(), img5Name );
+    Fixture.copyTestResource( img5Name, img5 );
   }
   public void tearDown() throws Exception {
     super.tearDown();
