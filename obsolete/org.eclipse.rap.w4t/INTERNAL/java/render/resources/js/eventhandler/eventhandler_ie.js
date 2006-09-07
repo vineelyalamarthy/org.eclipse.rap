@@ -478,7 +478,6 @@
         http_request.setRequestHeader( 'Content-type', 
                                        'application/x-www-form-urlencoded; charset=UTF-8' );
         http_request.setRequestHeader( 'Content-length', postContent.length );
-        http_request.setRequestHeader( 'Connection', 'close' );
         http_request.send( postContent );
 	  }
       // reset the ajax flag, since the next request may not be an ajax request

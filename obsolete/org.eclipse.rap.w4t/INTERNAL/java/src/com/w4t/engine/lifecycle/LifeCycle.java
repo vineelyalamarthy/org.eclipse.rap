@@ -22,17 +22,17 @@ import com.w4t.engine.requests.RequestCancelledException;
   */
 public abstract class LifeCycle implements ILifeCycle {
   
-  /** <p>whether the ErrorFormular is shown in its own popup window.
+  /** <p>Whether the ErrorFormular is shown in its own popup window.
    *  Default is true.</p> */
   public static boolean showExceptionInPopUp = true;
-  /** <p>whether the LifeCycle is running in development mode,
-   *  which means that e.g. after init events are suppressed.</p> */
+  /** <p>Whether the LifeCycle is running in development mode,
+   * which means that e.g. after init events are suppressed.</p> */
   public static boolean isDevelopmentMode = false;  
   
-  /** <p>executes the lifecycle defined in this LifeCycle. Implementing 
-    * subclasses use this as entry point to the processing of their 
-    * phases.</p> 
-   * @throws ServletException */
+  /** 
+   * <p>Executes the lifecycle defined in this LifeCycle. Implementing 
+   * subclasses use this as entry point to the processing of their phases.</p> 
+   */
   public abstract void execute() 
     throws RequestCancelledException, ServletException;
 

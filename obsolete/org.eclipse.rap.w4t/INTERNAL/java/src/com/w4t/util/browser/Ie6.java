@@ -13,7 +13,7 @@ package com.w4t.util.browser;
 import com.w4t.Browser;
 
 /**
- *  <p>The implementation for Microsoft Internet Explorer 6.</p>
+ * <p>The implementation for Microsoft Internet Explorer 6.</p>
  */
 public class Ie6 extends Ie5_5up {
   
