@@ -18,7 +18,6 @@ import com.w4t.WebComponentControl;
 import com.w4t.WebForm;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.lifecycle.PhaseId;
-import com.w4t.engine.requests.RequestCancelledException;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.IServiceStateInfo;
@@ -46,7 +45,7 @@ final class AccessForm extends Phase {
    * <p>takes the necessary preparations for the processing of the 
    * active WebForm.</p>
    */
-  public PhaseId execute() throws ServletException, RequestCancelledException {
+  public PhaseId execute() throws ServletException {
     PhaseId result = null;
     try {
       if( isTriggerTimeStampRequest() ) {
@@ -89,7 +88,7 @@ final class AccessForm extends Phase {
            && AccessForm.parameterExists( RequestParams.ADMIN );
   }
 
-  private boolean isTriggerTimeStampRequest() {
+  private static boolean isTriggerTimeStampRequest() {
     String param = RequestParams.REQUEST_TIMESTAMP_NAME;
     return ContextProvider.getRequest().getParameter( param ) != null;
   }
@@ -97,7 +96,7 @@ final class AccessForm extends Phase {
   //////////////////
   // helping methods
   
-  private PhaseId triggerTimeStamp() throws PhaseException {
+  private static PhaseId triggerTimeStamp() throws PhaseException {
     try {
       WebForm wf = retrieveFormToProcess();
       WebComponentControl.isAlreadyInProcess( wf );
@@ -157,7 +156,7 @@ final class AccessForm extends Phase {
     return PhaseId.RENDER;
   }
 
-  private PhaseId executeStandard() {
+  private static PhaseId executeStandard() {
     PhaseId result = PhaseId.RENDER;
     HttpServletRequest request = ContextProvider.getRequest();
     String windowId = request.getParameter( RequestParams.ACTIVE_WINDOW );
@@ -184,22 +183,22 @@ final class AccessForm extends Phase {
     return result;
   }
   
-  private boolean isExpired( final WebForm form ) {
+  private static boolean isExpired( final WebForm form ) {
     return    getExpectedRequestCounter() != getFormRequestCounter( form ) 
            || !form.getUniqueID().equals( getExpectedFormId() );
   }
   
-  private String getExpectedFormId() {
+  private static String getExpectedFormId() {
     HttpServletRequest request = ContextProvider.getRequest();
     return request.getParameter( RequestParams.ACTIVE_FORM_ID );
   }
   
-  private int getFormRequestCounter( final WebForm form ) {
+  private static int getFormRequestCounter( final WebForm form ) {
     IFormAdapter adapt = ( IFormAdapter )form.getAdapter( IFormAdapter.class );
     return adapt.getRequestCounter();
   }
   
-  private int getExpectedRequestCounter() {
+  private static int getExpectedRequestCounter() {
     HttpServletRequest request = ContextProvider.getRequest();
     String rcParam = request.getParameter( RequestParams.REQUEST_COUNTER );
     return Integer.parseInt( rcParam ) + 1;

@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import com.w4t.*;
 import com.w4t.engine.lifecycle.LifeCycle;
-import com.w4t.engine.requests.RequestCancelledException;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.internal.adaptable.IServiceAdapter;
 import com.w4t.util.WebComponentRegistry;
@@ -40,7 +39,7 @@ public class W4TModel extends SessionSingletonBase implements Adaptable {
   private IServiceAdapter serviceAdapter;
   
   private final class ServiceAdapter implements IServiceAdapter {
-    public void execute() throws RequestCancelledException, ServletException {
+    public void execute() throws ServletException {
       prepareSession();
       prepareRegistry();
       LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();

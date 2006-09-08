@@ -11,11 +11,10 @@
 package com.w4t.internal.adaptable;
 
 import javax.servlet.ServletException;
-import com.w4t.engine.requests.RequestCancelledException;
 
 // TODO [rh] JavaDoc necessary?
 public interface IServiceAdapter {
 
-  void execute() throws RequestCancelledException, ServletException;
+  void execute() throws ServletException;
   
 }

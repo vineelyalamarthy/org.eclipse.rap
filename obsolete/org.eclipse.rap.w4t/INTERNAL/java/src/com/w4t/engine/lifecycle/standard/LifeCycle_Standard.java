@@ -16,7 +16,6 @@ import javax.servlet.ServletException;
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusAdapterFactory;
 import com.w4t.engine.lifecycle.*;
-import com.w4t.engine.requests.RequestCancelledException;
 import com.w4t.internal.adaptable.RenderInfoAdapterFactory;
 
 
@@ -48,7 +47,7 @@ public class LifeCycle_Standard extends LifeCycle {
                                      Adaptable.class );
   }
 
-  public void execute() throws RequestCancelledException, ServletException {
+  public void execute() throws ServletException {
     Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
     PhaseId current = PhaseId.ACCESS_FORM;
     while( current != null ) {

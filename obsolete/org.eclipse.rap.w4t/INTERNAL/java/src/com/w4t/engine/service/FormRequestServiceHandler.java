@@ -17,7 +17,6 @@ import com.w4t.Browser;
 import com.w4t.HtmlResponseWriter;
 import com.w4t.engine.W4TModel;
 import com.w4t.engine.W4TModelUtil;
-import com.w4t.engine.requests.RequestCancelledException;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.util.browser.BrowserLoader;
 
@@ -27,23 +26,19 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
   public void service() throws IOException, ServletException {
 //    logRequestParams();
     // start point of process time    
-    long startTime = System.currentTimeMillis();    
+    long startTime = System.currentTimeMillis();
     initializeStateInfo();
-    try {
-      detectBrowser();
-      if( isBrowserDetected() ) {
-        W4TModelUtil.initModel();
-        getServiceAdapter( W4TModel.getInstance() ).execute();
-      } else {
-        BrowserSurvey.sendBrowserSurvey();
-      }
-      if( !ServiceManager.isTimeStampTrigger() ) {
-        appendProcessTime( startTime );
+    detectBrowser();
+    if( isBrowserDetected() ) {
+      W4TModelUtil.initModel();
+      getServiceAdapter( W4TModel.getInstance() ).execute();
+    } else {
+      BrowserSurvey.sendBrowserSurvey();
+    }
+    if( !ServiceManager.isTimeStampTrigger() ) {
+      appendProcessTime( startTime );
 //System.out.println( "time to process: " + ( System.currentTimeMillis() - startTime ) );
-        writeOutput();
-      }
-    } catch( final RequestCancelledException ignore ) {
-      // then we do nothing (no content must be written to the out stream)
+      writeOutput();
     }
   }
   

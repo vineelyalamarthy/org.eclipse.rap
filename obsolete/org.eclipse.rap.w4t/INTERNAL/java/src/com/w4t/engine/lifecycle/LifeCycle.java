@@ -11,7 +11,6 @@
 package com.w4t.engine.lifecycle;
 
 import javax.servlet.ServletException;
-import com.w4t.engine.requests.RequestCancelledException;
 
 
 /** <p>The superclass for all implementations of the lifecycle of a request.</p>
@@ -33,8 +32,7 @@ public abstract class LifeCycle implements ILifeCycle {
    * <p>Executes the lifecycle defined in this LifeCycle. Implementing 
    * subclasses use this as entry point to the processing of their phases.</p> 
    */
-  public abstract void execute() 
-    throws RequestCancelledException, ServletException;
+  public abstract void execute() throws ServletException;
 
   public abstract void addPhaseListener( PhaseListener listener );
 

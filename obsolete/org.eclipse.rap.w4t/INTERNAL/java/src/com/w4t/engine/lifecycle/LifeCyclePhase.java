@@ -11,7 +11,6 @@
 package com.w4t.engine.lifecycle;
 
 import javax.servlet.ServletException;
-import com.w4t.engine.requests.RequestCancelledException;
 
 
 /** <p>The common interface of all phases for a lifecycle.</p>
@@ -21,6 +20,6 @@ public interface LifeCyclePhase {
   /** <p>Executes this LifeCyclePhase.</p>
     * @return the phase id of the phase which is to be executed next. 
     */
-  PhaseId execute() throws RequestCancelledException, ServletException;
+  PhaseId execute() throws ServletException;
 
 }

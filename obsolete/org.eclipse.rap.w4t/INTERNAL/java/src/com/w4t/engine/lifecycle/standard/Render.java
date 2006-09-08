@@ -15,7 +15,6 @@ import javax.servlet.ServletException;
 import com.w4t.HtmlResponseWriter;
 import com.w4t.WebForm;
 import com.w4t.engine.lifecycle.PhaseId;
-import com.w4t.engine.requests.RequestCancelledException;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
@@ -30,7 +29,7 @@ import com.w4t.engine.util.FormManager;
   */
 final class Render extends Phase {
   
-  public PhaseId execute() throws ServletException, RequestCancelledException {
+  public PhaseId execute() throws ServletException {
     try {
       render();
     } catch( final Exception e ) {

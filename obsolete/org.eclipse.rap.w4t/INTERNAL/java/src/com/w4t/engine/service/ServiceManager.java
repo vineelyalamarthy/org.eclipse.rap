@@ -47,10 +47,9 @@ public class ServiceManager {
         DocumentBuilder builder = factory.newDocumentBuilder();
         URLConnection con = url.openConnection();
         con.setUseCaches( false );
-        InputStream is = null;
         Document document;
+        InputStream is = con.getInputStream();
         try {
-          is = con.getInputStream();
           document = builder.parse( is );
         } finally {
           is.close();

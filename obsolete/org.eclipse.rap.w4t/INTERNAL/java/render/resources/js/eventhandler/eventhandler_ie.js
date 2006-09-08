@@ -508,10 +508,22 @@
           if( !this.updatePage( http_request.responseXML ) ) {
             // in case we didn't get a valid ajax-response (e.g. timeout or
             // malformed xml response) do a 'normal' submit
-            var text = http_request.responseText;
-            alert(   'The XML-HTTP-Request did not return a valid '
+            var text = '';
+						if( http_request.responseXML.parseError.errorCode != 0 ) {
+						  text 
+						    = http_request.responseXML.parseError.reason
+						    + '\nLine '
+						    + http_request.responseXML.parseError.line 
+						    + ', position ' 
+						    + http_request.responseXML.parseError.linePos 
+						    + '\n'
+						    + http_request.responseXML.parseError.srcText
+						} else {
+              text = 'The XML-HTTP-Request did not return a valid '
                    + 'AJaX-Response.\nRequesting the full document:\n\n' 
-                   + text );
+                   + http_request.responseText;
+            }
+					  alert( text );
             this.submitFullDocument();
           } 
           // restore state as if page was just loaded

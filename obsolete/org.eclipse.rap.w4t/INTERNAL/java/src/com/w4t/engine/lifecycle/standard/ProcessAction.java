@@ -10,11 +10,9 @@
  ******************************************************************************/
 package com.w4t.engine.lifecycle.standard;
 
-import java.io.IOException;
 import javax.servlet.ServletException;
 import com.w4t.WebForm;
 import com.w4t.engine.lifecycle.PhaseId;
-import com.w4t.engine.requests.RequestCancelledException;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.util.FormManager;
 
@@ -28,7 +26,7 @@ import com.w4t.engine.util.FormManager;
   */
 final class ProcessAction extends Phase {
  
-  public PhaseId execute() throws ServletException, RequestCancelledException {
+  public PhaseId execute() throws ServletException {
     PhaseId result = null;
     try {
       processEvent();
@@ -50,7 +48,7 @@ final class ProcessAction extends Phase {
     return PhaseId.PROCESS_ACTION;
   }
   
-  private void processEvent() throws IOException {
+  private void processEvent() {
     WebForm form = FormManager.getActive();
     Phase.getLifeCycleAdapter( form ).processAction();
   }
