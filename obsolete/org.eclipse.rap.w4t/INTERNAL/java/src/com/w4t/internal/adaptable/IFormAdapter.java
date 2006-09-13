@@ -18,12 +18,11 @@ public interface IFormAdapter {
   HtmlResponseWriter getRenderBuffer();
   void increase();
   long getTimeStamp();
+  void refreshTimeStamp();
   int getRequestCounter();
   void updateRequestCounter( int requestCounter );
   void refreshWindow( boolean refreshWindow );
   void showInNewWindow( boolean showInNewWindow );
-  void setAlreadyInProcess( boolean alreadyInProcess );
-  boolean isAlreadyInProcess();
   void addWindowOpenerBuffer( String windowOpenerBuffer );
   String getWindowOpenerBuffer();
   void addWindowRefresherBuffer( String windowRefresherBuffer );

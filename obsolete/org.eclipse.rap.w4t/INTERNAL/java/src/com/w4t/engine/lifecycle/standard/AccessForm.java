@@ -14,7 +14,6 @@ import java.security.AccessControlException;
 import java.text.MessageFormat;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import com.w4t.WebComponentControl;
 import com.w4t.WebForm;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.lifecycle.PhaseId;
@@ -98,8 +97,10 @@ final class AccessForm extends Phase {
   
   private static PhaseId triggerTimeStamp() throws PhaseException {
     try {
-      WebForm wf = retrieveFormToProcess();
-      WebComponentControl.isAlreadyInProcess( wf );
+      WebForm form = retrieveFormToProcess();
+      IFormAdapter adapter 
+        = ( IFormAdapter )form.getAdapter( IFormAdapter.class );
+      adapter.refreshTimeStamp();
     } catch( Exception e ) {
       try {
         ErrorPageUtil.create( e );
@@ -171,15 +172,12 @@ final class AccessForm extends Phase {
     WindowManager.setActive( window );
     WebForm form = WindowManager.getLastForm( window );
     FormManager.setActive( form );
-    ProcessLock.markAsInProcess( form );
-    if( !ContextProvider.getStateInfo().isAlreadyInProcess() ) {
-      // check the @see WebForm#requestCounter
-      if( isExpired( form ) ) {
-        ContextProvider.getStateInfo().setExpired( true );
-      } else {
-        result = PhaseId.READ_DATA;
-      }
-    } 
+    // check the @see WebForm#requestCounter
+    if( isExpired( form ) ) {
+      ContextProvider.getStateInfo().setExpired( true );
+    } else {
+      result = PhaseId.READ_DATA;
+    }
     return result;
   }
   

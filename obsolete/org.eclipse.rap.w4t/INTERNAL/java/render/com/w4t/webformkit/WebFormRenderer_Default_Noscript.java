@@ -98,7 +98,7 @@ public class WebFormRenderer_Default_Noscript extends WebFormRenderer {
     for( int i = 0; !finished && i < allForms.length; i++ ) {
       WebForm form = allForms[ i ];
       IFormAdapter formAdapter = WebFormUtil.getFormAdapter( form );
-      if( stateInfo.isAlreadyInProcess() || stateInfo.isExpired() ) {
+      if( stateInfo.isExpired() ) {
         if( !formAdapter.getWindowOpenerBuffer().equals( "" ) ) {
           result = formAdapter.getWindowOpenerBuffer();
           finished = true;

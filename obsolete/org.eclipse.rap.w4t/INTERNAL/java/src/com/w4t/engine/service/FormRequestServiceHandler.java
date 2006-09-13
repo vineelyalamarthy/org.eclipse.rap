@@ -13,6 +13,7 @@ package com.w4t.engine.service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 import com.w4t.Browser;
 import com.w4t.HtmlResponseWriter;
 import com.w4t.engine.W4TModel;
@@ -25,20 +26,23 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
   
   public void service() throws IOException, ServletException {
 //    logRequestParams();
-    // start point of process time    
-    long startTime = System.currentTimeMillis();
-    initializeStateInfo();
-    detectBrowser();
-    if( isBrowserDetected() ) {
-      W4TModelUtil.initModel();
-      getServiceAdapter( W4TModel.getInstance() ).execute();
-    } else {
-      BrowserSurvey.sendBrowserSurvey();
-    }
-    if( !ServiceManager.isTimeStampTrigger() ) {
-      appendProcessTime( startTime );
+    // start point of process time
+    HttpSession session = getRequest().getSession( true );
+    synchronized( session ) {      
+      long startTime = System.currentTimeMillis();
+      initializeStateInfo();
+      detectBrowser();
+      if( isBrowserDetected() ) {
+        W4TModelUtil.initModel();
+        getServiceAdapter( W4TModel.getInstance() ).execute();
+      } else {
+        BrowserSurvey.sendBrowserSurvey();
+      }
+      if( !ServiceManager.isTimeStampTrigger() ) {
+        appendProcessTime( startTime );
 //System.out.println( "time to process: " + ( System.currentTimeMillis() - startTime ) );
-      writeOutput();
+        writeOutput();
+      }
     }
   }
   

@@ -82,9 +82,6 @@ public abstract class WebForm extends WebContainer {
   private int requestCounter = 0;
   /** id of the WebComponent of this form which gets the focus */
   private String focusID = "";
-  /** flag, which tells that the WebForm is currently processed by 
-    * a request */
-  private boolean alreadyInProcess = false;
   /** flag, which tells if the WebForm is currently shown in a browser */
   private boolean active = false;
   /** the special timeout for closing this WebForm, overrides the standard
@@ -173,12 +170,6 @@ public abstract class WebForm extends WebContainer {
       = DefaultColorScheme.get( DefaultColorScheme.WEB_FORM_TEXT );
     textColor = new WebColor( sTextColor );
     initWindowProperties();
-  }
-
-  /** destructor */
-  protected void finalize() throws Throwable {
-    alreadyInProcess = false;
-    super.finalize();
   }
 
   /**
@@ -682,6 +673,9 @@ public abstract class WebForm extends WebContainer {
         public long getTimeStamp() {
           return timeStamp;
         }
+        public void refreshTimeStamp() {
+          WebForm.this.refreshTimeStamp();
+        }
         public int getRequestCounter() {
           return requestCounter;
         }
@@ -693,14 +687,6 @@ public abstract class WebForm extends WebContainer {
         }
         public void showInNewWindow( final boolean showInNewWindow ) {
           WebForm.this.showInNewWindow = showInNewWindow;
-        }
-        public void setAlreadyInProcess( final boolean alreadyInProcess ) {
-          refreshTimeStamp();
-          WebForm.this.alreadyInProcess = alreadyInProcess;
-        }
-        public boolean isAlreadyInProcess() {
-          refreshTimeStamp();
-          return alreadyInProcess;
         }
         public void addWindowOpenerBuffer( final String windowOpenerBuffer ) {
           WebForm.this.windowOpenerBuffer = windowOpenerBuffer;

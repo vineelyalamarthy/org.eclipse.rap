@@ -10,13 +10,13 @@
  ******************************************************************************/
 package com.w4t.engine.service;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import junit.framework.TestCase;
 import com.w4t.*;
 import com.w4t.Fixture.TestResponse;
+import com.w4t.Fixture.TestServletOutputStream;
 import com.w4t.engine.W4TModelUtil;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.util.ResourceManager;
@@ -29,14 +29,7 @@ public class ResourceServiceHandler_Test extends TestCase {
   private static final String RESOURCETEST1_JS 
     = "com/w4t/engine/util/resourcetest1.js";
 
-  private static class ResourceOutputStream extends ServletOutputStream {
 
-    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-    
-    public void write( final int b ) throws IOException {
-      stream.write( b );
-    }
-  }
 
   protected void setUp() throws Exception {
     Fixture.setUp();
@@ -45,7 +38,7 @@ public class ResourceServiceHandler_Test extends TestCase {
     // place output stream to 'see' what has been written
     HttpServletResponse response = ContextProvider.getResponse();
     Fixture.TestResponse testResponse = ( TestResponse )response;
-    ServletOutputStream outStream = new ResourceOutputStream();
+    ServletOutputStream outStream = new TestServletOutputStream();
     testResponse.setOutputStream( outStream );
   }
   
@@ -102,9 +95,9 @@ public class ResourceServiceHandler_Test extends TestCase {
   
   private byte[] getResponseBytes() throws IOException {
     HttpServletResponse response = ContextProvider.getResponse();
-    ServletOutputStream outStream = response.getOutputStream();
-    ResourceOutputStream resourceStream = ( ResourceOutputStream )outStream;
-    return resourceStream.stream.toByteArray();
+    TestServletOutputStream outStream 
+      = ( TestServletOutputStream )response.getOutputStream();
+    return outStream.getContent().toByteArray();
   }
   
   private String getResponseContentType() {

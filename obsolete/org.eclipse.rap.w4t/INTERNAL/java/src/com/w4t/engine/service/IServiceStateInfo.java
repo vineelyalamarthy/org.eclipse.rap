@@ -25,10 +25,6 @@ public interface IServiceStateInfo {
 
   boolean isExpired();
 
-  void setAlreadyInProcess( boolean alreadyInProc );
-
-  boolean isAlreadyInProcess();
-
   void setExceptionOccured( boolean exceptionOcc );
 
   boolean isExceptionOccured();

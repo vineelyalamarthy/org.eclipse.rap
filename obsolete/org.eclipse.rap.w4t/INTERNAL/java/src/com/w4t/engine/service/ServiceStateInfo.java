@@ -25,8 +25,6 @@ public class ServiceStateInfo implements IServiceStateInfo {
 
   /** the WebForm posted in the request has expired */
   private boolean expired = false;
-  /** the WebForm posted in the request is in process */
-  private boolean alreadyInProcess = false;
   /** the WebForm processed in the model caused an exception */
   private boolean exceptionOccured = false;
   /** whether the w4t_startup request parameter should be ignored
@@ -52,14 +50,6 @@ public class ServiceStateInfo implements IServiceStateInfo {
 
   public boolean isExpired() {
     return expired;
-  }
-
-  public void setAlreadyInProcess( final boolean alreadyInProc ) {
-    this.alreadyInProcess = alreadyInProc;
-  }
-
-  public boolean isAlreadyInProcess() {
-    return alreadyInProcess;
   }
 
   public void setExceptionOccured( final boolean exceptionOcc ) {

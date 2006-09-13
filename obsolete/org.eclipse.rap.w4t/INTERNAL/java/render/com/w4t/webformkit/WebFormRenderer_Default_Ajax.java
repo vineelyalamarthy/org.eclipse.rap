@@ -32,38 +32,26 @@ public class WebFormRenderer_Default_Ajax
   
   public void render( final WebComponent component ) throws IOException {
     WebForm form = ( WebForm )component;
-    if( ContextProvider.getStateInfo().isAlreadyInProcess() ) {
+    AjaxStatusUtil.preRender( form );
+    try {
       if( allowsAjaxMarkup() ) {
-        // Return empty AJaX-response
-        ContextProvider.getResponse().setContentType( HTML.CONTENT_TEXT_XML );
-        HtmlResponseWriter out = getResponseWriter();
-        out.appendHead( RenderUtil.createXmlProcessingInstruction() );
-        out.appendHead( HTML.START_AJAX_RESPONSE );
-        out.appendFoot( HTML.END_AJAX_RESPONSE );
+        if( ContextProvider.getStateInfo().isExceptionOccured() ) {
+          renderExceptionHandlingMarkup( form );
+        } else if( needDispatch() ) {
+          renderDispatchMarkup( form );
+        } else {
+          renderAjaxResponse( form );
+        }
       } else {
+        // There are three reasons to get here:
+        // 1. An Ajax-enabled browser has sent a non-ajax request
+        //    (e.g. via an javaScript document.submit)
+        // 2. It is the first time that this form is renderd
+        // 3. The form is expired
         renderNonAjaxResponse( form );
       }
-    } else {
-      AjaxStatusUtil.preRender( form );
-      try {
-        if( allowsAjaxMarkup() ) {
-          if( ContextProvider.getStateInfo().isExceptionOccured() ) {
-            renderExceptionHandlingMarkup( form );
-          } else if( needDispatch() ) {
-            renderDispatchMarkup( form );
-          } else {
-            renderAjaxResponse( form );
-          }
-        } else {
-          // There are two reasons to get here:
-          // 1. An Ajax-enabled browser has sent a non-ajax request
-          //    (e.g. via an javaScript document.submit)
-          // 2. It is the first time that this form is renderd
-          renderNonAjaxResponse( form );
-        }
-      } finally {
-        AjaxStatusUtil.postRender( form );
-      }
+    } finally {
+      AjaxStatusUtil.postRender( form );
     }
   }
 
@@ -88,7 +76,10 @@ public class WebFormRenderer_Default_Ajax
   }
 
   private boolean allowsAjaxMarkup() {
-    return isAjaxRequest() && !ContextProvider.getStateInfo().isFirstAccess();
+    IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
+    return    isAjaxRequest() 
+           && !stateInfo.isFirstAccess() 
+           && !stateInfo.isExpired();
   }
   
   /** <p>Renders the given form with the closest matching non-Ajax-renderer.

@@ -185,7 +185,7 @@ final class WebFormUtil {
     String opBuf = "";
     for( int i = 0; i < allForms.length; i++ ) {
       WebForm form = allForms[ i ];
-      if( stateInfo.isAlreadyInProcess() || stateInfo.isExpired() ) {
+      if( stateInfo.isExpired() ) {
         opBuf = getFormAdapter( form ).getWindowOpenerBuffer();
         if( !opBuf.equals( "" ) ) {
           script.append( opBuf );
@@ -231,7 +231,7 @@ final class WebFormUtil {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     IWindow activeWindow = WindowManager.getActive();
     if( WindowManager.isClosing( activeWindow ) ) {
-      if( stateInfo.isAlreadyInProcess() || stateInfo.isExpired() ) {
+      if( stateInfo.isExpired() ) {
         close = getFormAdapter( activeForm ).getWindowCloserBuffer();
       } else {
         close = "windowManager.closeWindow();";
@@ -252,7 +252,7 @@ final class WebFormUtil {
     WebForm[] allForms = FormManager.getAll();
     for( int i = 0; i < allForms.length; i++ ) {
       WebForm form = allForms[ i ];
-      if( stateInfoe.isAlreadyInProcess() || stateInfoe.isExpired() ) {
+      if( stateInfoe.isExpired() ) {
         refrBuf = getFormAdapter( form ).getWindowRefresherBuffer();
         if( !refrBuf.equals( "" ) ) {
           result.append( refrBuf );

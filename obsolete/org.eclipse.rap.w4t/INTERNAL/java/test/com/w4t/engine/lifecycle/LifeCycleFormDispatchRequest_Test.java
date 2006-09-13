@@ -232,12 +232,12 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
     String expected1
       =   "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
         + "<ajax-response><script type=\"text/javascript\">refreshWindow( " 
-        + "''?w4t_active_window=w1&amp;"
-        + "activeFormID=p3&amp;requestCounter={0}&amp;w4t_paramlessGET=true'', "
-        + "''w1'', ''dependent=no,directories=no,height=600,location=no,"
+        + "'?w4t_active_window=w1&amp;"
+        + "activeFormID=p3&amp;requestCounter=-1&amp;w4t_paramlessGET=true', "
+        + "'w1', 'dependent=no,directories=no,height=600,location=no,"
         + "menubar=no,resizable=yes,status=yes,scrollbars=yes,toolbar=no,"
-        + "width=600,fullscreen=no,'');</script></ajax-response>";
-    assertEquals( setRequestCounter( expected1, "-1" ), allMarkup );
+        + "width=600,fullscreen=no,');</script></ajax-response>";
+    assertEquals( expected1, allMarkup );
     assertEquals( "", log );
     String formId = originatingForm.getUniqueID();
     assertNull( FormManager.findById( formId ) );
@@ -252,10 +252,11 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
     stateInfo.setAttribute( "COM_W4T_FORM_TO_DISPATCH", null );
     lifeCycle.execute();
     allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    // Note: 'expected2' is suitable to be passed to MessageFormat.format
     String expected2
       =   "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">"
         + "<html><head><title>W4 Toolkit</title><style type=\"text/css\">"
-        + ".w4tCsscd1f6403 { font-family:arial,verdana;font-size:8pt; } "
+        + ".w4tCsscd1f6403 '{ font-family:arial,verdana;font-size:8pt; }' "
         + "</style><meta http-equiv=\"content-type\" content=\"text/html; "
         + "charset=UTF-8\" /><meta http-equiv=\"cache-control\" "
         + "content=\"no-cache\" />"
@@ -275,11 +276,11 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
         + "type=\"image/ico\" /></head><body  bgcolor=\"#ffffff\" "
         + "text=\"#000000\" leftmargin=\"0\" topmargin=\"0\" "
         + "marginheight=\"0\" marginwidth=\"0\"   "
-        + "onload=\"windowManager.initWebForm( 'false' );"
+        + "onload=\"windowManager.initWebForm( ''false'' );"
         + "eventHandler.disableFocusEvent();" 
-        + "setTimeout( 'eventHandler.enableFocusEvent()', 50 );" 
-        + "windowManager.scrollWindow( 0, 0 ); windowManager.setName( 'w1' ); "
-        + "active = window.setInterval( 'triggerTimeStamp_DOM()',"
+        + "setTimeout( ''eventHandler.enableFocusEvent()'', 50 );" 
+        + "windowManager.scrollWindow( 0, 0 ); windowManager.setName( ''w1'' ); "
+        + "active = window.setInterval( ''triggerTimeStamp_DOM()'',"
         + "1800000);\" onunload=\"w4tClearKeepAlive();\" >"
         + "<form id=\"p3\" action=\"?w4t_enc=no\" name=\"W4TForm\" "
         + "method=\"post\" accept-charset=\"UTF-8\" "
@@ -314,7 +315,7 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
         + "<input type=\"hidden\" id=\"w4t_ajaxEnabled\" " 
         + "name=\"w4t_ajaxEnabled\" value=\"true\" />" 
         + "<input type=\"hidden\" id=\"requestCounter\" "
-        + "name=\"requestCounter\" value=\"0\" /><table id=\"p3\" "
+        + "name=\"requestCounter\" value=\"{0}\" /><table id=\"p3\" "
         + "width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">"
         + "<tr><td align=\"center\" valign=\"middle\" colspan=\"3\"><span "
         + "id=\"p4\" class=\"w4tCsscd1f6403\">"
@@ -324,7 +325,7 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
         + "name=\"w4tTriggerTimeStampImg\" "
         + "id=\"w4tTriggerTimeStampImg\" border=\"0\" height=\"1\" "
         + "width=\"1\" alt=\"keepAlive\" /></body></html>";
-    assertEquals( expected2, allMarkup );
+    assertEquals( setRequestCounter( expected2, "0" ), allMarkup );
     assertEquals( BEFORE_RENDER + " p3 | " +  AFTER_RENDER + " p3", log );
     
     // test expired request
@@ -337,7 +338,7 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
     WindowManager.setActive( null );
     lifeCycle.execute();
     allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
-    assertEquals( setRequestCounter( expected1, "0" ), allMarkup );
+    assertEquals( setRequestCounter( expected2, "1" ), allMarkup );
     assertEquals( "", log );
   }
 

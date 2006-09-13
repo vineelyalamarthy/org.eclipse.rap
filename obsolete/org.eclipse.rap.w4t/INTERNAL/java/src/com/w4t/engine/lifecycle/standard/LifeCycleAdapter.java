@@ -39,23 +39,16 @@ class LifeCycleAdapter implements ILifeCycleAdapter {
       formRenderer.prepare();
       boolean isExceptionOccured = true;
       try {
-        // TODO [rh] should be obtained together?
-        ProcessLock.obtain( form );
-        ProcessLock.obtain( formToRender );
+        if( formRenderer.fireRenderEvents() ) {          
+          Visitor.accept( formToRender, Visitor.BEFORE_RENDER_VISITOR );
+        }
         try {
-          if( formRenderer.fireRenderEvents() ) {          
-            Visitor.accept( formToRender, Visitor.BEFORE_RENDER_VISITOR );
-          }
-          try {
-            formRenderer.render( formToRender );
-          } catch( IOException e ) {
-            throw new WrappedIOException( e );
-          }
-          if( formRenderer.fireRenderEvents() ) {          
-            Visitor.accept( formToRender, Visitor.AFTER_RENDER_VISITOR );
-          }
-        } finally {
-          ProcessLock.release( form, formToRender );
+          formRenderer.render( formToRender );
+        } catch( IOException e ) {
+          throw new WrappedIOException( e );
+        }
+        if( formRenderer.fireRenderEvents() ) {          
+          Visitor.accept( formToRender, Visitor.AFTER_RENDER_VISITOR );
         }
         isExceptionOccured = false;
       } finally {

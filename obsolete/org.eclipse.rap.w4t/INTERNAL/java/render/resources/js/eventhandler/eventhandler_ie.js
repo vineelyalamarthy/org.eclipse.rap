@@ -434,7 +434,10 @@
   function postAjaxRequest( retry ) {
     // ignore submit requests if the latest request lifecycle has not finished
     // yet.
-    if( this.xmlHttpRequestSingleton == null || retry ) {
+    if(    this.xmlHttpRequestSingleton == null 
+        && !eventHandler.isRequestRunning 
+        || retry ) 
+    {
       eventHandler.isRequestRunning = true;
       try {
         adjustAvailableSize();

@@ -425,7 +425,7 @@ public class Fixture {
     }
     
     public PrintWriter getWriter() throws IOException {
-      return null;
+      return new PrintWriter( outStream );
     }
     
     public void setContentLength( final int arg0 ) {
@@ -681,6 +681,19 @@ public class Fixture {
       return null;
     }
     
+  }
+  
+  public static class TestServletOutputStream extends ServletOutputStream {
+
+    private ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    
+    public void write( final int b ) throws IOException {
+      stream.write( b );
+    }
+    
+    public ByteArrayOutputStream getContent() {
+      return stream;
+    }
   }
   
   private Fixture() {

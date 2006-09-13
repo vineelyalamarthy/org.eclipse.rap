@@ -124,16 +124,6 @@ public final class WebComponentControl {
     return ( IFormAdapter )form.getAdapter( IFormAdapter.class );
   }
 
-  public static void setAlreadyInProcess( final WebForm form,
-                                          final boolean alreadyInProcess ) 
-  {
-    getFormAdapter( form ).setAlreadyInProcess( alreadyInProcess );
-  }
-
-  public static boolean isAlreadyInProcess( final WebForm form ) {
-    return getFormAdapter( form ).isAlreadyInProcess();
-  }
-
   /** <p>sets whether the WebForm is currently shown in a browser.</p> */
   public static void setActive( final WebForm form, final boolean active ) {
     getFormAdapter( form ).setActive( active );

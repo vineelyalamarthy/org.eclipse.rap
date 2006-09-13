@@ -19,7 +19,6 @@ import com.w4t.engine.W4TModelUtil;
 import com.w4t.engine.lifecycle.*;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.IServiceStateInfo;
-import com.w4t.internal.adaptable.IFormAdapter;
 import com.w4t.util.browser.Default;
 import com.w4t.util.browser.Ie6;
 
@@ -126,7 +125,6 @@ public class SessionUnbound_Test extends TestCase {
     assertTrue( "The expected page (W4Toolit Exit Page) was not rendered",
                 markup.indexOf( "W4Toolkit Exit Page" ) != -1 );
     assertEquals( ExitForm.class, FormManager.getActive().getClass() );
-    assertNotInProcess( FormManager.getActive() );
     assertEquals( true, ContextProvider.getStateInfo().isInvalidated() );
   }
   
@@ -150,7 +148,6 @@ public class SessionUnbound_Test extends TestCase {
     assertEquals( HTML.CONTENT_TEXT_HTML_UTF_8, testResponse.getContentType() );
     assertTrue( markup.indexOf( "W4Toolkit Exit Page" ) != -1 );
     assertEquals( ExitForm.class, FormManager.getActive().getClass() );
-    assertNotInProcess( FormManager.getActive() );
     assertEquals( true, ContextProvider.getStateInfo().isInvalidated() );
   }
   
@@ -181,17 +178,6 @@ public class SessionUnbound_Test extends TestCase {
     Fixture.TestResponse testResponse = ( TestResponse )response;
     assertEquals( HTML.CONTENT_TEXT_XML, testResponse.getContentType()  );
     assertEquals( ExitForm.class, FormManager.getActive().getClass() );
-    assertNotInProcess( FormManager.getActive() );
     assertEquals( true, ContextProvider.getStateInfo().isInvalidated() );
-  }
-  
-  private static void assertNotInProcess( final WebForm form ) {
-    IFormAdapter adapter 
-      = ( IFormAdapter )form.getAdapter( IFormAdapter.class );
-    String msg 
-      = "Form ''" 
-      + form.getClass().getName() 
-      + "'' must no longer marked as in process";
-    assertEquals( msg, false, adapter.isAlreadyInProcess() );    
   }
 }

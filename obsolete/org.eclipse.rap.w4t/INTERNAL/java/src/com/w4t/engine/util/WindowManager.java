@@ -159,7 +159,6 @@ public class WindowManager
       window.lastFormId = formToDispatch.getUniqueID();
       result = formToDispatch;
     }
-    WebComponentControl.setAlreadyInProcess( result, true );
     FormManager.setActive( result );
     return result;
   }

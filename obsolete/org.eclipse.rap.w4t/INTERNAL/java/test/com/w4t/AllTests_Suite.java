@@ -21,8 +21,7 @@ import com.w4t.dhtml.webscrollpanekit.WebScrollPaneRenderer_Test;
 import com.w4t.engine.W4TModelUtil_Test;
 import com.w4t.engine.lifecycle.*;
 import com.w4t.engine.lifecycle.standard.*;
-import com.w4t.engine.service.ResourceServiceHandler_Test;
-import com.w4t.engine.service.ServiceHandler_Test;
+import com.w4t.engine.service.*;
 import com.w4t.engine.util.*;
 import com.w4t.internal.tablecell.BorderedSpacingHelper_Test;
 import com.w4t.internal.tablecell.DefaultSpacingHelper_Test;
@@ -157,6 +156,7 @@ public class AllTests_Suite {
     suite.addTestSuite( CMenu_Test.class );
     suite.addTestSuite( CToolbar_Test.class );
     suite.addTestSuite( ServiceHandler_Test.class );
+    suite.addTestSuite( FormRequestServiceHandler_Test.class );
     suite.addTestSuite( ResourceServiceHandler_Test.class );
     
     suite.addTestSuite( WebBorderComponentRenderer_Test.class );
