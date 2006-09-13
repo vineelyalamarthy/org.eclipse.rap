@@ -54,7 +54,7 @@ public abstract class TreeLeafRenderer_DOM_Script
   }
 
   private void createImageTag( final TreeLeaf treeLeaf,
-                                 final String imageName ) throws IOException
+                               final String imageName ) throws IOException
   {
     HtmlResponseWriter out = getResponseWriter();
     createIconHandlerOpen( treeLeaf, imageName );
@@ -69,25 +69,28 @@ public abstract class TreeLeafRenderer_DOM_Script
                                       final String imageName ) 
     throws IOException
   {
-    if( isIconImage( imageName ) && TreeLeafUtil.isActionActive( treeLeaf ) ) {
-      StringBuffer scriptCode = new StringBuffer();
-      scriptCode.append( "javascript:eventHandler.webActionPerformed('" );
-      scriptCode.append( treeLeaf.getUniqueID() );
-      scriptCode.append( "');");
+    if(    isIconImage( imageName ) 
+        && (    TreeLeafUtil.isActionActive( treeLeaf ) 
+             || TreeLeafUtil.isDblClickActive( treeLeaf ) ) ) 
+    {
       HtmlResponseWriter out = getResponseWriter();
-      out.startElement( HTML.A, null );
-      out.writeAttribute( HTML.HREF, scriptCode, null );
+      out.startElement( HTML.SPAN, null );
       writeMouseEventHandler( treeLeaf );
+      TreeLeafUtil.writeClickHandler( out, treeLeaf );
+      TreeLeafUtil.writeDoubleClickHandler( out, treeLeaf );
     }
   }
 
   private void createIconHandlerClose( final TreeLeaf treeLeaf,
-                                         final String imageName ) 
+                                       final String imageName ) 
     throws IOException
   {
     HtmlResponseWriter out = getResponseWriter();
-    if( isIconImage( imageName ) && TreeLeafUtil.isActionActive( treeLeaf ) ) {
-      out.endElement( HTML.A ); 
+    if(    isIconImage( imageName ) 
+        && (    TreeLeafUtil.isActionActive( treeLeaf ) 
+             || TreeLeafUtil.isDblClickActive( treeLeaf ) ) ) 
+    {
+      out.endElement( HTML.SPAN ); 
     }
   }
   
@@ -108,16 +111,18 @@ public abstract class TreeLeafRenderer_DOM_Script
       out.writeNBSP();
       out.endElement( HTML.SPAN );
       out.startElement( HTML.A, null );
-      String href = RenderUtil.jsWebActionPerformed( treeLeaf.getUniqueID() );
-      out.writeAttribute( HTML.HREF, href, null );
       createUniversalAttributes( treeLeaf );
+      TreeLeafUtil.writeClickHandler( out, treeLeaf );
+      TreeLeafUtil.writeDoubleClickHandler( out, treeLeaf );
       out.writeText( getLabel( treeLeaf ), null );
       out.endElement( HTML.A );
     } else if( TreeLeafUtil.isDragDropActive( treeLeaf ) ) {
       String cursorBuffer = getStyle( treeLeaf ).getCursor();
-      getStyle( treeLeaf ).setCursor( "pointer" );
+      getStyle( treeLeaf ).setCursor( "default" );
       out.startElement( HTML.SPAN, null );
       createUniversalAttributes( treeLeaf );
+      TreeLeafUtil.writeClickHandler( out, treeLeaf );
+      TreeLeafUtil.writeDoubleClickHandler( out, treeLeaf );
       StringBuffer buffer = new StringBuffer();
       buffer.append( "dragDropHandler.mouseDown( '" );
       buffer.append( treeLeaf.getUniqueID() );
@@ -138,6 +143,7 @@ public abstract class TreeLeafRenderer_DOM_Script
     } else {
       out.startElement( HTML.SPAN, null );
       createUniversalAttributes( treeLeaf );
+      TreeLeafUtil.writeDoubleClickHandler( out, treeLeaf );
       out.writeNBSP();
       out.writeNBSP();
       out.writeText( getLabel( treeLeaf ), null );

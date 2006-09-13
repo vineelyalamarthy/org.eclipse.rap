@@ -508,7 +508,7 @@ public class WebButtonRenderer_Test extends TestCase {
     Fixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
-      =  "<input type=\"image\" src=\"myImage\" "
+      = "<input type=\"image\" src=\"myImage\" "
       + "name=\"waebutton1\" border=\"0\">";
     assertEquals( expected, markup );
   }

@@ -55,8 +55,9 @@ public class WebButtonRenderer_Default_Noscript extends WebButtonRenderer {
     String imageName = "";
     if( !isEmptyImage( wbt ) ) {
       RenderUtil.writeActionSubmitter( wbt.getImage(), 
-                                           wbt.getUniqueID(), 
-                                           getLabel( wbt ), "" );
+                                       wbt.getUniqueID(), 
+                                       "", 
+                                       "" );
     } else {
       try {
         ImageDescriptor imgDesc 
@@ -74,8 +75,9 @@ public class WebButtonRenderer_Default_Noscript extends WebButtonRenderer {
           RenderUtil.writeActionSubmitter( wbt.getUniqueID() );    
         } else {
           RenderUtil.writeActionSubmitter( imageName, 
-                                               wbt.getUniqueID(), 
-                                               getLabel( wbt ), "" );
+                                           wbt.getUniqueID(), 
+                                           "", 
+                                           "" );
         }
       } catch( Exception e ) {
         System.out.println( "\nException creating submitter image:\n" + e );

@@ -178,7 +178,7 @@ public abstract class TreeNodeRenderer_DOM_Script
   private void createLabelContent( final TreeNode treeNode ) 
     throws IOException 
   {
-    if( !isDragDropActive( treeNode ) ) {
+    if( !TreeNodeRendererUtil.isDragDropActive( treeNode ) ) {
       createLabelContentWithoutDD( treeNode );
     } else {
       createLabelContentWithDD( treeNode );    
@@ -191,23 +191,36 @@ public abstract class TreeNodeRenderer_DOM_Script
   private void createLabelContentWithoutDD( final TreeNode treeNode ) 
     throws IOException 
   {
+
     HtmlResponseWriter out = getResponseWriter();
-    if( !isActionActive( treeNode ) ) {
-      out.startElement( HTML.SPAN, null );
-      createUniversalAttributes( treeNode );
-      out.writeNBSP();
-      out.writeNBSP();
-      out.writeText( getLabel( treeNode ), null );
-      out.endElement( HTML.SPAN );
-    } else {
-      createSpan( treeNode );
-      out.startElement( HTML.A, null );
-      String href = RenderUtil.jsWebActionPerformed( treeNode.getUniqueID() );
-      out.writeAttribute( HTML.HREF, href, null );
-      createUniversalAttributes( treeNode );
-      out.writeText( getLabel( treeNode ), null );
-      out.endElement( HTML.A );
-    }
+    out.startElement( HTML.SPAN, null );
+    TreeNodeRendererUtil.writeClickHandler( out, treeNode );
+    TreeNodeRendererUtil.writeDoubleClickHandler( out, treeNode );
+    createUniversalAttributes( treeNode );
+    out.writeNBSP();
+    out.writeNBSP();
+    out.writeText( getLabel( treeNode ), null );
+    out.endElement( HTML.SPAN );
+    
+    
+//    HtmlResponseWriter out = getResponseWriter();
+//    if( !isActionActive( treeNode ) ) {
+//      out.startElement( HTML.SPAN, null );
+//      TreeNodeRendererUtil.writeDoubleClickHandler( out, treeNode );
+//      createUniversalAttributes( treeNode );
+//      out.writeNBSP();
+//      out.writeNBSP();
+//      out.writeText( getLabel( treeNode ), null );
+//      out.endElement( HTML.SPAN );
+//    } else {
+//      createSpan( treeNode );
+//      out.startElement( HTML.A, null );
+//      TreeNodeRendererUtil.writeClickHandler( out, treeNode );
+//      TreeNodeRendererUtil.writeDoubleClickHandler( out, treeNode );
+//      createUniversalAttributes( treeNode );
+//      out.writeText( getLabel( treeNode ), null );
+//      out.endElement( HTML.A );
+//    }
   }
 
   private void createLabelContentWithDD( final TreeNode treeNode ) 
@@ -216,10 +229,12 @@ public abstract class TreeNodeRenderer_DOM_Script
     String cursorBuffer = getStyle( treeNode ).getCursor();
     String compID = treeNode.getUniqueID();
     String evtType = createDDEventType( treeNode );
-    getStyle( treeNode ).setCursor( "pointer" );
+    getStyle( treeNode ).setCursor( "default" );
     HtmlResponseWriter out = getResponseWriter(); 
     createSpan( treeNode );
-    out.startElement( HTML.A, null );
+    out.startElement( HTML.SPAN, null );
+    TreeNodeRendererUtil.writeClickHandler( out, treeNode );
+    TreeNodeRendererUtil.writeDoubleClickHandler( out, treeNode );
     StringBuffer buffer = new StringBuffer();
     buffer.append( "dragDropHandler.mouseDown( '" );
     buffer.append( compID );
@@ -236,7 +251,7 @@ public abstract class TreeNodeRenderer_DOM_Script
     out.writeAttribute( HTML.ON_MOUSE_UP, buffer, null );
     createUniversalAttributes( treeNode );
     out.writeText( getLabel( treeNode ), null );
-    out.endElement( HTML.A );
+    out.endElement( HTML.SPAN );
     getStyle( treeNode ).setCursor( cursorBuffer );
   }
 
@@ -250,7 +265,7 @@ public abstract class TreeNodeRenderer_DOM_Script
   }
   
   private String createDDEventType( final TreeNode treeNode ) {
-    return   !hasActionListener( treeNode )
+    return   !TreeNodeRendererUtil.hasActionListener( treeNode )
            ? String.valueOf( EVT_TYPE_DRAGDROP )
            : String.valueOf( EVT_TYPE_DRAGDROP + EVT_TYPE_ACTION );
   }
@@ -264,26 +279,6 @@ public abstract class TreeNodeRenderer_DOM_Script
     createIconImage( treeNode, imageName );
   }
   
-  private void createIconHandlerOpen( final TreeNode treeNode ) 
-    throws IOException 
-  {
-    if( isActionActive( treeNode ) ) {
-      HtmlResponseWriter out = getResponseWriter();
-      out.startElement( HTML.A, null );
-      String href = RenderUtil.jsWebActionPerformed( treeNode.getUniqueID() );
-      out.writeAttribute( HTML.HREF, href, null );
-    }
-  }
-  
-  private void createIconHandlerClose( final TreeNode treeNode ) 
-    throws IOException 
-  {
-    if( isActionActive( treeNode ) ){
-      HtmlResponseWriter out = getResponseWriter();
-      out.endElement( HTML.A );
-    }
-  }
-
   private void createToggleImage( final TreeNode treeNode,
                                   final String imageName ) throws IOException
   {
@@ -300,12 +295,12 @@ public abstract class TreeNodeRenderer_DOM_Script
     if( !isShiftImage( imageName ) ) {
       String name = createIconName( treeNode );
       HtmlResponseWriter out = getResponseWriter();
-      createIconHandlerOpen( treeNode );
       out.startElement( HTML.IMG, null );
+      TreeNodeRendererUtil.writeClickHandler( out, treeNode );
+      TreeNodeRendererUtil.writeDoubleClickHandler( out, treeNode );
       createID( treeNode, imageName, "ico" );
       out.writeAttribute( HTML.SRC, name, null );
       out.writeAttribute( HTML.BORDER, "0", null );
-      createIconHandlerClose( treeNode );
     }
   }
   
@@ -387,15 +382,6 @@ public abstract class TreeNodeRenderer_DOM_Script
         || imageName.indexOf( "_Line" ) != -1;
   }
   
-  private static boolean isActionActive( final TreeNode treeNode ) {
-    return treeNode.isEnabled() && hasActionListener( treeNode );
-  }
-  
-  private static boolean isDragDropActive( final TreeNode treeNode ) {
-    return    treeNode.isEnabled() 
-           && DragDropEvent.hasListener( treeNode );
-  }
-
   static boolean renderPlaceHolder( final TreeNode treeNode ) {
     return    !treeNode.isExpanded()
             && ( reloadAlways( treeNode ) || loadDynamic( treeNode ) );

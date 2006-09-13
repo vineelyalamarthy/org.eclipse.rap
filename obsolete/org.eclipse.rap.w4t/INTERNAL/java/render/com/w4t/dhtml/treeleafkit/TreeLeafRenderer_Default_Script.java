@@ -28,6 +28,7 @@ public class TreeLeafRenderer_Default_Script
   public void processAction( final WebComponent component ) {
     TreeLeaf treeLeaf = ( TreeLeaf )component;
     DHTMLProcessActionUtil.processDragDropScript( treeLeaf );
+    DHTMLProcessActionUtil.processDoubleClickScript( treeLeaf );
     ProcessActionUtil.processActionPerformedScript( treeLeaf );
   }
 
@@ -111,11 +112,13 @@ public class TreeLeafRenderer_Default_Script
       String href = RenderUtil.jsWebActionPerformed( treeLeaf.getUniqueID() );
       out.writeAttribute( HTML.HREF, href, null );
       createUniversalAttributes( treeLeaf );
+      TreeLeafUtil.writeDoubleClickHandler( out, treeLeaf );
       out.writeText( getLabel( treeLeaf ), null );
       out.endElement( HTML.A );
     } else {
       out.startElement( HTML.SPAN, null );
       createUniversalAttributes( treeLeaf );
+      TreeLeafUtil.writeDoubleClickHandler( out, treeLeaf );
       out.writeNBSP();
       out.writeNBSP();
       out.writeText( getLabel( treeLeaf ), null );

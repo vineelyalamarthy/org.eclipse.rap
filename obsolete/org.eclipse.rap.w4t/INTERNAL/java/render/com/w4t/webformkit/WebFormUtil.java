@@ -134,6 +134,9 @@ final class WebFormUtil {
     HTMLUtil.hiddenInput( html, "changeImage", "" );
     HTMLUtil.hiddenInput( html, DragDropEvent.FIELD_NAME_SOURCE, "" );
     HTMLUtil.hiddenInput( html, DragDropEvent.FIELD_NAME_DESTINATION, "" );
+    HTMLUtil.hiddenInput( html, 
+                          DoubleClickEvent.FIELD_NAME, 
+                          RequestParams.NOT_OCCURED );
     return html.toString();
   }
 

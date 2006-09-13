@@ -30,6 +30,7 @@ public class TreeViewRenderer_Mozilla1_6up_Script
     + "-moz-user-select:none"; // prevent text selection while drag-drop
 
   protected void useJSLibrary() throws IOException {
+    TreeViewUtil.userDoubleClickLibrary();
     TreeViewUtil.useJSLibrary( TreeViewUtil.TREEVIEW_IE_GECKO );
   }
   

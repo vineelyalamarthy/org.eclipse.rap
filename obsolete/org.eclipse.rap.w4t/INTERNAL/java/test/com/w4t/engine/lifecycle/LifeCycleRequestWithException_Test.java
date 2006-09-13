@@ -148,6 +148,8 @@ public class LifeCycleRequestWithException_Test extends TestCase {
         + "value=\"\" /><input type=\"hidden\" id=\"dragSource\" "
         + "name=\"dragSource\" value=\"\" /><input type=\"hidden\" "
         + "id=\"dragDestination\" name=\"dragDestination\" value=\"\" />"
+        + "<input type=\"hidden\" id=\"w4tDoubleClickEvent\" " 
+        + "name=\"w4tDoubleClickEvent\" value=\"not_occured\" />"        
         + "<input type=\"hidden\" id=\"focusElement\" name=\"focusElement\" "
         + "value=\"\" /><input type=\"hidden\" id=\"scrollX\" "
         + "name=\"scrollX\" value=\"\" /><input type=\"hidden\" "

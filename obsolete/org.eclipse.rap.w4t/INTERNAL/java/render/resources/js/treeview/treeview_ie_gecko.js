@@ -145,14 +145,11 @@
   /* triggers an actionPerformed or dragDropReceived, depending
    * on whether the last mousedown was on a possible drag source. */
   function dd_mouseUp( id, evtType ) {
-    if( getForm().dragSource.value != "" ) {
-      if( getForm().dragSource.value == id && evtType % 2 == 1 ) {
-        getForm().dragSource.value = "";          
-        eventHandler.webActionPerformed( id );
-      } else if ( getForm().dragSource.value != id && evtType > 1 ) {
-        getForm().dragDestination.value = id;
-        eventHandler.submitDocument();
-      }
+    if(    getForm().dragSource.value != "" 
+        && getForm().dragSource.value != id && evtType > 1 ) 
+    {
+      getForm().dragDestination.value = id;
+      eventHandler.submitDocument();
     }
     getForm().dragSource.value = "";
     getForm().dragDestination.value = "";

@@ -56,6 +56,7 @@ public class TreeViewRenderer_Ie5up_Script extends TreeViewRenderer_DOM_Script {
   }
 
   protected void useJSLibrary() throws IOException {
+    TreeViewUtil.userDoubleClickLibrary();
     TreeViewUtil.useJSLibrary( TreeViewUtil.TREEVIEW_IE_GECKO );
   }
   

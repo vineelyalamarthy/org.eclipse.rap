@@ -26,6 +26,7 @@ public abstract class TreeLeafRenderer_Base_Script extends TreeLeafRenderer {
   public void processAction( final WebComponent component ) {
     TreeLeaf treeLeaf = ( TreeLeaf )component;
     DHTMLProcessActionUtil.processDragDropScript( treeLeaf );
+    DHTMLProcessActionUtil.processDoubleClickScript( treeLeaf );
     ProcessActionUtil.processActionPerformedScript( treeLeaf );
   }
 }

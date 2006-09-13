@@ -256,6 +256,47 @@ public class TreeNode extends Node {
     DragDropEvent.removeListener( this, listener );
   }
 
+  /** TODO:[fappel] comment */
+  public void addDoubleClickListener( final DoubleClickListener listener ) {
+    DoubleClickEvent.addListener( this, listener );
+  }
+  
+  /** TODO:[fappel] comment */
+  public void removeDoubleClickListener( final DoubleClickListener listener ) {
+    DoubleClickEvent.removeListener( this , listener );
+  }
+  
+  /** TODO:[fappel] comment */
+  protected void addDoubleClickListenerRecursively( 
+    final DoubleClickListener listener ) 
+  {
+    DoubleClickEvent.addListener( this, listener );
+    for( int i = 0; i < nodeList.size(); i++ ) {
+      TreeNode childNode = ( TreeNode )nodeList.get ( i );
+      childNode.addDoubleClickListenerRecursively( listener );
+    }
+    for( int i = 0; i < leafList.size(); i++ ) {
+      TreeLeaf leaf = ( TreeLeaf )leafList.get( i );
+      leaf.addDoubleClickListener( listener );
+    }
+  }
+  
+  /** TODO:[fappel] comment */
+  protected void removeDoubleClickListenerRecursively(
+    final DoubleClickListener listener )
+  {
+    DoubleClickEvent.removeListener( this, listener );
+    for( int i = 0; i < nodeList.size(); i++ ) {
+      TreeNode childNode = ( TreeNode )nodeList.get ( i );
+      childNode.removeDoubleClickListenerRecursively( listener );
+    }
+    for( int i = 0; i < leafList.size(); i++ ) {
+      TreeLeaf leaf = ( TreeLeaf )leafList.get( i );
+      leaf.removeDoubleClickListener( listener );
+    }
+  }
+
+  
   /** <p>adds the specified DragDropListener to this TreeNode and to
     * all of its child nodes.</p> */
   protected void addDragDropListenerRecursively( 
@@ -415,6 +456,13 @@ public class TreeNode extends Node {
         item.addWebActionListener( ( WebActionListener )actionListeners[ i ] );
       }
       
+      Object[] dblClickListeners = DoubleClickEvent.getListeners( root );
+      for( int i = 0; i < dblClickListeners.length; i++ ) {
+        DoubleClickListener dblClickListener
+          = ( DoubleClickListener )dblClickListeners[ i ];
+        DoubleClickEvent.addListener( item, dblClickListener );
+      }
+      
       Object[] renderListeners = WebRenderEvent.getListeners( root );
       for( int i = 0; i < renderListeners.length; i++ ) {
         item.addWebRenderListener( ( WebRenderListener )renderListeners[ i ] );
@@ -468,6 +516,13 @@ public class TreeNode extends Node {
         WebActionListener actionListener
           = ( WebActionListener )actionListeners[ i ];
         item.removeWebActionListener( actionListener );
+      }
+
+      Object[] dblClickListeners = DoubleClickEvent.getListeners( root );
+      for( int i = 0; i < dblClickListeners.length; i++ ) {
+        DoubleClickListener dblClickListener
+          = ( DoubleClickListener )dblClickListeners[ i ];
+        DoubleClickEvent.removeListener( item, dblClickListener );
       }
       
       Object[] renderListeners = WebRenderEvent.getListeners( root );

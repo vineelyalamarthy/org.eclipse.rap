@@ -16,14 +16,16 @@ import com.w4t.dhtml.*;
 import com.w4t.util.image.*;
 
 
-/** <p>The renderer for com.w4t.dhtml.TreeLeaf on Microsoft Internet 
-  * Explorer 6 and later without javascript support.</p>
-  */
+/** 
+ * <p>The base renderer for <code>com.w4t.dhtml.TreeLeaf</code> on browsers 
+ * without javascript support.</p>
+ */
 public class TreeLeafRenderer_Base_Noscript extends TreeLeafRenderer {
 
   public void processAction( final WebComponent component ) {
     TreeLeaf treeLeaf = ( TreeLeaf )component;
     DHTMLProcessActionUtil.processDragDropNoScript( treeLeaf );
+    DHTMLProcessActionUtil.processDoubleClickNoScript( treeLeaf );
     ProcessActionUtil.processActionPerformedNoScript( treeLeaf );
   }
 
@@ -84,6 +86,9 @@ public class TreeLeafRenderer_Base_Noscript extends TreeLeafRenderer {
     if( TreeLeafUtil.isDragDropActive( treeLeaf ) ) {
       createDragDropSubmitter( treeLeaf );
     }
+    if( TreeLeafUtil.isDblClickActive( treeLeaf ) ) {
+      createDoubleClickSubmitter( treeLeaf );
+    }
   }
 
   private void createLabelEntry( final TreeLeaf treeLeaf ) 
@@ -100,11 +105,16 @@ public class TreeLeafRenderer_Base_Noscript extends TreeLeafRenderer {
 
   /** workaround for the dragdrop functionality in scripting mode 
    * @throws IOException */
-
   private void createDragDropSubmitter( final TreeLeaf treeLeaf ) 
     throws IOException 
   {
     RenderUtil.writeDragDropSubmitter( treeLeaf.getUniqueID() );
+  }
+
+  private void createDoubleClickSubmitter( final TreeLeaf treeLeaf ) 
+    throws IOException 
+  {
+    RenderUtil.writeDoubleClickSubmitter( treeLeaf.getUniqueID() );
   }
 
   private void createActionSubmitter( final TreeLeaf treeLeaf ) {

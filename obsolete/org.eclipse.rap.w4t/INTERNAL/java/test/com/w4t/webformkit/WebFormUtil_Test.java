@@ -59,7 +59,9 @@ public class WebFormUtil_Test extends TestCase {
       + "<input type=\"hidden\" id=\"dragSource\" name=\"dragSource\" " 
       + "value=\"\" />"
       + "<input type=\"hidden\" id=\"dragDestination\" " 
-      + "name=\"dragDestination\" value=\"\" />";
+      + "name=\"dragDestination\" value=\"\" />"
+      + "<input type=\"hidden\" id=\"w4tDoubleClickEvent\" " 
+      + "name=\"w4tDoubleClickEvent\" value=\"not_occured\" />";        
     assertEquals( expected, fields );
   }
   

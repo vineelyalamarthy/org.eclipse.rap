@@ -269,6 +269,16 @@ public class TreeView extends TreeNode {
     }
   }
 
+  /** TODO:[fappel] comment */
+  public void addDoubleClickListener( final DoubleClickListener listener ) {
+    addDoubleClickListenerRecursively( listener );
+  }
+
+  /** TODO:[fappel] comment */
+  public void removeDoubleClickListener( DoubleClickListener listener ) {
+    removeDoubleClickListenerRecursively( listener );
+  }
+
   TreeNodeShift getTreeNodeShift() {
     return treeNodeShift;
   }
@@ -365,5 +375,5 @@ public class TreeView extends TreeNode {
   
   public static String retrieveIconName() {
     return "resources/images/icons/treeview.gif";
-  }  
+  }
 }

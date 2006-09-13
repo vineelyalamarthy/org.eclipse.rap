@@ -48,6 +48,7 @@ public abstract class WebContainerRenderer extends Renderer {
     manager.register( "resources/images/disabledpointer.gif" );
     manager.register( "resources/images/disabledprevrec.gif" );
     manager.register( "resources/images/disabledtransparent.gif" );
+    manager.register( "resources/images/doubleclick.gif" );
     manager.register( "resources/images/dragDrop.gif" );
     manager.register( "resources/images/favicon.ico" );
     manager.register( "resources/images/firstrec.gif" );

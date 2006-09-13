@@ -112,8 +112,9 @@ public abstract class SelfGeneratingTestCase extends TestCase {
   //////////////////
   
   private String getSourceFileName() {
-    return   "T:\\tomcat\\webapps\\w4toolkit\\INTERNAL\\java\\test\\"
-           + this.getClass().getName().replace( '.', '\\' )
+    String userDir = System.getProperty( "user.dir" );
+    return   userDir + "/INTERNAL/java/test/"
+           + this.getClass().getName().replace( '.', '/' )
            + ".java";
   }
   

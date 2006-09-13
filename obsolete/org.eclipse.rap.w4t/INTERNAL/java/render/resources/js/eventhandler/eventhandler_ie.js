@@ -21,6 +21,7 @@
      * we cannot use null or empty string because of browser
      * incompatibilities (Opera). */
     this.W4T_NULL = 'W4T_NULL';
+    this.requestDelay = 50;
 
 
     /* the actual position of the horizontal 
@@ -50,8 +51,11 @@
     /* stores a reference to a checkbox, if one had 
      * a mouseDown event (and no mouseUp event yet). */
     this.clickedCheckBox = null;
+    
+    /* Indicates whether an AJAX request is in process or not */
+    this.isRequestRunning = false;
 
-    /** Holds the XmlHttpRequest object */    
+    /* Holds the XmlHttpRequest object */    
     this.xmlHttpRequestSingleton = null;
 
     /* **************************************************** *
@@ -82,7 +86,6 @@
      * to insert or update. */
     this.changeImagePath = changeImagePath;
     
-    this.determineScrollbarPositions = determineScrollbarPositions;
     this.storeScrollbarPositions = storeScrollbarPositions;
 
     /* writes the component ID of the element which got focus 
@@ -147,15 +150,13 @@
   function webActionPerformed( obj ) {
     if( !this.submitFlag && !this.suspendSubmitFlag ) {
       //this.submitFlag = true;
-	  componentID = String( obj );
-	  if( componentID.charAt( 0 ) == 'p' ) {
+  	  componentID = String( obj );
+  	  if( componentID.charAt( 0 ) == 'p' ) {
         document.getElementById( "webActionEvent" ).value = componentID;
-	  } else {    
+  	  } else {    
         document.getElementById( "webActionEvent" ).value = obj.name;
-	  }  
-	  this.determineScrollbarPositions();
-	  this.storeScrollbarPositions();
-      setTimeout( 'eventHandler.submitDocument()', 50 );
+  	  }  
+      setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );
     }
   }
 
@@ -163,12 +164,10 @@
   function webItemStateChanged( obj ) {
     if( !this.focusDisabledFlag ) {	
       document.getElementById( "webItemEvent" ).value = obj.name;
-      this.determineScrollbarPositions();
-      this.storeScrollbarPositions();
       if( !this.submitFlag && this.focusElementValue != obj.value ) {
-	    this.submitFlag = true;
+        this.submitFlag = true;
         if( !this.suspendSubmitFlag ) {
-          setTimeout( 'eventHandler.submitDocument()', 50 );
+          setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );
         }
       }
     }
@@ -186,8 +185,6 @@
       }
             
       if( !this.hasAlreadyFocus ) {
-        this.determineScrollbarPositions();
-        this.storeScrollbarPositions();
         if( !this.submitFlag ) {
           if( !this.suspendSubmitFlag ) {
             setTimeout( 'eventHandler.submitDocument()', 150 );
@@ -202,13 +199,10 @@
   function ev_webTreeNodeExpanded( compID ) {
     // register the component which has caused the event
     document.getElementById( "webTreeNodeExpandedEvent" ).value = compID;
-    // register the scrollbarpositions on the page
-    this.determineScrollbarPositions();
-    this.storeScrollbarPositions();
     // trigger the submit mechanism
     if ( this.submitFlag == false ) {
       if ( this.suspendSubmitFlag == false ) {
-        setTimeout( 'eventHandler.submitDocument()', 50 );
+        setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );
       }
       this.submitFlag = true;
     }  
@@ -218,13 +212,10 @@
   function ev_webTreeNodeCollapsed( compID ) {
     // register the component which has caused the event
     document.getElementById( "webTreeNodeCollapsedEvent" ).value = compID;
-    // register the scrollbarpositions on the page
-    this.determineScrollbarPositions();
-    this.storeScrollbarPositions();
     // trigger the submit mechanism
     if ( this.submitFlag == false ) {
       if ( this.suspendSubmitFlag == false ) {
-        setTimeout( 'eventHandler.submitDocument()', 50 );
+        setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );
       }
       this.submitFlag = true;
     }  
@@ -239,8 +230,6 @@
    * to insert or update. */
   function changeImagePath( webComponentID ) {
     document.getElementById( "changeImage" ).value = webComponentID;
-    this.determineScrollbarPositions();
-    this.storeScrollbarPositions();
     submitDocument();
   }
 
@@ -312,7 +301,7 @@
   // true; sets suspendSubmitFlag false
   function resumeSubmit() {
     if( this.submitFlag == true && this.suspendSubmitFlag == true ) {   	
-      setTimeout( 'eventHandler.submitDocument()', 50 );
+      setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );
     }
     this.suspendSubmitFlag = false;
   }
@@ -321,6 +310,7 @@
   function submitDocument() {
     if( eventHandler.suspendSubmitFlag == false ) {
       collectFocusSelection();
+      this.storeScrollbarPositions();
       var hasFileToUpload = _hasPendingFileUpload();
       if( this.isAjaxEnabled() && !hasFileToUpload ) { 
         postAjaxRequest( false ); 
@@ -387,7 +377,7 @@
       this.clickedCheckBox = null;
     }
     if( this.submitFlag == true && this.suspendSubmitFlag == true ) {   	
-      setTimeout( 'eventHandler.submitDocument()', 50 );      
+      setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );      
     }
     this.suspendSubmitFlag = false;    
   }
@@ -408,13 +398,9 @@
     }
   }
   
-  /* determines the scrollbar positions in the browser window. */
-  function determineScrollbarPositions() {
+  function storeScrollbarPositions() {
     this.scrollX = document.body.scrollLeft;
     this.scrollY = document.body.scrollTop;
-  }
-
-  function storeScrollbarPositions() {
     document.getElementById( 'scrollX' ).value = this.scrollX;
     document.getElementById( 'scrollY' ).value = this.scrollY;
   }
@@ -449,39 +435,47 @@
     // ignore submit requests if the latest request lifecycle has not finished
     // yet.
     if( this.xmlHttpRequestSingleton == null || retry ) {
-      adjustAvailableSize();
-      // inform user about long-running action
-      this.waitCursor();
-      // set ajax-request-flag to true 
-      _assignHiddenInput( "w4t_isAjaxRequest", "true" );
-      // construct data to be POSTed  
-      var inputElements = document.W4TForm.elements;
-      var postContent = '';
-      for( var i = 0; i < inputElements.length; i++ ) {
-        if( i > 0 ) {
-          postContent += '&';
+      eventHandler.isRequestRunning = true;
+      try {
+        adjustAvailableSize();
+        // inform user about long-running action
+        this.waitCursor();
+        // set ajax-request-flag to true 
+        _assignHiddenInput( "w4t_isAjaxRequest", "true" );
+        // construct data to be POSTed  
+        var inputElements = document.W4TForm.elements;
+        var postContent = '';
+        for( var i = 0; i < inputElements.length; i++ ) {
+          if( i > 0 ) {
+            postContent += '&';
+          }
+          if(    !isUncheckedCheckBox( inputElements[ i ] ) 
+              && !isUnSelectedRadioButton( inputElements[ i ] ) )
+          {
+            postContent =   postContent
+                          + inputElements[i].name + '='
+                          + encodeURIComponent( inputElements[ i ].value );
+          }
         }
-        if(    !isUncheckedCheckBox( inputElements[ i ] ) 
-            && !isUnSelectedRadioButton( inputElements[ i ] ) )
-        {
-          postContent =   postContent
-                        + inputElements[i].name + '='
-                        + encodeURIComponent( inputElements[ i ].value );
-        }
+        
+        // send request
+        var http_request = this.getXmlHttpRequest();
+        if( http_request != null ) {
+          http_request.onreadystatechange = this.applyAjaxResponse;
+          http_request.open( 'POST', 'W4TDelegate?w4t_enc=no', true );
+          http_request.setRequestHeader( 'Content-type', 
+                                         'application/x-www-form-urlencoded; charset=UTF-8' );
+          http_request.setRequestHeader( 'Content-length', postContent.length );
+          http_request.send( postContent );
+  	    } else {
+  	      eventHandler.isRequestRunning = false;
+  	    }
+        // reset the ajax flag, since the next request may not be an ajax request
+        _assignHiddenInput( "w4t_isAjaxRequest", "false" );
+      } catch( e ){
+        eventHandler.isRequestRunning = false;
+        throw e;
       }
-      
-      // send request
-      var http_request = this.getXmlHttpRequest();
-      if( http_request != null ) {
-        http_request.onreadystatechange = this.applyAjaxResponse;
-        http_request.open( 'POST', 'W4TDelegate?w4t_enc=no', true );
-        http_request.setRequestHeader( 'Content-type', 
-                                       'application/x-www-form-urlencoded; charset=UTF-8' );
-        http_request.setRequestHeader( 'Content-length', postContent.length );
-        http_request.send( postContent );
-	  }
-      // reset the ajax flag, since the next request may not be an ajax request
-      _assignHiddenInput( "w4t_isAjaxRequest", "false" );
     }
   }
 
@@ -544,6 +538,7 @@
       } finally {
         this.xmlHttpRequestSingleton = null;
         this.resetCursor();
+        eventHandler.isRequestRunning = retry;
       }
     }
     if( retry ) {

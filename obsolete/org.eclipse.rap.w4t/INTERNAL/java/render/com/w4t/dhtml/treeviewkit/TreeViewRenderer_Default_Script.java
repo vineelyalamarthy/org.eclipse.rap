@@ -32,6 +32,7 @@ public class TreeViewRenderer_Default_Script
   }
   
   protected void useJSLibrary() throws IOException {
+    TreeViewUtil.userDoubleClickLibrary();
     TreeViewUtil.useJSLibrary( TreeViewUtil.TREEVIEW_DEFAULT );
   }
 }

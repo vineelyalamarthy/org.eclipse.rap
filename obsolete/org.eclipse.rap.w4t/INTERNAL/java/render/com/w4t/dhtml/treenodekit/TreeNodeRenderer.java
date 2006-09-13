@@ -15,7 +15,6 @@ import com.w4t.*;
 import com.w4t.dhtml.TreeNode;
 import com.w4t.dhtml.TreeNodeShift;
 import com.w4t.dhtml.renderinfo.TreeNodeInfo;
-import com.w4t.event.WebActionEvent;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
 import com.w4t.types.WebColor;
 import com.w4t.util.DefaultColorScheme;
@@ -292,9 +291,5 @@ public abstract class TreeNodeRenderer extends Renderer {
     buffer.append( HTML.DIV );
     buffer.append( treeNode.getUniqueID() );
     out.writeAttribute( HTML.ID, buffer, null );
-  }
-  
-  static boolean hasActionListener( final TreeNode treeNode ) {
-    return WebActionEvent.hasListener( treeNode );
   }
 }

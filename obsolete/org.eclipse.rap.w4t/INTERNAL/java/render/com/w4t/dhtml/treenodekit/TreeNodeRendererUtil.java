@@ -10,17 +10,27 @@
  ******************************************************************************/
 package com.w4t.dhtml.treenodekit;
 
-import com.w4t.W4TContext;
+import java.io.IOException;
+import java.text.MessageFormat;
+import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.dhtml.TreeNode;
+import com.w4t.dhtml.event.DoubleClickEvent;
+import com.w4t.dhtml.event.DragDropEvent;
 import com.w4t.dhtml.renderinfo.TreeNodeInfo;
 import com.w4t.engine.lifecycle.standard.IRenderingSchedule;
 import com.w4t.engine.service.ContextProvider;
+import com.w4t.event.WebActionEvent;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
 
 
 final class TreeNodeRendererUtil {
   
+  private static final String TREE_ITEM_CLICKED 
+    = "treeItemClicked(''{0}'');";
+  private static final String TREE_ITEM_DBL_CLICKED 
+    = "treeItemDblClicked(''{0}'');";
+
   private TreeNodeRendererUtil() {
     // prevent instantiation
   }
@@ -35,11 +45,7 @@ final class TreeNodeRendererUtil {
     }
   }
   
-  private static IRenderingSchedule getRenderingSchedule() {
-    return ContextProvider.getStateInfo().getRenderingSchedule();
-  }
-
-  public static void createStateInfoField( final TreeNode treeNode ) {
+  static void createStateInfoField( final TreeNode treeNode ) {
     TreeNodeInfo info = getInfo( treeNode );
     StringBuffer hiddenField = new StringBuffer();
     hiddenField.append( "<input type=\"hidden\" " );
@@ -74,5 +80,48 @@ final class TreeNodeRendererUtil {
     {
       AjaxStatusUtil.updateHashCode( treeNode );
     }
+  }
+
+  static boolean isActionActive( final TreeNode treeNode ) {
+    return treeNode.isEnabled() && hasActionListener( treeNode );
+  }
+
+  static boolean isDragDropActive( final TreeNode treeNode ) {
+    return    treeNode.isEnabled() 
+           && DragDropEvent.hasListener( treeNode );
+  }
+
+  static boolean isDblClickActive( final TreeNode treeNode ) {
+    return treeNode.isEnabled() && DoubleClickEvent.hasListener( treeNode );
+  }
+
+  static boolean hasActionListener( final TreeNode treeNode ) {
+    return WebActionEvent.hasListener( treeNode );
+  }
+
+  static void writeClickHandler( final HtmlResponseWriter out, 
+                                 final TreeNode treeNode ) 
+    throws IOException 
+  {
+    if( isActionActive( treeNode ) ) {
+      Object[] id = new Object[] { treeNode.getUniqueID() };
+      String handler = MessageFormat.format( TREE_ITEM_CLICKED, id );
+      out.writeAttribute( HTML.ON_CLICK, handler, null );
+    }
+  }
+  
+  static void writeDoubleClickHandler( final HtmlResponseWriter out, 
+                                       final TreeNode treeNode ) 
+    throws IOException 
+  {
+    if( treeNode.isEnabled() && DoubleClickEvent.hasListener( treeNode ) ) {
+      Object[] id = new Object[] { treeNode.getUniqueID() };
+      String handler = MessageFormat.format( TREE_ITEM_DBL_CLICKED, id );
+      out.writeAttribute( HTML.ON_DBL_CLICK, handler, null );
+    }
+  }
+
+  private static IRenderingSchedule getRenderingSchedule() {
+    return ContextProvider.getStateInfo().getRenderingSchedule();
   }
 }

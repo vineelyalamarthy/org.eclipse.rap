@@ -169,6 +169,7 @@ public class TreeViewRenderer_Default_Script_Test extends RenderingTestCase {
     tn3.setExpanded( true );
     doRenderTest( tv, 111 );
     String[] expectedLibs = new String[] {
+      "resources/js/treeview/doubleclick_script.js",
       "resources/js/treeview/treeview_default.js"
     };
     assertJSLibraries( expectedLibs );

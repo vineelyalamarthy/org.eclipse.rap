@@ -23,6 +23,7 @@ import com.w4t.event.*;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
 import com.w4t.util.RendererCache;
 import com.w4t.util.browser.Default;
+import com.w4t.util.browser.Opera8;
 import com.w4t.util.image.ImageCache;
 
 
@@ -459,6 +460,120 @@ public class ProcessAction_Test extends TestCase {
     Fixture.getLifeCycleAdapter( form ).processAction();
     assertNotNull( evtSource[ 0 ] );
     assertSame( cardContent, evtSource[ 0 ] );    
+  }
+  
+  public void testDoubleClickScript() {
+    WebForm form = Fixture.getEmptyWebFormInstance();
+    Fixture.fakeBrowser( new Default( true ) );
+    // Create test listener
+    final StringBuffer eventLog = new StringBuffer();
+    DoubleClickListener listener = new DoubleClickListener() {
+      public void doubleClickPerformed( final DoubleClickEvent event ) {
+        eventLog.append( event.getSourceComponent().getUniqueID() );
+      }
+    };
+    // Construct treeView with node and leaf
+    TreeView treeView = new TreeView();
+    TreeNode node1 = new TreeNode();
+    treeView.addItem( node1 );
+    TreeLeaf leaf1 = new TreeLeaf();
+    node1.addItem( leaf1 );
+    form.add( treeView, WebBorderLayout.NORTH );
+    // Test recursion when adding/removing listener
+    treeView.addDoubleClickListener( listener );
+    assertEquals( true, DoubleClickEvent.hasListener( treeView ) );
+    assertEquals( true, DoubleClickEvent.hasListener( node1 ) );
+    assertEquals( true, DoubleClickEvent.hasListener( leaf1 ) );
+    treeView.removeDoubleClickListener( listener );
+    assertEquals( false, DoubleClickEvent.hasListener( treeView ) );
+    assertEquals( false, DoubleClickEvent.hasListener( node1 ) );
+    assertEquals( false, DoubleClickEvent.hasListener( leaf1 ) );
+    
+    leaf1.addDoubleClickListener( listener );
+    assertEquals( true, DoubleClickEvent.hasListener( leaf1 ) );
+    assertEquals( false, DoubleClickEvent.hasListener( node1 ) );
+    assertEquals( false, DoubleClickEvent.hasListener( treeView ) );
+    leaf1.removeDoubleClickListener( listener );
+    assertEquals( false, DoubleClickEvent.hasListener( leaf1 ) );
+    
+    node1.addDoubleClickListener( listener );
+    assertEquals( false, DoubleClickEvent.hasListener( leaf1 ) );
+    assertEquals( true, DoubleClickEvent.hasListener( node1 ) );
+    assertEquals( false, DoubleClickEvent.hasListener( treeView ) );
+    node1.removeDoubleClickListener( listener );
+    assertEquals( false, DoubleClickEvent.hasListener( node1 ) );
+    
+    treeView.addDoubleClickListener( listener );
+    TreeNode node2 = new TreeNode();
+    node1.addItem( node2 );
+    assertEquals( true, DoubleClickEvent.hasListener( node2 ) );
+    node2.remove();
+    assertEquals( false, DoubleClickEvent.hasListener( node2 ) );
+    // Test event processing - default browser
+    eventLog.setLength( 0 );
+    String fieldName = DoubleClickEvent.FIELD_NAME;
+    Fixture.fakeRequestParam( fieldName, treeView.getUniqueID() );
+    Fixture.getLifeCycleAdapter( form ).processAction();
+    assertEquals( "", eventLog.toString() );
+    eventLog.setLength( 0 );
+    Fixture.fakeRequestParam( fieldName, node1.getUniqueID() );
+    Fixture.getLifeCycleAdapter( form ).processAction();
+    assertEquals( node1.getUniqueID(), eventLog.toString() );
+    eventLog.setLength( 0 );
+    Fixture.fakeRequestParam( fieldName, leaf1.getUniqueID() );
+    Fixture.getLifeCycleAdapter( form ).processAction();
+    assertEquals( leaf1.getUniqueID(), eventLog.toString() );
+    // Test event processing - Opera 8
+    Fixture.fakeBrowser( new Opera8( true ) );
+    eventLog.setLength( 0 );
+    Fixture.fakeRequestParam( fieldName, treeView.getUniqueID() );
+    Fixture.getLifeCycleAdapter( form ).processAction();
+    assertEquals( "", eventLog.toString() );
+    eventLog.setLength( 0 );
+    Fixture.fakeRequestParam( fieldName, node1.getUniqueID() );
+    Fixture.getLifeCycleAdapter( form ).processAction();
+    assertEquals( node1.getUniqueID(), eventLog.toString() );
+    eventLog.setLength( 0 );
+    Fixture.fakeRequestParam( fieldName, leaf1.getUniqueID() );
+    Fixture.getLifeCycleAdapter( form ).processAction();
+    assertEquals( leaf1.getUniqueID(), eventLog.toString() );
+  }
+
+  public void testDoubleClickNoscript() {
+    Fixture.fakeBrowser( new Default( false ) );
+    // Create test listener
+    final StringBuffer eventLog = new StringBuffer();
+    DoubleClickListener listener = new DoubleClickListener() {
+      public void doubleClickPerformed( final DoubleClickEvent event ) {
+        eventLog.append( event.getSourceComponent().getUniqueID() );
+      }
+    };
+    // Construct treeView with node and leaf
+    WebForm form = Fixture.getEmptyWebFormInstance();
+    TreeView treeView = new TreeView();
+    TreeNode node1 = new TreeNode();
+    treeView.addItem( node1 );
+    TreeLeaf leaf1 = new TreeLeaf();
+    node1.addItem( leaf1 );
+    form.add( treeView, WebBorderLayout.NORTH );
+    treeView.addDoubleClickListener( listener );
+    // Test event processing
+    eventLog.setLength( 0 );
+    String id = DoubleClickEvent.PREFIX + treeView.getUniqueID();
+    Fixture.fakeRequestParam( id, id );
+    Fixture.getLifeCycleAdapter( form ).processAction();
+    assertEquals( "", eventLog.toString() );
+    eventLog.setLength( 0 );
+    id = DoubleClickEvent.PREFIX + node1.getUniqueID();
+    Fixture.fakeRequestParam( id, id );
+    Fixture.getLifeCycleAdapter( form ).processAction();
+    assertEquals( node1.getUniqueID(), eventLog.toString() );
+    eventLog.setLength( 0 );
+    ContextProvider.getRequest().getParameterMap().clear();
+    id = DoubleClickEvent.PREFIX + leaf1.getUniqueID();
+    Fixture.fakeRequestParam( id, id );
+    Fixture.getLifeCycleAdapter( form ).processAction();
+    assertEquals( leaf1.getUniqueID(), eventLog.toString() );
   }
 
   private void handleActionListenerScript( final WebForm form, 

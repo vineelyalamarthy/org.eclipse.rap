@@ -21,6 +21,7 @@
      * we cannot use null or empty string because of browser
      * incompatibilities (Opera). */
     this.W4T_NULL = 'W4T_NULL';
+    this.requestDelay = 50;
 
 
     /* the actual position of the horizontal 
@@ -47,6 +48,9 @@
     // TODO: comment
     this.suspendSubmitFlag = false;
 
+    /* Indicates whether an AJAX request is in process or not */
+    this.isRequestRunning = false;
+    
     /* stores a reference to a checkbox, if one had 
      * a mouseDown event (and no mouseUp event yet). */
     this.clickedCheckBox = null;
@@ -86,7 +90,7 @@
     
     /* sets the scrollbar position variables to the actual values
      * of the scrollbar positions in the browser window. */
-    this.determineScrollbarPositions = determineScrollbarPositions;
+    this.storeScrollbarPositions = storeScrollbarPositions;
 
     /* writes the component ID of the element which got focus 
      * into the hidden field 'focusElement'. */
@@ -168,11 +172,7 @@
       else {    
         document.W4TForm.webActionEvent.value = obj.name;
       }  
-      this.determineScrollbarPositions();
-      document.W4TForm.scrollX.value = this.scrollX;
-      document.W4TForm.scrollY.value = this.scrollY;
-  
-      setTimeout( 'eventHandler.submitDocument()', 50 );
+      setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );
     }
   }
   
@@ -180,15 +180,11 @@
   function webItemStateChanged( obj ) {
     if( this.focusDisabledFlag == false ) { 
       document.W4TForm.webItemEvent.value = obj.name;
-     
-      this.determineScrollbarPositions();
-      document.W4TForm.scrollX.value = this.scrollX;
-      document.W4TForm.scrollY.value = this.scrollY;
       if (    this.submitFlag == false
            && this.focusElementValue != obj.value )
       {
         if( this.suspendSubmitFlag == false ) {
-          setTimeout( 'eventHandler.submitDocument()', 50 );
+          setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );
         }
         this.submitFlag = true;
       } 
@@ -209,9 +205,6 @@
       }  
       
       if( this.hasAlreadyFocus == false ) {
-        this.determineScrollbarPositions();
-        document.W4TForm.scrollX.value = this.scrollX;
-        document.W4TForm.scrollY.value = this.scrollY;
         if ( this.submitFlag == false ) {
           if ( this.suspendSubmitFlag == false ) {
             setTimeout( 'eventHandler.submitDocument()', 150 );
@@ -226,14 +219,10 @@
   function ev_webTreeNodeExpanded( compID ) {
     // register the component which has caused the event
     document.W4TForm.webTreeNodeExpandedEvent.value = compID;
-    // register the scrollbarpositions on the page
-    this.determineScrollbarPositions();
-    document.W4TForm.scrollX.value = this.scrollX;
-    document.W4TForm.scrollY.value = this.scrollY;
     // trigger the submit mechanism
     if ( this.submitFlag == false ) {
       if ( this.suspendSubmitFlag == false ) {
-        setTimeout( 'eventHandler.submitDocument()', 50 );
+        setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );
       }
       this.submitFlag = true;
     }  
@@ -243,14 +232,10 @@
   function ev_webTreeNodeCollapsed( compID ) {
     // register the component which has caused the event
     document.W4TForm.webTreeNodeCollapsedEvent.value = compID;
-    // register the scrollbarpositions on the page
-    this.determineScrollbarPositions();
-    document.W4TForm.scrollX.value = this.scrollX;
-    document.W4TForm.scrollY.value = this.scrollY;
     // trigger the submit mechanism
     if ( this.submitFlag == false ) {
       if ( this.suspendSubmitFlag == false ) {
-        setTimeout( 'eventHandler.submitDocument()', 50 );
+        setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );
       }
       this.submitFlag = true;
     }  
@@ -265,9 +250,6 @@
    * to insert or update. */
   function changeImagePath( webComponentID ) {
     document.W4TForm.changeImage.value = webComponentID;
-    this.determineScrollbarPositions();
-    document.W4TForm.scrollX.value = this.scrollX;
-    document.W4TForm.scrollY.value = this.scrollY;
     submitDocument();    
   }
   
@@ -297,9 +279,11 @@
 
   /* determines the scrollbar positions in the browser window 
    * (using the standard way) */
-  function determineScrollbarPositions() {
+  function storeScrollbarPositions() {
     this.scrollX = window.pageXOffset;
     this.scrollY = window.pageYOffset;
+    document.getElementById( 'scrollX' ).value = this.scrollX;
+    document.getElementById( 'scrollY' ).value = this.scrollY;
   }
 
 
@@ -328,7 +312,7 @@
   // true; sets suspendSubmitFlag false
   function resumeSubmit() {
     if( this.submitFlag == true && this.suspendSubmitFlag == true ) {     
-      setTimeout( 'eventHandler.submitDocument()', 50 );
+      setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );
     }
     this.suspendSubmitFlag = false;
   }
@@ -337,6 +321,7 @@
   function submitDocument() {
     if( eventHandler.suspendSubmitFlag == false ) {
       collectFocusSelection();
+      storeScrollbarPositions();
       var hasFileToUpload = _hasPendingFileUpload();
       if( this.isAjaxEnabled() && !hasFileToUpload ) { 
         postAjaxRequest( false ); 
@@ -403,7 +388,7 @@
       this.clickedCheckBox = null;
     }
     if( this.submitFlag == true && this.suspendSubmitFlag == true ) {     
-      setTimeout( 'eventHandler.submitDocument()', 50 );      
+      setTimeout( 'eventHandler.submitDocument()', eventHandler.requestDelay );      
     }
     this.suspendSubmitFlag = false;    
   }
@@ -467,43 +452,51 @@
     return ajaxResponse;
   }
   
-  function postAjaxRequest( retry ) {
+  function postAjaxRequest() {
     // ignore submit requests if the latest request lifecycle has not finished
     // yet.
-    if( xmlHttpRequestSingleton == null || retry ) {
-      adjustAvailableSize();
-      // inform user about long-running action
-      this.waitCursor();
-      // set ajax-request-flag to true 
-      _assignHiddenInput( "w4t_isAjaxRequest", "true" );
-      // construct data to be POSTed  
-      var inputElements = document.W4TForm.elements;
-      var postContent = '';
-      for( var i = 0; i < inputElements.length; i++ ) {
-        if( i > 0 ) {
-          postContent += '&';
+    if( xmlHttpRequestSingleton == null ) {
+      eventHandler.isRequestRunning = true;
+      try {
+        adjustAvailableSize();
+        // inform user about long-running action
+        this.waitCursor();
+        // set ajax-request-flag to true 
+        _assignHiddenInput( "w4t_isAjaxRequest", "true" );
+        // construct data to be POSTed  
+        var inputElements = document.W4TForm.elements;
+        var postContent = '';
+        for( var i = 0; i < inputElements.length; i++ ) {
+          if( i > 0 ) {
+            postContent += '&';
+          }
+          if(    !isUncheckedCheckBox( inputElements[ i ] ) 
+              && !isUnSelectedRadioButton( inputElements[ i ] ) )
+          {
+            postContent =   postContent
+                          + inputElements[i].name + '='
+                          + encodeURI( inputElements[i].value );
+          }
         }
-        if(    !isUncheckedCheckBox( inputElements[ i ] ) 
-            && !isUnSelectedRadioButton( inputElements[ i ] ) )
-        {
-          postContent =   postContent
-                        + inputElements[i].name + '='
-                        + encodeURI( inputElements[i].value );
+    
+        // send request
+        var http_request = this.getXmlHttpRequest();
+        if( http_request != null ) {
+          http_request.onreadystatechange = this.applyAjaxResponse;
+          http_request.open( 'POST', 'W4TDelegate?w4t_enc=no', true );
+          http_request.setRequestHeader( 'Content-type', 
+                                         'application/x-www-form-urlencoded' );
+          http_request.setRequestHeader( 'Content-length', postContent.length );
+          http_request.send( postContent );
+        } else {
+          eventHandler.isRequestRunning = false;
         }
+        // reset the ajax flag, since the next request may not be an ajax request
+        _assignHiddenInput( "w4t_isAjaxRequest", "false" );
+      } catch( e ) {
+        eventHandler.isRequestRunning = false;
+        throw e;
       }
-  
-      // send request
-      var http_request = this.getXmlHttpRequest();
-      if( http_request != null ) {
-        http_request.onreadystatechange = this.applyAjaxResponse;
-        http_request.open( 'POST', 'W4TDelegate?w4t_enc=no', true );
-        http_request.setRequestHeader( 'Content-type', 
-                                       'application/x-www-form-urlencoded' );
-        http_request.setRequestHeader( 'Content-length', postContent.length );
-        http_request.send( postContent );
-      }
-      // reset the ajax flag, since the next request may not be an ajax request
-      _assignHiddenInput( "w4t_isAjaxRequest", "false" );
     }
   }
   
@@ -523,7 +516,6 @@
     // XmlHttpRequest.readyState:
     // 0 = uninitialized, 1 = loading, 2 = loaded, 3 = interactive, 4 = complete
     var http_request = getXmlHttpRequest();
-    var retry = false;
     if( http_request != null && http_request.readyState == 4 ) {
       try {
         // obtain status within try-catch because exception is thrown when
@@ -546,11 +538,6 @@
           eventHandler.submitFlag = false;
           eventHandler.suspendSubmitFlag = false;
           eventHandler.focusElementValue = eventHandler.W4T_NULL;
-        } else if( requestStatus == 12030 ) {
-          // somewhat strange: looks as if no submit was done at all -
-          //                   therefore retry submitting, this seems to solve
-          //                   the problem on IE
-          retry = true;
         } else {
           alert(   'The XML-HTTP-Request did not complete normally (' 
                  + requestStatus + ')'
@@ -560,13 +547,7 @@
       } finally {
         xmlHttpRequestSingleton = null;
         resetCursor();
-      }
-    }
-    if( retry ) {
-      try {
-        postAjaxRequest( retry );
-      } finally {
-        retry = false;
+        eventHandler.isRequestRunning = false;
       }
     }
   }

@@ -18,9 +18,10 @@ import com.w4t.dhtml.renderinfo.TreeNodeInfo;
 import com.w4t.util.image.*;
 
 
-/** <p>The renderer for com.w4t.dhtml.TreeNode on Microsoft Internet 
-  * Explorer 6 and later without javascript support.</p>
-  */
+/** 
+ * <p>The base renderer for <code>com.w4t.dhtml.TreeNode</code> on 
+ * browsers without javascript support.</p>
+ */
 public class TreeNodeRenderer_Base_Noscript extends TreeNodeRenderer {
   
   public void processAction( final WebComponent component ) {
@@ -28,10 +29,11 @@ public class TreeNodeRenderer_Base_Noscript extends TreeNodeRenderer {
     DHTMLProcessActionUtil.processTreeNodeExpandedNoScript( node );
     DHTMLProcessActionUtil.processTreeNodeCollapsedNoScript( node );
     DHTMLProcessActionUtil.processDragDropNoScript( node );
+    DHTMLProcessActionUtil.processDoubleClickNoScript( node );
     ProcessActionUtil.processActionPerformedNoScript( node );
   }
 
-  public void scheduleRendering( WebComponent component ) {
+  public void scheduleRendering( final WebComponent component ) {
     TreeNodeRendererUtil.scheduleToggleModeRendering( ( TreeNode )component );
   }
   
@@ -107,13 +109,16 @@ public class TreeNodeRenderer_Base_Noscript extends TreeNodeRenderer {
    * listener is set. </p> 
    * @throws IOException */
   private void createLabelContent( final TreeNode treeNode ) throws IOException {
-    if( isActionActive( treeNode ) ) {
+    if( TreeNodeRendererUtil.isActionActive( treeNode ) ) {
       createActionSubmitter( treeNode );
     } else {
       createLabelEntry( treeNode );
     }
-    if( isDragDropActive( treeNode ) ) {
+    if( TreeNodeRendererUtil.isDragDropActive( treeNode ) ) {
       createDragDropSubmitter( treeNode );      
+    }
+    if( TreeNodeRendererUtil.isDblClickActive( treeNode ) ) {
+      createDoubleClickSubmitter( treeNode );
     }
   }
 
@@ -133,6 +138,12 @@ public class TreeNodeRenderer_Base_Noscript extends TreeNodeRenderer {
     throws IOException 
   {
     RenderUtil.writeDragDropSubmitter( treeNode.getUniqueID() );
+  }
+
+  private void createDoubleClickSubmitter( final TreeNode treeNode ) 
+    throws IOException 
+  {
+    RenderUtil.writeDoubleClickSubmitter( treeNode.getUniqueID() );
   }
 
   private void createActionSubmitter( final TreeNode treeNode ) {    
@@ -190,11 +201,12 @@ public class TreeNodeRenderer_Base_Noscript extends TreeNodeRenderer {
   }
 
   private void createIconImage( final TreeNode treeNode,
-                                final String imageName ) throws IOException
+                                final String imageName ) 
+    throws IOException
   {
     if( !isShiftImage( imageName ) ) {
       String name = createIconName( treeNode );
-      if( isActionActive( treeNode ) ) {
+      if( TreeNodeRendererUtil.isActionActive( treeNode ) ) {
         RenderUtil.writeActionSubmitter( name, 
                                          treeNode.getUniqueID(), 
                                          "", 
@@ -222,7 +234,8 @@ public class TreeNodeRenderer_Base_Noscript extends TreeNodeRenderer {
 
   private void createID( final TreeNode treeNode,
                          final String imageName,
-                         final String prefix ) throws IOException
+                         final String prefix ) 
+    throws IOException
   {
     if( isToggleable( treeNode, imageName ) ) {
       HtmlResponseWriter out = getResponseWriter();
@@ -233,7 +246,7 @@ public class TreeNodeRenderer_Base_Noscript extends TreeNodeRenderer {
     }
   }
   
-  private boolean isToggleable( final TreeNode treeNode,
+  private boolean isToggleable( final TreeNode treeNode, 
                                 final String imageName )
   {
     return treeNode.isEnabled() && isToggleImage( imageName );
@@ -248,15 +261,6 @@ public class TreeNodeRenderer_Base_Noscript extends TreeNodeRenderer {
     return imageName.indexOf( "_Empty" ) != -1
         || imageName.indexOf( "_Line" ) != -1;
   }
-  
-  private boolean isActionActive( final TreeNode treeNode ) {
-    return treeNode.isEnabled() && hasActionListener( treeNode );
-  }
-  
-  private boolean isDragDropActive( final TreeNode treeNode ) {
-    return    treeNode.isEnabled() 
-           && DragDropEvent.hasListener( treeNode );
-  }  
   
   String getVerticalAlign() {
     return HTML.TOP;

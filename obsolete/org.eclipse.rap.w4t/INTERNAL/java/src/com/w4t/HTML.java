@@ -86,6 +86,7 @@ public final class HTML {
   public static final String OL = "ol";
   public final static String ON_CHANGE = "onchange";
   public final static String ON_CLICK = "onclick";
+  public static final String ON_DBL_CLICK = "ondblclick";
   public final static String ON_FOCUS = "onfocus";
   public final static String ON_KEY_DOWN = "onkeydown";
   public final static String ON_KEY_UP = "onkeyup";

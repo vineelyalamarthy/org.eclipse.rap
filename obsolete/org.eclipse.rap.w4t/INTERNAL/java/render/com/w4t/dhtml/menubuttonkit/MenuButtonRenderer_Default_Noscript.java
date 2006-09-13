@@ -58,36 +58,37 @@ public class MenuButtonRenderer_Default_Noscript extends MenuButtonRenderer {
   //////////////////
   
   private void createSubmitter( final MenuButton menuButton ) 
-  throws IOException 
-{
-  String id = getMenu( menuButton ).getUniqueID();
-  HtmlResponseWriter out = getResponseWriter();
-  try {
-    ImageDescriptor imgDesc = null;
-    if( getMenu( menuButton ).isExpanded() ) {
-      imgDesc
-        = createImageDescriptor( menuButton, getMBAStyle( menuButton ) );
-    } else {
-      imgDesc
-        = createImageDescriptor( menuButton, getMBEStyle( menuButton ) );
-    }
-    ImageCache cache = ImageCache.getInstance();
-    String imageName = cache.getImageName( imgDesc );
-    if( cache.isStandardSubmitterImage( imageName ) ) {
+    throws IOException 
+  {
+    String id = getMenu( menuButton ).getUniqueID();
+    HtmlResponseWriter out = getResponseWriter();
+    try {
+      ImageDescriptor imgDesc = null;
+      if( getMenu( menuButton ).isExpanded() ) {
+        imgDesc
+          = createImageDescriptor( menuButton, getMBAStyle( menuButton ) );
+      } else {
+        imgDesc
+          = createImageDescriptor( menuButton, getMBEStyle( menuButton ) );
+      }
+      ImageCache cache = ImageCache.getInstance();
+      String imageName = cache.getImageName( imgDesc );
+      if( cache.isStandardSubmitterImage( imageName ) ) {
+        out.writeText( getLabel( menuButton ), null );    
+        RenderUtil.writeActionSubmitter( id );    
+      } else {
+        RenderUtil.writeActionSubmitter( imageName, 
+                                         id,
+                                         "", 
+                                         "" );
+      }
+    } catch( Exception e ) {
+      System.out.println( "\nException creating submitter image:\n" + e );
+      e.printStackTrace();
       out.writeText( getLabel( menuButton ), null );    
-      RenderUtil.writeActionSubmitter( id );    
-    } else {
-      RenderUtil.writeActionSubmitter( imageName, 
-                                       id,
-                                       getLabel( menuButton ), "" );
+      RenderUtil.writeActionSubmitter( id );
     }
-  } catch( Exception e ) {
-    System.out.println( "\nException creating submitter image:\n" + e );
-    e.printStackTrace();
-    out.writeText( getLabel( menuButton ), null );    
-    RenderUtil.writeActionSubmitter( id );
   }
-}
 
   private ImageDescriptor createImageDescriptor(
     final MenuButton menuButton,

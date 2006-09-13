@@ -11,6 +11,8 @@
 package com.w4t.dhtml;
 
 import com.w4t.Style;
+import com.w4t.dhtml.event.DoubleClickEvent;
+import com.w4t.dhtml.event.DoubleClickListener;
 import com.w4t.dhtml.renderinfo.TreeLeafInfo;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
 import com.w4t.internal.adaptable.RenderInfoAdapter;
@@ -182,5 +184,15 @@ public class TreeLeaf extends Leaf {
       result = ( ( TreeNode )getParentNode() ).getImageSetName();
     }
     return result;
+  }
+
+  /** TODO:[fappel] comment */
+  public void addDoubleClickListener( final DoubleClickListener listener ) {
+    DoubleClickEvent.addListener( this, listener );
+  }
+
+  /** TODO:[fappel] comment */
+  public void removeDoubleClickListener( final DoubleClickListener listener ) {
+    DoubleClickEvent.removeListener( this, listener );
   }
 }

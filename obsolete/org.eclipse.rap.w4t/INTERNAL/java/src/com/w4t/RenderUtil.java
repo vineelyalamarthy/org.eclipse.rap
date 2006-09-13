@@ -16,6 +16,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.w4t.IWindowManager.IWindow;
+import com.w4t.dhtml.event.DoubleClickEvent;
 import com.w4t.dhtml.event.DragDropEvent;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.requests.URLHelper;
@@ -41,6 +42,8 @@ public final class RenderUtil {
   public final static String SUBMITTER_IMAGE
     = com.w4t.util.image.ImageCache.STANDARD_SUBMITTER_IMAGE;
   public final static String DRAG_DROP_IMAGE = "resources/images/dragDrop.gif";
+  public final static String DOUBLE_CLICK_IMAGE 
+    = "resources/images/doubleclick.gif";
   public final static String PREFIX_STATE_INFO = "stateInfo_";
   
   private static final String INVISIBLE_STYLE 
@@ -101,6 +104,17 @@ public final class RenderUtil {
                     styleClass );
   }
 
+  public static void writeDoubleClickSubmitter( final String componentId ) 
+    throws IOException 
+  {
+    StringBuffer prefixedId = new StringBuffer();
+    prefixedId.append( DoubleClickEvent.PREFIX );
+    prefixedId.append( componentId );
+    // TODO [rh] i18n
+    String alt = "Click here to simulate double-click.";
+    writeSubmitter( DOUBLE_CLICK_IMAGE, prefixedId.toString(), alt, "" );
+  }
+  
   /**
    * <p>Creates the html code for an additional image button that triggers the
    * event denoted by <code>prefixedId</code> on components when rendered for 
@@ -119,8 +133,6 @@ public final class RenderUtil {
                                      final String styleClass ) 
     throws IOException
   {
-    // TODO [rh] render 'alt' attr; is used by TreeNodeRenderer_Base_Noscript &
-    //      MenuItemRenderer_Default_Noscript
     HtmlResponseWriter out = ContextProvider.getStateInfo().getResponseWriter();
     out.startElement( HTML.INPUT, null );
     if( styleClass != null && !"".equals( styleClass ) ) {
@@ -130,6 +142,9 @@ public final class RenderUtil {
     out.writeAttribute( HTML.SRC, imageName, null );
     out.writeAttribute( HTML.NAME, prefixedId, null );
     out.writeAttribute( HTML.BORDER, "0", null );
+    if( !"".equals( alt ) ) {
+      out.writeAttribute( HTML.ALT, alt, null );
+    }
     out.endElement( HTML.INPUT );
   }
 
@@ -214,9 +229,10 @@ public final class RenderUtil {
   public static void writeDragDropSubmitter( final String componentId )
     throws IOException
   {
+    // TODO [rh] i18n
     writeSubmitter( DRAG_DROP_IMAGE, 
                     appendDragDropPrefix( componentId ),
-                    "", 
+                    "Click here to simulate drag-drop.", 
                     "" );
   }
   

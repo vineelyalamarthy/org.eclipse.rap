@@ -22,11 +22,24 @@ final class TreeViewUtil {
     = "resources/js/treeview/treeview_default.js"; 
   static final String TREEVIEW_IE_GECKO 
     = "resources/js/treeview/treeview_ie_gecko.js";
+  private static final String DOUBLE_CLICK_AJAX 
+    = "resources/js/treeview/doubleclick_ajax.js";
+  private static final String DOUBLE_CLICK_SCRIPT 
+    = "resources/js/treeview/doubleclick_script.js";
   
   private TreeViewUtil() {
     // prevent instantiation
   }
 
+  static void userDoubleClickLibrary() {
+    Browser browser = ContextProvider.getStateInfo().getDetectedBrowser();
+    if( browser.isAjaxEnabled() ) {
+      useJSLibrary( DOUBLE_CLICK_AJAX );
+    } else {
+      useJSLibrary( DOUBLE_CLICK_SCRIPT );
+    }
+  }
+  
   static void useJSLibrary( final String name ) {
     IResourceManager manager = ResourceManager.getInstance();
     manager.register( name, 

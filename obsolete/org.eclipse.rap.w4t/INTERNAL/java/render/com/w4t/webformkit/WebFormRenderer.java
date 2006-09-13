@@ -175,7 +175,7 @@ abstract class WebFormRenderer
     return result;
   }
 
-  private boolean useBufferedMarkup() {
+  private static boolean useBufferedMarkup() {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     return    ( stateInfo.isExpired() || stateInfo.isExceptionOccured() ) 
            && !stateInfo.getDetectedBrowser().isAjaxEnabled();

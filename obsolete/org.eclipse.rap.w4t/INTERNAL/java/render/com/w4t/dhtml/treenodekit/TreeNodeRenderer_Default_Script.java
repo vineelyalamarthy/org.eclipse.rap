@@ -26,6 +26,7 @@ public class TreeNodeRenderer_Default_Script extends TreeNodeRenderer {
     DHTMLProcessActionUtil.processTreeNodeExpandedScript( node );
     DHTMLProcessActionUtil.processTreeNodeCollapsedScript( node );
     DHTMLProcessActionUtil.processDragDropScript( node );
+    DHTMLProcessActionUtil.processDoubleClickScript( node );
     ProcessActionUtil.processActionPerformedScript( node );
   }
   
@@ -275,7 +276,8 @@ public class TreeNodeRenderer_Default_Script extends TreeNodeRenderer {
   }
   
   private boolean isActionActive( final TreeNode treeNode ) {
-    return treeNode.isEnabled() && hasActionListener( treeNode );
+    return    treeNode.isEnabled() 
+           && TreeNodeRendererUtil.hasActionListener( treeNode );
   }
   
   private boolean isDragDropActive( final TreeNode treeNode ) {

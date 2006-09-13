@@ -28,6 +28,7 @@ public abstract class TreeNodeRenderer_Base_Script extends TreeNodeRenderer {
     DHTMLProcessActionUtil.processTreeNodeExpandedScript( node );
     DHTMLProcessActionUtil.processTreeNodeCollapsedScript( node );
     DHTMLProcessActionUtil.processDragDropScript( node );
+    DHTMLProcessActionUtil.processDoubleClickScript( node );
     ProcessActionUtil.processActionPerformedScript( node );
   }
 }

@@ -16,6 +16,7 @@ import com.w4t.NoscriptUtil;
 import com.w4t.dhtml.event.*;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.IServiceStateInfo;
+import com.w4t.event.WebActionEvent;
 
 
 public class DHTMLProcessActionUtil {
@@ -100,7 +101,31 @@ public class DHTMLProcessActionUtil {
     }
   }
   
+  public static void processDoubleClickScript( final Item item ) {
+    HttpServletRequest request = ContextProvider.getRequest();
+    String paramValue = request.getParameter( DoubleClickEvent.FIELD_NAME );
+    if( item.getUniqueID().equals( paramValue ) ) {
+      IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
+      if(    !stateInfo.getDetectedBrowser().isAjaxEnabled() 
+          && WebActionEvent.hasListener( item  ) ) 
+      {
+        doActionPerformed( item );
+      }
+      doDoubleClickPerformed( item );
+    }    
+  }
   
+  public static void processDoubleClickNoScript( final Item item ) {
+    StringBuffer key = new StringBuffer( DoubleClickEvent.PREFIX );
+    key.append( item.getUniqueID() );
+    if( NoscriptUtil.isActionSource( key ) ) {
+      if( WebActionEvent.hasListener( item  ) ) {
+        doActionPerformed( item );
+      }
+      doDoubleClickPerformed( item );
+    }    
+  }
+
   //////////////////
   // helping methods
   
@@ -145,6 +170,18 @@ public class DHTMLProcessActionUtil {
   {
     int id = WebTreeNodeExpandedEvent.TREENODE_EXPANDED;
     WebTreeNodeExpandedEvent evt = new WebTreeNodeExpandedEvent( node, id );
+    evt.processEvent();
+  }
+  
+  private static void doDoubleClickPerformed( final Item item ) {
+    DoubleClickEvent event 
+      = new DoubleClickEvent( item, DoubleClickEvent.DOUBLE_CLICK_PERFORMED );
+    event.processEvent();
+  }
+  
+  private static void doActionPerformed( final Item item ) {
+    int evtId = WebActionEvent.ACTION_PERFORMED;
+    WebActionEvent evt = new WebActionEvent( item, evtId );
     evt.processEvent();
   }
 }
