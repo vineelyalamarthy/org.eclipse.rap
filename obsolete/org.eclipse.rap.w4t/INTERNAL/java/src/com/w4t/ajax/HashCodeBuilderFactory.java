@@ -13,8 +13,7 @@ package com.w4t.ajax;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
-import com.w4t.ParamCheck;
-import com.w4t.WebObject;
+import com.w4t.*;
 import com.w4t.types.TabConfig;
 
 public final class HashCodeBuilderFactory {
@@ -23,13 +22,10 @@ public final class HashCodeBuilderFactory {
   /** <p>Holds all registered hashCode builders.</p>
    * </p>Key: Class for which the builder (stored in value) can compute a 
    * hashCode; value: IHashCodeBuilder</p> */
-  private static Map registeredBuilders = new HashMap();
+  private static final Map registeredBuilders = new HashMap();
   
   private HashCodeBuilderFactory() {
     // prevent instantiation
-//    WebPanel panel = new WebPanel();
-//    panel.getWebComponentCount();
-//    panel.get();
   }
 
   /**
@@ -82,8 +78,10 @@ public final class HashCodeBuilderFactory {
   
   static boolean isW4TClass( final Class clazz ) {
     // FIXME [fappel] replace this by reading "W4T-classes" from an xml file
+    // FIXME [rh] find a general solution for layout hash-code calculation
     return    WebObject.class.isAssignableFrom( clazz )
-           || TabConfig.class.isAssignableFrom( clazz );
+           || TabConfig.class.isAssignableFrom( clazz )
+           || WebCardLayout.class.isAssignableFrom( clazz );
   }
 
   private static HashCodeBuilder findBuilder( final Class clazz ) {

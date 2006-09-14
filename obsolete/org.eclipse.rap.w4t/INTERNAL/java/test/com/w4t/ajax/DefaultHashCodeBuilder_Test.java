@@ -23,6 +23,9 @@ import com.w4t.util.browser.Mozilla1_7;
 
 public class DefaultHashCodeBuilder_Test extends TestCase {
   
+  private static final String CARD_1 = "Card1";
+  private static final String CARD_2 = "Card2";
+
   public void testSimpleWebComponent() {
     WebForm webForm = new TestForm();
     AjaxStatusUtil.preRender( webForm );
@@ -141,10 +144,34 @@ public class DefaultHashCodeBuilder_Test extends TestCase {
     assertTrue( hashCode1 != hashCode2 );
     
     Area area2 = webGridLayout.getArea( new Position( 1, 2 ) );
-    area2.setBgColor(  new WebColor( "#ff0000") );
+    area2.setBgColor( new WebColor( "#ff0000") );
     AjaxStatusUtil.preRender( form );
     int hashCode3 = getHashCode( form );
-    assertTrue(  hashCode2 != hashCode3 );
+    assertTrue( hashCode2 != hashCode3 );
+  }
+  
+  public void testWebCardLayout() throws Exception {
+    // Create form with card layout to test
+    WebForm form = new TestForm();
+    form.setWebLayout( new WebFlowLayout() );
+    WebPanel cardPanel = new WebPanel();
+    form.add( cardPanel );
+    WebCardLayout cardLayout = new WebCardLayout();
+    cardPanel.setWebLayout( cardLayout );
+    cardPanel.add( new WebPanel(), CARD_1 );
+    cardPanel.add( new WebPanel(), CARD_2 );
+    // Change display card and assert that its hashCode changes
+    // Simulate first request, displayCard is empty
+    AjaxStatusUtil.preRender( form );
+    AjaxStatusUtil.postRender( form );
+    // Simulate second request within which the displayCard is changed
+    cardLayout.setDisplayCard( CARD_2 );
+    AjaxStatusUtil.preRender( form );
+    String msg 
+      = "Changing displayCard must lead to layout container being rendered";
+    assertEquals( msg, true, mustRender( cardPanel ) );
+    AjaxStatusUtil.postRender( form );
+    assertEquals( false, mustRender( cardPanel ) );
   }
   
   public void testMustRenderWithNonAjaxComponent() throws Exception {

@@ -619,7 +619,7 @@ public class HtmlResponseWriter extends Writer {
    */
   // TODO [rh] We could check whether 'elementStarted' is null, since comments 
   //      are not allowed inside element tags in XHTML 'mode'
-  // TODO [rh] callign this method 'inside' an AJaX envelope leads to invalid
+  // TODO [rh] calling this method 'inside' an AJaX envelope leads to invalid
   //      XML
   public void writeComment( final Object comment ) throws IOException {
     checkIfWriterClosed();
