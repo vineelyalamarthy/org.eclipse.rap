@@ -102,6 +102,8 @@ public abstract class TreeLeafRenderer_DOM_Script
     throws IOException 
   {
     HtmlResponseWriter out = getResponseWriter();
+    String cursorBuffer = getStyle( treeLeaf ).getCursor();
+    getStyle( treeLeaf ).setCursor( "default" );
     if(     TreeLeafUtil.isActionActive( treeLeaf ) 
         && !TreeLeafUtil.isDragDropActive( treeLeaf ) ) 
     {
@@ -110,15 +112,14 @@ public abstract class TreeLeafRenderer_DOM_Script
       out.writeNBSP();
       out.writeNBSP();
       out.endElement( HTML.SPAN );
-      out.startElement( HTML.A, null );
+      out.startElement( HTML.SPAN, null );
       createUniversalAttributes( treeLeaf );
+      out.writeAttribute( "unselectable", "on", null );
       TreeLeafUtil.writeClickHandler( out, treeLeaf );
       TreeLeafUtil.writeDoubleClickHandler( out, treeLeaf );
       out.writeText( getLabel( treeLeaf ), null );
-      out.endElement( HTML.A );
+      out.endElement( HTML.SPAN );
     } else if( TreeLeafUtil.isDragDropActive( treeLeaf ) ) {
-      String cursorBuffer = getStyle( treeLeaf ).getCursor();
-      getStyle( treeLeaf ).setCursor( "default" );
       out.startElement( HTML.SPAN, null );
       createUniversalAttributes( treeLeaf );
       TreeLeafUtil.writeClickHandler( out, treeLeaf );
@@ -139,16 +140,17 @@ public abstract class TreeLeafRenderer_DOM_Script
       out.writeNBSP();
       out.writeText( getLabel( treeLeaf ), null );
       out.endElement( HTML.SPAN );
-      getStyle( treeLeaf ).setCursor( cursorBuffer );
     } else {
       out.startElement( HTML.SPAN, null );
       createUniversalAttributes( treeLeaf );
+      out.writeAttribute( "unselectable", "on", null );
       TreeLeafUtil.writeDoubleClickHandler( out, treeLeaf );
       out.writeNBSP();
       out.writeNBSP();
       out.writeText( getLabel( treeLeaf ), null );
       out.endElement( HTML.SPAN );
     }
+    getStyle( treeLeaf ).setCursor( cursorBuffer );
   }
   
   private String createDDEventType( final TreeLeaf treeLeaf ) {

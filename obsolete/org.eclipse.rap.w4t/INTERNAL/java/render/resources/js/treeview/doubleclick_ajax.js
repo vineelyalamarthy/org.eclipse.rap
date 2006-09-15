@@ -9,11 +9,22 @@
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
 
+var clickedTreeItemId = null;
+var clickedTreeItemTime = null;
+
+var lastTreeItemClickedId = null;
+
 function treeItemClicked( itemId ) {
-  eventHandler.webActionPerformed( itemId );
+  if( itemId != lastTreeItemClickedId ) {
+    eventHandler.minRequestDuration = 150;
+    eventHandler.webActionPerformed( itemId );
+    setTimeout( 'lastTreeItemClickedId = null', 500 );
+  }
+  lastTreeItemClickedId = itemId;
 }
 
 function treeItemDblClicked( itemId ) {
+  lastId = null;
   doDblClickSubmit( itemId );
 }
 

@@ -139,6 +139,9 @@
     /* called when a focused checkbox got a keystroke. Sends a 
      * webItemStateChanged, if the key was the spacebar. */
     this.keyOnCheckBox = keyOnCheckBox;    
+
+    this.minRequestDuration = 0;
+    this.requestStart = new Date();
   }
 
    
@@ -469,6 +472,7 @@
           http_request.setRequestHeader( 'Content-type', 
                                          'application/x-www-form-urlencoded; charset=UTF-8' );
           http_request.setRequestHeader( 'Content-length', postContent.length );
+          this.requestStart = new Date();
           http_request.send( postContent );
   	    } else {
   	      eventHandler.isRequestRunning = false;
@@ -498,50 +502,64 @@
     // XmlHttpRequest.readyState:
     // 0 = uninitialized, 1 = loading, 2 = loaded, 3 = interactive, 4 = complete
     var http_request = this.getXmlHttpRequest();
-    var retry = false;
     if( http_request != null && http_request.readyState == 4 ) {
-      try {
-        if( http_request.status == 200 ) {  // OK
-          if( !this.updatePage( http_request.responseXML ) ) {
-            // in case we didn't get a valid ajax-response (e.g. timeout or
-            // malformed xml response) do a 'normal' submit
-            var text = '';
-						if( http_request.responseXML.parseError.errorCode != 0 ) {
-						  text 
-						    = http_request.responseXML.parseError.reason
-						    + '\nLine '
-						    + http_request.responseXML.parseError.line 
-						    + ', position ' 
-						    + http_request.responseXML.parseError.linePos 
-						    + '\n'
-						    + http_request.responseXML.parseError.srcText
-						} else {
-              text = 'The XML-HTTP-Request did not return a valid '
-                   + 'AJaX-Response.\nRequesting the full document:\n\n' 
-                   + http_request.responseText;
-            }
-					  alert( text );
-            this.submitFullDocument();
-          } 
-          // restore state as if page was just loaded
-          eventHandler.submitFlag = false;
-          eventHandler.suspendSubmitFlag = false;
-          eventHandler.focusElementValue = eventHandler.W4T_NULL;
-        } else if( http_request.status == 12030 ) {
-          // somewhat strange: looks as if no submit was done at all -
-          //                   therefore retry submitting, this seems to solve
-          //                   the problem on IE
-          retry = true;
-        } else {
-          alert(   'The XML-HTTP-Request did not complete normally (' 
-                 + http_request.status + ')'
-                 + '\nRequesting the full document.' );
+      var timePassed = new Date() - this.requestStart;
+      var remainingTimeToWait = eventHandler.minRequestDuration - timePassed;
+      if( remainingTimeToWait > 0 ) {
+        setTimeout( "doApplyAjaxResponse()", remainingTimeToWait );
+      } else {
+        doApplyAjaxResponse();
+      }
+    }
+  }
+  
+  function doApplyAjaxResponse() {
+    var http_request = this.getXmlHttpRequest();
+    var retry = false;
+    try {
+      if( http_request.status == 200 ) {  // OK
+        if( !this.updatePage( http_request.responseXML ) ) {
+          // in case we didn't get a valid ajax-response (e.g. timeout or
+          // malformed xml response) do a 'normal' submit
+          var text = '';
+					if( http_request.responseXML.parseError.errorCode != 0 ) {
+					  text 
+					    = http_request.responseXML.parseError.reason
+					    + '\nLine '
+					    + http_request.responseXML.parseError.line 
+					    + ', position ' 
+					    + http_request.responseXML.parseError.linePos 
+					    + '\n'
+					    + http_request.responseXML.parseError.srcText
+					} else {
+            text = 'The XML-HTTP-Request did not return a valid '
+                 + 'AJaX-Response.\nRequesting the full document:\n\n' 
+                 + http_request.responseText;
+          }
+				  alert( text );
           this.submitFullDocument();
-        }
-      } finally {
-        this.xmlHttpRequestSingleton = null;
-        this.resetCursor();
-        eventHandler.isRequestRunning = retry;
+        } 
+        // restore state as if page was just loaded
+        eventHandler.submitFlag = false;
+        eventHandler.suspendSubmitFlag = false;
+        eventHandler.focusElementValue = eventHandler.W4T_NULL;
+      } else if( http_request.status == 12030 ) {
+        // somewhat strange: looks as if no submit was done at all -
+        //                   therefore retry submitting, this seems to solve
+        //                   the problem on IE
+        retry = true;
+      } else {
+        alert(   'The XML-HTTP-Request did not complete normally (' 
+               + http_request.status + ')'
+               + '\nRequesting the full document.' );
+        this.submitFullDocument();
+      }
+    } finally {
+      this.xmlHttpRequestSingleton = null;
+      this.resetCursor();
+      eventHandler.isRequestRunning = retry;
+      if( !retry ) {
+        eventHandler.minRequestDuration = 0;
       }
     }
     if( retry ) {

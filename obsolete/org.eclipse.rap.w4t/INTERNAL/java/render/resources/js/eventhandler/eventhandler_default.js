@@ -147,13 +147,14 @@
     this.keyOnCheckBox = keyOnCheckBox;
     this.help = help;
 
+    this.minRequestDuration = 0;
+    this.requestStart = new Date();
 
     /* **************************************************** *
      *                   inits.                             *
      * **************************************************** */
     
     document.onkeydown = onKeyDownHandler;
-    
   }
 
    
@@ -487,6 +488,7 @@
           http_request.setRequestHeader( 'Content-type', 
                                          'application/x-www-form-urlencoded' );
           http_request.setRequestHeader( 'Content-length', postContent.length );
+          eventHandler.requestStart = new Date();
           http_request.send( postContent );
         } else {
           eventHandler.isRequestRunning = false;
@@ -515,40 +517,53 @@
   function applyAjaxResponse() {
     // XmlHttpRequest.readyState:
     // 0 = uninitialized, 1 = loading, 2 = loaded, 3 = interactive, 4 = complete
-    var http_request = getXmlHttpRequest();
+    var http_request = eventHandler.getXmlHttpRequest();
     if( http_request != null && http_request.readyState == 4 ) {
-      try {
-        // obtain status within try-catch because exception is thrown when
-        // server-connection is lost.
-        var requestStatus;
-        try {
-          requestStatus = http_request.status;
-        } catch( e ) {
-          requestStatus = -1;
-        }
-        if( requestStatus == 200 ) {  // OK
-          if( !updatePage( http_request.responseXML ) ) {
-            // in case we didn't get a valid ajax-response (e.g. timeout or
-            // malformed xml response) do a 'normal' submit
-            alert(   'The XML-HTTP-Request did not return a valid '
-                   + 'AJaX-Response.\nRequesting the full document.' );
-            submitFullDocument();
-          } 
-          // restore state as if page was just loaded
-          eventHandler.submitFlag = false;
-          eventHandler.suspendSubmitFlag = false;
-          eventHandler.focusElementValue = eventHandler.W4T_NULL;
-        } else {
-          alert(   'The XML-HTTP-Request did not complete normally (' 
-                 + requestStatus + ')'
-                 + '\nRequesting the full document.' );
-          submitFullDocument();
-        }
-      } finally {
-        xmlHttpRequestSingleton = null;
-        resetCursor();
-        eventHandler.isRequestRunning = false;
+      var now = new Date();
+      var timePassed = now.getTime() - eventHandler.requestStart.getTime();
+      var remainingTimeToWait = eventHandler.minRequestDuration - timePassed;
+      if( remainingTimeToWait > 0 ) {
+        setTimeout( "doApplyAjaxResponse()", remainingTimeToWait );
+      } else {
+        doApplyAjaxResponse();
       }
+    }
+  }
+  
+  function doApplyAjaxResponse() {
+    var http_request = eventHandler.getXmlHttpRequest();
+    try {
+      // obtain status within try-catch because exception is thrown when
+      // server-connection is lost.
+      var requestStatus;
+      try {
+        requestStatus = http_request.status;
+      } catch( e ) {
+        requestStatus = -1;
+      }
+      if( requestStatus == 200 ) {  // OK
+        if( !updatePage( http_request.responseXML ) ) {
+          // in case we didn't get a valid ajax-response (e.g. timeout or
+          // malformed xml response) do a 'normal' submit
+          alert(   'The XML-HTTP-Request did not return a valid '
+                 + 'AJaX-Response.\nRequesting the full document.' );
+          submitFullDocument();
+        } 
+        // restore state as if page was just loaded
+        eventHandler.submitFlag = false;
+        eventHandler.suspendSubmitFlag = false;
+        eventHandler.focusElementValue = eventHandler.W4T_NULL;
+      } else {
+        alert(   'The XML-HTTP-Request did not complete normally (' 
+               + requestStatus + ')'
+               + '\nRequesting the full document.' );
+        submitFullDocument();
+      }
+    } finally {
+      xmlHttpRequestSingleton = null;
+      resetCursor();
+      eventHandler.isRequestRunning = false;
+      eventHandler.minRequestDuration = 0;
     }
   }
   

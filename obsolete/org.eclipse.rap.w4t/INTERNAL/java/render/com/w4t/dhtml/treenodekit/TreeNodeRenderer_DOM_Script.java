@@ -191,36 +191,19 @@ public abstract class TreeNodeRenderer_DOM_Script
   private void createLabelContentWithoutDD( final TreeNode treeNode ) 
     throws IOException 
   {
-
     HtmlResponseWriter out = getResponseWriter();
+    String cursorBuffer = getStyle( treeNode ).getCursor();
+    getStyle( treeNode ).setCursor( "default" );
     out.startElement( HTML.SPAN, null );
     TreeNodeRendererUtil.writeClickHandler( out, treeNode );
     TreeNodeRendererUtil.writeDoubleClickHandler( out, treeNode );
     createUniversalAttributes( treeNode );
+    out.writeAttribute( "unselectable", "on", null );
     out.writeNBSP();
     out.writeNBSP();
     out.writeText( getLabel( treeNode ), null );
     out.endElement( HTML.SPAN );
-    
-    
-//    HtmlResponseWriter out = getResponseWriter();
-//    if( !isActionActive( treeNode ) ) {
-//      out.startElement( HTML.SPAN, null );
-//      TreeNodeRendererUtil.writeDoubleClickHandler( out, treeNode );
-//      createUniversalAttributes( treeNode );
-//      out.writeNBSP();
-//      out.writeNBSP();
-//      out.writeText( getLabel( treeNode ), null );
-//      out.endElement( HTML.SPAN );
-//    } else {
-//      createSpan( treeNode );
-//      out.startElement( HTML.A, null );
-//      TreeNodeRendererUtil.writeClickHandler( out, treeNode );
-//      TreeNodeRendererUtil.writeDoubleClickHandler( out, treeNode );
-//      createUniversalAttributes( treeNode );
-//      out.writeText( getLabel( treeNode ), null );
-//      out.endElement( HTML.A );
-//    }
+    getStyle( treeNode ).setCursor( cursorBuffer );
   }
 
   private void createLabelContentWithDD( final TreeNode treeNode ) 
