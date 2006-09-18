@@ -13,8 +13,14 @@ package com.w4t.dhtml.event;
 import java.util.EventListener;
 
 
-/** TODO [rh] JavaDoc */
+/** 
+ * <p>The listener interface for receiving double-click events.</p>
+ * @see DoubleClickEvent
+ */
 public interface DoubleClickListener extends EventListener {
   
+  /** 
+   * <p>Invoked when a double-click event occured.</p> 
+   */
   void doubleClickPerformed( DoubleClickEvent event );
 }

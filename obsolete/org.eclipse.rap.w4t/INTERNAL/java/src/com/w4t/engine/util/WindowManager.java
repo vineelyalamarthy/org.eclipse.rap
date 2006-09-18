@@ -183,6 +183,7 @@ public class WindowManager
    * <p>Returns the most recent <code>WebForm</code> which was displayed in
    * the given <code>window</code>.<p> 
    */
+  // TODO [rh] remove this method its functionality is covered by findForm()
   public static WebForm getLastForm( final IWindow window ) {
     return FormManager.findById( ( ( Window )window ).lastFormId );
   }

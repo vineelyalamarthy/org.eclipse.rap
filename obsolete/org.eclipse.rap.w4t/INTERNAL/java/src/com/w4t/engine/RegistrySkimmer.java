@@ -37,12 +37,8 @@ public class RegistrySkimmer extends Thread {
       try {
         W4TModelList.getInstance().cleanup();
       } catch( Exception e ) {
-        // toDo: Exception handling
-        if( e != null ) {
-          e.printStackTrace();
-        } else {
-          System.out.println( "null in registrySkimmer" );
-        }
+        // TODO Exception handling
+        e.printStackTrace();
       }
     }
   }

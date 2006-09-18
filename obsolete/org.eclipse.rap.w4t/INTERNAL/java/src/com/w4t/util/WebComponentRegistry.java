@@ -78,7 +78,7 @@ public class WebComponentRegistry extends SessionSingletonBase {
     return result;
   }
 
-  /** loops over the whole registry and count how many instances of the
+  /** Loops over the whole registry and count how many instances of the
     * various types of webComponents are contained in it. */
   private int countRegisteredComponents( final Hashtable stats ) {
     int result = 0;
@@ -87,22 +87,20 @@ public class WebComponentRegistry extends SessionSingletonBase {
       Object content = ( ( WeakReference )componentRefs[ i ] ).get();
       if( content != null ) {
         WebComponent component = ( WebComponent )content;
-        if( component != null ) {
-          String className = component.getClass().getName();
-          int count = 1;
-          if( stats.containsKey( className ) ) {
-            count = ( ( Integer )stats.get( className ) ).intValue();
-            count++;
-          }
-          result++;
-          stats.put( className, new Integer( count ) );
+        String className = component.getClass().getName();
+        int count = 1;
+        if( stats.containsKey( className ) ) {
+          count = ( ( Integer )stats.get( className ) ).intValue();
+          count++;
         }
+        result++;
+        stats.put( className, new Integer( count ) );
       }
     }
     return result;
   }  
 
-  /** free the registry from expired WebComponents, and throw the closing
+  /** Free the registry from expired WebComponents, and throw the closing
    *  event on closed WebForms */
   public synchronized void cleanup() {
     List closingList = new ArrayList();

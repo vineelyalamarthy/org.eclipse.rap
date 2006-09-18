@@ -47,9 +47,7 @@ final class AccessForm extends Phase {
   public PhaseId execute() throws ServletException {
     PhaseId result = null;
     try {
-      if( isTriggerTimeStampRequest() ) {
-        result = triggerTimeStamp();
-      } else if( isStartupRequest() ) {
+      if( isStartupRequest() ) {
         result = executeStartup();
       } else if( isAdminRequest() ) {
         result = executeAdmin();
@@ -94,22 +92,6 @@ final class AccessForm extends Phase {
   
   //////////////////
   // helping methods
-  
-  private static PhaseId triggerTimeStamp() throws PhaseException {
-    try {
-      WebForm form = retrieveFormToProcess();
-      IFormAdapter adapter 
-        = ( IFormAdapter )form.getAdapter( IFormAdapter.class );
-      adapter.refreshTimeStamp();
-    } catch( Exception e ) {
-      try {
-        ErrorPageUtil.create( e );
-      } catch( final Exception ex ) {
-        throw new PhaseException( ex );
-      }
-    }
-    return null;
-  }
   
   private static PhaseId executeAdmin() {
     IInitialization initialization = AccessForm.getInitProps();

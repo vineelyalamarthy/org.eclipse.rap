@@ -22,9 +22,6 @@ import com.w4t.util.*;
 
 abstract class AbstractServiceHandler implements IServiceHandler {
   
-  static final String CONTENT_TYPE_TEXT_HTML = "text/html";
-  static final String CONTENT_TYPE_IMAGE_GIF = "image/gif";
-  
   private static final int TIMEOUT = 600000;
   private static final String EXPIRATION_TIME_FORMAT
     = "EEE, dd MMM yyyy HH:mm:ss zzz";

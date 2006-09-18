@@ -13,6 +13,7 @@ package com.w4t.util;
 import junit.framework.TestCase;
 import com.w4t.*;
 import com.w4t.engine.W4TModelUtil;
+import com.w4t.engine.util.FormManager;
 import com.w4t.event.WebFormAdapter;
 import com.w4t.event.WebFormEvent;
 
@@ -32,13 +33,14 @@ public class WebComponentRegistry_Test extends TestCase {
   public void testRegistry() throws Exception {
     W4TModelUtil.initModel();
     WebForm form = Fixture.getEmptyWebFormInstance();
+    FormManager.add( form );
     form.add( new WebButton(), WebBorderLayout.NORTH );
     form.add( new WebText(), WebBorderLayout.NORTH );
     form.setClosingTimeout( -2 );
     WebComponentControl.setActive( form, true );
     final WebFormEvent[] evt = new WebFormEvent[ 1 ];
     form.addWebFormListener( new WebFormAdapter() {
-      public void webFormClosing( WebFormEvent e ) {
+      public void webFormClosing( final WebFormEvent e ) {
         evt[ 0 ] = e;
       }
     } );
@@ -54,7 +56,7 @@ public class WebComponentRegistry_Test extends TestCase {
       buffer.append( ";" );
     }
     String expected =
-      "1 : com.w4t.Fixture$3;1 : com.w4t.WebButton;1 : com.w4t.WebText;";
+      "1 : com.w4t.Fixture$5;1 : com.w4t.WebButton;1 : com.w4t.WebText;";
     assertEquals( expected, buffer.toString() );
     
     Thread thread = new Thread( new Runnable() {

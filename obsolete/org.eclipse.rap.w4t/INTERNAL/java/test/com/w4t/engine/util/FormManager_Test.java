@@ -51,7 +51,5 @@ public class FormManager_Test extends TestCase {
     FormManager.remove( formToDispatch );
     all = FormManager.getAll();
     assertEquals( 0, all.length );
-    
   }
-  
 }

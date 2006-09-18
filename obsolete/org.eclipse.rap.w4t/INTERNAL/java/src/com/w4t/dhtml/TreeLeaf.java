@@ -186,12 +186,26 @@ public class TreeLeaf extends Leaf {
     return result;
   }
 
-  /** TODO:[fappel] comment */
+  /** 
+   * <p>Adds the specified <code>DoubeClickListener</code> to receive double-
+   * click events from this item. These events occur when a user double-clicks
+   * this TreLeaf.</p>
+   * @param listener the <code>DoubleClickListener</code> to be added. Must
+   * not be <code>null</code>.
+   */
   public void addDoubleClickListener( final DoubleClickListener listener ) {
     DoubleClickEvent.addListener( this, listener );
   }
 
-  /** TODO:[fappel] comment */
+  /** 
+   * <p>Removes the specified <code>DoubleClickListener</code> so that it no 
+   * longer receives double-click events from this TreeLeaf.</p>
+   * <p>This method performs no function, nor does it throw an exception, if 
+   * the given <code>listener</code> was not previously added to this component.
+   * If listener is <code>null</code>, no exception is thrown and no action 
+   * is performed.</p>
+   * @param listener the <code>DoubleClickListener</code> to be removed.
+   */
   public void removeDoubleClickListener( final DoubleClickListener listener ) {
     DoubleClickEvent.removeListener( this, listener );
   }

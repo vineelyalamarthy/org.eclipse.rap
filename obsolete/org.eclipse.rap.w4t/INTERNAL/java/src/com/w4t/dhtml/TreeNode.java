@@ -170,15 +170,21 @@ public class TreeNode extends Node {
     WebTreeNodeExpandedEvent.addListener( this, listener );
   }
 
-  /** <p>removes the specified WebTreeNodeExpandedListener from
-    * this TreeNode.</p> */
+  /** <p>Removes the specified <code>WebTreeNodeExpandedListener</code> from
+   * this TreeNode.</p> 
+   * <p>This method performs no function, nor does it throw an exception, if 
+   * the given <code>listener</code> was not previously added to this component.
+   * If listener is <code>null</code>, no exception is thrown and no action 
+   * is performed.</p>
+   * @param listener the <code>WebTreeNodeExpandedListener</code> to be removed.
+   */
   public void removeWebTreeNodeExpandedListener(
     final WebTreeNodeExpandedListener listener ) 
   {
     WebTreeNodeExpandedEvent.removeListener( this, listener );
   }
 
-  /** <p>adds the specified WebTreeNodeCollapsedListener to this
+  /** <p>Adds the specified WebTreeNodeCollapsedListener to this
     * TreeNode.</p> */
   public void addWebTreeNodeCollapsedListener(
     final WebTreeNodeCollapsedListener listener )
@@ -186,8 +192,16 @@ public class TreeNode extends Node {
     WebTreeNodeCollapsedEvent.addListener( this, listener );
   }
 
-  /** <p>removes the specified WebTreeNodeCollapsedListener from
-    * this TreeNode.</p> */
+  /** 
+   * <p>Removes the specified <code>WebTreeNodeCollapsedListener</code> from
+   * this TreeNode.</p>
+   * <p>This method performs no function, nor does it throw an exception, if 
+   * the given <code>listener</code> was not previously added to this component.
+   * If listener is <code>null</code>, no exception is thrown and no action 
+   * is performed.</p>
+   * @param listener the <code>WebTreeNodeCollapsedListener</code> to be 
+   * removed.
+   * */
   public void removeWebTreeNodeCollapsedListener(
     final WebTreeNodeCollapsedListener listener ) 
   {
@@ -220,7 +234,7 @@ public class TreeNode extends Node {
     }
   }
 
-  /** <p>adds the specified WebTreeNodeCollapsedListener to this
+  /** <p>Adds the specified WebTreeNodeCollapsedListener to this
     * TreeNode and to all of its child nodes.</p> */
   protected void addWebTreeNodeCollapsedListenerRecursively(
     final WebTreeNodeCollapsedListener listener )
@@ -233,7 +247,7 @@ public class TreeNode extends Node {
     }
   }
 
-  /** <p>removes the specified WebTreeNodeCollapsedListener from
+  /** <p>Removes the specified WebTreeNodeCollapsedListener from
     * this TreeNode and from all of its child nodes.</p> */
   protected void removeWebTreeNodeCollapsedListenerRecursively(
     final WebTreeNodeCollapsedListener listener )
@@ -246,27 +260,50 @@ public class TreeNode extends Node {
     }
   }
 
-  /** <p>adds the specified DragDropListener to this TreeNode.</p> */
+  /** <p>Adds the specified DragDropListener to this TreeNode.</p> */
   public void addDragDropListener( final DragDropListener listener ) {
     DragDropEvent.addListener( this, listener );
   }
 
-  /** <p>removes the specified DragDropListener from this TreeNode.</p> */
+  /** 
+   * <p>Removes the specified <code>DragDropListener</code> from this TreeNode.
+   * </p> 
+   * <p>This method performs no function, nor does it throw an exception, if 
+   * the given <code>listener</code> was not previously added to this component.
+   * If listener is <code>null</code>, no exception is thrown and no action 
+   * is performed.</p>
+   * @param listener the <code>DragDropListener</code> to be removed.
+   */
   public void removeDragDropListener( final DragDropListener listener ) {
     DragDropEvent.removeListener( this, listener );
   }
 
-  /** TODO:[fappel] comment */
+  /** 
+   * <p>Adds the specified <code>DoubeClickListener</code> to receive double-
+   * click events from this item. These events occur when a user double-clicks
+   * this item.</p>
+   * @param listener the <code>DoubleClickListener</code> to be added. Must
+   * not be <code>null</code>.
+   */
   public void addDoubleClickListener( final DoubleClickListener listener ) {
     DoubleClickEvent.addListener( this, listener );
   }
   
-  /** TODO:[fappel] comment */
+  /** 
+   * <p>Removes the specified <code>DoubleClickListener</code> so that it no 
+   * longer receives double-click events from this item.</p>
+   * <p>This method performs no function, nor does it throw an exception, if 
+   * the given <code>listener</code> was not previously added to this component.
+   * If listener is <code>null</code>, no exception is thrown and no action 
+   * is performed.</p>
+   * @param listener the <code>DoubleClickListener</code> to be removed.
+   */
   public void removeDoubleClickListener( final DoubleClickListener listener ) {
     DoubleClickEvent.removeListener( this , listener );
   }
   
-  /** TODO:[fappel] comment */
+  /** <p>Adds the specified <code>DoubleClickListener</code> to this TreeNode 
+   * and to all of its child nodes.</p> */
   protected void addDoubleClickListenerRecursively( 
     final DoubleClickListener listener ) 
   {
@@ -281,7 +318,8 @@ public class TreeNode extends Node {
     }
   }
   
-  /** TODO:[fappel] comment */
+  /** <p>Removes the specified <code>DoubleClickListener</code> from
+   * this TreeNode and from all of its child nodes.</p> */
   protected void removeDoubleClickListenerRecursively(
     final DoubleClickListener listener )
   {
@@ -297,7 +335,7 @@ public class TreeNode extends Node {
   }
 
   
-  /** <p>adds the specified DragDropListener to this TreeNode and to
+  /** <p>Adds the specified DragDropListener to this TreeNode and to
     * all of its child nodes.</p> */
   protected void addDragDropListenerRecursively( 
     final DragDropListener listener )
@@ -310,7 +348,7 @@ public class TreeNode extends Node {
     }
   }
 
-  /** <p>removes the specified DragDropListener from this TreeNode and
+  /** <p>Removes the specified DragDropListener from this TreeNode and
     * from all of its child nodes.</p> */
   protected void removeDragDropListenerRecursively( 
     final DragDropListener listener )
@@ -323,7 +361,7 @@ public class TreeNode extends Node {
     }
   }
 
-  /** <p>sets this TreeNode to expanded state, i.e. the childs on the level
+  /** <p>Sets this TreeNode to expanded state, i.e. the childs on the level
     * immediately below this node are visible.</p> */
   public void setExpanded( final boolean expanded ) {
     this.expanded  = expanded;
@@ -350,7 +388,7 @@ public class TreeNode extends Node {
     return expanded;
   }
 
-  /** <p>sets the specified number as minimal child node number for
+  /** <p>Sets the specified number as minimal child node number for
     * dynamic loading to this TreeNode.</p>
     * <p>Note: the minimal child node number for dynamic loading can be
     * set on the TreeView, to which this TreeNode is added; this will apply it
@@ -360,7 +398,7 @@ public class TreeNode extends Node {
     this.minChildsDynLoad = minChildsDynLoad;
   }
 
-  /** <p>returns the minimal child node number for dynamic loading
+  /** <p>Returns the minimal child node number for dynamic loading
     * which is set on this TreeNode.</p>
     * <p>Note: the minimal child node number for dynamic loading can be
     * set on the TreeView, to which this TreeNode is added; this will apply it
@@ -370,7 +408,7 @@ public class TreeNode extends Node {
     return this.minChildsDynLoad;
   }
 
-  /** <p>sets the specified dynamic loading mode identifier for dynamic
+  /** <p>Sets the specified dynamic loading mode identifier for dynamic
     * loading to this TreeNode. This must be one of TreeNode.DYNLOAD_NEVER,
     * TreeNode.DYNLOAD_ALWAYS and TreeNode.DYNLOAD_DYNAMIC.</p>
     * <p>Note: the dynamic loading mode can be set on the TreeView, to which
@@ -388,7 +426,7 @@ public class TreeNode extends Node {
     this.dynLoading = dynLoading;
   }
 
-  /** <p>returns the dynamic loading mode identifier for dynamic
+  /** <p>Returns the dynamic loading mode identifier for dynamic
     * loading to this TreeNode. This is one of TreeNode.DYNLOAD_NEVER,
     * TreeNode.DYNLOAD_ALWAYS and TreeNode.DYNLOAD_DYNAMIC.</p>
     * <p>Note: the dynamic loading mode can be set on the TreeView, to which
@@ -399,7 +437,7 @@ public class TreeNode extends Node {
     return this.dynLoading;
   }
 
-  /** <p>returns the topmost parent node of this TreeNode, i.e. the parent or 
+  /** <p>Returns the topmost parent node of this TreeNode, i.e. the parent or 
     * parent of a parent of this TreeNode, which has no more parent above.</p>
     * <p>Note that the return value of this is not necessarily of type 
     * TreeView.</p>
@@ -415,7 +453,7 @@ public class TreeNode extends Node {
     return result;
   }
   
-  /** <p>determines and returns the count of children which are added to
+  /** <p>Determines and returns the count of children which are added to
     * this TreeNode (recursively, i.e. all children and children of 
     * children etc. are counted).</p> */
   public int getChildCount() {
@@ -435,15 +473,15 @@ public class TreeNode extends Node {
   // inherited and overriden methods
   //////////////////////////////////
 
-  /** <p>adds the specified item as child to this TreeNode.</p>
-   * 
-    * <p>Note that all event listeners which are set to the root node of this 
-    * TreeNode (which is either a {@link com.w4t.dhtml.TreeView TreeView} or the
-    * root node of a branch of TreeNodes) are added to item. This applies 
-    * also to dynloading settings (see {@link #setMinChildsDynLoad(int) 
-    * setMinChildsDynLoad(int)} and {@link #setDynLoading(String) 
-    * setDynLoading(String)}).If you want to set a special dynloading for
-    * item, apply it after you added it.</p> */
+  /** 
+   * <p>Adds the specified item as child to this TreeNode.</p>
+   * <p>Note that all event listeners which are set to the root node of this 
+   * TreeNode (which is either a {@link com.w4t.dhtml.TreeView TreeView} or the
+   * root node of a branch of TreeNodes) are added to item. This applies 
+   * also to dynloading settings (see {@link #setMinChildsDynLoad(int) 
+   * setMinChildsDynLoad(int)} and {@link #setDynLoading(String) 
+   * setDynLoading(String)}).If you want to set a special dynloading for
+   * item, apply it after you added it.</p> */
   public void addItem( final Item item ) {
     super.addItem( item );
 
@@ -501,7 +539,7 @@ public class TreeNode extends Node {
     }
   }
 
-  /** <p>removes the specified item from this TreeNode, removing also all
+  /** <p>Removes the specified item from this TreeNode, removing also all
     * listeners from it which were set to it from the root of this tree.</p>
     */
   public void removeItem( final Item item ) {
@@ -566,22 +604,22 @@ public class TreeNode extends Node {
   // attribute getters and setters
   ////////////////////////////////
   
-  /** sets the tooltip displayed on mouseover with this TreeNode */
+  /** Sets the tooltip displayed on mouseover with this TreeNode */
   public void setTitle( final String title ) {
     this.title = title;
   }
   
-  /** returns the tooltip displayed on mouseover with this TreeNode */
+  /** Returns the tooltip displayed on mouseover with this TreeNode */
   public String getTitle() {
     return title;
   }
   
-  /** sets the css attribute encapsulation for this TreeNode */
+  /** Sets the css attribute encapsulation for this TreeNode */
   public void setStyle( final Style style ) {
     this.style = style;
   }
   
-  /** returns the css attribute encapsulation for this TreeNode */
+  /** Returns the css attribute encapsulation for this TreeNode */
   public Style getStyle() {
     if( style == null ) {
       initStyle();
@@ -589,28 +627,28 @@ public class TreeNode extends Node {
     return style;
   }  
 
-  /** <p>sets the color this TreeNode has when it is marked.</p> */  
+  /** <p>Sets the color this TreeNode has when it is marked.</p> */  
   public void setMarkedColor( final WebColor markedColor ) {
     this.markedColor = markedColor;
   }
   
-  /** <p>returns the color this TreeNode has when it is marked.</p> */
+  /** <p>Returns the color this TreeNode has when it is marked.</p> */
   public WebColor getMarkedColor() {
     return markedColor;
   }
 
-  /** <p>sets the background color this TreeNode has when it is marked.</p> */  
+  /** <p>Sets the background color this TreeNode has when it is marked.</p> */  
   public void setMarkedBgColor( final WebColor markedBgColor ) {
     this.markedBgColor = markedBgColor;
   }  
   
-  /** <p>returns the background color this TreeNode has when it is 
+  /** <p>Returns the background color this TreeNode has when it is 
     * marked.</p> */  
   public WebColor getMarkedBgColor() {
     return markedBgColor;
   }  
   
-  /** <p>sets the name (as pathname) of the images which are displayed as
+  /** <p>Sets the name (as pathname) of the images which are displayed as
     * representation of this TreeNode in expanded and collapsed state.</p>
     * <p>If no imageset is set on this TreeNode, the imageSetName of the 
     * parent node is used instead.</p>
@@ -619,7 +657,7 @@ public class TreeNode extends Node {
     this.imageSetName = imageSetName;
   }
 
-  /** <p>returns the name (as pathname) of the images which are displayed as
+  /** <p>Returns the name (as pathname) of the images which are displayed as
     * representation of this TreeNode in expanded and collapsed state.</p>
     * <p>If no imageset is set on this TreeNode, the imageSetName of the 
     * parent node is used instead.</p>
@@ -632,7 +670,7 @@ public class TreeNode extends Node {
     return result;
   }
 
-  /** <p>returns, whether this TreeNode is enabled (reacts on user input)
+  /** <p>Returns, whether this TreeNode is enabled (reacts on user input)
     * or not. A WebComponent is also not enabled if it is added to a
     * WebContainer and the WebContainer to which it is added is
     * disabled.</p> */

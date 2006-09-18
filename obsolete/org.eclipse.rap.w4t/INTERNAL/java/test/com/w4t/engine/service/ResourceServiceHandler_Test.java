@@ -30,7 +30,6 @@ public class ResourceServiceHandler_Test extends TestCase {
     = "com/w4t/engine/util/resourcetest1.js";
 
 
-
   protected void setUp() throws Exception {
     Fixture.setUp();
     Fixture.createContext();

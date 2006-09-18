@@ -12,7 +12,13 @@ package com.w4t.engine.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import com.w4t.Browser;
 import com.w4t.HtmlResponseWriter;
@@ -23,14 +29,35 @@ import com.w4t.util.browser.BrowserLoader;
 
 
 class FormRequestServiceHandler extends AbstractServiceHandler {
+
+  // TODO [rh] Should we have a separate class that contains all logger names?
+  //      e.g. com.w4t.util.LogerNames?
+  public static final String LOG_REQUEST_PARAMS 
+    = FormRequestServiceHandler.class.getName() + ".requestParams"; 
+  public static final String LOG_REQUEST_HEADER 
+    = FormRequestServiceHandler.class.getName() + ".requestHeaders"; 
+  public static final String LOG_RESPONSE_CONTENT
+    = FormRequestServiceHandler.class.getName() + ".responseContent"; 
+  
+  // The log level used by all loggers thoughout this class
+  private static final Level LOG_LEVEL = Level.FINE;
+  
+  private static Logger requestParamsLogger 
+    = Logger.getLogger( LOG_REQUEST_PARAMS );
+  private static Logger requestHeaderLogger 
+    = Logger.getLogger( LOG_REQUEST_HEADER );
+  private static Logger responseContentLogger
+    = Logger.getLogger( LOG_RESPONSE_CONTENT );
   
   public void service() throws IOException, ServletException {
-//    logRequestParams();
-    // start point of process time
     HttpSession session = getRequest().getSession( true );
+    logRequestHeader();
+    logRequestParams();
     synchronized( session ) {      
+      // start point of process time
       long startTime = System.currentTimeMillis();
       initializeStateInfo();
+      checkEmptyRequest( session );
       detectBrowser();
       if( isBrowserDetected() ) {
         W4TModelUtil.initModel();
@@ -40,12 +67,10 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
       }
       if( !ServiceManager.isTimeStampTrigger() ) {
         appendProcessTime( startTime );
-//System.out.println( "time to process: " + ( System.currentTimeMillis() - startTime ) );
         writeOutput();
       }
     }
   }
-  
 
   //////////////////
   // helping methods
@@ -84,6 +109,21 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
     getStateInfo().setResponseWriter( htmlResponseWriter );
   }
 
+  private static void checkEmptyRequest( final HttpSession session ) {
+    Enumeration parameterNames = getRequest().getParameterNames();
+    if( !session.isNew() && !parameterNames.hasMoreElements() ) {
+      Enumeration keys = session.getAttributeNames();
+      List keyBuffer = new ArrayList();
+      while( keys.hasMoreElements() ) {
+        keyBuffer.add( keys.nextElement() );
+      }
+      Object[] attributeNames = keyBuffer.toArray();
+      for( int i = 0; i < attributeNames.length; i++ ) {
+        session.removeAttribute( ( String )attributeNames[ i ] );
+      }
+    }
+  }
+  
   private static void appendProcessTime( final long startTime ) {
     if( getInitProps().isProcessTime() ) {
       // end point of process time
@@ -111,27 +151,78 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
       // send the head to the client
       for( int i = 0; i < content.getHeadSize(); i++ ) {
         out.print( content.getHeadToken( i ) );
-//System.out.print( content.getHeadToken( i ) );
       }
-  
       // send the body to the client
       for( int i = 0; i < content.getBodySize(); i++ ) {
         out.print( content.getBodyToken( i ) );
-//System.out.print( content.getBodyToken( i ) );
       }
-  
       // send the foot to the client
       for( int i = 0; i < content.getFootSize(); i++ ) {
         out.print( content.getFootToken( i ) );
-//System.out.print( content.getFootToken( i ) );
-//System.out.println();
       }
     } finally {
       out.close();
     }
+    logResponseContent();
   }
 
   private static IServiceStateInfo getStateInfo() {
     return ContextProvider.getStateInfo();
+  }
+
+  //////////////////
+  // Logging methods
+  
+  private static void logRequestHeader() {
+    if( requestHeaderLogger.isLoggable( LOG_LEVEL ) ) {
+      HttpServletRequest request = ContextProvider.getRequest();
+      Enumeration headerNames = request.getHeaderNames();
+      StringBuffer msg = new StringBuffer();
+      msg.append( "Request header:\n" );
+      msg.append( "(method):" );
+      msg.append( request.getMethod() );
+      while( headerNames.hasMoreElements() ) {
+        String headerName = ( String )headerNames.nextElement();
+        msg.append( headerName );
+        msg.append( ": " );
+        msg.append( request.getHeader( headerName ) );
+      }
+      requestHeaderLogger.log( LOG_LEVEL, msg.toString() );
+    }    
+  }
+  
+  private static void logRequestParams() {
+    if( requestParamsLogger.isLoggable( LOG_LEVEL ) ) {
+      StringBuffer msg = new StringBuffer();
+      msg.append( "Request parameters:\n" );
+      HttpServletRequest request = ContextProvider.getRequest();
+      Enumeration parameterNames = request.getParameterNames();
+      while( parameterNames.hasMoreElements() ) {
+        String parameterName = ( String )parameterNames.nextElement();
+        String parameterValue = request.getParameter( parameterName );
+        msg.append( parameterName );
+        msg.append( "=" );
+        msg.append( parameterValue );      
+        msg.append( "\n" );      
+      }
+      requestParamsLogger.log( LOG_LEVEL, msg.toString() );    
+    }
+  }
+  
+  private static void logResponseContent() {
+    if( responseContentLogger.isLoggable( LOG_LEVEL ) ) {
+      HtmlResponseWriter content = getStateInfo().getResponseWriter();
+      StringBuffer msg = new StringBuffer();
+      for( int i = 0; i < content.getHeadSize(); i ++ ) {
+        msg.append( content.getHeadToken( i ) );
+      }
+      for( int i = 0; i < content.getBodySize(); i ++ ) {
+        msg.append( content.getBodyToken( i ) );
+      }
+      for( int i = 0; i < content.getFootSize(); i ++ ) {
+        msg.append( content.getFootToken( i ) );
+      }
+      responseContentLogger.log( LOG_LEVEL, msg.toString() );
+    }
   }
 }

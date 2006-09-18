@@ -111,11 +111,16 @@ public abstract class Item extends WebComponent {
     WebActionEvent.addListener( this, listener );
   }
 
-  /** Removes the specified WebActionListener so that it no longer
-    * receives action events from this Item. Action events occur
-    * when a user presses and releases the mouse over this Item.
-    * @param listener the WebActionListener
-    */
+  /** 
+   * <p>Removes the specified <code>WebActionListener</code> so that it no 
+   * longer receives action events from this Item. Action events occur
+   * when a user presses and releases the mouse over this item.</p>
+   * <p>This method performs no function, nor does it throw an exception, if 
+   * the given <code>listener</code> was not previously added to this component.
+   * If listener is <code>null</code>, no exception is thrown and no action 
+   * is performed.</p>
+   * @param listener the WebActionListener to be removed.
+   */
   public void removeWebActionListener( final WebActionListener listener ) {
     WebActionEvent.removeListener( this, listener );
   }

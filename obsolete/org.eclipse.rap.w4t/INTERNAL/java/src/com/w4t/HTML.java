@@ -153,7 +153,8 @@ public final class HTML {
   public static final String CONTENT_TEXT_CSS = "text/css";
   public static final String CONTENT_TEXT_JAVASCRIPT = "text/javascript";
   public static final String CONTENT_IMAGE_ICO = "image/ico";
-  
+  public static final String CONTENT_IMAGE_GIF = "image/gif";
+
   public static final String ENCTYPE_FORM_URLENCODED 
     = "application/x-www-form-urlencoded";
   public static final String ENCTYPE_FORM_DATA = "multipart/form-data";

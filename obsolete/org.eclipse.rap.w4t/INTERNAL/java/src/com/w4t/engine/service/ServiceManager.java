@@ -27,7 +27,9 @@ import com.w4t.engine.util.ResourceManager;
 
 /** <p>provides the appropriate HttpServlet request service handler for the
  *  given runtime mode.</p> 
- */ 
+ */
+// TODO [rh] Could implement resource/timestamp request handler as regular
+//      IServiceHandler
 public class ServiceManager {
   
   private static final String SERVICEHANDLER_XML = "servicehandler.xml";
@@ -141,7 +143,7 @@ public class ServiceManager {
   
   private synchronized static IServiceHandler getTriggerFormRequestHandler() {
     if( triggerFormHandler == null ) {
-      triggerFormHandler = new TriggerFormRequestServiceHandler();
+      triggerFormHandler = new TimestampRequestServiceHandler();
     }
     return triggerFormHandler;
   }

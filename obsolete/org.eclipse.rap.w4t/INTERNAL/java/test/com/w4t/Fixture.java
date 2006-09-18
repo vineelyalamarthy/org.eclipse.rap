@@ -87,7 +87,15 @@ public class Fixture {
     }
     
     public Enumeration getHeaderNames() {
-      return null;
+      return new Enumeration() {
+        private Iterator iterator = headers.keySet().iterator();
+        public boolean hasMoreElements() {
+          return iterator.hasNext();
+        }
+        public Object nextElement() {
+          return iterator.next();
+        }
+      };
     }
     
     public int getIntHeader( final String arg0 ) {
@@ -211,7 +219,7 @@ public class Fixture {
     }
     
     public void setCharacterEncoding( final String arg0 )
-    throws UnsupportedEncodingException
+      throws UnsupportedEncodingException
     {
     }
     
@@ -615,7 +623,15 @@ public class Fixture {
     }
     
     public Enumeration getAttributeNames() {
-      return null;
+      final Iterator iterator = attributes.keySet().iterator();
+      return new Enumeration() {
+        public boolean hasMoreElements() {
+          return iterator.hasNext();
+        }
+        public Object nextElement() {
+          return iterator.next();
+        }
+      };
     }
     
     public String[] getValueNames() {
@@ -635,6 +651,7 @@ public class Fixture {
     }
     
     public void removeAttribute( final String arg0 ) {
+      attributes.remove( arg0 );
     }
     
     public void removeValue( final String arg0 ) {

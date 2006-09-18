@@ -1,13 +1,29 @@
+/*******************************************************************************
+ * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Innoopract Informationssysteme GmbH - initial API and implementation
+ ******************************************************************************/
 package com.w4t.engine.service;
 
 import java.util.List;
 import java.util.Vector;
 import javax.servlet.http.HttpSession;
 import junit.framework.TestCase;
-import com.w4t.*;
-import com.w4t.Fixture.*;
+import com.w4t.Fixture;
+import com.w4t.W4TContext;
+import com.w4t.WebForm;
+import com.w4t.Fixture.TestRequest;
+import com.w4t.Fixture.TestResponse;
+import com.w4t.Fixture.TestServletOutputStream;
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.lifecycle.*;
+import com.w4t.engine.lifecycle.PhaseEvent;
+import com.w4t.engine.lifecycle.PhaseId;
+import com.w4t.engine.lifecycle.PhaseListener;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
@@ -170,6 +186,25 @@ public class FormRequestServiceHandler_Test extends TestCase {
     assertEquals( 2, executionOrder.size() );
     assertSame( executionOrder.get( 0 ), thread1 );
     assertSame( executionOrder.get( 1 ), thread2 );
+  }
+  
+  /**
+   * <p>Simulates a parameterless request within an existing session.</p>
+   * <p>Epected behaviour is to reset the sesion and as a consequence thereof
+   * render the internal browser survey.</p>
+   */
+  public void testEmptyRequest() throws Exception {
+    newForm();
+    HttpSession session = ContextProvider.getSession();
+    session.setAttribute( "test-attribute", "test-attribute-value" );
+    TestResponse response = ( TestResponse )ContextProvider.getResponse();
+    response.setOutputStream( new TestServletOutputStream() );
+    ContextProvider.getStateInfo().setFirstAccess( false );      
+    
+    ServiceManager.getHandler().service();
+    assertEquals( null, session.getAttribute( "test-attribute" ) );
+    String markup = Fixture.getAllMarkup();
+    assertTrue( markup.indexOf( "Startup Page" ) > -1 );
   }
 
   private static IServiceStateInfo getStateInfo( final Worker worker ) {
