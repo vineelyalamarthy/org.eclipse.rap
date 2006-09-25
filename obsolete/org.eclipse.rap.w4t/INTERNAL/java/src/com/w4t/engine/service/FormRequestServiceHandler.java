@@ -12,9 +12,7 @@ package com.w4t.engine.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,6 +39,8 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
   
   // The log level used by all loggers thoughout this class
   private static final Level LOG_LEVEL = Level.FINE;
+  private static final String PARAM_BUFFER
+    = "org.eclipse.rap.w4t.startupRequestParameterBuffer:-)";
   
   private static Logger requestParamsLogger 
     = Logger.getLogger( LOG_REQUEST_PARAMS );
@@ -53,7 +53,7 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
     HttpSession session = getRequest().getSession( true );
     logRequestHeader();
     logRequestParams();
-    synchronized( session ) {      
+    synchronized( session ) {  
       // start point of process time
       long startTime = System.currentTimeMillis();
       initializeStateInfo();
@@ -61,8 +61,10 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
       detectBrowser();
       if( isBrowserDetected() ) {
         W4TModelUtil.initModel();
+        wrapStartupRequest( session );
         getServiceAdapter( W4TModel.getInstance() ).execute();
       } else {
+        bufferStartupRequestParams( session );
         BrowserSurvey.sendBrowserSurvey();
       }
       if( !ServiceManager.isTimeStampTrigger() ) {
@@ -70,6 +72,11 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
         writeOutput();
       }
     }
+  }
+
+  private void bufferStartupRequestParams( HttpSession session ) {
+    Map parameters = getRequest().getParameterMap();
+    session.setAttribute( PARAM_BUFFER, new HashMap( parameters ) );
   }
 
   //////////////////
@@ -107,6 +114,15 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
       ContextProvider.getContext().setStateInfo( stateInfo );
     }
     getStateInfo().setResponseWriter( htmlResponseWriter );
+  }
+
+  private static void wrapStartupRequest( final HttpSession session ) {
+    Map params = ( Map )session.getAttribute( PARAM_BUFFER );
+    if( params != null ) {
+      ServiceContext context = ContextProvider.getContext();
+      context.setRequest( new StartupRequest( getRequest(), params ) );
+    }
+    session.removeAttribute( PARAM_BUFFER );
   }
 
   private static void checkEmptyRequest( final HttpSession session ) {

@@ -236,7 +236,12 @@ public class Fixture {
     }
     
     public String getParameter( final String arg0 ) {
-      return ( String )parameters.get( arg0 );
+      String[] value = ( String[] )parameters.get( arg0 );
+      String result = null;
+      if( value != null ) {
+        result = value[ 0 ];
+      }
+      return result;
     }
     
     public Enumeration getParameterNames() {
@@ -253,16 +258,26 @@ public class Fixture {
     }
     
     public String[] getParameterValues( final String arg0 ) {
-      String[] result = new String[ parameters.size() ];
-      parameters.values().toArray( result );
-      return result;
+      return ( String[] )parameters.get( arg0 );
     }
     
-    public void setParameter( final String key, final String value ) {
+    public void setParameter( final String key, final String value ) {      
       if( value == null ) {
         parameters.remove( key );
       } else {
-        parameters.put( key, value );
+        parameters.put( key, new String[] { value } );
+      }
+    }
+    
+    public void addParameter( final String key, final String value ) {
+      if( parameters.containsKey( key ) ) {
+        String[] values = ( String[] )parameters.get( key );
+        String[] newValues = new String[ values.length + 1 ];
+        System.arraycopy( values, 0, newValues, 0, values.length );
+        newValues[ values.length ] = value;
+        parameters.put( key, newValues );
+      } else {
+        setParameter( key, value );
       }
     }
     

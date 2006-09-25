@@ -158,6 +158,7 @@ public class AllTests_Suite {
     suite.addTestSuite( ServiceHandler_Test.class );
     suite.addTestSuite( FormRequestServiceHandler_Test.class );
     suite.addTestSuite( ResourceServiceHandler_Test.class );
+    suite.addTestSuite( StartupRequest_Test.class );    
     
     suite.addTestSuite( WebBorderComponentRenderer_Test.class );
     suite.addTestSuite( WebCardLayoutRenderer_Default_Noscript_Test.class );

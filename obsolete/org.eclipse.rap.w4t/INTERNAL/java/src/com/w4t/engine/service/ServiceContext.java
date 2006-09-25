@@ -61,6 +61,10 @@ public final class ServiceContext {
     return request;
   }
   
+  void setRequest( final HttpServletRequest request ) {
+    this.request = request;
+  }
+  
   /**
    * Returns the corresponding response to the currently processed
    * request
