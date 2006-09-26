@@ -66,8 +66,7 @@ public class RendererCache {
         Class rendererClass = loadRendererClass( componentClass, browser );
         rendererClassName = rendererClass.getName();
         rcc.addRendererName( rendererKey, rendererClassName );
-      } catch( Exception e ) {
-        rendererClassName = null;
+      } catch( final Exception e ) {
       }
     }
     return rendererClassName;
@@ -104,7 +103,8 @@ public class RendererCache {
         rcc.addRendererName( rendererKey, rendererClass.getName() );
       } else {
         try {
-          rendererClass = Class.forName( rendererClassName );
+          ClassLoader loader = componentClass.getClassLoader();
+          rendererClass = loader.loadClass( rendererClassName );
         } catch( final ClassNotFoundException cnfe ) {
           // TODO: [fappel] improve Exception handling
           String msg =   "Could not find renderer class '"
@@ -149,7 +149,8 @@ public class RendererCache {
         hasPredecessor = false;
         try {
           String toString = descriptor.toString();
-          result = Class.forName( toString );
+          ClassLoader loader = clazz.getClassLoader();
+          result = loader.loadClass( toString );
           found = true;
         } catch( Exception e ) {
           hasPredecessor = descriptor.useBrowserPredecessor();

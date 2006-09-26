@@ -84,11 +84,6 @@ final class AccessForm extends Phase {
     return    !stateInfo.isIgnoreStartup()
            && AccessForm.parameterExists( RequestParams.ADMIN );
   }
-
-  private static boolean isTriggerTimeStampRequest() {
-    String param = RequestParams.REQUEST_TIMESTAMP_NAME;
-    return ContextProvider.getRequest().getParameter( param ) != null;
-  }
   
   //////////////////
   // helping methods
@@ -179,18 +174,20 @@ final class AccessForm extends Phase {
   }
   
   private static int getExpectedRequestCounter() {
+    int result = -1;
     HttpServletRequest request = ContextProvider.getRequest();
-    String rcParam = request.getParameter( RequestParams.REQUEST_COUNTER );
-    return Integer.parseInt( rcParam ) + 1;
+    String value = request.getParameter( RequestParams.REQUEST_COUNTER );
+    if( value != null ) {
+      try {
+        result = Integer.parseInt( value ) + 1;
+      } catch( NumberFormatException e ) {
+        // when param is not a valid number, -1 will remain the return value
+        // which marks the form as expired
+      }      
+    }
+    return result;
   }
   
-  private static WebForm retrieveFormToProcess() {
-    HttpServletRequest request = ContextProvider.getRequest();
-    String windowId = request.getParameter( RequestParams.ACTIVE_WINDOW );
-    IWindow window = WindowManager.getInstance().findById( windowId );
-    return WindowManager.getLastForm( window );
-  }
-
   private static IInitialization getInitProps() {
     return ConfigurationReader.getConfiguration().getInitialization();
   }
