@@ -112,6 +112,8 @@
     this.resumeSubmit = resumeSubmit;
     //  TODO: comment
     this.submitDocument = submitDocument;
+    // notifies the user about an error
+    this.reportError = reportError;
 
     // see comment on function
     this.submitFullDocument = submitFullDocument;
@@ -344,6 +346,10 @@
     document.W4TForm.submit();
   }
   
+  function reportError( message ) {
+    alert( message );
+  }
+  
   function adjustAvailableSize() {
     document.getElementById( "availWidth" ).value = screen.availWidth;
     document.getElementById( "availHeight" ).value = screen.availHeight;
@@ -545,8 +551,9 @@
         if( !updatePage( http_request.responseXML ) ) {
           // in case we didn't get a valid ajax-response (e.g. timeout or
           // malformed xml response) do a 'normal' submit
-          alert(   'The XML-HTTP-Request did not return a valid '
-                 + 'AJaX-Response.\nRequesting the full document.' );
+          var msg =  'The XML-HTTP-Request did not return a valid '
+                   + 'AJaX-Response.\nRequesting the full document.';
+          eventHandler.reportError( msg );
           submitFullDocument();
         } 
         // restore state as if page was just loaded
@@ -554,9 +561,10 @@
         eventHandler.suspendSubmitFlag = false;
         eventHandler.focusElementValue = eventHandler.W4T_NULL;
       } else {
-        alert(   'The XML-HTTP-Request did not complete normally (' 
-               + requestStatus + ')'
-               + '\nRequesting the full document.' );
+        var msg = 'The XML-HTTP-Request did not complete normally (' 
+                + requestStatus + ')'
+                + '\nRequesting the full document.';
+        eventHandler.reportError( msg );
         submitFullDocument();
       }
     } finally {
@@ -624,7 +632,8 @@
         // replace node
         var destNode = document.getElementById( id );
         if( destNode == null ) {
-          alert( "updateElement: Could not find tag with id " + id + "." );
+          var msg = "updateElement: Could not find tag with id " + id + ".";
+          eventHandler.reportError( msg );
         } else {
           if( xmlElement.nodeName == "envelope" ) {
             // replacing a former visible element by an invisible placeholder
@@ -704,9 +713,9 @@
     try {
       eval( xmlElement.firstChild.nodeValue );
     } catch( e ) {
-      alert(   "Failed to evaluate JavaScript snippet:\n"
-             + "Reason: " + e.message + "\n" 
-             + xmlElement.firstChild.nodeValue );
+      eventHandler.reportError(   "Failed to evaluate JavaScript snippet:\n"
+                                + "Reason: " + e.message + "\n" 
+                                + xmlElement.firstChild.nodeValue );
     }
   }
   
@@ -722,7 +731,7 @@
     if( xmlHttpRequestSingleton == null ) {
       xmlHttpRequestSingleton = new XMLHttpRequest();
       if( xmlHttpRequestSingleton == null ) {
-        alert( "Failed to create XMLHttpRequest instance." );
+        eventHandler.reportError( "Failed to create XMLHttpRequest instance." );
       } else {
         if( xmlHttpRequestSingleton.overrideMimeType ) {
           xmlHttpRequestSingleton.overrideMimeType( "text/xml" );

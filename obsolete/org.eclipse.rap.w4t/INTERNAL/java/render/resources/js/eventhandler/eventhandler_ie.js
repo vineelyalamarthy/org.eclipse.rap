@@ -110,6 +110,8 @@
     this.submitDocument = submitDocument;
     // see comment on function
     this.submitFullDocument = submitFullDocument;
+    // notifies the user about an error
+    this.reportError = reportError;
 
     // ajax-related functions
     this.isAjaxEnabled = isAjaxEnabled;    
@@ -350,6 +352,10 @@
     adjustAvailableSize();
     document.W4TForm.submit();
   }
+
+  function reportError( message ) {
+    alert( message );
+  }
   
   function adjustAvailableSize() {
     document.getElementById( "availWidth" ).value = screen.availWidth;
@@ -536,7 +542,7 @@
                  + 'AJaX-Response.\nRequesting the full document:\n\n' 
                  + http_request.responseText;
           }
-				  alert( text );
+				  eventHandler.reportError( text );
           this.submitFullDocument();
         } 
         // restore state as if page was just loaded
@@ -549,9 +555,10 @@
         //                   the problem on IE
         retry = true;
       } else {
-        alert(   'The XML-HTTP-Request did not complete normally (' 
-               + http_request.status + ')'
-               + '\nRequesting the full document.' );
+        var msg = 'The XML-HTTP-Request did not complete normally (' 
+                + http_request.status + ')'
+                + '\nRequesting the full document.';
+        eventHandler.reportError( msg );
         this.submitFullDocument();
       }
     } finally {
@@ -640,7 +647,8 @@
         // replace node
         var destNode = document.getElementById( id );
         if ( destNode == null ) {
-          alert( "updateElement: Could not find tag with id " + id + "." );
+          var msg = "updateElement: Could not find tag with id " + id + ".";
+          eventHandler.reportError( msg );
         } else {
           if( xmlElement.nodeName == "envelope" ) {
             var contentNode = xmlElement.firstChild;
@@ -703,9 +711,9 @@
     try {
       eval( xmlElement.firstChild.nodeValue );
     } catch( e ) {
-      alert(   "Failed to evaluate JavaScript snippet:\n" 
-             + xmlElement.firstChild.nodeValue
-             + "\nReason: " + e.message );
+      eventHandler.reportError(   "Failed to evaluate JavaScript snippet:\n" 
+                                + xmlElement.firstChild.nodeValue
+                                + "\nReason: " + e.message );
     }
   }
   
@@ -735,7 +743,7 @@
         this.xmlHttpRequestSingleton = new XMLHttpRequest();
       }
       if( this.xmlHttpRequestSingleton == null ) {
-        alert( "Failed to create XMLHTTPRequest instance." );
+        eventHandler.reportError( "Failed to create XMLHTTPRequest instance." );
       } else {
         if( this.xmlHttpRequestSingleton.overrideMimeType ) {
           this.xmlHttpRequestSingleton.overrideMimeType( "text/xml" );
@@ -828,5 +836,4 @@
   /*               create the event handler instance               */
   /*****************************************************************/ 
   var eventHandler = new EventHandler();
-
 //--> end hide JavaScript
