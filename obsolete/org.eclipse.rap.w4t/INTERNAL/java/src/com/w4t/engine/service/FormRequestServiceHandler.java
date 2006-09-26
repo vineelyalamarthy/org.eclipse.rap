@@ -57,7 +57,7 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
       // start point of process time
       long startTime = System.currentTimeMillis();
       initializeStateInfo();
-      checkEmptyRequest( session );
+      checkRequest( session );
       detectBrowser();
       if( isBrowserDetected() ) {
         W4TModelUtil.initModel();
@@ -72,11 +72,6 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
         writeOutput();
       }
     }
-  }
-
-  private void bufferStartupRequestParams( HttpSession session ) {
-    Map parameters = getRequest().getParameterMap();
-    session.setAttribute( PARAM_BUFFER, new HashMap( parameters ) );
   }
 
   //////////////////
@@ -116,6 +111,11 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
     getStateInfo().setResponseWriter( htmlResponseWriter );
   }
 
+  private void bufferStartupRequestParams( HttpSession session ) {
+    Map parameters = getRequest().getParameterMap();
+    session.setAttribute( PARAM_BUFFER, new HashMap( parameters ) );
+  }
+
   private static void wrapStartupRequest( final HttpSession session ) {
     Map params = ( Map )session.getAttribute( PARAM_BUFFER );
     if( params != null ) {
@@ -125,10 +125,13 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
     session.removeAttribute( PARAM_BUFFER );
   }
 
-  private static void checkEmptyRequest( final HttpSession session ) {
+  private static void checkRequest( final HttpSession session ) {
+    boolean startup 
+      = getRequest().getParameter( RequestParams.STARTUP ) != null;
     String formId = getRequest().getParameter( RequestParams.ACTIVE_FORM_ID );
     String windowId = getRequest().getParameter( RequestParams.ACTIVE_WINDOW );
-    if( !session.isNew() && ( formId == null || windowId == null ) ) {
+    if( !session.isNew() && !startup && ( formId == null || windowId == null ) ) 
+    {
       Enumeration keys = session.getAttributeNames();
       List keyBuffer = new ArrayList();
       while( keys.hasMoreElements() ) {
@@ -139,18 +142,6 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
         session.removeAttribute( ( String )attributeNames[ i ] );
       }
     }
-//    Enumeration parameterNames = getRequest().getParameterNames();
-//    if( !session.isNew() && !parameterNames.hasMoreElements() ) {
-//      Enumeration keys = session.getAttributeNames();
-//      List keyBuffer = new ArrayList();
-//      while( keys.hasMoreElements() ) {
-//        keyBuffer.add( keys.nextElement() );
-//      }
-//      Object[] attributeNames = keyBuffer.toArray();
-//      for( int i = 0; i < attributeNames.length; i++ ) {
-//        session.removeAttribute( ( String )attributeNames[ i ] );
-//      }
-//    }
   }
   
   private static void appendProcessTime( final long startTime ) {

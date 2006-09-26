@@ -12,7 +12,8 @@ package com.w4t.engine.service;
 
 import java.util.*;
 import junit.framework.TestCase;
-import com.w4t.Fixture.TestRequest;
+import com.w4t.Fixture;
+import com.w4t.Fixture.*;
 
 
 public class StartupRequest_Test extends TestCase {
@@ -73,5 +74,35 @@ public class StartupRequest_Test extends TestCase {
       fail();
     } catch( UnsupportedOperationException usoe ) {
     }
+  }
+  
+  public void testStartupRequestWithParameter() throws Exception {
+    String p1 = "p1";
+    String v1 = "v1";
+    Fixture.fakeRequestParam( p1, v1 );
+    ServiceManager.getHandler().service();
+    String allMarkup = Fixture.getAllMarkup();
+    assertTrue( allMarkup.indexOf( "W4Toolkit Startup Page" ) != -1 );
+    
+    Fixture.fakeRequestParam( p1, null );
+    Fixture.fakeRequestParam( "w4t_startup", "true" );
+    Fixture.fakeRequestParam( "w4t_scriptEnabled", "true" );
+    Fixture.fakeRequestParam( "w4t_ajaxEnabled", "true" );
+    Fixture.fakeUserAgent( "myAgent" );
+    ServiceManager.getHandler().service();
+
+    assertEquals( v1, ContextProvider.getRequest().getParameter( p1 ) );
+  }
+  
+  protected void setUp() throws Exception {
+    Fixture.setUp();
+    Fixture.createContext();
+    TestResponse response = ( TestResponse )ContextProvider.getResponse();
+    response.setOutputStream( new TestServletOutputStream() );
+  }
+  
+  protected void tearDown() throws Exception {
+    Fixture.tearDown();
+    Fixture.removeContext();
   }
 }
