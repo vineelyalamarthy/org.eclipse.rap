@@ -56,8 +56,9 @@ public class TreeViewRenderer_Ie5up_Script_Test extends RenderingTestCase {
     String markup = Fixture.getAllMarkup( outExpected );
     String expected 
       = "<script type=\"text/javascript\">" 
-      + "document.body.onmouseup = dragDropHandler.clearDragDrop;"
+      + "try {document.body.onmouseup = dragDropHandler.clearDragDrop;" 
       + "var jtree=document.getElementById(\"p2\");jtree.style.height=\"0px\";" 
+      + "} catch( e ) { }" 
       + "</script>";
     assertEquals( expected, markup );
   }

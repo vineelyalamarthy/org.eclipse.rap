@@ -39,11 +39,13 @@ public class TreeViewRenderer_Ie5up_Script extends TreeViewRenderer_DOM_Script {
     {
       HtmlResponseWriter out = getResponseWriter();
       StringBuffer code = new StringBuffer();
+      code.append( "try {" );
       code.append( "document.body.onmouseup = dragDropHandler.clearDragDrop;" );
       code.append( "var jtree=document.getElementById(\"" );
       code.append( component.getUniqueID() );
       code.append( "\");" );
       code.append( "jtree.style.height=\"0px\";" );
+      code.append( "} catch( e ) { }" );
       RenderUtil.writeJavaScriptInline( out, code.toString() );
     }
   }
