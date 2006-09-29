@@ -53,8 +53,9 @@ public class ConfigurationReader_Test extends TestCase {
     IInitialization initialization = application.getInitialization();
     String startUpForm = initialization.getStartUpForm();
     assertEquals( "com.w4t.administration.Startup", startUpForm );
-    String compatibilityMode = initialization.getCompatibilityMode();
-    assertEquals( "Standard", compatibilityMode );
+    String lifeCycle = initialization.getLifeCycle();
+    assertEquals( "com.w4t.engine.lifecycle.standard.LifeCycle_Standard",
+                  lifeCycle );
     String errorPage = initialization.getErrorPage();
     assertEquals( "com.w4t.administration.DefaultErrorForm", errorPage );
     String adminStartupForm = initialization.getAdministrationStartupForm();
@@ -100,9 +101,8 @@ public class ConfigurationReader_Test extends TestCase {
     IInitialization initialization = application.getInitialization();
     String startUpForm = initialization.getStartUpForm();
     assertEquals( "com.w4t.FakeStartup", startUpForm );
-    String compatibilityMode = initialization.getCompatibilityMode();
-    String expected = IInitialization.COMPATIBILITY_MODE_STANDARD;
-    assertEquals( expected, compatibilityMode );
+    String lifeCycle = initialization.getLifeCycle();
+    assertEquals( IInitialization.LIFE_CYCLE_DEFAULT, lifeCycle );
   }
   
   public void testConfigurationOverridingWithSystemProps() throws Exception {
@@ -118,7 +118,7 @@ public class ConfigurationReader_Test extends TestCase {
     String startUpForm = initialization.getStartUpForm();
     assertEquals( startupFormProp, startUpForm );
     
-    String compatibilityMode = initialization.getCompatibilityMode();
-    assertEquals( compatibilityModeProp, compatibilityMode );
+    String lifeCycle = initialization.getLifeCycle();
+    assertEquals( IInitialization.LIFE_CYCLE_DEFAULT, lifeCycle );
   }
 }

@@ -69,7 +69,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "<html><head><title>W4 Toolkit</title><style type=\"text/css\">"
         + ".w4tCsscd1f6403 { font-family:arial,verdana;font-size:8pt; } "
         + "</style><meta http-equiv=\"refresh\" content=\"0; "
-        + "url=?w4t_active_window=w2&activeFormID=p3&requestCounter=-1"
+        + "url=?uiRoot=w2;p3&requestCounter=-1"
         + "&w4t_paramlessGET=true\"> <meta http-equiv=\"content-type\" "
         + "content=\"text/html; charset=UTF-8\" />"
         + "<meta http-equiv=\"cache-control\" content=\"no-cache\" /> "
@@ -82,9 +82,8 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "<form id=\"p1\" action=\"?w4t_enc=no\" name=\"W4TForm\" "
         + "method=\"post\" accept-charset=\"UTF-8\" "
         + "enctype=\"application/x-www-form-urlencoded\">"
-        + "<input type=\"hidden\" id=\"w4t_active_window\" " 
-        + "name=\"w4t_active_window\" value=\"w1\" /><input type=\"hidden\" "
-        + "id=\"activeFormID\" name=\"activeFormID\" value=\"p1\" />"
+        + "<input type=\"hidden\" id=\"uiRoot\" " 
+        + "name=\"uiRoot\" value=\"w1;p1\" />"
         + "<input type=\"hidden\" id=\"w4t_ajaxEnabled\" " 
         + "name=\"w4t_ajaxEnabled\" value=\"false\" />" 
         + "<input type=\"hidden\" id=\"requestCounter\" "
@@ -117,7 +116,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
     String expected
       = "<meta http-equiv=\"refresh\" content=\"0; "
-      + "url=?w4t_active_window=w2&activeFormID=p3&requestCounter=-1"
+      + "url=?uiRoot=w2;p3&requestCounter=-1"
       + "&w4t_paramlessGET=true\">";
     assertTrue( allMarkup.indexOf( expected ) != -1 );
     expected = "form id=\"p1\"";
@@ -127,8 +126,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     assertEquals( false, form.isRefreshing() );
     //
     // Simulate request issued by 'meta refresh' tag:
-    Fixture.fakeRequestParam( "w4t_active_window", "w2" );
-    Fixture.fakeRequestParam( "activeFormID", "p3" );
+    Fixture.fakeRequestParam( RequestParams.UIROOT, "w2;p3" );
     Fixture.fakeRequestParam( "requestCounter", "-1" );
     Fixture.fakeRequestParam( "w4t_paramlessGET", "true" );
     Fixture.fakeResponseWriter();
@@ -155,8 +153,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
       
     };
     lifeCycle.addPhaseListener( closeHandler );
-    Fixture.fakeRequestParam( "w4t_active_window", "w2" );
-    Fixture.fakeRequestParam( "activeFormID", "p3" );
+    Fixture.fakeRequestParam( RequestParams.UIROOT, "w2;p3" );
     Fixture.fakeRequestParam( "requestCounter", "0" );
     Fixture.fakeRequestParam( "w4t_paramlessGET", null );
     Fixture.fakeResponseWriter();
@@ -167,7 +164,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     allMarkup = Fixture.getAllMarkup();
     expected 
       = "<meta http-equiv=\"refresh\" content=\"0; " 
-      + "url=?w4t_active_window=w1&activeFormID=p1&requestCounter=1" 
+      + "url=?uiRoot=w1;p1&requestCounter=1" 
       + "&w4t_paramlessGET=true\">";
     assertTrue( allMarkup.indexOf( expected ) != -1 );
     expected = "form id=\"p3\"";
@@ -175,8 +172,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     //
     // Simulate request issued by 'meta refresh' tag in response to 'close p3'
     lifeCycle.removePhaseListener( closeHandler );
-    Fixture.fakeRequestParam( "w4t_active_window", "w1" );
-    Fixture.fakeRequestParam( "activeFormID", "p1" );
+    Fixture.fakeRequestParam( RequestParams.UIROOT, "w1;p1" );
     Fixture.fakeRequestParam( "requestCounter", "1" );
     Fixture.fakeRequestParam( "w4t_paramlessGET", "true" );
     Fixture.fakeResponseWriter();
@@ -203,8 +199,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
       }
     };
     lifeCycle.addPhaseListener( reOpenHandler );
-    Fixture.fakeRequestParam( "w4t_active_window", "w1" );
-    Fixture.fakeRequestParam( "activeFormID", "p1" );
+    Fixture.fakeRequestParam( RequestParams.UIROOT, "w1;p1" );
     Fixture.fakeRequestParam( "requestCounter", "2" );
     Fixture.fakeRequestParam( "w4t_paramlessGET", null );
     Fixture.fakeResponseWriter();
@@ -215,7 +210,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     assertEquals( false, ContextProvider.getStateInfo().isExpired() );
     expected
       = "<meta http-equiv=\"refresh\" content=\"0; "
-      + "url=?w4t_active_window=w3&activeFormID=p3&requestCounter=1"
+      + "url=?uiRoot=w3;p3&requestCounter=1"
       + "&w4t_paramlessGET=true\">";
     assertTrue( allMarkup.indexOf( expected ) != -1 );
     expected = "form id=\"p1\"";
@@ -260,7 +255,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "eventHandler.disableFocusEvent();" 
         + "setTimeout( 'eventHandler.enableFocusEvent()', 50 );" 
         + "windowManager.scrollWindow( 0, 0 ); windowManager.setName( 'w1' );"
-        + "openNewWindow(\'?w4t_active_window=w2&activeFormID=p3"
+        + "openNewWindow(\'?uiRoot=w2;p3"
         + "&requestCounter=-1&w4t_paramlessGET=true\', " 
         + "\'w2\', \'dependent=no,directories=no,height=600,location=no,"
         + "menubar=no,resizable=yes,status=yes,scrollbars=yes,toolbar=no," 
@@ -294,9 +289,8 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "type=\"hidden\" id=\"availWidth\" name=\"availWidth\" "
         + "value=\"0\" /><input type=\"hidden\" id=\"availHeight\" "
         + "name=\"availHeight\" value=\"0\" />" 
-        + "<input type=\"hidden\" id=\"w4t_active_window\" " 
-        + "name=\"w4t_active_window\" value=\"w1\" /><input type=\"hidden\" "
-        + "id=\"activeFormID\" name=\"activeFormID\" value=\"p1\" />"
+        + "<input type=\"hidden\" id=\"uiRoot\" " 
+        + "name=\"uiRoot\" value=\"w1;p1\" />"
         + "<input type=\"hidden\" id=\"w4t_ajaxEnabled\" " 
         + "name=\"w4t_ajaxEnabled\" value=\"false\" />" 
         + "<input type=\"hidden\" id=\"requestCounter\" "
@@ -347,7 +341,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "<input type=\"hidden\" id=\"requestCounter\" "
         + "name=\"requestCounter\" value=\"1\" />"
         + "<script type=\"text/javascript\">openNewWindow(\'"
-        + "?w4t_active_window=w2&amp;activeFormID=p3&amp;requestCounter=-1"
+        + "?uiRoot=w2;p3&amp;requestCounter=-1"
         + "&amp;w4t_paramlessGET=true\', "
         + "\'w2\', \'dependent=no,directories=no,height=600,location=no,"
         + "menubar=no,resizable=yes,status=yes,scrollbars=yes,toolbar=no,"
@@ -387,7 +381,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "<input type=\"hidden\" id=\"requestCounter\" "
         + "name=\"requestCounter\" value=\"2\" />"
         + "<script type=\"text/javascript\">refreshWindow( \'"
-        + "?w4t_active_window=w2&amp;activeFormID=p3&amp;requestCounter=-1"
+        + "?uiRoot=w2;p3&amp;requestCounter=-1"
         + "&amp;w4t_paramlessGET=true\', "
         + "\'w2\', \'dependent=no,directories=no,height=600,location=no,"
         + "menubar=no,resizable=yes,status=yes,scrollbars=yes,toolbar=no,"

@@ -9,10 +9,10 @@
 		<startUpForm>     		  
 		        com.w4t.administration.Startup
 		</startUpForm>
-		<!--    the working mode for the W4T engine.
-            Currently only "Standard" is supported.
+		<!--    specifies the implementation class that manages the lifecycle
+            of each request.
 	        //-->
-		<compatibilityMode>Standard</compatibilityMode>
+		<lifecycle>com.w4t.engine.lifecycle.standard.LifeCycle_Standard</lifecycle>
 		<!--    the fully qualified class name of a WebForm that
 	        	displays Exceptions that broke the control flow within
 	        	the web application.

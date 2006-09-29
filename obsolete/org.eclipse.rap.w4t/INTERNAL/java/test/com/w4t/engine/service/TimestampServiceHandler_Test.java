@@ -16,6 +16,7 @@ import com.w4t.Fixture.TestResponse;
 import com.w4t.Fixture.TestServletOutputStream;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.requests.RequestParams;
+import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
 
@@ -34,12 +35,15 @@ public class TimestampServiceHandler_Test extends TestCase {
   
   public void testValidRequest1() throws Exception {
     WebForm form = Fixture.loadStartupForm();
+    FormManager.setActive( form );
     IWindow window = WindowManager.getInstance().create( form );
+    WindowManager.setActive( window );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     TestServletOutputStream outputStream = new TestServletOutputStream();
     response.setOutputStream( outputStream );
     Fixture.fakeRequestParam( RequestParams.REQUEST_TIMESTAMP_NAME, "true" );
-    Fixture.fakeRequestParam( RequestParams.ACTIVE_WINDOW, window.getId() );
+    String uiRootId = LifeCycleHelper.createUIRootId();
+    Fixture.fakeRequestParam( RequestParams.UIROOT, uiRootId );
     
     ServiceManager.getHandler().service();
     assertEquals( HTML.CONTENT_IMAGE_GIF, response.getContentType() );
@@ -50,12 +54,15 @@ public class TimestampServiceHandler_Test extends TestCase {
   
   public void testValidRequest2() throws Exception {
     WebForm form = Fixture.loadStartupForm();
+    FormManager.setActive( form );
     IWindow window = WindowManager.getInstance().create( form );
+    WindowManager.setActive( window );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     TestServletOutputStream outputStream = new TestServletOutputStream();
     response.setOutputStream( outputStream );
     Fixture.fakeRequestParam( RequestParams.REQUEST_TIMESTAMP_NAME, "true" );
-    Fixture.fakeRequestParam( RequestParams.ACTIVE_WINDOW, window.getId() );
+    String uiRootId = LifeCycleHelper.createUIRootId();
+    Fixture.fakeRequestParam( RequestParams.UIROOT, uiRootId);
     Fixture.fakeRequestParam( "some-other-param", "random-value" );
     
     ServiceManager.getHandler().service();

@@ -127,8 +127,10 @@ public class FormCloseAndUnload_Test extends TestCase {
     assertTrue( allMarkup.indexOf( "windowManager.closeWindow()" ) != -1 );
     String expected 
       = "refreshWindow( '?"
-      + "w4t_active_window=" + window2.getId()
-      + "&activeFormID=" + form2.getUniqueID();
+      + "uiRoot=" 
+      + window2.getId()
+      + ";" 
+      + form2.getUniqueID();
     assertTrue( allMarkup.indexOf( expected ) != -1 );
     assertEquals( true, WindowManager.isClosing( window1 ) );
     assertEquals( true, WindowManager.isClosed( window1 ) );
@@ -221,8 +223,10 @@ public class FormCloseAndUnload_Test extends TestCase {
     assertTrue( allMarkup.indexOf( expected ) != -1 );
     expected 
       = "refreshWindow( '?"
-      + "w4t_active_window=" + window2.getId()
-      + "&amp;activeFormID=" + form2.getUniqueID();
+      + "uiRoot=" 
+      + window2.getId()
+      + ";" 
+      + form2.getUniqueID();
     assertTrue( allMarkup.indexOf( expected ) != -1 );
   }
   
@@ -261,8 +265,8 @@ public class FormCloseAndUnload_Test extends TestCase {
     //     must look like openNewWindow( ... 'newWindowId'
     expected 
       = "<meta http-equiv=\"refresh\" content=\"0; "
-      + "url=?w4t_active_window=w2"
-      + "&activeFormID=" + dispatchHandler.newForm.getUniqueID();
+      + "url=?uiRoot=w2;"
+      + dispatchHandler.newForm.getUniqueID();
     assertTrue( allMarkup.indexOf( expected ) != -1 );
     
     // simulate 'refresh'-request of newForm

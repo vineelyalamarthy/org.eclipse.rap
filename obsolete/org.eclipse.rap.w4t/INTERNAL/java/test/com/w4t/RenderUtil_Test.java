@@ -11,8 +11,10 @@
 package com.w4t;
 
 import java.io.IOException;
+import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.IServiceStateInfo;
+import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.types.WebColor;
 import com.w4t.util.browser.*;
@@ -416,11 +418,12 @@ public class RenderUtil_Test extends RenderingTestCase {
   
   public void testCreateFormGetURL() {
     WebForm form = Fixture.getEmptyWebFormInstance();
-    WindowManager.getInstance().create( form );
+    FormManager.setActive( form );
+    IWindow window = WindowManager.getInstance().create( form );
+    WindowManager.setActive( window );
     String actual = RenderUtil.createFormGetURL( form );
     String expected 
-      = "?w4t_active_window=w1" 
-      + "&activeFormID=p1" 
+      = "?uiRoot=w1;p1" 
       + "&requestCounter=-1" 
       + "&w4t_paramlessGET=true";
     assertEquals( expected, actual );

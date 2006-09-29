@@ -10,8 +10,6 @@
     this.posY = 0;
   
     this.requestCounter   = 0;
-    this.windowId   = "";
-    this.activeFormID = "";   	 
 
     this.initMethods = new Array( 0 );
 
@@ -60,8 +58,6 @@
       history.forward();  	      	
     }
     this.requestCounter = document.getElementById( "requestCounter" ).value;
-    this.windowId = document.getElementById( "w4t_active_window" ).value;
-    this.activeFormID = document.getElementById( "activeFormID" ).value;  
     if( this.requestCounter == 0 ) {
       if( this.posX != -1 && this.posY != -1 ) {
         try {
@@ -127,12 +123,11 @@
   function triggerTimeStamp() {
     var action = document.W4TForm.action;
     var indicator = document.W4TForm.w4tEngineIndicator.value;
-    var unitName = document.W4TForm.w4tAdapterUnitName.value;
+    var uiRoot = document.W4TForm.uiRoot.value;
     w1 = open(   action 
                + "&requestCounter=" + ( this.requestCounter - 1 )
-               + "&w4t_active_window=" + this.windowId
-               + "&activeFormID=" + this.activeFormID,
-               "triggerTimeStamp" + this.activeFormID, 
+               + "&uiRoot=" + this.uiRoot,
+               "triggerTimeStamp" + this.uiRoot, 
                "width=1,height=1,screenX=0,screenY=0" );              
     setTimeout( 'w1.close();', 50 );
   }  
@@ -175,14 +170,13 @@
   function triggerTimeStamp_DOM() {
     var action = document.W4TForm.action;
     var indicator = document.getElementById( "w4tEngineIndicator" ).value;
-    var unitName = document.getElementById( "w4tAdapterUnitName" ).value;
     var triggerTimeStampImg 
       = document.getElementById( "w4tTriggerTimeStampImg" );
+    var uiRoot = document.getElementById( "uiRoot" ).value;
     // the random-parameter forces the browser to not take the image from cache
     var url =  action 
              + "&requestCounter=" + ( windowManager.requestCounter - 1 )
-             + "&w4t_active_window=" + windowManager.windowId
-             + "&activeFormID=" + windowManager.activeFormID
+             + "&uiRoot=" + uiRoot
              + "&w4tTriggerTimeStamp=true"
              + "&w4tRandom=" + String( Math.random() ); 
     triggerTimeStampImg.src = url;

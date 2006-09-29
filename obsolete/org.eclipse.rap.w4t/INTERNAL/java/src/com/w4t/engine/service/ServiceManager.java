@@ -87,8 +87,6 @@ public class ServiceManager {
       } else if( isTimeStampTrigger() ) {
         getTriggerFormRequestHandler().service();
       } else {
-        // TODO [rh] We should check if the minimum required request
-        //      parmeters exist and render an error page if not
         getFormRequestHandler().service();
       }
     }

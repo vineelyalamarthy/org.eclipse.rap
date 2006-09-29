@@ -21,11 +21,11 @@
         </xsd:annotation>
       </xsd:element>
 
-      <xsd:element default="Standard" maxOccurs="1" minOccurs="0" name="compatibilityMode" type="xsd:string">
+      <xsd:element default="com.w4t.engine.lifecycle.standard.LifeCycle_Standard" maxOccurs="1" minOccurs="0" name="lifecycle" type="xsd:string">
         <xsd:annotation>
           <xsd:documentation>
-            the working mode for the W4T engine.
-            Currently only "Standard" is supported.
+            specifies the implementation class that manages the lifecycle
+            of each request.
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>

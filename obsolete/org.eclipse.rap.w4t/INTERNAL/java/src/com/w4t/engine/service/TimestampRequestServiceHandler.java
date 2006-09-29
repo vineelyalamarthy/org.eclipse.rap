@@ -19,7 +19,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.requests.RequestParams;
 import com.w4t.internal.adaptable.IFormAdapter;
 
 
@@ -68,7 +67,7 @@ final class TimestampRequestServiceHandler extends AbstractServiceHandler {
 
   private static WebForm getForm() {
     WebForm result = null;
-    String windowId = getWindowId();
+    String windowId = LifeCycleHelper.getRequestWindowId();
     if( windowId != null ) {
       IWindow window = W4TContext.getWindowManager().findById( windowId );
       if( window != null ) {
@@ -78,10 +77,6 @@ final class TimestampRequestServiceHandler extends AbstractServiceHandler {
     return result;
   }
 
-  private static String getWindowId() {
-    return getRequest().getParameter( RequestParams.ACTIVE_WINDOW );
-  }
-  
   private static void refreshTimestamp( final WebForm form ) {
     IFormAdapter adapter 
       = ( IFormAdapter )form.getAdapter( IFormAdapter.class );
@@ -102,7 +97,10 @@ final class TimestampRequestServiceHandler extends AbstractServiceHandler {
                                         new Object[] { form.getUniqueID() } );
       }
       String text = "Timestamp request for window-id ''{0}'': {1}";
-      Object[] args = new Object[] { getWindowId(), outcome };
+      Object[] args = new Object[] { 
+        LifeCycleHelper.getRequestWindowId(), 
+        outcome 
+      };
       logger.log( Level.FINE, MessageFormat.format( text, args ) );
     }
   }

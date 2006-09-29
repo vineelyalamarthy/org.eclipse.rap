@@ -18,7 +18,8 @@ package com.w4t.util;
  */
 public interface IInitialization {
 
-  public final static String COMPATIBILITY_MODE_STANDARD = "Standard";
+  public static final String LIFE_CYCLE_DEFAULT
+    = "com.w4t.engine.lifecycle.standard.LifeCycle_Standard";
   
   public final static String NOSCRIPT_SUBMITTERS_NONE = "None";
   public final static String NOSCRIPT_SUBMITTERS_CREATE = "Create";
@@ -31,18 +32,19 @@ public interface IInitialization {
   public static final String HANDLE_MISSING_I18N_RESOURCE_FAIL = "Fail";
   public static final String HANDLE_MISSING_I18N_RESOURCE_EXPLICIT = "Explicit";
 
+
   /**
    * <p>Returns the fully qualified class name of the WebForm that will be 
    * displayed when the web application starts.</p> 
    */
   String getStartUpForm();
 
-  /** 
-   * <p>Returns the working mode for the W4T engine. Currently only 
-   * <code>COMPATIBILITY_MODE_STANDARD</code> is supported.</p>
+  /**
+   * specifies the implementation class that manages the lifecycle of each
+   * request.
    */
-  String getCompatibilityMode();
-
+  String getLifeCycle();
+  
   /**
    * <p>Returns the fully qualified class name of a WebForm that
    * displays Exceptions that broke the control flow within

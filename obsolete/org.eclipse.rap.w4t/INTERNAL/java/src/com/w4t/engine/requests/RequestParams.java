@@ -62,8 +62,6 @@ public interface RequestParams {
    * <p>Currently used in treeview_ie_gecko.js.</p> */
   final static String HIDDEN_FOCUS = "w4t_hidden_focus";
 
-  /** <p>The request parameter name for the unique id of the active form.</p> */ 
-  static final String ACTIVE_FORM_ID = "activeFormID";
   /** <p>The servlet parameter name denothing the form's request counter.</p> */
   static final String REQUEST_COUNTER = "requestCounter";
   /** <p>The element which is focused</p> */
@@ -82,7 +80,5 @@ public interface RequestParams {
    * </p> */
   static final String SCROLL_X = "scrollX";
 
-  /** <p>Id of the <code>IWindow</code> in which the requested form is/will be 
-   * shown in.</p> */
-  static final String ACTIVE_WINDOW = "w4t_active_window";
+  static final String UIROOT = "uiRoot";
 }

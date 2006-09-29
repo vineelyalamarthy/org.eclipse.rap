@@ -121,14 +121,16 @@ public class Logger_Test extends TestCase {
     new TimestampRequestServiceHandler().service();
     LogRecord[] records = handler.getRecords();
     assertEquals( 1, records.length );
-    assertEquals( TimestampRequestServiceHandler.LOG, records[ 0 ].getLoggerName() );
+    assertEquals( TimestampRequestServiceHandler.LOG, 
+                  records[ 0 ].getLoggerName() );
   
     handler.reset();
-    Fixture.fakeRequestParam( RequestParams.ACTIVE_WINDOW, "xyz" );
+    Fixture.fakeRequestParam( RequestParams.UIROOT, "xyz;abc" );
     new TimestampRequestServiceHandler().service();
     records = handler.getRecords();
     assertEquals( 1, records.length );
-    assertEquals( TimestampRequestServiceHandler.LOG, records[ 0 ].getLoggerName() );
+    assertEquals( TimestampRequestServiceHandler.LOG, 
+                  records[ 0 ].getLoggerName() );
   }
   
   private static TestHandler installTestHandler() {

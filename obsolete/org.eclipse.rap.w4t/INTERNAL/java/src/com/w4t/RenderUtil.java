@@ -15,7 +15,6 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.w4t.IWindowManager.IWindow;
 import com.w4t.dhtml.event.DoubleClickEvent;
 import com.w4t.dhtml.event.DragDropEvent;
 import com.w4t.engine.requests.RequestParams;
@@ -23,7 +22,6 @@ import com.w4t.engine.requests.URLHelper;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.ResourceManager;
-import com.w4t.engine.util.WindowManager;
 import com.w4t.event.WebActionEvent;
 import com.w4t.event.WebItemEvent;
 import com.w4t.internal.adaptable.IFormAdapter;
@@ -691,22 +689,13 @@ public final class RenderUtil {
    * the W4Toolkit servlet.</p>
    */
   public static String createFormGetURL( final WebForm form ) {
-    String formId = form.getUniqueID();
     IFormAdapter adapter;
     adapter = ( IFormAdapter )form.getAdapter( IFormAdapter.class );
     String counter = String.valueOf( adapter.getRequestCounter() - 1 );    
-    IWindow window = WindowManager.getInstance().findWindow( form );
-    if( window == null ) {
-      String text = "The form with id ''{0}'' is not associated with a window.";
-      Object[] args = new Object[] { form.getUniqueID() };
-      String msg = MessageFormat.format( text, args );
-      throw new IllegalStateException( msg );
-    }
-    String activeWindow = RequestParams.ACTIVE_WINDOW;
     StringBuffer result = new StringBuffer();
     result.append( URLHelper.getURLString( false ) );
-    URLHelper.appendFirstParam( result, activeWindow, window.getId() );
-    URLHelper.appendParam( result, RequestParams.ACTIVE_FORM_ID, formId );
+    String uiRootId = LifeCycleHelper.createUIRootId( form );
+    URLHelper.appendFirstParam( result, RequestParams.UIROOT, uiRootId );
     URLHelper.appendParam( result, RequestParams.REQUEST_COUNTER, counter );
     URLHelper.appendParam( result, RequestParams.PARAMLESS_GET, "true" );
     return result.toString();

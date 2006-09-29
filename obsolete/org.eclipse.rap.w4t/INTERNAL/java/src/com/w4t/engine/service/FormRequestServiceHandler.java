@@ -67,10 +67,8 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
         bufferStartupRequestParams( session );
         BrowserSurvey.sendBrowserSurvey();
       }
-      if( !ServiceManager.isTimeStampTrigger() ) {
-        appendProcessTime( startTime );
-        writeOutput();
-      }
+      appendProcessTime( startTime );
+      writeOutput();
     }
   }
 
@@ -128,9 +126,8 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
   private static void checkRequest( final HttpSession session ) {
     boolean startup 
       = getRequest().getParameter( RequestParams.STARTUP ) != null;
-    String formId = getRequest().getParameter( RequestParams.ACTIVE_FORM_ID );
-    String windowId = getRequest().getParameter( RequestParams.ACTIVE_WINDOW );
-    if( !session.isNew() && !startup && ( formId == null || windowId == null ) ) 
+    String uiRoot = getRequest().getParameter( RequestParams.UIROOT );
+    if( !session.isNew() && !startup && uiRoot == null ) 
     {
       Enumeration keys = session.getAttributeNames();
       List keyBuffer = new ArrayList();

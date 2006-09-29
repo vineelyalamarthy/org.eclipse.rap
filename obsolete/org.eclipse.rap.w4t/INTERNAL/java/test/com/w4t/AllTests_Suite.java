@@ -102,6 +102,7 @@ public class AllTests_Suite {
     suite.addTestSuite( DefaultHashCodeBuilder_Test.class );
     suite.addTestSuite( AjaxStatus_Test.class );
     suite.addTestSuite( WebFormUtil_Test.class );
+    suite.addTestSuite( LifeCycleFactory_Test.class );
     suite.addTestSuite( LifeCycleStartupRequest_Test.class );
     suite.addTestSuite( LifeCycleStandardRequest_Test.class );
     suite.addTestSuite( LifeCycleFormDispatchRequest_Test.class );
@@ -158,6 +159,7 @@ public class AllTests_Suite {
     suite.addTestSuite( ServiceHandler_Test.class );
     suite.addTestSuite( FormRequestServiceHandler_Test.class );
     suite.addTestSuite( ResourceServiceHandler_Test.class );
+    suite.addTestSuite( TimestampServiceHandler_Test.class );
     suite.addTestSuite( StartupRequest_Test.class );    
     
     suite.addTestSuite( WebBorderComponentRenderer_Test.class );

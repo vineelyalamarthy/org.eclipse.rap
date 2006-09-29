@@ -68,10 +68,10 @@ public class ConfigurationReader {
       // that class must be loaded in session scope
       return getConfigValue( "startUpForm", "com.w4t.administration.Startup" );
     }
-
-    public String getCompatibilityMode() {
-      String defaultValue = IInitialization.COMPATIBILITY_MODE_STANDARD;
-      return getConfigValue( "compatibilityMode", defaultValue );
+    
+    public String getLifeCycle() {
+      String defaultValue = IInitialization.LIFE_CYCLE_DEFAULT;
+      return getConfigValue( "lifecycle", defaultValue );
     }
 
     public String getErrorPage() {

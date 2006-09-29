@@ -14,6 +14,7 @@ import java.security.AccessControlException;
 import java.text.MessageFormat;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import com.w4t.LifeCycleHelper;
 import com.w4t.WebForm;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.lifecycle.PhaseId;
@@ -136,8 +137,7 @@ final class AccessForm extends Phase {
 
   private static PhaseId executeStandard() {
     PhaseId result = PhaseId.RENDER;
-    HttpServletRequest request = ContextProvider.getRequest();
-    String windowId = request.getParameter( RequestParams.ACTIVE_WINDOW );
+    String windowId = LifeCycleHelper.getRequestWindowId(); 
     // FIXME [rh] windowId is null on first request with Firefox - there
     //       is coming in a second request with no parameters at all.
     IWindow window = WindowManager.getInstance().findById( windowId );
@@ -160,12 +160,7 @@ final class AccessForm extends Phase {
   
   private static boolean isExpired( final WebForm form ) {
     return    getExpectedRequestCounter() != getFormRequestCounter( form ) 
-           || !form.getUniqueID().equals( getExpectedFormId() );
-  }
-  
-  private static String getExpectedFormId() {
-    HttpServletRequest request = ContextProvider.getRequest();
-    return request.getParameter( RequestParams.ACTIVE_FORM_ID );
+           || !form.getUniqueID().equals( LifeCycleHelper.getRequestFormId() );
   }
   
   private static int getFormRequestCounter( final WebForm form ) {

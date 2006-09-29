@@ -12,12 +12,18 @@ package com.w4t;
 
 import java.io.IOException;
 import java.text.Format;
+import java.text.MessageFormat;
+import javax.servlet.http.HttpServletRequest;
+import com.w4t.IWindowManager.IWindow;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.dhtml.Item;
 import com.w4t.engine.lifecycle.standard.EventQueue;
 import com.w4t.engine.lifecycle.standard.IRenderingSchedule;
+import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.IServiceStateInfo;
+import com.w4t.engine.util.FormManager;
+import com.w4t.engine.util.WindowManager;
 import com.w4t.event.WebDataEvent;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
 import com.w4t.util.RendererCache;
@@ -128,4 +134,55 @@ public class LifeCycleHelper {
     RendererCache cache = RendererCache.getInstance();
     return cache.retrieveRenderer( questioner.getClass(), browser );
   }
+
+  public static String createUIRootId() {
+    String windowId = WindowManager.getActive().getId();
+    String formId = FormManager.getActive().getUniqueID();
+    return createUIRootId( windowId, formId );
+  }
+
+  public static String getRequestWindowId() {
+    HttpServletRequest request = ContextProvider.getRequest();
+    String uiRoot = request.getParameter( RequestParams.UIROOT );
+    String result = null;
+    if( uiRoot != null ) {
+      String[] parts = uiRoot.split( ";" );
+      result = parts[ 0 ];
+    }
+    return result;
+  }
+
+  public static String getRequestFormId() {
+    HttpServletRequest request = ContextProvider.getRequest();
+    String uiRoot = request.getParameter( RequestParams.UIROOT );
+    String result = null;
+    if( uiRoot != null ) {
+      String[] parts = uiRoot.split( ";" );
+      result = parts[ 1 ];
+    }
+    return result;
+  }
+
+  public static String createUIRootId( final WebForm form ) {
+    String formId = form.getUniqueID();
+    IWindow window = WindowManager.getInstance().findWindow( form );
+    if( window == null ) {
+      String text = "The form with id ''{0}'' is not associated with a window.";
+      Object[] args = new Object[] { form.getUniqueID() };
+      String msg = MessageFormat.format( text, args );
+      throw new IllegalStateException( msg );
+    }
+    return createUIRootId( window.getId(), formId );
+  }
+
+  private static String createUIRootId( final String windowId, 
+                                        final String formId ) 
+  {
+    StringBuffer uiRoot = new StringBuffer();
+    uiRoot.append( windowId );
+    uiRoot.append( ";" );
+    uiRoot.append( formId );
+    return uiRoot.toString();
+  }
+
 }

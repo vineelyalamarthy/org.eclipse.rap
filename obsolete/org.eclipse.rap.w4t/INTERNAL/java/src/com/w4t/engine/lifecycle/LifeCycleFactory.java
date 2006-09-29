@@ -14,7 +14,7 @@ import com.w4t.util.*;
 
 
 /** <p>supplies factory methods for lifecycle managers for various 
-  * compatibility modes.</p>
+  * <code>LifeCycle</code> implementations.</p>
   */
 public class LifeCycleFactory {
   
@@ -25,8 +25,7 @@ public class LifeCycleFactory {
     try {
       IConfiguration configuration = ConfigurationReader.getConfiguration();
       IInitialization initialization = configuration.getInitialization();
-      String compatibilityMode = initialization.getCompatibilityMode();
-      String lifeCycleClassName = createLifeCycleName( compatibilityMode );
+      String lifeCycleClassName = initialization.getLifeCycle();
       Class lifeCycleClass = Class.forName( lifeCycleClassName );
       result = ( ILifeCycle )lifeCycleClass.newInstance();
     } catch( Exception ex ) {
@@ -34,12 +33,5 @@ public class LifeCycleFactory {
       result = new com.w4t.engine.lifecycle.standard.LifeCycle_Standard();
     }
     return result;
-  }
-  
-  private static String createLifeCycleName( final String compatibilityMode ) {
-    return    "com.w4t.engine.lifecycle."
-            + compatibilityMode.toLowerCase()
-            + ".LifeCycle_"
-            + compatibilityMode;
   }
 }

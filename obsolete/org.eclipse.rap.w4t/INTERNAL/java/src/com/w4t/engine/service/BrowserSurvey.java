@@ -127,7 +127,7 @@ final class BrowserSurvey {
   private static String createURL() {
     StringBuffer url = new StringBuffer();
     url.append( URLHelper.getURLString( false ) );
-    URLHelper.appendFirstParam( url, adminOrStartup(), "true" );
+    URLHelper.appendFirstParam( url, adminOrStartup(), "default" );
     URLHelper.appendParam( url, RequestParams.SCRIPT, "false" );
     URLHelper.appendParam( url, RequestParams.AJAX_ENABLED, "false" );
     return ContextProvider.getResponse().encodeURL( url.toString() );

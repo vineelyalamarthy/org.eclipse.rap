@@ -61,6 +61,7 @@ public class Fixture {
     private String servletPath = "";
     private Map parameters = new HashMap();
     private Map headers = new HashMap();
+    private Map attributes = new HashMap();
     
     public String getAuthType() {
       return null;
@@ -207,7 +208,7 @@ public class Fixture {
     }
     
     public Object getAttribute( final String arg0 ) {
-      return null;
+      return attributes.get( arg0 );
     }
     
     public Enumeration getAttributeNames() {
@@ -338,6 +339,7 @@ public class Fixture {
     }
     
     public void setAttribute( final String arg0, final Object arg1 ) {
+      attributes.put( arg0, arg1 );
     }
     
     public void removeAttribute( final String arg0 ) {
@@ -493,6 +495,8 @@ public class Fixture {
   public final static class TestServletContext implements ServletContext {
 
     private String servletContextName;
+    private final Map initParameters = new HashMap();
+    private Map attributes = new HashMap();
 
     public ServletContext getContext( final String arg0 ) {
       return null;
@@ -559,8 +563,12 @@ public class Fixture {
       return null;
     }
 
-    public String getInitParameter( final String arg0 ) {
-      return null;
+    public String getInitParameter( final String name ) {
+      return ( String )initParameters.get( name );
+    }
+    
+    public void setInitParameter( final String name, final String value ) {
+      initParameters.put( name, value );
     }
 
     public Enumeration getInitParameterNames() {
@@ -568,7 +576,7 @@ public class Fixture {
     }
 
     public Object getAttribute( final String arg0 ) {
-      return null;
+      return attributes.get( arg0 );
     }
 
     public Enumeration getAttributeNames() {
@@ -576,6 +584,7 @@ public class Fixture {
     }
 
     public void setAttribute( final String arg0, final Object arg1 ) {
+      attributes .put( arg0, arg1 );
     }
 
     public void removeAttribute( final String arg0 ) {
@@ -918,12 +927,12 @@ public class Fixture {
     Default browser = new Default( false, false );
     ContextProvider.getSession().setAttribute( browserId, browser );
     stateInfo.setDetectedBrowser( browser );
-    fakeRequestParam( RequestParams.ACTIVE_FORM_ID, form.getUniqueID() );
     FormManager.add( form );
     IWindow window = WindowManager.getInstance().create( form );
     WindowManager.setActive( window );
-    fakeRequestParam( RequestParams.ACTIVE_WINDOW, window.getId() );
     fakeRequestParam( RequestParams.REQUEST_COUNTER, "-1" );
+    String uiRootId = window.getId() + ";" + form.getUniqueID();
+    fakeRequestParam( RequestParams.UIROOT, uiRootId );
     fakeEngineForRender( form );
   }
   
@@ -1061,8 +1070,7 @@ public class Fixture {
                                             final String windowId, 
                                             final String formId )
   {
-    fakeRequestParam( RequestParams.ACTIVE_WINDOW, windowId );
-    fakeRequestParam( RequestParams.ACTIVE_FORM_ID, formId );
+    fakeRequestParam( RequestParams.UIROOT, windowId + ";" + formId );
     fakeRequestParam( RequestParams.REQUEST_COUNTER, requestCounter );
   }
 

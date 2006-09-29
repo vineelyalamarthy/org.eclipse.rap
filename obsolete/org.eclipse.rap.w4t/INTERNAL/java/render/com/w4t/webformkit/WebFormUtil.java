@@ -24,7 +24,7 @@ import com.w4t.internal.adaptable.IFormAdapter;
 import com.w4t.util.HTMLUtil;
 
 
-final class WebFormUtil {
+public final class WebFormUtil {
   
   private WebFormUtil() {
     // prevent instantiation
@@ -102,16 +102,6 @@ final class WebFormUtil {
     return HTMLUtil.hiddenInput( RequestParams.AJAX_ENABLED, value );
   }
   
-  /** append the instance identifiers of a WebForm to its hidden fields */
-  static String createFormIdentifiers() {
-    StringBuffer html = new StringBuffer();
-    String windowId = WindowManager.getActive().getId();
-    HTMLUtil.hiddenInput( html, RequestParams.ACTIVE_WINDOW, windowId );
-    String formId = FormManager.getActive().getUniqueID();
-    HTMLUtil.hiddenInput( html, RequestParams.ACTIVE_FORM_ID, formId );
-    return html.toString();
-  }
-  
   /** returns the html code for hidden input fields, which are used to
     * register events that occured. */
   static String createEventHandlerFields() {
@@ -140,6 +130,15 @@ final class WebFormUtil {
     return html.toString();
   }
 
+
+  /** append the instance identifiers of a WebForm to its hidden fields */
+  static String createFormIdentifiers() {
+    StringBuffer html = new StringBuffer();
+    String uiRootId = LifeCycleHelper.createUIRootId();
+    HTMLUtil.hiddenInput( html, RequestParams.UIROOT, uiRootId );
+    return html.toString();
+  }
+  
   static String createFocusElement() {
     // TODO: [fappel] Don't set focus on the originating window if a popup
     //                window is requested, since IE brings the originating
