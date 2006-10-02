@@ -23,14 +23,15 @@ public class PhaseId implements Comparable {
   private static int nextOrdinal;
   
   public static final PhaseId ANY = new PhaseId( "ANY" );
-  public static final PhaseId ACCESS_FORM = new PhaseId( "ACCESS_FORM" );
+  public static final PhaseId PREPARE_UI_ROOT 
+    = new PhaseId( "PREPARE_UI_ROOT" );
   public static final PhaseId READ_DATA = new PhaseId( "READ_DATA" );
   public static final PhaseId PROCESS_ACTION = new PhaseId( "PROCESS_ACTION" );
   public static final PhaseId RENDER = new PhaseId( "RENDER" );
   
   private final static PhaseId[] values = new PhaseId[] {
     ANY,
-    ACCESS_FORM,
+    PREPARE_UI_ROOT,
     READ_DATA,
     PROCESS_ACTION,
     RENDER

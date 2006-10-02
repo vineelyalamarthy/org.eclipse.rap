@@ -27,8 +27,8 @@ public class PhaseId_Test extends TestCase {
     assertEquals( "ANY", PhaseId.ANY.toString() );
     
     Object phaseId1 = values.get( 1 );
-    assertSame( PhaseId.ACCESS_FORM, phaseId1 );
-    assertEquals( "ACCESS_FORM", PhaseId.ACCESS_FORM.toString() );
+    assertSame( PhaseId.PREPARE_UI_ROOT, phaseId1 );
+    assertEquals( "PREPARE_UI_ROOT", PhaseId.PREPARE_UI_ROOT.toString() );
     
     Object phaseId2 = values.get( 2 );
     assertSame( PhaseId.READ_DATA, phaseId2 );
@@ -49,8 +49,8 @@ public class PhaseId_Test extends TestCase {
     }
     
     assertSame( PhaseId.ANY, values.get( PhaseId.ANY.getOrdinal() ) );
-    assertSame( PhaseId.ACCESS_FORM, 
-                values.get( PhaseId.ACCESS_FORM.getOrdinal() ) );
+    assertSame( PhaseId.PREPARE_UI_ROOT, 
+                values.get( PhaseId.PREPARE_UI_ROOT.getOrdinal() ) );
     assertSame( PhaseId.READ_DATA, 
                 values.get( PhaseId.READ_DATA.getOrdinal() ) );
     assertSame( PhaseId.PROCESS_ACTION, 

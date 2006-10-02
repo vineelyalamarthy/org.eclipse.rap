@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.w4t.engine.lifecycle;
 
+import java.io.IOException;
 import javax.servlet.ServletException;
 
 
@@ -32,7 +33,7 @@ public abstract class LifeCycle implements ILifeCycle {
    * <p>Executes the lifecycle defined in this LifeCycle. Implementing 
    * subclasses use this as entry point to the processing of their phases.</p> 
    */
-  public abstract void execute() throws ServletException;
+  public abstract void execute() throws ServletException, IOException;
 
   public abstract void addPhaseListener( PhaseListener listener );
 

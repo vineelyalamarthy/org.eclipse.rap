@@ -58,8 +58,8 @@ public class LifeCycle_Standard_Test extends TestCase {
     };
     lifeCycle.addPhaseListener( listener );
     lifeCycle.execute();
-    String expected =   BEFORE + PhaseId.ACCESS_FORM + "|"
-                      + AFTER + PhaseId.ACCESS_FORM + "|"
+    String expected =   BEFORE + PhaseId.PREPARE_UI_ROOT + "|"
+                      + AFTER + PhaseId.PREPARE_UI_ROOT + "|"
                       + BEFORE + PhaseId.READ_DATA + "|"
                       + AFTER + PhaseId.READ_DATA + "|"
                       + BEFORE + PhaseId.PROCESS_ACTION + "|"
@@ -86,12 +86,12 @@ public class LifeCycle_Standard_Test extends TestCase {
       }
       
       public PhaseId getPhaseId() {
-        return PhaseId.ACCESS_FORM;
+        return PhaseId.PREPARE_UI_ROOT;
       }
     } );
     lifeCycle.execute();
-    expected =   BEFORE + PhaseId.ACCESS_FORM + "|"
-               + AFTER + PhaseId.ACCESS_FORM + "|";
+    expected =   BEFORE + PhaseId.PREPARE_UI_ROOT + "|"
+               + AFTER + PhaseId.PREPARE_UI_ROOT + "|";
     assertEquals( expected, log );
   }
 }

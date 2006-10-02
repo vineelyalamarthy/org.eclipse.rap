@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.w4t.engine;
 
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import com.w4t.*;
@@ -39,7 +40,7 @@ public class W4TModel extends SessionSingletonBase implements Adaptable {
   private IServiceAdapter serviceAdapter;
   
   private final class ServiceAdapter implements IServiceAdapter {
-    public void execute() throws ServletException {
+    public void execute() throws ServletException, IOException {
       prepareSession();
       prepareRegistry();
       LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();

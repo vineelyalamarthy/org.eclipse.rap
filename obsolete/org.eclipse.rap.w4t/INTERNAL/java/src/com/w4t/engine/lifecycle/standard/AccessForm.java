@@ -37,7 +37,6 @@ import com.w4t.util.IInitialization;
   */
 final class AccessForm extends Phase {
   
-  
   private final static String DEFAULT_ADMIN_FORM
     = "com.w4t.administration.Startup";
 
@@ -67,7 +66,7 @@ final class AccessForm extends Phase {
   }
 
   PhaseId getPhaseID() {
-    return PhaseId.ACCESS_FORM;
+    return PhaseId.PREPARE_UI_ROOT;
   }
   
   

@@ -30,7 +30,7 @@ import com.w4t.util.browser.Ie6;
 public class SessionUnbound_Test extends TestCase {
 
   private static final String ALL_PHASES 
-    = "beforeACCESS_FORM|afterACCESS_FORM|" 
+    = "beforePREPARE_UI_ROOT|afterPREPARE_UI_ROOT|" 
     + "beforeREAD_DATA|afterREAD_DATA|" 
     + "beforePROCESS_ACTION|afterPROCESS_ACTION|" 
     + "beforeRENDER|afterRENDER|";

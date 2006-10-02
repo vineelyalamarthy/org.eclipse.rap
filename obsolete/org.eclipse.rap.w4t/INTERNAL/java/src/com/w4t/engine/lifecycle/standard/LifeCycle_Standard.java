@@ -49,7 +49,7 @@ public class LifeCycle_Standard extends LifeCycle {
 
   public void execute() throws ServletException {
     Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-    PhaseId current = PhaseId.ACCESS_FORM;
+    PhaseId current = PhaseId.PREPARE_UI_ROOT;
     while( current != null ) {
       PhaseId next;
       try {

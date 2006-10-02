@@ -10,11 +10,12 @@
  ******************************************************************************/
 package com.w4t.internal.adaptable;
 
+import java.io.IOException;
 import javax.servlet.ServletException;
 
 // TODO [rh] JavaDoc necessary?
 public interface IServiceAdapter {
 
-  void execute() throws ServletException;
+  void execute() throws ServletException, IOException;
   
 }

@@ -47,6 +47,7 @@ public final class HTML {
   public final static String COLS = "cols";
   public final static String COLSPAN = "colspan";
   public static final String CONTENT = "content";
+  public static final String CONTENT_TYPE = "Content-Type";
   public final static String CLASS = "class";
   public final static String DIR = "dir";
   public final static String DISABLED = "disabled";
@@ -78,6 +79,7 @@ public final class HTML {
   public static final String MARGINHEIGHT = "marginheight";
   public static final String MARGINWIDTH = "marginwidth";
   public final static String MAXLENGTH = "maxlength";
+  public static final String META = "meta";
   public final static String METHOD = "method";
   public final static String MIDDLE = "middle";
   public final static String NAME = "name";
@@ -152,6 +154,8 @@ public final class HTML {
   public static final String CONTENT_TEXT_XML = "text/xml";
   public static final String CONTENT_TEXT_CSS = "text/css";
   public static final String CONTENT_TEXT_JAVASCRIPT = "text/javascript";
+  public static final String CONTENT_TEXT_JAVASCRIPT_UTF_8 
+    = "text/javascript; charset=UTF-8";
   public static final String CONTENT_IMAGE_ICO = "image/ico";
   public static final String CONTENT_IMAGE_GIF = "image/gif";
 
