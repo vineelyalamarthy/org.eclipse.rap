@@ -55,8 +55,10 @@ public class WebComponentRegistry_Test extends TestCase {
       buffer.append( componentCountsText[ i ] );
       buffer.append( ";" );
     }
-    String expected =
-      "1 : com.w4t.Fixture$5;1 : com.w4t.WebButton;1 : com.w4t.WebText;";
+    String expected 
+      = "1 : com.w4t.Fixture$EmptyWebForm;" 
+      + "1 : com.w4t.WebButton;" 
+      + "1 : com.w4t.WebText;";
     assertEquals( expected, buffer.toString() );
     
     Thread thread = new Thread( new Runnable() {

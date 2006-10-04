@@ -51,6 +51,22 @@ public class Fixture {
   private static RenderInfoAdapterFactory renderInfoAdapterFactory;
   private static AjaxStatusAdapterFactory ajaxStatusAdapterFactory;
   
+  private static final class EmptyWebForm extends WebForm {
+
+    private long closingTimeout = -1;
+
+    protected void setWebComponents() throws Exception {
+    }
+
+    public long getClosingTimeout() {
+      return closingTimeout;
+    }
+
+    public void setClosingTimeout( final long closingTimeout ) {
+      this.closingTimeout = closingTimeout;
+    }
+  }
+
   public final static class TestRequest implements HttpServletRequest {
     
     private HttpSession session;
@@ -980,17 +996,7 @@ public class Fixture {
   }
   
   public static WebForm getEmptyWebFormInstance() {
-    return new WebForm() {
-      private long closingTimeout = -1;
-      protected void setWebComponents() throws Exception {
-      }
-      public long getClosingTimeout() {
-        return closingTimeout;
-      }
-      public void setClosingTimeout( final long closingTimeout ) {
-        this.closingTimeout = closingTimeout;
-      }
-    };
+    return new EmptyWebForm();
   }
   
   public static ILifeCycleAdapter getLifeCycleAdapter( final WebForm form ) {
