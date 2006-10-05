@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.w4t.event;
 
-import com.w4t.Adaptable;
 import com.w4t.WebComponent;
 
 
@@ -57,39 +56,23 @@ import com.w4t.WebComponent;
   * in order be called from the component's <code>add/removeXXXListener</code>
   * methods.</p>
   */
-public abstract class WebEvent {
+public abstract class WebEvent extends Event {
 
-  /** the WebEvent type */
-  private int id;
-  /** the source object on which this event occured */
-  private Object source;
-  
   /**
     * Constructor
     * @param source the source WebComponent at which the event occured
     * @param id the type of the event
     */
   public WebEvent( final Object source, final int id ) {
-    this.source = source;
-    this.id     = id;
+    super( source, id );
   }
   
-  /** <p>returns the object on which this event occured.</p> */
-  public Object getSource() {
-    return source;
-  }
-
-  /** <p>returns the event type of this WebEvent.</p> */
-  public int getID() {
-    return id;
-  }
-
   /** <p>returns the source (as WebComponent) on which this event occured,
     * if it is of type WebComponent, or null else.</p> */
   public WebComponent getSourceComponent() {
     WebComponent result = null;
-    if( source instanceof WebComponent ) {
-      result = ( WebComponent )source;
+    if( getSource() instanceof WebComponent ) {
+      result = ( WebComponent )getSource();
     }
     return result;
   }
@@ -117,129 +100,5 @@ public abstract class WebEvent {
       result = ( ( sourceSemanticsId & eventSemanticsId ) == eventSemanticsId );
     }
     return result;
-  }
-  
-  /**
-   * <p>Notifies all registered listeners about this event.</p> 
-   */
-  public void processEvent() {
-    IEventAdapter eventAdapter = getEventAdapter( getEventSource() );
-    if( eventAdapter.hasListener( getListenerType() ) ) {
-      Object[] listener = eventAdapter.getListener( getListenerType() );
-      for( int i = 0; i < listener.length; i++ ) {
-        // TODO: [fappel] Exception handling ? 
-        dispatchToObserver( listener[ i ] );
-      }
-    }
-  }
-  
-  /**
-   * <p>Returns the source for this event.</p>
-   */
-  protected Adaptable getEventSource() {
-    return ( Adaptable )getSource();
-  }
-  
-  /**
-   * <p>Notifies the given <code>listener</code> about the occurence of this
-   * event.</p>
-   * @param listener the listener to be notified. Will be of type {@link 
-   * #getListenerType() <code>getListenerType()</code>}
-   */
-  protected abstract void dispatchToObserver( final Object listener );
-  
-  /**
-   * <p>Returns the listener interface that can be used to observe this 
-   * <code>WebEvent</code>.</p>
-   * <p>For example instances of <code>WebActionEvent</code> return  
-   * <code>WebActionListener</code>.</p>
-   */
-  protected abstract Class getListenerType();
-
-  /**
-   * <p>Returns an <code>IEventAdapter</code> for the given 
-   * <code>adaptable</code>.</p>
-   * @param adaptable the adaptable to obtain an IEventAdapter for, must not be 
-   * <code>null</code>.
-   */
-  protected static IEventAdapter getEventAdapter( final Adaptable adaptable ) {
-    return ( IEventAdapter )adaptable.getAdapter( IEventAdapter.class );
-  }
-  
-  /**
-   * <p>Returns <code>true</code> if the given <code>adaptable</code> has any 
-   * listeners of type <code>listenerType</code> registered; <code>false</code>
-   * otherwise.</p>
-   * @param adaptable the adaptable to be queried, must not be
-   * <code>null</code>.
-   * @param listenerType the listener type to be queried, must not be
-   * <code>null</code>.
-   */
-  protected static boolean hasListener( final Adaptable adaptable,
-                                        final Class listenerType )
-  {
-    return getEventAdapter( adaptable ).hasListener( listenerType );
-  }
-  
-  /**
-   * <p>Returns all listeners of the given <code>listenerType</code> which
-   * are registered at the given <code>adaptable</code>. In case that there
-   * are no listeners registered, an empty array is returned.</p>
-   * @param adaptable the adaptable whose listeners shoule be returned. Must
-   * not be <code>null</code>. 
-   * @param listenerType the listener type, must not be <code>null</code>.
-   */
-  protected static Object[] getListener( final Adaptable adaptable,
-                                         final Class listenerType )
-  {
-    return getEventAdapter( adaptable ).getListener( listenerType );
-  }
-  
-  /**
-   * <p>Adds the given <code>listener</code> to the <code>adaptable</code> which 
-   * will be notified when an event occurs for the <code>adaptable</code> that 
-   * matches the given <code>listenerType</code>.</p>
-   * <p>The <code>listener</code> argument must be an instance of
-   * <code>listenerType</code> or a class derived from 
-   * <code>listenerType</code>.</p>
-   * @param adaptable the adaptable on which the listener will be added. Must
-   * not be <code>null</code>.
-   * @param listenerType the type of listener, must not be <code>null</code>. 
-   * @param listener the listener to be added, must not be <code>null</code>.
-   * @throws NullPointerException when one of the arguments is 
-   * <code>null</code>.
-   * @throws IllegalArgumentException when <code>listener</code> is not 
-   * compatible with <code>listenerType</code>.
-   * @see #removeListener(Adaptable, Class, Object)
-   */
-  protected static void addListener( final Adaptable adaptable,
-                                     final Class listenerType,
-                                     final Object listener )
-  {
-    getEventAdapter( adaptable ).addListener( listenerType, listener );
-  }
-  
-  /**
-   * <p>Removes the given <code>listener</code> form the listeners of the 
-   * given <code>adaptable</code>.</p>
-   * <p>This ist the counterpart of the 
-   * {@link #addListener(Adaptable, Class, Object) 
-   * <code>addListener(Adaptable, Class, Object)</code>} method and thus must 
-   * be called with the exact same arguments to succeed.</p>
-   * @param adaptable the adatable from which the listener is to be removed. Must
-   * not be <code>null</code>.
-   * @param listenerType the listener type as it was used during registration 
-   * with <code>addListener(Adaptable, Class, Object)</code>. Must not be 
-   * <code>null</code>.  
-   * @param listener the listener as it was used during registration with
-   * <code>addListener(Adaptable, Class, Object)</code>. Must not be 
-   * <code>null</code>. 
-   */
-  protected static void removeListener( final Adaptable adaptable,
-                                        final Class listenerType,
-                                        final Object listener )
-  {
-    
-    getEventAdapter( adaptable ).removeListener( listenerType, listener );
   }
 }
