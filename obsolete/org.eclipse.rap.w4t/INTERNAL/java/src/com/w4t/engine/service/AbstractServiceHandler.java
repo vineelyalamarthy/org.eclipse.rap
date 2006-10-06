@@ -16,6 +16,7 @@ import java.util.*;
 import java.util.zip.GZIPOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.w4t.HTML;
 import com.w4t.engine.W4TModel;
 import com.w4t.internal.adaptable.IServiceAdapter;
 import com.w4t.util.*;
@@ -46,7 +47,10 @@ abstract class AbstractServiceHandler implements IServiceHandler {
     PrintWriter result;
     if( isAcceptEncoding() && getInitProps().isCompression() ) {
       OutputStream out = getResponse().getOutputStream();
-      result = new PrintWriter( new GZIPOutputStream( out ), false );
+      GZIPOutputStream zipStream = new GZIPOutputStream( out );
+      OutputStreamWriter utf8Writer 
+        = new OutputStreamWriter( zipStream, HTML.CHARSET_NAME_UTF_8 );
+      result = new PrintWriter( utf8Writer, false );
       getResponse().setHeader( CONTENT_ENCODING, ENCODING_GZIP );
     } else {
       result = getResponse().getWriter();
