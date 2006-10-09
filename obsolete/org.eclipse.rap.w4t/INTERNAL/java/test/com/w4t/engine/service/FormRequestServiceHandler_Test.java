@@ -14,19 +14,14 @@ import java.util.List;
 import java.util.Vector;
 import javax.servlet.http.HttpSession;
 import junit.framework.TestCase;
-import com.w4t.Fixture;
-import com.w4t.W4TContext;
-import com.w4t.WebForm;
-import com.w4t.Fixture.TestRequest;
-import com.w4t.Fixture.TestResponse;
-import com.w4t.Fixture.TestServletOutputStream;
+import com.w4t.*;
+import com.w4t.Fixture.*;
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.lifecycle.PhaseEvent;
-import com.w4t.engine.lifecycle.PhaseId;
-import com.w4t.engine.lifecycle.PhaseListener;
+import com.w4t.engine.lifecycle.*;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
+import com.w4t.util.browser.Default;
 import com.w4t.util.browser.Ie6;
 
 
@@ -190,11 +185,26 @@ public class FormRequestServiceHandler_Test extends TestCase {
   
   /**
    * <p>Simulates a parameterless request within an existing session.</p>
-   * <p>Epected behaviour is to reset the sesion and as a consequence thereof
+   * <p>Expected behaviour is to reset the session and as a consequence thereof
    * render the internal browser survey.</p>
    */
   public void testEmptyRequest() throws Exception {
     newForm();
+    HttpSession session = ContextProvider.getSession();
+    session.setAttribute( "test-attribute", "test-attribute-value" );
+    TestResponse response = ( TestResponse )ContextProvider.getResponse();
+    response.setOutputStream( new TestServletOutputStream() );
+    ContextProvider.getStateInfo().setFirstAccess( false );      
+    
+    ServiceManager.getHandler().service();
+    assertEquals( null, session.getAttribute( "test-attribute" ) );
+    String markup = Fixture.getAllMarkup();
+    assertTrue( markup.indexOf( "Startup Page" ) > -1 );
+  }
+  
+  public void testStartupRequestInExistingSession() throws Exception {
+    newForm();
+    Fixture.fakeBrowser( new Default( true, true ) );
     HttpSession session = ContextProvider.getSession();
     session.setAttribute( "test-attribute", "test-attribute-value" );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();

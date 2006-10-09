@@ -127,7 +127,8 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
     boolean startup 
       = getRequest().getParameter( RequestParams.STARTUP ) != null;
     String uiRoot = getRequest().getParameter( RequestParams.UIROOT );
-    if( !session.isNew() && !startup && uiRoot == null ) 
+    if(    !session.isNew() && !startup && uiRoot == null 
+        || startup && isBrowserDetected() ) 
     {
       Enumeration keys = session.getAttributeNames();
       List keyBuffer = new ArrayList();
