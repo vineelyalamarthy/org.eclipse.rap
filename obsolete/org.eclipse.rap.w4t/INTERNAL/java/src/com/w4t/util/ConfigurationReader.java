@@ -71,7 +71,7 @@ public class ConfigurationReader {
     
     public String getLifeCycle() {
       String defaultValue = IInitialization.LIFE_CYCLE_DEFAULT;
-      return getConfigValue( "lifecycle", defaultValue );
+      return getConfigValue( IInitialization.PARAM_LIFE_CYCLE, defaultValue );
     }
 
     public String getErrorPage() {

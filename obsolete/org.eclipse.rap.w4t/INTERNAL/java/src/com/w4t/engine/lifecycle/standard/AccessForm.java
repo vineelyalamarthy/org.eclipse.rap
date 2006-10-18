@@ -76,13 +76,13 @@ final class AccessForm extends Phase {
   private static boolean isStartupRequest() {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     return    !stateInfo.isIgnoreStartup()
-           && AccessForm.parameterExists( RequestParams.STARTUP );
+           && parameterExists( RequestParams.STARTUP );
   }
 
   private static boolean isAdminRequest() {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     return    !stateInfo.isIgnoreStartup()
-           && AccessForm.parameterExists( RequestParams.ADMIN );
+           && parameterExists( RequestParams.ADMIN );
   }
   
   //////////////////

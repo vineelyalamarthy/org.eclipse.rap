@@ -27,20 +27,20 @@ public interface PhaseListener extends EventListener, Serializable {
 
   /**
    * <p>
-   * Handle a notification that the processing for a particular phase has just
-   * been completed.
-   * </p>
-   */
-  public void afterPhase( PhaseEvent event );
-
-  /**
-   * <p>
    * Handle a notification that the processing for a particular phase of the
    * request processing lifecycle is about to begin.
    * </p>
    */
   public void beforePhase( PhaseEvent event );
 
+  /**
+   * <p>
+   * Handle a notification that the processing for a particular phase has just
+   * been completed.
+   * </p>
+   */
+  public void afterPhase( PhaseEvent event );
+  
   /**
    * <p>
    * Return the identifier of the request processing phase during which this

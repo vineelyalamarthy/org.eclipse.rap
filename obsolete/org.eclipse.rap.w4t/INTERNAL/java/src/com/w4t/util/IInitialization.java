@@ -18,6 +18,8 @@ package com.w4t.util;
  */
 public interface IInitialization {
 
+  public static final String PARAM_LIFE_CYCLE = "lifecycle";
+
   public static final String LIFE_CYCLE_DEFAULT
     = "com.w4t.engine.lifecycle.standard.LifeCycle_Standard";
   
