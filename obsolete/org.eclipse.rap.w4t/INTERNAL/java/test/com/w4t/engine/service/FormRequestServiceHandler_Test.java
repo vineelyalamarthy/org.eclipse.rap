@@ -92,7 +92,6 @@ public class FormRequestServiceHandler_Test extends TestCase {
 
     private void prepareRequest() {
       ContextProvider.setContext( context );
-      ContextProvider.getStateInfo().setFirstAccess( false );      
       Fixture.fakeRequestParam( RequestParams.STARTUP, null );
 
       if( W4TContext.getBrowser().isAjaxEnabled() ) {
@@ -194,7 +193,6 @@ public class FormRequestServiceHandler_Test extends TestCase {
     session.setAttribute( "test-attribute", "test-attribute-value" );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     response.setOutputStream( new TestServletOutputStream() );
-    ContextProvider.getStateInfo().setFirstAccess( false );      
     
     ServiceManager.getHandler().service();
     assertEquals( null, session.getAttribute( "test-attribute" ) );
@@ -209,7 +207,6 @@ public class FormRequestServiceHandler_Test extends TestCase {
     session.setAttribute( "test-attribute", "test-attribute-value" );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     response.setOutputStream( new TestServletOutputStream() );
-    ContextProvider.getStateInfo().setFirstAccess( false );      
     
     ServiceManager.getHandler().service();
     assertEquals( null, session.getAttribute( "test-attribute" ) );

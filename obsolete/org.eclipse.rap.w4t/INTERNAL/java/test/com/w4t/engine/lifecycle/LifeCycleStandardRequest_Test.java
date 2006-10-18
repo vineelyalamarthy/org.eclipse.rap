@@ -240,7 +240,6 @@ public class LifeCycleStandardRequest_Test extends TestCase {
 
     Fixture.fakeResponseWriter();
     prepareFormAndRequestParamsAjaxComplete();
-    ContextProvider.getStateInfo().setFirstAccess( false );
     lifeCycle.execute();
     
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();

@@ -58,7 +58,6 @@ public interface IServiceStateInfo {
    */
   void setIgnoreStartup( boolean ignoreStartup );
 
-  void setFirstAccess( boolean firstAccess );
   boolean isFirstAccess();
   
   Object getAttribute( String key );

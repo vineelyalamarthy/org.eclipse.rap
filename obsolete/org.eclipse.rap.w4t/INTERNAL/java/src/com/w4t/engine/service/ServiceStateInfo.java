@@ -12,9 +12,11 @@ package com.w4t.engine.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import com.w4t.Browser;
 import com.w4t.HtmlResponseWriter;
 import com.w4t.engine.lifecycle.standard.IRenderingSchedule;
+import com.w4t.engine.requests.RequestParams;
 
 
 /**
@@ -40,7 +42,6 @@ public class ServiceStateInfo implements IServiceStateInfo {
   private Object eventQueue;
   
   private boolean invalidated;
-  private boolean firstAccess = true;
   private IRenderingSchedule renderingSchedule;
   private final Map attributes = new HashMap();
   
@@ -116,12 +117,10 @@ public class ServiceStateInfo implements IServiceStateInfo {
     this.ignoreStartup = ignoreStartup;
   }
 
-  public void setFirstAccess( boolean firstAccess ) {
-    this.firstAccess = firstAccess;
-  }
-
   public boolean isFirstAccess() {
-    return firstAccess;
+    HttpServletRequest request = ContextProvider.getRequest();
+    return    request.getSession( true ).isNew()
+           || request.getParameter( RequestParams.STARTUP ) != null;
   }
 
   public void setRendereringSchedule( final IRenderingSchedule schedule ) {

@@ -621,6 +621,7 @@ public class Fixture {
     private final Map attributes = new HashMap();
     private final ServletContext servletContext = new TestServletContext();
     private boolean isInvalidated;
+    private boolean newSession;
     
     public long getCreationTime() {
       return 0;
@@ -716,7 +717,11 @@ public class Fixture {
     }
     
     public boolean isNew() {
-      return false;
+      return newSession;
+    }
+
+    public void setNew( boolean newSession ) {
+      this.newSession = newSession;
     }
   }
   
@@ -938,7 +943,6 @@ public class Fixture {
   {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     stateInfo.setResponseWriter( new HtmlResponseWriter() );
-    stateInfo.setFirstAccess( false );
     String browserId = ServiceContext.DETECTED_SESSION_BROWSER;
     Default browser = new Default( false, false );
     ContextProvider.getSession().setAttribute( browserId, browser );

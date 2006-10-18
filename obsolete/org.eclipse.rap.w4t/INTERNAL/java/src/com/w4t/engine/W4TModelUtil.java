@@ -10,11 +10,8 @@
  ******************************************************************************/
 package com.w4t.engine;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.W4TModelList;
 
 /**
@@ -28,24 +25,9 @@ public final class W4TModelUtil {
   }
 
   public static void initModel() {
-    HttpSession session = getRequest().getSession( true );
+    HttpSession session = ContextProvider.getRequest().getSession( true );
     if( W4TModelList.getInstance().get( session.getId() ) == null ) {
-      getStateInfo().setFirstAccess( true );
       W4TModelList.getInstance().add( session, W4TModel.getInstance() );
     }
-    getStateInfo().setFirstAccess( isStartupRequested() );
-  }
-  
-  private static boolean isStartupRequested() {
-    String paramStartup = getRequest().getParameter( RequestParams.STARTUP );
-    return paramStartup != null && paramStartup.equalsIgnoreCase( "true" );
-  }
-
-  private static IServiceStateInfo getStateInfo() {
-    return ContextProvider.getStateInfo();
-  }
-
-  private static HttpServletRequest getRequest() {
-    return ContextProvider.getRequest();
   }
 }

@@ -18,6 +18,7 @@ import com.w4t.dhtml.*;
 import com.w4t.dhtml.menubarkit.*;
 import com.w4t.dhtml.treeviewkit.*;
 import com.w4t.dhtml.webscrollpanekit.WebScrollPaneRenderer_Test;
+import com.w4t.engine.FirstAccess_Test;
 import com.w4t.engine.W4TModelUtil_Test;
 import com.w4t.engine.lifecycle.*;
 import com.w4t.engine.lifecycle.standard.*;
@@ -158,6 +159,7 @@ public class AllTests_Suite {
     suite.addTestSuite( CToolbar_Test.class );
     suite.addTestSuite( ServiceHandler_Test.class );
     suite.addTestSuite( FormRequestServiceHandler_Test.class );
+    suite.addTestSuite( FirstAccess_Test.class );
     suite.addTestSuite( ResourceServiceHandler_Test.class );
     suite.addTestSuite( TimestampServiceHandler_Test.class );
     suite.addTestSuite( StartupRequest_Test.class );    
