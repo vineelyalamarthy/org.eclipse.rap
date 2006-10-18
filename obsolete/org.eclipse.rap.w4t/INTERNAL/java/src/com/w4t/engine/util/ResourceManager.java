@@ -33,7 +33,7 @@ import com.w4t.util.ConfigurationReader;
 public class ResourceManager extends ResourceBase implements IResourceManager {
   
   /** <p>The singleton instance of ResourceManager.</p> */
-  private static ResourceManager _instance;
+  private static IResourceManager _instance;
   
   private final String webAppRoot;
   private final Map repository;
@@ -104,7 +104,7 @@ public class ResourceManager extends ResourceBase implements IResourceManager {
    */
   public static String load( final String resource ) {
     ParamCheck.notNull( resource, "resource" );
-    return _instance.doLoad( resource );    
+    return ( ( ResourceManager )_instance ).doLoad( resource );    
   }
    
   /**
@@ -120,7 +120,8 @@ public class ResourceManager extends ResourceBase implements IResourceManager {
   public static int[] findResource( final String name, final Integer version ) {
     ParamCheck.notNull( name, "name" );
     int[] result = null;
-    Resource resource = ( Resource )_instance.cache.get( createKey( name ) );
+    ResourceManager manager = ( ResourceManager )_instance;
+    Resource resource = ( Resource )manager.cache.get( createKey( name ) );
     if( resource != null ) {
       if(    ( version == null && resource.getVersion() == null ) 
           || ( version != null && version.equals( resource.getVersion() ) ) ) 
@@ -143,7 +144,8 @@ public class ResourceManager extends ResourceBase implements IResourceManager {
   public static Integer findVersion( final String name ) {
     ParamCheck.notNull( name, "name" );
     Integer result = null;
-    Resource resource = ( Resource )_instance.cache.get( createKey( name ) );
+    ResourceManager manager = ( ResourceManager )_instance;
+    Resource resource = ( Resource )manager.cache.get( createKey( name ) );
     if( resource != null ) {
       result = resource.getVersion();
     }

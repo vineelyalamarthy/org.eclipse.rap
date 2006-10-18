@@ -14,7 +14,7 @@ public class FirstAccess_Test extends TestCase {
   
   protected void setUp() throws Exception {
     Fixture.setUp();
-    Fixture.createContext();
+    Fixture.createContext( false );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     response.setOutputStream( new TestServletOutputStream() );
     TestSession session = ( TestSession )ContextProvider.getSession();

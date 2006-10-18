@@ -375,7 +375,7 @@ public class BrowserLoader_Test extends TestCase {
   
   protected void setUp() throws Exception {
     Fixture.setUp();
-    Fixture.createContext();
+    Fixture.createContext( false );
     bufferedSystemOut = System.out;
     capturedSystemOut = new ByteArrayOutputStream();
     System.setOut( new PrintStream( capturedSystemOut ) );

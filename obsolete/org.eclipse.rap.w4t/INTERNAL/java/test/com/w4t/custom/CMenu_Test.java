@@ -12,10 +12,7 @@ package com.w4t.custom;
 
 import junit.framework.TestCase;
 import com.w4t.Fixture;
-import com.w4t.dhtml.Item;
-import com.w4t.dhtml.Menu;
-import com.w4t.dhtml.MenuBar;
-import com.w4t.dhtml.MenuItem;
+import com.w4t.dhtml.*;
 import com.w4t.event.WebActionEvent;
 
 
@@ -23,7 +20,7 @@ public class CMenu_Test extends TestCase {
   
   protected void setUp() throws Exception {
     Fixture.setUp();
-    Fixture.createContext();
+    Fixture.createContext( false );
   }
   
   protected void tearDown() throws Exception {

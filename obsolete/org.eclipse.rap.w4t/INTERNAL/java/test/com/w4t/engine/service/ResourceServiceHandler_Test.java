@@ -32,7 +32,7 @@ public class ResourceServiceHandler_Test extends TestCase {
 
   protected void setUp() throws Exception {
     Fixture.setUp();
-    Fixture.createContext();
+    Fixture.createContext( false );
     ResourceManager.setDeliveryMode( ResourceManager.DELIVER_BY_SERVLET );
     // place output stream to 'see' what has been written
     HttpServletResponse response = ContextProvider.getResponse();

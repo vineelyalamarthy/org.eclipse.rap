@@ -14,17 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import junit.framework.TestCase;
 import com.w4t.Fixture;
 import com.w4t.WebForm;
-import com.w4t.Fixture.TestRequest;
-import com.w4t.Fixture.TestResponse;
-import com.w4t.Fixture.TestServletOutputStream;
+import com.w4t.Fixture.*;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.util.WindowManager;
 
@@ -58,7 +52,7 @@ public class Logger_Test extends TestCase {
   
   protected void setUp() throws Exception {
     Fixture.setUp();
-    Fixture.createContext();
+    Fixture.createContext( false );
   }
   
   protected void tearDown() throws Exception {

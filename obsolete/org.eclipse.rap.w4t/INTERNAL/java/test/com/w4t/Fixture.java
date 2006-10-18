@@ -66,6 +66,57 @@ public class Fixture {
       this.closingTimeout = closingTimeout;
     }
   }
+  
+  public final static class TestResourceManager implements IResourceManager {
+
+    public String getCharset( final String name ) {
+      return null;
+    }
+
+    public ClassLoader getContextLoader() {
+      return null;
+    }
+
+    public String getLocation( final String name ) {
+      return null;
+    }
+
+    public URL getResource( final String name ) {
+      return null;
+    }
+
+    public InputStream getResourceAsStream( final String name ) {
+      return null;
+    }
+
+    public Enumeration getResources( final String name ) throws IOException {
+      return null;
+    }
+
+    public boolean isRegistered( final String name ) {
+      return false;
+    }
+
+    public void register( final String name ) {
+      
+    }
+
+    public void register( final String name, final String charset ) {
+      
+    }
+
+    public void register( final String name, 
+                          final String charset, 
+                          final RegisterOptions options )
+    {
+      
+    }
+
+    public void setContextLoader( final ClassLoader classLoader ) {
+      
+    }
+    
+  }
 
   public final static class TestRequest implements HttpServletRequest {
     
@@ -803,16 +854,35 @@ public class Fixture {
     clearSingletons();
   }
   
+  public static void createContext( final boolean fake )
+    throws IOException, 
+           FactoryConfigurationError, 
+           ParserConfigurationException, 
+           SAXException
+  {
+    if( fake ) {
+      String submittersNone = IInitialization.NOSCRIPT_SUBMITTERS_NONE;
+      ImageCache.createInstance( CONTEXT_DIR.toString(), submittersNone );
+
+      setPrivateField( ResourceManager.class,
+                       null, 
+                       "_instance",
+                       new TestResourceManager() );
+    } else {
+      createContextWithoutResourceManager();
+      String webAppBase = CONTEXT_DIR.toString();
+      String deliverFromDisk = IInitialization.RESOURCES_DELIVER_FROM_DISK;
+      ResourceManager.createInstance( webAppBase, deliverFromDisk );
+    }
+  }
+  
   public static void createContext()
     throws IOException, 
            FactoryConfigurationError, 
            ParserConfigurationException, 
            SAXException
   {
-    createContextWithoutResourceManager();
-    String webAppBase = CONTEXT_DIR.toString();
-    String deliverFromDisk = IInitialization.RESOURCES_DELIVER_FROM_DISK;    
-    ResourceManager.createInstance( webAppBase, deliverFromDisk );
+    createContext( true );
   }
   
   public static void createContextWithoutResourceManager()

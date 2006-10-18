@@ -25,7 +25,7 @@ public class LifeCycleStartupRequest_Test extends TestCase {
   
   protected void setUp() throws Exception {
     Fixture.setUp();
-    Fixture.createContext();
+    Fixture.createContext( false );
   }
   
   protected void tearDown() throws Exception {
