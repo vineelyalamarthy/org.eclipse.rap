@@ -145,6 +145,7 @@ public class AllTests_Suite {
     suite.addTestSuite( Decorator_Test.class );
     suite.addTestSuite( WebComponentRegistry_Test.class );
     suite.addTestSuite( PhaseId_Test.class );
+    suite.addTestSuite( Scope_Test.class );
     suite.addTestSuite( LifeCycle_Standard_Test.class );
     suite.addTestSuite( WebTableCellRenderer_Test.class );
     suite.addTestSuite( DefaultSpacingHelper_Test.class );

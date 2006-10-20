@@ -26,6 +26,7 @@ import com.w4t.IWindowManager.IWindow;
 import com.w4t.ajax.AjaxStatus;
 import com.w4t.ajax.AjaxStatusAdapterFactory;
 import com.w4t.engine.adapter.TestEngineConfig;
+import com.w4t.engine.lifecycle.LifeCycleFactory;
 import com.w4t.engine.lifecycle.standard.*;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.service.*;
@@ -838,6 +839,7 @@ public class Fixture {
   public static void clearSingletons() {
     setPrivateField( ResourceManager.class, null, "_instance", null );
     setPrivateField( ImageCache.class, null, "_instance", null );
+    setPrivateField( LifeCycleFactory.class, null, "globalLifeCycle", null );
   }
 
   public static void tearDown() {

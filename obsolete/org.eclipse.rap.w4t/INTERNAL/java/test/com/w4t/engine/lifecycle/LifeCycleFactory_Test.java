@@ -12,17 +12,22 @@ public class LifeCycleFactory_Test extends TestCase {
     public void addPhaseListener( final PhaseListener listener ) {}
     public void execute() throws ServletException {}
     public void removePhaseListener( final PhaseListener listener ) {}
+    public Scope getScope() { return Scope.APPLICATION; }
   }
   
   public void testStandardLifeCycleLoading() {
-    ILifeCycle lifeCycle = LifeCycleFactory.loadLifeCycle();
-    assertTrue( lifeCycle instanceof LifeCycle_Standard );
+    ILifeCycle lifeCycle1 = LifeCycleFactory.loadLifeCycle();
+    assertTrue( lifeCycle1 instanceof LifeCycle_Standard );
+    ILifeCycle lifeCycle2 = LifeCycleFactory.loadLifeCycle();
+    assertNotSame( lifeCycle1, lifeCycle2 );
   }
   
   public void testUserdefinedLifeCycleLoading() {
     System.setProperty( "lifecycle", TestLifeCycle.class.getName() );
-    ILifeCycle lifeCycle = LifeCycleFactory.loadLifeCycle();
-    assertTrue( lifeCycle instanceof TestLifeCycle );
+    ILifeCycle lifeCycle1 = LifeCycleFactory.loadLifeCycle();
+    assertTrue( lifeCycle1 instanceof TestLifeCycle );
+    ILifeCycle lifeCycle2 = LifeCycleFactory.loadLifeCycle();
+    assertSame( lifeCycle1, lifeCycle2 );
     System.getProperties().remove( "lifecycle" );
   }
   

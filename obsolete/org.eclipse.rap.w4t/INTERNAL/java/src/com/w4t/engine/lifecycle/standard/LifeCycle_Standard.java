@@ -47,6 +47,10 @@ public class LifeCycle_Standard extends LifeCycle {
                                      Adaptable.class );
   }
 
+  public Scope getScope() {
+    return Scope.SESSION;
+  }
+  
   public void execute() throws ServletException {
     Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
     PhaseId current = PhaseId.PREPARE_UI_ROOT;

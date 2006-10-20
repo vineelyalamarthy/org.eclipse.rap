@@ -18,19 +18,26 @@ import com.w4t.util.*;
   */
 public class LifeCycleFactory {
   
+  private static LifeCycle globalLifeCycle; 
+  
 
   /** <p>returns a LifeCycle object for the specified compatibility mode.</p> */
   public static ILifeCycle loadLifeCycle( ) {
-    ILifeCycle result = null;
-    try {
-      IConfiguration configuration = ConfigurationReader.getConfiguration();
-      IInitialization initialization = configuration.getInitialization();
-      String lifeCycleClassName = initialization.getLifeCycle();
-      Class lifeCycleClass = Class.forName( lifeCycleClassName );
-      result = ( ILifeCycle )lifeCycleClass.newInstance();
-    } catch( Exception ex ) {
-      System.out.println( "Could not load lifecycle. " + ex.toString() );
-      result = new com.w4t.engine.lifecycle.standard.LifeCycle_Standard();
+    LifeCycle result = globalLifeCycle;
+    if( result == null ) {
+      try {
+        IConfiguration configuration = ConfigurationReader.getConfiguration();
+        IInitialization initialization = configuration.getInitialization();
+        String lifeCycleClassName = initialization.getLifeCycle();
+        Class lifeCycleClass = Class.forName( lifeCycleClassName );
+        result = ( LifeCycle )lifeCycleClass.newInstance();
+        if( result.getScope().equals( Scope.APPLICATION ) ) {
+          globalLifeCycle = result;
+        }
+      } catch( Exception ex ) {
+        System.out.println( "Could not load lifecycle. " + ex.toString() );
+        result = new com.w4t.engine.lifecycle.standard.LifeCycle_Standard();
+      }
     }
     return result;
   }
