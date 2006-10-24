@@ -16,10 +16,13 @@ import com.w4t.util.*;
 /** <p>supplies factory methods for lifecycle managers for various 
   * <code>LifeCycle</code> implementations.</p>
   */
-public class LifeCycleFactory {
+public final class LifeCycleFactory {
   
   private static LifeCycle globalLifeCycle; 
   
+  private LifeCycleFactory() {
+    // prevent instantiation
+  }
 
   /** <p>returns a LifeCycle object for the specified compatibility mode.</p> */
   public static ILifeCycle loadLifeCycle( ) {
