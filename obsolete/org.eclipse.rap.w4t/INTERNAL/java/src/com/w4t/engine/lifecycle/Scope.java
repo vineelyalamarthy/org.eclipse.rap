@@ -22,10 +22,11 @@ public class Scope implements Comparable {
   private final int ordinal;
 
   
-  public Scope( final String scopeName ) {
+  private Scope( final String scopeName ) {
     this.scopeName = scopeName;
     this.ordinal = nextOrdinal++;
   }
+  
   public String toString() {
     return scopeName;
   }
