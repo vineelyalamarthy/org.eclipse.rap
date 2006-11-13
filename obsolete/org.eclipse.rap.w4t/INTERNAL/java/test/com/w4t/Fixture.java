@@ -440,6 +440,22 @@ public class Fixture {
     public void setSession( final HttpSession session ) {
       this.session = session;
     }
+
+    public String getLocalAddr() {
+      throw new UnsupportedOperationException();
+    }
+
+    public String getLocalName() {
+      throw new UnsupportedOperationException();
+    }
+
+    public int getLocalPort() {
+      throw new UnsupportedOperationException();
+    }
+
+    public int getRemotePort() {
+      throw new UnsupportedOperationException();
+    }
   }
   
   public final static class TestResponse implements HttpServletResponse {
@@ -557,6 +573,10 @@ public class Fixture {
     
     public Locale getLocale() {
       return null;
+    }
+
+    public void setCharacterEncoding( String charset ) {
+      throw new UnsupportedOperationException();
     }
   }
   

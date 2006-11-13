@@ -224,4 +224,20 @@ class Request implements HttpServletRequest {
   public String getRealPath( final String arg0 ) {
     return null;
   }
+
+  public String getLocalAddr() {
+    throw new UnsupportedOperationException();
+  }
+
+  public String getLocalName() {
+    throw new UnsupportedOperationException();
+  }
+
+  public int getLocalPort() {
+    throw new UnsupportedOperationException();
+  }
+
+  public int getRemotePort() {
+    throw new UnsupportedOperationException();
+  }
 }

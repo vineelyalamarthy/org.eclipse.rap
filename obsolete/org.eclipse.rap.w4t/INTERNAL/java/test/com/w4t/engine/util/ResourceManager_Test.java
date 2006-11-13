@@ -707,6 +707,22 @@ public class ResourceManager_Test extends TestCase {
     public String getRealPath( String arg0 ) {
       return null;
     }
+
+    public String getLocalAddr() {
+      throw new UnsupportedOperationException();
+    }
+
+    public String getLocalName() {
+      throw new UnsupportedOperationException();
+    }
+
+    public int getLocalPort() {
+      throw new UnsupportedOperationException();
+    }
+
+    public int getRemotePort() {
+      throw new UnsupportedOperationException();
+    }
   }
   private class TestResponse implements HttpServletResponse {
 
@@ -809,6 +825,14 @@ public class ResourceManager_Test extends TestCase {
 
     public Locale getLocale() {
       return null;
+    }
+
+    public String getContentType() {
+      throw new UnsupportedOperationException();
+    }
+
+    public void setCharacterEncoding( String charset ) {
+      throw new UnsupportedOperationException();
     }
   }
 }

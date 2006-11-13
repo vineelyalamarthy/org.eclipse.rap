@@ -122,4 +122,12 @@ class Response implements HttpServletResponse {
   public Locale getLocale() {
     return null;
   }
+
+  public String getContentType() {
+    throw new UnsupportedOperationException();
+  }
+
+  public void setCharacterEncoding( String charset ) {
+    throw new UnsupportedOperationException();
+  }
 }
