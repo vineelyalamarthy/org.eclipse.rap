@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+  <extension-point 
+      id="adapterfactory"
+      name="AdapterFactory"
+      schema="schema/adapterfactory.exsd"/>
+  <extension-point 
+      id="phaselistener"
+      name="PhaseListener"
+      schema="schema/phaselistener.exsd"/>
+  <extension-point 
+      id="entrypoint"
+      name="EntryPoint" 
+      schema="schema/entrypoint.exsd"/>
+      
+  <extension
+      id="org.eclipse.rap.ui.workbench.requestHandler"
+      point="org.eclipse.equinox.http.registry.servlets">
+    <servlet
+        alias="/rap"
+        class="org.eclipse.rap.ui.workbench.internal.servlet.RequestHandler">
+    </servlet>
+  </extension>
+
+  <extension
+      id="org.eclipse.rap.ui.workbench.adapterfactories"
+      point="org.eclipse.rap.ui.workbench.adapterfactory">
+    <factory
+        factoryClass="org.eclipse.rap.rwt.internal.lifecycle.LifeCycleAdapterFactory"
+        adaptableClass="org.eclipse.rap.rwt.widgets.Widget"/>
+    <factory
+        factoryClass="org.eclipse.rap.rwt.internal.lifecycle.LifeCycleAdapterFactory"
+        adaptableClass="org.eclipse.rap.rwt.widgets.Display"/>
+    <factory
+        factoryClass="org.eclipse.rap.rwt.internal.widgets.WidgetAdapterFactory"
+        adaptableClass="org.eclipse.rap.rwt.widgets.Widget"/>
+    <factory
+        factoryClass="org.eclipse.rap.rwt.internal.widgets.WidgetAdapterFactory"
+        adaptableClass="org.eclipse.rap.rwt.widgets.Display"/>
+  </extension>
+  
+  <extension
+        id="org.eclipse.rap.ui.workbench.preserveWidgetValues"
+        point="org.eclipse.rap.ui.workbench.phaselistener">
+     <listener class="org.eclipse.rap.rwt.internal.lifecycle.PreserveWidgetsPhaseListener"/>
+  </extension>
+  
+</plugin>

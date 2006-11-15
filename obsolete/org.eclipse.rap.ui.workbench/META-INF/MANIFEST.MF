@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RAP Workbench Plug-in
+Bundle-SymbolicName: org.eclipse.rap.ui.workbench; singleton:=true
+Bundle-Version: 0.0.0
+Bundle-Activator: org.eclipse.rap.ui.workbench.Activator
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.equinox.http.registry,
+ org.eclipse.osgi.services,
+ org.eclipse.rap.rwt,
+ org.eclipse.rap.w4t
+Import-Package: javax.servlet;version="[2.3.0,2.5.0)",
+ javax.servlet.http;version="[2.3.0,2.5.0)"
