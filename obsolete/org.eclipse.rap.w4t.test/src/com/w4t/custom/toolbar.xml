@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<CToolBar>
+  <toolBarButton>
+    <image></image>
+    <toolTip>Quit</toolTip>
+    <id>FILE_QUIT</id>
+    <command>com.w4t.custom.FileQuitCommand</command>
+  </toolBarButton>
+</CToolBar>
