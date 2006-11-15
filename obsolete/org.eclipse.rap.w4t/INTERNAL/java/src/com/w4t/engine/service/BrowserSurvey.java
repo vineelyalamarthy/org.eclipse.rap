@@ -27,7 +27,6 @@ import com.w4t.engine.util.ResourceManager;
  */
 final class BrowserSurvey {
 
-
   /** 
    * <p>Writes a special html page into the passed HtmlResponseWriter, in order to
    *  determine which browser has originated the request.</p> 
@@ -58,8 +57,11 @@ final class BrowserSurvey {
     ContextProvider.getResponse().setContentType( HTML.CONTENT_TEXT_HTML );
     StringBuffer buffer = new StringBuffer();
     load( buffer );
+    String servletName = ContextProvider.getRequest().getServletPath();;
+    replacePlaceholder( buffer, "${servlet}", servletName );
     replacePlaceholder( buffer, "${fallbackUrl}", createURL() );
     replacePlaceholder( buffer, "${adminOrStartup}", adminOrStartup() );
+    replacePlaceholder( buffer, "${entrypoint}", getEntryPoint() );
     getResponseWriter().append( buffer.toString() );
   }
 
@@ -127,10 +129,19 @@ final class BrowserSurvey {
   private static String createURL() {
     StringBuffer url = new StringBuffer();
     url.append( URLHelper.getURLString( false ) );
-    URLHelper.appendFirstParam( url, adminOrStartup(), "default" );
+    URLHelper.appendFirstParam( url, adminOrStartup(), getEntryPoint() );
     URLHelper.appendParam( url, RequestParams.SCRIPT, "false" );
     URLHelper.appendParam( url, RequestParams.AJAX_ENABLED, "false" );
     return ContextProvider.getResponse().encodeURL( url.toString() );
+  }
+
+  private static String getEntryPoint() {
+    HttpServletRequest request = ContextProvider.getRequest();
+    String result = request.getParameter( RequestParams.STARTUP );
+    if( result == null ) {
+      result = "default";
+    }
+    return result;
   }
 
   private static String adminOrStartup() {

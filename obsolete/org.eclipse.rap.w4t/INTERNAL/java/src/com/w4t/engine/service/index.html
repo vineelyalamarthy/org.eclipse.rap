@@ -32,11 +32,11 @@
   //-->   
   </script>
   <body onLoad="document.W4TForm.w4t_ajaxEnabled.value=discoverAjax();document.W4TForm.submit();">  
-    <form action="W4TDelegate" name="W4TForm" method="post" accept-charset="UTF-8" />
+    <form action="${servlet}" name="W4TForm" method="post" accept-charset="UTF-8" />
       <input type="hidden" id="w4t_survey" name="w4t_survey" value="true" />
       <input type="hidden" id="w4t_scriptEnabled" name="w4t_scriptEnabled" value="true" />
       <input type="hidden" id="w4t_ajaxEnabled" name="w4t_ajaxEnabled" value="false" />
-      <input type="hidden" id="${adminOrStartup}" name="${adminOrStartup}" value="default" />
+      <input type="hidden" id="${adminOrStartup}" name="${adminOrStartup}" value="${entrypoint}" />
     </form>
     <h2>W4Toolkit Startup Page</h2>
     <p>redirecting request ...</p>
