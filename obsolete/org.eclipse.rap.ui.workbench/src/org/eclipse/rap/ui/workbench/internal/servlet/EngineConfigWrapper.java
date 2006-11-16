@@ -122,9 +122,9 @@ final class EngineConfigWrapper implements IEngineConfig {
       String factoryName = elements[ i ].getAttribute( "factoryClass" );
       String adaptableName = elements[ i ].getAttribute( "adaptableClass" );
       try {
-	    Bundle bundle = Platform.getBundle( contributorName );
-	    Class factoryClass = bundle.loadClass( factoryName );
-	    Class adaptableClass = bundle.loadClass( adaptableName );
+        Bundle bundle = Platform.getBundle( contributorName );
+        Class factoryClass = bundle.loadClass( factoryName );
+        Class adaptableClass = bundle.loadClass( adaptableName );
         AdapterFactoryRegistry.add( factoryClass, adaptableClass );
       } catch( final Throwable thr ) {
         String text =   "Could not register adapter factory ''{0}'' "
