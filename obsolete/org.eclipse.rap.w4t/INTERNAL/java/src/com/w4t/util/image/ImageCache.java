@@ -146,7 +146,10 @@ public class ImageCache {
         if( transparentColor == null ) {
           encoder = new GifEncoder( bufferedImage, fos );        
         } else {
-          encoder = new GifEncoder( bufferedImage, fos, false, transparentColor );
+          encoder = new GifEncoder( bufferedImage, 
+                                    fos, 
+                                    false, 
+                                    transparentColor );
         }
         encoder.encode();
       } finally {

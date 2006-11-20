@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="INTERNAL/java/render"/>
-	<classpathentry kind="src" path="INTERNAL/java/patch"/>
 	<classpathentry kind="src" path="INTERNAL/java/src"/>
 	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/commons-fileupload-1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
