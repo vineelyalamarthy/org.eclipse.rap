@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JFace Plug-in
+Bundle-SymbolicName: org.eclipse.rap.jface
+Bundle-Version: 0.0.0
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.commands;visibility:=reexport,
+ org.eclipse.core.runtime,
+ org.eclipse.rap.rwt,
+ org.eclipse.rap.w4t
+Export-Package: org.eclipse.rap.jface.util,
+ org.eclipse.rap.jface.viewers
