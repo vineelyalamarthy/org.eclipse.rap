@@ -11,7 +11,6 @@
 package org.eclipse.rap.jface.util;
 
 import java.util.Comparator;
-import org.eclipse.core.runtime.IStatus;
 
 // import org.eclipse.jface.dialogs.AnimatorFactory;
 /**

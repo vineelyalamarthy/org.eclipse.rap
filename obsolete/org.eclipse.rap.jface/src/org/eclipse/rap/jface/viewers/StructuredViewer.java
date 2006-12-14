@@ -24,7 +24,6 @@ import org.eclipse.rap.jface.util.SafeRunnable;
 // import org.eclipse.swt.dnd.Transfer;
 // import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.rap.rwt.events.SelectionEvent;
-import org.eclipse.rap.rwt.events.SelectionListener;
 import org.eclipse.rap.rwt.graphics.Color;
 import org.eclipse.rap.rwt.graphics.Font;
 import org.eclipse.rap.rwt.widgets.Control;

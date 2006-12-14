@@ -18,7 +18,6 @@ import org.eclipse.rap.jface.util.Assert;
 import org.eclipse.rap.jface.util.SafeRunnable;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.custom.BusyIndicator;
-import org.eclipse.rap.rwt.events.SelectionEvent;
 import org.eclipse.rap.rwt.events.SelectionListener;
 // import org.eclipse.swt.events.TreeEvent;
 // import org.eclipse.swt.events.TreeListener;

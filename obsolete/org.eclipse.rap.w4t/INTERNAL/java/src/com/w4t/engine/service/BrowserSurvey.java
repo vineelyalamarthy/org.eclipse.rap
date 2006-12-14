@@ -57,7 +57,7 @@ final class BrowserSurvey {
     ContextProvider.getResponse().setContentType( HTML.CONTENT_TEXT_HTML );
     StringBuffer buffer = new StringBuffer();
     load( buffer );
-    String servletName = ContextProvider.getRequest().getServletPath();;
+    String servletName = ContextProvider.getRequest().getServletPath();
     replacePlaceholder( buffer, "${servlet}", servletName );
     replacePlaceholder( buffer, "${fallbackUrl}", createURL() );
     replacePlaceholder( buffer, "${adminOrStartup}", adminOrStartup() );
