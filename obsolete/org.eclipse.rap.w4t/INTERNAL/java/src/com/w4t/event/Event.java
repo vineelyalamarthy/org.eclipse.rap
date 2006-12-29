@@ -18,7 +18,7 @@ public abstract class Event {
   private final int id;
 
   
-  public Event( final Object source, int id ) {
+  public Event( final Object source, final int id ) {
     this.source = source;
     this.id = id;
   }
