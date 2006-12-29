@@ -47,4 +47,10 @@
      <listener class="org.eclipse.rap.rwt.internal.lifecycle.PreserveWidgetsPhaseListener"/>
   </extension>
   
+  <extension
+        id="org.eclipse.rap.ui.workbench.currentPhase"
+        point="org.eclipse.rap.ui.workbench.phaselistener">
+     <listener class="org.eclipse.rap.rwt.internal.lifecycle.CurrentPhase$Listener"/>
+  </extension>
+  
 </plugin>
