@@ -126,18 +126,24 @@ final class ResourceUtil {
     int[] result = null;
     InputStream is = openStream( name );
     try {
-      BufferedInputStream bis = new BufferedInputStream( is );
-      try {
-        bis.mark( Integer.MAX_VALUE );
-        result = new int[ getAvailableCount( bis ) ];
-        for( int i = 0; i < result.length; i++ ) {
-          result[ i ] = bis.read();
-        }
-      } finally {
-        bis.close();
-      }
+      result = readBinary( is );
     } finally {
       is.close();
+    }
+    return result;
+  }
+
+  static int[] readBinary( final InputStream is ) throws IOException {
+    int[] result;
+    BufferedInputStream bis = new BufferedInputStream( is );
+    try {
+      bis.mark( Integer.MAX_VALUE );
+      result = new int[ getAvailableCount( bis ) ];
+      for( int i = 0; i < result.length; i++ ) {
+        result[ i ] = bis.read();
+      }
+    } finally {
+      bis.close();
     }
     return result;
   }

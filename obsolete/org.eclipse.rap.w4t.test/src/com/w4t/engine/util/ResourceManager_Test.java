@@ -201,7 +201,8 @@ public class ResourceManager_Test extends TestCase {
       // expected
     }
     try {
-      manager.register( "some-resource", null );
+      String notAssigned = null;
+      manager.register( "some-resource", notAssigned );
       fail( "Expected NullPointerException" );
     } catch( NullPointerException e ) {
       // expected

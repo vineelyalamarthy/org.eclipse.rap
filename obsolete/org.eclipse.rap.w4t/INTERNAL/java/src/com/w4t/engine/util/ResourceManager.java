@@ -305,26 +305,52 @@ public class ResourceManager extends ResourceBase implements IResourceManager {
       boolean compress = shouldCompress( options );
       try {
         int[] content = ResourceUtil.read( name, charset, compress );
-        Integer version = computeVersion( content, options );
-        if( isDeliveryMode( DELIVER_FROM_DISK ) ) {
-          File location = getDiskLocation( name, version );
-          createFile( location );
-          ResourceUtil.write( location, content );
-          cache.put( key, new Resource( null, charset, version ) );
-        } else if( isDeliveryMode( DELIVER_BY_SERVLET ) ) {
-          cache.put( key, new Resource( content, charset, version ) );
-        } else if( isDeliveryMode( DELIVER_BY_SERVLET_AND_TEMP_DIR ) ) {
-          File location = getTempLocation( name, version );
-          createFile( location );
-          ResourceUtil.write( location, content );
-          cache.put( key, new Resource( content, charset, version ) );
-        }
+        doRegister( name, charset, options, key, content );
       } catch ( IOException e ) {
         String text = "Failed to register resource ''{0}''.";
         String msg = MessageFormat.format( text, new Object[] { name } );
         throw new ResourceRegistrationException( msg, e ) ;
       }
       repository.put( key, name );
+    }
+  }
+  
+  public void register( final String name, final InputStream is ) {
+    ParamCheck.notNull( name, "name" );
+    ParamCheck.notNull( is, "is" );
+    String key = createKey( name );
+
+    try {
+      int[] content = ResourceUtil.readBinary( is );
+      doRegister( name, null, RegisterOptions.NONE, key, content );
+    } catch ( IOException e ) {
+      String text = "Failed to register resource ''{0}''.";
+      String msg = MessageFormat.format( text, new Object[] { name } );
+      throw new ResourceRegistrationException( msg, e ) ;
+    }
+    repository.put( key, name );
+  }
+
+  private void doRegister( final String name, 
+                           final String charset, 
+                           final RegisterOptions options, 
+                           final String key, 
+                           final int[] content )
+    throws IOException
+  {
+    Integer version = computeVersion( content, options );
+    if( isDeliveryMode( DELIVER_FROM_DISK ) ) {
+      File location = getDiskLocation( name, version );
+      createFile( location );
+      ResourceUtil.write( location, content );
+      cache.put( key, new Resource( null, charset, version ) );
+    } else if( isDeliveryMode( DELIVER_BY_SERVLET ) ) {
+      cache.put( key, new Resource( content, charset, version ) );
+    } else if( isDeliveryMode( DELIVER_BY_SERVLET_AND_TEMP_DIR ) ) {
+      File location = getTempLocation( name, version );
+      createFile( location );
+      ResourceUtil.write( location, content );
+      cache.put( key, new Resource( content, charset, version ) );
     }
   }
   

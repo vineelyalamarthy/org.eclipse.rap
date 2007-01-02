@@ -101,6 +101,10 @@ public class Fixture {
     public void register( final String name ) {
       
     }
+    
+    public void register( final String name, final InputStream is ) {
+      
+    }
 
     public void register( final String name, final String charset ) {
       

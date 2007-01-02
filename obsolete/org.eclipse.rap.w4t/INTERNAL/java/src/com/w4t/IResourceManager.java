@@ -78,6 +78,15 @@ public interface IResourceManager {
    */
   void register( String name );
   
+  /** <p>registers a given resource for download with the given name relative
+   * to the context root.</p>
+   * 
+   * @param name filename that represents the download path relative to
+   *             the applications context root.
+   * @param is the content of the resource to register.
+   */
+  void register( String name, InputStream is );
+  
   /** <p>registers a text resource which is located on the web-applications
    *  classpath and encoded with the given <code>charset</code>.</p> 
    *  
