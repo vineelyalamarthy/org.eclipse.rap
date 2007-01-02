@@ -12,8 +12,7 @@ import java.util.List;
 import javax.swing.CellEditor;
 import org.eclipse.rap.jface.util.Assert;
 import org.eclipse.rap.rwt.RWT;
-import org.eclipse.rap.rwt.events.SelectionEvent;
-import org.eclipse.rap.rwt.events.SelectionListener;
+import org.eclipse.rap.rwt.events.*;
 import org.eclipse.rap.rwt.widgets.*;
 
 /**
@@ -154,9 +153,10 @@ public class TreeViewer extends AbstractTreeViewer {
   /*
    * (non-Javadoc) Method declared in AbstractTreeViewer.
    */
-  // protected void addTreeListener(Control c, TreeListener listener) {
-  // ((Tree) c).addTreeListener(listener);
-  // }
+   protected void addTreeListener(Control c, TreeListener listener) {
+     ((Tree) c).addTreeListener(listener);
+   }
+   
   /**
    * Cancels a currently active cell editor. All changes already done in the
    * cell editor are lost.
@@ -361,8 +361,7 @@ public class TreeViewer extends AbstractTreeViewer {
    * (non-Javadoc) Method declared in AbstractTreeViewer.
    */
   protected boolean getExpanded( Item item ) {
-    return false;
-    // return ((TreeItem) item).getExpanded();
+     return ((TreeItem) item).getExpanded();
   }
 
   /*
@@ -438,14 +437,6 @@ public class TreeViewer extends AbstractTreeViewer {
    */
   protected void hookControl( Control control ) {
     super.hookControl( control );
-    // TODO: [fappel] remove this workaround - we don't have tree events yet
-    Tree treeControl = ( Tree )control;
-    treeControl.addSelectionListener( new SelectionListener() {
-
-      public void widgetSelected( SelectionEvent event ) {
-        createChildren( event.item );
-      }
-    } );
     // Tree treeControl = (Tree) control;
     // treeControl.addMouseListener(new MouseAdapter() {
     // public void mouseDown(MouseEvent e) {
@@ -602,11 +593,11 @@ public class TreeViewer extends AbstractTreeViewer {
    * (non-Javadoc) Method declared in AbstractTreeViewer.
    */
   protected void setExpanded( Item node, boolean expand ) {
-    // ((TreeItem) node).setExpanded(expand);
-    // if(getContentProvider() instanceof ILazyTreeContentProvider) {
-    // // force repaints to happen
-    // getControl().update();
-    // }
+    ( ( TreeItem )node ).setExpanded( expand );
+//    if( getContentProvider() instanceof ILazyTreeContentProvider ) {
+//      // force repaints to happen
+//      getControl().update();
+//    }
   }
 
   /**

@@ -19,8 +19,8 @@ import org.eclipse.rap.jface.util.SafeRunnable;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.custom.BusyIndicator;
 import org.eclipse.rap.rwt.events.SelectionListener;
-// import org.eclipse.swt.events.TreeEvent;
-// import org.eclipse.swt.events.TreeListener;
+import org.eclipse.rap.rwt.events.TreeEvent;
+import org.eclipse.rap.rwt.events.TreeListener;
 import org.eclipse.rap.rwt.widgets.Control;
 import org.eclipse.rap.rwt.widgets.Item;
 import org.eclipse.rap.rwt.widgets.Widget;
@@ -615,17 +615,17 @@ public abstract class AbstractTreeViewer extends StructuredViewer {
    * 
    * @param listener a tree viewer listener
    */
-  // public void addTreeListener(ITreeViewerListener listener) {
-  // treeListeners.add(listener);
-  // }
+//   public void addTreeListener( ITreeViewerListener listener ) {
+//    treeListeners.add( listener );
+//  }
   /**
    * Adds the given SWT tree listener to the given SWT control.
    * 
    * @param control the SWT control
    * @param listener the SWT tree listener
    */
-  // protected abstract void addTreeListener(Control control,
-  // TreeListener listener);
+   protected abstract void addTreeListener( Control control,
+                                            TreeListener listener );
   /*
    * (non-Javadoc)
    * 
@@ -871,17 +871,18 @@ public abstract class AbstractTreeViewer extends StructuredViewer {
    * @param event the tree expansion event
    * @see ITreeViewerListener#treeCollapsed
    */
-  // protected void fireTreeCollapsed(final TreeExpansionEvent event) {
-  // Object[] listeners = treeListeners.getListeners();
-  // for (int i = 0; i < listeners.length; ++i) {
-  // final ITreeViewerListener l = (ITreeViewerListener) listeners[i];
-  // SafeRunnable.run(new SafeRunnable() {
-  // public void run() {
-  // l.treeCollapsed(event);
-  // }
-  // });
-  // }
-  // }
+   protected void fireTreeCollapsed( final TreeExpansionEvent event ) {
+    Object[] listeners = treeListeners.getListeners();
+    for( int i = 0; i < listeners.length; ++i ) {
+      final ITreeViewerListener l = ( ITreeViewerListener )listeners[ i ];
+      SafeRunnable.run( new SafeRunnable() {
+
+        public void run() {
+          l.treeCollapsed( event );
+        }
+      } );
+    }
+  }
   /**
    * Fires a tree expanded event. Only listeners registered at the time this
    * method is called are notified.
@@ -889,18 +890,18 @@ public abstract class AbstractTreeViewer extends StructuredViewer {
    * @param event the tree expansion event
    * @see ITreeViewerListener#treeExpanded
    */
-  // protected void fireTreeExpanded(final TreeExpansionEvent event) {
-  // Object[] listeners = treeListeners.getListeners();
-  // for (int i = 0; i < listeners.length; ++i) {
-  // final ITreeViewerListener l = (ITreeViewerListener) listeners[i];
-  // SafeRunnable.run(new SafeRunnable() {
-  // public void run() {
-  // l.treeExpanded(event);
-  // }
-  // });
-  // }
-  //
-  // }
+   protected void fireTreeExpanded( final TreeExpansionEvent event ) {
+    Object[] listeners = treeListeners.getListeners();
+    for( int i = 0; i < listeners.length; ++i ) {
+      final ITreeViewerListener l = ( ITreeViewerListener )listeners[ i ];
+      SafeRunnable.run( new SafeRunnable() {
+
+        public void run() {
+          l.treeExpanded( event );
+        }
+      } );
+    }
+  }
   /**
    * Returns the auto-expand level.
    * 
@@ -1197,36 +1198,37 @@ public abstract class AbstractTreeViewer extends StructuredViewer {
    * 
    * @param event the SWT tree event
    */
-  // protected void handleTreeCollapse(TreeEvent event) {
-  // if (event.item.getData() != null) {
-  // fireTreeCollapsed(new TreeExpansionEvent(this, event.item.getData()));
-  // }
-  // }
+   protected void handleTreeCollapse( TreeEvent event ) {
+    if( event.item.getData() != null ) {
+      fireTreeCollapsed( new TreeExpansionEvent( this, event.item.getData() ) );
+    }
+  }
   /**
    * Handles a tree expand event from the SWT widget.
    * 
    * @param event the SWT tree event
    */
-  // protected void handleTreeExpand(TreeEvent event) {
-  // if (!(getContentProvider() instanceof ILazyTreeContentProvider)) {
-  // createChildren(event.item);
-  // }
-  // if (event.item.getData() != null) {
-  // fireTreeExpanded(new TreeExpansionEvent(this, event.item.getData()));
-  // }
-  // }
+   protected void handleTreeExpand( TreeEvent event ) {
+//    if( !( getContentProvider() instanceof ILazyTreeContentProvider ) ) {
+      createChildren( event.item );
+//    }
+    if( event.item.getData() != null ) {
+      fireTreeExpanded( new TreeExpansionEvent( this, event.item.getData() ) );
+    }
+  }
   /* (non-Javadoc) Method declared on Viewer. */
   protected void hookControl( Control control ) {
     super.hookControl( control );
-    // addTreeListener(control, new TreeListener() {
-    // public void treeExpanded(TreeEvent event) {
-    // handleTreeExpand(event);
-    // }
-    //
-    // public void treeCollapsed(TreeEvent event) {
-    // handleTreeCollapse(event);
-    // }
-    // });
+     addTreeListener( control, new TreeListener() {
+
+      public void treeExpanded( TreeEvent event ) {
+        handleTreeExpand( event );
+      }
+
+      public void treeCollapsed( TreeEvent event ) {
+        handleTreeCollapse( event );
+      }
+    } );
   }
 
   /*
