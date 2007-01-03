@@ -99,6 +99,11 @@ final class ResourceManagerFactory implements IResourceManagerFactory {
       registerAtHttpService( name );
     }
 
+    public void register( final String name, final InputStream is ) {
+      resourceManager.register( name, is );
+      registerAtHttpService( name );
+    }
+    
     public void register( final String name, final String charset ) {
       resourceManager.register( name, charset );
       registerAtHttpService( name );
