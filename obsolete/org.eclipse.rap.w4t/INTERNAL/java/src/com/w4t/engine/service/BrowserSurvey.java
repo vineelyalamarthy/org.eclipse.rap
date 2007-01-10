@@ -58,6 +58,9 @@ final class BrowserSurvey {
     StringBuffer buffer = new StringBuffer();
     load( buffer );
     String servletName = ContextProvider.getRequest().getServletPath();
+    if( servletName.startsWith( "/" ) ) {
+      servletName = servletName.substring( 1 );
+    }
     replacePlaceholder( buffer, "${servlet}", servletName );
     replacePlaceholder( buffer, "${fallbackUrl}", createURL() );
     replacePlaceholder( buffer, "${adminOrStartup}", adminOrStartup() );
