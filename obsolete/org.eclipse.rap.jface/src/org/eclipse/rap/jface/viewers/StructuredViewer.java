@@ -14,7 +14,7 @@ import java.util.List;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.rap.jface.util.Assert;
 // import org.eclipse.jface.util.IOpenEventListener;
-// import org.eclipse.jface.util.OpenStrategy;
+import org.eclipse.rap.jface.util.OpenStrategy;
 import org.eclipse.rap.jface.util.SafeRunnable;
 // import org.eclipse.swt.custom.TableTreeItem;
 // import org.eclipse.swt.dnd.DragSource;
@@ -22,7 +22,8 @@ import org.eclipse.rap.jface.util.SafeRunnable;
 // import org.eclipse.swt.dnd.DropTarget;
 // import org.eclipse.swt.dnd.DropTargetListener;
 // import org.eclipse.swt.dnd.Transfer;
-// import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.rap.rwt.events.SelectionAdapter;
+import org.eclipse.rap.rwt.events.SelectionListener;
 import org.eclipse.rap.rwt.events.SelectionEvent;
 import org.eclipse.rap.rwt.graphics.Color;
 import org.eclipse.rap.rwt.graphics.Font;
@@ -1105,18 +1106,27 @@ public abstract class StructuredViewer extends ContentViewer
   /*
    * (non-Javadoc) Method declared on Viewer.
    */
-  // protected void hookControl(Control control) {
-  // super.hookControl(control);
-  // OpenStrategy handler = new OpenStrategy(control);
-  // handler.addSelectionListener(new SelectionListener() {
-  // public void widgetSelected(SelectionEvent e) {
-  // handleSelect(e);
-  // }
-  //
-  // public void widgetDefaultSelected(SelectionEvent e) {
-  // handleDoubleSelect(e);
-  // }
-  // });
+   protected void hookControl( Control control ) {
+    super.hookControl( control );
+
+    // TODO: [fappel] move this into a reasonable implementation of OpenStrategy
+    SelectionEvent.addListener( control, new SelectionListener() {
+      public void widgetSelected( SelectionEvent event ) {
+        handleSelect( event );
+      } 
+    } );
+    
+//    OpenStrategy handler = new OpenStrategy( control );
+//    handler.addSelectionListener( new SelectionListener() {
+//
+//      public void widgetSelected( SelectionEvent e ) {
+//        handleSelect( e );
+//      }
+//
+//      public void widgetDefaultSelected( SelectionEvent e ) {
+//        handleDoubleSelect( e );
+//      }
+//    } );
   // handler.addPostSelectionListener(new SelectionAdapter() {
   // public void widgetSelected(SelectionEvent e) {
   // handlePostSelect(e);
@@ -1127,7 +1137,7 @@ public abstract class StructuredViewer extends ContentViewer
   // StructuredViewer.this.handleOpen(e);
   // }
   // });
-  // }
+   }
   /**
    * Returns whether this viewer has any filters.
    * 

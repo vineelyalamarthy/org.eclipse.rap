@@ -153,10 +153,10 @@ public class TreeViewer extends AbstractTreeViewer {
   /*
    * (non-Javadoc) Method declared in AbstractTreeViewer.
    */
-   protected void addTreeListener(Control c, TreeListener listener) {
-     ((Tree) c).addTreeListener(listener);
-   }
-   
+  protected void addTreeListener( Control c, TreeListener listener ) {
+    ( ( Tree )c ).addTreeListener( listener );
+  }
+
   /**
    * Cancels a currently active cell editor. All changes already done in the
    * cell editor are lost.
@@ -228,48 +228,48 @@ public class TreeViewer extends AbstractTreeViewer {
       if( !updateLabel.hasPendingDecorations() )
         getColorAndFontCollector().applyFontsAndColors( treeItem );
     } else {// Use the table based support
-    // for (int column = 0; column < columnCount; column++) {
-    // // Similar code in TableViewer.doUpdateItem()
-    // String text = "";//$NON-NLS-1$
-    // Image image = null;
-    // treeColorAndFont.setFontsAndColors(treeItem, element, column);
-    //
-    // if (tprov == null) {
-    // if (column == 0) {
-    // ViewerLabel updateLabel = new ViewerLabel(treeItem
-    // .getText(), treeItem.getImage());
-    // if(vprov != null) {
-    // buildLabel(updateLabel,element,vprov);
-    // } else{
-    // if(lprov != null) {
-    // buildLabel(updateLabel,element,lprov);
-    // }
-    // }
-    //
-    // // As it is possible for user code to run the event
-    // // loop check here.
-    // if (treeItem.isDisposed()) {
-    // unmapElement(element, treeItem);
-    // return;
-    // }
-    //
-    // text = updateLabel.getText();
-    // image = updateLabel.getImage();
-    // }
-    // } else {
-    // text = tprov.getColumnText(element, column);
-    // image = tprov.getColumnImage(element, column);
-    // }
-    //
-    // // Avoid setting text to null
-    // if (text == null) {
-    // text = ""; //$NON-NLS-1$
-    // }
-    // treeItem.setText(column, text);
-    // if (treeItem.getImage(column) != image) {
-    // treeItem.setImage(column, image);
-    // }
-    // }
+      // for (int column = 0; column < columnCount; column++) {
+      // // Similar code in TableViewer.doUpdateItem()
+      // String text = "";//$NON-NLS-1$
+      // Image image = null;
+      // treeColorAndFont.setFontsAndColors(treeItem, element, column);
+      //
+      // if (tprov == null) {
+      // if (column == 0) {
+      // ViewerLabel updateLabel = new ViewerLabel(treeItem
+      // .getText(), treeItem.getImage());
+      // if(vprov != null) {
+      // buildLabel(updateLabel,element,vprov);
+      // } else{
+      // if(lprov != null) {
+      // buildLabel(updateLabel,element,lprov);
+      // }
+      // }
+      //
+      // // As it is possible for user code to run the event
+      // // loop check here.
+      // if (treeItem.isDisposed()) {
+      // unmapElement(element, treeItem);
+      // return;
+      // }
+      //
+      // text = updateLabel.getText();
+      // image = updateLabel.getImage();
+      // }
+      // } else {
+      // text = tprov.getColumnText(element, column);
+      // image = tprov.getColumnImage(element, column);
+      // }
+      //
+      // // Avoid setting text to null
+      // if (text == null) {
+      // text = ""; //$NON-NLS-1$
+      // }
+      // treeItem.setText(column, text);
+      // if (treeItem.getImage(column) != image) {
+      // treeItem.setImage(column, image);
+      // }
+      // }
       getColorAndFontCollector().applyFontsAndColors( treeItem );
     }
   }
@@ -361,7 +361,7 @@ public class TreeViewer extends AbstractTreeViewer {
    * (non-Javadoc) Method declared in AbstractTreeViewer.
    */
   protected boolean getExpanded( Item item ) {
-     return ((TreeItem) item).getExpanded();
+    return ( ( TreeItem )item ).getExpanded();
   }
 
   /*
@@ -417,8 +417,7 @@ public class TreeViewer extends AbstractTreeViewer {
    * (non-Javadoc) Method declared in AbstractTreeViewer.
    */
   protected Item[] getSelection( Control widget ) {
-    return new Item[ 0 ];
-    // return ((Tree) widget).getSelection();
+    return ( ( Tree )widget ).getSelection();
   }
 
   /**
@@ -594,10 +593,10 @@ public class TreeViewer extends AbstractTreeViewer {
    */
   protected void setExpanded( Item node, boolean expand ) {
     ( ( TreeItem )node ).setExpanded( expand );
-//    if( getContentProvider() instanceof ILazyTreeContentProvider ) {
-//      // force repaints to happen
-//      getControl().update();
-//    }
+    // if( getContentProvider() instanceof ILazyTreeContentProvider ) {
+    // // force repaints to happen
+    // getControl().update();
+    // }
   }
 
   /**

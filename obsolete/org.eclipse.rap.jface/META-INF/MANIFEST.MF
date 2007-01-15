@@ -9,5 +9,10 @@ Require-Bundle: org.eclipse.core.commands;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.rap.rwt,
  org.eclipse.rap.w4t
-Export-Package: org.eclipse.rap.jface.util,
- org.eclipse.rap.jface.viewers
+Export-Package: org.eclipse.rap.jface.action,
+ org.eclipse.rap.jface.commands,
+ org.eclipse.rap.jface.internal.provisional.action;x-friends:="org.eclipse.rap.ui.workbench",
+ org.eclipse.rap.jface.resource,
+ org.eclipse.rap.jface.util,
+ org.eclipse.rap.jface.viewers,
+ org.eclipse.rap.jface.window

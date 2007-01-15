@@ -14,13 +14,21 @@
       id="entrypoint"
       name="EntryPoint" 
       schema="schema/entrypoint.exsd"/>
+  <extension-point
+      id="perspectives"
+      name="perspectives"
+      schema="schema/perspectives.exsd"/>
+  <extension-point
+      id="views"
+      name="views"
+      schema="schema/views.exsd"/>
       
   <extension
-      id="org.eclipse.rap.ui.workbench.requestHandler"
+      id="org.eclipse.rap.ui.requestHandler"
       point="org.eclipse.equinox.http.registry.servlets">
     <servlet
         alias="/rap"
-        class="org.eclipse.rap.ui.workbench.internal.servlet.RequestHandler">
+        class="org.eclipse.rap.ui.internal.servlet.RequestHandler">
     </servlet>
   </extension>
 
@@ -40,13 +48,13 @@
         factoryClass="org.eclipse.rap.rwt.internal.widgets.WidgetAdapterFactory"
         adaptableClass="org.eclipse.rap.rwt.widgets.Display"/>
   </extension>
-  
+
   <extension
         id="org.eclipse.rap.ui.workbench.preserveWidgetValues"
         point="org.eclipse.rap.ui.workbench.phaselistener">
      <listener class="org.eclipse.rap.rwt.internal.lifecycle.PreserveWidgetsPhaseListener"/>
   </extension>
-  
+
   <extension
         id="org.eclipse.rap.ui.workbench.currentPhase"
         point="org.eclipse.rap.ui.workbench.phaselistener">
