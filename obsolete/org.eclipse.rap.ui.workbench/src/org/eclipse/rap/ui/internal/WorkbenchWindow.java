@@ -175,7 +175,7 @@ public class WorkbenchWindow
     //                implementations...
     topBar = new CBanner( shell, RWT.NONE ) {
       public Point computeSize( int wHint, int hHint, boolean changed ) {
-        return new Point( super.computeSize( wHint, hHint, changed ).x, 38 );
+        return new Point( super.computeSize( wHint, hHint, changed ).x, 34 );
       }
     };
     String id = "org.eclipse.ui.internal.WorkbenchWindow.topBar";
@@ -210,7 +210,7 @@ public class WorkbenchWindow
     }
 
     ToolBar perspectiveBar 
-      = new ToolBar( topBar, RWT.NONE );
+      = new ToolBar( topBar, RWT.BORDER );
     topBar.setRight( perspectiveBar );
     
     createPageComposite( shell );

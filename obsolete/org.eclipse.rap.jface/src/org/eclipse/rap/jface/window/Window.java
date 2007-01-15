@@ -54,8 +54,9 @@ public abstract class Window implements IShellProvider {
       parentShell = new SameShellProvider( null );
       newParent = getParentShell();
     }
+    // TODO: [fappel] getShellStyle() implementation
     // Create the shell
-    Shell result = new Shell( newParent, RWT.NONE );
+    Shell result = new Shell( newParent, RWT.SHELL_TRIM );
     result.setData( this );
     configureShell( result );
     return result;
