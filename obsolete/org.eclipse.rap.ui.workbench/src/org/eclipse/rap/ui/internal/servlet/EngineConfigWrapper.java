@@ -38,7 +38,7 @@ final class EngineConfigWrapper implements IEngineConfig {
   
   // path to a w4toolkit configuration file on the classpath
   private final static String CONFIG 
-    = "org/eclipse/rap/ui/workbench/internal/servlet/config.xml";
+    = "org/eclipse/rap/ui/internal/servlet/config.xml";
   //  extension point id for adapter factory registration
   private static final String ID_ADAPTER_FACTORY 
     = "org.eclipse.rap.ui.workbench.adapterfactory";
