@@ -630,7 +630,7 @@ public final class PaneFolder {
    * @param fgColor
    */
   public void setSelectionForeground( Color fgColor ) {
-//    tabFolder.setSelectionForeground( fgColor );
+    tabFolder.setSelectionForeground( fgColor );
   }
 
   /**
