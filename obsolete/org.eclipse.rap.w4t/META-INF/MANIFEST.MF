@@ -61,4 +61,4 @@ Export-Package: com.w4t,
  com.w4t.webtextareakit;x-friends:="org.eclipse.rap.w4t.test",
  com.w4t.webtextkit;x-friends:="org.eclipse.rap.w4t.test",
  org.apache.commons.fileupload
-Bundle-ClassPath: WEB-INF/lib/commons-fileupload-1.0.jar
+Bundle-ClassPath: WEB-INF/lib/commons-fileupload-1.0.jar,.
