@@ -183,12 +183,40 @@ public class TabbedStackPresentation extends StackPresentation {
 
   }
 
+  public int computePreferredSize( boolean width,
+                                   int availableParallel,
+                                   int availablePerpendicular,
+                                   int preferredResult )
+  {
+    if( preferredResult != INFINITE
+        || getSite().getState() == IStackPresentationSite.STATE_MINIMIZED )
+    {
+      int minSize = 0;
+      if( width ) {
+        int heightHint = availablePerpendicular == INFINITE
+                                                           ? RWT.DEFAULT
+                                                           : availablePerpendicular;
+        minSize = folder.getTabFolder().computeSize( RWT.DEFAULT, heightHint ).x;
+      } else {
+        int widthHint = availablePerpendicular == INFINITE
+                                                          ? RWT.DEFAULT
+                                                          : availablePerpendicular;
+        minSize = folder.getTabFolder().computeSize( widthHint, RWT.DEFAULT ).y;
+      }
+      if( getSite().getState() == IStackPresentationSite.STATE_MINIMIZED ) {
+        return minSize;
+      }
+      return Math.max( minSize, preferredResult );
+    }
+    return INFINITE;
+  }
+
   public void removePart( IPresentablePart oldPart ) {
     throw new UnsupportedOperationException();
   }
 
   public void selectPart( final IPresentablePart toSelect ) {
-//    initializing = false;
+// initializing = false;
     tabs.select( toSelect );
   }
 

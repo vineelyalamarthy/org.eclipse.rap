@@ -97,12 +97,12 @@ public class LayoutTree implements ISizeProvider {
    * Find the Left,Right,Top and Botton sashes around this tree and set them in
    * <code>sashes</code>
    */
-//  public void findSashes( PartPane.Sashes sashes ) {
-//    if( getParent() == null ) {
-//      return;
-//    }
-//    getParent().findSashes( this, sashes );
-//  }
+  public void findSashes( PartPane.Sashes sashes ) {
+    if( getParent() == null ) {
+      return;
+    }
+    getParent().findSashes( this, sashes );
+  }
 
   /**
    * Find the part that is in the bottom rigth possition.

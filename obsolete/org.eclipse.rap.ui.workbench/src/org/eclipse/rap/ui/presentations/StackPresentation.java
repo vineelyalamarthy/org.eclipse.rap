@@ -13,8 +13,7 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.graphics.Point;
 import org.eclipse.rap.rwt.graphics.Rectangle;
 import org.eclipse.rap.rwt.widgets.Control;
-//import org.eclipse.ui.IMemento;
-//import org.eclipse.ui.ISizeProvider;
+import org.eclipse.rap.ui.ISizeProvider;
 
 /**
  * This represents an object that can supply trim around a IPresentablePart.
@@ -37,7 +36,7 @@ import org.eclipse.rap.rwt.widgets.Control;
  * 
  * @since 3.0
  */
-public abstract class StackPresentation /*implements ISizeProvider*/ {
+public abstract class StackPresentation implements ISizeProvider {
 
   /**
    * Inactive state. This is the default state for deselected presentations.
@@ -101,12 +100,10 @@ public abstract class StackPresentation /*implements ISizeProvider*/ {
   /*
    * @see ISizeProvider#getSizeFlags(boolean)
    */
-//  public int getSizeFlags( boolean width ) {
-//    boolean hasMaximumSize = getSite().getState() == IStackPresentationSite.STATE_MINIMIZED;
-//    return SWT.MIN | ( hasMaximumSize
-//                                     ? SWT.MAX
-//                                     : 0 );
-//  }
+  public int getSizeFlags( boolean width ) {
+    boolean hasMaximumSize = getSite().getState() == IStackPresentationSite.STATE_MINIMIZED;
+    return RWT.MIN | ( hasMaximumSize ? RWT.MAX : 0 );
+  }
 
   /*
    * @see ISizeProvider#computePreferredSize(boolean, int, int, int)

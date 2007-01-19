@@ -41,4 +41,8 @@ public class EditorSashContainer extends PartSashContainer {
   protected Composite createParent( final Composite parentWidget ) {
     return new Composite( parentWidget, RWT.NONE );
   }
+  
+  public boolean isCompressible() {
+    return true;
+  }
 }

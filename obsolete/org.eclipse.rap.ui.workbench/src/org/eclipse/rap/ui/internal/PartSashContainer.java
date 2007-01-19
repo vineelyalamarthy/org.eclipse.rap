@@ -350,8 +350,17 @@ public abstract class PartSashContainer
     }
     return preferredParallel;
   }
+
+  public void flushLayout() {
+    layoutDirty = true;
+    super.flushLayout();
+    if( layoutDirty ) {
+      resizeSashes();
+    }
+  }
   
-  /////////////////////////////
+  
+  // ///////////////////////////
   // interface ILayoutContainer
   
   public void add( final LayoutPart child ) {

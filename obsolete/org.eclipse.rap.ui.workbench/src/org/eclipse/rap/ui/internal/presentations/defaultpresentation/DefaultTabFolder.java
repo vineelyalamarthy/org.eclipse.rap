@@ -8,6 +8,7 @@
 package org.eclipse.rap.ui.internal.presentations.defaultpresentation;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.rap.jface.util.Geometry;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.custom.*;
 import org.eclipse.rap.rwt.events.*;
@@ -181,7 +182,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
    * @since 3.1
    */
   public void setMinimumCharacters( int count ) {
-//    paneFolder.setMinimumCharacters( count );
+    paneFolder.setMinimumCharacters( count );
   }
 
   public void setSimpleTabs( boolean simple ) {
@@ -311,9 +312,8 @@ public class DefaultTabFolder extends AbstractTabFolder {
    * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#getTabArea()
    */
   public Rectangle getTabArea() {
-//    return Geometry.toDisplay( paneFolder.getControl(),
-//                               paneFolder.getTitleArea() );
-    return null;
+    return Geometry.toDisplay( paneFolder.getControl(),
+                               paneFolder.getTitleArea() );
   }
 
   /**

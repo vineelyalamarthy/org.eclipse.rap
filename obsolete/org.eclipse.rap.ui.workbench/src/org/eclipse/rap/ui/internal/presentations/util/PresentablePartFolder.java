@@ -12,11 +12,13 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.rap.jface.util.Geometry;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.events.*;
+import org.eclipse.rap.rwt.graphics.Point;
 import org.eclipse.rap.rwt.graphics.Rectangle;
 import org.eclipse.rap.rwt.widgets.Composite;
 import org.eclipse.rap.rwt.widgets.Control;
 import org.eclipse.rap.ui.internal.dnd.DragUtil;
 import org.eclipse.rap.ui.presentations.IPresentablePart;
+import org.eclipse.rap.ui.presentations.IStackPresentationSite;
 
 /**
  * @since 3.1
@@ -210,13 +212,13 @@ public final class PresentablePartFolder implements IPresentablePartList {
   }
 
   public void setBounds( Rectangle bounds ) {
-//    Point minSize = folder.computeSize( bounds.width, RWT.DEFAULT );
-//    if( folder.getState() == IStackPresentationSite.STATE_MINIMIZED
-//        && minSize.y < bounds.height )
-//    {
-//      bounds = Geometry.copy( bounds );
-//      bounds.height = minSize.y;
-//    }
+    Point minSize = folder.computeSize( bounds.width, RWT.DEFAULT );
+    if( folder.getState() == IStackPresentationSite.STATE_MINIMIZED
+        && minSize.y < bounds.height )
+    {
+      bounds = Geometry.copy( bounds );
+      bounds.height = minSize.y;
+    }
     // Set the tab folder's bounds
     folder.getControl().setBounds( bounds );
     layout( false );

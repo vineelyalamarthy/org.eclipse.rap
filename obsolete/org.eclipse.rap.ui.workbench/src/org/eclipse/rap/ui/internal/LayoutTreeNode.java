@@ -199,39 +199,39 @@ public class LayoutTreeNode extends LayoutTree {
    * sashes. The elements may be null depending whether there is a shash beside
    * the <code>part</code>
    */
-//  void findSashes( LayoutTree child, PartPane.Sashes sashes ) {
-//    Sash sash = ( Sash )getSash().getControl();
-//    boolean leftOrTop = children[ 0 ] == child;
-//    if( sash != null ) {
-//      LayoutPartSash partSash = getSash();
-//      // If the child is in the left, the sash
-//      // is in the rigth and so on.
-//      if( leftOrTop ) {
-//        if( partSash.isVertical() ) {
-//          if( sashes.right == null ) {
-//            sashes.right = sash;
-//          }
-//        } else {
-//          if( sashes.bottom == null ) {
-//            sashes.bottom = sash;
-//          }
-//        }
-//      } else {
-//        if( partSash.isVertical() ) {
-//          if( sashes.left == null ) {
-//            sashes.left = sash;
-//          }
-//        } else {
-//          if( sashes.top == null ) {
-//            sashes.top = sash;
-//          }
-//        }
-//      }
-//    }
-//    if( getParent() != null ) {
-//      getParent().findSashes( this, sashes );
-//    }
-//  }
+  void findSashes( LayoutTree child, PartPane.Sashes sashes ) {
+    Sash sash = ( Sash )getSash().getControl();
+    boolean leftOrTop = children[ 0 ] == child;
+    if( sash != null ) {
+      LayoutPartSash partSash = getSash();
+      // If the child is in the left, the sash
+      // is in the rigth and so on.
+      if( leftOrTop ) {
+        if( partSash.isVertical() ) {
+          if( sashes.right == null ) {
+            sashes.right = sash;
+          }
+        } else {
+          if( sashes.bottom == null ) {
+            sashes.bottom = sash;
+          }
+        }
+      } else {
+        if( partSash.isVertical() ) {
+          if( sashes.left == null ) {
+            sashes.left = sash;
+          }
+        } else {
+          if( sashes.top == null ) {
+            sashes.top = sash;
+          }
+        }
+      }
+    }
+    if( getParent() != null ) {
+      getParent().findSashes( this, sashes );
+    }
+  }
 
   /**
    * Returns the sash of this node.
@@ -653,16 +653,16 @@ public class LayoutTreeNode extends LayoutTree {
    * Create the sashes if the children are visible and dispose it if they are
    * not.
    */
-  // public void updateSashes(Composite parent) {
-  // if (parent == null)
-  // return;
-  // children[0].updateSashes(parent);
-  // children[1].updateSashes(parent);
-  // if (children[0].isVisible() && children[1].isVisible())
-  // getSash().createControl(parent);
-  // else
-  // getSash().dispose();
-  // }
+//   public void updateSashes(Composite parent) {
+//   if (parent == null)
+//   return;
+//   children[0].updateSashes(parent);
+//   children[1].updateSashes(parent);
+//   if (children[0].isVisible() && children[1].isVisible())
+//   getSash().createControl(parent);
+//   else
+//   getSash().dispose();
+//   }
   /**
    * Writes a description of the layout to the given string buffer. This is used
    * for drag-drop test suites to determine if two layouts are the same. Like a

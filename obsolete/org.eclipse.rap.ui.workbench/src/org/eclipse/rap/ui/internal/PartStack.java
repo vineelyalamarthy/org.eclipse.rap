@@ -279,12 +279,20 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
     }
     boolean minimized = ( newState == IStackPresentationSite.STATE_MINIMIZED );
     setMinimized( minimized );
-//    if( newState == IStackPresentationSite.STATE_MAXIMIZED ) {
-//      requestZoomIn();
-//    } else if( oldState == IStackPresentationSite.STATE_MAXIMIZED ) {
-//      requestZoomOut();
-//    }
-}
+    // if( newState == IStackPresentationSite.STATE_MAXIMIZED ) {
+    // requestZoomIn();
+    // } else if( oldState == IStackPresentationSite.STATE_MAXIMIZED ) {
+    // requestZoomOut();
+    // }
+  }
+
+  public int getSizeFlags( boolean horizontal ) {
+    StackPresentation presentation = getPresentation();
+    if( presentation != null ) {
+      return presentation.getSizeFlags( horizontal );
+    }
+    return 0;
+  }
 
 
   // ///////////////////////////
