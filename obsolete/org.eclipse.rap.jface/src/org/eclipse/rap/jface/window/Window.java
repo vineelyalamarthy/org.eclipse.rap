@@ -40,6 +40,9 @@ public abstract class Window implements IShellProvider {
       // create the window
       create();
     }
+    
+    // open the window
+    shell.open();
   }
 
   public void create() {

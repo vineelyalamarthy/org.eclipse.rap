@@ -539,11 +539,11 @@ public class TrimLayout extends Layout implements ICachingLayout, ITrimManager {
             // if the CoolBar wraps and uses extra height
             // So we have to re-calc the value based on the actual trim height
             // as laid out.
-//            if( next.getControl() instanceof CBanner ) {
-//              prefSize = next.getControl().computeSize( thisSize, RWT.DEFAULT );
-//              if( prefSize.y > hint )
-//                hint = prefSize.y;
-//            }
+            if( next.getControl() instanceof CBanner ) {
+              prefSize = next.getControl().computeSize( thisSize, RWT.DEFAULT );
+              if( prefSize.y > hint )
+                hint = prefSize.y;
+            }
             next.getControl().setBounds( currentPosition.x,
                                          currentPosition.y,
                                          thisSize,

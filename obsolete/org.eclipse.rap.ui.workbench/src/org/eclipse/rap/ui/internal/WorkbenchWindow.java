@@ -102,6 +102,15 @@ public class WorkbenchWindow
     setActivePage( newPage );
   }
 
+  public void open() {
+    super.open();
+    //  It's time for a layout ... to insure that if TrimLayout
+    // is in play, it updates all of the trim it's responsible
+    // for. We have to do this before updating in order to get
+    // the PerspectiveBar management correct...see defect 137334
+    getShell().layout();
+  }
+  
   public void setActivePage( final IWorkbenchPage in ) {
 //    if( getActiveWorkbenchPage() == in ) {
 //      return;

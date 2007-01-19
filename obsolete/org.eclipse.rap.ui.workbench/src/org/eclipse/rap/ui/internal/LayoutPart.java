@@ -57,11 +57,10 @@ public abstract class LayoutPart implements ISizeProvider {
   }
 
   public boolean getVisible() {
-    // TODO: [fappel] replace with original implementation
     Control ctrl = getControl();
     boolean result = false;
     if( !ctrl.isDisposed() ) {
-      result = ctrl.isVisible();
+      result = ctrl.getVisible();
     }
     return result;
   }
