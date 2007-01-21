@@ -32,6 +32,7 @@ public class CompositeLCA extends AbstractWidgetLCA {
     JSWriter writer = JSWriter.getWriterFor( widget );
     writer.newWidget( "qx.ui.layout.CanvasLayout" );
     writer.set( "appearance", "composite" );
+    writer.set( "overflow", "hidden" );
     ControlLCAUtil.writeStyleFlags( widget );
   }
   
