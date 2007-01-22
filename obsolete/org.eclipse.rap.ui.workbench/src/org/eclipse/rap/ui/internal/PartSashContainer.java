@@ -35,7 +35,7 @@ public abstract class PartSashContainer
   private final ControlAdapter resizeListener;
   private boolean layoutDirty;
   private boolean active;
-  
+  private LayoutPart zoomedPart;  
   
   protected static class RelationshipInfo {
 
@@ -358,10 +358,53 @@ public abstract class PartSashContainer
       resizeSashes();
     }
   }
+
+  public LayoutPart getZoomedPart() {
+    return zoomedPart;
+  }
+
+  public boolean isZoomed() {
+    return ( zoomedPart != null );
+  }
+
+  public LayoutPart pickPartToZoom() {
+    return findBottomRight();
+  }
+
+  public void setVisible( boolean makeVisible ) {
+    if( makeVisible == getVisible() ) {
+      return;
+    }
+    if( !( this.parent == null || this.parent.isDisposed() ) ) {
+      this.parent.setEnabled( makeVisible );
+    }
+    super.setVisible( makeVisible );
+    List children = Arrays.asList( new Object[ this.children.size() ] );
+    Collections.copy( children, this.children );
+    for( int i = 0, length = children.size(); i < length; i++ ) {
+      LayoutPart child = ( LayoutPart )children.get( i );
+      child.setVisible(    makeVisible
+                        && ( zoomedPart == null || child == zoomedPart ) );
+    }
+  }
   
   
-  // ///////////////////////////
+  /////////////////////////////
   // interface ILayoutContainer
+  
+  public void setZoomed( boolean isZoomed ) {
+    if( !isZoomed ) {
+      zoomOut();
+    } else {
+      if( !isZoomed() ) {
+        LayoutPart toZoom = pickPartToZoom();
+        if( toZoom != null ) {
+          zoomIn( toZoom );
+        }
+      }
+    }
+    super.setZoomed( isZoomed );
+  }
   
   public void add( final LayoutPart child ) {
     if( child != null ) {
@@ -395,19 +438,50 @@ public abstract class PartSashContainer
   }
 
   public boolean childIsZoomed( LayoutPart toTest ) {
-    throw new UnsupportedOperationException();
+    return toTest == getZoomedPart();
   }
 
   public boolean childObscuredByZoom( LayoutPart toTest ) {
-    throw new UnsupportedOperationException();
+    LayoutPart zoomPart = getZoomedPart();
+    
+    if (zoomPart != null && toTest != zoomPart) {
+        return true;
+    }
+    return isObscuredByZoom();
   }
 
   public void childRequestZoomIn( LayoutPart toZoom ) {
-    throw new UnsupportedOperationException();
+//    if( !SwtUtil.isDisposed( this.parent ) ) {
+//      this.parent.setRedraw( false );
+//    }
+    try {
+      zoomIn( toZoom );
+      requestZoomIn();
+      if( layoutDirty ) {
+        resizeSashes();
+      }
+    } finally {
+//      if( !SwtUtil.isDisposed( this.parent ) ) {
+//        this.parent.setRedraw( true );
+//      }
+    }
   }
 
   public void childRequestZoomOut() {
-    throw new UnsupportedOperationException();
+//    if( !SwtUtil.isDisposed( this.parent ) ) {
+//      this.parent.setRedraw( false );
+//    }
+    try {
+      zoomOut();
+      requestZoomOut();
+      if( layoutDirty ) {
+        resizeSashes();
+      }
+    } finally {
+//      if( !SwtUtil.isDisposed( this.parent ) ) {
+//        this.parent.setRedraw( true );
+//      }
+    }
   }
 
   public LayoutPart[] getChildren() {
@@ -433,12 +507,55 @@ public abstract class PartSashContainer
     if( !active ) {
       return;
     }
-//    if( isZoomed() ) {
-//      getZoomedPart().setBounds( parent.getClientArea() );
-//    } else {
+    if( isZoomed() ) {
+      getZoomedPart().setBounds( parent.getClientArea() );
+    } else {
       if( root != null ) {
         root.setBounds( parent.getClientArea() );
       }
-//    }
+    }
+  }
+
+  private void zoomOut() {
+    // Sanity check.
+    if( !isZoomed() ) {
+      return;
+    }
+    LayoutPart zoomedPart = this.zoomedPart;
+    this.zoomedPart = null;
+    // Inform the part that it is no longer zoomed
+    zoomedPart.setZoomed( false );
+    // Make all children visible
+    LayoutPart[] children = getChildren();
+    for( int i = 0; i < children.length; i++ ) {
+      LayoutPart child = children[ i ];
+      child.setVisible( true );
+    }
+    // Recreate the sashes
+    root.createControl( getParent() );
+    // Ensure that the part being un-zoomed will have its size refreshed.
+    LayoutTree node = root.find( zoomedPart );
+    node.flushCache();
+    layoutDirty = true;
+  }
+
+  private void zoomIn( LayoutPart part ) {
+    // Sanity check.
+    if( isZoomed() ) {
+      return;
+    }
+    // Hide the sashes
+    root.disposeSashes();
+    // Make all parts invisible except for the zoomed part
+    LayoutPart[] children = getChildren();
+    for( int i = 0; i < children.length; i++ ) {
+      LayoutPart child = children[ i ];
+      child.setVisible( child == part );
+    }
+    zoomedPart = part;
+    // Notify the part that it has been zoomed
+    part.setZoomed( true );
+    // Remember that we need to trigger a layout
+    layoutDirty = true;
   }
 }

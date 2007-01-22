@@ -31,6 +31,9 @@ import org.eclipse.rap.ui.*;
 import org.eclipse.rap.ui.entrypoint.*;
 import org.eclipse.rap.ui.internal.layout.*;
 import org.eclipse.rap.ui.internal.misc.UIListenerLogging;
+import org.eclipse.rap.ui.internal.presentations.DefaultActionBarPresentationFactory;
+import org.eclipse.rap.ui.internal.provisional.presentations.IActionBarPresentationFactory;
+import org.eclipse.rap.ui.presentations.AbstractPresentationFactory;
 
 
 public class WorkbenchWindow
@@ -75,6 +78,18 @@ public class WorkbenchWindow
 
   public void fillActionBars( int flags ) {
     getActionBarAdvisor().fillActionBars( flags );
+  }
+
+  IActionBarPresentationFactory getActionBarPresentationFactory() {
+    // allow replacement of the actionbar presentation
+    IActionBarPresentationFactory actionBarPresentation;
+    AbstractPresentationFactory presentationFactory = getWindowConfigurer().getPresentationFactory();
+    if( presentationFactory instanceof IActionBarPresentationFactory ) {
+      actionBarPresentation = ( ( IActionBarPresentationFactory )presentationFactory );
+    } else {
+      actionBarPresentation = new DefaultActionBarPresentationFactory();
+    }
+    return actionBarPresentation;
   }
 
   public int getNumber() {

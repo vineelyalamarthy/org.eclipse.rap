@@ -243,7 +243,12 @@ public class TabbedStackPresentation extends StackPresentation {
   }
 
   public void setVisible( boolean isVisible ) {
-    throw new UnsupportedOperationException();
+    IPresentablePart current = getSite().getSelectedPart();
+    if (current != null) {
+        current.setVisible(isVisible);
+    }
+
+    folder.setVisible(isVisible);
   }
 
   public void showPaneMenu() {

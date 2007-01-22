@@ -11,21 +11,27 @@
 
 package org.eclipse.rap.ui.internal;
 
+import org.eclipse.rap.jface.internal.provisional.action.IToolBarManager2;
 import org.eclipse.rap.rwt.widgets.Composite;
 import org.eclipse.rap.rwt.widgets.Control;
 import org.eclipse.rap.ui.IViewReference;
 import org.eclipse.rap.ui.IWorkbenchPartReference;
+import org.eclipse.rap.ui.internal.provisional.presentations.IActionBarPresentationFactory;
 import org.eclipse.rap.ui.presentations.StackPresentation;
 
 
 public class ViewPane extends PartPane {
 
   private boolean hasFocus;
-
+  private IToolBarManager2 isvToolBarMgr = null;
+  
   public ViewPane( final IWorkbenchPartReference partReference,
                    final WorkbenchPage workbenchPage )
   {
     super( partReference, workbenchPage );
+    WorkbenchWindow workbenchWindow = ( WorkbenchWindow )page.getWorkbenchWindow();
+    IActionBarPresentationFactory actionBarPresentation = workbenchWindow.getActionBarPresentationFactory();
+    isvToolBarMgr = actionBarPresentation.createViewToolBarManager();
   }
 
   protected void createTitleBar() {
@@ -96,5 +102,37 @@ public class ViewPane extends PartPane {
   
   public IViewReference getViewReference() {
     return ( IViewReference )getPartReference();
+  }
+
+  public void setVisible( boolean makeVisible ) {
+    super.setVisible( makeVisible );
+    Control toolbar = internalGetToolbar();
+    if( toolbar != null ) {
+      boolean visible = makeVisible && toolbarIsVisible();
+      toolbar.setVisible( visible );
+    }
+  }
+
+  public boolean toolbarIsVisible() {
+    IToolBarManager2 toolbarManager = getToolBarManager();
+    if( toolbarManager == null ) {
+      return false;
+    }
+    Control control = toolbarManager.getControl2();
+    if( control == null || control.isDisposed() ) {
+      return false;
+    }
+    return toolbarManager.getItemCount() > 0;
+  }
+
+  private Control internalGetToolbar() {
+    if( isvToolBarMgr == null ) {
+      return null;
+    }
+    return isvToolBarMgr.getControl2();
+  }
+
+  public IToolBarManager2 getToolBarManager() {
+    return isvToolBarMgr;
   }
 }

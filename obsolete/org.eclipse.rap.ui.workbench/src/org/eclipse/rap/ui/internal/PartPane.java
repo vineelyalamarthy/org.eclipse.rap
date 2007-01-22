@@ -10,29 +10,13 @@ package org.eclipse.rap.ui.internal;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.rap.jface.action.MenuManager;
 import org.eclipse.rap.rwt.RWT;
-//import org.eclipse.swt.events.FocusAdapter;
-//import org.eclipse.swt.events.FocusEvent;
-//import org.eclipse.swt.events.KeyAdapter;
-////import org.eclipse.swt.events.KeyEvent;
-//import org.eclipse.swt.events.KeyListener;
 import org.eclipse.rap.rwt.events.*;
-//import org.eclipse.swt.events.TraverseEvent;
-//import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.rap.rwt.graphics.Point;
 import org.eclipse.rap.rwt.graphics.Rectangle;
 import org.eclipse.rap.rwt.layout.FillLayout;
-import org.eclipse.rap.rwt.widgets.Composite;
-import org.eclipse.rap.rwt.widgets.Control;
-//import org.eclipse.rap.rwt.widgets.Event;
-//import org.eclipse.swt.widgets.Listener;
-import org.eclipse.rap.rwt.widgets.Menu;
-import org.eclipse.rap.rwt.widgets.MenuItem;
-import org.eclipse.rap.rwt.widgets.Sash;
-//import org.eclipse.ui.IPropertyListener;
+import org.eclipse.rap.rwt.widgets.*;
 import org.eclipse.rap.ui.IWorkbenchPart;
 import org.eclipse.rap.ui.IWorkbenchPartReference;
-//import org.eclipse.ui.internal.dnd.SwtUtil;
-//import org.eclipse.ui.part.MultiEditor;
 
 /**
  * Provides the common behavior for both views and editor panes. TODO: Delete
@@ -173,9 +157,9 @@ public abstract class PartPane extends LayoutPart implements ActivateListener
    * Zooms in on the part contained in this pane.
    */
   protected void doZoom() {
-//    if( isDocked() ) {
-//      page.toggleZoom( partReference );
-//    }
+    if( isDocked() ) {
+      page.toggleZoom( partReference );
+    }
   }
 
   /**
@@ -312,11 +296,11 @@ public abstract class PartPane extends LayoutPart implements ActivateListener
    * Set whether the pane is zoomed or not
    */
   public void setZoomed( boolean isZoomed ) {
-//    if( this.isZoomed == isZoomed ) {
-//      return; // do nothing if we're already in the right state.
-//    }
-//    super.setZoomed( isZoomed );
-//    this.isZoomed = isZoomed;
+    if( this.isZoomed == isZoomed ) {
+      return; // do nothing if we're already in the right state.
+    }
+    super.setZoomed( isZoomed );
+    this.isZoomed = isZoomed;
 //    ( ( WorkbenchPartReference )partReference ).fireZoomChange();
   }
 

@@ -92,7 +92,7 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
     }
 
     public void flushLayout() {
-//      PartStack.this.flushLayout();
+      PartStack.this.flushLayout();
     }
 
     public IPresentablePart[] getPartList() {
@@ -279,11 +279,11 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
     }
     boolean minimized = ( newState == IStackPresentationSite.STATE_MINIMIZED );
     setMinimized( minimized );
-    // if( newState == IStackPresentationSite.STATE_MAXIMIZED ) {
-    // requestZoomIn();
-    // } else if( oldState == IStackPresentationSite.STATE_MAXIMIZED ) {
-    // requestZoomOut();
-    // }
+    if( newState == IStackPresentationSite.STATE_MAXIMIZED ) {
+      requestZoomIn();
+    } else if( oldState == IStackPresentationSite.STATE_MAXIMIZED ) {
+      requestZoomOut();
+    }
   }
 
   public int getSizeFlags( boolean horizontal ) {
@@ -292,6 +292,58 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
       return presentation.getSizeFlags( horizontal );
     }
     return 0;
+  }
+
+  public int getState() {
+    return presentationSite.getState();
+  }
+
+  public void setZoomed( boolean isZoomed ) {
+    super.setZoomed( isZoomed );
+    LayoutPart[] children = getChildren();
+    for( int i = 0; i < children.length; i++ ) {
+      LayoutPart next = children[ i ];
+      next.setZoomed( isZoomed );
+    }
+    refreshPresentationState();
+  }
+
+  public boolean isZoomed() {
+    ILayoutContainer container = getContainer();
+    if( container != null ) {
+      return container.childIsZoomed( this );
+    }
+    return false;
+  }
+
+  public void setVisible( boolean makeVisible ) {
+    Control ctrl = getControl();
+    boolean useShortcut = makeVisible || !isActive;
+    if( !( ctrl == null || ctrl.isDisposed() )&& useShortcut ) {
+      if( makeVisible == ctrl.getVisible() ) {
+        return;
+      }
+    }
+    if( makeVisible ) {
+      for( Iterator iterator = presentableParts.iterator(); iterator.hasNext(); )
+      {
+        PresentablePart next = ( PresentablePart )iterator.next();
+        next.enableInputs( isActive );
+        next.enableOutputs( isActive );
+      }
+    }
+    super.setVisible( makeVisible );
+    StackPresentation presentation = getPresentation();
+    if( presentation != null ) {
+      presentation.setVisible( makeVisible );
+    }
+    if( !makeVisible ) {
+      for( Iterator iterator = presentableParts.iterator(); iterator.hasNext(); )
+      {
+        PresentablePart next = ( PresentablePart )iterator.next();
+        next.enableInputs( false );
+      }
+    }
   }
 
 
@@ -329,21 +381,22 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
     throw new UnsupportedOperationException();
   }
 
-  public boolean childIsZoomed( LayoutPart toTest ) {
-    throw new UnsupportedOperationException();
+  public boolean childIsZoomed( final LayoutPart toTest ) {
+    return isZoomed();
   }
 
-  public boolean childObscuredByZoom( LayoutPart toTest ) {
-    // TODO: [fappel] reasonable implementation
-    return false;
+  public boolean childObscuredByZoom( final LayoutPart toTest ) {
+    return isObscuredByZoom();
   }
 
-  public void childRequestZoomIn( LayoutPart toZoom ) {
-    throw new UnsupportedOperationException();
+  public void childRequestZoomIn( final LayoutPart toZoom ) {
+    super.childRequestZoomIn(toZoom);
+    requestZoomIn();
   }
 
   public void childRequestZoomOut() {
-    throw new UnsupportedOperationException();
+    super.childRequestZoomOut();
+    requestZoomOut();
   }
 
   public LayoutPart[] getChildren() {
@@ -455,9 +508,9 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
   }
 
   private void refreshPresentationState() {
-//    if( isZoomed() ) {
-//      presentationSite.setPresentationState( IStackPresentationSite.STATE_MAXIMIZED );
-//    } else {
+    if( isZoomed() ) {
+      presentationSite.setPresentationState( IStackPresentationSite.STATE_MAXIMIZED );
+    } else {
       boolean wasMinimized = ( presentationSite.getState() == IStackPresentationSite.STATE_MINIMIZED );
       if( isMinimized ) {
         presentationSite.setPresentationState( IStackPresentationSite.STATE_MINIMIZED );
@@ -473,6 +526,6 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
           }
         }
       }
-//    }
+    }
   }
 }

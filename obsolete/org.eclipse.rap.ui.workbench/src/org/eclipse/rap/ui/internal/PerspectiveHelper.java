@@ -28,13 +28,9 @@ public class PerspectiveHelper {
   
   private class MatchingPart implements Comparable {
     String pid;
-
     String sid;
-
     LayoutPart part;
-
     boolean hasWildcard;
-
     int len;
 
     MatchingPart(String pid, String sid, LayoutPart part) {
@@ -333,4 +329,24 @@ public class PerspectiveHelper {
     return null;
   }
 
+  public boolean isZoomed() {
+    return mainLayout.getZoomedPart() != null;
+  }
+
+  public void zoomIn( IWorkbenchPartReference ref ) {
+    PartPane pane = ( ( WorkbenchPartReference )ref ).getPane();
+//    parentWidget.setRedraw( false );
+    try {
+      pane.requestZoomIn();
+    } finally {
+//      parentWidget.setRedraw( true );
+    }
+  }
+
+  public void zoomOut() {
+    LayoutPart zoomPart = mainLayout.getZoomedPart();
+    if( zoomPart != null ) {
+      zoomPart.requestZoomOut();
+    }
+  }
 }

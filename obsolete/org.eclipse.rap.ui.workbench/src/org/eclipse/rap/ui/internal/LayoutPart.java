@@ -42,24 +42,35 @@ public abstract class LayoutPart implements ISizeProvider {
   
   public void setBounds( final Rectangle bounds ) {
     Control ctrl = getControl();
-    if( !ctrl.isDisposed() ) {
+    if( !( ctrl == null || ctrl.isDisposed() ) ) {
 //    if( !SwtUtil.isDisposed( ctrl ) ) {
       ctrl.setBounds( bounds );
     }
   }
 
-  public void setVisible( final boolean visible ) {
-    // TODO: [fappel] replace with original implementation
+  public void setVisible( final boolean makeVisible ) {
     Control ctrl = getControl();
-    if( !ctrl.isDisposed() ) {
-      ctrl.setVisible( visible );
+    if( !( ctrl == null || ctrl.isDisposed() ) ) {
+      if( makeVisible == ctrl.getVisible() ) {
+        return;
+      }
+//      if( !makeVisible && isFocusAncestor( ctrl ) ) {
+//        // Workaround for Bug 60970 [EditorMgmt] setActive() called on an editor
+//        // when it does not have focus.
+//        // Force focus on the shell so that when ctrl is hidden,
+//        // SWT does not try to send focus elsewhere, which may cause
+//        // some other part to be activated, which affects the part
+//        // activation order and can cause flicker.
+//        ctrl.getShell().forceFocus();
+//      }
+      ctrl.setVisible( makeVisible );
     }
   }
 
   public boolean getVisible() {
     Control ctrl = getControl();
     boolean result = false;
-    if( !ctrl.isDisposed() ) {
+    if( ctrl != null && !ctrl.isDisposed() ) {
       result = ctrl.getVisible();
     }
     return result;
@@ -67,11 +78,59 @@ public abstract class LayoutPart implements ISizeProvider {
 
   public void setContainer( final ILayoutContainer container ) {
     this.container = container;
-//    if( container != null ) {
-//      setZoomed( container.childIsZoomed( this ) );
-//    }
+    if( container != null ) {
+      setZoomed( container.childIsZoomed( this ) );
+    }
   }
-  
+
+  public void childRequestZoomIn( LayoutPart toZoom ) {
+  }
+
+  public void childRequestZoomOut() {
+  }
+
+  public final void requestZoomOut() {
+    ILayoutContainer container = getContainer();
+    if( container != null ) {
+      container.childRequestZoomOut();
+    }
+  }
+
+  public final void requestZoomIn() {
+    ILayoutContainer container = getContainer();
+    if( container != null ) {
+      container.childRequestZoomIn( this );
+    }
+  }
+
+  public final boolean isObscuredByZoom() {
+    ILayoutContainer container = getContainer();
+    if( container != null ) {
+      return container.childObscuredByZoom( this );
+    }
+    return false;
+  }
+
+  public boolean childObscuredByZoom( LayoutPart toTest ) {
+    return false;
+  }
+
+  public boolean childIsZoomed( LayoutPart childToTest ) {
+    return false;
+  }
+
+  public void setZoomed( boolean isZoomed ) {
+  }
+
+  public boolean isDocked() {
+    Shell s = getShell();
+    if( s == null ) {
+      return false;
+    }
+    return s.getData() instanceof IWorkbenchWindow;
+  }
+
+
   public ILayoutContainer getContainer() {
     return container;
   }

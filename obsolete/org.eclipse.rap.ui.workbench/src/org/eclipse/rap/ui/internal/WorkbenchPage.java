@@ -23,6 +23,7 @@ import org.eclipse.rap.rwt.widgets.Control;
 import org.eclipse.rap.ui.*;
 import org.eclipse.rap.ui.internal.registry.PerspectiveDescriptor;
 import org.eclipse.rap.ui.internal.registry.ViewRegistry;
+import org.eclipse.rap.ui.presentations.IStackPresentationSite;
 
 public class WorkbenchPage implements IWorkbenchPage {
   
@@ -379,9 +380,9 @@ public class WorkbenchPage implements IWorkbenchPage {
   }
 
   void partAdded( WorkbenchPartReference ref ) {
-//    activationList.add( ref );
-//    partList.addPart( ref );
-//    updateActivePart();
+    activationList.add( ref );
+    partList.addPart( ref );
+    updateActivePart();
   }
 
   public IWorkbenchPart getActivePart() {
@@ -430,8 +431,80 @@ public class WorkbenchPage implements IWorkbenchPage {
     throw new UnsupportedOperationException();
   }
 
-  
-  //////////////////////////////
+  int getState( IWorkbenchPartReference ref ) {
+    Perspective persp = getActivePerspective();
+    if( persp == null ) {
+      return IStackPresentationSite.STATE_RESTORED;
+    }
+    PartPane pane = ( ( WorkbenchPartReference )ref ).getPane();
+//    if( ref instanceof IViewReference
+//        && persp.isFastView( ( IViewReference )ref ) )
+//    {
+//      return persp.getFastViewState();
+//    }
+    PartStack parent = ( ( PartStack )pane.getContainer() );
+    if( parent != null ) {
+      return parent.getState();
+    }
+    return IStackPresentationSite.STATE_RESTORED;
+  }
+
+  public void setState( IWorkbenchPartReference ref, int newState ) {
+    Perspective persp = getActivePerspective();
+    if( persp == null ) {
+      return;
+    }
+    PartPane pane = ( ( WorkbenchPartReference )ref ).getPane();
+    // If target part is detached fire the zoom event. Note this doesn't
+    // actually cause any changes in size and is required to support
+    // intro state changes. We may want to introduce the notion of a zoomed
+    // (fullscreen) detached view at a later time.
+    if( !pane.isDocked() ) {
+      pane.setZoomed( newState == IStackPresentationSite.STATE_MAXIMIZED );
+      return;
+    }
+//    if( ref instanceof IViewReference
+//        && persp.isFastView( ( IViewReference )ref ) )
+//    {
+//      persp.setFastViewState( newState );
+//      return;
+//    }
+    boolean wasZoomed = isZoomed();
+    boolean isZoomed = newState == IStackPresentationSite.STATE_MAXIMIZED;
+    // Update zoom status.
+    if( wasZoomed && !isZoomed ) {
+      zoomOut();
+    } else if( !wasZoomed && isZoomed ) {
+      persp.getPresentation().zoomIn( ref );
+      activate( ref.getPart( true ) );
+    }
+    PartStack parent = ( ( PartStack )pane.getContainer() );
+    if( parent != null ) {
+      parent.setMinimized( newState == IStackPresentationSite.STATE_MINIMIZED );
+    }
+  }
+
+  public boolean isZoomed() {
+    Perspective persp = getActivePerspective();
+    if( persp == null ) {
+      return false;
+    }
+    if( persp.getPresentation() == null ) {
+      return false;
+    }
+    return persp.getPresentation().isZoomed();
+  }
+
+  public void zoomOut() {
+    Perspective persp = getActivePerspective();
+    if( persp != null ) {
+      persp.getPresentation().zoomOut();
+    }
+  }
+
+
+
+  // ////////////////////////////
   // interfact ISelectionService
   
   public void addPostSelectionListener( ISelectionListener listener ) {
@@ -503,9 +576,19 @@ public class WorkbenchPage implements IWorkbenchPage {
   // interface IWorkbenchPage
   
   public boolean isPartVisible( IWorkbenchPart part ) {
-    throw new UnsupportedOperationException();
+    PartPane pane = getPane(part);
+    return pane != null && pane.getVisible();
   }
-  
+
+  public void toggleZoom( IWorkbenchPartReference ref ) {
+    int oldState = getState( ref );
+    boolean shouldZoom = oldState != IStackPresentationSite.STATE_MAXIMIZED;
+    int newState = shouldZoom
+                             ? IStackPresentationSite.STATE_MAXIMIZED
+                             : IStackPresentationSite.STATE_RESTORED;
+    setState( ref, newState );
+  }
+
   public IWorkbenchPartReference getReference( IWorkbenchPart part ) {
     if( part == null ) {
       return null;
