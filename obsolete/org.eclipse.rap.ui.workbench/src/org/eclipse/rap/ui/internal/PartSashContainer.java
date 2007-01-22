@@ -494,10 +494,51 @@ public abstract class PartSashContainer
     throw new UnsupportedOperationException();
   }
 
-  public void replace( LayoutPart oldPart, LayoutPart newPart ) {
-    throw new UnsupportedOperationException();
+  public void replace( LayoutPart oldChild, LayoutPart newChild ) {
+    if( !isChild( oldChild ) ) {
+      return;
+    }
+    if( oldChild == getZoomedPart() ) {
+      if( newChild instanceof PartPlaceholder ) {
+        childRequestZoomOut();
+      } else {
+        zoomedPart.setZoomed( false );
+        zoomedPart = newChild;
+        zoomedPart.setZoomed( true );
+      }
+    }
+    children.remove( oldChild );
+    children.add( newChild );
+    childAdded( newChild );
+    if( root != null ) {
+      LayoutTree leaf = null;
+      leaf = root.find( oldChild );
+      if( leaf != null ) {
+        leaf.setPart( newChild );
+      }
+    }
+    childRemoved( oldChild );
+    if( active ) {
+      oldChild.setVisible( false );
+      oldChild.setContainer( null );
+      newChild.createControl( parent );
+      newChild.setContainer( this );
+      newChild.setVisible( zoomedPart == null || zoomedPart == newChild );
+      resizeChild( newChild );
+    }
   }
 
+  protected void childAdded( LayoutPart child ) {
+//    if( isDeferred() ) {
+//      child.deferUpdates( true );
+//    }
+  }
+
+  protected void childRemoved( LayoutPart child ) {
+//    if( isDeferred() ) {
+//      child.deferUpdates( false );
+//    }
+  }
   
   // ////////////////
   // helping methods

@@ -23,6 +23,7 @@ public class PageLayout implements IPageLayout {
   private final ViewSashContainer rootLayoutContainer;
   private final LayoutPart editorFolder;
   private PerspectiveDescriptor descriptor;
+  private boolean editorVisible = true;
   private Map mapIDtoPart = new HashMap( 10 );
   private Map mapIDtoFolder = new HashMap( 10 );
 
@@ -170,15 +171,15 @@ public class PageLayout implements IPageLayout {
   }
 
   public boolean isEditorAreaVisible() {
-    throw new UnsupportedOperationException();
+    return editorVisible;
   }
 
   public boolean isFixed() {
     throw new UnsupportedOperationException();
   }
 
-  public void setEditorAreaVisible( boolean showEditorArea ) {
-    throw new UnsupportedOperationException();
+  public void setEditorAreaVisible( final boolean showEditorArea ) {
+    editorVisible = showEditorArea;
   }
 
   public void setEditorReuseThreshold( int openEditors ) {

@@ -29,4 +29,19 @@ public class ViewSashContainer extends PartSashContainer {
     return parent;
   }
 
+  public void replace( LayoutPart oldChild, LayoutPart newChild ) {
+    if( !isChild( oldChild ) ) {
+      return;
+    }
+    // Nasty hack: ensure that all views end up inside a tab folder.
+    // Since the view title is provided by the tab folder, this ensures
+    // that views don't get created without a title tab.
+    if( newChild instanceof ViewPane ) {
+      ViewStack folder = new ViewStack( page );
+      folder.add( newChild );
+      newChild = folder;
+    }
+    super.replace( oldChild, newChild );
+  }
+
 }

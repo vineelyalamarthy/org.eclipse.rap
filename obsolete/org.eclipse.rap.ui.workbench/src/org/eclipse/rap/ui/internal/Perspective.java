@@ -27,6 +27,7 @@ public class Perspective {
   private ViewFactory viewFactory;
   private PerspectiveHelper presentation;
   private Map mapIDtoViewLayoutRec;
+  private PartPlaceholder editorHolder;
 
   public Perspective( final PerspectiveDescriptor descriptor, 
                       final WorkbenchPage page )
@@ -154,8 +155,21 @@ public class Perspective {
     }
     return null;
   }
-  
-  
+
+  protected void hideEditorArea() {
+    if( !isEditorAreaVisible() ) {
+      return;
+    }
+    // Replace the editor area with a placeholder so we
+    // know where to put it back on show editor area request.
+    editorHolder = new PartPlaceholder( editorArea.getID() );
+    presentation.getLayout().replace( editorArea, editorHolder );
+  }
+
+  protected boolean isEditorAreaVisible() {
+    return editorHolder == null;
+  }
+
   //////////////////
   // helping methods
   
@@ -288,9 +302,9 @@ public class Perspective {
     // Create presentation. 
     presentation = new PerspectiveHelper( page, container );
     // Hide editor area if requested by factory
-//    if( !layout.isEditorAreaVisible() ) {
-//      hideEditorArea();
-//    }
+    if( !layout.isEditorAreaVisible() ) {
+      hideEditorArea();
+    }
   }
   
   private ViewLayoutRec getViewLayoutRec( final IViewReference viewRefernce, 

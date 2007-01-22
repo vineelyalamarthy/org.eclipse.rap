@@ -65,6 +65,11 @@ public class PerspectiveHelper {
     this.page = page;
     this.mainLayout = mainLayout;
   }
+
+  public ViewSashContainer getLayout() {
+    return mainLayout;
+  }
+
   
   public void activate( final Composite parent ) {
     if( active ) {
