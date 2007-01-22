@@ -128,6 +128,7 @@ public class Fixture {
     private HttpSession session;
     private String scheme = "http";
     private String serverName = "fooserver";
+    private String contextPath = "/fooapp";
     private String requestURI = "/fooapp/W4TDelegate";
     private final StringBuffer requestURL = new StringBuffer();
     private String servletPath = "/W4TDelegate";
@@ -188,7 +189,7 @@ public class Fixture {
     }
     
     public String getContextPath() {
-      return null;
+      return contextPath;
     }
     
     public String getQueryString() {

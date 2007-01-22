@@ -27,30 +27,31 @@ public final class URLHelper {
 
   /** returns the servlets URL of the current W4Toolkit installation. */
   public static String getURLString( final boolean addEncodingDummy ) {
-    String requestURL = getRequestURL();
     HttpServletRequest request = ContextProvider.getRequest();
-    String servletPath = request.getServletPath();
-    int pos = requestURL.indexOf( servletPath );
-    String result = requestURL.substring( 0, pos + servletPath.length() );
+    StringBuffer result = new StringBuffer();
+    result.append( getContextURLString() );
+    result.append(  request.getServletPath() );
     
     ///////////////////////////////////////////////////////////////////////
     // add a dummy parameter to create a complete session id encoding
     // if cookies are disabled
     if( addEncodingDummy ) {
-      result += QUESTION_MARK + RequestParams.ENCODING_DUMMY + "=no";
+      result.append( QUESTION_MARK );
+      result.append( RequestParams.ENCODING_DUMMY );
+      result.append( "=no" );
     }
     ///////////////////////////////////////////////////////////////////////
-    return result;
+    return result.toString();
   }
 
   /** returns the url to the webapps context root of the current W4Toolkit 
    *  installation. */
   public static String getContextURLString() {
-    String requestURL = getRequestURL();
     HttpServletRequest request = ContextProvider.getRequest();
-    String servletPath = request.getServletPath();
-    int pos = requestURL.indexOf( servletPath );
-    return requestURL.substring( 0, pos );
+    StringBuffer result = new StringBuffer();
+    result.append( getServerURL() );
+    result.append( request.getContextPath() );
+    return result.toString();
   }
 
   /** returns the servlets URL of current W4Toolkit installation with
@@ -64,7 +65,7 @@ public final class URLHelper {
   //////////////////
   // helping methods
 
-  private static String getRequestURL() {
+  private static String getServerURL() {
     HttpServletRequest request = ContextProvider.getRequest();
 
     ///////////////////////////////////////////////////////////////////////
@@ -72,15 +73,11 @@ public final class URLHelper {
     String port = URLHelper.createPortPattern( request );
     StringBuffer result = new StringBuffer();
     String serverName = request.getServerName();
-    if( serverName != null && !"".equals( serverName ) ) {
-      result.append( request.getScheme() );
-      result.append( "://" );
-      result.append( serverName );
-      result.append( port );
-    }
-    result.append( request.getRequestURI() );
+    result.append( request.getScheme() );
+    result.append( "://" );
+    result.append( serverName );
+    result.append( port );
     ///////////////////////////////////////////////////////////////////////
-    
     return result.toString();
   }
   
