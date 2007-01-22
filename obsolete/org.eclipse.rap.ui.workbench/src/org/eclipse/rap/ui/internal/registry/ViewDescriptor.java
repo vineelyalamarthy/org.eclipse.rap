@@ -11,10 +11,11 @@
 
 package org.eclipse.rap.ui.internal.registry;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.*;
+import org.eclipse.rap.jface.resource.ImageDescriptor;
 import org.eclipse.rap.ui.Activator;
 import org.eclipse.rap.ui.IViewPart;
+import org.eclipse.rap.ui.plugin.AbstractUIPlugin;
 import org.eclipse.rap.ui.views.IViewDescriptor;
 
 
@@ -22,6 +23,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
   private final IConfigurationElement element;
   private String id;
+  private ImageDescriptor imageDescriptor;
   
   public ViewDescriptor( final IConfigurationElement element )
     throws CoreException
@@ -63,6 +65,28 @@ public class ViewDescriptor implements IViewDescriptor {
       = Activator.createExtension( element, 
                                    IWorkbenchRegistryConstants.ATT_CLASS );
     return ( IViewPart )extension;
+  }
+  
+  public ImageDescriptor getImageDescriptor() {
+    if( imageDescriptor != null ) {
+      return imageDescriptor;
+    }
+    String iconName = element.getAttribute( IWorkbenchRegistryConstants.ATT_ICON );
+    // If the icon attribute was omitted, use the default one
+//    if( iconName == null ) {
+//      return PlatformUI.getWorkbench()
+//        .getSharedImages()
+//        .getImageDescriptor( ISharedImages.IMG_DEF_VIEW );
+//    }
+    IExtension extension = element.getDeclaringExtension();
+    String extendingPluginId = extension.getNamespace();
+    imageDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin( extendingPluginId,
+                                                                  iconName );
+    // If the icon attribute was invalid, use the error icon
+//    if( imageDescriptor == null ) {
+//      imageDescriptor = ImageDescriptor.getMissingImageDescriptor();
+//    }
+    return imageDescriptor;
   }
   
   

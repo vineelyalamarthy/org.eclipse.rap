@@ -37,10 +37,10 @@ public final class PartInfo {
 
   public void set( final IPresentablePart part ) {
     name = part.getName();
-//    title = part.getTitle();
-//    contentDescription = part.getTitleStatus();
-//    image = part.getTitleImage();
-//    toolTip = part.getTitleToolTip();
-//    dirty = part.isDirty();
+    title = part.getTitle();
+    contentDescription = part.getTitleStatus();
+    image = part.getTitleImage();
+    toolTip = part.getTitleToolTip();
+    dirty = part.isDirty();
   }
 }

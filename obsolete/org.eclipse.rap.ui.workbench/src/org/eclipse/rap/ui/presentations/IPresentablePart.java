@@ -118,7 +118,7 @@ public interface IPresentablePart {
    * 
    * @return the workbench part title (not null)
    */
-//  public String getTitle();
+  public String getTitle();
 
   /**
    * Returns the status message from the part's title, or the empty string if
@@ -133,7 +133,7 @@ public interface IPresentablePart {
    * 
    * @return the status message or the empty string if none (not null)
    */
-//  public String getTitleStatus();
+  public String getTitleStatus();
 
   /**
    * Returns the title image of this workbench part. If this value changes the
@@ -146,7 +146,7 @@ public interface IPresentablePart {
    * 
    * @return the title image
    */
-//  public Image getTitleImage();
+  public Image getTitleImage();
 
   /**
    * Returns the title tool tip text of this workbench part. If this value
@@ -159,7 +159,7 @@ public interface IPresentablePart {
    * 
    * @return the workbench part title tool tip (not null)
    */
-//  public String getTitleToolTip();
+  public String getTitleToolTip();
 
   /**
    * Returns true iff the contents of this part have changed recently. For
@@ -169,7 +169,7 @@ public interface IPresentablePart {
    * 
    * @return true iff the part is dirty
    */
-//  public boolean isDirty();
+  public boolean isDirty();
 
   /**
    * Return true if the the receiver is currently in a busy state.

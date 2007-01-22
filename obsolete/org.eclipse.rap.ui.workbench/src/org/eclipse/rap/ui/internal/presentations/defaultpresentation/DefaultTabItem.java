@@ -45,8 +45,7 @@ public class DefaultTabItem extends WidgetTabItem {
    * @see org.eclipse.ui.internal.presentations.util.AbstractTabItem#getBounds()
    */
   public Rectangle getBounds() {
-    return null;
-//    return Geometry.toDisplay( getItem().getParent(), getItem().getBounds() );
+    return Geometry.toDisplay( getItem().getParent(), getItem().getBounds() );
   }
 
   public CTabItem getItem() {
@@ -59,8 +58,7 @@ public class DefaultTabItem extends WidgetTabItem {
    * @see org.eclipse.ui.internal.presentations.util.AbstractTabItem#isShowing()
    */
   public boolean isShowing() {
-    return false;
-//    return getItem().isShowing();
+    return getItem().isShowing();
   }
 
   /*
@@ -80,18 +78,17 @@ public class DefaultTabItem extends WidgetTabItem {
     if( toolTipText.equals( Util.ZERO_LENGTH_STRING ) ) {
       toolTipText = null;
     }
-//    if( !Util.equals( toolTipText, tabItem.getToolTipText() ) ) {
-//      tabItem.setToolTipText( toolTipText );
-//    }
+    if( !Util.equals( toolTipText, tabItem.getToolTipText() ) ) {
+      tabItem.setToolTipText( toolTipText );
+    }
   }
 
   public void updateTabText() {
     CTabItem tabItem = getItem();
-//    String newName = tabItem.getParent().getSingle()
-//                                                    ? longName
-//                                                    : shortName;
-    String newName = longName;
-//    newName = escapeAmpersands( newName );
+    String newName = tabItem.getParent().getSingle()
+                                                    ? longName
+                                                    : shortName;
+    newName = escapeAmpersands( newName );
     if( !Util.equals( newName, tabItem.getText() ) ) {
       tabItem.setText( newName );
     }

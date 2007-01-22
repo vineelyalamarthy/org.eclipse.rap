@@ -380,9 +380,9 @@ public class WorkbenchPage implements IWorkbenchPage {
   }
 
   void partAdded( WorkbenchPartReference ref ) {
-    activationList.add( ref );
-    partList.addPart( ref );
-    updateActivePart();
+//    activationList.add( ref );
+//    partList.addPart( ref );
+//    updateActivePart();
   }
 
   public IWorkbenchPart getActivePart() {

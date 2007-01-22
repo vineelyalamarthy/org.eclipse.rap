@@ -11,10 +11,17 @@
 
 package org.eclipse.rap.ui;
 
+import org.eclipse.rap.rwt.graphics.Image;
+
 
 public interface IWorkbenchPartReference {
 
   String getId();
   IWorkbenchPart getPart( boolean restore );
   String getPartName();
+  String getTitle();
+  Image getTitleImage();
+  String getTitleToolTip();
+  String getContentDescription();
+  boolean isDirty();
 }

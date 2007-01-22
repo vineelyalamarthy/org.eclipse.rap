@@ -13,8 +13,11 @@ package org.eclipse.rap.ui.internal;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.rap.jface.resource.ImageDescriptor;
 import org.eclipse.rap.jface.util.Assert;
+import org.eclipse.rap.rwt.graphics.Image;
 import org.eclipse.rap.ui.*;
+import org.eclipse.rap.ui.internal.util.Util;
 
 
 public abstract class WorkbenchPartReference
@@ -28,8 +31,14 @@ public abstract class WorkbenchPartReference
   private int state = STATE_LAZY;
   private String id;
   private String partName;
+  private String title;
+  private String tooltip;
   protected PartPane pane;
   protected IWorkbenchPart part;
+  private String contentDescription;
+  private Image image;
+  private ImageDescriptor imageDescriptor;
+  private ImageDescriptor defaultImageDescriptor;
 
   public final PartPane getPane() {
     if( pane == null ) {
@@ -37,19 +46,40 @@ public abstract class WorkbenchPartReference
     }
     return pane;
   }
-  
-  // TODO: [fappel] missing parameters
-  public void init( final String id, final String partName ) {
+
+  public void init( String id,
+                    String title,
+                    String tooltip,
+                    ImageDescriptor desc,
+                    String paneName,
+                    String contentDescription )
+  {
     Assert.isNotNull( id );
-    Assert.isNotNull( partName );
-    
+    Assert.isNotNull( title );
+    Assert.isNotNull( tooltip );
+    Assert.isNotNull( desc );
+    Assert.isNotNull( paneName );
+    Assert.isNotNull( contentDescription );
     this.id = id;
-    this.partName = partName;
+    this.title = title;
+    this.tooltip = tooltip;
+    this.partName = paneName;
+    this.contentDescription = contentDescription;
+    this.defaultImageDescriptor = desc;
+    this.imageDescriptor = computeImageDescriptor();
+  }
+
+  protected ImageDescriptor computeImageDescriptor() {
+//    if( part != null ) {
+//      return ImageDescriptor.createFromImage( part.getTitleImage(),
+//                                              Display.getCurrent() );
+//    }
+    return defaultImageDescriptor;
   }
 
   public boolean getVisible() {
-//    if( isDisposed() ) {
-//      return false;
+// if( isDisposed() ) {
+// return false;
 //    }
     return getPane().getVisible();
   }
@@ -60,6 +90,55 @@ public abstract class WorkbenchPartReference
 //    }
     getPane().setVisible( isVisible );
   }
+
+  protected void setTitle( String newTitle ) {
+    if( Util.equals( title, newTitle ) ) {
+      return;
+    }
+    title = newTitle;
+//    firePropertyChange( IWorkbenchPartConstants.PROP_TITLE );
+  }
+
+  protected void setToolTip( String newToolTip ) {
+    if( Util.equals( tooltip, newToolTip ) ) {
+      return;
+    }
+    tooltip = newToolTip;
+//    firePropertyChange( IWorkbenchPartConstants.PROP_TITLE );
+  }
+
+  protected void setContentDescription( String newContentDescription ) {
+    if( Util.equals( contentDescription, newContentDescription ) ) {
+      return;
+    }
+    contentDescription = newContentDescription;
+//    firePropertyChange( IWorkbenchPartConstants.PROP_CONTENT_DESCRIPTION );
+  }
+
+  protected void setImageDescriptor( final ImageDescriptor descriptor ) {
+    if( Util.equals( imageDescriptor, descriptor ) ) {
+      return;
+    }
+//    Image oldImage = image;
+//    ImageDescriptor oldDescriptor = imageDescriptor;
+    image = null;
+    imageDescriptor = descriptor;
+    // Don't queue events triggered by image changes. We'll dispose the image
+    // immediately after firing the event, so we need to fire it right away.
+//    immediateFirePropertyChange( IWorkbenchPartConstants.PROP_TITLE );
+//    if( queueEvents ) {
+//      // If there's a PROP_TITLE event queued, remove it from the queue because
+//      // we've just fired it.
+//      queuedEvents.clear( IWorkbenchPartConstants.PROP_TITLE );
+//    }
+    // If we had allocated the old image, deallocate it now (AFTER we fire the
+    // property change
+    // -- listeners may need to clean up references to the old image)
+//    if( oldImage != null ) {
+//      JFaceResources.getResources().destroy( oldDescriptor );
+//    }
+  }
+
 
   
   protected abstract PartPane createPane();
@@ -109,5 +188,41 @@ public abstract class WorkbenchPartReference
 
   public String getPartName() {
     return partName;
+  }
+
+  public String getTitle() {
+    return Util.safeString( title );
+  }
+
+  public String getTitleToolTip() {
+    return Util.safeString( tooltip );
+  }
+
+  public String getContentDescription() {
+    return Util.safeString( contentDescription );
+  }
+
+  public final Image getTitleImage() {
+//    if( isDisposed() ) {
+//      return PlatformUI.getWorkbench()
+//        .getSharedImages()
+//        .getImage( ISharedImages.IMG_DEF_VIEW );
+//    }
+//    if( image == null ) {
+//      image = JFaceResources.getResources()
+//        .createImageWithDefault( imageDescriptor );
+//    }
+    if( image == null ) {
+      image = imageDescriptor.createImage();
+    }
+    return image;
+  }
+
+  public boolean isDirty() {
+//    if( !( part instanceof ISaveablePart ) ) {
+//      return false;
+//    }
+//    return ( ( ISaveablePart )part ).isDirty();
+    return false;
   }
 }

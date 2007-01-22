@@ -9,6 +9,7 @@ package org.eclipse.rap.ui.views;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.rap.jface.resource.ImageDescriptor;
 import org.eclipse.rap.ui.IViewPart;
 import org.eclipse.rap.ui.IWorkbenchPartDescriptor;
 
@@ -62,7 +63,7 @@ public interface IViewDescriptor extends IWorkbenchPartDescriptor, IAdaptable {
   /**
    * Returns the descriptor for the icon to show for this view.
    */
-//  public ImageDescriptor getImageDescriptor();
+  public ImageDescriptor getImageDescriptor();
 
   /**
    * Returns the label to show for this view.

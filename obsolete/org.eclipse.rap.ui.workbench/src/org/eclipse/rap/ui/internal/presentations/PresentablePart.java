@@ -123,8 +123,8 @@ public class PresentablePart implements IPresentablePart {
    */
   public void setBounds( Rectangle bounds ) {
     savedBounds = bounds;
-//    if( enableInputs && !SwtUtil.isDisposed( part.getControl() ) ) {
-    if( enableInputs /*&& !SwtUtil.isDisposed( part.getControl() )*/ ) {
+    Control control = part.getControl();
+    if( enableInputs && !( control == null || control.isDisposed() ) ) {
       part.setBounds( bounds );
     }
   }
@@ -179,60 +179,58 @@ public class PresentablePart implements IPresentablePart {
    * 
    * @see org.eclipse.ui.presentations.IPresentablePart#getTitle()
    */
-//  public String getTitle() {
-//    return getPartReference().getTitle();
-//  }
+  public String getTitle() {
+    return getPartReference().getTitle();
+  }
 
   /*
    * (non-Javadoc)
    * 
    * @see org.eclipse.ui.presentations.IPresentablePart#getTitleStatus()
    */
-//  public String getTitleStatus() {
-//    if( enableOutputs ) {
-//      return getPartReference().getContentDescription();
-//    }
-//    return titleStatus;
-//  }
+  public String getTitleStatus() {
+    if( enableOutputs ) {
+      return getPartReference().getContentDescription();
+    }
+    return titleStatus;
+  }
 
   /*
    * (non-Javadoc)
    * 
    * @see org.eclipse.ui.presentations.IPresentablePart#getTitleImage()
    */
-//  public Image getTitleImage() {
-//    //        
-//    // return PlatformUI.getWorkbench().getSharedImages().getImage(
-//    // ISharedImages.IMG_DEF_VIEW);
-//    //        
+  public Image getTitleImage() {
+    //        
+    // return PlatformUI.getWorkbench().getSharedImages().getImage(
+    // ISharedImages.IMG_DEF_VIEW);
+    //        
 //    if( enableOutputs ) {
-//      return getPartReference().getTitleImage();
+      return getPartReference().getTitleImage();
 //    }
-//    return PlatformUI.getWorkbench()
-//      .getSharedImages()
-//      .getImage( ISharedImages.IMG_DEF_VIEW );
-//  }
+//    return PlatformUI.getWorkbench().getSharedImages().getImage( ISharedImages.IMG_DEF_VIEW );
+  }
 
   /*
    * (non-Javadoc)
    * 
    * @see org.eclipse.ui.presentations.IPresentablePart#getTitleToolTip()
    */
-//  public String getTitleToolTip() {
-//    return getPartReference().getTitleToolTip();
-//  }
+  public String getTitleToolTip() {
+    return getPartReference().getTitleToolTip();
+  }
 
   /*
    * (non-Javadoc)
    * 
    * @see org.eclipse.ui.presentations.IPresentablePart#isDirty()
    */
-//  public boolean isDirty() {
-//    if( enableOutputs ) {
-//      return getPartReference().isDirty();
-//    }
-//    return isDirty;
-//  }
+  public boolean isDirty() {
+    if( enableOutputs ) {
+      return getPartReference().isDirty();
+    }
+    return isDirty;
+  }
 
   /*
    * (non-Javadoc)
@@ -348,7 +346,8 @@ public class PresentablePart implements IPresentablePart {
     }
     this.enableInputs = isActive;
     if( isActive ) {
-      if( isActive /*&& !SwtUtil.isDisposed( part.getControl() )*/ ) {
+      Control control = part.getControl();
+      if( isActive && !( control == null || control.isDisposed() ) ) {
         part.setBounds( savedBounds );
       }
       part.setVisible( isVisible );

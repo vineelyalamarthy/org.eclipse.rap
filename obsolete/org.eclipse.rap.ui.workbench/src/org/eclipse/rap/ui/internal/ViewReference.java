@@ -11,6 +11,7 @@
 
 package org.eclipse.rap.ui.internal;
 
+import org.eclipse.rap.jface.resource.ImageDescriptor;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.layout.FillLayout;
 import org.eclipse.rap.rwt.widgets.Composite;
@@ -32,8 +33,15 @@ class ViewReference
     this.factory = factory;
     this.secondaryId = secondaryId;
     IViewDescriptor desc = this.factory.getViewRegistry().find( id );
-    String name = desc.getLabel();
-    init( id, name );
+    ImageDescriptor iDesc = null;
+    String title = null;
+    if (desc != null) {
+        iDesc = desc.getImageDescriptor();
+        title = desc.getLabel();
+    }
+
+    String name = title;
+    init( id, title, "", iDesc, name, "" );
   }
 
   
