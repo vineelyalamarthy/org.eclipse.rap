@@ -27,19 +27,8 @@ public final class URLHelper {
 
   /** returns the servlets URL of the current W4Toolkit installation. */
   public static String getURLString( final boolean addEncodingDummy ) {
+    String requestURL = getRequestURL();
     HttpServletRequest request = ContextProvider.getRequest();
-  
-    ///////////////////////////////////////////////////////////////////////
-    // use the following workaround to keep servlet 2.2 spec. compatibility
-    String port = URLHelper.createPortPattern( request );
-    String requestURL =   request.getScheme()
-                        +"://"
-                        + request.getServerName()
-                        + port
-                        + request.getRequestURI();
-    ///////////////////////////////////////////////////////////////////////
-    
-    
     String servletPath = request.getServletPath();
     int pos = requestURL.indexOf( servletPath );
     String result = requestURL.substring( 0, pos + servletPath.length() );
@@ -57,19 +46,8 @@ public final class URLHelper {
   /** returns the url to the webapps context root of the current W4Toolkit 
    *  installation. */
   public static String getContextURLString() {
+    String requestURL = getRequestURL();
     HttpServletRequest request = ContextProvider.getRequest();
-    
-    ///////////////////////////////////////////////////////////////////////
-    // use the following workaround to keep servlet 2.2 spec. compatibility
-    String port = URLHelper.createPortPattern( request ); 
-    String requestURL =   request.getScheme()
-                        + "://"
-                        + request.getServerName()
-                        + port
-                        + request.getRequestURI();
-    ///////////////////////////////////////////////////////////////////////
-    
-    
     String servletPath = request.getServletPath();
     int pos = requestURL.indexOf( servletPath );
     return requestURL.substring( 0, pos );
@@ -85,11 +63,34 @@ public final class URLHelper {
   
   //////////////////
   // helping methods
+
+  private static String getRequestURL() {
+    HttpServletRequest request = ContextProvider.getRequest();
+
+    ///////////////////////////////////////////////////////////////////////
+    // use the following workaround to keep servlet 2.2 spec. compatibility
+    String port = URLHelper.createPortPattern( request );
+    StringBuffer result = new StringBuffer();
+    String serverName = request.getServerName();
+    if( serverName != null && !"".equals( serverName ) ) {
+      result.append( request.getScheme() );
+      result.append( "://" );
+      result.append( serverName );
+      result.append( port );
+    }
+    result.append( request.getRequestURI() );
+    ///////////////////////////////////////////////////////////////////////
+    
+    return result.toString();
+  }
   
   private static String createPortPattern( final HttpServletRequest request ) {
     String result = String.valueOf( request.getServerPort() );
     if( result != null && !result.equals( "" ) ) {
-      result = ":" + result;
+      StringBuffer buffer = new StringBuffer();
+      buffer.append( ":" );
+      buffer.append( result );
+      result = buffer.toString(); 
     } else {
       result = "";
     }
