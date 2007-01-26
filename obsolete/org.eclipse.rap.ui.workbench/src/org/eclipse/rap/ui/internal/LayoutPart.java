@@ -153,7 +153,7 @@ public abstract class LayoutPart implements ISizeProvider {
   public Shell getShell() {
     Control ctrl = getControl();
     Shell result = null;
-    if( !ctrl.isDisposed() ) {
+    if( ctrl != null && !ctrl.isDisposed() ) {
 //    if( !SwtUtil.isDisposed( ctrl ) ) {
       result = ctrl.getShell();
     }

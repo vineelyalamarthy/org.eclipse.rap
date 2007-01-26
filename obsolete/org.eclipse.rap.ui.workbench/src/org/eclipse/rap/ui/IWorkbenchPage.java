@@ -8,6 +8,7 @@
  ******************************************************************************/
 package org.eclipse.rap.ui;
 
+
 public interface IWorkbenchPage extends IPartService, ISelectionService {
   IWorkbenchWindow getWorkbenchWindow();
   IViewReference[] getViewReferences();
@@ -17,5 +18,6 @@ public interface IWorkbenchPage extends IPartService, ISelectionService {
   IViewReference findViewReference( String viewId, String secondaryId );
   IWorkbenchPartReference getReference( IWorkbenchPart part );
   boolean isPartVisible( IWorkbenchPart part );
-  public void toggleZoom( IWorkbenchPartReference ref );
+  void toggleZoom( IWorkbenchPartReference ref );
+  void activate( IWorkbenchPart part );
 }

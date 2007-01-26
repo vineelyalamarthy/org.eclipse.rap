@@ -459,10 +459,10 @@ public class WorkbenchPage implements IWorkbenchPage {
     // actually cause any changes in size and is required to support
     // intro state changes. We may want to introduce the notion of a zoomed
     // (fullscreen) detached view at a later time.
-    if( !pane.isDocked() ) {
-      pane.setZoomed( newState == IStackPresentationSite.STATE_MAXIMIZED );
-      return;
-    }
+//    if( !pane.isDocked() ) {
+//      pane.setZoomed( newState == IStackPresentationSite.STATE_MAXIMIZED );
+//      return;
+//    }
 //    if( ref instanceof IViewReference
 //        && persp.isFastView( ( IViewReference )ref ) )
 //    {
