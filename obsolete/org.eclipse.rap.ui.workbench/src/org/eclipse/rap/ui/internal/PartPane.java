@@ -114,7 +114,7 @@ public abstract class PartPane extends LayoutPart implements ActivateListener
     // by activation. This allows us to have views appear in tabs without
     // becoming active by default.
     control.setVisible( false );
-//    control.moveAbove( null );
+    control.moveAbove( null );
     // Create a title bar.
     createTitleBar();
     // When the pane or any child gains focus, notify the workbench.
@@ -213,7 +213,7 @@ public abstract class PartPane extends LayoutPart implements ActivateListener
    */
   public void moveAbove( Control refControl ) {
     if( getControl() != null ) {
-//      getControl().moveAbove( refControl );
+      getControl().moveAbove( refControl );
     }
   }
 

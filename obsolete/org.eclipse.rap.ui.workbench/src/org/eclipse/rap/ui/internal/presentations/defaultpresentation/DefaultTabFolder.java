@@ -159,7 +159,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
     // Initialize content description label
     {
       titleLabel = new Label( paneFolder.getControl(), RWT.NONE );
-//      titleLabel.moveAbove( null );
+      titleLabel.moveAbove( null );
       titleLabel.setVisible( false );
 //      attachListeners( titleLabel, false );
         ActivateEvent.addListener( titleLabel, activateListener );
@@ -169,7 +169,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
 //    attachListeners( paneFolder.getControl(), false );
 //    attachListeners( paneFolder.getViewForm(), false );
 //    paneFolder.setTabHeight( computeTabHeight() );
-//    viewToolBar.moveAbove( null );
+    viewToolBar.moveAbove( null );
   }
 
   /**
