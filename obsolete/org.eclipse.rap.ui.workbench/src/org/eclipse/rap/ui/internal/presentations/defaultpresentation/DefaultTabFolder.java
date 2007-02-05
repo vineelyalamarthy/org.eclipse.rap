@@ -63,8 +63,10 @@ public class DefaultTabFolder extends AbstractTabFolder {
   private static Color activeForeground = Color.getColor( 255, 255, 255 ); 
   private static Color inactiveForeground = Color.getColor( 0, 0, 0 ); 
   private static Color[] activeSelectedBackground = new Color[] {
-    Display.getCurrent().getSystemColor( RWT.COLOR_BLUE ),
-    Display.getCurrent().getSystemColor( RWT.COLOR_BLUE )
+//    Display.getCurrent().getSystemColor( RWT.COLOR_BLUE ),
+//    Display.getCurrent().getSystemColor( RWT.COLOR_BLUE )
+    Color.getColor( 0, 128, 192 ),
+    Color.getColor( 0, 128, 192 )
   };
   private static Color[] unselectedBackground = new Color[] {
     Color.getColor( 236, 233, 216 ),
