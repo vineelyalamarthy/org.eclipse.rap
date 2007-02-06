@@ -119,7 +119,7 @@ public abstract class Window implements IShellProvider {
 //    Monitor mon = getClosestMonitor( getShell().getDisplay(),
 //                                     Geometry.centerPoint( result ) );
 //    Rectangle bounds = mon.getClientArea();
-    Rectangle bounds = new Rectangle( 0, 0, 1024, 768 );
+    Rectangle bounds = new Rectangle( 70, 25, 1024, 768 );
     if( result.height > bounds.height ) {
       result.height = bounds.height;
     }
