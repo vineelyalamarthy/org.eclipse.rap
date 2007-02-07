@@ -28,6 +28,7 @@ public class WorkbenchWindowConfigurer implements IWorkbenchWindowConfigurer {
   private AbstractPresentationFactory presentationFactory;
   private Point initialSize = new Point( 1024, 768 );
   private WindowActionBarConfigurer actionBarConfigurer = null;
+  private String windowTitle;
   
   class WindowActionBarConfigurer implements IActionBarConfigurer2 {
 
@@ -161,6 +162,32 @@ public class WorkbenchWindowConfigurer implements IWorkbenchWindowConfigurer {
   public void createDefaultContents( final Shell shell ) {
     window.createDefaultContents( shell );
   }
+  
+  String basicGetTitle() {
+    return windowTitle;
+  }
+
+  public String getTitle() {
+      Shell shell = window.getShell();
+      if (shell != null) {
+          // update the cached title
+          windowTitle = shell.getText();
+      }
+      return windowTitle;
+  }
+
+  public void setTitle(String title) {
+      if (title == null) {
+          throw new IllegalArgumentException();
+      }
+      windowTitle = title;
+      Shell shell = window.getShell();
+      if (shell != null && !shell.isDisposed()) {
+//          shell.setText(TextProcessor.process(title, "-"));  //$NON-NLS-1$
+        shell.setText( title );
+      }
+  }
+
 
   public boolean getShowMenuBar() {
     return showMenuBar;

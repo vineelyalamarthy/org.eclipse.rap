@@ -16,6 +16,9 @@ public interface IWorkbenchWindowConfigurer {
   IWorkbenchWindow getWindow();
   IActionBarConfigurer getActionBarConfigurer();
   
+  public String getTitle();
+  public void setTitle(String title);
+  
   boolean getShowCoolBar();
   void setShowCoolBar( boolean show );
   

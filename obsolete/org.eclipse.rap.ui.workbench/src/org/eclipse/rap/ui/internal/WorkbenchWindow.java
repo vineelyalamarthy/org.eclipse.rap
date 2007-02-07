@@ -24,8 +24,7 @@ import org.eclipse.rap.rwt.custom.CBanner;
 import org.eclipse.rap.rwt.custom.StackLayout;
 import org.eclipse.rap.rwt.events.ControlAdapter;
 import org.eclipse.rap.rwt.events.ControlEvent;
-import org.eclipse.rap.rwt.graphics.Point;
-import org.eclipse.rap.rwt.graphics.Rectangle;
+import org.eclipse.rap.rwt.graphics.*;
 import org.eclipse.rap.rwt.widgets.*;
 import org.eclipse.rap.ui.*;
 import org.eclipse.rap.ui.entrypoint.*;
@@ -126,6 +125,19 @@ public class WorkbenchWindow
     getShell().layout();
   }
   
+  protected void configureShell( Shell shell ) {
+    super.configureShell( shell );
+    String title = getWindowConfigurer().basicGetTitle();
+    if( title != null ) {
+      shell.setText( title );
+    }
+    // TODO [rst] Remove this as soon as there is a decent method to set the shell icon.
+    Image image;
+    ClassLoader classLoader = getClass().getClassLoader();
+    image = Image.find( "resources/default.gif", classLoader );
+    shell.setImage( image );
+  }
+
   public void setActivePage( final IWorkbenchPage in ) {
 //    if( getActiveWorkbenchPage() == in ) {
 //      return;
