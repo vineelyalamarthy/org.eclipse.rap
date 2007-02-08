@@ -359,6 +359,7 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
                                                     parent,
                                                     presentationSite );
     createControl( parent, presentation );
+    getControl().moveBelow( null );
   }
 
   public Control getControl() {
