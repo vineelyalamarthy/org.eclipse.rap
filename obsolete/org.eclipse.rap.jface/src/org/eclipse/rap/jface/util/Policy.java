@@ -11,6 +11,8 @@
 package org.eclipse.rap.jface.util;
 
 import java.util.Comparator;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.rap.jface.util.ILogger;
 
 // import org.eclipse.jface.dialogs.AnimatorFactory;
 /**
@@ -44,6 +46,8 @@ public class Policy {
    * A flag to indicate whether toolbars are being traced.
    */
   public static boolean TRACE_TOOLBAR = DEFAULT;
+
+  private static ILogger log;
 
   /**
    * Returns the dummy log to use if none has been set
@@ -149,4 +153,43 @@ public class Policy {
   // animatorFactory = new AnimatorFactory();
   // return animatorFactory;
   // }
+
+
+  /**
+   * Sets the logger used by JFace to log errors.
+   * 
+   * @param logger the logger to use, or <code>null</code> to use the default logger
+   * @since 3.1
+   */
+  public static void setLog(ILogger logger) {
+      log = logger;
+  }
+
+  /**
+   * Returns the logger used by JFace to log errors.
+   * <p>
+   * The default logger prints the status to <code>System.err</code>.
+   * </p>
+   * 
+   * @return the logger
+   * @since 3.1
+   */
+  public static ILogger getLog() {
+      if (log == null) {
+            log = getDummyLog();
+        }
+      return log;
+  }
+  
+  /**
+   * Returns the dummy log to use if none has been set
+   */
+  private static ILogger getDummyLog() {
+      return new ILogger() {
+          public void log(IStatus status) {
+              System.err.println(status.getMessage());
+          }
+      };
+  }
+
 }

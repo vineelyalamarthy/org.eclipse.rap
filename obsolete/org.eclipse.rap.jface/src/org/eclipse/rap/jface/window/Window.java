@@ -20,11 +20,17 @@ import org.eclipse.rap.rwt.widgets.*;
 // TODO: [fappel] completion of this basic Window implementation...
 public abstract class Window implements IShellProvider {
 
+  public static final int OK = 0;
+
+  public static final int CANCEL = 1;
+
   private IShellProvider parentShell;
   private WindowManager windowManager;
   private Shell shell;
   private Control contents;
   private int shellStyle = RWT.SHELL_TRIM;
+
+  private int returnCode = OK;
 
   protected Window( final Shell parentShell ) {
     this( new SameShellProvider( parentShell ) );
@@ -58,20 +64,23 @@ public abstract class Window implements IShellProvider {
       parentShell = new SameShellProvider( null );
       newParent = getParentShell();
     }
-    // TODO: [fappel] getShellStyle() implementation
     // Create the shell
     Shell result = new Shell( newParent, getShellStyle() );
     result.setData( this );
     configureShell( result );
     return result;
   }
-  
+
   protected void setShellStyle( final int newShellStyle ) {
     shellStyle = newShellStyle;
   }
   
   protected int getShellStyle() {
     return shellStyle;
+  }
+  
+  protected Point getInitialSize() {
+    return shell.computeSize( RWT.DEFAULT, RWT.DEFAULT, true );
   }
 
   protected void configureShell( final Shell newShell ) {
@@ -90,7 +99,11 @@ public abstract class Window implements IShellProvider {
 
   protected void initializeBounds() {
     // TODO: [fappel] simple fake to get the implementation up and running
-    shell.setBounds( 60, 30, 800, 600 );
+//    shell.setBounds( 60, 30, 800, 600 );
+    Point size = getInitialSize();
+    Point location = getInitialLocation( size );
+    shell.setBounds( getConstrainedShellBounds( new Rectangle( location.x,
+            location.y, size.x, size.y ) ) );
   }
 
   protected Point getInitialLocation( final Point initialSize ) {
@@ -177,6 +190,14 @@ public abstract class Window implements IShellProvider {
 
   public Shell getShell() {
     return shell;
+  }
+  
+  public int getReturnCode() {
+    return returnCode;
+  }
+
+  protected void setReturnCode(int code) {
+    returnCode = code;
   }
 
   public WindowManager getWindowManager() {
