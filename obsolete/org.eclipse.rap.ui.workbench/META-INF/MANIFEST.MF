@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: RAP Workbench Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.rap.ui.workbench; singleton:=true
-Bundle-Version: 0.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.rap.ui.Activator
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.equinox.http.registry,
