@@ -15,6 +15,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import org.eclipse.core.runtime.*;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.internal.engine.AdapterFactoryRegistry;
 import org.eclipse.rap.rwt.internal.engine.PhaseListenerRegistry;
 import org.eclipse.rap.rwt.internal.lifecycle.EntryPointManager;
@@ -22,8 +23,10 @@ import org.eclipse.rap.rwt.internal.lifecycle.RWTLifeCycle;
 import org.eclipse.rap.rwt.resources.ResourceManager;
 import org.eclipse.rap.ui.Activator;
 import org.osgi.framework.Bundle;
+import com.w4t.IResourceManager;
 import com.w4t.engine.lifecycle.LifeCycleFactory;
 import com.w4t.engine.lifecycle.PhaseListener;
+import com.w4t.engine.service.BrowserSurvey;
 import com.w4t.engine.util.EngineConfig;
 import com.w4t.engine.util.IEngineConfig;
 
@@ -36,9 +39,11 @@ import com.w4t.engine.util.IEngineConfig;
 // TODO: [fappel] clean replacement mechanism that is anchored in W4Toolkit core
 final class EngineConfigWrapper implements IEngineConfig {
   
+  private final static String FOLDER
+    = EngineConfigWrapper.class.getPackage().getName().replace( '.', '/' );
+  private final static String INDEX_TEMPLATE = FOLDER + "/index.html";
   // path to a w4toolkit configuration file on the classpath
-  private final static String CONFIG 
-    = "org/eclipse/rap/ui/internal/servlet/config.xml";
+  private final static String CONFIG = FOLDER +"/config.xml";
   //  extension point id for adapter factory registration
   private static final String ID_ADAPTER_FACTORY 
     = "org.eclipse.rap.ui.workbench.adapterfactory";
@@ -58,6 +63,7 @@ final class EngineConfigWrapper implements IEngineConfig {
     registerResourceManagerFactory();
     registerWorkbenchEntryPoint();
     registerFactories();
+    registerIndexTemplate();
   }
 
   public File getClassDir() {
@@ -207,5 +213,42 @@ final class EngineConfigWrapper implements IEngineConfig {
     } finally {
       is.close();
     }
+  }
+  
+  private void registerIndexTemplate() {
+    BrowserSurvey.indexTemplate = new BrowserSurvey.IIndexTemplate() {
+
+      public InputStream getTemplateStream() throws IOException {
+        InputStream result = null;
+        IResourceManager manager = ResourceManager.getInstance();
+        ClassLoader buffer = manager.getContextLoader();
+        manager.setContextLoader( EngineConfigWrapper.class.getClassLoader() );
+        try {        
+          result = manager.getResourceAsStream( INDEX_TEMPLATE );
+          if ( result == null ) {
+            String text =   "Failed to load Browser Survey HTML Page. "
+                          + "Resource {0} could not be found.";
+            Object[] param = new Object[]{ INDEX_TEMPLATE };
+            String msg = MessageFormat.format( text, param );
+            throw new IOException( msg );
+          }
+        } finally {
+          manager.setContextLoader( buffer );          
+        }
+        return result;
+      }
+
+      public void registerResources() throws IOException {
+        IResourceManager manager = ResourceManager.getInstance();
+        ClassLoader buffer = manager.getContextLoader();
+        manager.setContextLoader( RWT.class.getClassLoader() );
+        try {
+          manager.register( "org/eclipse/rap/rwt/widgets/display/bg.gif" );
+        } finally {
+          manager.setContextLoader( buffer );
+        }
+      }
+      
+    };
   }
 }

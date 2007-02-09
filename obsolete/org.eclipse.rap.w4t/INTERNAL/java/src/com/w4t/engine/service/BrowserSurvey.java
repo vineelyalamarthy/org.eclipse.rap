@@ -25,8 +25,30 @@ import com.w4t.engine.util.ResourceManager;
  * <p>A helping class that loads a special html page in order to
  * determine which browser has originated the request.</p>
  */
-final class BrowserSurvey {
+public final class BrowserSurvey {
 
+  public interface IIndexTemplate {
+    InputStream getTemplateStream() throws IOException;
+    void registerResources() throws IOException;
+  }
+  
+  public static IIndexTemplate indexTemplate = new IIndexTemplate() {
+    public InputStream getTemplateStream() throws IOException {
+      String resourceName = getResourceName();
+      IResourceManager manager = ResourceManager.getInstance();
+      InputStream result = manager.getResourceAsStream( resourceName );
+      if ( result == null ) {
+        String text =   "Failed to load Browser Survey HTML Page. "
+                      + "Resource {0} could not be found.";
+        String msg = MessageFormat.format( text, new Object[]{ resourceName } );
+        throw new IOException( msg );
+      }
+      return result;
+    }
+    public void registerResources() throws IOException {
+    }
+  };
+  
   /** 
    * <p>Writes a special html page into the passed HtmlResponseWriter, in order to
    *  determine which browser has originated the request.</p> 
@@ -57,6 +79,7 @@ final class BrowserSurvey {
     ContextProvider.getResponse().setContentType( HTML.CONTENT_TEXT_HTML );
     StringBuffer buffer = new StringBuffer();
     load( buffer );
+    indexTemplate.registerResources();
     String servletName = ContextProvider.getRequest().getServletPath();
     if( servletName.startsWith( "/" ) ) {
       servletName = servletName.substring( 1 );
@@ -102,16 +125,7 @@ final class BrowserSurvey {
   
   // TODO [rh] replace this by ResourceUtil#read - encoding is misssing here
   static void load( final StringBuffer buffer ) throws IOException {
-    InputStream inputStream;
-    String resourceName = getResourceName();
-    IResourceManager manager = ResourceManager.getInstance();
-    inputStream = manager.getResourceAsStream( resourceName );
-    if ( inputStream == null ) {
-      String text =   "Failed to load Browser Survey HTML Page. "
-                    + "Resource {0} could not be found.";
-      String msg = MessageFormat.format( text, new Object[]{ resourceName } );
-      throw new IOException( msg );
-    }
+    InputStream inputStream = indexTemplate.getTemplateStream();
     try {
       byte[] bytes = new byte[512];
       int bytesRead = inputStream.read( bytes );
