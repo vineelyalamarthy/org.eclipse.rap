@@ -16,8 +16,8 @@ public interface IWorkbenchWindowConfigurer {
   IWorkbenchWindow getWindow();
   IActionBarConfigurer getActionBarConfigurer();
   
-  public String getTitle();
-  public void setTitle(String title);
+  String getTitle();
+  void setTitle(String title);
   
   boolean getShowCoolBar();
   void setShowCoolBar( boolean show );
@@ -26,4 +26,8 @@ public interface IWorkbenchWindowConfigurer {
 
   Point getInitialSize();
   void setInitialSize( Point initialSize );
+  
+  int getShellStyle();
+  void setShellStyle( int shellStyle );
+
 }

@@ -839,7 +839,7 @@ public class Fixture {
   }
   
   public static void setUp() {
-    // disable js-versioning by default to make comparion easier
+    // disable js-versioning by default to make comparison easier
     System.setProperty( SystemProps.USE_VERSIONED_JAVA_SCRIPT, "false" );
     clearSingletons();
     try {

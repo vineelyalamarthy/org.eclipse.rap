@@ -10,7 +10,10 @@ package org.eclipse.rap.ui.internal;
 
 import org.eclipse.rap.jface.action.*;
 import org.eclipse.rap.jface.internal.provisional.action.IToolBarContributionItem;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.graphics.Point;
+import org.eclipse.rap.rwt.graphics.Rectangle;
+import org.eclipse.rap.rwt.widgets.Display;
 import org.eclipse.rap.rwt.widgets.Shell;
 import org.eclipse.rap.ui.IWorkbenchWindow;
 import org.eclipse.rap.ui.entrypoint.IActionBarConfigurer;
@@ -26,9 +29,10 @@ public class WorkbenchWindowConfigurer implements IWorkbenchWindowConfigurer {
   private boolean showToolBar = true;
   private boolean showPerspectiveBar = false;
   private AbstractPresentationFactory presentationFactory;
-  private Point initialSize = new Point( 1024, 768 );
+  private Point initialSize;
   private WindowActionBarConfigurer actionBarConfigurer = null;
   private String windowTitle;
+  private int shellStyle = RWT.SHELL_TRIM;
   
   class WindowActionBarConfigurer implements IActionBarConfigurer2 {
 
@@ -208,6 +212,10 @@ public class WorkbenchWindowConfigurer implements IWorkbenchWindowConfigurer {
   }
 
   public Point getInitialSize() {
+    if( initialSize == null ) {
+      Rectangle bounds = Display.getCurrent().getBounds();
+      initialSize = new Point( bounds.width, bounds.height );
+    }
     return initialSize;
   }
 
@@ -234,6 +242,13 @@ public class WorkbenchWindowConfigurer implements IWorkbenchWindowConfigurer {
     return actionBarConfigurer;
   }
 
+  public int getShellStyle() {
+    return shellStyle;
+  }
+
+  public void setShellStyle( final int shellStyle ) {
+    this.shellStyle = shellStyle;
+  }
   
   //////////////////
   // helping methods

@@ -44,6 +44,12 @@ public interface RequestParams {
    *  of databound components. Request value is null in standard
    *  form submits, 'true' in javaScript request URLs.</p> */
   final static String PARAMLESS_GET = "w4t_paramlessGET";
+  /** startup request parameter that contains the initial width of
+   *  the browsers client area. */
+  final static String AVAILABLE_WIDTH = "w4t_width";
+  /** startup request parameter that contains the initial height of
+   *  the browsers client area. */
+  final static String AVAILABLE_HEIGHT = "w4t_height";  
   /** <p>The servlet parameter name that contains the name of a resource. This
    * parameter is used as part of a resource request URL.</p> */
   final static String RESOURCE = "w4t_resource";

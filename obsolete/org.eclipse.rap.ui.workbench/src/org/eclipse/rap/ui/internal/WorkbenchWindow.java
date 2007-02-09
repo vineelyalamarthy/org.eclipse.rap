@@ -65,13 +65,10 @@ public class WorkbenchWindow
   public WorkbenchWindow( int number ) {
     super( null );
     this.number = number;
-    
     addMenuBar();
     addCoolBar( RWT.NONE );
-    
     fireWindowOpening();
-    
-    // Fill the action bars
+    setShellStyle( getWindowConfigurer().getShellStyle() );
     fillActionBars( FILL_ALL_ACTION_BARS );
   }
 
@@ -123,6 +120,12 @@ public class WorkbenchWindow
     // for. We have to do this before updating in order to get
     // the PerspectiveBar management correct...see defect 137334
     getShell().layout();
+    
+    fireWindowOpened();
+  }
+
+  private void fireWindowOpened() {
+    getWindowAdvisor().postWindowOpen();
   }
   
   protected void configureShell( Shell shell ) {
@@ -132,10 +135,12 @@ public class WorkbenchWindow
       shell.setText( title );
     }
     // TODO [rst] Remove this as soon as there is a decent method to set the shell icon.
-    Image image;
-    ClassLoader classLoader = getClass().getClassLoader();
-    image = Image.find( "resources/default.gif", classLoader );
-    shell.setImage( image );
+    if( ( shell.getStyle() & RWT.SHELL_TRIM ) != 0 ) {
+      Image image;
+      ClassLoader classLoader = getClass().getClassLoader();
+      image = Image.find( "resources/default.gif", classLoader );
+      shell.setImage( image );
+    }
   }
 
   public void setActivePage( final IWorkbenchPage in ) {

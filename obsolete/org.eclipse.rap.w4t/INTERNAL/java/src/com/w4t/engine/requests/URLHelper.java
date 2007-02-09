@@ -66,6 +66,8 @@ public final class URLHelper {
   // helping methods
 
   private static String getServerURL() {
+    // TODO: [fappel] remove the creation of absolute addresses with
+    //                relative ones, this should make this method obsolete
     HttpServletRequest request = ContextProvider.getRequest();
 
     ///////////////////////////////////////////////////////////////////////

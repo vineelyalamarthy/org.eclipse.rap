@@ -11,9 +11,12 @@
 
 package org.eclipse.rap.ui;
 
+import org.eclipse.rap.rwt.widgets.Shell;
+
 
 public interface IWorkbenchWindow extends IPageService {
   ISelectionService getSelectionService();
   IWorkbenchPage getActivePage();
   IWorkbenchPage[] getPages();
+  Shell getShell();
 }

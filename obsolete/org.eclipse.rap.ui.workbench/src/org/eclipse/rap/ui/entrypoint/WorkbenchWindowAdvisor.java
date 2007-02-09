@@ -44,4 +44,8 @@ public class WorkbenchWindowAdvisor {
   protected IWorkbenchWindowConfigurer getWindowConfigurer() {
     return windowConfigurer;
   }
+
+  public void postWindowOpen() {
+    // do nothing
+  }
 }
