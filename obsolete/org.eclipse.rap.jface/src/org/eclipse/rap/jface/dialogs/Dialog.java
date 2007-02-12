@@ -234,7 +234,7 @@ public abstract class Dialog extends Window {
 
     protected Runnable callback;
 
-    private FontSizeEstimation fontSizeEst;
+    private Font dialogFont;
 
     /**
      * Number of horizontal dialog units per character, value <code>4</code>.
@@ -525,11 +525,12 @@ public abstract class Dialog extends Window {
      * @return the number of pixels
      */
     protected int convertHorizontalDLUsToPixels( int dlus ) {
-      int avgCharWidth = Math.round( fontSizeEst.getAvgCharWidth() );
-      int result = ( avgCharWidth * dlus + HORIZONTAL_DIALOG_UNIT_PER_CHAR / 2 )
-                   / HORIZONTAL_DIALOG_UNIT_PER_CHAR;
-      return result;
-    }
+    int avgCharWidth = Math.round( FontSizeEstimation.getAvgCharWidth(
+                                                                dialogFont ) );
+    int result = ( avgCharWidth * dlus + HORIZONTAL_DIALOG_UNIT_PER_CHAR / 2 )
+                 / HORIZONTAL_DIALOG_UNIT_PER_CHAR;
+    return result;
+  }
 
     /**
      * Returns the number of pixels corresponding to the given number of
@@ -542,12 +543,11 @@ public abstract class Dialog extends Window {
      * Clients may call this framework method, but should not override it.
      * </p>
      * 
-     * @param dlus
-     *            the number of vertical dialog units
+     * @param dlus the number of vertical dialog units
      * @return the number of pixels
      */
     protected int convertVerticalDLUsToPixels( int dlus ) {
-      int charHeight = fontSizeEst.getCharHeight();
+      int charHeight = FontSizeEstimation.getCharHeight( dialogFont );
       int result = ( charHeight * dlus + VERTICAL_DIALOG_UNITS_PER_CHAR / 2 )
                    / VERTICAL_DIALOG_UNITS_PER_CHAR;
       return result;
@@ -892,8 +892,7 @@ public abstract class Dialog extends Window {
 
     protected void initializeDialogUnits( Control control ) {
       // Compute and store a font metric
-      Font dialogFont = JFaceResources.getDialogFont();
-      fontSizeEst = FontSizeEstimation.getInstance( dialogFont );
+      dialogFont = JFaceResources.getDialogFont();
     }
 
     /**
