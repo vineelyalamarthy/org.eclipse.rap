@@ -4,10 +4,10 @@
    <description url="http://download.eclipse.org/technology/rap/update-site">
       The Rich Ajax Platform Project Updates
    </description>
-   <feature url="features/org.eclipse.rap_1.0.0.200702092054.jar" id="org.eclipse.rap" version="1.0.0.200702092054">
+   <feature url="features/org.eclipse.rap_1.0.0.200702122240.jar" id="org.eclipse.rap" version="1.0.0.200702122240">
       <category name="Rich Ajax Platform (RAP)"/>
    </feature>
-   <feature url="features/org.eclipse.rap.sdk_1.0.0.200702092054.jar" id="org.eclipse.rap.sdk" version="1.0.0.200702092054">
+   <feature url="features/org.eclipse.rap.sdk_1.0.0.200702122240.jar" id="org.eclipse.rap.sdk" version="1.0.0.200702122240">
       <category name="Rich Ajax Platform (RAP)"/>
    </feature>
    <category-def name="Rich Ajax Platform (RAP)" label="org.eclipse.rap.updatesite"/>
