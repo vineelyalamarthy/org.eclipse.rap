@@ -524,9 +524,9 @@ public abstract class Dialog extends Window {
      *            the number of horizontal dialog units
      * @return the number of pixels
      */
-    protected int convertHorizontalDLUsToPixels( int dlus ) {
-    int avgCharWidth = Math.round( FontSizeEstimation.getAvgCharWidth(
-                                                                dialogFont ) );
+  protected int convertHorizontalDLUsToPixels( int dlus ) {
+    int avgCharWidth 
+      = Math.round( FontSizeEstimation.getAvgCharWidth( dialogFont ) );
     int result = ( avgCharWidth * dlus + HORIZONTAL_DIALOG_UNIT_PER_CHAR / 2 )
                  / HORIZONTAL_DIALOG_UNIT_PER_CHAR;
     return result;
