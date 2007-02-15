@@ -62,6 +62,8 @@ public abstract class SessionSingletonBase {
    *         with the current user session context.  
    */
   protected static Object getInstance( final Class type ) {
+    // Note [fappel]: Since this code is performance critical, don't change
+    //                anything without checking it against a profiler.
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     Object result = null;
     if( stateInfo != null ) {
@@ -81,11 +83,15 @@ public abstract class SessionSingletonBase {
   // helping methods
   
   private static String getKey( final Class type ) {
-    if( !keyMap.containsKey( type.getName() ) ) {
+    // Note [fappel]: Since this code is performance critical, don't change
+    //                anything without checking it against a profiler.
+    String name = type.getName();
+    String result = ( String )keyMap.get( name );
+    if( result == null ) {
       StringBuffer key = new StringBuffer( PREFIX );
-      keyMap.put( type.getName(), key.append( type.getName() ).toString() );
+      keyMap.put( name, key.append( name ).toString() );
     }
-    return ( String )keyMap.get( type.getName() );
+    return result;
   }
   
   private static synchronized Object getInstanceInternal( final Class type ) {

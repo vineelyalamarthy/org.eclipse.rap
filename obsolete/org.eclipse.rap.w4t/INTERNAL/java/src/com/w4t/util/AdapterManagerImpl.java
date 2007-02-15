@@ -26,11 +26,22 @@ public class AdapterManagerImpl
   /** <p>the internal datastructure of <code>AdapterManagerImpl</code></p>*/
   private final Map registry;
   private final Map factoryCache;
+  private final NullFactory nullFactory = new NullFactory();
+  
+  private static class NullFactory implements AdapterFactory {
+    private static final Class[] EMPTY = new Class[ 0 ];
+    public Object getAdapter( final Object adaptable, final Class adapter ) {
+      return null;
+    }
+    public Class[] getAdapterList() {
+      return EMPTY;
+    }
+  }
   
   /** <p>creates the singleton instance of <code>AdapterManagerImpl</code></p>*/
   private AdapterManagerImpl() {
     registry = new HashMap();
-    factoryCache = new WeakHashMap();
+    factoryCache = new HashMap();
   }
   
   /** <p>returns the singleton instance of this
@@ -46,6 +57,28 @@ public class AdapterManagerImpl
   public Object getAdapter( final Object adaptable, 
                             final Class adapter )
   {
+    // Note [fappel]: Since this code is performance critical, don't change
+    //                anything without checking it against a profiler.
+    Object result = null;
+    Object hash = calculateHash( adaptable, adapter );
+    AdapterFactory cachedFactory = ( AdapterFactory )factoryCache.get( hash );
+    if( cachedFactory != null ) {
+      result = cachedFactory.getAdapter( adaptable, adapter );
+    } else {
+      result = doGetAdapter( adaptable, adapter, hash );
+    }
+    return result;
+  }
+  
+  private Object calculateHash( final Object adaptable, final Class adapter ) {
+    Class adaptableClass = adaptable.getClass();
+    int hash = 23273 + adaptableClass.hashCode() * 37 + adapter.hashCode();
+    return new Integer( hash );
+  }
+
+  private Object doGetAdapter( final Object adaptable,
+                               final Class adapter, 
+                               final Object hash ) {
     Object result = null;
     Class[] keys = new Class[ registry.size() ];
     registry.keySet().toArray( keys );
@@ -59,10 +92,14 @@ public class AdapterManagerImpl
           for( int k = 0; result == null && k < adapters.length; k++ ) {
             if( adapter.isAssignableFrom( adapters[ k ] ) ) {
               result = factories[ j ].getAdapter( adaptable, adapter );
+              factoryCache.put( hash, factories[ j ] );
             }
           }          
         }
       }
+    }
+    if( result == null ) {
+      factoryCache.put( hash, nullFactory );
     }
     return result;
   }
@@ -80,6 +117,7 @@ public class AdapterManagerImpl
       factories.add( factory );
       registry.put( adaptable, factories );
     }
+    factoryCache.clear();
   }
 
   public void deregisterAdapters( final AdapterFactory factory, 
