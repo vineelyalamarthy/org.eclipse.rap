@@ -11,6 +11,7 @@
 
 package org.eclipse.rap.jface.resource;
 
+import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import org.eclipse.rap.rwt.RWT;
@@ -18,13 +19,10 @@ import org.eclipse.rap.rwt.graphics.Font;
 
 public class JFaceResources {
 
-  /**
-   * The JFace resource bundle; eagerly initialized.
-   */
   private static final ResourceBundle bundle = ResourceBundle
           .getBundle( "org.eclipse.rap.jface.messages" ); //$NON-NLS-1$
 
-  public static String getString( String key ) {
+  public static String getString( final String key ) {
     // TODO use resource bundle
     String result;
     try {
@@ -41,4 +39,7 @@ public class JFaceResources {
     return result;
   }
 
+  public static String format( final String key, final Object[] args ) {
+    return MessageFormat.format(getString(key), args);
+  }
 }

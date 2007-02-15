@@ -114,7 +114,7 @@ public class WorkbenchWindow
   }
 
   public void open() {
-    super.open();
+    super.open( null );
     //  It's time for a layout ... to insure that if TrimLayout
     // is in play, it updates all of the trim it's responsible
     // for. We have to do this before updating in order to get

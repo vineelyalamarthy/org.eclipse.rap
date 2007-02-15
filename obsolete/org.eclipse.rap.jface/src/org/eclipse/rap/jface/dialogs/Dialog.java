@@ -232,8 +232,6 @@ public abstract class Dialog extends Window {
      */
     private Point computedSize;
 
-    protected Runnable callback;
-
     private Font dialogFont;
 
     /**
@@ -503,9 +501,6 @@ public abstract class Dialog extends Window {
      */
     protected void cancelPressed() {
         setReturnCode(CANCEL);
-        if ( callback != null ) {
-          callback.run();
-        }
         close();
     }
 
@@ -905,9 +900,6 @@ public abstract class Dialog extends Window {
      */
     protected void okPressed() {
         setReturnCode(OK);
-        if ( callback != null ) {
-          callback.run();
-        }
         close();
     }
 
@@ -1366,9 +1358,4 @@ public abstract class Dialog extends Window {
             }
         }
     }
-    
-    public void setCallback( final Runnable callback ) {
-      this.callback = callback;
-    }
-
 }
