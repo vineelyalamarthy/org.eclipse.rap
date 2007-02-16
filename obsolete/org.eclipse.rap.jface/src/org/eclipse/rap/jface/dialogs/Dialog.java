@@ -596,13 +596,12 @@ public abstract class Dialog extends Window {
           buttonPressed( id );
         }
       } );
-      // TODO uncomment when setDefaultButton is implemented
-      // if (defaultButton) {
-      //   Shell shell = parent.getShell();
-      //   if (shell != null) {
-      //     shell.setDefaultButton(button);
-      //   }
-      // }
+      if (defaultButton) {
+        Shell shell = parent.getShell();
+        if (shell != null) {
+          shell.setDefaultButton(button);
+        }
+      }
       buttons.put( new Integer( id ), button );
       setButtonLayoutData( button );
       return button;
