@@ -731,6 +731,8 @@ public abstract class Window implements IShellProvider {
    * @see #create()
    */
   public void open( final IWindowCallback callback ) {
+    // TODO [rh] revise null-handling for callback: suggestion: either throw NPE
+    //      in open method or sliently ignore null-callbacks in close method
     this.callback = callback;
     if( shell == null || shell.isDisposed() ) {
       shell = null;
