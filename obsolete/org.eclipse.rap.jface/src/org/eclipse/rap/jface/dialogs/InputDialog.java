@@ -23,6 +23,8 @@
 package org.eclipse.rap.jface.dialogs;
 
 import org.eclipse.rap.rwt.RWT;
+import org.eclipse.rap.rwt.events.ModifyEvent;
+import org.eclipse.rap.rwt.events.ModifyListener;
 import org.eclipse.rap.rwt.graphics.Color;
 import org.eclipse.rap.rwt.layout.GridData;
 import org.eclipse.rap.rwt.widgets.*;
@@ -177,12 +179,11 @@ public class InputDialog extends Dialog {
     text = new Text( composite, RWT.SINGLE | RWT.BORDER );
     text.setLayoutData(new GridData( GridData.GRAB_HORIZONTAL
                                      | GridData.HORIZONTAL_ALIGN_FILL ) );
-//  TODO [rst] uncomment when we have a modify listener
-//  text.addModifyListener( new ModifyListener() {
-//    public void modifyText(ModifyEvent e) {
-//      validateInput();
-//    }
-//  } );
+  text.addModifyListener( new ModifyListener() {
+    public void modifyText(ModifyEvent e) {
+      validateInput();
+    }
+  } );
     errorMessageText = new Text( composite, RWT.READ_ONLY );
     errorMessageText.setLayoutData(new GridData( GridData.GRAB_HORIZONTAL
                                                  | GridData.HORIZONTAL_ALIGN_FILL ) );
@@ -274,8 +275,6 @@ public class InputDialog extends Dialog {
     this.errorMessage = errorMessage;
     if( errorMessageText != null && !errorMessageText.isDisposed() ) {
       errorMessageText.setText( errorMessage == null ? "" : errorMessage ); //$NON-NLS-1$
-//    TODO [rst] implement Control.update()
-//    errorMessageText.getParent().update();
       // Access the ok button by id, in case clients have overridden button creation.
       // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=113643
       Control button = getButton( IDialogConstants.OK_ID );
