@@ -13,8 +13,7 @@ package org.eclipse.rap.ui.internal;
 import org.eclipse.rap.jface.util.Geometry;
 import org.eclipse.rap.rwt.RWT;
 //import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.rap.rwt.events.SelectionEvent;
-import org.eclipse.rap.rwt.events.SelectionListener;
+import org.eclipse.rap.rwt.events.*;
 import org.eclipse.rap.rwt.graphics.Rectangle;
 import org.eclipse.rap.rwt.widgets.Composite;
 import org.eclipse.rap.rwt.widgets.Control;
@@ -42,7 +41,7 @@ class LayoutPartSash extends LayoutPart {
     this.style = style;
     this.rootContainer = rootContainer;
 //    selectionListener = new SelectionAdapter() {
-    selectionListener = new SelectionListener() {
+    selectionListener = new SelectionAdapter() {
       public void widgetSelected( SelectionEvent e ) {
 //        checkDragLimit( e );
 //        if( e.detail != RWT.DRAG ) {

@@ -51,7 +51,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
 //      fireEvent( TabFolderEvent.EVENT_SHOW_LIST );
     }
   };
-  private SelectionListener selectionListener = new SelectionListener() {
+  private SelectionListener selectionListener = new SelectionAdapter() {
     public void widgetSelected( final SelectionEvent event ) {
       AbstractTabItem item = getTab( ( CTabItem )event.item );
       if( item != null ) {

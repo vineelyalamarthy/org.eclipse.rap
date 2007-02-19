@@ -1110,7 +1110,7 @@ public abstract class StructuredViewer extends ContentViewer
     super.hookControl( control );
 
     // TODO: [fappel] move this into a reasonable implementation of OpenStrategy
-    SelectionEvent.addListener( control, new SelectionListener() {
+    SelectionEvent.addListener( control, new SelectionAdapter() {
       public void widgetSelected( SelectionEvent event ) {
         handleSelect( event );
       } 

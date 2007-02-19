@@ -141,6 +141,9 @@ public class ActionContributionItem extends ContributionItem {
     public void widgetSelected( final SelectionEvent event ) {
       throw new UnsupportedOperationException();
     }
+    public void widgetDefaultSelected( SelectionEvent event ) {
+      throw new UnsupportedOperationException();
+    }
     public void widgetDisposed( final DisposeEvent event ) {
       throw new UnsupportedOperationException();
     }
@@ -150,6 +153,9 @@ public class ActionContributionItem extends ContributionItem {
     public void widgetSelected( SelectionEvent event ) {
       throw new UnsupportedOperationException();
     }
+    public void widgetDefaultSelected( SelectionEvent event ) {
+      throw new UnsupportedOperationException();
+    }
     public void widgetDisposed( DisposeEvent event ) {
       throw new UnsupportedOperationException();
     }
@@ -157,6 +163,9 @@ public class ActionContributionItem extends ContributionItem {
   
   private class ToolItemListener implements SelectionListener, DisposeListener {
     public void widgetSelected( SelectionEvent event ) {
+      throw new UnsupportedOperationException();
+    }
+    public void widgetDefaultSelected( SelectionEvent event ) {
       throw new UnsupportedOperationException();
     }
     public void widgetDisposed( DisposeEvent event ) {
