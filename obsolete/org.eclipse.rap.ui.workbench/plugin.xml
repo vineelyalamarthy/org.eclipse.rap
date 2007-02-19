@@ -22,6 +22,10 @@
       id="views"
       name="views"
       schema="schema/views.exsd"/>
+  <extension-point 
+      id="resources" 
+      name="Resources" 
+      schema="schema/resources.exsd"/>
       
   <extension
       id="org.eclipse.rap.ui.requestHandler"

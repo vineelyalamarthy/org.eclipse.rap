@@ -16,10 +16,10 @@ import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import org.eclipse.core.runtime.*;
 import org.eclipse.rap.rwt.RWT;
-import org.eclipse.rap.rwt.internal.engine.AdapterFactoryRegistry;
-import org.eclipse.rap.rwt.internal.engine.PhaseListenerRegistry;
+import org.eclipse.rap.rwt.internal.engine.*;
 import org.eclipse.rap.rwt.internal.lifecycle.EntryPointManager;
 import org.eclipse.rap.rwt.internal.lifecycle.RWTLifeCycle;
+import org.eclipse.rap.rwt.resources.IResource;
 import org.eclipse.rap.rwt.resources.ResourceManager;
 import org.eclipse.rap.ui.Activator;
 import org.osgi.framework.Bundle;
@@ -53,6 +53,10 @@ final class EngineConfigWrapper implements IEngineConfig {
   //  extension point id for phase listener registration
   private static final String ID_PHASE_LISTENER
     = "org.eclipse.rap.ui.workbench.phaselistener";
+  //  extension point id for registration of resources (i.e. javascript)
+  //  which needed to be loaded at page startup
+  private static final String ID_RESOURCES
+    = "org.eclipse.rap.ui.workbench.resources";
 
   private final EngineConfig engineConfig;
 
@@ -64,6 +68,7 @@ final class EngineConfigWrapper implements IEngineConfig {
     registerWorkbenchEntryPoint();
     registerFactories();
     registerIndexTemplate();
+    registerResources();
   }
 
   public File getClassDir() {
@@ -251,4 +256,20 @@ final class EngineConfigWrapper implements IEngineConfig {
       
     };
   }
+  
+  private static void registerResources() {
+    IExtensionRegistry registry = Platform.getExtensionRegistry();
+    IExtensionPoint point = registry.getExtensionPoint( ID_RESOURCES );
+    IConfigurationElement[] elements = point.getConfigurationElements();
+    for( int i = 0; i < elements.length; i++ ) {
+      try {
+        IResource resource 
+          = ( IResource )elements[ i ].createExecutableExtension( "class" );
+        ResourceRegistry.add( resource );
+      } catch( final CoreException ce ) {
+        Activator.getDefault().getLog().log( ce.getStatus() );
+      }
+    }
+  }
+
 }
