@@ -149,8 +149,7 @@ public class InputDialog extends Dialog {
                   false );
     //do this here because setting the text will set enablement on the ok
     // button
-//  TODO [rst] uncomment when setFocus is implemented
-//  text.setFocus();
+    text.setFocus();
     if( value != null ) {
       text.setText( value );
 //    TODO [rst] uncomment when selectAll is implemented

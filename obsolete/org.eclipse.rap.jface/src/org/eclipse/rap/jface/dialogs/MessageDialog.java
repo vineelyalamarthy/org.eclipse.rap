@@ -441,8 +441,7 @@ public class MessageDialog extends IconAndMessageDialog {
     //Be sure to set the focus if the custom area cannot so as not
     //to lose the defaultButton.
     if( defaultButton && !customShouldTakeFocus() ) {
-      //            TODO [rst] uncomment when setFocus is implemented
-      //            button.setFocus();
+      button.setFocus();
     }
     return button;
   }
