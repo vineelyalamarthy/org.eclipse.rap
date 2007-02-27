@@ -280,7 +280,7 @@ public abstract class PartPane extends LayoutPart implements ActivateListener
       Control control = getControl();
 //      if( !SwtUtil.isFocusAncestor( control ) ) {
         // First try to call part.setFocus
-//        part.setFocus();
+        part.setFocus();
 //      }
     }
   }

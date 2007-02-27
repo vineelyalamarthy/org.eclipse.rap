@@ -20,4 +20,5 @@ public interface IWorkbenchPart extends IAdaptable {
   IWorkbenchPartSite getSite();
   void createPartControl( Composite parent );
   String getTitle();
+  void setFocus();
 }
