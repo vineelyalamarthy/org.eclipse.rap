@@ -19,5 +19,6 @@ public interface IWorkbenchPage extends IPartService, ISelectionService {
   IWorkbenchPartReference getReference( IWorkbenchPart part );
   boolean isPartVisible( IWorkbenchPart part );
   void toggleZoom( IWorkbenchPartReference ref );
+  boolean isZoomed();
   void activate( IWorkbenchPart part );
 }

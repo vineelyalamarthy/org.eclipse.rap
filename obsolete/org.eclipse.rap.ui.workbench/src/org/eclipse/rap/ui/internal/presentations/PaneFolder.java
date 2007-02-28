@@ -567,8 +567,9 @@ public final class PaneFolder {
    */
   private void removeDisposeListener( Control oldControl ) {
 //    if( !SwtUtil.isDisposed( oldControl ) ) {
+    if( oldControl != null && !oldControl.isDisposed() ) {
       oldControl.removeDisposeListener( prematureDisposeListener );
-//    }
+    }
   }
 
   private void widgetDisposed() {
