@@ -70,8 +70,6 @@ public abstract class IconAndMessageDialog extends Dialog {
     Image image = getImage();
     if( image != null ) {
       imageLabel = new Label( composite, RWT.NULL );
-//      TODO [rst] we don't need this, as we have transparent images, haven't we?
-//      image.setBackground( imageLabel.getBackground() );
       imageLabel.setImage( image );
       addAccessibleListeners( imageLabel, image );
       imageLabel.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_CENTER
