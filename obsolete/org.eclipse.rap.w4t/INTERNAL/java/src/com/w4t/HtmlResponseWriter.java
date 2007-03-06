@@ -29,10 +29,10 @@ import com.w4t.util.CssClass;
  */
 public class HtmlResponseWriter extends Writer {
 
-  private List head   = new Vector();
-  private List body   = new Vector();
-  private List layers = new Vector();
-  private List foot   = new Vector();
+  private List head   = new ArrayList();
+  private List body   = new ArrayList();
+  private List layers = new ArrayList();
+  private List foot   = new ArrayList();
   
   private String elementStarted;
   private boolean closed;

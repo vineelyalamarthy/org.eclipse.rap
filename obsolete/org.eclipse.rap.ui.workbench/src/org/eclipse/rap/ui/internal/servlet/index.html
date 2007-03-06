@@ -3,13 +3,17 @@
   <head>
     <title>RAP Startup Page</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <noscript>
-      <meta http-equiv="refresh" content="2; url=${fallbackUrl}&w4t_width=1024&w4t_height=768">
-    </noscript>
   <head>
+  
+  <!-- rap runtime js script libraries -->
+   ${libraries}
+  <!-- end rap runtime js script libraries -->
+  
+  <!-- validation and retrievment of startup conditions -->
   <script type="text/javascript">
-  //<!--
-  /** Detect whether XMLHttpRequests are supported by this browser. */
+  var org_eclipse_rap_width = 1024;
+  var org_eclipse_rap_height = 768;
+  
   function discoverAjax() {
     var result;
     if( window.ActiveXObject ) {
@@ -32,34 +36,38 @@
   
   function discoverSize() {
     if( document.layers || ( document.getElementById && !document.all ) ) {
-       document.W4TForm.w4t_width.value = window.innerWidth;
-       document.W4TForm.w4t_height.value = window.innerHeight;
+       org_eclipse_rap_width = window.innerWidth;
+       org_eclipse_rap_height = window.innerHeight;
     } else if( document.all ) {
-       document.W4TForm.w4t_width.value = document.body.clientWidth;
-       document.W4TForm.w4t_height.value = document.body.clientHeight;
+       org_eclipse_rap_width = document.body.clientWidth;
+       org_eclipse_rap_height = document.body.clientHeight;
     }  
-   }
-    
-  function doOnLoad() {
-    document.W4TForm.w4t_ajaxEnabled.value=discoverAjax();
-    discoverSize();
-    document.W4TForm.submit();
   }
-  //-->   
   </script>
-  <body background="org/eclipse/rap/rwt/widgets/display/bg.gif" onload="doOnLoad();">  
-    <form action="${servlet}" name="W4TForm" method="post" accept-charset="UTF-8" />
-      <input type="hidden" id="w4t_survey" name="w4t_survey" value="true" />
-      <input type="hidden" id="w4t_scriptEnabled" name="w4t_scriptEnabled" value="true" />
-      <input type="hidden" id="w4t_ajaxEnabled" name="w4t_ajaxEnabled" value="false" />
-      <input type="hidden" id="${adminOrStartup}" name="${adminOrStartup}" value="${entrypoint}" />
-      <input type="hidden" id="w4t_width" name="w4t_width" value="1024" />
-      <input type="hidden" id="w4t_height" name="w4t_height" value="768" />
-    </form>
-    <h2>RAP Startup Page</h2>
-    <p>redirecting request ...</p>
-    <br><br><br><br><br><br><br><br><br><br><br><br>
-    <p>If you are not getting redirected within a few seconds click 
-       <a href="${fallbackUrl}&w4t_width=1024&w4t_height=768">here</a></p>
-  </body>  
+  
+  <body background="org/eclipse/rap/rwt/widgets/display/bg.gif">  
+    <script type="text/javascript">
+      if( discoverAjax() ) {
+        discoverSize();
+        
+        // rap runtime application
+        ${appscript}
+        // end rap runtime application
+
+        // append application init parameters<s
+        req.addParameter( "w4t_survey", "true" );
+        req.addParameter( "w4t_scriptEnabled", "true" );
+        req.addParameter( "w4t_ajaxEnabled", "true" );
+        req.addParameter( "${adminOrStartup}", "${entrypoint}" );
+        req.addParameter( "w4t_width", org_eclipse_rap_width );
+        req.addParameter( "w4t_height", org_eclipse_rap_height );
+      } else {
+        // write unsupported browser or security message
+        document.write( "<p>Your browser or settings are not supported. " );
+        document.write( "Please use one of those: IE 6 or higher, " );
+        document.write( "FireFox 1.5 or higher or Opera 10 or higher. " );
+        document.write( "Ensure that javascript is enabled and " );
+        document.write( "XMLHttpRequests are allowed.</p>" );
+      }
+    </script>  
 </html>

@@ -108,9 +108,9 @@ public final class BrowserSurvey {
     writer.append( HTML.END_AJAX_RESPONSE );
   }
 
-  private static void replacePlaceholder( final StringBuffer buffer, 
-                                          final String placeHolder, 
-                                          final String replacement ) 
+  public static void replacePlaceholder( final StringBuffer buffer, 
+                                         final String placeHolder, 
+                                         final String replacement ) 
   {
     int index;
     index = buffer.indexOf( placeHolder );
