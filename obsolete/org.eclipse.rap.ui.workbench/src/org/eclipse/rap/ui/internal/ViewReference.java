@@ -62,6 +62,10 @@ class ViewReference
     try {
       result = createPartHelper();
     } catch( PartInitException e ) {
+      // TODO [rh] preliminary: until ErrorViewPart is in place, at least
+      //      show the programmer what happened in the console
+      System.err.println( e );
+      // end of preliminary
       exception = e;
     }
     // If unable to create the part, create an error part instead
