@@ -936,12 +936,12 @@ public class ActionContributionItem extends ContributionItem {
    *         <code>false</code> if not
    */
   private boolean updateImages( boolean forceImage ) {
-    if( widget instanceof ToolItem ) {
+    if( widget instanceof Item ) {
       ImageDescriptor imageDescriptor = action.getImageDescriptor();
       if( imageDescriptor != null ) {
-        ( ( ToolItem )widget ).setImage( imageDescriptor.createImage() );
+        ( ( Item )widget ).setImage( imageDescriptor.createImage() );
       }
-    }
+    } 
 //    ResourceManager parentResourceManager = JFaceResources.getResources();
 //    if( widget instanceof ToolItem ) {
 //      if( USE_COLOR_ICONS ) {
