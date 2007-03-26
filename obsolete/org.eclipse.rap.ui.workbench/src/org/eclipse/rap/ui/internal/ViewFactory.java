@@ -20,7 +20,7 @@ import org.eclipse.rap.ui.views.IViewRegistry;
 
 public class ViewFactory {
   
-  private final static String ID_SEP = ":"; 
+  public final static String ID_SEP = ":"; 
 
   private final IViewRegistry viewRegistry;
   final WorkbenchPage page;

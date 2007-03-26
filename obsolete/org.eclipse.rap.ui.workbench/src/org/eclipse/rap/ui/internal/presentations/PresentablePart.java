@@ -14,9 +14,8 @@ import org.eclipse.rap.rwt.graphics.Point;
 import org.eclipse.rap.rwt.graphics.Rectangle;
 import org.eclipse.rap.rwt.widgets.Composite;
 import org.eclipse.rap.rwt.widgets.Control;
-//import org.eclipse.ui.IPropertyListener;
 //import org.eclipse.ui.ISharedImages;
-import org.eclipse.rap.ui.PlatformUI;
+import org.eclipse.rap.ui.IPropertyListener;
 import org.eclipse.rap.ui.internal.PartPane;
 import org.eclipse.rap.ui.internal.WorkbenchPartReference;
 //import org.eclipse.ui.internal.dnd.SwtUtil;
@@ -41,7 +40,7 @@ public class PresentablePart implements IPresentablePart {
    */
   private List listeners = new ArrayList();
   // Lazily initialized. Use getPropertyListenerProxy() to access.
-//  private IPropertyListener lazyPropertyListenerProxy;
+  private IPropertyListener lazyPropertyListenerProxy;
   // Lazily initialized. Use getMenu() to access
   private IPartMenu viewMenu;
   // True iff the "set" methods on this object are talking to the real part
@@ -68,24 +67,24 @@ public class PresentablePart implements IPresentablePart {
    */
   public PresentablePart( PartPane part, Composite parent ) {
     this.part = part;
-//    getPane().addPropertyListener( getPropertyListenerProxy() );
+    getPane().addPropertyListener( getPropertyListenerProxy() );
   }
 
   public PartPane getPane() {
     return part;
   }
-//
-//  private IPropertyListener getPropertyListenerProxy() {
-//    if( lazyPropertyListenerProxy == null ) {
-//      lazyPropertyListenerProxy = new IPropertyListener() {
-//
-//        public void propertyChanged( Object source, int propId ) {
-//          firePropertyChange( propId );
-//        }
-//      };
-//    }
-//    return lazyPropertyListenerProxy;
-//  }
+
+  private IPropertyListener getPropertyListenerProxy() {
+    if( lazyPropertyListenerProxy == null ) {
+      lazyPropertyListenerProxy = new IPropertyListener() {
+
+        public void propertyChanged( Object source, int propId ) {
+          firePropertyChange( propId );
+        }
+      };
+    }
+    return lazyPropertyListenerProxy;
+  }
 
   /**
    * Detach this PresentablePart from the real part. No further methods should
@@ -94,27 +93,27 @@ public class PresentablePart implements IPresentablePart {
   public void dispose() {
     // Ensure that the property listener is detached (necessary to prevent
     // leaks)
-//    getPane().removePropertyListener( getPropertyListenerProxy() );
+    getPane().removePropertyListener( getPropertyListenerProxy() );
     // Null out the various fields to ease garbage collection (optional)
     part = null;
     listeners.clear();
     listeners = null;
   }
 
-//  public void firePropertyChange( int propertyId ) {
-//    for( int i = 0; i < listeners.size(); i++ ) {
-//      ( ( IPropertyListener )listeners.get( i ) ).propertyChanged( this,
-//                                                                   propertyId );
-//    }
-//  }
-//
-//  public void addPropertyListener( final IPropertyListener listener ) {
-//    listeners.add( listener );
-//  }
-//
-//  public void removePropertyListener( final IPropertyListener listener ) {
-//    listeners.remove( listener );
-//  }
+  public void firePropertyChange( int propertyId ) {
+    for( int i = 0; i < listeners.size(); i++ ) {
+      ( ( IPropertyListener )listeners.get( i ) ).propertyChanged( this,
+                                                                   propertyId );
+    }
+  }
+
+  public void addPropertyListener( final IPropertyListener listener ) {
+    listeners.add( listener );
+  }
+
+  public void removePropertyListener( final IPropertyListener listener ) {
+    listeners.remove( listener );
+  }
 
   /*
    * (non-Javadoc)
@@ -273,7 +272,6 @@ public class PresentablePart implements IPresentablePart {
     }
     if( viewMenu == null ) {
       viewMenu = new IPartMenu() {
-
         public void showMenu( Point location ) {
           part.showViewMenu( location );
         }
@@ -306,37 +304,37 @@ public class PresentablePart implements IPresentablePart {
     }
     this.enableOutputs = isActive;
     if( isActive ) {
-//      if( isBusy != getPane().isBusy() ) {
-//        firePropertyChange( PROP_BUSY );
-//      }
-//      if( isDirty != isDirty() ) {
-//        firePropertyChange( PROP_DIRTY );
-//      }
-//      if( !name.equals( getName() ) ) {
-//        firePropertyChange( PROP_PART_NAME );
-//      }
-//      if( !titleStatus.equals( getTitleStatus() ) ) {
-//        firePropertyChange( PROP_CONTENT_DESCRIPTION );
-//      }
-//      if( hasViewMenu != getPane().hasViewMenu() ) {
-//        firePropertyChange( PROP_PANE_MENU );
-//      }
-//      // Always assume that the toolbar and title has changed (keeping track of
-//      // this for real
-//      // would be too expensive)
-//      firePropertyChange( PROP_TOOLBAR );
-//      firePropertyChange( PROP_TITLE );
-//      getPane().addPropertyListener( getPropertyListenerProxy() );
-//    } else {
-//      getPane().removePropertyListener( getPropertyListenerProxy() );
-//      WorkbenchPartReference ref = getPartReference();
-//      isBusy = getPane().isBusy();
-//      isDirty = ref.isDirty();
-//      name = ref.getPartName();
-//      titleStatus = ref.getContentDescription();
-//      hasViewMenu = getPane().hasViewMenu();
-//      firePropertyChange( PROP_TITLE );
-//      firePropertyChange( PROP_TOOLBAR );
+      if( isBusy != getPane().isBusy() ) {
+        firePropertyChange( PROP_BUSY );
+      }
+      if( isDirty != isDirty() ) {
+        firePropertyChange( PROP_DIRTY );
+      }
+      if( !name.equals( getName() ) ) {
+        firePropertyChange( PROP_PART_NAME );
+      }
+      if( !titleStatus.equals( getTitleStatus() ) ) {
+        firePropertyChange( PROP_CONTENT_DESCRIPTION );
+      }
+      if( hasViewMenu != getPane().hasViewMenu() ) {
+        firePropertyChange( PROP_PANE_MENU );
+      }
+      // Always assume that the toolbar and title has changed (keeping track of
+      // this for real
+      // would be too expensive)
+      firePropertyChange( PROP_TOOLBAR );
+      firePropertyChange( PROP_TITLE );
+      getPane().addPropertyListener( getPropertyListenerProxy() );
+    } else {
+      getPane().removePropertyListener( getPropertyListenerProxy() );
+      WorkbenchPartReference ref = getPartReference();
+      isBusy = getPane().isBusy();
+      isDirty = ref.isDirty();
+      name = ref.getPartName();
+      titleStatus = ref.getContentDescription();
+      hasViewMenu = getPane().hasViewMenu();
+      firePropertyChange( PROP_TITLE );
+      firePropertyChange( PROP_TOOLBAR );
     }
   }
 

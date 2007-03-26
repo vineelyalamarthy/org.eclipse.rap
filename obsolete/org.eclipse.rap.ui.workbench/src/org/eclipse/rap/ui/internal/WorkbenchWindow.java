@@ -124,6 +124,16 @@ public class WorkbenchWindow
     fireWindowOpened();
   }
 
+  public void updateActionBars() {
+//    if( updateDisabled || updatesDeferred() ) {
+//      return;
+//    }
+    // updateAll required in order to enable accelerators on pull-down menus
+    getMenuBarManager().updateAll( false );
+    getCoolBarManager2().update( false );
+//    getStatusLineManager().update( false );
+  }
+
   private void fireWindowOpened() {
     getWindowAdvisor().postWindowOpen();
   }

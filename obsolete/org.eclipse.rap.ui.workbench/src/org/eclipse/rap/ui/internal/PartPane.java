@@ -15,8 +15,7 @@ import org.eclipse.rap.rwt.graphics.Point;
 import org.eclipse.rap.rwt.graphics.Rectangle;
 import org.eclipse.rap.rwt.layout.FillLayout;
 import org.eclipse.rap.rwt.widgets.*;
-import org.eclipse.rap.ui.IWorkbenchPart;
-import org.eclipse.rap.ui.IWorkbenchPartReference;
+import org.eclipse.rap.ui.*;
 
 /**
  * Provides the common behavior for both views and editor panes. TODO: Delete
@@ -26,8 +25,10 @@ import org.eclipse.rap.ui.IWorkbenchPartReference;
  * rather than referring to LayoutPart and downcasting. The getPresentablePart()
  * method only applies to PartPanes, and should be removed from LayoutPart.
  */
-public abstract class PartPane extends LayoutPart implements ActivateListener
-//  implements IPropertyListener, Listener
+public abstract class PartPane 
+  extends LayoutPart 
+  implements IPropertyListener, ActivateListener
+//  implements Listener
 {
 
   public static final String PROP_ZOOMED = "zoomed"; //$NON-NLS-1$
@@ -538,22 +539,22 @@ public abstract class PartPane extends LayoutPart implements ActivateListener
   public void removeContributions() {
   }
 
-//  public void addPropertyListener( IPropertyListener listener ) {
-//    listeners.add( listener );
-//  }
-//
-//  public void removePropertyListener( IPropertyListener listener ) {
-//    listeners.remove( listener );
-//  }
-//
-//  public void firePropertyChange( int propertyId ) {
-//    Object listeners[] = this.listeners.getListeners();
-//    for( int i = 0; i < listeners.length; i++ ) {
-//      ( ( IPropertyListener )listeners[ i ] ).propertyChanged( this, propertyId );
-//    }
-//  }
-//
-//  public void propertyChanged( Object source, int propId ) {
-//    firePropertyChange( propId );
-//  }
+  public void addPropertyListener( IPropertyListener listener ) {
+    listeners.add( listener );
+  }
+
+  public void removePropertyListener( IPropertyListener listener ) {
+    listeners.remove( listener );
+  }
+
+  public void firePropertyChange( int propertyId ) {
+    Object listeners[] = this.listeners.getListeners();
+    for( int i = 0; i < listeners.length; i++ ) {
+      ( ( IPropertyListener )listeners[ i ] ).propertyChanged( this, propertyId );
+    }
+  }
+
+  public void propertyChanged( Object source, int propId ) {
+    firePropertyChange( propId );
+  }
 }

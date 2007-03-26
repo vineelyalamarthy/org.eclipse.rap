@@ -19,9 +19,14 @@ public interface IWorkbenchPartReference {
   String getId();
   IWorkbenchPart getPart( boolean restore );
   String getPartName();
+  
   String getTitle();
   Image getTitleImage();
   String getTitleToolTip();
   String getContentDescription();
+
   boolean isDirty();
+  
+  void addPropertyListener( IPropertyListener listener );
+  void removePropertyListener( IPropertyListener listener );
 }

@@ -96,6 +96,7 @@ public final class PaneFolder {
       PaneFolder.this.widgetDisposed();
     }
   };
+  
   /**
    * Listens for its children being disposed, and removes them if this happens
    * (although this may indicate a programming error, this behavior is
@@ -104,23 +105,25 @@ public final class PaneFolder {
   private DisposeListener prematureDisposeListener = new DisposeListener() {
 
     public void widgetDisposed( DisposeEvent e ) {
-//      Control disposedControl = ( Control )e.widget;
-//      if( isDisposed() ) {
-//        return;
-//      }
-//      // Probably unnecessary, but it can't hurt garbage collection
-//      disposedControl.removeDisposeListener( this );
-//      if( disposedControl == topLeftCache.getControl() ) {
-//        setTopLeft( null );
-//      }
-//      if( disposedControl == topRightCache.getControl() ) {
-//        setTopRight( null );
-//      }
-//      if( disposedControl == topCenterCache.getControl() ) {
-//        setTopCenter( null );
-//      }
+      // Control disposedControl = ( Control )e.widget;
+      Control disposedControl = ( Control )e.getSource();
+      if( isDisposed() ) {
+        return;
+      }
+      // Probably unnecessary, but it can't hurt garbage collection
+      disposedControl.removeDisposeListener( this );
+      if( disposedControl == topLeftCache.getControl() ) {
+        setTopLeft( null );
+      }
+      if( disposedControl == topRightCache.getControl() ) {
+        setTopRight( null );
+      }
+      if( disposedControl == topCenterCache.getControl() ) {
+        setTopCenter( null );
+      }
     }
   };
+
   /**
    * List of PaneFolderButtonListener
    */
@@ -260,6 +263,11 @@ public final class PaneFolder {
 //    viewForm.changed( new Control[]{
 //      viewFormTopCenterProxy.getControl()
 //    } );
+    
+    
+    //  [rh] due to missing Composite#changed() method
+    viewForm.layout();
+    
   }
 
   /**
@@ -282,6 +290,11 @@ public final class PaneFolder {
 //    viewForm.changed( new Control[]{
 //      viewFormTopCenterProxy.getControl()
 //    } );
+    
+    // TODO [rh] due to missing Composite#changed() method
+    viewForm.layout();
+    
+    
     if( topCenter != null ) {
       topCenter.addDisposeListener( prematureDisposeListener );
       if( !putTrimOnTop ) {
@@ -581,25 +594,25 @@ public final class PaneFolder {
     topLeftCache.setControl( null );
   }
 
-//  public Point getChevronLocation() {
-//    // get the last visible item
-//    int numItems = tabFolder.getItemCount();
-//    CTabItem item = null, tempItem = null;
-//    for( int i = 0; i < numItems; i++ ) {
-//      tempItem = tabFolder.getItem( i );
-//      if( tempItem.isShowing() ) {
-//        item = tempItem;
-//      }
-//    }
-//    // if we have no visible tabs, abort.
-//    if( item == null ) {
-//      return new Point( 0, 0 );
-//    }
-//    Rectangle itemBounds = item.getBounds();
-//    int x = itemBounds.x + itemBounds.width;
-//    int y = itemBounds.y + itemBounds.height;
-//    return new Point( x, y );
-//  }
+  public Point getChevronLocation() {
+    // get the last visible item
+    int numItems = tabFolder.getItemCount();
+    CTabItem item = null, tempItem = null;
+    for( int i = 0; i < numItems; i++ ) {
+      tempItem = tabFolder.getItem( i );
+      if( tempItem.isShowing() ) {
+        item = tempItem;
+      }
+    }
+    // if we have no visible tabs, abort.
+    if( item == null ) {
+      return new Point( 0, 0 );
+    }
+    Rectangle itemBounds = item.getBounds();
+    int x = itemBounds.x + itemBounds.width;
+    int y = itemBounds.y + itemBounds.height;
+    return new Point( x, y );
+  }
 
   // /////////////////////////////////////////////////////////////////////////////////////
   // The remainder of the methods in this class redirect directly to

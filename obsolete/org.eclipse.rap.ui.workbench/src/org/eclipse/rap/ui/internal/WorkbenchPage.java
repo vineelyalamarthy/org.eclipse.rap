@@ -40,6 +40,7 @@ public class WorkbenchPage implements IWorkbenchPage {
     = new WorkbenchPagePartList( selectionService );
   private IWorkbenchPartReference partBeingActivated = null;
   private ActivationList activationList = new ActivationList();
+  private IActionBars actionBars;
   
   private class ActivationList {
 
@@ -643,8 +644,7 @@ public class WorkbenchPage implements IWorkbenchPage {
     return persp.findView( viewId, secondaryId );
   }
 
-  
-  //////////////////
+  // ////////////////
   // helping methods
   
   private ILayoutContainer getContainer( IWorkbenchPart part ) {
@@ -677,6 +677,13 @@ public class WorkbenchPage implements IWorkbenchPage {
     return ( ( WorkbenchPartReference )part ).getPane();
   }
 
+  public IActionBars getActionBars() {
+    if( actionBars == null ) {
+      actionBars = new WWinActionBars( window );
+    }
+    return actionBars;
+  }
+  
   private void deactivatePart( IWorkbenchPart part ) {
     if( part != null ) {
       PartSite site = ( PartSite )part.getSite();
@@ -855,8 +862,8 @@ public class WorkbenchPage implements IWorkbenchPage {
           PartSite site = ( PartSite )part.getSite();
           pane.showFocus( true );
           updateTabList( part );
-//          SubActionBars bars = ( SubActionBars )site.getActionBars();
-//          bars.partChanged( part );
+          SubActionBars bars = ( SubActionBars )site.getActionBars();
+          bars.partChanged( part );
         }
       }
     } );

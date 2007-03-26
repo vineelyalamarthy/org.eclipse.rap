@@ -19,6 +19,7 @@ public class ViewSite extends PartSite implements IViewSite {
                    final IViewDescriptor desc )
   {
     super( reference, view, page );
+    setId( reference.getId() );
   }
 
   public String getSecondaryId() {

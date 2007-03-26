@@ -26,6 +26,7 @@
       id="resources" 
       name="Resources" 
       schema="schema/resources.exsd"/>
+  <extension-point id="viewActions" name="viewActions" schema="schema/viewAction.exsd"/>
       
   <extension
       id="org.eclipse.rap.ui.requestHandler"

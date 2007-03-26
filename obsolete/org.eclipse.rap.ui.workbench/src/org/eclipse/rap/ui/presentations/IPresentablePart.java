@@ -11,6 +11,7 @@ import org.eclipse.rap.rwt.graphics.Image;
 import org.eclipse.rap.rwt.graphics.Rectangle;
 import org.eclipse.rap.rwt.widgets.Control;
 //import org.eclipse.ui.IPropertyListener;
+import org.eclipse.rap.ui.IPropertyListener;
 import org.eclipse.rap.ui.IWorkbenchPartConstants;
 
 /**
@@ -91,14 +92,14 @@ public interface IPresentablePart {
    * 
    * @param listener a property listener (not null)
    */
-//  public void addPropertyListener( IPropertyListener listener );
+  public void addPropertyListener( IPropertyListener listener );
 
   /**
    * Remove a listener that was previously added using addPropertyListener.
    * 
    * @param listener a property listener (not null)
    */
-//  public void removePropertyListener( IPropertyListener listener );
+  public void removePropertyListener( IPropertyListener listener );
 
   /**
    * Returns the short name of the part. This is used as the text on the tab

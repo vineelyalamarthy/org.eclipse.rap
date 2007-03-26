@@ -11,7 +11,7 @@ import org.eclipse.core.commands.IHandlerAttributes;
 import org.eclipse.rap.jface.resource.ImageDescriptor;
 
 // import org.eclipse.jface.resource.ImageDescriptor;
-// import org.eclipse.jface.util.IPropertyChangeListener;
+ import org.eclipse.rap.jface.util.IPropertyChangeListener;
 // import org.eclipse.swt.events.HelpListener;
 // import org.eclipse.swt.widgets.Event;
 /**
@@ -134,7 +134,7 @@ public interface IAction {
    * 
    * @param listener a property change listener
    */
-  // public void addPropertyChangeListener(IPropertyChangeListener listener);
+   public void addPropertyChangeListener(IPropertyChangeListener listener);
   /**
    * Returns the accelerator keycode for this action. The result is the bit-wise
    * OR of zero or more modifier masks and a key, as explained in
@@ -295,7 +295,7 @@ public interface IAction {
    * 
    * @param listener a property change listener
    */
-  // public void removePropertyChangeListener(IPropertyChangeListener listener);
+   public void removePropertyChangeListener(IPropertyChangeListener listener);
   /**
    * Runs this action. Each action implementation must define the steps needed
    * to carry out this action. The default implementation of this method in

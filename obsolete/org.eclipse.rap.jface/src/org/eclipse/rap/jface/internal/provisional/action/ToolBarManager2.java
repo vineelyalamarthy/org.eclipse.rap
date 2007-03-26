@@ -9,8 +9,8 @@ package org.eclipse.rap.jface.internal.provisional.action;
 
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.rap.jface.action.ToolBarManager;
-// import org.eclipse.jface.util.IPropertyChangeListener;
-// import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.rap.jface.util.IPropertyChangeListener;
+import org.eclipse.rap.jface.util.PropertyChangeEvent;
 import org.eclipse.rap.rwt.widgets.Composite;
 import org.eclipse.rap.rwt.widgets.Control;
 import org.eclipse.rap.rwt.widgets.ToolBar;
@@ -102,26 +102,26 @@ public class ToolBarManager2 extends ToolBarManager implements IToolBarManager2
    * 
    * @see org.eclipse.jface.action.IToolBarManager2#addPropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
    */
-//  public void addPropertyChangeListener( IPropertyChangeListener listener ) {
-//    if( listenerList == null ) {
-//      listenerList = new ListenerList( ListenerList.IDENTITY );
-//    }
-//    listenerList.add( listener );
-//  }
+  public void addPropertyChangeListener( IPropertyChangeListener listener ) {
+    if( listenerList == null ) {
+      listenerList = new ListenerList( ListenerList.IDENTITY );
+    }
+    listenerList.add( listener );
+  }
 
   /*
    * (non-Javadoc)
    * 
    * @see org.eclipse.jface.action.IToolBarManager2#removePropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
    */
-//  public void removePropertyChangeListener( IPropertyChangeListener listener ) {
-//    if( listenerList != null ) {
-//      listenerList.remove( listener );
-//      if( listenerList.isEmpty() ) {
-//        listenerList = null;
-//      }
-//    }
-//  }
+  public void removePropertyChangeListener( IPropertyChangeListener listener ) {
+    if( listenerList != null ) {
+      listenerList.remove( listener );
+      if( listenerList.isEmpty() ) {
+        listenerList = null;
+      }
+    }
+  }
 
   /*
    * Returns the listeners attached to this event manager. The listeners
@@ -139,12 +139,12 @@ public class ToolBarManager2 extends ToolBarManager implements IToolBarManager2
    * Notifies any property change listeners that a property has changed. Only
    * listeners registered at the time this method is called are notified.
    */
-//  private void firePropertyChange( final PropertyChangeEvent event ) {
-//    final Object[] list = getListeners();
-//    for( int i = 0; i < list.length; ++i ) {
-//      ( ( IPropertyChangeListener )list[ i ] ).propertyChange( event );
-//    }
-//  }
+  private void firePropertyChange( final PropertyChangeEvent event ) {
+    final Object[] list = getListeners();
+    for( int i = 0; i < list.length; ++i ) {
+      ( ( IPropertyChangeListener )list[ i ] ).propertyChange( event );
+    }
+  }
 
   /*
    * Notifies any property change listeners that a property has changed. Only
@@ -152,17 +152,17 @@ public class ToolBarManager2 extends ToolBarManager implements IToolBarManager2
    * method avoids creating an event object if there are no listeners
    * registered, but calls firePropertyChange(PropertyChangeEvent) if there are.
    */
-//  private void firePropertyChange( final String propertyName,
-//                                   final Object oldValue,
-//                                   final Object newValue )
-//  {
-//    if( listenerList != null ) {
-//      firePropertyChange( new PropertyChangeEvent( this,
-//                                                   propertyName,
-//                                                   oldValue,
-//                                                   newValue ) );
-//    }
-//  }
+  private void firePropertyChange( final String propertyName,
+                                   final Object oldValue,
+                                   final Object newValue )
+  {
+    if( listenerList != null ) {
+      firePropertyChange( new PropertyChangeEvent( this,
+                                                   propertyName,
+                                                   oldValue,
+                                                   newValue ) );
+    }
+  }
 
   /*
    * (non-Javadoc)
@@ -170,10 +170,10 @@ public class ToolBarManager2 extends ToolBarManager implements IToolBarManager2
    * @see org.eclipse.jface.action.ToolBarManager#relayout(org.eclipse.swt.widgets.ToolBar,
    *      int, int)
    */
-//  protected void relayout( ToolBar layoutBar, int oldCount, int newCount ) {
-//    super.relayout( layoutBar, oldCount, newCount );
-//    firePropertyChange( PROP_LAYOUT,
-//                        new Integer( oldCount ),
-//                        new Integer( newCount ) );
-//  }
+  protected void relayout( ToolBar layoutBar, int oldCount, int newCount ) {
+    super.relayout( layoutBar, oldCount, newCount );
+    firePropertyChange( PROP_LAYOUT,
+                        new Integer( oldCount ),
+                        new Integer( newCount ) );
+  }
 }

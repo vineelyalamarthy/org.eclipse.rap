@@ -13,7 +13,6 @@ import org.eclipse.rap.rwt.widgets.Composite;
 import org.eclipse.rap.ui.IWorkbenchPart;
 import org.eclipse.rap.ui.IWorkbenchPartSite;
 import org.eclipse.rap.ui.internal.util.Util;
-import org.eclipse.rap.ui.plugin.AbstractUIPlugin;
 
 public abstract class WorkbenchPart 
   implements IWorkbenchPart, IExecutableExtension

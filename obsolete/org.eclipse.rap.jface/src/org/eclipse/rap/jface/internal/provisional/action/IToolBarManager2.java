@@ -9,6 +9,7 @@ package org.eclipse.rap.jface.internal.provisional.action;
 
 // import org.eclipse.jface.action.IContributionManagerOverrides;
 import org.eclipse.rap.jface.action.IToolBarManager;
+import org.eclipse.rap.jface.util.IPropertyChangeListener;
 // import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.rap.rwt.widgets.Composite;
 import org.eclipse.rap.rwt.widgets.Control;
@@ -82,13 +83,13 @@ public interface IToolBarManager2 extends IToolBarManager {
    * 
    * @param listener
    */
-  // public void addPropertyChangeListener(IPropertyChangeListener listener);
+   public void addPropertyChangeListener(IPropertyChangeListener listener);
   /**
    * Removes a property change listner from this manager.
    * 
    * @param listener
    */
-  // public void removePropertyChangeListener(IPropertyChangeListener listener);
+   public void removePropertyChangeListener(IPropertyChangeListener listener);
   /**
    * Sets the overrides for this contribution manager
    * 

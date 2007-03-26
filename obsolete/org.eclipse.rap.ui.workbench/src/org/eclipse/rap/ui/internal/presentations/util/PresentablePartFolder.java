@@ -16,6 +16,7 @@ import org.eclipse.rap.rwt.graphics.Point;
 import org.eclipse.rap.rwt.graphics.Rectangle;
 import org.eclipse.rap.rwt.widgets.Composite;
 import org.eclipse.rap.rwt.widgets.Control;
+import org.eclipse.rap.ui.IPropertyListener;
 import org.eclipse.rap.ui.internal.dnd.DragUtil;
 import org.eclipse.rap.ui.presentations.IPresentablePart;
 import org.eclipse.rap.ui.presentations.IStackPresentationSite;
@@ -27,7 +28,7 @@ public final class PresentablePartFolder implements IPresentablePartList {
 
   private AbstractTabFolder folder;
   private IPresentablePart current;
-  // private ProxyControl toolbarProxy;
+  private ProxyControl toolbarProxy;
   private Control contentProxy;
   private static PartInfo tempPartInfo = new PartInfo();
   /**
@@ -57,16 +58,16 @@ public final class PresentablePartFolder implements IPresentablePartList {
    * Listener attached to all child parts. It responds to changes in part
    * properties
    */
-//  private IPropertyListener childPropertyChangeListener = new IPropertyListener()
-//  {
-//
-//    public void propertyChanged( Object source, int property ) {
-//      if( source instanceof IPresentablePart ) {
-//        IPresentablePart part = ( IPresentablePart )source;
-//        childPropertyChanged( part, property );
-//      }
-//    }
-//  };
+  private IPropertyListener childPropertyChangeListener = new IPropertyListener()
+  {
+
+    public void propertyChanged( Object source, int property ) {
+      if( source instanceof IPresentablePart ) {
+        IPresentablePart part = ( IPresentablePart )source;
+        childPropertyChanged( part, property );
+      }
+    }
+  };
   /**
    * Dispose listener that is attached to the main control. It triggers cleanup
    * of any listeners. This is required to prevent memory leaks.
@@ -88,7 +89,7 @@ public final class PresentablePartFolder implements IPresentablePartList {
     folder.shellActive(    folder.getControl().getDisplay().getActiveShell() 
                         == folder.getControl().getShell() );
 //    folder.getControl().addDisposeListener( tabDisposeListener );
-    // toolbarProxy = new ProxyControl(folder.getToolbarParent());
+    toolbarProxy = new ProxyControl(folder.getToolbarParent());
     // NOTE: if the shape of contentProxy changes, the fix for bug 85899 in
     // EmptyTabFolder.computeSize may need adjustment.
     contentProxy = new Composite( folder.getContentParent(), RWT.NONE );
@@ -121,7 +122,7 @@ public final class PresentablePartFolder implements IPresentablePartList {
     Iterator iter = partList.iterator();
     while( iter.hasNext() ) {
       IPresentablePart next = ( IPresentablePart )iter.next();
-//      next.removePropertyListener( childPropertyChangeListener );
+      next.removePropertyListener( childPropertyChangeListener );
     }
   }
 
@@ -163,7 +164,7 @@ public final class PresentablePartFolder implements IPresentablePartList {
     item = folder.add( idx, style );
     item.setData( part );
     initTab( item, part );
-//    part.addPropertyListener( childPropertyChangeListener );
+    part.addPropertyListener( childPropertyChangeListener );
     partList.add( part );
   }
 
@@ -180,7 +181,7 @@ public final class PresentablePartFolder implements IPresentablePartList {
       item.dispose();
     }
     if( partList.contains( toRemove ) ) {
-//      toRemove.removePropertyListener( childPropertyChangeListener );
+      toRemove.removePropertyListener( childPropertyChangeListener );
       partList.remove( toRemove );
     }
   }
@@ -352,7 +353,7 @@ public final class PresentablePartFolder implements IPresentablePartList {
     }
     // Lay out the tab folder and compute the client area
     folder.layout( changed );
-    // toolbarProxy.layout();
+    toolbarProxy.layout();
     layoutContent();
   }
 

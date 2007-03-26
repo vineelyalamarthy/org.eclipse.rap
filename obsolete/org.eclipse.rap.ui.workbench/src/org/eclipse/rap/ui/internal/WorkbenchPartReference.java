@@ -11,7 +11,9 @@
 
 package org.eclipse.rap.ui.internal;
 
+import java.util.BitSet;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.rap.jface.resource.ImageDescriptor;
 import org.eclipse.rap.jface.util.Assert;
@@ -40,6 +42,11 @@ public abstract class WorkbenchPartReference
   private ImageDescriptor imageDescriptor;
   private ImageDescriptor defaultImageDescriptor;
 
+  private ListenerList propChangeListeners = new ListenerList();
+  private ListenerList internalPropChangeListeners = new ListenerList();
+  private BitSet queuedEvents = new BitSet();
+  private boolean queueEvents = false;
+  
   public final PartPane getPane() {
     if( pane == null ) {
       pane = createPane();
@@ -96,7 +103,7 @@ public abstract class WorkbenchPartReference
       return;
     }
     title = newTitle;
-//    firePropertyChange( IWorkbenchPartConstants.PROP_TITLE );
+    firePropertyChange( IWorkbenchPartConstants.PROP_TITLE );
   }
 
   protected void setToolTip( String newToolTip ) {
@@ -104,7 +111,7 @@ public abstract class WorkbenchPartReference
       return;
     }
     tooltip = newToolTip;
-//    firePropertyChange( IWorkbenchPartConstants.PROP_TITLE );
+    firePropertyChange( IWorkbenchPartConstants.PROP_TITLE );
   }
 
   protected void setContentDescription( String newContentDescription ) {
@@ -112,7 +119,7 @@ public abstract class WorkbenchPartReference
       return;
     }
     contentDescription = newContentDescription;
-//    firePropertyChange( IWorkbenchPartConstants.PROP_CONTENT_DESCRIPTION );
+    firePropertyChange( IWorkbenchPartConstants.PROP_CONTENT_DESCRIPTION );
   }
 
   protected void setImageDescriptor( final ImageDescriptor descriptor ) {
@@ -224,5 +231,55 @@ public abstract class WorkbenchPartReference
 //    }
 //    return ( ( ISaveablePart )part ).isDirty();
     return false;
+  }
+
+  public void addPropertyListener( IPropertyListener listener ) {
+    // The properties of a disposed reference will never change, so don't
+    // add listeners
+//    if( isDisposed() ) {
+//      return;
+//    }
+    propChangeListeners.add( listener );
+  }
+
+  /**
+   * @see IWorkbenchPart
+   */
+  public void removePropertyListener( IPropertyListener listener ) {
+    // Currently I'm not calling checkReference here for fear of breaking things
+    // late in 3.1, but it may
+    // make sense to do so later. For now we just turn it into a NOP if the
+    // reference is disposed.
+//    if( isDisposed() ) {
+//      return;
+//    }
+    propChangeListeners.remove( listener );
+  }
+
+  /////////////////////////
+  // Property change events
+  
+  protected void firePropertyChange( int id ) {
+    if( queueEvents ) {
+      queuedEvents.set( id );
+      return;
+    }
+    immediateFirePropertyChange( id );
+  }
+
+  private void immediateFirePropertyChange( int id ) {
+//    UIListenerLogging.logPartReferencePropertyChange( this, id );
+    Object listeners[] = propChangeListeners.getListeners();
+    for( int i = 0; i < listeners.length; i++ ) {
+      ( ( IPropertyListener )listeners[ i ] ).propertyChanged( part, id );
+    }
+    fireInternalPropertyChange( id );
+  }
+
+  private void fireInternalPropertyChange(int id) {
+    Object listeners[] = internalPropChangeListeners.getListeners();
+    for( int i = 0; i < listeners.length; i++ ) {
+      ( ( IPropertyListener )listeners[ i ] ).propertyChanged( this, id );
+    }
   }
 }

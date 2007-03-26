@@ -62,10 +62,10 @@ class ViewReference
     try {
       result = createPartHelper();
     } catch( PartInitException e ) {
-      // TODO [rh] preliminary: until ErrorViewPart is in place, at least
+			// TODO [rh] preliminary: until ErrorViewPart is in place, at least
       //      show the programmer what happened in the console
-      System.err.println( e );
-      // end of preliminary
+      e.printStackTrace();
+      // end of preliminary    
       exception = e;
     }
     // If unable to create the part, create an error part instead
@@ -138,7 +138,7 @@ class ViewReference
     Composite content = null;
     IViewPart initializedView = null;
     ViewSite site = null;
-//    ViewActionBars actionBars = null;
+    ViewActionBars actionBars = null;
     // End of things that need to be explicitly disposed from the try block
     try {
       IViewPart view = null;
@@ -153,7 +153,10 @@ class ViewReference
 //      actionBars = new ViewActionBars( factory.page.getActionBars(),
 //                                       site,
 //                                       ( ViewPane )pane );
-//      site.setActionBars( actionBars );
+      // TODO [rh] work around missing IServiceLocator
+      actionBars = new ViewActionBars( factory.page.getActionBars(),
+                                       ( ViewPane )pane );
+      site.setActionBars( actionBars );
       try {
 //        UIStats.start( UIStats.INIT_PART, label );
 //        view.init( site, stateMem );
@@ -190,9 +193,9 @@ class ViewReference
       }
       // Install the part's tools and menu
       {
-//        ViewActionBuilder builder = new ViewActionBuilder();
-//        builder.readActionExtensions( view );
-//        ActionDescriptor[] actionDescriptors = builder.getExtendedActions();
+        ViewActionBuilder builder = new ViewActionBuilder();
+        builder.readActionExtensions( view );
+        ActionDescriptor[] actionDescriptors = builder.getExtendedActions();
 //        IKeyBindingService keyBindingService = view.getSite()
 //          .getKeyBindingService();
 //        if( actionDescriptors != null ) {
@@ -206,7 +209,7 @@ class ViewReference
 //            }
 //          }
 //        }
-//        site.getActionBars().updateActionBars();
+        site.getActionBars().updateActionBars();
       }
       // The editor should now be fully created. Exercise its public
       // interface, and sanity-check
@@ -252,13 +255,13 @@ class ViewReference
           Activator.log( re );
         }
       }
-//      if( actionBars != null ) {
-//        try {
-//          actionBars.dispose();
-//        } catch( RuntimeException re ) {
-//          WorkbenchPlugin.log( re );
-//        }
-//      }
+      if( actionBars != null ) {
+        try {
+          actionBars.dispose();
+        } catch( RuntimeException re ) {
+          WorkbenchPlugin.log( re );
+        }
+      }
       throw new PartInitException( Activator.getStatus( e ) );
     }
     return result;

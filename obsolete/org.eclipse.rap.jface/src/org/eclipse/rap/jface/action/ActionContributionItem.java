@@ -13,22 +13,18 @@ package org.eclipse.rap.jface.action;
 //import org.eclipse.jface.bindings.keys.IKeyLookup;
 //import org.eclipse.jface.bindings.keys.KeyLookupFactory;
 //import org.eclipse.jface.bindings.keys.KeyStroke;
-//import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.rap.jface.resource.ImageDescriptor;
 //import org.eclipse.jface.resource.JFaceResources;
 //import org.eclipse.jface.resource.LocalResourceManager;
 //import org.eclipse.jface.resource.ResourceManager;
-//import org.eclipse.jface.util.IPropertyChangeListener;
 //import org.eclipse.jface.util.Policy;
-//import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.rap.jface.resource.ImageDescriptor;
+import org.eclipse.rap.jface.util.IPropertyChangeListener;
+import org.eclipse.rap.jface.util.PropertyChangeEvent;
 import org.eclipse.rap.rwt.RWT;
 //import org.eclipse.swt.graphics.GC;
 import org.eclipse.rap.rwt.events.*;
-import org.eclipse.rap.rwt.graphics.Point;
-import org.eclipse.rap.rwt.graphics.Rectangle;
 import org.eclipse.rap.rwt.widgets.Button;
 import org.eclipse.rap.rwt.widgets.Composite;
-import org.eclipse.rap.rwt.widgets.Display;
 //import org.eclipse.swt.widgets.Event;
 import org.eclipse.rap.rwt.widgets.Item;
 //import org.eclipse.swt.widgets.Listener;
@@ -116,13 +112,14 @@ public class ActionContributionItem extends ContributionItem {
   /**
    * Listener for action property change notifications.
    */
-//  private final IPropertyChangeListener propertyListener = new IPropertyChangeListener()
-//  {
-//
-//    public void propertyChange( PropertyChangeEvent event ) {
-//      actionPropertyChange( event );
-//    }
-//  };
+  private final IPropertyChangeListener propertyListener = new IPropertyChangeListener()
+  {
+
+    public void propertyChange( PropertyChangeEvent event ) {
+      actionPropertyChange( event );
+    }
+  };
+  
   /**
    * Listener for SWT tool item widget events.
    */
@@ -189,9 +186,9 @@ public class ActionContributionItem extends ContributionItem {
    * Handles a property change event on the action (forwarded by nested
    * listener).
    */
-//  private void actionPropertyChange( final PropertyChangeEvent e ) {
-//    // This code should be removed. Avoid using free asyncExec
-//    if( isVisible() && widget != null ) {
+  private void actionPropertyChange( final PropertyChangeEvent e ) {
+    // This code should be removed. Avoid using free asyncExec
+    if( isVisible() && widget != null ) {
 //      Display display = widget.getDisplay();
 //      if( display.getThread() == Thread.currentThread() ) {
 //        update( e.getProperty() );
@@ -203,8 +200,11 @@ public class ActionContributionItem extends ContributionItem {
 //          }
 //        } );
 //      }
-//    }
-//  }
+      // TODO [rh] replacement for commented code above. Revise when asyncEcec
+      //      and related methods are available on Display
+      update( e.getProperty() );
+    }
+  }
 
   /**
    * Compares this action contribution item with another object. Two action
@@ -247,7 +247,7 @@ public class ActionContributionItem extends ContributionItem {
       widget = b;
       update( null );
       // Attach some extra listeners.
-//      action.addPropertyChangeListener( propertyListener );
+      action.addPropertyChangeListener( propertyListener );
       if( action != null ) {
         String commandId = action.getActionDefinitionId();
 //        ExternalActionManager.ICallback callback = ExternalActionManager.getInstance()
@@ -305,7 +305,7 @@ public class ActionContributionItem extends ContributionItem {
       }
       update( null );
       // Attach some extra listeners.
-//      action.addPropertyChangeListener( propertyListener );
+      action.addPropertyChangeListener( propertyListener );
 //      if( action != null ) {
 //        String commandId = action.getActionDefinitionId();
 //        ExternalActionManager.ICallback callback = ExternalActionManager.getInstance()
@@ -352,7 +352,7 @@ public class ActionContributionItem extends ContributionItem {
       widget = ti;
       update( null );
       // Attach some extra listeners.
-//      action.addPropertyChangeListener( propertyListener );
+      action.addPropertyChangeListener( propertyListener );
 //      if( action != null ) {
 //        String commandId = action.getActionDefinitionId();
 //        ExternalActionManager.ICallback callback = ExternalActionManager.getInstance()
@@ -775,17 +775,17 @@ public class ActionContributionItem extends ContributionItem {
           }
           // if the text is showing, then only set the tooltip if
           // different
-//          if( !showText || toolTip != null && !toolTip.equals( text ) ) {
-//            ti.setToolTipText( toolTip );
-//          } else {
-//            ti.setToolTipText( null );
-//          }
+          if( !showText || toolTip != null && !toolTip.equals( text ) ) {
+            ti.setToolTipText( toolTip );
+          } else {
+            ti.setToolTipText( null );
+          }
         }
         if( enableStateChanged ) {
           boolean shouldBeEnabled = action.isEnabled() && isEnabledAllowed();
-//          if( ti.getEnabled() != shouldBeEnabled ) {
-//            ti.setEnabled( shouldBeEnabled );
-//          }
+          if( ti.getEnabled() != shouldBeEnabled ) {
+            ti.setEnabled( shouldBeEnabled );
+          }
         }
         if( checkChanged ) {
           boolean bv = action.isChecked();
@@ -879,16 +879,16 @@ public class ActionContributionItem extends ContributionItem {
           updateImages( false );
         }
         if( enableStateChanged ) {
-//          boolean shouldBeEnabled = action.isEnabled() && isEnabledAllowed();
-//          if( mi.getEnabled() != shouldBeEnabled ) {
-//            mi.setEnabled( shouldBeEnabled );
-//          }
+          boolean shouldBeEnabled = action.isEnabled() && isEnabledAllowed();
+          if( mi.getEnabled() != shouldBeEnabled ) {
+            mi.setEnabled( shouldBeEnabled );
+          }
         }
         if( checkChanged ) {
-//          boolean bv = action.isChecked();
-//          if( mi.getSelection() != bv ) {
-//            mi.setSelection( bv );
-//          }
+          boolean bv = action.isChecked();
+          if( mi.getSelection() != bv ) {
+            mi.setSelection( bv );
+          }
         }
         return;
       }
@@ -910,10 +910,10 @@ public class ActionContributionItem extends ContributionItem {
           button.setToolTipText( action.getToolTipText() );
         }
         if( enableStateChanged ) {
-//          boolean shouldBeEnabled = action.isEnabled() && isEnabledAllowed();
-//          if( button.getEnabled() != shouldBeEnabled ) {
-//            button.setEnabled( shouldBeEnabled );
-//          }
+          boolean shouldBeEnabled = action.isEnabled() && isEnabledAllowed();
+          if( button.getEnabled() != shouldBeEnabled ) {
+            button.setEnabled( shouldBeEnabled );
+          }
         }
         if( checkChanged ) {
           boolean bv = action.isChecked();

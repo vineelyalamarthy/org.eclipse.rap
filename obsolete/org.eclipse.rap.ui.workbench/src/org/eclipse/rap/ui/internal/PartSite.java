@@ -13,10 +13,12 @@ import org.eclipse.rap.ui.*;
 
 public abstract class PartSite implements IWorkbenchPartSite {
 
+  private String extensionID;
   private ISelectionProvider selectionProvider;
   private IWorkbenchPartReference partReference;
   private IWorkbenchPart part;
   private IWorkbenchPage page;
+  private SubActionBars actionBars;
 
   public PartSite( final IWorkbenchPartReference ref,
                    final IWorkbenchPart part,
@@ -36,7 +38,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
   }
 
   public String getId() {
-    return "PartSite getId() is not implemented yet.";
+    return extensionID;
   }
 
   public IWorkbenchPartReference getPartReference() {
@@ -45,5 +47,35 @@ public abstract class PartSite implements IWorkbenchPartSite {
 
   public PartPane getPane() {
     return ( ( WorkbenchPartReference )partReference ).getPane();
+  }
+
+  /////////////
+  // ActionBars
+  
+  public IActionBars getActionBars() {
+    return actionBars;
+  }
+
+  public void setActionBars( final SubActionBars bars ) {
+    actionBars = bars;
+  }
+
+  public void activateActionBars( final boolean forceVisibility ) {
+    if( actionBars != null ) {
+      actionBars.activate( forceVisibility );
+    }
+  }
+
+  public void deactivateActionBars( final boolean forceHide ) {
+    if( actionBars != null ) {
+      actionBars.deactivate( forceHide );
+    }
+  }
+  
+  //////////////////////////////////////////
+  // Methods to be used by inherited classes
+  
+  protected void setId( final String id ) {
+    extensionID = id;
   }
 }

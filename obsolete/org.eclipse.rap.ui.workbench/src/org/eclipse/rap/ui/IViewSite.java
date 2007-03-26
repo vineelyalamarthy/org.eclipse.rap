@@ -12,6 +12,10 @@
 package org.eclipse.rap.ui;
 
 
+
 public interface IViewSite extends IWorkbenchPartSite {
+  
   String getSecondaryId();
+  
+  IActionBars getActionBars();
 }

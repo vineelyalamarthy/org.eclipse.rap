@@ -8,8 +8,8 @@
 package org.eclipse.rap.jface.action;
 
 import org.eclipse.core.commands.common.EventManager;
-//import org.eclipse.jface.util.IPropertyChangeListener;
-//import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.rap.jface.util.IPropertyChangeListener;
+import org.eclipse.rap.jface.util.PropertyChangeEvent;
 
 /**
  * <p>
@@ -25,10 +25,10 @@ import org.eclipse.core.commands.common.EventManager;
  */
 public abstract class AbstractAction extends EventManager implements IAction {
 
-//  public void addPropertyChangeListener( final IPropertyChangeListener listener )
-//  {
-//    addListenerObject( listener );
-//  }
+  public void addPropertyChangeListener( final IPropertyChangeListener listener )
+  {
+    addListenerObject( listener );
+  }
 
   /**
    * Notifies any property change listeners that a property has changed. Only
@@ -37,12 +37,12 @@ public abstract class AbstractAction extends EventManager implements IAction {
    * @param event the property change event
    * @see IPropertyChangeListener#propertyChange
    */
-//  protected final void firePropertyChange( final PropertyChangeEvent event ) {
-//    final Object[] list = getListeners();
-//    for( int i = 0; i < list.length; ++i ) {
-//      ( ( IPropertyChangeListener )list[ i ] ).propertyChange( event );
-//    }
-//  }
+  protected final void firePropertyChange( final PropertyChangeEvent event ) {
+    final Object[] list = getListeners();
+    for( int i = 0; i < list.length; ++i ) {
+      ( ( IPropertyChangeListener )list[ i ] ).propertyChange( event );
+    }
+  }
 
   /**
    * Notifies any property change listeners that a property has changed. Only
@@ -58,20 +58,20 @@ public abstract class AbstractAction extends EventManager implements IAction {
    *          none
    * @see IPropertyChangeListener#propertyChange
    */
-//  protected final void firePropertyChange( final String propertyName,
-//                                           final Object oldValue,
-//                                           final Object newValue )
-//  {
-//    if( isListenerAttached() ) {
-//      firePropertyChange( new PropertyChangeEvent( this,
-//                                                   propertyName,
-//                                                   oldValue,
-//                                                   newValue ) );
-//    }
-//  }
-//
-//  public void removePropertyChangeListener( final IPropertyChangeListener listener )
-//  {
-//    removeListenerObject( listener );
-//  }
+  protected final void firePropertyChange( final String propertyName,
+                                           final Object oldValue,
+                                           final Object newValue )
+  {
+    if( isListenerAttached() ) {
+      firePropertyChange( new PropertyChangeEvent( this,
+                                                   propertyName,
+                                                   oldValue,
+                                                   newValue ) );
+    }
+  }
+
+  public void removePropertyChangeListener( final IPropertyChangeListener listener )
+  {
+    removeListenerObject( listener );
+  }
 }

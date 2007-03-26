@@ -11,19 +11,25 @@
 
 package org.eclipse.rap.ui.internal;
 
+import org.eclipse.rap.jface.action.MenuManager;
 import org.eclipse.rap.jface.internal.provisional.action.IToolBarManager2;
-import org.eclipse.rap.rwt.widgets.Composite;
-import org.eclipse.rap.rwt.widgets.Control;
+import org.eclipse.rap.jface.util.IPropertyChangeListener;
+import org.eclipse.rap.jface.util.PropertyChangeEvent;
+import org.eclipse.rap.rwt.graphics.Point;
+import org.eclipse.rap.rwt.widgets.*;
 import org.eclipse.rap.ui.IViewReference;
 import org.eclipse.rap.ui.IWorkbenchPartReference;
 import org.eclipse.rap.ui.internal.provisional.presentations.IActionBarPresentationFactory;
+import org.eclipse.rap.ui.presentations.IPresentablePart;
 import org.eclipse.rap.ui.presentations.StackPresentation;
 
 
 public class ViewPane extends PartPane {
 
   private boolean hasFocus;
+  private boolean hadViewMenu = false;
   private IToolBarManager2 isvToolBarMgr = null;
+  private MenuManager isvMenuMgr;
   
   public ViewPane( final IWorkbenchPartReference partReference,
                    final WorkbenchPage workbenchPage )
@@ -36,10 +42,10 @@ public class ViewPane extends PartPane {
 
   protected void createTitleBar() {
     // Only do this once.
-//    updateTitles();
+    updateTitles();
     // Listen to title changes.
-//    getPartReference().addPropertyListener( this );
-//    createToolBars();
+    getPartReference().addPropertyListener( this );
+    createToolBars();
   }
 
   public void createControl( Composite parent ) {
@@ -61,12 +67,25 @@ public class ViewPane extends PartPane {
     };
   }
 
+  /**
+   * @see ViewActionBars
+   */
+  public MenuManager getMenuManager() {
+    if( isvMenuMgr == null ) {
+      isvMenuMgr = new PaneMenuManager();
+    }
+    return isvMenuMgr;
+  }
+
   public void doHide() {
     throw new UnsupportedOperationException();
   }
 
   public Control getToolBar() {
-    return null;
+    if( !toolbarIsVisible() ) {
+      return null;
+    }
+    return internalGetToolbar();
   }
 
   public boolean isCloseable() {
@@ -77,6 +96,81 @@ public class ViewPane extends PartPane {
       return true;
     }
     return perspective.isCloseable( getViewReference() );
+  }
+
+  public void setContainer( ILayoutContainer container ) {
+    ILayoutContainer oldContainer = getContainer();
+    if( hasFocus ) {
+      if( oldContainer != null && oldContainer instanceof PartStack ) {
+        ( ( PartStack )oldContainer ).setActive( StackPresentation.AS_INACTIVE );
+      }
+      if( container != null && container instanceof PartStack ) {
+        ( ( PartStack )container ).setActive( StackPresentation.AS_ACTIVE_FOCUS );
+      }
+    }
+    super.setContainer( container );
+  }
+  
+  public void moveAbove( Control refControl ) {
+    super.moveAbove( refControl );
+    Control toolbar = internalGetToolbar();
+    if( toolbar != null ) {
+      toolbar.moveAbove( control );
+    }
+  }
+  
+  /**
+   * Return if there should be a view menu at all.
+   * There is no view menu if there is no menu manager,
+   * no pull down button or if the receiver is an
+   * inactive fast view.
+   */
+  public boolean hasViewMenu() {
+    if( isvMenuMgr != null ) {
+      return !isvMenuMgr.isEmpty();
+    }
+    return false;
+  }
+
+  public void showViewMenu( Point location ) {
+    if( !hasViewMenu() ) {
+      return;
+    }
+    // If this is a fast view, it may have been minimized. Do nothing in this
+    // case.
+//    if( isFastView() && ( page.getActiveFastView() != getViewReference() ) ) {
+//      return;
+//    }
+    Menu aMenu = isvMenuMgr.createContextMenu( getControl().getParent() );
+    aMenu.setLocation( location.x, location.y );
+    aMenu.setVisible( true );
+  }
+
+  public void removeContributions() {
+    super.removeContributions();
+    if( isvMenuMgr != null ) {
+      isvMenuMgr.removeAll();
+    }
+    if( isvToolBarMgr != null ) {
+      isvToolBarMgr.removeAll();
+    }
+  }
+  
+  public void dispose() {
+    super.dispose();
+    /*
+     * Bug 42684. The ViewPane instance has been disposed, but an attempt is
+     * then made to remove focus from it. This happens because the ViewPane is
+     * still viewed as the active part. In general, when disposed, the control
+     * containing the titleLabel will also disappear (disposing of the
+     * titleLabel). As a result, the reference to titleLabel should be dropped.
+     */
+    if( isvMenuMgr != null ) {
+      isvMenuMgr.dispose();
+    }
+    if( isvToolBarMgr != null ) {
+      isvToolBarMgr.dispose();
+    }
   }
 
   void shellActivated() {
@@ -125,6 +219,10 @@ public class ViewPane extends PartPane {
     return toolbarManager.getItemCount() > 0;
   }
 
+  public IToolBarManager2 getToolBarManager() {
+    return isvToolBarMgr;
+  }
+
   private Control internalGetToolbar() {
     if( isvToolBarMgr == null ) {
       return null;
@@ -132,7 +230,100 @@ public class ViewPane extends PartPane {
     return isvToolBarMgr.getControl2();
   }
 
-  public IToolBarManager2 getToolBarManager() {
-    return isvToolBarMgr;
+  private void createToolBars() {
+    Composite parentControl = control;
+    // ISV toolbar.
+    // // 1GD0ISU: ITPUI:ALL - Dbl click on view tool cause zoom
+    Control isvToolBar = isvToolBarMgr.createControl2( parentControl.getParent() );
+    isvToolBarMgr.addPropertyChangeListener( new ISVPropListener( isvToolBar ) );
+//    isvToolBar.addMouseListener( new MouseAdapter() {
+//      public void mouseDoubleClick( MouseEvent event ) {
+//        if( event.widget instanceof ToolBar ) {
+//          if( ( ( ToolBar )event.widget ).getItem( new Point( event.x, event.y ) ) == null )
+//          {
+//            doZoom();
+//          }
+//        }
+//      }
+//    } );
+//    isvToolBar.addListener( SWT.Activate, this );
+    isvToolBar.moveAbove( control );
+  }
+  
+  private void toolBarResized( Control toolBar, int newSize ) {
+    Control toolbar = isvToolBarMgr.getControl2();
+    if( toolbar != null ) {
+      Control ctrl = getControl();
+      boolean visible = ctrl != null && ctrl.isVisible() && toolbarIsVisible();
+      toolbar.setVisible( visible );
+    }
+    firePropertyChange( IPresentablePart.PROP_TOOLBAR );
+  }
+  
+  public void updateTitles() {
+    firePropertyChange( IPresentablePart.PROP_TITLE );
+  }
+  
+  public void updateActionBars() {
+    if( isvMenuMgr != null ) {
+      isvMenuMgr.updateAll( false );
+    }
+    if( isvToolBarMgr != null ) {
+      isvToolBarMgr.update( false );
+    }
+  }
+  
+  ////////////////
+  // Inner classes
+
+  /**
+   * Toolbar manager for the ISV toolbar.
+   */
+  private class ISVPropListener implements IPropertyChangeListener {
+
+    private Control toolBar;
+
+    public ISVPropListener( Control toolBar ) {
+      this.toolBar = toolBar;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
+     */
+    public void propertyChange( PropertyChangeEvent event ) {
+      String property = event.getProperty();
+      Integer newValue = ( Integer )event.getNewValue();
+      if( IToolBarManager2.PROP_LAYOUT.equals( property ) ) {
+        toolBarResized( toolBar, newValue != null
+                                                 ? newValue.intValue()
+                                                 : 0 );
+        if( toolBar instanceof Composite ) {
+          ( ( Composite )toolBar ).layout();
+        } else {
+          toolBar.getParent().layout();
+        }
+      }
+    }
+  }
+  
+  /**
+   * Menu manager for view local menu.
+   */
+  class PaneMenuManager extends MenuManager {
+
+    public PaneMenuManager() {
+      super( "View Local Menu" ); //$NON-NLS-1$
+    }
+
+    protected void update( boolean force, boolean recursive ) {
+      super.update( force, recursive );
+      boolean hasMenu = !isEmpty();
+      if( hasMenu != hadViewMenu ) {
+        hadViewMenu = hasMenu;
+        firePropertyChange( IPresentablePart.PROP_PANE_MENU );
+      }
+    }
   }
 }

@@ -433,9 +433,9 @@ public abstract class Action extends AbstractAction implements IAction {
   public final void notifyResult( boolean success ) {
     // avoid Boolean.valueOf(boolean) to allow compilation against JCL
     // Foundation (bug 80059)
-//    firePropertyChange( RESULT, null, success
-//                                             ? Boolean.TRUE
-//                                             : Boolean.FALSE );
+    firePropertyChange( RESULT, null, success
+                                             ? Boolean.TRUE
+                                             : Boolean.FALSE );
   }
 
   /**
@@ -499,11 +499,11 @@ public abstract class Action extends AbstractAction implements IAction {
     }
     if( newValue != value ) {
       value = newValue;
-//      if( checked ) {
-//        firePropertyChange( CHECKED, Boolean.FALSE, Boolean.TRUE );
-//      } else {
-//        firePropertyChange( CHECKED, Boolean.TRUE, Boolean.FALSE );
-//      }
+      if( checked ) {
+        firePropertyChange( CHECKED, Boolean.FALSE, Boolean.TRUE );
+      } else {
+        firePropertyChange( CHECKED, Boolean.TRUE, Boolean.FALSE );
+      }
     }
   }
 
@@ -517,7 +517,7 @@ public abstract class Action extends AbstractAction implements IAction {
     {
       String oldDescription = description;
       description = text;
-//      firePropertyChange( DESCRIPTION, oldDescription, description );
+      firePropertyChange( DESCRIPTION, oldDescription, description );
     }
   }
 
@@ -544,7 +544,7 @@ public abstract class Action extends AbstractAction implements IAction {
                               ? Boolean.TRUE
                               : Boolean.FALSE;
       this.enabled = enabled;
-//      firePropertyChange( ENABLED, oldVal, newVal );
+      firePropertyChange( ENABLED, oldVal, newVal );
     }
   }
 
@@ -580,7 +580,7 @@ public abstract class Action extends AbstractAction implements IAction {
     if( image != newImage ) {
       ImageDescriptor oldImage = image;
       image = newImage;
-//      firePropertyChange( IMAGE, oldImage, newImage );
+      firePropertyChange( IMAGE, oldImage, newImage );
     }
   }
 
@@ -640,7 +640,7 @@ public abstract class Action extends AbstractAction implements IAction {
                                                             ? this.text == null
                                                             : oldText.equals( this.text ) ) ) )
     {
-//      firePropertyChange( TEXT, oldText, this.text );
+      firePropertyChange( TEXT, oldText, this.text );
     }
   }
 
@@ -660,7 +660,7 @@ public abstract class Action extends AbstractAction implements IAction {
                                  : oldToolTipText.equals( toolTipText ) ) )
     {
       this.toolTipText = toolTipText;
-//      firePropertyChange( TOOL_TIP_TEXT, oldToolTipText, toolTipText );
+      firePropertyChange( TOOL_TIP_TEXT, oldToolTipText, toolTipText );
     }
   }
 }

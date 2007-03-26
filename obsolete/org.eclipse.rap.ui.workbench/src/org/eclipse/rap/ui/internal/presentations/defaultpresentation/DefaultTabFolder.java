@@ -143,7 +143,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
         public void widgetSelected( SelectionEvent e ) {
           fireEvent( TabFolderEvent.EVENT_PANE_MENU,
                      getSelection(),
-                     /*getPaneMenuLocation()*/ new Point( 0,0 ) );
+                     getPaneMenuLocation() );
           super.widgetSelected( e );
         }
       } );
@@ -354,19 +354,19 @@ public class DefaultTabFolder extends AbstractTabFolder {
    * 
    * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#getPaneMenuLocation()
    */
-//  public Point getPaneMenuLocation() {
-//    Point toolbarSize = viewToolBar.getSize();
-//    return viewToolBar.toDisplay( 0, toolbarSize.y );
-//  }
+  public Point getPaneMenuLocation() {
+    Point toolbarSize = viewToolBar.getSize();
+    return viewToolBar.toDisplay( 0, toolbarSize.y );
+  }
 
   /*
    * (non-Javadoc)
    * 
    * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#getPartListLocation()
    */
-//  public Point getPartListLocation() {
-//    return paneFolder.getControl().toDisplay( paneFolder.getChevronLocation() );
-//  }
+  public Point getPartListLocation() {
+    return paneFolder.getControl().toDisplay( paneFolder.getChevronLocation() );
+  }
 
   /*
    * (non-Javadoc)
