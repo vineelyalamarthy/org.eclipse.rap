@@ -339,14 +339,11 @@ public class TableViewer extends StructuredViewer {
    */
   private void createItem( Object element, int index ) {
     // TODO: Virtual tabels not yet supported
-    // TODO: adding at indexed position not possible
     // if(virtualManager == null) {
-    // updateItem(new TableItem(getTable(), RWT.NONE, index), element);
+     updateItem( new TableItem( getTable(), RWT.NONE, index ), element );
     // } else{
     // virtualManager.notVisibleAdded(element,index);
     // }
-    // TODO: replacement code for the above code fragment
-    updateItem( new TableItem( getTable(), RWT.NONE ), element );
   }
 
   /**
@@ -706,9 +703,10 @@ public class TableViewer extends StructuredViewer {
   private void initTableViewerImpl() {
     tableViewerImpl = new TableEditorImpl( this ) {
 
-      // Rectangle getBounds( Item item, int columnNumber ) {
-      // return ( ( TableItem )item ).getBounds( columnNumber );
-      // }
+       Rectangle getBounds( Item item, int columnNumber ) {
+        return ( ( TableItem )item ).getBounds( columnNumber );
+      }
+       
       int getColumnCount() {
         return getTable().getColumnCount();
       }
@@ -726,7 +724,7 @@ public class TableViewer extends StructuredViewer {
       }
 
       void showSelection() {
-        // getTable().showSelection();
+        getTable().showSelection();
       }
 
       // void setLayoutData( CellEditor.LayoutData layoutData ) {
@@ -903,7 +901,7 @@ public class TableViewer extends StructuredViewer {
     // scrunched
     if( table.getItemCount() == 0 ) {
       // TODO: Editing table data not yet supported
-      // table.removeAll();
+       table.removeAll();
     }
     // Update items which were removed above
     for( int i = 0; i < min; ++i ) {
@@ -952,7 +950,7 @@ public class TableViewer extends StructuredViewer {
     // scrunched
     if( table.getItemCount() == 0 ) {
       // TODO: Editing table data not yet supported
-      // table.removeAll();
+       table.removeAll();
     }
   }
 
@@ -1022,8 +1020,7 @@ public class TableViewer extends StructuredViewer {
     Assert.isNotNull( element );
     Widget w = findItem( element );
     if( w instanceof TableItem ) {
-      // TODO: image handling not yet supported
-      // getTable().showItem((TableItem) w);
+      getTable().showItem((TableItem) w);
     }
   }
 
@@ -1143,8 +1140,7 @@ public class TableViewer extends StructuredViewer {
     }
     table.setSelection( items );
     if( reveal ) {
-      // TODO: not yet supported
-      // table.showSelection();
+      table.showSelection();
     }
   }
 
@@ -1266,8 +1262,7 @@ public class TableViewer extends StructuredViewer {
     if( item.getData() != null ) {
       disassociate( item );
     }
-    // TODO: removal of lines not yet supported
-    // table.clear(index);
+    table.clear(index);
   }
 
   /*
