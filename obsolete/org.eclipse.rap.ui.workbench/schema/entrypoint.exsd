@@ -49,6 +49,9 @@
                <documentation>
                   
                </documentation>
+							 <appInfo>
+                 <meta.attribute kind="java" basedOn="org.eclipse.rap.rwt.lifecycle.IEntryPoint"/>
+               </appInfo>               
             </annotation>
          </attribute>
          <attribute name="parameter" type="string" use="required">
