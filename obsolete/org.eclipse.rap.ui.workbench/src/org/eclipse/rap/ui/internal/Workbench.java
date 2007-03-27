@@ -12,6 +12,7 @@
 package org.eclipse.rap.ui.internal;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.rap.jface.dialogs.MessageDialog;
 import org.eclipse.rap.jface.window.Window;
 import org.eclipse.rap.jface.window.WindowManager;
 import org.eclipse.rap.rwt.widgets.Display;
@@ -64,7 +65,9 @@ public class Workbench extends SessionSingletonBase implements IWorkbench {
   
   public void close() {
     // TODO: [fappel] reasonable implementation
-    System.out.println( "TODO: Workbench close implementation" );
+    MessageDialog.openError( getActiveWorkbenchWindow().getShell(), 
+                             "RAP Demo", "Workbench close not yet implemented", 
+                             null );
   }
 
   //////////////////
