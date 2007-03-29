@@ -12,8 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.rap.rwt.RWT;
-// import org.eclipse.swt.events.MenuAdapter;
-// import org.eclipse.swt.events.MenuEvent;
+import org.eclipse.rap.rwt.events.MenuAdapter;
+import org.eclipse.rap.rwt.events.MenuEvent;
 import org.eclipse.rap.rwt.widgets.Composite;
 import org.eclipse.rap.rwt.widgets.Control;
 import org.eclipse.rap.rwt.widgets.CoolBar;
@@ -411,16 +411,15 @@ public class MenuManager extends ContributionManager implements IMenuManager {
    * Initializes the menu control.
    */
   private void initializeMenu() {
-    // menu.addMenuListener(new MenuAdapter() {
-    // public void menuHidden(MenuEvent e) {
-    // // ApplicationWindow.resetDescription(e.widget);
-    // handleAboutToHide();
-    // }
-    //
-    // public void menuShown(MenuEvent e) {
-    // handleAboutToShow();
-    // }
-    // });
+    menu.addMenuListener( new MenuAdapter() {
+      public void menuHidden( MenuEvent e ) {
+        // ApplicationWindow.resetDescription(e.widget);
+        handleAboutToHide();
+      }
+      public void menuShown( MenuEvent e ) {
+        handleAboutToShow();
+      }
+    } );
     // Don't do an update(true) here, in case menu is never opened.
     // Always do it lazily in handleAboutToShow().
   }
