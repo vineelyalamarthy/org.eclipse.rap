@@ -192,19 +192,8 @@ public class WorkbenchWindowConfigurer implements IWorkbenchWindowConfigurer {
       }
   }
 
-
   public boolean getShowMenuBar() {
     return showMenuBar;
-  }
-
-  public boolean getShowCoolBar() {
-    return showToolBar;
-  }
-
-  public void setShowCoolBar( final boolean show ) {
-    showToolBar = show;
-    window.setCoolBarVisible( show );
-    // @issue need to be able to reconfigure after window's controls created
   }
   
   public void setShowMenuBar( final boolean show ) {
@@ -223,8 +212,24 @@ public class WorkbenchWindowConfigurer implements IWorkbenchWindowConfigurer {
     }
   }
 
+  public boolean getShowCoolBar() {
+    return showToolBar;
+  }
+
+  public void setShowCoolBar( final boolean show ) {
+    showToolBar = show;
+    window.setCoolBarVisible( show );
+    // @issue need to be able to reconfigure after window's controls created
+  }
+
   public boolean getShowPerspectiveBar() {
     return showPerspectiveBar;
+  }
+
+  public void setShowPerspectiveBar( final boolean show ) {
+      showPerspectiveBar = show;
+      window.setPerspectiveBarVisible( show );
+      // @issue need to be able to reconfigure after window's controls created
   }
 
   public Point getInitialSize() {

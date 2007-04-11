@@ -260,9 +260,11 @@ public class WorkbenchWindow
       topBar.setLeft( coolbarCacheWrapper.getControl() );
     }
 
-    ToolBar perspectiveBar 
-      = new ToolBar( topBar, RWT.BORDER );
-    topBar.setRight( perspectiveBar );
+    // TODO [rst] Implement PerspectiveSwitcher
+    if( getWindowConfigurer().getShowPerspectiveBar() ) {
+      ToolBar perspectiveBar = new ToolBar( topBar, RWT.BORDER );
+      topBar.setRight( perspectiveBar );
+    }
     
     createPageComposite( shell );
     
@@ -292,6 +294,14 @@ public class WorkbenchWindow
   
   public boolean getCoolBarVisible() {
     return coolBarVisible;
+  }
+  
+  public void setPerspectiveBarVisible(boolean visible) {
+    boolean oldValue = perspectiveBarVisible;
+    perspectiveBarVisible = visible;
+    if (oldValue != perspectiveBarVisible) {
+      updateLayoutDataForContents();
+    }
   }
   
   public boolean getPerspectiveBarVisible() {

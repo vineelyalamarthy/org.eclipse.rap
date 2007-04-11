@@ -18,14 +18,15 @@ public interface IWorkbenchWindowConfigurer {
   
   String getTitle();
   void setTitle(String title);
+
+  boolean getShowMenuBar();
+  void setShowMenuBar( boolean show );
   
   boolean getShowCoolBar();
   void setShowCoolBar( boolean show );
   
-  boolean getShowMenuBar();
-  void setShowMenuBar( boolean show );
-  
   boolean getShowPerspectiveBar();
+  void setShowPerspectiveBar( boolean show );
 
   Point getInitialSize();
   void setInitialSize( Point initialSize );
