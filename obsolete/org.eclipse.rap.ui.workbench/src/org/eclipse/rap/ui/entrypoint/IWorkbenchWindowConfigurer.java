@@ -22,6 +22,9 @@ public interface IWorkbenchWindowConfigurer {
   boolean getShowCoolBar();
   void setShowCoolBar( boolean show );
   
+  boolean getShowMenuBar();
+  void setShowMenuBar( boolean show );
+  
   boolean getShowPerspectiveBar();
 
   Point getInitialSize();

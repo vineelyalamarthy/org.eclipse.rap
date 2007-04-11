@@ -206,6 +206,22 @@ public class WorkbenchWindowConfigurer implements IWorkbenchWindowConfigurer {
     window.setCoolBarVisible( show );
     // @issue need to be able to reconfigure after window's controls created
   }
+  
+  public void setShowMenuBar( final boolean show ) {
+    showMenuBar = show;
+    WorkbenchWindow win = (WorkbenchWindow) getWindow();
+    Shell shell = win.getShell();
+    if (shell != null) {
+      boolean showing = shell.getMenuBar() != null;
+      if (show != showing) {
+        if (show) {
+          shell.setMenuBar(win.getMenuBarManager().getMenu());
+        } else {
+          shell.setMenuBar(null);
+        }
+      }
+    }
+  }
 
   public boolean getShowPerspectiveBar() {
     return showPerspectiveBar;
