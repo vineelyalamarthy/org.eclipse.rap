@@ -44,6 +44,9 @@ public interface RequestParams {
    *  of databound components. Request value is null in standard
    *  form submits, 'true' in javaScript request URLs.</p> */
   final static String PARAMLESS_GET = "w4t_paramlessGET";
+  /** used to ensure that the browser doesn't use a cached document that
+   *  represents a WebForm of an invalidated session */
+  final static String NO_CACHE = "nocache";
   /** startup request parameter that contains the initial width of
    *  the browsers client area. */
   final static String AVAILABLE_WIDTH = "w4t_width";

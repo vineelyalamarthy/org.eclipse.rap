@@ -69,7 +69,7 @@ public class LifeCycleRequestWithMessage_Test extends TestCase {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
     // form markup from render buffer + open script for error form/window
-    String expected
+    String expectedStart
       =   "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">"
         + "<html><head><title>W4 Toolkit</title><style type=\"text/css\">"
         + ".w4tCsscd1f6403 { font-family:arial,verdana;font-size:8pt; } "
@@ -101,8 +101,9 @@ public class LifeCycleRequestWithMessage_Test extends TestCase {
         + "setTimeout( 'eventHandler.enableFocusEvent()', 50 );" 
         + "windowManager.scrollWindow( 0, 0 ); windowManager.setName( 'w1' );"
         + "openNewWindow(\'http://fooserver:8080/fooapp/W4TDelegate?"
-        + "uiRoot=w2;p3&requestCounter=-1&w4t_paramlessGET=true\', "
-        + "\'w2\', \'dependent=no,directories=no,height=600,location=no,"
+        + "uiRoot=w2;p3&requestCounter=-1&w4t_paramlessGET=true&nocache=";
+    String expectedEnd
+      =   "\', \'w2\', \'dependent=no,directories=no,height=600,location=no,"
         + "menubar=no,resizable=yes,status=yes,scrollbars=yes,toolbar=no,"
         + "width=800,fullscreen=no,\');"
         + " active = window.setInterval( 'windowManager.triggerTimeStamp()', "
@@ -147,7 +148,8 @@ public class LifeCycleRequestWithMessage_Test extends TestCase {
         + "This is the W4Toolkit Fixture Form!</span></td></tr></table>"
         + "</form></body>"
         + "</html>";
-    assertEquals( expected, allMarkup );
+    assertTrue( allMarkup.startsWith( expectedStart ) );
+    assertTrue( allMarkup.endsWith( expectedEnd ) );
     
     Fixture.fakeResponseWriter();
     Fixture.fakeFormRequestParams( "-1", "w2", "p3" );

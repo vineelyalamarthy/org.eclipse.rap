@@ -44,6 +44,7 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
   }
   private final class DispatchHandler implements PhaseListener {
     private static final long serialVersionUID = 1L;
+    private int formToDispatchHashCode = 0;
     public void afterPhase( final PhaseEvent event ) {
     }
     public void beforePhase( final PhaseEvent event ) {
@@ -51,10 +52,14 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
       oldActive.unload();
       WebForm toDispatch = Fixture.loadStartupForm();
       toDispatch.addWebRenderListener( new EventTester() );
+      formToDispatchHashCode = toDispatch.hashCode();
       W4TContext.dispatchTo( toDispatch );        
     }
     public PhaseId getPhaseId() {
       return PhaseId.PROCESS_ACTION;
+    }
+    public int getFormToDispatchHashCode() {
+      return formToDispatchHashCode;
     }
   }
 
@@ -239,8 +244,9 @@ public class LifeCycleFormDispatchRequest_Test extends TestCase {
       =   "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
         + "<ajax-response><script type=\"text/javascript\">refreshWindow( " 
         + "'http://fooserver:8080/fooapp/W4TDelegate?uiRoot=w1;p3&amp;"
-        + "requestCounter=-1&amp;w4t_paramlessGET=true', "
-        + "'w1', 'dependent=no,directories=no,height=600,location=no,"
+        + "requestCounter=-1&amp;w4t_paramlessGET=true&amp;nocache=" 
+        + dispatchHandler.getFormToDispatchHashCode()
+        + "', 'w1', 'dependent=no,directories=no,height=600,location=no,"
         + "menubar=no,resizable=yes,status=yes,scrollbars=yes,toolbar=no,"
         + "width=600,fullscreen=no,');</script></ajax-response>";
     assertEquals( expected1, allMarkup );

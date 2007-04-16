@@ -425,7 +425,9 @@ public class RenderUtil_Test extends RenderingTestCase {
     String expected 
       = "http://fooserver:8080/fooapp/W4TDelegate?uiRoot=w1;p1" 
       + "&requestCounter=-1" 
-      + "&w4t_paramlessGET=true";
+      + "&w4t_paramlessGET=true"
+      + "&nocache="
+      + form.hashCode();
     assertEquals( expected, actual );
   }
   

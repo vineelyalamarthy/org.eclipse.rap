@@ -29,15 +29,20 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
   
   private final class PopUpHandler implements PhaseListener {
     private static final long serialVersionUID = 1L;
+    private int formToPopUpHashCode = 0;
     public void afterPhase( final PhaseEvent event ) {
     }
     public void beforePhase( final PhaseEvent event ) {
       WebForm popUp = Fixture.loadStartupForm();
       IWindow window = W4TContext.showInNewWindow( popUp );
       assertSame( window, W4TContext.showInNewWindow( popUp ) );
+      formToPopUpHashCode = popUp.hashCode();
     }
     public PhaseId getPhaseId() {
       return PhaseId.PROCESS_ACTION;
+    }
+    public int getFormToPopUpHashCode() {
+      return formToPopUpHashCode;
     }
   }
   
@@ -70,8 +75,9 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + ".w4tCsscd1f6403 { font-family:arial,verdana;font-size:8pt; } "
         + "</style><meta http-equiv=\"refresh\" content=\"0; "
         + "url=http://fooserver:8080/fooapp/W4TDelegate?uiRoot="
-        + "w2;p3&requestCounter=-1&w4t_paramlessGET=true\"> "
-        + "<meta http-equiv=\"content-type\" "
+        + "w2;p3&requestCounter=-1&w4t_paramlessGET=true&nocache=" 
+        + popUpHandler.getFormToPopUpHashCode()
+        + "\"> <meta http-equiv=\"content-type\" "
         + "content=\"text/html; charset=UTF-8\" />"
         + "<meta http-equiv=\"cache-control\" content=\"no-cache\" /> "
         + "<link rel=\"SHORTCUT ICON\" "
@@ -121,7 +127,9 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     String expected
       =   "<meta http-equiv=\"refresh\" content=\"0; "
         + "url=http://fooserver:8080/fooapp/W4TDelegate?"
-        + "uiRoot=w2;p3&requestCounter=-1&w4t_paramlessGET=true\">";
+        + "uiRoot=w2;p3&requestCounter=-1&w4t_paramlessGET=true&nocache=" 
+        + popUpHandler.getFormToPopUpHashCode()
+        + "\">";
     assertTrue( allMarkup.indexOf( expected ) != -1 );
     expected = "form id=\"p1\"";
     assertTrue( allMarkup.indexOf( expected ) != -1 );
@@ -169,7 +177,9 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     expected 
       =   "<meta http-equiv=\"refresh\" content=\"0; " 
         + "url=http://fooserver:8080/fooapp/W4TDelegate?"
-        + "uiRoot=w1;p1&requestCounter=1&w4t_paramlessGET=true\">";
+        + "uiRoot=w1;p1&requestCounter=1&w4t_paramlessGET=true&nocache=" 
+        + FormManager.findById( "p1" ).hashCode()
+        + "\">";
     assertTrue( allMarkup.indexOf( expected ) != -1 );
     expected = "form id=\"p3\"";
     assertTrue( allMarkup.indexOf( expected ) != -1 );
@@ -215,7 +225,9 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     expected
       =   "<meta http-equiv=\"refresh\" content=\"0; "
         + "url=http://fooserver:8080/fooapp/W4TDelegate?"
-        + "uiRoot=w3;p3&requestCounter=1&w4t_paramlessGET=true\">";
+        + "uiRoot=w3;p3&requestCounter=1&w4t_paramlessGET=true&nocache=" 
+        + popUpHandler.getFormToPopUpHashCode()
+        + "\">";
     assertTrue( allMarkup.indexOf( expected ) != -1 );
     expected = "form id=\"p1\"";
     assertTrue( allMarkup.indexOf( expected ) != -1 );
@@ -227,7 +239,8 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     W4TModelUtil.initModel();
     prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
-    lifeCycle.addPhaseListener( new PopUpHandler() );
+    PopUpHandler popUpHandler = new PopUpHandler();
+    lifeCycle.addPhaseListener( popUpHandler );
     lifeCycle.execute();
 
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
@@ -264,8 +277,9 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "setTimeout( 'eventHandler.enableFocusEvent()', 50 );" 
         + "windowManager.scrollWindow( 0, 0 ); windowManager.setName( 'w1' );"
         + "openNewWindow(\'http://fooserver:8080/fooapp/W4TDelegate?"
-        + "uiRoot=w2;p3&requestCounter=-1&w4t_paramlessGET=true\', " 
-        + "\'w2\', \'dependent=no,directories=no,height=600,location=no,"
+        + "uiRoot=w2;p3&requestCounter=-1&w4t_paramlessGET=true&nocache=" 
+        + popUpHandler.getFormToPopUpHashCode()
+        + "\', \'w2\', \'dependent=no,directories=no,height=600,location=no,"
         + "menubar=no,resizable=yes,status=yes,scrollbars=yes,toolbar=no," 
         + "width=600,fullscreen=no,\');"
         + " active = window.setInterval( 'windowManager.triggerTimeStamp()', "
@@ -351,8 +365,10 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "name=\"requestCounter\" value=\"1\" />"
         + "<script type=\"text/javascript\">openNewWindow(\'"
         + "http://fooserver:8080/fooapp/W4TDelegate?"
-        + "uiRoot=w2;p3&amp;requestCounter=-1&amp;w4t_paramlessGET=true\', "
-        + "\'w2\', \'dependent=no,directories=no,height=600,location=no,"
+        + "uiRoot=w2;p3&amp;requestCounter=-1&amp;"
+        + "w4t_paramlessGET=true&amp;nocache="
+        + popUpHandler.getFormToPopUpHashCode()
+        + "\', \'w2\', \'dependent=no,directories=no,height=600,location=no,"
         + "menubar=no,resizable=yes,status=yes,scrollbars=yes,toolbar=no,"
         + "width=600,fullscreen=no,\');</script></ajax-response>";
     assertEquals( expected, allMarkup );
@@ -391,8 +407,10 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "name=\"requestCounter\" value=\"2\" />"
         + "<script type=\"text/javascript\">refreshWindow( \'"
         + "http://fooserver:8080/fooapp/W4TDelegate?"
-        + "uiRoot=w2;p3&amp;requestCounter=-1&amp;w4t_paramlessGET=true\', "
-        + "\'w2\', \'dependent=no,directories=no,height=600,location=no,"
+        + "uiRoot=w2;p3&amp;requestCounter=-1&amp;"
+        + "w4t_paramlessGET=true&amp;nocache="
+        + popUpHandler.getFormToPopUpHashCode()
+        + "\', \'w2\', \'dependent=no,directories=no,height=600,location=no,"
         + "menubar=no,resizable=yes,status=yes,scrollbars=yes,toolbar=no,"
         + "width=600,fullscreen=no,\');</script></ajax-response>";
     assertEquals( expected, allMarkup );
