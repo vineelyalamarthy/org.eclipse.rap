@@ -14,7 +14,6 @@ package org.eclipse.rap.jface.resource;
 import java.io.*;
 import java.net.URL;
 import org.eclipse.rap.rwt.graphics.Image;
-import org.eclipse.rap.rwt.resources.ResourceManager;
 
 
 class URLImageDescriptor extends ImageDescriptor {
@@ -32,8 +31,7 @@ class URLImageDescriptor extends ImageDescriptor {
     if( pos != -1 ) {
       path = path.substring( pos + schema.length() );
     }
-    ResourceManager.getInstance().register( path, getStream() );
-    return Image.find( path );
+    return Image.find( path, getStream() );
   }
 
   protected InputStream getStream() {
