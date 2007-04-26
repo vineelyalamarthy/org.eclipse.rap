@@ -17,9 +17,7 @@
  */
 package com.w4t.util;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * <p>Provides HTML and XML entity utilities.</p>

@@ -11,12 +11,7 @@
 package com.w4t.custom;
 
 import java.text.MessageFormat;
-import com.w4t.Concealer;
-import com.w4t.Position;
-import com.w4t.WebBorderComponent;
-import com.w4t.WebButton;
-import com.w4t.WebGridLayout;
-import com.w4t.WebPanel;
+import com.w4t.*;
 import com.w4t.engine.util.ResourceManager;
 import com.w4t.event.WebActionEvent;
 import com.w4t.event.WebActionListener;

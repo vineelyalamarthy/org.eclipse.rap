@@ -13,7 +13,8 @@ package com.w4t.dhtml.treenodekit;
 import java.io.IOException;
 import com.w4t.*;
 import com.w4t.dhtml.*;
-import com.w4t.dhtml.event.*;
+import com.w4t.dhtml.event.WebTreeNodeCollapsedEvent;
+import com.w4t.dhtml.event.WebTreeNodeExpandedEvent;
 import com.w4t.dhtml.renderinfo.TreeNodeInfo;
 import com.w4t.util.image.*;
 

@@ -11,7 +11,8 @@
 package com.w4t.engine.requests;
 
 import java.io.*;
-import org.apache.commons.fileupload.*;
+import org.apache.commons.fileupload.DeferredFileOutputStream;
+import org.apache.commons.fileupload.FileItem;
 
 /**
  * <p>
