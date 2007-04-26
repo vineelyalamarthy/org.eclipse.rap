@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.rap.ui.workbench">
+<schema targetNamespace="org.eclipse.ui.workbench">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.rap.ui.workbench" id="perspective" name="Perspectives"/>
@@ -73,10 +73,10 @@
             <annotation>
                <documentation>
                   a fully qualified name of the class that implements 
-&lt;samp&gt;org.eclipse.rap.ui.IPerspectiveFactory&lt;/samp&gt; interface.
+&lt;samp&gt;org.eclipse.ui.IPerspectiveFactory&lt;/samp&gt; interface.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.rap.ui.IPerspectiveFactory"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.ui.IPerspectiveFactory"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -121,11 +121,11 @@ with this perspective.
 &lt;p&gt;
 &lt;pre&gt;
    &lt;extension 
-        point=&quot;org.eclipse.rap.ui.workbench.perspectives&quot;&gt; 
+        point=&quot;org.eclipse.ui.rap.workbench.perspectives&quot;&gt; 
         &lt;perspective 
-            id=&quot;org.eclipse.rap.ui.resourcePerspective&quot; 
+            id=&quot;org.eclipse.ui.resourcePerspective&quot; 
             name=&quot;Resource&quot; 
-            class=&quot;org.eclipse.rap.ui.internal.ResourcePerspective&quot; 
+            class=&quot;org.eclipse.ui.internal.ResourcePerspective&quot; 
             icon=&quot;icons/MyIcon.gif&quot;&gt; 
         &lt;/perspective&gt; 
     &lt;/extension&gt; 
@@ -141,13 +141,13 @@ with this perspective.
       <documentation>
          The value of the &lt;samp&gt;class&lt;/samp&gt; attribute must be the 
 fully qualified name of a class that implements 
-&lt;samp&gt;org.eclipse.rap.ui.IPerspectiveFactory&lt;/samp&gt;. 
+&lt;samp&gt;org.eclipse.ui.IPerspectiveFactory&lt;/samp&gt;. 
 The class must supply the initial layout for a 
 perspective when asked by the workbench.
 &lt;p&gt;
 The &lt;samp&gt;plugin_customization.ini&lt;/samp&gt; file is used to define the default perspective.  The &lt;i&gt;default perspective&lt;/i&gt; is the first perspective which appears when the product is launched after install.  It is also used when the user opens a page or window with no specified perspective.  The default perspective is defined as a property within the plugin_customization.ini, as shown below.  The user may also override this perspective from the workbench perspectives preference page. 
 &lt;pre&gt;
-    defaultPerspectiveId = org.eclipse.rap.ui.resourcePerspective 
+    defaultPerspectiveId = org.eclipse.ui.resourcePerspective 
 &lt;/pre&gt;
 The perspectives which appear in the &quot;Open Perspective&quot; menu are shortcuts for perspective selection.  This set is defined by the active perspective itself, and extensions made through the perspectiveExtensions extension point.
       </documentation>

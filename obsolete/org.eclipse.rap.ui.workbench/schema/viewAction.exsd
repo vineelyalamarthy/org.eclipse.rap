@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.rap.ui.workbench">
+<schema targetNamespace="org.eclipse.ui.workbench">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.rap.ui.workbench" id="viewActions" name="View Menus,Toolbars and Actions"/>
@@ -233,7 +233,7 @@ TODO [rh] helpContextId doesn't make sense yet since no infrastructure in place
                   name of the fully qualified class that implements &lt;samp&gt;org.eclipse.ui.IViewActionDelegate&lt;/samp&gt;.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.rap.ui.IViewActionDelegate"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.ui.IViewActionDelegate"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -340,7 +340,7 @@ The following attribute formats are supported:
          The following is an example of a view action extension:
 &lt;p&gt;
 &lt;pre&gt;
-   &lt;extension point=&quot;org.eclipse.ui.viewActions&quot;&gt; 
+   &lt;extension point=&quot;org.eclipse.rap.ui.viewActions&quot;&gt; 
       &lt;viewContribution 
          id=&quot;com.xyz.xyzViewC1&quot; 
          targetID=&quot;org.eclipse.ui.views.navigator.ResourceNavigator&quot;&gt; 
@@ -375,7 +375,7 @@ The following is an other example of a view action extension:
 &lt;/p&gt;
 &lt;p&gt;
 &lt;pre&gt;
-   &lt;extension point=&quot;org.eclipse.ui.viewActions&quot;&gt; 
+   &lt;extension point=&quot;org.eclipse.rap.ui.viewActions&quot;&gt; 
       &lt;viewContribution 
          id=&quot;com.xyz.xyzViewC1&quot; 
          targetID=&quot;org.eclipse.ui.views.navigator.ResourceNavigator&quot;&gt; 

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.rap.ui.workbench">
+<schema targetNamespace="org.eclipse.ui.workbench">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.rap.ui.workbench" id="entrypoint" name="EntryPoint"/>
@@ -50,7 +50,7 @@
                   
                </documentation>
 							 <appInfo>
-                 <meta.attribute kind="java" basedOn="org.eclipse.rap.rwt.lifecycle.IEntryPoint"/>
+                 <meta.attribute kind="java" basedOn="org.eclipse.swt.lifecycle.IEntryPoint"/>
                </appInfo>               
             </annotation>
          </attribute>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.rap.ui.workbench">
+<schema targetNamespace="org.eclipse.ui.workbench">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.rap.ui.workbench" id="views" name="Views"/>
@@ -253,7 +253,7 @@ Since 3.0
 The following is an example of a sticky view declaration:
 &lt;p&gt;
 &lt;pre&gt;
-   &lt;extension point=&quot;org.eclipse.ui.views&quot;&gt; 
+   &lt;extension point=&quot;org.eclipse.rap.ui.views&quot;&gt; 
       &lt;stickyView
          id=&quot;com.xyz.views.XYZView&quot; /&gt;
    &lt;/extension&gt; 
@@ -269,8 +269,8 @@ The following is an example of a sticky view declaration:
       <documentation>
          The value of the &lt;samp&gt;class&lt;/samp&gt; attribute must be a 
 fully qualified name of the class that implements 
-&lt;samp&gt;org.eclipse.rap.ui.IViewPart&lt;/samp&gt;.  It is common 
-practice to subclass &lt;samp&gt;org.eclipse.rap.ui.part.ViewPart&lt;/samp&gt;
+&lt;samp&gt;org.eclipse.ui.IViewPart&lt;/samp&gt;.  It is common 
+practice to subclass &lt;samp&gt;org.eclipse.ui.part.ViewPart&lt;/samp&gt;
  when developing a new view.
       </documentation>
    </annotation>

@@ -29,41 +29,41 @@
   <extension-point id="viewActions" name="viewActions" schema="schema/viewAction.exsd"/>
       
   <extension
-      id="org.eclipse.rap.ui.requestHandler"
+      id="org.eclipse.ui.requestHandler"
       point="org.eclipse.equinox.http.registry.servlets">
     <servlet
         alias="/rap"
-        class="org.eclipse.rap.ui.internal.servlet.RequestHandler">
+        class="org.eclipse.ui.internal.servlet.RequestHandler">
     </servlet>
   </extension>
 
   <extension
-      id="org.eclipse.rap.ui.workbench.adapterfactories"
+      id="org.eclipseui.workbench.adapterfactories"
       point="org.eclipse.rap.ui.workbench.adapterfactory">
     <factory
-        factoryClass="org.eclipse.rap.rwt.internal.lifecycle.LifeCycleAdapterFactory"
-        adaptableClass="org.eclipse.rap.rwt.widgets.Widget"/>
+        factoryClass="org.eclipse.swt.internal.lifecycle.LifeCycleAdapterFactory"
+        adaptableClass="org.eclipse.swt.widgets.Widget"/>
     <factory
-        factoryClass="org.eclipse.rap.rwt.internal.lifecycle.LifeCycleAdapterFactory"
-        adaptableClass="org.eclipse.rap.rwt.widgets.Display"/>
+        factoryClass="org.eclipse.swt.internal.lifecycle.LifeCycleAdapterFactory"
+        adaptableClass="org.eclipse.swt.widgets.Display"/>
     <factory
-        factoryClass="org.eclipse.rap.rwt.internal.widgets.WidgetAdapterFactory"
-        adaptableClass="org.eclipse.rap.rwt.widgets.Widget"/>
+        factoryClass="org.eclipse.swt.internal.widgets.WidgetAdapterFactory"
+        adaptableClass="org.eclipse.swt.widgets.Widget"/>
     <factory
-        factoryClass="org.eclipse.rap.rwt.internal.widgets.WidgetAdapterFactory"
-        adaptableClass="org.eclipse.rap.rwt.widgets.Display"/>
+        factoryClass="org.eclipse.swt.internal.widgets.WidgetAdapterFactory"
+        adaptableClass="org.eclipse.swt.widgets.Display"/>
   </extension>
 
   <extension
-        id="org.eclipse.rap.ui.workbench.preserveWidgetValues"
+        id="org.eclipse.ui.workbench.preserveWidgetValues"
         point="org.eclipse.rap.ui.workbench.phaselistener">
-     <listener class="org.eclipse.rap.rwt.internal.lifecycle.PreserveWidgetsPhaseListener"/>
+     <listener class="org.eclipse.swt.internal.lifecycle.PreserveWidgetsPhaseListener"/>
   </extension>
 
   <extension
-        id="org.eclipse.rap.ui.workbench.currentPhase"
+        id="org.eclipse.ui.workbench.currentPhase"
         point="org.eclipse.rap.ui.workbench.phaselistener">
-     <listener class="org.eclipse.rap.rwt.internal.lifecycle.CurrentPhase$Listener"/>
+     <listener class="org.eclipse.swt.internal.lifecycle.CurrentPhase$Listener"/>
   </extension>
   
 </plugin>
