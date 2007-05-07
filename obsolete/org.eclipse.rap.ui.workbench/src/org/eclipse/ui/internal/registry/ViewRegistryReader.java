@@ -32,14 +32,15 @@ public class ViewRegistryReader extends RegistryReader {
   /**
    * Reads the category element.
    */
-//  protected void readCategory( IConfigurationElement element ) {
-//    try {
-//      viewRegistry.add( new Category( element ) );
-//    } catch( CoreException e ) {
-//      // log an error since its not safe to show a dialog here
+  protected void readCategory( IConfigurationElement element ) {
+    try {
+      viewRegistry.add( new Category( element ) );
+    } catch( CoreException e ) {
+      // log an error since its not safe to show a dialog here
 //      WorkbenchPlugin.log( "Unable to create view category.", e.getStatus() );//$NON-NLS-1$
-//    }
-//  }
+    	Activator.log( "Unable to create view category.", e.getStatus() );
+    }
+  }
 
   /**
    * readElement method comment.
@@ -49,11 +50,11 @@ public class ViewRegistryReader extends RegistryReader {
       readView( element );
       return true;
     }
-//    if( element.getName().equals( IWorkbenchRegistryConstants.TAG_CATEGORY ) ) {
-//      readCategory( element );
-//      readElementChildren( element );
-//      return true;
-//    }
+    if( element.getName().equals( IWorkbenchRegistryConstants.TAG_CATEGORY ) ) {
+      readCategory( element );
+      readElementChildren( element );
+      return true;
+    }
 //    if( element.getName().equals( IWorkbenchRegistryConstants.TAG_STICKYVIEW ) )
 //    {
 //      readSticky( element );

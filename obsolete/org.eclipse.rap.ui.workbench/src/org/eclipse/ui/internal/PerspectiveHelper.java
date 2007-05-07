@@ -12,7 +12,9 @@
 package org.eclipse.ui.internal;
 
 import java.util.*;
+
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.internal.misc.StringMatcher;
@@ -131,6 +133,187 @@ public class PerspectiveHelper {
     return false;
   }
 
+  /**
+	 * Adds a part to the presentation. If a placeholder exists for the part
+	 * then swap the part in. Otherwise, add the part in the bottom right corner
+	 * of the presentation.
+	 */
+	public void addPart(LayoutPart part) {
+
+		// Look for a placeholder.
+		PartPlaceholder placeholder = null;
+		LayoutPart testPart = null;
+		String primaryId = part.getID();
+		String secondaryId = null;
+
+		if (part instanceof ViewPane) {
+			ViewPane pane = (ViewPane) part;
+			IViewReference ref = (IViewReference) pane.getPartReference();
+			secondaryId = ref.getSecondaryId();
+		}
+		if (secondaryId != null) {
+			testPart = findPart(primaryId, secondaryId);
+		} else {
+			testPart = findPart(primaryId);
+		}
+
+		// validate the testPart
+		if (testPart != null && testPart instanceof PartPlaceholder) {
+			placeholder = (PartPlaceholder) testPart;
+		}
+
+		// If there is no placeholder do a simple add. Otherwise, replace the
+		// placeholder if its not a pattern matching placholder
+		if (placeholder == null) {
+//			part.reparent(mainLayout.getParent());
+			LayoutPart relative = mainLayout.findBottomRight();
+			if (relative != null && relative instanceof ILayoutContainer) {
+				ILayoutContainer stack = (ILayoutContainer) relative;
+				if (stack.allowsAdd(part)) {
+					mainLayout.stack(part, stack);
+				} else {
+					mainLayout.add(part);
+				}
+			} else {
+				mainLayout.add(part);
+			}
+		} else {
+			ILayoutContainer container = placeholder.getContainer();
+			if (container != null) {
+//
+//				if (container instanceof DetachedPlaceHolder) {
+//					// Create a detached window add the part on it.
+//					DetachedPlaceHolder holder = (DetachedPlaceHolder) container;
+//					detachedPlaceHolderList.remove(holder);
+//					container.remove(testPart);
+//					DetachedWindow window = new DetachedWindow(page);
+//					detachedWindowList.add(window);
+//					window.create();
+//					part.createControl(window.getShell());
+//					// Open window.
+//					window.getShell().setBounds(holder.getBounds());
+//					window.open();
+//					// add part to detached window.
+//					ViewPane pane = (ViewPane) part;
+//					window.add(pane);
+//					LayoutPart otherChildren[] = holder.getChildren();
+//					for (int i = 0; i < otherChildren.length; i++) {
+//						part.getContainer().add(otherChildren[i]);
+//					}
+//				} else {
+
+					// reconsistute parent if necessary
+					if (container instanceof ContainerPlaceholder) {
+						ContainerPlaceholder containerPlaceholder = (ContainerPlaceholder) container;
+						ILayoutContainer parentContainer = containerPlaceholder
+								.getContainer();
+						container = (ILayoutContainer) containerPlaceholder
+								.getRealContainer();
+						if (container instanceof LayoutPart) {
+							parentContainer.replace(containerPlaceholder,
+									(LayoutPart) container);
+						}
+						containerPlaceholder.setRealContainer(null);
+					}
+
+					// reparent part.
+//					if (!(container instanceof ViewStack)) {
+						// We don't need to reparent children of PartTabFolders
+						// since they will automatically
+						// reparent their children when they become visible.
+						// This if statement used to be
+						// part of an else branch. Investigate if it is still
+						// necessary.
+//						part.reparent(mainLayout.getParent());
+//					}
+
+					// see if we should replace the placeholder
+					if (placeholder.hasWildCard()) {
+						if (container instanceof PartSashContainer) {
+							((PartSashContainer) container)
+									.addChildForPlaceholder(part, placeholder);
+						} else {
+							container.add(part);
+						}
+					} else {
+						container.replace(placeholder, part);
+					}
+//				}
+			}
+		}
+	}
+	
+    /**
+     * Remove all references to a part.
+     */
+    public void removePart(LayoutPart part) {
+
+        // Reparent the part back to the main window
+        Composite parent = mainLayout.getParent();
+//        part.reparent(parent);
+
+        // Replace part with a placeholder
+        ILayoutContainer container = part.getContainer();
+        if (container != null) {
+            String placeHolderId = part.getPlaceHolderId();
+            container.replace(part, new PartPlaceholder(placeHolderId));
+
+            // If the parent is root we're done. Do not try to replace
+            // it with placeholder.
+            if (container == mainLayout) {
+				return;
+			}
+
+            // If the parent is empty replace it with a placeholder.
+            LayoutPart[] children = container.getChildren();
+            if (children != null) {
+                boolean allInvisible = true;
+                for (int i = 0, length = children.length; i < length; i++) {
+                    if (!(children[i] instanceof PartPlaceholder)) {
+                        allInvisible = false;
+                        break;
+                    }
+                }
+                if (allInvisible && (container instanceof LayoutPart)) {
+                    // what type of window are we in?
+                    LayoutPart cPart = (LayoutPart) container;
+                    //Window oldWindow = cPart.getWindow();
+                    boolean wasDocked = cPart.isDocked();
+                    Shell oldShell = cPart.getShell();
+//                    if (wasDocked) {
+                        
+                        // PR 1GDFVBY: ViewStack not disposed when page
+                        // closed.
+                        if (container instanceof ViewStack) {
+							((ViewStack) container).dispose();
+						}
+                        
+                        // replace the real container with a
+                        // ContainerPlaceholder
+                        ILayoutContainer parentContainer = cPart.getContainer();
+                        ContainerPlaceholder placeholder = new ContainerPlaceholder(
+                                cPart.getID());
+                        placeholder.setRealContainer(container);
+                        parentContainer.replace(cPart, placeholder);
+                        
+//                    } else {
+//                        DetachedPlaceHolder placeholder = new DetachedPlaceHolder(
+//                                "", oldShell.getBounds()); //$NON-NLS-1$
+//                        for (int i = 0, length = children.length; i < length; i++) {
+//                            children[i].getContainer().remove(children[i]);
+//                            children[i].setContainer(placeholder);
+//                            placeholder.add(children[i]);
+//                        }
+//                        detachedPlaceHolderList.add(placeholder);
+//                        DetachedWindow w = (DetachedWindow)oldShell.getData();
+//                        oldShell.close();
+//                        detachedWindowList.remove(w);
+//                    }
+                }
+            }
+        }
+    }
+  
   public boolean isPartVisible( IWorkbenchPartReference partRef ) {
     LayoutPart foundPart;
     if( partRef instanceof IViewReference ) {
@@ -146,9 +329,9 @@ public class PerspectiveHelper {
       return false;
     }
     ILayoutContainer container = foundPart.getContainer();
-//    if( container instanceof ContainerPlaceholder ) {
-//      return false;
-//    }
+// if( container instanceof ContainerPlaceholder ) {
+// return false;
+// }
     if( container instanceof ViewStack ) {
       ViewStack folder = ( ViewStack )container;
       PartPane visiblePart = folder.getSelection();
@@ -353,5 +536,112 @@ public class PerspectiveHelper {
     if( zoomPart != null ) {
       zoomPart.requestZoomOut();
     }
+  }
+  
+  /**
+   * Deref a given part. Deconstruct its container as required. Do not remove
+   * drag listeners.
+   */
+  /* package */void derefPart(LayoutPart part) {
+
+//      if (part instanceof ViewPane) {
+//          page.removeFastView(((ViewPane) part).getViewReference());
+//      }
+
+      // Get vital part stats before reparenting.
+      //Window oldWindow = part.getWindow();
+//      boolean wasDocked = part.isDocked();
+//      Shell oldShell = part.getShell();
+      ILayoutContainer oldContainer = part.getContainer();
+
+      // Reparent the part back to the main window
+//      part.reparent(mainLayout.getParent());
+
+      // Update container.
+      if (oldContainer == null) {
+			return;
+		}
+
+      oldContainer.remove(part);
+
+      LayoutPart[] children = oldContainer.getChildren();
+//      if (wasDocked) {
+          boolean hasChildren = (children != null) && (children.length > 0);
+          if (hasChildren) {
+              // make sure one is at least visible
+              int childVisible = 0;
+              for (int i = 0; i < children.length; i++) {
+					if (children[i].getControl() != null) {
+						childVisible++;
+					}
+				}
+
+              // none visible, then reprarent and remove container
+              if (oldContainer instanceof ViewStack) {
+                  ViewStack folder = (ViewStack) oldContainer;
+                  if (childVisible == 0) {
+                      ILayoutContainer parentContainer = folder
+                              .getContainer();
+                      for (int i = 0; i < children.length; i++) {
+                          folder.remove(children[i]);
+                          parentContainer.add(children[i]);
+                      }
+                      hasChildren = false;
+                  } else if (childVisible == 1) {
+                      LayoutTree layout = mainLayout.getLayoutTree();
+                      layout = layout.find(folder);
+                      layout.setBounds(layout.getBounds());
+                  }
+              }
+          }
+
+          if (!hasChildren) {
+              // There are no more children in this container, so get rid of
+              // it
+              if (oldContainer instanceof LayoutPart) {
+                  LayoutPart parent = (LayoutPart) oldContainer;
+                  ILayoutContainer parentContainer = parent.getContainer();
+                  if (parentContainer != null) {
+                      parentContainer.remove(parent);
+                      parent.dispose();
+                  }
+              }
+          }
+//      } else if (!wasDocked) {
+//          if (children == null || children.length == 0) {
+//              // There are no more children in this container, so get rid of
+//              // it
+//              // Turn on redraw again just in case it was off.
+//              //oldShell.setRedraw(true);
+//              DetachedWindow w = (DetachedWindow)oldShell.getData();
+//              oldShell.close();
+//              detachedWindowList.remove(w);
+//          } else {
+//              // There are children. If none are visible hide detached
+//              // window.
+//              boolean allInvisible = true;
+//              for (int i = 0, length = children.length; i < length; i++) {
+//                  if (!(children[i] instanceof PartPlaceholder)) {
+//                      allInvisible = false;
+//                      break;
+//                  }
+//              }
+//              if (allInvisible) {
+//                  DetachedPlaceHolder placeholder = new DetachedPlaceHolder(
+//                          "", //$NON-NLS-1$
+//                          oldShell.getBounds());
+//                  for (int i = 0, length = children.length; i < length; i++) {
+//                      oldContainer.remove(children[i]);
+//                      children[i].setContainer(placeholder);
+//                      placeholder.add(children[i]);
+//                  }
+//                  detachedPlaceHolderList.add(placeholder);
+//                  DetachedWindow w = (DetachedWindow)oldShell.getData();
+//                  oldShell.close();
+//                  detachedWindowList.remove(w);
+//              }
+//          }
+//      }
+
   }
 }

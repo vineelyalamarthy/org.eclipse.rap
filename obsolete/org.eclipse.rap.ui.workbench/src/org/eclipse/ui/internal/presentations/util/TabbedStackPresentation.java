@@ -156,7 +156,7 @@ public class TabbedStackPresentation extends StackPresentation {
   }
 
   public void dispose() {
-    throw new UnsupportedOperationException();
+	  folder.getTabFolder().getControl().dispose();
   }
 
   public Control getControl() {
@@ -211,8 +211,16 @@ public class TabbedStackPresentation extends StackPresentation {
     return INFINITE;
   }
 
-  public void removePart( IPresentablePart oldPart ) {
-    throw new UnsupportedOperationException();
+  /* (non-Javadoc)
+   * @see org.eclipse.ui.presentations.StackPresentation#removePart(org.eclipse.ui.presentations.IPresentablePart)
+   */
+  public void removePart(IPresentablePart oldPart) {
+//      ignoreSelectionChanges++;
+      try {
+          tabs.remove(oldPart);
+      } finally {
+//          ignoreSelectionChanges--;
+      }
   }
 
   public void selectPart( final IPresentablePart toSelect ) {

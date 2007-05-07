@@ -13,7 +13,9 @@ package org.eclipse.ui.internal;
 
 import java.text.MessageFormat;
 import java.util.*;
+
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.registry.PerspectiveDescriptor;
@@ -28,6 +30,7 @@ public class Perspective {
   private PerspectiveHelper presentation;
   private Map mapIDtoViewLayoutRec;
   private PartPlaceholder editorHolder;
+  private ArrayList showViewShortcuts;
 
   public Perspective( final PerspectiveDescriptor descriptor, 
                       final WorkbenchPage page )
@@ -166,6 +169,31 @@ public class Perspective {
     presentation.getLayout().replace( editorArea, editorHolder );
   }
 
+  public boolean hideView(IViewReference ref) {
+      // If the view is locked just return.
+      ViewPane pane = getPane(ref);
+
+      // Remove the view from the current presentation.
+//      if (isFastView(ref)) {
+//          fastViews.remove(ref);
+//          if (pane != null) {
+//				pane.setFast(false); //force an update of the toolbar
+//			}
+//          if (activeFastView == ref) {
+//				setActiveFastView(null);
+//			}
+//          if (pane != null) {
+//				pane.getControl().setEnabled(true);
+//			}
+//      } else {
+          presentation.removePart(pane);
+//      }
+
+      // Dispose view if ref count == 0.
+      getViewFactory().releaseView(ref);
+      return true;
+  }
+  
   protected boolean isEditorAreaVisible() {
     return editorHolder == null;
   }
@@ -175,6 +203,15 @@ public class Perspective {
   
   private Composite getClientComposite() {
     return page.getClientComposite();
+  }
+  
+  /**
+   * Returns the show view shortcuts associated with this perspective.
+   * 
+   * @return an array of view identifiers
+   */
+  public String[] getShowViewShortcuts() {
+	  return (String[]) showViewShortcuts.toArray(new String[showViewShortcuts.size()]);
   }
   
   private ViewFactory getViewFactory() {
@@ -190,6 +227,48 @@ public class Perspective {
 //    } else {
       loadPredefinedPersp( descriptor );
 //    }
+  }
+  
+  /**
+   * Shows the view with the given id and secondary id.
+   */
+  public IViewPart showView(String viewId, String secondaryId)
+          throws PartInitException {
+      ViewFactory factory = getViewFactory();
+      IViewReference ref = factory.createView(viewId, secondaryId);
+      IViewPart part = (IViewPart) ref.getPart(true);
+      if (part == null) {
+          throw new PartInitException(NLS.bind("could not create {0}", ref.getId()));
+      }
+      ViewSite site = (ViewSite) part.getSite();
+      ViewPane pane = (ViewPane) site.getPane();
+
+//      IPreferenceStore store = WorkbenchPlugin.getDefault()
+//              .getPreferenceStore();
+//      int openViewMode = store.getInt(IPreferenceConstants.OPEN_VIEW_MODE);
+
+//      if (openViewMode == IPreferenceConstants.OVM_FAST) {
+//          showFastView(ref);
+//          addFastView(ref);
+//      } else if (openViewMode == IPreferenceConstants.OVM_FLOAT
+//              && presentation.canDetach()) {
+//          presentation.addDetachedPart(pane);
+//      } else {
+      	presentation.addPart(pane);
+//      }
+      return part;
+  }
+  
+  /**
+   * Returns whether a view exists within the perspective.
+   */
+  public boolean containsView(IViewPart view) {
+      IViewSite site = view.getViewSite();
+      IViewReference ref = findView(site.getId(), site.getSecondaryId());
+      if (ref == null) {
+			return false;
+		}
+      return (view == ref.getPart(false));
   }
   
   private void loadPredefinedPersp( final PerspectiveDescriptor desc )
@@ -291,7 +370,7 @@ public class Perspective {
 //      addAlwaysOn( descriptor );
 //    }
 //    newWizardShortcuts = layout.getNewWizardShortcuts();
-//    showViewShortcuts = layout.getShowViewShortcuts();
+    showViewShortcuts = layout.getShowViewShortcuts();
 //    perspectiveShortcuts = layout.getPerspectiveShortcuts();
 //    showInPartIds = layout.getShowInPartIds();
 //    // Retrieve fast views

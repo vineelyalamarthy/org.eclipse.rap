@@ -36,6 +36,15 @@ public abstract class LayoutPart implements ISizeProvider {
     return id;
   }
   
+  /**
+   * Returns an id representing this part, suitable for use in a placeholder.
+   * 
+   * @since 3.0
+   */
+  public String getPlaceHolderId() {
+      return getID();
+  }
+  
   public boolean isCompressible() {
     return false;
   }
@@ -87,6 +96,12 @@ public abstract class LayoutPart implements ISizeProvider {
   }
 
   public void childRequestZoomOut() {
+  }
+  
+  /** 
+   * Disposes the SWT control
+   */
+  public void dispose() {
   }
 
   public final void requestZoomOut() {
@@ -167,6 +182,21 @@ public abstract class LayoutPart implements ISizeProvider {
     }
   }
 
+  /**
+   * Returns true iff the given part can be added to this ILayoutContainer
+   * @param toAdd
+   * @return
+   * @since 3.1
+   */
+  public boolean allowsAdd(LayoutPart toAdd) {
+      return false;
+  }
+  
+  public void resizeChild(LayoutPart childThatChanged) {
+
+  }
+
+  
   abstract public void createControl(Composite parent);
   abstract public Control getControl();
 

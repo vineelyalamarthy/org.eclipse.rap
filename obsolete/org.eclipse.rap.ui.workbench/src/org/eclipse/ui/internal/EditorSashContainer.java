@@ -45,4 +45,25 @@ public class EditorSashContainer extends PartSashContainer {
   public boolean isCompressible() {
     return true;
   }
+  
+  /* (non-Javadoc)
+   * @see org.eclipse.ui.internal.PartSashContainer#isStackType(org.eclipse.ui.internal.LayoutPart)
+   */
+  public boolean isStackType(LayoutPart toTest) {
+      return (toTest instanceof EditorStack);
+  }
+  
+  /**
+   * Find the sashs around the specified part.
+   */
+  public void findSashes(LayoutPart pane, PartPane.Sashes sashes) {
+      //Find the sashes around the current editor and
+      //then the sashes around the editor area.
+      super.findSashes(pane, sashes);
+
+      ILayoutContainer container = getContainer();
+      if (container != null) {
+          container.findSashes(this, sashes);
+      }
+  }
 }

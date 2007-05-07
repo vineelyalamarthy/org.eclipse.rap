@@ -102,7 +102,7 @@ public class WorkbenchPresentationFactory extends AbstractPresentationFactory {
 //      folder.setMinimumCharacters( minimumCharacters );
 //    }
     PresentablePartFolder partFolder = new PresentablePartFolder( folder );
-//    folder.setUnselectedCloseVisible( false );
+    folder.setUnselectedCloseVisible( false );
 //    folder.setUnselectedImageVisible( false );
     TabbedStackPresentation result = new TabbedStackPresentation( site,
                                                                   partFolder,

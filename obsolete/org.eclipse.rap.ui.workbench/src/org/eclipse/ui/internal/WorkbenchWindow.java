@@ -61,6 +61,14 @@ public class WorkbenchWindow
   private Map globalActionHandlersByCommandId = new HashMap();
   private WWinPartService partService = new WWinPartService(this);
   
+  /**
+   * Constant (bit mask) indicating which the Show View submenu is probably
+   * present somewhere in this window.
+   * 
+   * @see #addSubmenu
+   * @since 3.0
+   */
+  public static final int SHOW_VIEW_SUBMENU = 0x01;
     
   public WorkbenchWindow( int number ) {
     super( null );

@@ -78,7 +78,7 @@ public class ViewPane extends PartPane {
   }
 
   public void doHide() {
-    throw new UnsupportedOperationException();
+	  getPage().hideView(getViewReference());
   }
 
   public Control getToolBar() {

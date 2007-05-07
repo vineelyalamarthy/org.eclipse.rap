@@ -133,7 +133,7 @@ public abstract class PartPane
    * @private
    */
   public void dispose() {
-//    super.dispose();
+    super.dispose();
     if( ( control != null ) && ( !control.isDisposed() ) ) {
       ActivateEvent.removeListener( control, this );
 //      control.removeListener( SWT.Activate, this );

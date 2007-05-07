@@ -138,7 +138,8 @@ public abstract class PartList {
     // Assert.isTrue(parts.contains(ref));
     // We're not allowed to remove the active part. We must deactivate it
     // first.
-    Assert.isTrue( ref != activePartReference );
+    // XXX: [bm] active part
+//    Assert.isTrue( ref != activePartReference );
     // We're not allowed to remove the active editor. We must deactivate it
     // first.
     Assert.isTrue( ref != activeEditorReference );
@@ -214,7 +215,8 @@ public abstract class PartList {
     // Not allowed to close the active part. The part must be deactivated
     // before it may
     // be closed.
-    Assert.isTrue( activePartReference != ref );
+    // XXX
+//    Assert.isTrue( activePartReference != ref );
     // Not allowed to close the active editor. The editor must be
     // deactivated before it may
     // be closed.

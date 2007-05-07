@@ -31,7 +31,7 @@ public interface ILayoutContainer {
    */
   public void replace( LayoutPart oldPart, LayoutPart newPart );
 
-//  public void findSashes( LayoutPart toFind, PartPane.Sashes result );
+  public void findSashes( LayoutPart toFind, PartPane.Sashes result );
 
   /**
    * When a layout part closes, focus will return to the previously active part.

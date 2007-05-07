@@ -11,8 +11,8 @@
 
 package org.eclipse.ui.internal;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.registry.PerspectiveDescriptor;
@@ -26,6 +26,7 @@ public class PageLayout implements IPageLayout {
   private boolean editorVisible = true;
   private Map mapIDtoPart = new HashMap( 10 );
   private Map mapIDtoFolder = new HashMap( 10 );
+  private ArrayList showViewShortcuts = new ArrayList(3);
 
   public PageLayout( final ViewSashContainer container, 
                      final ViewFactory viewFactory, 
@@ -99,7 +100,17 @@ public class PageLayout implements IPageLayout {
   }
 
   public void addShowViewShortcut( String id ) {
-    throw new UnsupportedOperationException();
+      if (!showViewShortcuts.contains(id)) {
+          showViewShortcuts.add(id);
+      }
+  }
+  
+  /**
+   * @return the show view shortcuts associated with the page. This is a <code>List</code> of 
+   * <code>String</code>s.
+   */
+  public ArrayList getShowViewShortcuts() {
+      return showViewShortcuts;
   }
 
   public void addStandaloneView( String viewId,

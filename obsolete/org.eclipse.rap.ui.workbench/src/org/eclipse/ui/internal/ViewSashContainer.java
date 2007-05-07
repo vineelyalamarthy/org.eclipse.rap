@@ -17,10 +17,15 @@ import org.eclipse.swt.widgets.Control;
 
 public class ViewSashContainer extends PartSashContainer {
 
-  public ViewSashContainer( final WorkbenchPage page, final Composite parent ) {
+public ViewSashContainer( final WorkbenchPage page, final Composite parent ) {
     super( "root layout container", page, parent );
   }
   
+
+	public boolean isStackType(LayoutPart toTest) {
+		return (toTest instanceof ViewStack);
+	}
+	
   protected Composite createParent( final Composite parentWidget ) {
     return parentWidget;
   }
@@ -44,4 +49,11 @@ public class ViewSashContainer extends PartSashContainer {
     super.replace( oldChild, newChild );
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.ui.internal.PartSashContainer#derefPart(org.eclipse.ui.internal.LayoutPart)
+   */
+  protected void derefPart(LayoutPart sourcePart) {
+      page.getActivePerspective().getPresentation().derefPart(sourcePart);
+  }
+  
 }

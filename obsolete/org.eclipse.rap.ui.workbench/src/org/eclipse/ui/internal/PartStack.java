@@ -12,13 +12,14 @@
 package org.eclipse.ui.internal;
 
 import java.util.*;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.presentations.PresentablePart;
 import org.eclipse.ui.internal.presentations.PresentationFactoryUtil;
 import org.eclipse.ui.presentations.*;
@@ -41,11 +42,11 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
   {
 
     public void close( final IPresentablePart part ) {
-//      PartStack.this.close( part );
+      PartStack.this.close( part );
     }
 
     public void close( final IPresentablePart[] parts ) {
-//      PartStack.this.close( parts );
+      PartStack.this.close( parts );
     }
 
     public void dragStart( final IPresentablePart beingDragged,
@@ -122,6 +123,34 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
     return null;
   }
 
+  /**
+   * @param parts
+   */
+  protected void close(IPresentablePart[] parts) {
+      for (int idx = 0; idx < parts.length; idx++) {
+          IPresentablePart part = parts[idx];
+
+          close(part);
+      }
+  }
+  
+  /**
+   * @param part
+   */
+  protected void close(IPresentablePart part) {
+      if (!presentationSite.isCloseable(part)) {
+          return;
+      }
+
+      LayoutPart layoutPart = getPaneFor(part);
+
+      if (layoutPart != null && layoutPart instanceof PartPane) {
+          PartPane viewPane = (PartPane) layoutPart;
+
+          viewPane.doHide();
+      }
+  }
+  
   public void setActive( boolean isActive ) {
     this.isActive = isActive;
     // Add all visible children to the presentation
@@ -233,6 +262,15 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
     return getControl().getParent();
   }
 
+  /**
+   * Returns a list of IPresentablePart
+   * 
+   * @return
+   */
+  public List getPresentableParts() {
+      return presentableParts;
+  }
+  
   public int computePreferredSize( boolean width,
                                    int availableParallel,
                                    int availablePerpendicular,
@@ -375,7 +413,8 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
   }
 
   public boolean allowsAdd( LayoutPart toAdd ) {
-    throw new UnsupportedOperationException();
+//	  return !isStandalone();
+	  return true;
   }
 
   public boolean allowsAutoFocus() {
@@ -406,12 +445,105 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
     return result;
   }
 
-  public void remove( LayoutPart part ) {
-    throw new UnsupportedOperationException();
+  /**
+   * See IVisualContainer#remove
+   */
+  public void remove(LayoutPart child) {
+      PresentablePart presentablePart = getPresentablePart(child);
+
+      // Need to remove it from the list of children before notifying the presentation
+      // since it may setVisible(false) on the part, leading to a partHidden notification,
+      // during which findView must not find the view being removed.  See bug 60039. 
+      children.remove(child);
+
+      StackPresentation presentation = getPresentation();
+
+      if (presentablePart != null && presentation != null) {
+//          ignoreSelectionChanges = true;
+          presentableParts .remove(presentablePart);
+          presentation.removePart(presentablePart);
+          presentablePart.dispose();
+//          ignoreSelectionChanges = false;
+      }
+
+      if (!isDisposed()) {
+          child.setContainer(null);
+      }
+
+      if (child == requestedCurrent) {
+          updateContainerVisibleTab();
+      }
   }
 
-  public void replace( LayoutPart oldPart, LayoutPart newPart ) {
-    throw new UnsupportedOperationException();
+  /**
+	 * Update the container to show the correct visible tab based on the
+	 * activation list.
+	 */
+  private void updateContainerVisibleTab() {
+      LayoutPart[] parts = getChildren();
+
+      if (parts.length < 1) {
+          setSelection(null);
+          return;
+      }
+
+      PartPane selPart = null;
+      int topIndex = 0;
+      WorkbenchPage page = getPage();
+
+      if (page != null) {
+          IWorkbenchPartReference sortedPartsArray[] = page.getSortedParts();
+          List sortedParts = Arrays.asList(sortedPartsArray);
+          for (int i = 0; i < parts.length; i++) {
+              if (parts[i] instanceof PartPane) {
+                  IWorkbenchPartReference part = ((PartPane) parts[i])
+                          .getPartReference();
+                  int index = sortedParts.indexOf(part);
+                  if (index >= topIndex) {
+                      topIndex = index;
+                      selPart = (PartPane) parts[i];
+                  }
+              }
+          }
+
+      }
+
+      if (selPart == null) {
+          List presentableParts = getPresentableParts();
+          if (presentableParts.size() != 0) {
+              IPresentablePart part = (IPresentablePart) getPresentableParts()
+                      .get(0);
+
+              selPart = (PartPane) getPaneFor(part);
+          }
+      }
+
+      setSelection(selPart);
+  }
+  
+  /**
+   * See IVisualContainer#replace
+   */
+  public void replace(LayoutPart oldChild, LayoutPart newChild) {
+      int idx = children.indexOf(oldChild);
+      int numPlaceholders = 0;
+      //subtract the number of placeholders still existing in the list 
+      //before this one - they wont have parts.
+      for (int i = 0; i < idx; i++) {
+          if (children.get(i) instanceof PartPlaceholder) {
+				numPlaceholders++;
+			}
+      }
+      Integer cookie = new Integer(idx - numPlaceholders);
+      children.add(idx, newChild);
+
+      showPart(newChild, cookie);
+
+      if (oldChild == requestedCurrent && !(newChild instanceof PartPlaceholder)) {
+          setSelection(newChild);
+      }
+
+      remove(oldChild);
   }
 
   public void resizeChild( LayoutPart childThatChanged ) {
@@ -426,15 +558,16 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
     if( isDisposed() ) {
       return;
     }
-//    if( ( part instanceof PartPlaceholder ) ) {
-//      part.setContainer( this );
-//      return;
-//    }
-//    if( !( part instanceof PartPane ) ) {
+    if( ( part instanceof PartPlaceholder ) ) {
+      part.setContainer( this );
+      return;
+    }
+    if( !( part instanceof PartPane ) ) {
 //      WorkbenchPlugin.log( NLS.bind( WorkbenchMessages.PartStack_incorrectPartInFolder,
 //                                     part.getID() ) );
-//      return;
-//    }
+    	Activator.log("incorrect part in folder:" + part.getID());
+      return;
+    }
     PartPane pane = ( PartPane )part;
     PresentablePart presentablePart
       = new PresentablePart( pane, getControl().getParent() );
@@ -528,5 +661,38 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
         }
       }
     }
+  }
+  
+  /**
+   * See LayoutPart#dispose
+   */
+  public void dispose() {
+
+      if (isDisposed()) {
+			return;
+		}
+
+//      savePresentationState();
+
+      presentationSite.dispose();
+      
+      for (Iterator iter = presentableParts.iterator(); iter.hasNext();) {
+          PresentablePart part = (PresentablePart) iter.next();
+          
+          part.dispose();
+      }
+      presentableParts.clear();
+      
+      presentationCurrent = null;
+      current = null;
+//      fireInternalPropertyChange(PROP_SELECTION);
+  }
+  
+  public void findSashes(LayoutPart part, PartPane.Sashes sashes) {
+      ILayoutContainer container = getContainer();
+
+      if (container != null) {
+          container.findSashes(this, sashes);
+      }
   }
 }

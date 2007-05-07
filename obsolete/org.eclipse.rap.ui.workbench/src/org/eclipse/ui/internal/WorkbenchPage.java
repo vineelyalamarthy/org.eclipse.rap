@@ -13,11 +13,13 @@ package org.eclipse.ui.internal;
 
 import java.text.MessageFormat;
 import java.util.*;
+
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.*;
@@ -590,6 +592,13 @@ public class WorkbenchPage implements IWorkbenchPage {
     setState( ref, newState );
   }
 
+  /*
+   * Returns the parts in activation order (oldest first).
+   */
+  public IWorkbenchPartReference[] getSortedParts() {
+      return activationList.getParts();
+  }
+  
   public IWorkbenchPartReference getReference( IWorkbenchPart part ) {
     if( part == null ) {
       return null;
@@ -752,10 +761,396 @@ public class WorkbenchPage implements IWorkbenchPage {
     }
   }
 
-  private void updateActivePart() {
-//    if( isDeferred() ) {
-//      return;
-//    }
+  /**
+   * See IPerspective
+   */
+  public void hideView(IViewPart view) {
+      hideView((IViewReference)getReference(view));
+  }
+  
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.IWorkbenchPage#hideView(org.eclipse.ui.IViewReference)
+   */
+  public void hideView(IViewReference ref) {
+      
+      // Sanity check.
+      if (ref == null) {
+			return;
+		}
+
+      Perspective persp = getActivePerspective();
+      if (persp == null) {
+			return;
+		}
+
+      boolean promptedForSave = false;
+      IViewPart view = ref.getView(false);
+      if (view != null) {
+
+          if (!certifyPart(view)) {
+              return;
+          }
+          
+          // Confirm.
+//  		if (view instanceof ISaveablePart) {
+//  			ISaveablePart saveable = (ISaveablePart)view;
+//  			if (saveable.isSaveOnCloseNeeded()) {
+//  				IWorkbenchWindow window = view.getSite().getWorkbenchWindow();
+//  				boolean success = EditorManager.saveAll(Collections.singletonList(view), true, true, false, window);
+//  				if (!success) {
+//  					// the user cancelled.
+//  					return;
+//  				}
+//  				promptedForSave = true;
+//  			}
+//  		}
+      }
+      
+//      int refCount = getViewFactory().getReferenceCount(ref);
+//      SaveablesList saveablesList = null;
+//      Object postCloseInfo = null;
+//      if (refCount == 1) {
+//      	IWorkbenchPart actualPart = ref.getPart(false);
+//      	if (actualPart != null) {
+//				saveablesList = (SaveablesList) actualPart
+//						.getSite().getService(ISaveablesLifecycleListener.class);
+//				postCloseInfo = saveablesList.preCloseParts(Collections
+//						.singletonList(actualPart), !promptedForSave, this
+//						.getWorkbenchWindow());
+//				if (postCloseInfo==null) {
+//					// cancel
+//					return;
+//				}
+//			}
+//      }
+      
+      // Notify interested listeners before the hide
+      // XXX: [bm] do we have perspective listeners? 
+//      window.firePerspectiveChanged(this, persp.getDesc(), ref,
+//              CHANGE_VIEW_HIDE);
+
+      PartPane pane = getPane(ref);
+      pane.setInLayout(false);
+      
+      updateActivePart();
+      
+//      if (saveablesList != null) {
+//      	saveablesList.postClose(postCloseInfo);
+//      }
+
+      // Hide the part.
+      persp.hideView(ref);
+
+      // Notify interested listeners after the hide
+//    XXX: [bm] do we have perspective listeners? 
+//      window.firePerspectiveChanged(this, getPerspective(), CHANGE_VIEW_HIDE);
+  }
+  
+  public IViewPart showView(String viewId) throws PartInitException {
+		return showView(viewId, null, VIEW_ACTIVATE);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchPage#showView(java.lang.String,
+	 *      java.lang.String, int)
+	 */
+	public IViewPart showView(final String viewID, final String secondaryID,
+			final int mode) throws PartInitException {
+
+		if (secondaryID != null) {
+			if (secondaryID.length() == 0
+					|| secondaryID.indexOf(ViewFactory.ID_SEP) != -1) {
+				throw new IllegalArgumentException("bad secondaryId");
+			}
+		}
+		if (!certifyMode(mode)) {
+			throw new IllegalArgumentException("illegal view mode");
+		}
+
+		// Run op in busy cursor.
+		final Object[] result = new Object[1];
+		BusyIndicator.showWhile(null, new Runnable() {
+			public void run() {
+				try {
+					result[0] = busyShowView(viewID, secondaryID, mode);
+				} catch (PartInitException e) {
+					result[0] = e;
+				}
+			}
+		});
+		if (result[0] instanceof IViewPart) {
+			return (IViewPart) result[0];
+		} else if (result[0] instanceof PartInitException) {
+			throw (PartInitException) result[0];
+		} else {
+			throw new PartInitException("Abnormal Workbench Condition");
+		}
+	}
+	
+    /**
+	 * Shows a view.
+	 * 
+	 * Assumes that a busy cursor is active.
+	 */
+	private IViewPart busyShowView(String viewID, String secondaryID, int mode)
+			throws PartInitException {
+		Perspective persp = getActivePerspective();
+		if (persp == null) {
+			return null;
+		}
+
+		// If this view is already visible just return.
+		IViewReference ref = persp.findView(viewID, secondaryID);
+		IViewPart view = null;
+		if (ref != null) {
+			view = ref.getView(true);
+		}
+		if (view != null) {
+			busyShowView(view, mode);
+			return view;
+		}
+
+		// Show the view.
+		view = persp.showView(viewID, secondaryID);
+		if (view != null) {
+			busyShowView(view, mode);
+
+			IWorkbenchPartReference partReference = getReference(view);
+			PartPane partPane = getPane(partReference);
+			partPane.setInLayout(true);
+
+			// XXX: [bm] do we have perspective listeners?
+			// window.firePerspectiveChanged(this, getPerspective(),
+			// partReference, CHANGE_VIEW_SHOW);
+			// window.firePerspectiveChanged(this, getPerspective(),
+			// CHANGE_VIEW_SHOW);
+		}
+		return view;
+	}
+
+    /**
+     * This is called by child objects after a part has been added to the page.
+     * The part will be queued for disposal after all listeners have been notified
+     */
+    /* package */ void partRemoved(WorkbenchPartReference ref) {
+        activationList.remove(ref);
+        disposePart(ref);
+    }
+    
+    private void disposePart(WorkbenchPartReference ref) {
+//        if (isDeferred()) {
+//            pendingDisposals.add(ref);
+//        } else {
+            partList.removePart(ref);
+//            ref.dispose();
+//        }
+    }
+    
+    /**
+     * Returns the perspective.
+     */
+    public IPerspectiveDescriptor getPerspective() {
+//        if (deferredActivePersp != null) {
+//			return deferredActivePersp;
+//		}
+        Perspective persp = getActivePerspective();
+        if (persp != null) {
+			return persp.getDesc();
+		} else {
+			return null;
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.IWorkbenchPage#getShowViewShortcuts()
+     */
+    public String[] getShowViewShortcuts() {
+        Perspective persp = getActivePerspective();
+        if (persp == null) {
+            return new String[0];
+        }
+        return persp.getShowViewShortcuts();
+    }
+    
+    /*
+	 * Performs showing of the view in the given mode.
+	 */
+	private void busyShowView(IViewPart part, int mode) {
+		if (mode == VIEW_ACTIVATE) {
+			activate(part);
+		} else if (mode == VIEW_VISIBLE) {
+			IWorkbenchPartReference ref = getActivePartReference();
+			// if there is no active part or it's not a view, bring to top
+			if (ref == null || !(ref instanceof IViewReference)) {
+				bringToTop(part);
+			} else {
+				// otherwise check to see if the we're in the same stack as the
+				// active view
+				IViewReference activeView = (IViewReference) ref;
+				IViewReference[] viewStack = getViewReferenceStack(part);
+				for (int i = 0; i < viewStack.length; i++) {
+					if (viewStack[i].equals(activeView)) {
+						return;
+					}
+				}
+				bringToTop(part);
+			}
+		}
+	}
+    
+    /**
+     * Find the stack of view references stacked with this view part.
+     * 
+     * @param part the part
+     * @return the stack of references
+     * @since 3.0
+     */
+    private IViewReference[] getViewReferenceStack(IViewPart part) {
+        // Sanity check.
+        Perspective persp = getActivePerspective();
+        if (persp == null || !certifyPart(part)) {
+			return null;
+		}
+
+        ILayoutContainer container = ((PartSite) part.getSite()).getPane()
+                .getContainer();
+        if (container instanceof ViewStack) {
+            ViewStack folder = (ViewStack) container;
+            final ArrayList list = new ArrayList(folder.getChildren().length);
+            for (int i = 0; i < folder.getChildren().length; i++) {
+                LayoutPart layoutPart = folder.getChildren()[i];
+                if (layoutPart instanceof ViewPane) {
+                    IViewReference view = ((ViewPane) layoutPart)
+                            .getViewReference();
+                    if (view != null) {
+						list.add(view);
+					}
+                }
+            }
+
+            // sort the list by activation order (most recently activated first)
+            Collections.sort(list, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    int pos1 = (-1)
+                            * activationList
+                                    .indexOf((IWorkbenchPartReference) o1);
+                    int pos2 = (-1)
+                            * activationList
+                                    .indexOf((IWorkbenchPartReference) o2);
+                    return pos1 - pos2;
+                }
+            });
+
+            return (IViewReference[]) list.toArray(new IViewReference[list
+                    .size()]);
+        }
+
+        return new IViewReference[] { (IViewReference) getReference(part) };
+    }
+    
+    /**
+     * Returns whether a part exists in the current page.
+     */
+    private boolean certifyPart(IWorkbenchPart part) {
+        //Workaround for bug 22325
+        if (part != null && !(part.getSite() instanceof PartSite)) {
+			return false;
+		}
+
+//      TODO: [bm] editorsparts? 
+//        if (part instanceof IEditorPart) {
+//            IEditorReference ref = (IEditorReference) getReference(part);
+//            return ref != null && getEditorManager().containsEditor(ref);
+//        }
+        if (part instanceof IViewPart) {
+            Perspective persp = getActivePerspective();
+            return persp != null && persp.containsView((IViewPart) part);
+        }
+        return false;
+    }
+    
+    /**
+	 * Moves a part forward in the Z order of a perspective so it is visible. If
+	 * the part is in the same stack as the active part, the new part is
+	 * activated.
+	 * 
+	 * @param part
+	 *            the part to bring to move forward
+	 */
+	public void bringToTop(IWorkbenchPart part) {
+		// Sanity check.
+		Perspective persp = getActivePerspective();
+		if (persp == null || !certifyPart(part)) {
+			return;
+		}
+
+//		String label = null; // debugging only
+//		if (UIStats.isDebugging(UIStats.BRING_PART_TO_TOP)) {
+//			label = part != null ? part.getTitle() : "none"; //$NON-NLS-1$
+//		}
+
+		try {
+//			UIStats.start(UIStats.BRING_PART_TO_TOP, label);
+
+			// TODO: [bm] editorparts?
+			IWorkbenchPartReference ref = getReference(part);
+//			ILayoutContainer activeEditorContainer = getContainer(getActiveEditor());
+			ILayoutContainer activePartContainer = getContainer(getActivePart());
+			ILayoutContainer newPartContainer = getContainer(part);
+
+			if (newPartContainer == activePartContainer) {
+				makeActive(ref);
+//			} else if (newPartContainer == activeEditorContainer) {
+//				if (ref instanceof IEditorReference) {
+//					if (part != null) {
+//						IWorkbenchPartSite site = part.getSite();
+//						if (site instanceof PartSite) {
+//							ref = ((PartSite) site).getPane()
+//									.getPartReference();
+//						}
+//					}
+//					makeActiveEditor((IEditorReference) ref);
+//				} else {
+//					makeActiveEditor(null);
+//				}
+			} else {
+				internalBringToTop(ref);
+				if (ref != null) {
+					partList.firePartBroughtToTop(ref);
+				}
+			}
+		} finally {
+//			UIStats.end(UIStats.BRING_PART_TO_TOP, part, label);
+		}
+	}
+    
+	/**
+	 * @param mode
+	 *            the mode to test
+	 * @return whether the mode is recognized
+	 * @since 3.0
+	 */
+	private boolean certifyMode(int mode) {
+		switch (mode) {
+		case VIEW_ACTIVATE:
+		case VIEW_VISIBLE:
+		case VIEW_CREATE:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+private void updateActivePart() {
+// if( isDeferred() ) {
+// return;
+// }
     IWorkbenchPartReference oldActivePart = partList.getActivePartReference();
     IWorkbenchPartReference oldActiveEditor = partList.getActiveEditorReference();
     IWorkbenchPartReference newActivePart = null;

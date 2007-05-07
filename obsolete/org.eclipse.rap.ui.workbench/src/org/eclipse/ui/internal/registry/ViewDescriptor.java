@@ -11,6 +11,8 @@
 
 package org.eclipse.ui.internal.registry;
 
+import java.util.StringTokenizer;
+
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.Activator;
@@ -24,6 +26,7 @@ public class ViewDescriptor implements IViewDescriptor {
   private final IConfigurationElement element;
   private String id;
   private ImageDescriptor imageDescriptor;
+  private String[] categoryPath;
   
   public ViewDescriptor( final IConfigurationElement element )
     throws CoreException
@@ -37,7 +40,7 @@ public class ViewDescriptor implements IViewDescriptor {
   }
 
   public String[] getCategoryPath() {
-    throw new UnsupportedOperationException();
+	  return categoryPath;
   }
 
   public String getDescription() {
@@ -95,5 +98,15 @@ public class ViewDescriptor implements IViewDescriptor {
  
   private void loadFromExtension() throws CoreException {
     id = element.getAttribute( IWorkbenchRegistryConstants.ATT_ID );
+    String category = element.getAttribute(IWorkbenchRegistryConstants.TAG_CATEGORY);
+    
+    if (category != null) {
+        StringTokenizer stok = new StringTokenizer(category, "/"); //$NON-NLS-1$
+        categoryPath = new String[stok.countTokens()];
+        // Parse the path tokens and store them
+        for (int i = 0; stok.hasMoreTokens(); i++) {
+            categoryPath[i] = stok.nextToken();
+        }
+    }
   }
 }

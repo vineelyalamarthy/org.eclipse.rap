@@ -12,6 +12,7 @@
 package org.eclipse.ui.internal;
 
 import java.util.*;
+
 import org.eclipse.jface.util.Geometry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
@@ -83,6 +84,100 @@ public abstract class PartSashContainer
       }
     };
   }
+  
+  /**
+   * Adds the child using ratio and position attributes
+   * from the specified placeholder without replacing
+   * the placeholder
+   * 
+   * FIXME: I believe there is a bug in computeRelation()
+   * when a part is positioned relative to the editorarea.
+   * We end up with a null relative and 0.0 for a ratio.
+   */
+  void addChildForPlaceholder(LayoutPart child, LayoutPart placeholder) {
+      RelationshipInfo newRelationshipInfo = new RelationshipInfo();
+      newRelationshipInfo.part = child;
+      if (root != null) {
+          newRelationshipInfo.relationship = IPageLayout.RIGHT;
+          newRelationshipInfo.relative = root.findBottomRight();
+          newRelationshipInfo.left = 200;
+          newRelationshipInfo.right = 200;
+      }
+
+      // find the relationship info for the placeholder
+      RelationshipInfo[] relationships = computeRelation();
+      for (int i = 0; i < relationships.length; i++) {
+          RelationshipInfo info = relationships[i];
+          if (info.part == placeholder) {
+              newRelationshipInfo.left = info.left;
+              newRelationshipInfo.right = info.right;
+              newRelationshipInfo.relationship = info.relationship;
+              newRelationshipInfo.relative = info.relative;
+          }
+      }
+
+      addChild(newRelationshipInfo);
+      flushLayout();
+  }
+  
+  /**
+   * Returns an array with all the relation ship between the
+   * parts.
+   */
+  public RelationshipInfo[] computeRelation() {
+      LayoutTree treeRoot = root;
+      ArrayList list = new ArrayList();
+      if (treeRoot == null) {
+			return new RelationshipInfo[0];
+		}
+      RelationshipInfo r = new RelationshipInfo();
+      r.part = treeRoot.computeRelation(list);
+      list.add(0, r);
+      RelationshipInfo[] result = new RelationshipInfo[list.size()];
+      list.toArray(result);
+      return result;
+  }
+  
+  public void stack(LayoutPart newPart, ILayoutContainer container) {
+
+//      getControl().setRedraw(false);
+      // Remove the part from old container.
+      derefPart(newPart);
+      // Reparent part and add it to the workbook
+//      newPart.reparent(getParent());
+      container.add(newPart);
+//      getControl().setRedraw(true);
+
+  }
+  
+  /**
+   * @param sourcePart
+   */
+  protected void derefPart(LayoutPart sourcePart) {
+      ILayoutContainer container = sourcePart.getContainer();
+      if (container != null) {
+          container.remove(sourcePart);
+      }
+
+      if (container instanceof LayoutPart) {
+          if (isStackType((LayoutPart) container)) {
+              PartStack stack = (PartStack) container;
+              if (stack.getChildren().length == 0) {
+                  remove(stack);
+                  stack.dispose();
+              }
+          }
+      }
+  }
+  
+  /**
+   * Returns true iff this PartSashContainer allows its parts to be stacked onto the given
+   * container.
+   * 
+   * @param container
+   * @return
+   */
+  public abstract boolean isStackType(LayoutPart toTest);
   
   public void setActive( boolean isActive ) {
     if( isActive == active ) {
@@ -331,6 +426,29 @@ public abstract class PartSashContainer
     flushLayout();
   }
 
+//  /**
+//   * @see LayoutPart#dispose
+//   */
+//  public void dispose() {
+//      if (parent == null) {
+//			return;
+//		}
+//
+//      if (children != null) {
+//          for (int i = 0, length = children.size(); i < length; i++) {
+//              LayoutPart child = (LayoutPart) children.get(i);
+//
+//              // In PartSashContainer dispose really means deactivate, so we
+//              // only dispose PartTabFolders.
+//              if (child instanceof PartStack) {
+//					child.dispose();
+//				}
+//          }
+//      }
+////      disposeParent();
+//      this.parent = null;
+//  }
+  
   public int computePreferredSize( boolean width,
                                    int availableParallel,
                                    int availablePerpendicular,
@@ -404,6 +522,20 @@ public abstract class PartSashContainer
       }
     }
     super.setZoomed( isZoomed );
+  }
+  
+  /**
+   * Find the sashs around the specified part.
+   */
+  public void findSashes(LayoutPart pane, PartPane.Sashes sashes) {
+      if (root == null) {
+          return;
+      }
+      LayoutTree part = root.find(pane);
+      if (part == null) {
+			return;
+		}
+      part.findSashes(sashes);
   }
   
   public void add( final LayoutPart child ) {

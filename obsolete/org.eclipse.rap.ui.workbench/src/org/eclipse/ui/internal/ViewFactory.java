@@ -108,4 +108,22 @@ public class ViewFactory {
   static String getKey( final IViewReference viewRef ) {
     return getKey( viewRef.getId(), viewRef.getSecondaryId() );
   }
+  
+  /**
+   * Releases an instance of a view.
+   *
+   * This factory does reference counting.  For more info see
+   * getView.
+   */
+  public void releaseView(IViewReference viewRef) {
+      String key = getKey(viewRef);
+      IViewReference ref = (IViewReference) counter.get(key);
+      if (ref == null) {
+			return;
+		}
+      int count = counter.removeRef(key);
+      if (count <= 0) {
+          getWorkbenchPage().partRemoved((ViewReference)ref);
+      }
+  }
 }
