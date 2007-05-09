@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.ui.workbench">
+<schema targetNamespace="org.eclipse.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.rap.ui.workbench" id="commonExpression" name="Common Expressions"/>
+         <meta.schema plugin="org.eclipse.ui" id="commonExpression" name="Common Expressions"/>
       </appInfo>
       <documentation>
          An action&apos;s enablement and/or visibility can be defined using the elements &lt;samp&gt;enablement&lt;/samp&gt; and &lt;samp&gt;visibility&lt;/samp&gt; respectively. These two elements contain a boolean expression that is evaluated to determine the enablement and/or visibility.

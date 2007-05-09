@@ -19,8 +19,6 @@ import org.eclipse.ui.internal.util.BundleUtility;
 
 public class WorkbenchPlugin {
 
-  public static String PI_WORKBENCH = PlatformUI.PLUGIN_ID;
-
   /**
    * Creates an extension. If the extension plugin has not been loaded a busy
    * cursor will be activated during the duration of the load.
@@ -62,7 +60,7 @@ public class WorkbenchPlugin {
       throw core;
     } catch( Exception e ) {
       throw new CoreException( new Status( IStatus.ERROR,
-                                           PI_WORKBENCH,
+                                           PlatformUI.PLUGIN_ID,
                                            IStatus.ERROR,
 //                                           WorkbenchMessages.WorkbenchPlugin_extension,
                                            "Cannot create extension",

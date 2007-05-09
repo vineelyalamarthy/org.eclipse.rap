@@ -11,7 +11,7 @@ package org.eclipse.ui;
  * Preference ids exposed by the Eclipse Platform User Interface. These
  * preference settings can be obtained from the UI plug-in's preference store.
  * 
- * @see PlatformUI#PLUGIN_ID
+ * @see PlatformUI#PLUGIN_EXTENSION_NAME_SPACE
  * @see PlatformUI#getPreferenceStore()
  */
 public interface IWorkbenchPreferenceConstants {

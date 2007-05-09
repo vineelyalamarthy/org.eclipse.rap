@@ -19,6 +19,7 @@ import org.eclipse.ui.internal.Workbench;
 public final class PlatformUI {
   
   public static final String PLUGIN_ID = "org.eclipse.rap.ui.workbench"; 
+  public static final String PLUGIN_EXTENSION_NAME_SPACE = "org.eclipse.ui"; 
   
   public static Display createDisplay() {
     return Workbench.createDisplay();

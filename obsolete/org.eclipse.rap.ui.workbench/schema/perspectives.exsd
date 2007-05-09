@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.ui.workbench">
+<schema targetNamespace="org.eclipse.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.rap.ui.workbench" id="perspective" name="Perspectives"/>
+         <meta.schema plugin="org.eclipse.ui" id="perspective" name="Perspectives"/>
       </appInfo>
       <documentation>
          This extension point is used to add perspective factories to the workbench.  A perspective factory is used to define the initial layout and visible action sets for a perspective.  The user can select a perspective by invoking the &quot;Open Perspective&quot; submenu of the &quot;Window&quot; menu.
@@ -121,7 +121,7 @@ with this perspective.
 &lt;p&gt;
 &lt;pre&gt;
    &lt;extension 
-        point=&quot;org.eclipse.ui.rap.workbench.perspectives&quot;&gt; 
+        point=&quot;org.eclipse.ui.perspectives&quot;&gt; 
         &lt;perspective 
             id=&quot;org.eclipse.ui.resourcePerspective&quot; 
             name=&quot;Resource&quot; 

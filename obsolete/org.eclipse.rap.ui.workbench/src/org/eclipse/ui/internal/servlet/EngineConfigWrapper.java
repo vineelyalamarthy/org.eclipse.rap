@@ -21,6 +21,7 @@ import org.eclipse.swt.internal.lifecycle.RWTLifeCycle;
 import org.eclipse.swt.resources.IResource;
 import org.eclipse.swt.resources.ResourceManager;
 import org.eclipse.ui.Activator;
+import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 import com.w4t.engine.lifecycle.LifeCycleFactory;
 import com.w4t.engine.lifecycle.PhaseListener;
@@ -191,7 +192,7 @@ final class EngineConfigWrapper implements IEngineConfig {
   
   // determine a faked context directory
   private static IPath findContextPath() {
-    Bundle bundle = Platform.getBundle( Activator.PLUGIN_ID );
+    Bundle bundle = Platform.getBundle( PlatformUI.PLUGIN_ID );
     IPath stateLocation = Platform.getStateLocation( bundle );
     return stateLocation.append( "context" );
   }

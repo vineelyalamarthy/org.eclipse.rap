@@ -53,7 +53,7 @@ public interface IWorkbenchConstants {
             + ".OleEditor"; //$NON-NLS-1$
 
     // Default view category.
-    public static final String DEFAULT_CATEGORY_ID = PlatformUI.PLUGIN_ID;
+    public static final String DEFAULT_CATEGORY_ID = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE;
 
     // Persistance tags.
     public static final String TRUE = "true"; //$NON-NLS-1$

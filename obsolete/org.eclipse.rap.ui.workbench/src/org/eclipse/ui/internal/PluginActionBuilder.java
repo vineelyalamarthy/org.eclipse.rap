@@ -100,7 +100,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
     targetID = id;
     targetContributionTag = tag;
     readRegistry( Platform.getExtensionRegistry(),
-                  PlatformUI.PLUGIN_ID,
+                  PlatformUI.PLUGIN_EXTENSION_NAME_SPACE,
                   extensionPoint );
   }
 

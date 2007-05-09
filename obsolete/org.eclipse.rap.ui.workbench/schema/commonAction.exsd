@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.ui.workbench">
+<schema targetNamespace="org.eclipse.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.rap.ui.workbench" id="commonAction" name="Common Action"/>
+         <meta.schema plugin="org.eclipse.ui" id="commonAction" name="Common Action"/>
       </appInfo>
       <documentation>
          

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.ui.workbench">
+<schema targetNamespace="org.eclipse.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.rap.ui.workbench" id="viewActions" name="View Menus,Toolbars and Actions"/>
+         <meta.schema plugin="org.eclipse.ui" id="viewActions" name="View Menus,Toolbars and Actions"/>
       </appInfo>
       <documentation>
          This extension point is used to add actions to the pulldown menu and toolbar for views registered by other plug-ins. Each view has a local pulldown menu normally activated 
@@ -340,7 +340,7 @@ The following attribute formats are supported:
          The following is an example of a view action extension:
 &lt;p&gt;
 &lt;pre&gt;
-   &lt;extension point=&quot;org.eclipse.rap.ui.viewActions&quot;&gt; 
+   &lt;extension point=&quot;org.eclipse.ui.viewActions&quot;&gt; 
       &lt;viewContribution 
          id=&quot;com.xyz.xyzViewC1&quot; 
          targetID=&quot;org.eclipse.ui.views.navigator.ResourceNavigator&quot;&gt; 
@@ -375,7 +375,7 @@ The following is an other example of a view action extension:
 &lt;/p&gt;
 &lt;p&gt;
 &lt;pre&gt;
-   &lt;extension point=&quot;org.eclipse.rap.ui.viewActions&quot;&gt; 
+   &lt;extension point=&quot;org.eclipse.ui.viewActions&quot;&gt; 
       &lt;viewContribution 
          id=&quot;com.xyz.xyzViewC1&quot; 
          targetID=&quot;org.eclipse.ui.views.navigator.ResourceNavigator&quot;&gt; 

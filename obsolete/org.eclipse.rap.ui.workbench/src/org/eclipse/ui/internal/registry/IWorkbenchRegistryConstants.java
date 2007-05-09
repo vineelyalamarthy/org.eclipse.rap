@@ -522,79 +522,79 @@ public interface IWorkbenchRegistryConstants {
   /**
    * The name of the deprecated accelerator configurations extension point.
    */
-  public static String EXTENSION_ACCELERATOR_CONFIGURATIONS = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_ACCELERATOR_CONFIGURATIONS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                                               + '.'
                                                               + PL_ACCELERATOR_CONFIGURATIONS;
   /**
    * The name of the accelerator scopes extension point.
    */
-  public static String EXTENSION_ACCELERATOR_SCOPES = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_ACCELERATOR_SCOPES = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                                       + '.'
                                                       + PL_ACCELERATOR_SCOPES;
   /**
    * The name of the action definitions extension point.
    */
-  public static String EXTENSION_ACTION_DEFINITIONS = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_ACTION_DEFINITIONS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                                       + '.'
                                                       + PL_ACTION_DEFINITIONS;
   /**
    * The name of the <code>org.eclipse.ui.actionSets</code> extension point.
    */
-  public static String EXTENSION_ACTION_SETS = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_ACTION_SETS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                                + '.'
                                                + IWorkbenchRegistryConstants.PL_ACTION_SETS;
   /**
    * The name of the bindings extension point.
    */
-  public static String EXTENSION_BINDINGS = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_BINDINGS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                             + '.'
                                             + PL_BINDINGS;
   /**
    * The name of the commands extension point.
    */
-  public static String EXTENSION_COMMAND_IMAGES = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_COMMAND_IMAGES = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                                   + '.'
                                                   + PL_COMMAND_IMAGES;
   /**
    * The name of the commands extension point, and the name of the key for the
    * commands preferences.
    */
-  public static String EXTENSION_COMMANDS = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_COMMANDS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                             + '.'
                                             + PL_COMMANDS;
   /**
    * The name of the contexts extension point.
    */
-  public static String EXTENSION_CONTEXTS = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_CONTEXTS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                             + '.'
                                             + PL_CONTEXTS;
   /**
    * The name of the <code>org.eclipse.ui.editorActions</code> extension
    * point.
    */
-  public static String EXTENSION_EDITOR_ACTIONS = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_EDITOR_ACTIONS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                                   + '.'
                                                   + PL_EDITOR_ACTIONS;
   /**
    * The name of the commands extension point.
    */
-  public static String EXTENSION_HANDLERS = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_HANDLERS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                             + '.'
                                             + PL_HANDLERS;
   /**
    * The name of the <code>org.eclipse.ui.menus</code> extension point.
    */
-  public static String EXTENSION_MENUS = PlatformUI.PLUGIN_ID + '.' + PL_MENUS;
+  public static String EXTENSION_MENUS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE + '.' + PL_MENUS;
   /**
    * The name of the <code>org.eclipse.ui.popupMenus</code> extension point.
    */
-  public static String EXTENSION_POPUP_MENUS = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_POPUP_MENUS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                                + '.'
                                                + PL_POPUP_MENU;
   /**
    * The name of the <code>org.eclipse.ui.viewActions</code> extension point.
    */
-  public static String EXTENSION_VIEW_ACTIONS = PlatformUI.PLUGIN_ID
+  public static String EXTENSION_VIEW_ACTIONS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
                                                 + '.'
                                                 + PL_VIEW_ACTIONS;
   /**
