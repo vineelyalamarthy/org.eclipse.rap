@@ -9,9 +9,9 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.equinox.http.registry,
  org.eclipse.osgi.services,
- org.eclipse.rap.rwt,
- org.eclipse.rap.w4t,
- org.eclipse.rap.jface
+ org.eclipse.rap.rwt;visibility:=reexport,
+ org.eclipse.rap.w4t;visibility:=reexport,
+ org.eclipse.rap.jface;visibility:=reexport
 Import-Package: javax.servlet;version="[2.3.0,2.5.0)",
  javax.servlet.http;version="[2.3.0,2.5.0)"
 Export-Package: org.eclipse.ui,
