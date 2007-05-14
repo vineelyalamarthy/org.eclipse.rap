@@ -5,7 +5,7 @@
  * and is available at http://www.eclipse.org/legal/epl-v10.html Contributors:
  * IBM Corporation - initial API and implementation
  ******************************************************************************/
-package org.eclipse.ui.entrypoint;
+package org.eclipse.ui.application;
 
 import java.util.*;
 import org.eclipse.core.runtime.Assert;

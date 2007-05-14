@@ -6,7 +6,7 @@
  * Contributors: Innoopract Informationssysteme GmbH - initial API and
  * implementation
  ******************************************************************************/
-package org.eclipse.ui.entrypoint;
+package org.eclipse.ui.application;
 
 import org.eclipse.core.runtime.IAdaptable;
 import com.w4t.ParamCheck;

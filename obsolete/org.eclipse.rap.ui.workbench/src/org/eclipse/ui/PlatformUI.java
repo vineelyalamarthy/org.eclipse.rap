@@ -12,7 +12,7 @@
 package org.eclipse.ui;
 
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.entrypoint.WorkbenchAdvisor;
+import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.internal.Workbench;
 
 

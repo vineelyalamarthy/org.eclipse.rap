@@ -18,7 +18,7 @@ import org.eclipse.jface.window.WindowManager;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
-import org.eclipse.ui.entrypoint.WorkbenchAdvisor;
+import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.internal.registry.PerspectiveRegistry;
 import com.w4t.SessionSingletonBase;
 

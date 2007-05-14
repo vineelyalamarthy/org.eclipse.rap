@@ -5,11 +5,11 @@
  * available at http://www.eclipse.org/legal/epl-v10.html Contributors: IBM
  * Corporation - initial API and implementation
  ******************************************************************************/
-package org.eclipse.ui.internal.provisional.entrypoint;
+package org.eclipse.ui.internal.provisional.application;
 
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.internal.provisional.action.IToolBarContributionItem;
-import org.eclipse.ui.entrypoint.IActionBarConfigurer;
+import org.eclipse.ui.application.IActionBarConfigurer;
 
 /**
  * Extends <code>IActionBarConfigurer</code> with API to allow the advisor to

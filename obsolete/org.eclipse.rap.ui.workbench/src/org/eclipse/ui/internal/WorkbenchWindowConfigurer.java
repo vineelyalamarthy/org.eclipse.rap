@@ -16,9 +16,9 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.entrypoint.IActionBarConfigurer;
-import org.eclipse.ui.entrypoint.IWorkbenchWindowConfigurer;
-import org.eclipse.ui.internal.provisional.entrypoint.IActionBarConfigurer2;
+import org.eclipse.ui.application.IActionBarConfigurer;
+import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
+import org.eclipse.ui.internal.provisional.application.IActionBarConfigurer2;
 import org.eclipse.ui.presentations.AbstractPresentationFactory;
 import org.eclipse.ui.presentations.WorkbenchPresentationFactory;
 

@@ -10,7 +10,7 @@ package org.eclipse.ui.internal;
 
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.entrypoint.IWorkbenchConfigurer;
+import org.eclipse.ui.application.IWorkbenchConfigurer;
 
 public class WorkbenchConfigurer implements IWorkbenchConfigurer {
 

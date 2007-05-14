@@ -16,7 +16,7 @@ Import-Package: javax.servlet;version="[2.3.0,2.5.0)",
  javax.servlet.http;version="[2.3.0,2.5.0)"
 Export-Package: org.eclipse.ui,
  org.eclipse.ui.actions,
- org.eclipse.ui.entrypoint,
+ org.eclipse.ui.application,
  org.eclipse.ui.model,
  org.eclipse.ui.part,
  org.eclipse.ui.plugin,

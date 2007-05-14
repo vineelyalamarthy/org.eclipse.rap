@@ -28,7 +28,6 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.application.*;
-import org.eclipse.ui.entrypoint.*;
 import org.eclipse.ui.internal.layout.*;
 import org.eclipse.ui.internal.misc.UIListenerLogging;
 import org.eclipse.ui.internal.presentations.DefaultActionBarPresentationFactory;

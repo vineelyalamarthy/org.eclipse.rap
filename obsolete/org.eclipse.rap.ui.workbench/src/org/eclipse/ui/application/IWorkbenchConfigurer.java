@@ -9,7 +9,7 @@
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
 
-package org.eclipse.ui.entrypoint;
+package org.eclipse.ui.application;
 
 import org.eclipse.ui.IWorkbench;
 
