@@ -9,6 +9,8 @@
 package org.eclipse.ui.internal;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
 
 public abstract class PartSite implements IWorkbenchPartSite {
@@ -49,7 +51,40 @@ public abstract class PartSite implements IWorkbenchPartSite {
     return ( ( WorkbenchPartReference )partReference ).getPane();
   }
 
-  /////////////
+  public Shell getShell() {
+    PartPane pane = getPane();
+    // Compatibility: This method should not be used outside the UI
+    // thread... but since this condition
+    // was not always in the JavaDoc, we still try to return our best guess
+    // about the shell if it is
+    // called from the wrong thread.
+    Display currentDisplay = Display.getCurrent();
+    if( currentDisplay == null
+        || currentDisplay != getWorkbenchWindow().getWorkbench().getDisplay() )
+    {
+      // Uncomment this to locate places that try to access the shell from
+      // a background thread
+      // WorkbenchPlugin.log(new Exception("Error:
+      // IWorkbenchSite.getShell() was called outside the UI thread. Fix
+      // this code.")); //$NON-NLS-1$
+      return getWorkbenchWindow().getShell();
+    }
+    if( pane == null ) {
+      return getWorkbenchWindow().getShell();
+    }
+    Shell s = pane.getShell();
+    if( s == null ) {
+      return getWorkbenchWindow().getShell();
+    }
+    return s;
+  }
+
+  public IWorkbenchWindow getWorkbenchWindow() {
+    return page.getWorkbenchWindow();
+  }
+
+
+  // ///////////
   // ActionBars
   
   public IActionBars getActionBars() {

@@ -19,4 +19,5 @@ public interface IWorkbenchWindow extends IPageService {
   IWorkbenchPage getActivePage();
   IWorkbenchPage[] getPages();
   Shell getShell();
+  IWorkbench getWorkbench();
 }

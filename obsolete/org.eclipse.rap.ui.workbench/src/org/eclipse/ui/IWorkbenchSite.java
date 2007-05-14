@@ -12,10 +12,13 @@
 package org.eclipse.ui;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.swt.widgets.Shell;
 
 
 public interface IWorkbenchSite {
   
   void setSelectionProvider( ISelectionProvider provider );
   ISelectionProvider getSelectionProvider();
+  Shell getShell();
+  IWorkbenchWindow getWorkbenchWindow();
 }

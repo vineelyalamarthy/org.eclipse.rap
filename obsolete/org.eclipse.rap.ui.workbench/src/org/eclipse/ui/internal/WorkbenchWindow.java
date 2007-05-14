@@ -341,6 +341,10 @@ public class WorkbenchWindow
     return getMenuBarManager();
   }
 
+  public IWorkbench getWorkbench() {
+    return PlatformUI.getWorkbench();
+  }
+
   
   // ////////
   // package
