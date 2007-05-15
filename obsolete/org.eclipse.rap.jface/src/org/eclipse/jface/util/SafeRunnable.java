@@ -67,7 +67,9 @@ public abstract class SafeRunnable implements ISafeRunnable {
 			if (message == null)
 				message = JFaceResources.getString("SafeRunnable.errorMessage"); //$NON-NLS-1$
 
-			final IStatus status = new Status(IStatus.ERROR, Policy.JFACE, message,e);
+//			final IStatus status = new Status(IStatus.ERROR, Policy.JFACE, message,e);
+			final IStatus status = new Status(IStatus.ERROR, "org.eclipse.rap.jface",IStatus.OK, message,e);
+            
 
 			Runnable runnable = new Runnable() {
 				public void run() {

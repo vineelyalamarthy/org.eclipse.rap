@@ -71,10 +71,16 @@ public abstract class ColumnViewer extends StructuredViewer {
 					message += " This is only logged once per viewer instance," + //$NON-NLS-1$
 							" but similar calls will still be ignored."; //$NON-NLS-1$
 				}
+//				Policy.getLog().log(
+//					new Status(
+//						IStatus.WARNING,
+//						Policy.JFACE,
+//						message, new RuntimeException()));
 				Policy.getLog().log(
 					new Status(
 						IStatus.WARNING,
-						Policy.JFACE,
+						"org.eclipse.rap.jface",
+                        IStatus.OK,
 						message, new RuntimeException()));
 			}
 			return true;
