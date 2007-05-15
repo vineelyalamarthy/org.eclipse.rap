@@ -61,6 +61,7 @@ private static final int FILL_ALL_ACTION_BARS
   private Point lastShellSize = new Point( 0, 0 );
   private Map globalActionHandlersByCommandId = new HashMap();
   private WWinPartService partService = new WWinPartService(this);
+  private PerspectiveListenerList perspectiveListeners = new PerspectiveListenerList();
   
   /**
    * Constant (bit mask) indicating which the Show View submenu is probably
@@ -190,9 +191,9 @@ private static final int FILL_ALL_ACTION_BARS
 //          hideEmptyWindowContents();
           newPage.onActivate();
 //          firePageActivated( newPage );
-//          if( newPage.getPerspective() != null ) {
-//            firePerspectiveActivated( newPage, newPage.getPerspective() );
-//          }
+          if( newPage.getPerspective() != null ) {
+            firePerspectiveActivated( newPage, newPage.getPerspective() );
+          }
 //        } else {
 //          layout.topControl = null;
 //          parent.layout();
@@ -394,18 +395,27 @@ private static final int FILL_ALL_ACTION_BARS
     throw new UnsupportedOperationException();
   }
   
-  public void addPerspectiveListener( IPerspectiveListener listener ) {
-    throw new UnsupportedOperationException();
+  public void addPerspectiveListener( final IPerspectiveListener listener ) {
+    perspectiveListeners.addPerspectiveListener( listener );
   }
   
   public void removePageListener( IPageListener listener ) {
     throw new UnsupportedOperationException();
   }
   
-  public void removePerspectiveListener( IPerspectiveListener listener ) {
-    throw new UnsupportedOperationException();
+  public void removePerspectiveListener( final IPerspectiveListener listener ) {
+    perspectiveListeners.removePerspectiveListener( listener );
   }
-  
+
+  void firePerspectiveActivated( final IWorkbenchPage page,
+                                 final IPerspectiveDescriptor perspective )
+  {
+    UIListenerLogging.logPerspectiveEvent( this,
+                                           page,
+                                           perspective,
+                                           UIListenerLogging.PLE_PERSP_ACTIVATED );
+    perspectiveListeners.firePerspectiveActivated( page, perspective );
+  }
   
   //////////////////
   // helping methods

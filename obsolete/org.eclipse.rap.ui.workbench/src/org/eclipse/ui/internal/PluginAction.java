@@ -173,7 +173,7 @@ public abstract class PluginAction extends Action
    * (non-Javadoc) Method declared on IAction.
    */
   public void run() {
-    runWithEvent( null );
+    runWithEvent( ( RWTEvent )null );
   }
 
   /*

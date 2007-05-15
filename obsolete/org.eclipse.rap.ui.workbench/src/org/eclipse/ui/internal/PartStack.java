@@ -413,8 +413,12 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
   }
 
   public boolean allowsAdd( LayoutPart toAdd ) {
-//	  return !isStandalone();
-	  return true;
+	return !isStandalone();
+  }
+
+  protected final boolean isStandalone() {
+    return (    appearance == PresentationFactoryUtil.ROLE_STANDALONE 
+             || appearance == PresentationFactoryUtil.ROLE_STANDALONE_NOTITLE );
   }
 
   public boolean allowsAutoFocus() {

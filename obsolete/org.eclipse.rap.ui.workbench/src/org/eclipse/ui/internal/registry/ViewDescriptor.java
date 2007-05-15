@@ -15,13 +15,12 @@ import java.util.StringTokenizer;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.Activator;
-import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.*;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.views.IViewDescriptor;
 
 
-public class ViewDescriptor implements IViewDescriptor {
+public class ViewDescriptor implements IViewDescriptor, IPluginContribution {
 
   private final IConfigurationElement element;
   private String id;
@@ -91,7 +90,18 @@ public class ViewDescriptor implements IViewDescriptor {
 //    }
     return imageDescriptor;
   }
+
+  ////////////////////////////////
+  // interface IPluginContribution
   
+  public String getPluginId() {
+    String pluginId = element.getNamespace();
+    return pluginId == null ? "" : pluginId;
+  }
+
+  public String getLocalId() {
+    return getId() == null ? "" : getId();
+  }
   
   // ////////////////
   // helping methods

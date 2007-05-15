@@ -12,10 +12,14 @@
 package org.eclipse.ui.internal;
 
 import java.util.*;
-
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.*;
+import org.eclipse.ui.internal.presentations.PresentationFactoryUtil;
 import org.eclipse.ui.internal.registry.PerspectiveDescriptor;
+import org.eclipse.ui.internal.registry.ViewRegistry;
+import org.eclipse.ui.views.IViewDescriptor;
+import org.eclipse.ui.views.IViewRegistry;
 
 public class PageLayout implements IPageLayout {
 
@@ -26,7 +30,9 @@ public class PageLayout implements IPageLayout {
   private boolean editorVisible = true;
   private Map mapIDtoPart = new HashMap( 10 );
   private Map mapIDtoFolder = new HashMap( 10 );
+  private Map mapIDtoViewLayoutRec = new HashMap( 10 );
   private ArrayList showViewShortcuts = new ArrayList(3);
+  private boolean fixed = false;
 
   public PageLayout( final ViewSashContainer container, 
                      final ViewFactory viewFactory, 
@@ -92,7 +98,15 @@ public class PageLayout implements IPageLayout {
                               float ratio,
                               String refId )
   {
-    throw new UnsupportedOperationException();
+    if( !checkValidPlaceholderId( viewId ) ) {
+      return;
+    }
+    // Create the placeholder.
+    PartPlaceholder newPart = new PartPlaceholder( viewId );
+    addPart( newPart, viewId, relationship, ratio, refId );
+    // force creation of the view layout rec
+    getViewLayoutRec( viewId, true );
+
   }
 
   public void addShowInPart( String id ) {
@@ -119,7 +133,10 @@ public class PageLayout implements IPageLayout {
                                  float ratio,
                                  String refId )
   {
-    throw new UnsupportedOperationException();
+    addView( viewId, relationship, ratio, refId, true, showTitle );
+    ViewLayoutRec rec = getViewLayoutRec( viewId, true );
+    rec.isStandalone = true;
+    rec.showTitle = showTitle;
   }
 
   public void addStandaloneViewPlaceholder( String viewId,
@@ -166,7 +183,7 @@ public class PageLayout implements IPageLayout {
   }
 
   public IPerspectiveDescriptor getDescriptor() {
-    throw new UnsupportedOperationException();
+    return descriptor;
   }
 
   public String getEditorArea() {
@@ -178,7 +195,11 @@ public class PageLayout implements IPageLayout {
   }
 
   public IViewLayout getViewLayout( String id ) {
-    throw new UnsupportedOperationException();
+    ViewLayoutRec rec = getViewLayoutRec(id, true);
+    if (rec == null) {
+        return null;
+    }
+    return new ViewLayout(this, rec);
   }
 
   public boolean isEditorAreaVisible() {
@@ -186,7 +207,7 @@ public class PageLayout implements IPageLayout {
   }
 
   public boolean isFixed() {
-    throw new UnsupportedOperationException();
+    return fixed;
   }
 
   public void setEditorAreaVisible( final boolean showEditorArea ) {
@@ -197,10 +218,24 @@ public class PageLayout implements IPageLayout {
     throw new UnsupportedOperationException();
   }
 
-  public void setFixed( boolean isFixed ) {
-    throw new UnsupportedOperationException();
+  public void setFixed( boolean fixed ) {
+    this.fixed = fixed;
   }
-  
+
+  ViewLayoutRec getViewLayoutRec( String id, boolean create ) {
+    Assert.isTrue( getRefPart( id ) != null /*|| isFastViewId( id )*/ );
+    ViewLayoutRec rec = ( ViewLayoutRec )mapIDtoViewLayoutRec.get( id );
+    if( rec == null && create ) {
+      rec = new ViewLayoutRec();
+      // set up the view layout appropriately if the page layout is fixed
+      if( isFixed() ) {
+        rec.isCloseable = false;
+        rec.isMoveable = false;
+      }
+      mapIDtoViewLayoutRec.put( id, rec );
+    }
+    return rec;
+  }
   
   //////////////////
   // helping methods
@@ -220,7 +255,7 @@ public class PageLayout implements IPageLayout {
   }
   
   private void addEditorArea() {
-//    try {
+    try {
       // Create the part.
       LayoutPart newPart = createView( ID_EDITOR_AREA );
       if( newPart == null ) {
@@ -230,22 +265,21 @@ public class PageLayout implements IPageLayout {
       setRefPart( ID_EDITOR_AREA, newPart );
       // Add it to the layout.
       rootLayoutContainer.add( newPart );
-//    } catch( PartInitException e ) {
-//      WorkbenchPlugin.log( getClass(), "addEditorArea()", e ); //$NON-NLS-1$
-//    }
+    } catch( PartInitException e ) {
+      Activator.log( getClass(), "addEditorArea()", e ); //$NON-NLS-1$
+    }
   }
 
-  private LayoutPart createView( String partID ) /*throws PartInitException*/ {
+  private LayoutPart createView( String partID ) throws PartInitException {
     if( partID.equals( ID_EDITOR_AREA ) ) {
       return editorFolder;
     }
-    return null;
 //    IViewDescriptor viewDescriptor = viewFactory.getViewRegistry()
 //      .find( ViewFactory.extractPrimaryId( partID ) );
 //    if( WorkbenchActivityHelper.filterItem( viewDescriptor ) ) {
 //      return null;
 //    }
-//    return LayoutHelper.createView( getViewFactory(), partID );
+    return LayoutHelper.createView( getViewFactory(), partID );
   }
   
   private void addPart( LayoutPart newPart,
@@ -302,4 +336,82 @@ public class PageLayout implements IPageLayout {
     return result;
   }
 
+  private void addView( String viewId,
+                        int relationship,
+                        float ratio,
+                        String refId,
+                        boolean standalone,
+                        boolean showTitle )
+  {
+    if( checkPartInLayout( viewId ) ) {
+      return;
+    }
+    try {
+      // Create the part.
+      LayoutPart newPart = createView( viewId );
+      if( newPart == null ) {
+        addPlaceholder( viewId, relationship, ratio, refId );
+        LayoutHelper.addViewActivator( this, viewId );
+      } else {
+        int appearance = PresentationFactoryUtil.ROLE_VIEW;
+        if( standalone ) {
+          if( showTitle ) {
+            appearance = PresentationFactoryUtil.ROLE_STANDALONE;
+          } else {
+            appearance = PresentationFactoryUtil.ROLE_STANDALONE_NOTITLE;
+          }
+        }
+        ViewStack newFolder = new ViewStack( rootLayoutContainer.page,
+                                             true,
+                                             appearance,
+                                             null );
+        newFolder.add( newPart );
+        setFolderPart( viewId, newFolder );
+        addPart( newFolder, viewId, relationship, ratio, refId );
+        // force creation of the view layout rec
+        getViewLayoutRec( viewId, true );
+      }
+    } catch( PartInitException e ) {
+      Activator.log( getClass(), "addView", e ); //$NON-NLS-1$
+    }
+  }
+
+  boolean checkPartInLayout( String partId ) {
+    if( getRefPart( partId ) != null /** || isFastViewId( partId )*/ ) {
+//      WorkbenchPlugin.log( NLS.bind( WorkbenchMessages.PageLayout_duplicateRefPart,
+//                                     partId ) );
+      return true;
+    }
+    return false;
+  }
+  
+  /**
+   * Checks whether the given id is a valid placeholder id.
+   * A placeholder id may be simple or compound, and can optionally contain a wildcard.
+   * 
+   * @param id the placeholder id
+   * @return <code>true</code> if the given id is a valid placeholder id, <code>false</code> otherwise
+   */
+  boolean checkValidPlaceholderId(String id) {
+      // Check that view is not already in layout.
+      // This check is done even if the id has a wildcard, since it's incorrect to create
+      // multiple placeholders with the same id, wildcard or not.
+      if (checkPartInLayout(id)) {
+          return false;
+      }
+
+      // check that primary view id is valid, but only if it has no wildcard
+      String primaryId = ViewFactory.extractPrimaryId(id);
+      if (!ViewFactory.hasWildcard(primaryId)) {
+            IViewRegistry reg = ViewRegistry.getInstance();
+            IViewDescriptor desc = reg.find(primaryId);
+            if (desc == null) {
+                // cannot safely open the dialog so log the problem
+                WorkbenchPlugin.log("Unable to find view with id: " + primaryId + ", when creating perspective " + getDescriptor().getId()); //$NON-NLS-1$ //$NON-NLS-2$
+                return false;
+            }
+      }
+
+      return true;
+  }
 }

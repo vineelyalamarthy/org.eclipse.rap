@@ -7,14 +7,8 @@
  ******************************************************************************/
 package org.eclipse.ui.internal;
 
-// import org.eclipse.ui.IPerspectiveListener;
-// import org.eclipse.ui.IPluginContribution;
-// import org.eclipse.ui.activities.IIdentifier;
-// import org.eclipse.ui.activities.IIdentifierListener;
-// import org.eclipse.ui.activities.IWorkbenchActivitySupport;
-// import org.eclipse.ui.activities.IdentifierEvent;
-// import org.eclipse.ui.activities.WorkbenchActivityHelper;
-import org.eclipse.ui.PartInitException;
+ import org.eclipse.ui.*;
+import org.eclipse.ui.views.IViewDescriptor;
 
 /**
  * Helper methods that the internal layout classes (<code>PageLayout</code>
@@ -50,24 +44,24 @@ class LayoutHelper {
    * @param viewId the view id to activate upon <code>IIdentifier</code>
    *          enablement.
    */
-//  public static final void addViewActivator( PageLayout pageLayout,
-//                                             final String viewId )
-//  {
-//    if( viewId == null ) {
-//      return;
-//    }
-//    ViewFactory viewFactory = pageLayout.getViewFactory();
-//    final IWorkbenchPage partPage = viewFactory.getWorkbenchPage();
-//    if( partPage == null ) {
-//      return;
-//    }
-//    final IPerspectiveDescriptor partPerspective = pageLayout.getDescriptor();
+  public static final void addViewActivator( PageLayout pageLayout,
+                                             final String viewId )
+  {
+    if( viewId == null ) {
+      return;
+    }
+    ViewFactory viewFactory = pageLayout.getViewFactory();
+    final IWorkbenchPage partPage = viewFactory.getWorkbenchPage();
+    if( partPage == null ) {
+      return;
+    }
+    final IPerspectiveDescriptor partPerspective = pageLayout.getDescriptor();
 //    IWorkbenchActivitySupport support = PlatformUI.getWorkbench()
 //      .getActivitySupport();
-//    IViewDescriptor descriptor = viewFactory.getViewRegistry().find( viewId );
-//    if( !( descriptor instanceof IPluginContribution ) ) {
-//      return;
-//    }
+    IViewDescriptor descriptor = viewFactory.getViewRegistry().find( viewId );
+    if( !( descriptor instanceof IPluginContribution ) ) {
+      return;
+    }
 //    IIdentifier identifier = support.getActivityManager()
 //      .getIdentifier( WorkbenchActivityHelper.createUnifiedId( ( IPluginContribution )descriptor ) );
 //    identifier.addIdentifierListener( new IIdentifierListener() {
@@ -95,50 +89,50 @@ class LayoutHelper {
 //                WorkbenchPlugin.log( getClass(), "identifierChanged", e ); //$NON-NLS-1$
 //              }
 //            } else { // show when the perspective becomes active
-//              partPage.getWorkbenchWindow()
-//                .addPerspectiveListener( new IPerspectiveListener() {
-//
-//                  /*
-//                   * (non-Javadoc)
-//                   * 
-//                   * @see org.eclipse.ui.IPerspectiveListener#perspectiveActivated(org.eclipse.ui.IWorkbenchPage,
-//                   *      org.eclipse.ui.IPerspectiveDescriptor)
-//                   */
-//                  public void perspectiveActivated( IWorkbenchPage page,
-//                                                    IPerspectiveDescriptor newPerspective )
-//                  {
-//                    if( partPerspective == newPerspective ) {
-//                      partPage.getWorkbenchWindow()
-//                        .removePerspectiveListener( this );
-//                      try {
-//                        page.showView( viewId );
-//                      } catch( PartInitException e ) {
-//                        WorkbenchPlugin.log( getClass(),
-//                                             "perspectiveActivated", e ); //$NON-NLS-1$
-//                      }
-//                    }
-//                  }
-//
-//                  /*
-//                   * (non-Javadoc)
-//                   * 
-//                   * @see org.eclipse.ui.IPerspectiveListener#perspectiveChanged(org.eclipse.ui.IWorkbenchPage,
-//                   *      org.eclipse.ui.IPerspectiveDescriptor,
-//                   *      java.lang.String)
-//                   */
-//                  public void perspectiveChanged( IWorkbenchPage page,
-//                                                  IPerspectiveDescriptor perspective,
-//                                                  String changeId )
-//                  {
-//                    // no-op
-//                  }
-//                } );
+              partPage.getWorkbenchWindow()
+                .addPerspectiveListener( new IPerspectiveListener() {
+
+                  /*
+                   * (non-Javadoc)
+                   * 
+                   * @see org.eclipse.ui.IPerspectiveListener#perspectiveActivated(org.eclipse.ui.IWorkbenchPage,
+                   *      org.eclipse.ui.IPerspectiveDescriptor)
+                   */
+                  public void perspectiveActivated( IWorkbenchPage page,
+                                                    IPerspectiveDescriptor newPerspective )
+                  {
+                    if( partPerspective == newPerspective ) {
+                      partPage.getWorkbenchWindow()
+                        .removePerspectiveListener( this );
+                      try {
+                        page.showView( viewId );
+                      } catch( PartInitException e ) {
+                        Activator.log( getClass(),
+                                             "perspectiveActivated", e ); //$NON-NLS-1$
+                      }
+                    }
+                  }
+
+                  /*
+                   * (non-Javadoc)
+                   * 
+                   * @see org.eclipse.ui.IPerspectiveListener#perspectiveChanged(org.eclipse.ui.IWorkbenchPage,
+                   *      org.eclipse.ui.IPerspectiveDescriptor,
+                   *      java.lang.String)
+                   */
+                  public void perspectiveChanged( IWorkbenchPage page,
+                                                  IPerspectiveDescriptor perspective,
+                                                  String changeId )
+                  {
+                    // no-op
+                  }
+                } );
 //            }
 //          }
 //        }
 //      }
 //    } );
-//  }
+  }
 
   /**
    * Create the view. If it's already been been created in the provided factory,

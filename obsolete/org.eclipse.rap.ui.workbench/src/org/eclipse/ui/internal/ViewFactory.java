@@ -126,4 +126,8 @@ public class ViewFactory {
           getWorkbenchPage().partRemoved((ViewReference)ref);
       }
   }
+  
+  static boolean hasWildcard( String viewId ) {
+    return viewId.indexOf( PartPlaceholder.WILD_CARD ) >= 0;
+  }
 }

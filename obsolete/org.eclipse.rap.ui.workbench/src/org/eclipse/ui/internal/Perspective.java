@@ -51,7 +51,7 @@ public class Perspective {
   }
 
   public IPerspectiveDescriptor getDesc() {
-    throw new UnsupportedOperationException();
+    return descriptor;
   }
   
   public boolean isCloseable( final IViewReference reference ) {
@@ -107,8 +107,13 @@ public class Perspective {
 //      return true;
 //    } else {
       return presentation.bringPartToTop( getPane( ref ) );
-//    }
-}
+    // }
+  }
+
+  public boolean isStandaloneView( IViewReference ref ) {
+    ViewLayoutRec rec = getViewLayoutRec( ref, false );
+    return rec != null && rec.isStandalone;
+  }
 
   protected void onActivate() {
     // Update editor area state.
@@ -300,7 +305,7 @@ public class Perspective {
                                         getViewFactory(),
                                         editorArea,
                                         descriptor );
-//    layout.setFixed( descriptor.getFixed() );
+    layout.setFixed( descriptor.getFixed() );
 //    // add the placeholders for the sticky folders and their contents
 //    IPlaceholderFolderLayout stickyFolderRight = null, stickyFolderLeft = null, stickyFolderTop = null, stickyFolderBottom = null;
 //    IStickyViewDescriptor[] descs = WorkbenchPlugin.getDefault()
