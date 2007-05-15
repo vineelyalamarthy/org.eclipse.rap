@@ -28,7 +28,7 @@ import org.eclipse.ui.views.*;
  * The Show View dialog.
  */
 public class ShowViewDialog extends Dialog implements
-        ISelectionChangedListener /*, IDoubleClickListener */ {
+        ISelectionChangedListener, IDoubleClickListener {
 
 //    private static final String DIALOG_SETTING_SECTION_NAME = "ShowViewDialog"; //$NON-NLS-1$
 
@@ -162,7 +162,7 @@ public class ShowViewDialog extends Dialog implements
 		treeViewer.setSorter(new ViewSorter((ViewRegistry) viewReg));
 		treeViewer.setInput(viewReg);
 		treeViewer.addSelectionChangedListener(this);
-//		treeViewer.addDoubleClickListener(this);
+		treeViewer.addDoubleClickListener(this);
 //		treeViewer.addFilter(new CapabilityFilter());
 //
 //		filteredTree.setBackground(parent.getDisplay().getSystemColor(
@@ -205,17 +205,19 @@ public class ShowViewDialog extends Dialog implements
      * 
      * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.DoubleClickEvent)
      */
-//    public void doubleClick(DoubleClickEvent event) {
-//        IStructuredSelection s = (IStructuredSelection) event.getSelection();
-//        Object element = s.getFirstElement();
+    public void doubleClick(DoubleClickEvent event) {
+        IStructuredSelection s = (IStructuredSelection) event.getSelection();
+        Object element = s.getFirstElement();
 //        if (filteredTree.getViewer().isExpandable(element)) {
 //            filteredTree.getViewer().setExpandedState(element, !filteredTree.getViewer().getExpandedState(element));
-//        } else if (viewDescs.length > 0) {
-//            saveWidgetValues();
-//            setReturnCode(OK);
-//            close();
-//        }
-//    }
+        if(treeViewer.isExpandable(element)) {
+        	treeViewer.setExpandedState(element, !treeViewer.getExpandedState(element));
+        } else if (viewDescs.length > 0) {
+            saveWidgetValues();
+            setReturnCode(OK);
+            close();
+        }
+    }
 
     /**
      * Return the dialog store to cache values into

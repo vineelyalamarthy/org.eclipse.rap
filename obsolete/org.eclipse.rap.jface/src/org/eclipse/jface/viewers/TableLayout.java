@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2006 IBM Corporation and others.
+ * Copyright (c) 2000, 2007 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,13 +13,22 @@ package org.eclipse.jface.viewers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Tree;
 
 /**
  * A layout for a table. Call <code>addColumnData</code> to add columns.
+ * The TableLayout {@link ColumnLayoutData} is only valid until the table
+ * is resized. To keep the proportions constant when the table is resized 
+ * see {@link TableColumnLayout}
  */
 public class TableLayout extends Layout {
 
@@ -30,7 +39,8 @@ public class TableLayout extends Layout {
 	 * 
 	 * @since 3.1
 	 */
-	private static int COLUMN_TRIM = 3; //"carbon".equals(SWT.getPlatform()) ? 24 : 3; //$NON-NLS-1$
+//	private static int COLUMN_TRIM = "carbon".equals(SWT.getPlatform()) ? 24 : 3; //$NON-NLS-1$
+	private static int COLUMN_TRIM = 3;
 
 	/**
 	 * The list of column layout data (element type:
@@ -207,14 +217,10 @@ public class TableLayout extends Layout {
 //		if (item instanceof TreeColumn) {
 //			((TreeColumn) item).setWidth(width);
 //		} else {
-//			((TableColumn) item).setWidth(width);
+			if (item instanceof TableColumn) {
+				((TableColumn) item).setWidth(width);
+			}
 //		}
-
-    //FIXME [rh]
-    // jordi: removed because TreeColumn is missing
-    if (item instanceof TableColumn) {
-		  ((TableColumn) item).setWidth(width);
-		}
 
 	}
 
@@ -225,11 +231,10 @@ public class TableLayout extends Layout {
 	 * @return Item[]
 	 */
 	private Item[] getColumns(Composite composite) {
-    //FIXME [rh]
-    // jordi: removed because getColumns()/TreeColumn is missing
-//		if (composite instanceof Tree) {
+		if (composite instanceof Tree) {
 //			return ((Tree) composite).getColumns();
-//		}
+			throw new UnsupportedOperationException();
+		}
 		return ((Table) composite).getColumns();
 	}
 }

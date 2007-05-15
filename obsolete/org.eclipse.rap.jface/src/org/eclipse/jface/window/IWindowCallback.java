@@ -19,6 +19,14 @@ package org.eclipse.jface.window;
  */
 public interface IWindowCallback {
 
+  /**
+   * Gets called when the dialog window has been closed.
+   * 
+   * @param returnCode
+   * 
+   * @see Window#OK
+   * @see Window#CANCEL
+   */
   public void windowClosed( int returnCode );
 
 }

@@ -3,17 +3,35 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.rap.jface
 Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.core.commands;visibility:=reexport,
- org.eclipse.core.runtime,
- org.eclipse.rap.rwt,
- org.eclipse.rap.w4t
-Export-Package: org.eclipse.jface.action,
+Export-Package: org.eclipse.jface,
+ org.eclipse.jface.action,
+ org.eclipse.jface.action.images,
  org.eclipse.jface.commands,
+ org.eclipse.jface.contexts,
  org.eclipse.jface.dialogs,
- org.eclipse.jface.internal.provisional.action;x-friends:="org.eclipse.rap.ui.workbench",
+ org.eclipse.jface.dialogs.images,
+ org.eclipse.jface.images,
+ org.eclipse.jface.internal;x-friends:="org.eclipse.ui.workbench",
+ org.eclipse.jface.internal.provisional.action;x-friends:="org.eclipse.ui.workbench",
+ org.eclipse.jface.layout,
+ org.eclipse.jface.menus,
+ org.eclipse.jface.operation,
+ org.eclipse.jface.preference,
+ org.eclipse.jface.preference.images,
  org.eclipse.jface.resource,
  org.eclipse.jface.util,
  org.eclipse.jface.viewers,
- org.eclipse.jface.window
+ org.eclipse.jface.viewers.deferred,
+ org.eclipse.jface.window,
+ org.eclipse.jface.wizard,
+ org.eclipse.jface.wizard.images
+Require-Bundle: org.eclipse.core.commands;bundle-version="[3.3.0,4.0.0)";visibility:=reexport,
+ org.eclipse.equinox.common;bundle-version="[3.2.0,4.0.0)",
+ org.eclipse.rap.rwt;bundle-version="1.0.0",
+ org.eclipse.rap.w4t;bundle-version="1.0.0"
+Bundle-Activator: org.eclipse.jface.internal.JFaceActivator
+Eclipse-LazyStart: true
+Import-Package: org.osgi.framework;version="1.4.0"

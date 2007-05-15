@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2006 IBM Corporation and others.
+ * Copyright (c) 2004, 2007 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,13 +8,16 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Chris Longfield <clongfield@internap.com> - Fix for Bug 70856
+ *     Tom Schindl - fix for bug 157309
+ *     Brad Reynolds - bug 141435
  *******************************************************************************/
 
 package org.eclipse.jface.viewers;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.jface.util.Assert;
+
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
 
@@ -133,11 +136,42 @@ public abstract class AbstractListViewer extends StructuredViewer {
         for (int i = 0; i < filtered.length; i++) {
             Object element = filtered[i];
             int ix = indexForElement(element);
-            listAdd(getLabelProviderText(labelProvider,element), ix);
-            listMap.add(ix, element);
-            mapElement(element, getControl()); // must map it, since findItem only looks in map, if enabled
+            insertItem(labelProvider, element, ix);
         }
     }
+    
+    private void insertItem(ILabelProvider labelProvider, Object element, int index) {
+        listAdd(getLabelProviderText(labelProvider, element), index);
+		listMap.add(index, element);
+		mapElement(element, getControl()); // must map it, since findItem only looks in map, if enabled
+    }
+    
+    /**
+	 * Inserts the given element into this list viewer at the given position.
+	 * If this viewer has a sorter, the position is ignored and the element is
+	 * inserted at the correct position in the sort order.
+	 * <p>
+	 * This method should be called (by the content provider) when elements have
+	 * been added to the model, in order to cause the viewer to accurately
+	 * reflect the model. This method only affects the viewer, not the model.
+	 * </p>
+	 * 
+	 * @param element
+	 *            the element
+	 * @param position
+	 *            a 0-based position relative to the model, or -1 to indicate
+	 *            the last position
+	 * @since 3.3
+	 */
+    public void insert(Object element, int position) {
+    	if (getComparator() != null || hasFilters()) {
+    		add(element);
+    		return;
+    	}
+    	
+    	insertItem((ILabelProvider) getLabelProvider(), element, position);
+    }
+    
     
     /**
      * Return the text for the element from the labelProvider.
@@ -192,19 +226,19 @@ public abstract class AbstractListViewer extends StructuredViewer {
      */
     protected Widget doFindItem(Object element) {
         if (element != null) {
-            if (listMap.contains(element)) {
+            if (listMapContains(element)) {
 				return getControl();
 			}
         }
         return null;
     }
 
-    /* (non-Javadoc)
+	/* (non-Javadoc)
      * Method declared on StructuredViewer.
      */
     protected void doUpdateItem(Widget data, Object element, boolean fullMap) {
         if (element != null) {
-            int ix = listMap.indexOf(element);
+            int ix = getElementIndex(element);
             if (ix >= 0) {
                 ILabelProvider labelProvider = (ILabelProvider) getLabelProvider();
                 listSetItem(ix, getLabelProviderText(labelProvider,element));
@@ -259,8 +293,9 @@ public abstract class AbstractListViewer extends StructuredViewer {
         return list;
     }
 
-    /*
-     * Returns the index where the item should be inserted.
+    /**
+     * @param element the element to insert
+     * @return the index where the item should be inserted.
      */
     protected int indexForElement(Object element) {
         ViewerComparator comparator = getComparator();
@@ -317,7 +352,6 @@ public abstract class AbstractListViewer extends StructuredViewer {
      * Method declared on StructuredViewer.
      */
     protected void internalRefresh(Object element) {
-
         Control list = getControl();
         if (element == null || equals(element, getRoot())) {
             // the parent
@@ -326,7 +360,12 @@ public abstract class AbstractListViewer extends StructuredViewer {
 			}
             unmapAllElements();
             List selection = getSelectionFromWidget();
-
+            
+            int topIndex = -1;
+            if (selection == null || selection.isEmpty()) {
+            	topIndex = listGetTopIndex();
+            }
+            
 //            list.setRedraw(false);
 			listRemoveAll();
             
@@ -344,12 +383,38 @@ public abstract class AbstractListViewer extends StructuredViewer {
 			
 			listSetItems(items);
 //            list.setRedraw(true);
-            setSelectionToWidget(selection, false);
+            
+            if (topIndex == -1) {
+            	setSelectionToWidget(selection, false);
+            } else {
+				listSetTopIndex(Math.min(topIndex, children.length));
+            }
         } else {
             doUpdateItem(list, element, true);
         }
     }
+    
+    /**
+     * Returns the index of the item currently at the top of the viewable area.
+     * <p>
+     * Default implementation returns -1.
+     * </p>
+     * @return index, -1 for none
+     */
+    protected int listGetTopIndex(){
+    	return -1;
+    }
 
+    /**
+     * Sets the index of the item to be at the top of the viewable area.
+     * <p>
+     * Default implementation does nothing.
+     * </p>
+     * @param index the given index. -1 for none.  index will always refer to a valid index.
+     */
+    protected void listSetTopIndex(int index) {
+    }
+    
     /**
      * Removes the given elements from this list viewer.
      *
@@ -362,7 +427,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
                 setInput(null);
                 return;
             }
-            int ix = listMap.indexOf(elements[i]);
+            int ix = getElementIndex(elements[i]);
             if (ix >= 0) {
                 listRemove(ix);
                 listMap.remove(ix);
@@ -412,10 +477,13 @@ public abstract class AbstractListViewer extends StructuredViewer {
     }
 
     /**
-     * The list viewer implementation of this <code>Viewer</code> framework
-     * method ensures that the given label provider is an instance
-     * of <code>ILabelProvider</code>.
-     */
+	 * The list viewer implementation of this <code>Viewer</code> framework
+	 * method ensures that the given label provider is an instance of
+	 * <code>ILabelProvider</code>.
+	 * 
+	 * <b>The optional interfaces {@link IColorProvider} and
+	 * {@link IFontProvider} have no effect for this type of viewer</b>
+	 */
     public void setLabelProvider(IBaseLabelProvider labelProvider) {
         Assert.isTrue(labelProvider instanceof ILabelProvider);
         super.setLabelProvider(labelProvider);
@@ -433,7 +501,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
             int count = 0;
             for (int i = 0; i < n; ++i) {
                 Object el = in.get(i);
-                int ix = listMap.indexOf(el);
+                int ix = getElementIndex(el);
                 if (ix >= 0) {
 					ixs[count++] = ix;
 				}
@@ -448,8 +516,34 @@ public abstract class AbstractListViewer extends StructuredViewer {
         }
     }
 
+    /**
+     * Returns the index of the given element in listMap, or -1 if the element cannot be found.
+     * As of 3.3, uses the element comparer if available.
+     * 
+     * @param element
+     * @return the index
+     */
     int getElementIndex(Object element) {
-        return listMap.indexOf(element);
-    }
+		IElementComparer comparer = getComparer();
+		if (comparer == null) {
+			return listMap.indexOf(element);
+		}
+		int size = listMap.size();
+		for (int i = 0; i < size; i++) {
+			if (comparer.equals(element, listMap.get(i)))
+				return i;
+		}
+		return -1;
+	}
+
+    /**
+	 * @param element
+	 * @return true if listMap contains the given element
+	 * 
+	 * @since 3.3
+	 */
+	private boolean listMapContains(Object element) {
+		return getElementIndex(element) != -1;
+	}
 
 }

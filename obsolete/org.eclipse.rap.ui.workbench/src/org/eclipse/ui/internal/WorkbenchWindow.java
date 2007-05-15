@@ -39,7 +39,8 @@ public class WorkbenchWindow
   extends ApplicationWindow
   implements IWorkbenchWindow
 {
-  private static final int FILL_ALL_ACTION_BARS
+
+private static final int FILL_ALL_ACTION_BARS
     =    ActionBarAdvisor.FILL_MENU_BAR
        | ActionBarAdvisor.FILL_COOL_BAR
        | ActionBarAdvisor.FILL_STATUS_LINE;
@@ -218,6 +219,15 @@ public class WorkbenchWindow
     if( oldValue != coolBarVisible ) {
       updateLayoutDataForContents();
     }
+  }
+  
+  /*
+  * (non-Javadoc)
+  * 
+  * @see org.eclipse.jface.window.ApplicationWindow#createTrimWidgets(org.eclipse.swt.widgets.Shell)
+  */
+  protected void createTrimWidgets(Shell shell) {
+	// do nothing -- trim widgets are created in createDefaultContents
   }
   
   protected void createDefaultContents( final Shell shell ) {

@@ -1,20 +1,26 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2006 IBM Corporation and others. All rights reserved.
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html Contributors:
- * IBM Corporation - initial API and implementation Chris Gross
- * (schtoo@schtoo.com) - support for ISafeRunnableRunner added (bug 49497 [RCP]
- * JFace dependency on org.eclipse.core.runtime enlarges standalone JFace
- * applications)
- ******************************************************************************/
+ * Copyright (c) 2000, 2007 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *     Chris Gross (schtoo@schtoo.com) - support for ISafeRunnableRunner added
+ *       (bug 49497 [RCP] JFace dependency on org.eclipse.core.runtime enlarges standalone JFace applications)
+ *******************************************************************************/
 package org.eclipse.jface.util;
 
 import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.widgets.Display;
 
-// import org.eclipse.jface.dialogs.MessageDialog;
-// import org.eclipse.jface.resource.JFaceResources;
 /**
  * Implements a default implementation of ISafeRunnable. The default
  * implementation of <code>handleException</code> opens a message dialog.
@@ -25,128 +31,167 @@ import org.eclipse.core.runtime.OperationCanceledException;
  */
 public abstract class SafeRunnable implements ISafeRunnable {
 
-  private static boolean ignoreErrors = false;
-  private static ISafeRunnableRunner runner;
+	private static boolean ignoreErrors = false;
 
-  // private String message;
-  /**
-   * Creates a new instance of SafeRunnable with a default error message.
-   */
-  public SafeRunnable() {
-    // do nothing
-  }
+	private static ISafeRunnableRunner runner;
 
-  /**
-   * Creates a new instance of SafeRunnable with the given error message.
-   * 
-   * @param message the error message to use
-   */
-  public SafeRunnable( String message ) {
-    // this.message = message;
-  }
+	private String message;
 
-  /*
-   * (non-Javadoc) Method declared on ISafeRunnable.
-   */
-  public void handleException( Throwable e ) {
-    e.printStackTrace();
-    // // Workaround to avoid interactive error dialogs during automated testing
-    // if (!ignoreErrors) {
-    // if (message == null) {
-    // message = JFaceResources.getString("SafeRunnable.errorMessage");
-    // //$NON-NLS-1$
-    // }
-    // MessageDialog.openError(null,
-    // JFaceResources.getString("error"), message); //$NON-NLS-1$
-    // }
-  }
+	private static SafeRunnableDialog dialog;
 
-  /**
-   * Flag to avoid interactive error dialogs during automated testing.
-   * 
-   * @deprecated use getIgnoreErrors()
-   */
-  public static boolean getIgnoreErrors( boolean flag ) {
-    return ignoreErrors;
-  }
+	/**
+	 * Creates a new instance of SafeRunnable with a default error message.
+	 */
+	public SafeRunnable() {
+		// do nothing
+	}
 
-  /**
-   * Flag to avoid interactive error dialogs during automated testing.
-   * 
-   * @since 3.0
-   */
-  public static boolean getIgnoreErrors() {
-    return ignoreErrors;
-  }
+	/**
+	 * Creates a new instance of SafeRunnable with the given error message.
+	 * 
+	 * @param message
+	 *            the error message to use
+	 */
+	public SafeRunnable(String message) {
+		this.message = message;
+	}
 
-  /**
-   * Flag to avoid interactive error dialogs during automated testing.
-   */
-  public static void setIgnoreErrors( boolean flag ) {
-    ignoreErrors = flag;
-  }
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.ISafeRunnable#handleException(java.lang.Throwable)
+	 */
+	public void handleException(Throwable e) {
+		// Workaround to avoid interactive error dialogs during automated
+		// testing
+		if (!ignoreErrors) {
+			if (message == null)
+				message = JFaceResources.getString("SafeRunnable.errorMessage"); //$NON-NLS-1$
 
-  /**
-   * Returns the safe runnable runner.
-   * 
-   * @return the safe runnable runner
-   * @since 3.1
-   */
-  public static ISafeRunnableRunner getRunner() {
-    if( runner == null ) {
-      runner = createDefaultRunner();
-    }
-    return runner;
-  }
+			final IStatus status = new Status(IStatus.ERROR, Policy.JFACE, message,e);
 
-  /**
-   * Creates the default safe runnable runner.
-   * 
-   * @return the default safe runnable runner
-   * @since 3.1
-   */
-  private static ISafeRunnableRunner createDefaultRunner() {
-    return new ISafeRunnableRunner() {
+			Runnable runnable = new Runnable() {
+				public void run() {
+					if (dialog == null || dialog.getShell().isDisposed()) {
+						dialog = new SafeRunnableDialog(status);
+						dialog.create();
+						dialog.getShell().addDisposeListener(
+								new DisposeListener() {
+									public void widgetDisposed(DisposeEvent e) {
+										dialog = null;
+									}
+								});
+						dialog.open();
+					} else {
+						dialog.addStatus(status);
+						dialog.refresh();
+					}
+				}
+			};
+			if (Display.getCurrent() != null) {
+				runnable.run();
+			} else {
+//				Display.getDefault().asyncExec(runnable);
+				runnable.run();
+			}
+		}
+	}
 
-      public void run( ISafeRunnable code ) {
-        try {
-          code.run();
-        } catch( Exception e ) {
-          handleException( code, e );
-        } catch( LinkageError e ) {
-          handleException( code, e );
-        }
-      }
+	/**
+	 * Flag to avoid interactive error dialogs during automated testing.
+	 * 
+	 * @param flag
+	 * @return true if errors should be ignored
+	 * @deprecated use getIgnoreErrors()
+	 */
+	public static boolean getIgnoreErrors(boolean flag) {
+		return ignoreErrors;
+	}
 
-      private void handleException( ISafeRunnable code, Throwable e ) {
-        if( !( e instanceof OperationCanceledException ) ) {
-          e.printStackTrace();
-        }
-        code.handleException( e );
-      }
-    };
-  }
+	/**
+	 * Flag to avoid interactive error dialogs during automated testing.
+	 * 
+	 * @return true if errors should be ignored
+	 * 
+	 * @since 3.0
+	 */
+	public static boolean getIgnoreErrors() {
+		return ignoreErrors;
+	}
 
-  /**
-   * Sets the safe runnable runner.
-   * 
-   * @param runner the runner to set, or <code>null</code> to reset to the
-   *          default runner
-   * @since 3.1
-   */
-  public static void setRunner( ISafeRunnableRunner runner ) {
-    SafeRunnable.runner = runner;
-  }
+	/**
+	 * Flag to avoid interactive error dialogs during automated testing.
+	 * 
+	 * @param flag
+	 *            set to true if errors should be ignored
+	 */
+	public static void setIgnoreErrors(boolean flag) {
+		ignoreErrors = flag;
+	}
 
-  /**
-   * Runs the given safe runnable using the safe runnable runner. This is a
-   * convenience method, equivalent to:
-   * <code>SafeRunnable.getRunner().run(runnable)</code>.
-   * 
-   * @param runnable the runnable to run
-   * @since 3.1
-   */
-  public static void run( ISafeRunnable runnable ) {
-    getRunner().run( runnable );
-  }
+	/**
+	 * Returns the safe runnable runner.
+	 * 
+	 * @return the safe runnable runner
+	 * 
+	 * @since 3.1
+	 */
+	public static ISafeRunnableRunner getRunner() {
+		if (runner == null) {
+			runner = createDefaultRunner();
+		}
+		return runner;
+	}
+
+	/**
+	 * Creates the default safe runnable runner.
+	 * 
+	 * @return the default safe runnable runner
+	 * @since 3.1
+	 */
+	private static ISafeRunnableRunner createDefaultRunner() {
+		return new ISafeRunnableRunner() {
+			public void run(ISafeRunnable code) {
+				try {
+					code.run();
+				} catch (Exception e) {
+					handleException(code, e);
+				} catch (LinkageError e) {
+					handleException(code, e);
+				}
+			}
+
+			private void handleException(ISafeRunnable code, Throwable e) {
+				if (!(e instanceof OperationCanceledException)) {
+					e.printStackTrace();
+				}
+				code.handleException(e);
+			}
+		};
+	}
+
+	/**
+	 * Sets the safe runnable runner.
+	 * 
+	 * @param runner
+	 *            the runner to set, or <code>null</code> to reset to the
+	 *            default runner
+	 * @since 3.1
+	 */
+	public static void setRunner(ISafeRunnableRunner runner) {
+		SafeRunnable.runner = runner;
+	}
+
+	/**
+	 * Runs the given safe runnable using the safe runnable runner. This is a
+	 * convenience method, equivalent to:
+	 * <code>SafeRunnable.getRunner().run(runnable)</code>.
+	 * 
+	 * @param runnable
+	 *            the runnable to run
+	 * @since 3.1
+	 */
+	public static void run(ISafeRunnable runnable) {
+		getRunner().run(runnable);
+	}
+
 }

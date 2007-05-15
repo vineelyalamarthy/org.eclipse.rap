@@ -26,12 +26,12 @@ import org.eclipse.core.runtime.IStatus;
  * @since 3.1
  */
 public interface ILogger {
-    
-    /**
-     * Logs the given status.
-     * 
-     * @param status the status to log
-     */
-    public void log(IStatus status);
+	
+	/**
+	 * Logs the given status.
+	 * 
+	 * @param status the status to log
+	 */
+	public void log(IStatus status);
 
 }

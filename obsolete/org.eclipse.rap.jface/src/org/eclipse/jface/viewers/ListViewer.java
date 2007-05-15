@@ -7,11 +7,14 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Brad Reynolds - bug 141435
+ *     Tom Schindl <tom.schindl@bestsolution.at> - bug 157309, 177619
  *******************************************************************************/
 
 package org.eclipse.jface.viewers;
 
-import org.eclipse.jface.util.Assert;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -94,19 +97,17 @@ public class ListViewer extends AbstractListViewer {
      * Non-Javadoc.
      * Method defined on StructuredViewer.
      */
-    // TODO [rh] bring reveal back to work once List implements setTopIndex and
-    //      getItemHeight
     public void reveal(Object element) {
-        Assert.isNotNull(element);
-        int index = getElementIndex(element);
-        if (index == -1) {
-			return;
-		}
-        // algorithm patterned after List.showSelection()
-        int count = list.getItemCount();
-        if (count == 0) {
-			return;
-		}
+//        Assert.isNotNull(element);
+//        int index = getElementIndex(element);
+//        if (index == -1) {
+//			return;
+//		}
+//        // algorithm patterned after List.showSelection()
+//        int count = list.getItemCount();
+//        if (count == 0) {
+//			return;
+//		}
 //        int height = list.getItemHeight();
 //        Rectangle rect = list.getClientArea();
 //        int topIndex = list.getTopIndex();
@@ -118,6 +119,7 @@ public class ListViewer extends AbstractListViewer {
 //        int newTop = Math.min(Math.max(index - (visibleCount / 2), 0),
 //                count - 1);
 //        list.setTopIndex(newTop);
+    	throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -186,10 +188,58 @@ public class ListViewer extends AbstractListViewer {
     /* (non-Javadoc)
      * @see org.eclipse.jface.viewers.AbstractListViewer#listShowSelection()
      */
-    // TODO [rh] bring listShowSelection back to work once List implements 
-    //      showSelection
     protected void listShowSelection() {
 //        list.showSelection();
+    	throw new UnsupportedOperationException();
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.viewers.AbstractListViewer#listGetTopIndex()
+     */
+    protected int listGetTopIndex() {
+//    	return list.getTopIndex();
+//    	throw new UnsupportedOperationException();
+    	return 0;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.jface.viewers.AbstractListViewer#listSetTopIndex(int)
+     */
+    protected void listSetTopIndex(int index) {
+//    	list.setTopIndex(index);
+//    	throw new UnsupportedOperationException();
     }
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.AbstractListViewer#setSelectionToWidget(java.util.List, boolean)
+	 */
+	protected void setSelectionToWidget(List in, boolean reveal) {
+		if( reveal ) {
+			super.setSelectionToWidget(in, reveal);
+		} else {
+			if (in == null || in.size() == 0) { // clear selection
+	            list.deselectAll();
+	        } else {
+	            int n = in.size();
+	            int[] ixs = new int[n];
+	            int count = 0;
+	            for (int i = 0; i < n; ++i) {
+	                Object el = in.get(i);
+	                int ix = getElementIndex(el);
+	                if (ix >= 0) {
+						ixs[count++] = ix;
+					}
+	            }
+	            if (count < n) {
+	                System.arraycopy(ixs, 0, ixs = new int[count], 0, count);
+	            }
+	            list.deselectAll();
+//	            list.select(ixs);
+	            throw new UnsupportedOperationException();
+	        }
+		}
+	}
+    
+    
 }
