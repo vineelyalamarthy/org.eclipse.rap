@@ -161,13 +161,13 @@ public class DefaultTabFolder extends AbstractTabFolder {
       titleLabel = new Label( paneFolder.getControl(), SWT.NONE );
       titleLabel.moveAbove( null );
       titleLabel.setVisible( false );
-//      attachListeners( titleLabel, false );
-        ActivateEvent.addListener( titleLabel, activateListener );
+      attachListeners( titleLabel, false );
+      ActivateEvent.addListener( titleLabel, activateListener );
     }
     ActivateEvent.addListener( paneFolder.getControl(), activateListener );
     ActivateEvent.addListener( paneFolder.getViewForm(), activateListener );
-//    attachListeners( paneFolder.getControl(), false );
-//    attachListeners( paneFolder.getViewForm(), false );
+    attachListeners( paneFolder.getControl(), false );
+    attachListeners( paneFolder.getViewForm(), false );
 //    paneFolder.setTabHeight( computeTabHeight() );
     viewToolBar.moveAbove( null );
   }

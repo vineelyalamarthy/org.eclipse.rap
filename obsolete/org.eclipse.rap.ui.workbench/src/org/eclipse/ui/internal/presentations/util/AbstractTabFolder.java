@@ -8,11 +8,13 @@
 package org.eclipse.ui.internal.presentations.util;
 
 import java.util.*;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.presentations.IStackPresentationSite;
 
 /**
@@ -76,6 +78,14 @@ public abstract class AbstractTabFolder {
 //      handleDoubleClick( p, e );
 //    }
 //  };
+  // TODO: hack cause we don't support mouse listener
+  private Listener mouseListener = new Listener() {
+	public void handleEvent(Event e) {
+		if(e.type == SWT.DefaultSelection) {
+			handleDoubleClick( new Point(e.x, e.y), e );
+		}
+	}
+  };
 
   public void setActive( int activeState ) {
     this.activeState = activeState;
@@ -272,19 +282,20 @@ public abstract class AbstractTabFolder {
     return state;
   }
 
-//  protected void attachListeners( Control theControl, boolean recursive ) {
+  protected void attachListeners( Control theControl, boolean recursive ) {
 //    theControl.addListener( SWT.MenuDetect, menuListener );
 //    theControl.addMouseListener( mouseListener );
 //    PresentationUtil.addDragListener( theControl, dragListener );
-//    if( recursive && theControl instanceof Composite ) {
-//      Composite composite = ( Composite )theControl;
-//      Control[] children = composite.getChildren();
-//      for( int i = 0; i < children.length; i++ ) {
-//        Control control = children[ i ];
-//        attachListeners( control, recursive );
-//      }
-//    }
-//  }
+	  theControl.addListener( SWT.DefaultSelection, mouseListener);
+    if( recursive && theControl instanceof Composite ) {
+      Composite composite = ( Composite )theControl;
+      Control[] children = composite.getChildren();
+      for( int i = 0; i < children.length; i++ ) {
+        Control control = children[ i ];
+        attachListeners( control, recursive );
+      }
+    }
+  }
 //
 //  protected void detachListeners( Control theControl, boolean recursive ) {
 //    theControl.removeListener( SWT.MenuDetect, menuListener );
@@ -313,15 +324,16 @@ public abstract class AbstractTabFolder {
 //  }
 //
 //  protected void handleDoubleClick( Point displayPos, MouseEvent e ) {
+  protected void handleDoubleClick( Point displayPos, Event e ) {
 //    if( isOnBorder( displayPos ) ) {
 //      return;
 //    }
-//    if( getState() == IStackPresentationSite.STATE_MAXIMIZED ) {
-//      fireEvent( TabFolderEvent.EVENT_RESTORE );
-//    } else {
-//      fireEvent( TabFolderEvent.EVENT_MAXIMIZE );
-//    }
-//  }
+    if( getState() == IStackPresentationSite.STATE_MAXIMIZED ) {
+      fireEvent( TabFolderEvent.EVENT_RESTORE );
+    } else {
+      fireEvent( TabFolderEvent.EVENT_MAXIMIZE );
+    }
+  }
 //
 //  protected void handleDragStarted( Point displayPos, Event e ) {
 //    if( isOnBorder( displayPos ) ) {
