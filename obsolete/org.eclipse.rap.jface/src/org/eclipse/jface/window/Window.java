@@ -321,21 +321,18 @@ public abstract class Window implements IShellProvider {
 			windowManager.remove(this);
 			windowManager = null;
 		}
-
-		if (shell == null || shell.isDisposed()) {
-			return true;
-		}
-
-		// If we "close" the shell recursion will occur.
-		// Instead, we need to "dispose" the shell to remove it from the
-		// display.
-		shell.dispose();
-		shell = null;
-		contents = null;
+		
+	    boolean result = shell == null || shell.isDisposed();
+	    if( !result ) {
+	      shell.dispose();
+	      shell = null;
+	      contents = null;
+	      result = true;
+	    }
 	    if( callback != null ) {
-	        callback.windowClosed( returnCode );
-	      }
-		return true;
+	      callback.windowClosed( returnCode );
+	    }
+	    return result;
 	}
 
 	/**
