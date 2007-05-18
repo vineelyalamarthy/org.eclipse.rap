@@ -62,9 +62,9 @@ public class FolderLayout implements IFolderLayout {
    * @see org.eclipse.ui.IFolderLayout#addView(java.lang.String)
    */
   public void addView( final String viewId ) {
-//    if( pageLayout.checkPartInLayout( viewId ) ) {
-//      return;
-//    }
+    if( pageLayout.checkPartInLayout( viewId ) ) {
+      return;
+    }
     try {
       IViewRegistry registry = viewFactory.getViewRegistry();
       String primaryId = ViewFactory.extractPrimaryId( viewId );
