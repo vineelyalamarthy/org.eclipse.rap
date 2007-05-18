@@ -10,12 +10,9 @@
  *******************************************************************************/
 package org.eclipse.jface.viewers;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.jface.resource.JFaceResources;
+import java.util.*;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.jface.resource.JFaceResources;
 
 /**
  * A concrete implementation of the <code>IStructuredSelection</code> interface,

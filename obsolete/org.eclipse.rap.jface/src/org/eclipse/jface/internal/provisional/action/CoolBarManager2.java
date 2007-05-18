@@ -12,9 +12,7 @@
 package org.eclipse.jface.internal.provisional.action;
 
 import org.eclipse.jface.action.CoolBarManager;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.*;
 
 /**
  * Extends <code>CoolBarManager</code> to implement <code>ICoolBarManager2</code>

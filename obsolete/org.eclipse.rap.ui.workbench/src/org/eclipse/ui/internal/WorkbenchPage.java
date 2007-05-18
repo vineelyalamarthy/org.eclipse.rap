@@ -13,7 +13,6 @@ package org.eclipse.ui.internal;
 
 import java.text.MessageFormat;
 import java.util.*;
-
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.util.SafeRunnable;

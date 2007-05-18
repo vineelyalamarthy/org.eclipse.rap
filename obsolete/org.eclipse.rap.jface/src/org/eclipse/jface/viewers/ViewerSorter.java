@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.jface.viewers;
 
-import java.text.Collator; // can't use ICU - Collator used in public API
+import java.text.Collator;
 
 /**
  * A viewer sorter is used by a {@link StructuredViewer} to reorder the elements 

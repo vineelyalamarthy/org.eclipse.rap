@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.jface.dialogs;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 
 /**
  * An interface to a storage mechanism for making dialog settings persistent.

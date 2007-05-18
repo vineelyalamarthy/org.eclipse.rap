@@ -11,9 +11,8 @@
 package org.eclipse.ui.handlers;
 
 import java.util.Map;
-
 import org.eclipse.core.commands.*;
-import org.eclipse.jface.dialogs.*;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.window.IWindowCallback;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.*;

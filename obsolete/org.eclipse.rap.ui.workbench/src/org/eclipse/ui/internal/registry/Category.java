@@ -12,7 +12,6 @@ package org.eclipse.ui.internal.registry;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.resource.ImageDescriptor;

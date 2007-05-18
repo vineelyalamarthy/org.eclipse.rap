@@ -12,7 +12,6 @@
 package org.eclipse.ui.internal;
 
 import java.util.*;
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IViewReference;

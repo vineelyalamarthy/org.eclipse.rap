@@ -11,11 +11,7 @@
 
 package org.eclipse.jface.commands;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
+import java.util.*;
 import org.eclipse.core.commands.IStateListener;
 import org.eclipse.core.commands.State;
 import org.eclipse.jface.menus.IMenuStateIds;

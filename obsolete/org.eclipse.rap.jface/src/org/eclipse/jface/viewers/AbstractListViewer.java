@@ -16,7 +16,6 @@ package org.eclipse.jface.viewers;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;

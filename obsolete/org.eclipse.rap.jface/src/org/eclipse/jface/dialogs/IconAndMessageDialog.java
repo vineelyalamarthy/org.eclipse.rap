@@ -11,17 +11,10 @@
  *******************************************************************************/
 package org.eclipse.jface.dialogs;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.layout.LayoutConstants;
+import org.eclipse.jface.layout.*;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 
 /**
  * The IconAndMessageDialog is the abstract superclass of dialogs that have an
@@ -258,7 +251,7 @@ public abstract class IconAndMessageDialog extends Dialog {
 	 */
 	private Image getSWTImage(final int imageID) {
 		Shell shell = getShell();
-		final Display display;
+		final Device display;
 		if (shell == null) {
 			shell = getParentShell();
 		}

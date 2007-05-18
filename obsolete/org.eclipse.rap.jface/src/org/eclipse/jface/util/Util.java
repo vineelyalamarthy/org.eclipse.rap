@@ -11,12 +11,7 @@
 
 package org.eclipse.jface.util;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * <p>

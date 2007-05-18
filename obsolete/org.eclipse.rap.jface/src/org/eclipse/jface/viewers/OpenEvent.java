@@ -11,7 +11,6 @@
 package org.eclipse.jface.viewers;
 
 import java.util.EventObject;
-
 import org.eclipse.core.runtime.Assert;
 
 /**

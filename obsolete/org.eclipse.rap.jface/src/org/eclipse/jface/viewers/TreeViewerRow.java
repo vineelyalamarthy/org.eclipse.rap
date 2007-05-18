@@ -14,16 +14,9 @@
 package org.eclipse.jface.viewers;
 
 import java.util.LinkedList;
-
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 
 /**
  * TreeViewerRow is the Tree implementation of ViewerRow.

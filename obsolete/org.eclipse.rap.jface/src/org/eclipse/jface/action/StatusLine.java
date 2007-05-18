@@ -12,25 +12,12 @@
 package org.eclipse.jface.action;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.resource.JFaceColors;
-import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.*;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A StatusLine control is a SWT Composite with a horizontal layout which hosts
@@ -250,7 +237,8 @@ import org.eclipse.swt.widgets.ToolItem;
      */
     public StatusLine(Composite parent, int style) {
         super(parent, style);
-
+        initImage();
+        
         addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent e) {
                 handleDispose();
@@ -309,6 +297,17 @@ import org.eclipse.swt.widgets.ToolItem;
 //                | GridData.GRAB_VERTICAL));
 
 //        fStopButtonCursor = new Cursor(getDisplay(), SWT.CURSOR_ARROW);
+    }
+
+    private void initImage() {
+      String path = "images/stop.gif";
+      ImageDescriptor stopImage 
+        = ImageDescriptor.createFromFile(StatusLine.class, path);//$NON-NLS-1$
+      String imageKey = "org.eclipse.jface.parts.StatusLine.stopImage";
+      ImageRegistry imageRegistry = JFaceResources.getImageRegistry();
+      if( imageRegistry.get( imageKey ) == null ) {
+        imageRegistry.put(imageKey, stopImage);//$NON-NLS-1$
+      }
     }
 
     /**
@@ -630,7 +629,7 @@ import org.eclipse.swt.widgets.ToolItem;
      */
     protected void updateMessageLabel() {
         if (fMessageLabel != null && !fMessageLabel.isDisposed()) {
-            Display display = fMessageLabel.getDisplay();
+            Device display = fMessageLabel.getDisplay();
             if ((fErrorText != null && fErrorText.length() > 0)
                     || fErrorImage != null) {
                 fMessageLabel.setForeground(JFaceColors.getErrorText(display));

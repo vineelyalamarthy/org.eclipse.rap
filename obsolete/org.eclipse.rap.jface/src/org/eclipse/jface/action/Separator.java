@@ -11,10 +11,7 @@
 package org.eclipse.jface.action;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A separator is a special kind of contribution item which acts

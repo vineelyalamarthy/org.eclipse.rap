@@ -10,14 +10,10 @@
  *******************************************************************************/
 package org.eclipse.jface.resource;
 
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
-
+import java.util.*;
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.*;
 
 /**
  * Helper class for converting various data types to and from
@@ -43,34 +39,34 @@ public class StringConverter {
     /**
      * Internal font style constant for regular fonts.
      */
-//    private static final String REGULAR = "regular"; //$NON-NLS-1$
+    private static final String REGULAR = "regular"; //$NON-NLS-1$
 
     /**
      * Internal font style constant for bold fonts.
      */
-//    private static final String BOLD = "bold"; //$NON-NLS-1$
+    private static final String BOLD = "bold"; //$NON-NLS-1$
 
     /**
      * Internal font style constant for italic fonts.
      */
-//    private static final String ITALIC = "italic"; //$NON-NLS-1$
+    private static final String ITALIC = "italic"; //$NON-NLS-1$
 
     /**
      * Internal font style constant for bold italic fonts.
      */
-//    private static final String BOLD_ITALIC = "bold italic"; //$NON-NLS-1$
+    private static final String BOLD_ITALIC = "bold italic"; //$NON-NLS-1$
 
     /**
      * Internal constant for the separator character used in
      * font specifications.
      */
-//    private static final char SEPARATOR = '-';
+    private static final char SEPARATOR = '-';
 
     /**
      * Internal constant for the seperator character used in font list
      * specifications.
      */
-//    private static final String FONT_SEPARATOR = ";"; //$NON-NLS-1$
+    private static final String FONT_SEPARATOR = ";"; //$NON-NLS-1$
 
     /* (non-Javadoc)
      * Declare a private constructor to block instantiation.
@@ -251,46 +247,46 @@ public class StringConverter {
      * @exception DataFormatException if the given value does not represent
      *	font data
      */
-//    public static FontData asFontData(String value) throws DataFormatException {
-//        if (value == null) {
-//			throw new DataFormatException(
-//                    "Null doesn't represent a valid font data"); //$NON-NLS-1$
-//		}
-//        String name = null;
-//        int height = 0;
-//        int style = 0;
-//        try {
-//            int length = value.length();
-//            int heightIndex = value.lastIndexOf(SEPARATOR);
-//            if (heightIndex == -1) {
-//				throw new DataFormatException(
-//                        "No correct font data format \"" + value + "\""); //$NON-NLS-2$//$NON-NLS-1$
-//			}
-//            height = StringConverter.asInt(value.substring(heightIndex + 1,
-//                    length));
-//            int faceIndex = value.lastIndexOf(SEPARATOR, heightIndex - 1);
-//            if (faceIndex == -1) {
-//				throw new DataFormatException(
-//                        "No correct font data format \"" + value + "\""); //$NON-NLS-2$//$NON-NLS-1$
-//			}
-//            String s = value.substring(faceIndex + 1, heightIndex);
-//            if (BOLD_ITALIC.equals(s)) {
-//                style = SWT.BOLD | SWT.ITALIC;
-//            } else if (BOLD.equals(s)) {
-//                style = SWT.BOLD;
-//            } else if (ITALIC.equals(s)) {
-//                style = SWT.ITALIC;
-//            } else if (REGULAR.equals(s)) {
-//                style = SWT.NORMAL;
-//            } else {
-//                throw new DataFormatException("Unknown face name \"" + s + "\""); //$NON-NLS-2$//$NON-NLS-1$
-//            }
-//            name = value.substring(0, faceIndex);
-//        } catch (NoSuchElementException e) {
-//            throw new DataFormatException(e.getMessage());
-//        }
-//        return new FontData(name, height, style);
-//    }
+    public static FontData asFontData(String value) throws DataFormatException {
+        if (value == null) {
+			throw new DataFormatException(
+                    "Null doesn't represent a valid font data"); //$NON-NLS-1$
+		}
+        String name = null;
+        int height = 0;
+        int style = 0;
+        try {
+            int length = value.length();
+            int heightIndex = value.lastIndexOf(SEPARATOR);
+            if (heightIndex == -1) {
+				throw new DataFormatException(
+                        "No correct font data format \"" + value + "\""); //$NON-NLS-2$//$NON-NLS-1$
+			}
+            height = StringConverter.asInt(value.substring(heightIndex + 1,
+                    length));
+            int faceIndex = value.lastIndexOf(SEPARATOR, heightIndex - 1);
+            if (faceIndex == -1) {
+				throw new DataFormatException(
+                        "No correct font data format \"" + value + "\""); //$NON-NLS-2$//$NON-NLS-1$
+			}
+            String s = value.substring(faceIndex + 1, heightIndex);
+            if (BOLD_ITALIC.equals(s)) {
+                style = SWT.BOLD | SWT.ITALIC;
+            } else if (BOLD.equals(s)) {
+                style = SWT.BOLD;
+            } else if (ITALIC.equals(s)) {
+                style = SWT.ITALIC;
+            } else if (REGULAR.equals(s)) {
+                style = SWT.NORMAL;
+            } else {
+                throw new DataFormatException("Unknown face name \"" + s + "\""); //$NON-NLS-2$//$NON-NLS-1$
+            }
+            name = value.substring(0, faceIndex);
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException(e.getMessage());
+        }
+        return new FontData(name, height, style);
+    }
 
 	/**
 	 * Returns the result of converting a list of comma-separated tokens into an array
@@ -298,20 +294,20 @@ public class StringConverter {
 	 * @return the array of string tokens
 	 * @param prop the initial comma-separated string
 	 */
-//	private static String[] getArrayFromList(String prop, String separator) {
-//		if (prop == null || prop.trim().equals("")) { //$NON-NLS-1$
-//			return new String[0];
-//		}
-//		ArrayList list = new ArrayList();
-//		StringTokenizer tokens = new StringTokenizer(prop, separator); 
-//		while (tokens.hasMoreTokens()) {
-//			String token = tokens.nextToken().trim();
-//			if (!token.equals("")) { //$NON-NLS-1$
-//				list.add(token);
-//			}
-//		}
-//		return list.isEmpty() ? new String[0] : (String[]) list.toArray(new String[list.size()]);
-//	}
+	private static String[] getArrayFromList(String prop, String separator) {
+		if (prop == null || prop.trim().equals("")) { //$NON-NLS-1$
+			return new String[0];
+		}
+		ArrayList list = new ArrayList();
+		StringTokenizer tokens = new StringTokenizer(prop, separator); 
+		while (tokens.hasMoreTokens()) {
+			String token = tokens.nextToken().trim();
+			if (!token.equals("")) { //$NON-NLS-1$
+				list.add(token);
+			}
+		}
+		return list.isEmpty() ? new String[0] : (String[]) list.toArray(new String[list.size()]);
+	}
 
     /**
      * Convert the given value into an array of SWT font data objects.
@@ -320,18 +316,18 @@ public class StringConverter {
      * @return the value as a font list
      * @since 3.0
      */
-//    public static FontData[] asFontDataArray(String value) {
-//        String[] strings = getArrayFromList(value, FONT_SEPARATOR);
-//        ArrayList data = new ArrayList(strings.length);
-//        for (int i = 0; i < strings.length; i++) {
-//            try {
-//                data.add(StringConverter.asFontData(strings[i]));
-//            } catch (DataFormatException e) {
-//                //do-nothing
-//            }
-//        }
-//        return (FontData[]) data.toArray(new FontData[data.size()]);
-//    }
+    public static FontData[] asFontDataArray(String value) {
+        String[] strings = getArrayFromList(value, FONT_SEPARATOR);
+        ArrayList data = new ArrayList(strings.length);
+        for (int i = 0; i < strings.length; i++) {
+            try {
+                data.add(StringConverter.asFontData(strings[i]));
+            } catch (DataFormatException e) {
+                //do-nothing
+            }
+        }
+        return (FontData[]) data.toArray(new FontData[data.size()]);
+    }
 
     /**
      * Converts the given value into an SWT font data object.
@@ -342,13 +338,13 @@ public class StringConverter {
      * @param dflt the default value
      * @return the value as a font data object, or the default value
      */
-//    public static FontData asFontData(String value, FontData dflt) {
-//        try {
-//            return asFontData(value);
-//        } catch (DataFormatException e) {
-//            return dflt;
-//        }
-//    }
+    public static FontData asFontData(String value, FontData dflt) {
+        try {
+            return asFontData(value);
+        } catch (DataFormatException e) {
+            return dflt;
+        }
+    }
 
     /**
      * Converts the given value into an int.
@@ -693,16 +689,16 @@ public class StringConverter {
      * @return The string representation of the font data arra.
      * @since 3.0
      */
-//    public static String asString(FontData[] value) {
-//        StringBuffer buffer = new StringBuffer();
-//        for (int i = 0; i < value.length; i++) {
-//            buffer.append(asString(value[i]));
-//            if (i != value.length - 1) {
-//				buffer.append(FONT_SEPARATOR);
-//			}
-//        }
-//        return buffer.toString();
-//    }
+    public static String asString(FontData[] value) {
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < value.length; i++) {
+            buffer.append(asString(value[i]));
+            if (i != value.length - 1) {
+				buffer.append(FONT_SEPARATOR);
+			}
+        }
+        return buffer.toString();
+    }
 
     /**
      * Converts a font data object to a string. The string representation is
@@ -710,28 +706,28 @@ public class StringConverter {
      * @param value The font data.
      * @return The string representation of the font data object.
      */
-//    public static String asString(FontData value) {
-//        Assert.isNotNull(value);
-//        StringBuffer buffer = new StringBuffer();
-//        buffer.append(value.getName());
-//        buffer.append(SEPARATOR);
-//        int style = value.getStyle();
-//        boolean bold = (style & SWT.BOLD) == SWT.BOLD;
-//        boolean italic = (style & SWT.ITALIC) == SWT.ITALIC;
-//        if (bold && italic) {
-//            buffer.append(BOLD_ITALIC);
-//        } else if (bold) {
-//            buffer.append(BOLD);
-//        } else if (italic) {
-//            buffer.append(ITALIC);
-//        } else {
-//            buffer.append(REGULAR);
-//        }
-//
-//        buffer.append(SEPARATOR);
-//        buffer.append(value.getHeight());
-//        return buffer.toString();
-//    }
+    public static String asString(FontData value) {
+        Assert.isNotNull(value);
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(value.getName());
+        buffer.append(SEPARATOR);
+        int style = value.getStyle();
+        boolean bold = (style & SWT.BOLD) == SWT.BOLD;
+        boolean italic = (style & SWT.ITALIC) == SWT.ITALIC;
+        if (bold && italic) {
+            buffer.append(BOLD_ITALIC);
+        } else if (bold) {
+            buffer.append(BOLD);
+        } else if (italic) {
+            buffer.append(ITALIC);
+        } else {
+            buffer.append(REGULAR);
+        }
+
+        buffer.append(SEPARATOR);
+        buffer.append(value.getHeight());
+        return buffer.toString();
+    }
 
     /**
      * Converts the given SWT point object to a string.
@@ -858,26 +854,26 @@ public class StringConverter {
      * @return The string representation of the font data object.
      * @deprecated use asString(FontData)
      */
-//    public static String asDisplayableString(FontData value) {
-//        Assert.isNotNull(value);
-//        StringBuffer buffer = new StringBuffer();
-//        buffer.append(value.getName());
-//        buffer.append(SEPARATOR);
-//        int style = value.getStyle();
-//        boolean bold = (style & SWT.BOLD) == SWT.BOLD;
-//        boolean italic = (style & SWT.ITALIC) == SWT.ITALIC;
-//        if (bold && italic) {
-//            buffer.append(JFaceResources.getString("BoldItalicFont")); //$NON-NLS-1$
-//        } else if (bold) {
-//            buffer.append(JFaceResources.getString("BoldFont")); //$NON-NLS-1$
-//        } else if (italic) {
-//            buffer.append(JFaceResources.getString("ItalicFont")); //$NON-NLS-1$
-//        } else {
-//            buffer.append(JFaceResources.getString("RegularFont")); //$NON-NLS-1$
-//        }
-//        buffer.append(SEPARATOR);
-//        buffer.append(value.getHeight());
-//        return buffer.toString();
-//
-//    }
+    public static String asDisplayableString(FontData value) {
+        Assert.isNotNull(value);
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(value.getName());
+        buffer.append(SEPARATOR);
+        int style = value.getStyle();
+        boolean bold = (style & SWT.BOLD) == SWT.BOLD;
+        boolean italic = (style & SWT.ITALIC) == SWT.ITALIC;
+        if (bold && italic) {
+            buffer.append(JFaceResources.getString("BoldItalicFont")); //$NON-NLS-1$
+        } else if (bold) {
+            buffer.append(JFaceResources.getString("BoldFont")); //$NON-NLS-1$
+        } else if (italic) {
+            buffer.append(JFaceResources.getString("ItalicFont")); //$NON-NLS-1$
+        } else {
+            buffer.append(JFaceResources.getString("RegularFont")); //$NON-NLS-1$
+        }
+        buffer.append(SEPARATOR);
+        buffer.append(value.getHeight());
+        return buffer.toString();
+
+    }
 }

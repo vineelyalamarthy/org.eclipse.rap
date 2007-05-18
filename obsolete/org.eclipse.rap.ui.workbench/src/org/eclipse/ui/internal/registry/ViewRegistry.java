@@ -13,11 +13,9 @@ package org.eclipse.ui.internal.registry;
 
 import java.text.MessageFormat;
 import java.util.*;
-
 import org.eclipse.core.runtime.*;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.views.*;
-
 import com.w4t.SessionSingletonBase;
 
 

@@ -12,7 +12,6 @@
 package org.eclipse.ui.internal;
 
 import java.util.*;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.action.*;

@@ -12,6 +12,7 @@ package org.eclipse.jface.dialogs;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.Policy;
 import org.eclipse.jface.util.Util;
 import org.eclipse.swt.SWT;
@@ -19,11 +20,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.*;
 
 /**
  * An abstract base class for dialogs with a status bar and OK/CANCEL buttons.
@@ -83,15 +80,15 @@ public abstract class StatusDialog extends TrayDialog {
 		 * @return Image
 		 */
 		private Image findImage(IStatus status) {
-//			if (status.isOK()) {
-//				return null;
-//			} else if (status.matches(IStatus.ERROR)) {
-//				return JFaceResources.getImage(Dialog.DLG_IMG_MESSAGE_ERROR);
-//			} else if (status.matches(IStatus.WARNING)) {
-//				return JFaceResources.getImage(Dialog.DLG_IMG_MESSAGE_WARNING);
-//			} else if (status.matches(IStatus.INFO)) {
-//				return JFaceResources.getImage(Dialog.DLG_IMG_MESSAGE_INFO);
-//			}
+			if (status.isOK()) {
+				return null;
+			} else if (status.matches(IStatus.ERROR)) {
+				return JFaceResources.getImage(Dialog.DLG_IMG_MESSAGE_ERROR);
+			} else if (status.matches(IStatus.WARNING)) {
+				return JFaceResources.getImage(Dialog.DLG_IMG_MESSAGE_WARNING);
+			} else if (status.matches(IStatus.INFO)) {
+				return JFaceResources.getImage(Dialog.DLG_IMG_MESSAGE_INFO);
+			}
 			return null;
 		}
 

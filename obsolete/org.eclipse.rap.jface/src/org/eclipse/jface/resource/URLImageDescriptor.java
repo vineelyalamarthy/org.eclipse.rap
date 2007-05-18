@@ -10,11 +10,9 @@
  *******************************************************************************/
 package org.eclipse.jface.resource;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
-
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -101,7 +99,7 @@ class URLImageDescriptor extends ImageDescriptor {
         return "URLImageDescriptor(" + url + ")"; //$NON-NLS-1$ //$NON-NLS-2$
     }
     
-    public Image createImage() {
+    public Image createImage(boolean returnMissingImageOnError, Device device) {
         String path = url.toString();
         String schema = "bundleentry://"; //$NON-NLS-1$
         int pos = path.indexOf( schema );

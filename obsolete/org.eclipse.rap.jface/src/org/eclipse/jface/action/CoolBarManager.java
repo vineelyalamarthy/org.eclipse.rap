@@ -10,20 +10,12 @@
  *******************************************************************************/
 package org.eclipse.jface.action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.ListIterator;
-
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.util.Policy;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.CoolBar;
-import org.eclipse.swt.widgets.CoolItem;
-import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A cool bar manager is a contribution manager which realizes itself and its

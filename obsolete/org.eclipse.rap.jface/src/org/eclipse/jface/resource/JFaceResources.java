@@ -11,18 +11,16 @@
 package org.eclipse.jface.resource;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
+import java.util.*;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
+import com.w4t.SessionSingletonBase;
 
 /**
  * Utility methods to access JFace-specific resources.
@@ -45,13 +43,27 @@ public class JFaceResources {
 	/**
 	 * The path to the icons in the resources.
 	 */
-//	private final static String ICONS_PATH = "$nl$/icons/full/";//$NON-NLS-1$
+	private final static String ICONS_PATH = "$nl$/icons/full/";//$NON-NLS-1$
 
 	/**
 	 * Map of Display onto DeviceResourceManager. Holds all the resources for
 	 * the associated display.
 	 */
 //	private static final Map registries = new HashMap();
+  public final static class Registries
+    extends SessionSingletonBase
+  {
+	private final Map registries = new HashMap();
+    private Registries() {
+    }
+    public static Registries getInstance() {
+      Class clazz = Registries.class;
+      return ( Registries )getInstance( clazz );
+    }
+    public Map  getMap() {
+      return registries;
+    }
+  }
 
 	/**
 	 * The symbolic font name for the banner font (value
@@ -69,14 +81,25 @@ public class JFaceResources {
 	 * The JFace color registry; <code>null</code> until lazily initialized or
 	 * explicitly set.
 	 */
-	private static ColorRegistry colorRegistry;
-
-	private static HashMap iconList;
+//	private static ColorRegistry colorRegistry;
+  public final static class ColorRegistryStore extends SessionSingletonBase {
+    private final ColorRegistry colorRegistry;
+    private ColorRegistryStore() {
+      colorRegistry = new ColorRegistry();
+    }
+    public static ColorRegistryStore getInstance() {
+      Class clazz = ColorRegistryStore.class;
+      return ( ColorRegistryStore )getInstance( clazz );
+    }
+    public ColorRegistry getColorRegistry() {
+      return colorRegistry;
+    }
+  }
 
 	/**
-	 * The symbolic font name for the standard font (value
-	 * <code>"org.eclipse.jface.defaultfont"</code>).
-	 */
+   * The symbolic font name for the standard font (value
+   * <code>"org.eclipse.jface.defaultfont"</code>).
+   */
 	public static final String DEFAULT_FONT = "org.eclipse.jface.defaultfont"; //$NON-NLS-1$
 
 	/**
@@ -90,6 +113,27 @@ public class JFaceResources {
 	 * explicitly set.
 	 */
 //	private static FontRegistry fontRegistry = null;
+  public final static class FontRegistryStore extends SessionSingletonBase {
+    private FontRegistry fontRegistry;
+    private FontRegistryStore() {
+    }
+    public static FontRegistryStore getInstance() {
+      Class clazz = FontRegistryStore.class;
+      return ( FontRegistryStore )getInstance( clazz );
+    }
+    public FontRegistry getFontRegistry() {
+      if( fontRegistry == null ) {
+        fontRegistry 
+          = new FontRegistry( "org.eclipse.jface.resource.jfacefonts" ); //$NON-NLS-1$
+      }
+      return fontRegistry;
+    }
+    public void setFontRegistry( final FontRegistry fontRegistry ) {
+      Assert.isTrue( this.fontRegistry == null,
+                     "Font registry can only be set once." ); //$NON-NLS-1$
+      this.fontRegistry = fontRegistry;
+    }
+  }
 
 	/**
 	 * The symbolic font name for the header font (value
@@ -101,6 +145,85 @@ public class JFaceResources {
 	 * The JFace image registry; <code>null</code> until lazily initialized.
 	 */
 //	private static ImageRegistry imageRegistry = null;
+  public final static class ImageRegistryStore extends SessionSingletonBase {
+    private final ImageRegistry imageRegistry;
+    private ImageRegistryStore() {
+      imageRegistry = new ImageRegistry();
+      initializeDefaultImages();
+    }
+    public static ImageRegistryStore getInstance() {
+      Class clazz = ImageRegistryStore.class;
+      return ( ImageRegistryStore )getInstance( clazz );
+    }
+    public ImageRegistry getImageRegistry() {
+      return imageRegistry;
+    }
+
+    /**
+     * Initialize default images in JFace's image registry.
+     * 
+     */
+    private void initializeDefaultImages() {
+
+//      Bundle bundle = JFaceActivator.getBundle();
+        declareImage(/*bundle,*/ Wizard.DEFAULT_IMAGE, ICONS_PATH + "page.gif", //$NON-NLS-1$
+                Wizard.class, "images/page.gif"); //$NON-NLS-1$
+
+        // register default images for dialogs
+        declareImage(/*bundle,*/ Dialog.DLG_IMG_MESSAGE_INFO, ICONS_PATH
+                + "message_info.gif", Dialog.class, "images/message_info.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+        declareImage(/*bundle,*/ Dialog.DLG_IMG_MESSAGE_WARNING, ICONS_PATH
+                + "message_warning.gif", Dialog.class, //$NON-NLS-1$
+                "images/message_warning.gif"); //$NON-NLS-1$
+        declareImage(/*bundle,*/ Dialog.DLG_IMG_MESSAGE_ERROR, ICONS_PATH
+                + "message_error.gif", Dialog.class, "images/message_error.gif");//$NON-NLS-1$ //$NON-NLS-2$
+        declareImage(
+                /*bundle,*/
+                TitleAreaDialog.DLG_IMG_TITLE_BANNER,
+                ICONS_PATH + "title_banner.png", TitleAreaDialog.class, "images/title_banner.gif");//$NON-NLS-1$ //$NON-NLS-2$
+        declareImage(
+                /*bundle,*/
+                PreferenceDialog.PREF_DLG_TITLE_IMG,
+                ICONS_PATH + "pref_dialog_title.gif", PreferenceDialog.class, "images/pref_dialog_title.gif");//$NON-NLS-1$ //$NON-NLS-2$
+    }
+
+    /**
+     * Declares a JFace image given the path of the image file (relative to the
+     * JFace plug-in). This is a helper method that creates the image descriptor
+     * and passes it to the main <code>declareImage</code> method.
+     * 
+     * @param bundle
+     *            the {@link Bundle}
+     * @param key
+     *            the symbolic name of the image
+     * @param path
+     *            the path of the image file relative to the base of the
+     *            workbench plug-ins install directory
+     * @param fallback
+     *            the {@link Class} where the fallback implementation of the
+     *            image is relative to
+     * @param fallbackPath
+     *            the path relative to the fallback {@link Class}
+     * 
+     */
+    private final void declareImage( /*Bundle bundle,*/ String key,
+            String path, Class fallback, String fallbackPath) {
+
+        ImageDescriptor descriptor = null;
+
+//      if (bundle != null) {
+//          URL url = FileLocator.find(bundle, new Path(path), null);
+//          if (url != null)
+//              descriptor = ImageDescriptor.createFromURL(url);
+//      }
+
+        // If we failed then load from the backup file
+//      if (descriptor == null)
+            descriptor = ImageDescriptor.createFromFile(fallback, fallbackPath);
+
+        imageRegistry.put(key, descriptor);
+    }
+  }
 
 	/**
 	 * The symbolic font name for the text font (value
@@ -147,9 +270,9 @@ public class JFaceResources {
 	 * 
 	 * @return the font
 	 */
-//	public static Font getBannerFont() {
-//		return getFontRegistry().get(BANNER_FONT);
-//	}
+	public static Font getBannerFont() {
+		return getFontRegistry().get(BANNER_FONT);
+	}
 
 	/**
 	 * Returns the resource bundle for JFace itself. The resouble bundle is
@@ -174,10 +297,11 @@ public class JFaceResources {
 	 * @since 3.0
 	 */
 	public static ColorRegistry getColorRegistry() {
-		if (colorRegistry == null) {
-			colorRegistry = new ColorRegistry();
-		}
-		return colorRegistry;
+      return ColorRegistryStore.getInstance().getColorRegistry();
+//		if (colorRegistry == null) {
+//			colorRegistry = new ColorRegistry();
+//		}
+//		return colorRegistry;
 	}
 
 	/**
@@ -189,13 +313,15 @@ public class JFaceResources {
 	 *            display to query
 	 * @return the global resource manager for the given display
 	 */
-//	public static ResourceManager getResources(final Display toQuery) {
-//		ResourceManager reg = (ResourceManager) registries.get(toQuery);
-//
-//		if (reg == null) {
-//			final DeviceResourceManager mgr = new DeviceResourceManager(toQuery);
-//			reg = mgr;
-//			registries.put(toQuery, reg);
+	public static ResourceManager getResources(final Display toQuery) {
+        Map registries = Registries.getInstance().getMap();
+      
+		ResourceManager reg = (ResourceManager) registries.get(toQuery);
+
+		if (reg == null) {
+			final DeviceResourceManager mgr = new DeviceResourceManager(toQuery);
+			reg = mgr;
+			registries.put(toQuery, reg);
 //			toQuery.disposeExec(new Runnable() {
 //				/*
 //				 * (non-Javadoc)
@@ -207,10 +333,10 @@ public class JFaceResources {
 //					registries.remove(toQuery);
 //				}
 //			});
-//		}
-//
-//		return reg;
-//	}
+		}
+
+		return reg;
+	}
 
 	/**
 	 * Returns the ResourceManager for the current display. May only be called
@@ -220,9 +346,9 @@ public class JFaceResources {
 	 * 
 	 * @return the global ResourceManager for the current display
 	 */
-//	public static ResourceManager getResources() {
-//		return getResources(Display.getCurrent());
-//	}
+	public static ResourceManager getResources() {
+		return getResources(Display.getCurrent());
+	}
 
 	/**
 	 * Returns JFace's standard font. Convenience method equivalent to
@@ -233,9 +359,9 @@ public class JFaceResources {
 	 * 
 	 * @return the font
 	 */
-//	public static Font getDefaultFont() {
-//		return getFontRegistry().defaultFont();
-//	}
+	public static Font getDefaultFont() {
+		return getFontRegistry().defaultFont();
+	}
 
 	/**
 	 * Returns the descriptor for JFace's standard font. Convenience method
@@ -248,9 +374,9 @@ public class JFaceResources {
 	 * @return the font
 	 * @since 3.3
 	 */
-//	public static FontDescriptor getDefaultFontDescriptor() {
-//		return getFontRegistry().defaultFontDescriptor();
-//	}
+	public static FontDescriptor getDefaultFontDescriptor() {
+		return getFontRegistry().defaultFontDescriptor();
+	}
 
 	/**
 	 * Returns the JFace's dialog font. Convenience method equivalent to
@@ -262,9 +388,7 @@ public class JFaceResources {
 	 * @return the font
 	 */
 	public static Font getDialogFont() {
-//		return getFontRegistry().get(DIALOG_FONT);
-		Font result = Font.getFont( "Helvetica", 11, SWT.NORMAL ); //$NON-NLS-1$
-		return result;
+		return getFontRegistry().get(DIALOG_FONT);
 	}
 
 	/**
@@ -278,9 +402,9 @@ public class JFaceResources {
 	 * @return the font
 	 * @since 3.3
 	 */
-//	public static FontDescriptor getDialogFontDescriptor() {
-//		return getFontRegistry().getDescriptor(DIALOG_FONT);
-//	}
+	public static FontDescriptor getDialogFontDescriptor() {
+		return getFontRegistry().getDescriptor(DIALOG_FONT);
+	}
 
 	/**
 	 * Returns the font in JFace's font registry with the given symbolic font
@@ -296,9 +420,9 @@ public class JFaceResources {
 	 *            the symbolic font name
 	 * @return the font
 	 */
-//	public static Font getFont(String symbolicName) {
-//		return getFontRegistry().get(symbolicName);
-//	}
+	public static Font getFont(String symbolicName) {
+		return getFontRegistry().get(symbolicName);
+	}
 
 	/**
 	 * Returns the font descriptor for in JFace's font registry with the given
@@ -315,9 +439,9 @@ public class JFaceResources {
 	 * @return the font descriptor (never null)
 	 * @since 3.3
 	 */
-//	public static FontDescriptor getFontDescriptor(String symbolicName) {
-//		return getFontRegistry().getDescriptor(symbolicName);
-//	}
+	public static FontDescriptor getFontDescriptor(String symbolicName) {
+		return getFontRegistry().getDescriptor(symbolicName);
+	}
 
 	/**
 	 * Returns the font registry for JFace itself. If the value has not been
@@ -331,13 +455,14 @@ public class JFaceResources {
 	 * 
 	 * @return the JFace font registry
 	 */
-//	public static FontRegistry getFontRegistry() {
+	public static FontRegistry getFontRegistry() {
+      return FontRegistryStore.getInstance().getFontRegistry();
 //		if (fontRegistry == null) {
 //			fontRegistry = new FontRegistry(
 //					"org.eclipse.jface.resource.jfacefonts"); //$NON-NLS-1$
 //		}
 //		return fontRegistry;
-//	}
+	}
 
 	/**
 	 * Returns the JFace's header font. Convenience method equivalent to
@@ -348,9 +473,9 @@ public class JFaceResources {
 	 * 
 	 * @return the font
 	 */
-//	public static Font getHeaderFont() {
-//		return getFontRegistry().get(HEADER_FONT);
-//	}
+	public static Font getHeaderFont() {
+		return getFontRegistry().get(HEADER_FONT);
+	}
 
 	/**
 	 * Returns the descriptor for JFace's header font. Convenience method
@@ -363,9 +488,9 @@ public class JFaceResources {
 	 * @return the font descriptor (never null)
 	 * @since 3.3
 	 */
-//	public static FontDescriptor getHeaderFontDescriptor() {
-//		return getFontRegistry().getDescriptor(HEADER_FONT);
-//	}
+	public static FontDescriptor getHeaderFontDescriptor() {
+		return getFontRegistry().getDescriptor(HEADER_FONT);
+	}
 
 	/**
 	 * Returns the image in JFace's image registry with the given key, or
@@ -377,20 +502,11 @@ public class JFaceResources {
 	 * 
 	 * @param key
 	 *            the key
-	 * @param cl
-	 * 			  the classloader
 	 * @return the image, or <code>null</code> if none
 	 */
-	public static Image getImage(String key, ClassLoader cl) {
+	public static Image getImage(String key) {
+      return ImageRegistryStore.getInstance().getImageRegistry().get( key );
 //		return getImageRegistry().get(key);
-		// workaround
-		if(iconList == null) {
-			initializeDefaultImages();
-		}
-		if(iconList.containsKey(key)) {
-			return Image.find((String)iconList.get(key), cl);
-		}
-		return null;
 	}
 
 	/**
@@ -402,93 +518,15 @@ public class JFaceResources {
 	 * 
 	 * @return the JFace image registry
 	 */
-//	public static ImageRegistry getImageRegistry() {
+	public static ImageRegistry getImageRegistry() {
+      return ImageRegistryStore.getInstance().getImageRegistry();
 //		if (imageRegistry == null) {
 //			imageRegistry = new ImageRegistry(
 //					getResources(Display.getCurrent()));
 //			initializeDefaultImages();
 //		}
 //		return imageRegistry;
-//	}
-
-	/**
-	 * Initialize default images in JFace's image registry.
-	 * 
-	 */
-	private static void initializeDefaultImages() {
-//
-//		Bundle bundle = JFaceActivator.getBundle();
-//		declareImage(bundle, Wizard.DEFAULT_IMAGE, ICONS_PATH + "page.gif", //$NON-NLS-1$
-//				Wizard.class, "images/page.gif"); //$NON-NLS-1$
-//
-//		// register default images for dialogs
-//		declareImage(bundle, Dialog.DLG_IMG_MESSAGE_INFO, ICONS_PATH
-//				+ "message_info.gif", Dialog.class, "images/message_info.gif"); //$NON-NLS-1$ //$NON-NLS-2$
-//		declareImage(bundle, Dialog.DLG_IMG_MESSAGE_WARNING, ICONS_PATH
-//				+ "message_warning.gif", Dialog.class, //$NON-NLS-1$
-//				"images/message_warning.gif"); //$NON-NLS-1$
-//		declareImage(bundle, Dialog.DLG_IMG_MESSAGE_ERROR, ICONS_PATH
-//				+ "message_error.gif", Dialog.class, "images/message_error.gif");//$NON-NLS-1$ //$NON-NLS-2$
-//		declareImage(
-//				bundle,
-//				TitleAreaDialog.DLG_IMG_TITLE_BANNER,
-//				ICONS_PATH + "title_banner.png", TitleAreaDialog.class, "images/title_banner.gif");//$NON-NLS-1$ //$NON-NLS-2$
-//		declareImage(
-//				bundle,
-//				PreferenceDialog.PREF_DLG_TITLE_IMG,
-//				ICONS_PATH + "pref_dialog_title.gif", PreferenceDialog.class, "images/pref_dialog_title.gif");//$NON-NLS-1$ //$NON-NLS-2$
-//
-			iconList = new HashMap();
-		iconList.put(Wizard.DEFAULT_IMAGE,
-				"org/eclipse/jface/wizard/images/page.gif"); //$NON-NLS-1$
-		iconList.put(Dialog.DLG_IMG_MESSAGE_INFO,
-				"org/eclipse/jface/dialogs/images/message_info.gif"); //$NON-NLS-1$
-		iconList.put(Dialog.DLG_IMG_MESSAGE_WARNING,
-				"org/eclipse/jface/dialogs/images/message_warning.gif"); //$NON-NLS-1$			
-		iconList.put(Dialog.DLG_IMG_MESSAGE_ERROR,
-				"org/eclipse/jface/dialogs/images/message_error.gif"); //$NON-NLS-1$
-		iconList.put(TitleAreaDialog.DLG_IMG_TITLE_BANNER,
-				"org/eclipse/jface/dialogs/images/title_banner.gif"); //$NON-NLS-1$
-		iconList.put(PreferenceDialog.PREF_DLG_TITLE_IMG,
-				"org/eclipse/jface/preference/images/pref_dialog.gif"); //$NON-NLS-1$
 	}
-
-	/**
-	 * Declares a JFace image given the path of the image file (relative to the
-	 * JFace plug-in). This is a helper method that creates the image descriptor
-	 * and passes it to the main <code>declareImage</code> method.
-	 * 
-	 * @param bundle
-	 *            the {@link Bundle}
-	 * @param key
-	 *            the symbolic name of the image
-	 * @param path
-	 *            the path of the image file relative to the base of the
-	 *            workbench plug-ins install directory
-	 * @param fallback
-	 *            the {@link Class} where the fallback implementation of the
-	 *            image is relative to
-	 * @param fallbackPath
-	 *            the path relative to the fallback {@link Class}
-	 * 
-	 */
-//	private static final void declareImage(Bundle bundle, String key,
-//			String path, Class fallback, String fallbackPath) {
-//
-//		ImageDescriptor descriptor = null;
-//
-//		if (bundle != null) {
-//			URL url = FileLocator.find(bundle, new Path(path), null);
-//			if (url != null)
-//				descriptor = ImageDescriptor.createFromURL(url);
-//		}
-//
-//		// If we failed then load from the backup file
-//		if (descriptor == null)
-//			descriptor = ImageDescriptor.createFromFile(fallback, fallbackPath);
-//
-//		imageRegistry.put(key, descriptor);
-//	}
 
 	/**
 	 * Returns the resource object with the given key in JFace's resource
@@ -535,9 +573,9 @@ public class JFaceResources {
 	 * 
 	 * @return the font
 	 */
-//	public static Font getTextFont() {
-//		return getFontRegistry().get(TEXT_FONT);
-//	}
+	public static Font getTextFont() {
+		return getFontRegistry().get(TEXT_FONT);
+	}
 
 	/**
 	 * Returns the descriptor for JFace's text font. Convenience method
@@ -550,9 +588,9 @@ public class JFaceResources {
 	 * @return the font descriptor (never null)
 	 * @since 3.3
 	 */
-//	public static FontDescriptor getTextFontDescriptor() {
-//		return getFontRegistry().getDescriptor(TEXT_FONT);
-//	}
+	public static FontDescriptor getTextFontDescriptor() {
+		return getFontRegistry().getDescriptor(TEXT_FONT);
+	}
 
 	/**
 	 * Returns JFace's viewer font. Convenience method equivalent to
@@ -564,9 +602,9 @@ public class JFaceResources {
 	 * @return the font
 	 * @deprecated This font is not in use
 	 */
-//	public static Font getViewerFont() {
-//		return getFontRegistry().get(VIEWER_FONT);
-//	}
+	public static Font getViewerFont() {
+		return getFontRegistry().get(VIEWER_FONT);
+	}
 
 	/**
 	 * Sets JFace's font registry to the given value. This method may only be
@@ -577,11 +615,12 @@ public class JFaceResources {
 	 * @param registry
 	 *            a font registry
 	 */
-//	public static void setFontRegistry(FontRegistry registry) {
+	public static void setFontRegistry(FontRegistry registry) {
+      FontRegistryStore.getInstance().setFontRegistry( registry );
 //		Assert.isTrue(fontRegistry == null,
 //				"Font registry can only be set once."); //$NON-NLS-1$
 //		fontRegistry = registry;
-//	}
+	}
 
 	/*
 	 * (non-Javadoc) Declare a private constructor to block instantiation.

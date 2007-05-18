@@ -13,7 +13,6 @@ package org.eclipse.ui.internal;
 
 import java.text.MessageFormat;
 import java.util.*;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;

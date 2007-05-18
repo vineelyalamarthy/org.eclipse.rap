@@ -13,9 +13,7 @@ package org.eclipse.jface.internal.provisional.action;
 import org.eclipse.jface.action.IContributionManagerOverrides;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.*;
 
 /**
  * The <code>IToolBarManager2</code> extends <code>IToolBarManager</code> to

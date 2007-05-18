@@ -10,17 +10,9 @@
  *******************************************************************************/
 package org.eclipse.jface.resource;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import java.util.*;
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -49,7 +41,7 @@ public class ColorRegistry extends ResourceRegistry {
      * This registries <code>Display</code>. All colors will be allocated using 
      * it.
      */
-    protected Display display;
+    protected Device display;
 
     /**
      * Collection of <code>Color</code> that are now stale to be disposed when 
@@ -93,7 +85,7 @@ public class ColorRegistry extends ResourceRegistry {
      * 
      * @param display the <code>Display</code> to hook into.
      */
-    public ColorRegistry(Display display) {
+    public ColorRegistry(Device display) {
     	this (display, true);
     }
 
@@ -106,7 +98,7 @@ public class ColorRegistry extends ResourceRegistry {
 	 *            should be disposed when the display is disposed
      * @since 3.1
      */
-    public ColorRegistry(Display display, boolean cleanOnDisplayDisposal) {
+    public ColorRegistry(Device display, boolean cleanOnDisplayDisposal) {
         Assert.isNotNull(display);
         this.display = display;
         if (cleanOnDisplayDisposal) {
@@ -122,9 +114,10 @@ public class ColorRegistry extends ResourceRegistry {
      * 
      * @since 3.1
      */
-//    private Color createColor(RGB rgb) {
+    private Color createColor(RGB rgb) {
+      return Color.getColor( rgb );
 //        return new Color(display, rgb);
-//    }
+    }
 
     /**
      * Dispose of all of the <code>Color</code>s in this iterator.
@@ -160,8 +153,7 @@ public class ColorRegistry extends ResourceRegistry {
 			return null;
 		}
 
-//        color = createColor((RGB) result);
-        color = Color.getColor((RGB) result);
+        color = createColor((RGB) result);
 
         stringToColor.put(symbolicName, color);
 

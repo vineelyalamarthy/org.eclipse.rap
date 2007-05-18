@@ -11,9 +11,7 @@
 package org.eclipse.jface.action;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.*;
 
 /**
  * The standard abstract implementation of an action.

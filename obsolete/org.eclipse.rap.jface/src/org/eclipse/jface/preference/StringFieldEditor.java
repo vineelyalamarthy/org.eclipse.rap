@@ -13,10 +13,9 @@ package org.eclipse.jface.preference;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.internal.graphics.FontSizeEstimation;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -227,12 +226,14 @@ public class StringFieldEditor extends FieldEditor {
         gd.horizontalSpan = numColumns - 1;
         if (widthInChars != UNLIMITED) {
 //            GC gc = new GC(textField);
-//            try {
+            try {
+              Point extent
+                = FontSizeEstimation.textExtent( "X", 0, textField.getFont() );
 //                Point extent = gc.textExtent("X");//$NON-NLS-1$
-//                gd.widthHint = widthInChars * extent.x;
-//            } finally {
+                gd.widthHint = widthInChars * extent.x;
+            } finally {
 //                gc.dispose();
-//            }
+            }
         } else {
             gd.horizontalAlignment = GridData.FILL;
             gd.grabExcessHorizontalSpace = true;

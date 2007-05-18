@@ -11,8 +11,6 @@
 package org.eclipse.ui.dialogs;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;

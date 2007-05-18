@@ -12,6 +12,7 @@
 package org.eclipse.swt.internal.lifecycle;
 
 import java.io.IOException;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.lifecycle.ILifeCycleAdapter;
 import org.eclipse.swt.widgets.Display;
 
@@ -24,6 +25,6 @@ public interface IDisplayLifeCycleAdapter extends ILifeCycleAdapter {
 
   void preserveValues( Display display );
   void readData( Display display );
-  void processAction( Display display );
+  void processAction( Device display );
   void render( Display display ) throws IOException;
 }

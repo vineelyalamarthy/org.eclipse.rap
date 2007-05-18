@@ -12,9 +12,7 @@ package org.eclipse.ui.dialogs;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
-import org.eclipse.ui.internal.registry.Category;
-import org.eclipse.ui.internal.registry.ViewRegistry;
-import org.eclipse.ui.internal.registry.ViewRegistryReader;
+import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.views.IViewCategory;
 import org.eclipse.ui.views.IViewDescriptor;
 

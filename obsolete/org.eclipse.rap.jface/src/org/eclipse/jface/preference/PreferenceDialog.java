@@ -13,57 +13,20 @@ package org.eclipse.jface.preference;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
+import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.core.runtime.SafeRunner;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.DialogMessageArea;
-import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.IPageChangeProvider;
-import org.eclipse.jface.dialogs.IPageChangedListener;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.PageChangedEvent;
-import org.eclipse.jface.dialogs.TrayDialog;
+import org.eclipse.jface.dialogs.*;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.util.Policy;
-import org.eclipse.jface.util.SafeRunnable;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.util.*;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.ShellAdapter;
-import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Sash;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A preference dialog is a hierarchical presentation of preference pages. Each
@@ -586,29 +549,29 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 			}
 		});
 
-//		final IPropertyChangeListener fontListener = new IPropertyChangeListener() {
-//			public void propertyChange(PropertyChangeEvent event) {
-//				if (JFaceResources.BANNER_FONT.equals(event.getProperty())) {
-//					updateMessage();
-//				}
-//				if (JFaceResources.DIALOG_FONT.equals(event.getProperty())) {
-//					updateMessage();
-//					Font dialogFont = JFaceResources.getDialogFont();
-//					updateTreeFont(dialogFont);
-//					Control[] children = ((Composite) buttonBar).getChildren();
-//					for (int i = 0; i < children.length; i++) {
-//						children[i].setFont(dialogFont);
-//					}
-//				}
-//			}
-//		};
+		final IPropertyChangeListener fontListener = new IPropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent event) {
+				if (JFaceResources.BANNER_FONT.equals(event.getProperty())) {
+					updateMessage();
+				}
+				if (JFaceResources.DIALOG_FONT.equals(event.getProperty())) {
+					updateMessage();
+					Font dialogFont = JFaceResources.getDialogFont();
+					updateTreeFont(dialogFont);
+					Control[] children = ((Composite) buttonBar).getChildren();
+					for (int i = 0; i < children.length; i++) {
+						children[i].setFont(dialogFont);
+					}
+				}
+			}
+		};
 
-//		titleArea.addDisposeListener(new DisposeListener() {
-//			public void widgetDisposed(DisposeEvent event) {
-//				JFaceResources.getFontRegistry().removeListener(fontListener);
-//			}
-//		});
-//		JFaceResources.getFontRegistry().addListener(fontListener);
+		titleArea.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent event) {
+				JFaceResources.getFontRegistry().removeListener(fontListener);
+			}
+		});
+		JFaceResources.getFontRegistry().addListener(fontListener);
 		messageArea.setTitleLayoutData(createMessageAreaData());
 		messageArea.setMessageLayoutData(createMessageAreaData());
 		return titleArea;

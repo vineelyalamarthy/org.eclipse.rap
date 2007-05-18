@@ -12,9 +12,8 @@ package org.eclipse.jface.preference;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 /**

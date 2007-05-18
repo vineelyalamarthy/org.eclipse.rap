@@ -19,21 +19,9 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A dialog that has a title area for displaying a title and an image as well as
@@ -198,7 +186,7 @@ public class TitleAreaDialog extends TrayDialog {
 			}
 		});
 		// Determine the background color of the title bar
-		Display display = parent.getDisplay();
+		Device display = parent.getDisplay();
 		Color background;
 		Color foreground;
 		if (titleAreaRGB != null) {
@@ -219,7 +207,7 @@ public class TitleAreaDialog extends TrayDialog {
 		titleImageLabel.setBackground(background);
 		if (titleAreaImage == null)
 			titleImageLabel.setImage(JFaceResources
-					.getImage(DLG_IMG_TITLE_BANNER, getClass().getClassLoader()));
+					.getImage(DLG_IMG_TITLE_BANNER));
 		else
 			titleImageLabel.setImage(titleAreaImage);
 
@@ -235,7 +223,7 @@ public class TitleAreaDialog extends TrayDialog {
 		// Title label @ top, left
 		titleLabel = new Label(parent, SWT.LEFT);
 		JFaceColors.setColors(titleLabel, foreground, background);
-//		titleLabel.setFont(JFaceResources.getBannerFont());
+		titleLabel.setFont(JFaceResources.getBannerFont());
 		titleLabel.setText(" ");//$NON-NLS-1$
 		FormData titleData = new FormData();
 		titleData.top = new FormAttachment(0, verticalSpacing);
@@ -392,7 +380,7 @@ public class TitleAreaDialog extends TrayDialog {
 				// we were not previously showing an error
 				showingError = true;
 				messageImageLabel.setImage(JFaceResources.getImage(
-						DLG_IMG_TITLE_ERROR, getClass().getClassLoader()));
+						DLG_IMG_TITLE_ERROR));
 				setImageLabelVisible(true);
 			}
 		}
@@ -493,20 +481,19 @@ public class TitleAreaDialog extends TrayDialog {
 	 * @since 2.0
 	 */
 	public void setMessage(String newMessage, int newType) {
-		ClassLoader classloader = getClass().getClassLoader();
 		Image newImage = null;
 		if (newMessage != null) {
 			switch (newType) {
 			case IMessageProvider.NONE:
 				break;
 			case IMessageProvider.INFORMATION:
-				newImage = JFaceResources.getImage(DLG_IMG_MESSAGE_INFO, classloader);
+				newImage = JFaceResources.getImage(DLG_IMG_MESSAGE_INFO);
 				break;
 			case IMessageProvider.WARNING:
-				newImage = JFaceResources.getImage(DLG_IMG_MESSAGE_WARNING, classloader);
+				newImage = JFaceResources.getImage(DLG_IMG_MESSAGE_WARNING);
 				break;
 			case IMessageProvider.ERROR:
-				newImage = JFaceResources.getImage(DLG_IMG_MESSAGE_ERROR, classloader);
+				newImage = JFaceResources.getImage(DLG_IMG_MESSAGE_ERROR);
 				break;
 			}
 		}

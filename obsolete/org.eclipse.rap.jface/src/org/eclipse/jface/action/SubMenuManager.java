@@ -10,16 +10,10 @@
  *******************************************************************************/
 package org.eclipse.jface.action;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.eclipse.core.runtime.ListenerList;
+import java.util.*;
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.CoolBar;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A <code>SubMenuManager</code> is used to define a set of contribution

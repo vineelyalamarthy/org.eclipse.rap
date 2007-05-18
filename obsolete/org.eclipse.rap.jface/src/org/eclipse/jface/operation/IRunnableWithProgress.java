@@ -11,7 +11,6 @@
 package org.eclipse.jface.operation;
 
 import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**

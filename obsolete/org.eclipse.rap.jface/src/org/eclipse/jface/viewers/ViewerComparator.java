@@ -13,7 +13,6 @@ package org.eclipse.jface.viewers;
 
 import java.util.Arrays;
 import java.util.Comparator;
-
 import org.eclipse.jface.util.Policy;
 
 /**

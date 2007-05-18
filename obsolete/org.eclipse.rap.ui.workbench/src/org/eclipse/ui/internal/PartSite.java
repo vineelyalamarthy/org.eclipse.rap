@@ -9,6 +9,7 @@
 package org.eclipse.ui.internal;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
@@ -58,7 +59,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
     // was not always in the JavaDoc, we still try to return our best guess
     // about the shell if it is
     // called from the wrong thread.
-    Display currentDisplay = Display.getCurrent();
+    Device currentDisplay = Display.getCurrent();
     if( currentDisplay == null
         || currentDisplay != getWorkbenchWindow().getWorkbench().getDisplay() )
     {

@@ -10,8 +10,7 @@
  *******************************************************************************/
 package org.eclipse.jface.resource;
 
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.*;
 
 /**
  * Lightweight descriptor for an SWT color. Each ColorDescriptor will create a particular SWT 
@@ -20,7 +19,7 @@ import org.eclipse.swt.graphics.RGB;
  * 
  * @since 3.1
  */
-public abstract class ColorDescriptor  /* extends DeviceResourceDescriptor */ {
+public abstract class ColorDescriptor extends DeviceResourceDescriptor {
     
     /**
      * Creates a ColorDescriptor from an existing Color, given the Device associated
@@ -75,7 +74,7 @@ public abstract class ColorDescriptor  /* extends DeviceResourceDescriptor */ {
      * @return a newly allocated SWT Color object (never null)
      * @throws DeviceResourceException if unable to allocate the Color
      */
-//    public abstract Color createColor(Device device) throws DeviceResourceException;
+    public abstract Color createColor(Device device) throws DeviceResourceException;
     
     /**
      * Undoes whatever was done by createColor. 
@@ -89,14 +88,14 @@ public abstract class ColorDescriptor  /* extends DeviceResourceDescriptor */ {
     /* (non-Javadoc)
      * @see org.eclipse.jface.resource.DeviceResourceDescriptor#createResource(org.eclipse.swt.graphics.Device)
      */
-//    public final Object createResource(Device device) throws DeviceResourceException {
-//        return createColor(device);
-//    }
+    public final Object createResource(Device device) throws DeviceResourceException {
+        return createColor(device);
+    }
     
     /* (non-Javadoc)
      * @see org.eclipse.jface.resource.DeviceResourceDescriptor#destroyResource(java.lang.Object)
      */
-//    public final void destroyResource(Object previouslyCreatedObject) {
+    public final void destroyResource(Object previouslyCreatedObject) {
 //        destroyColor((Color)previouslyCreatedObject);
-//    }
+    }
 }

@@ -11,26 +11,14 @@
 package org.eclipse.jface.window;
 
 import java.util.ArrayList;
-
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.jface.util.Geometry;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.util.*;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ShellAdapter;
-import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.events.ShellListener;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A JFace window is an object that has no visual representation (no widgets)
@@ -312,7 +300,7 @@ public abstract class Window implements IShellProvider {
 		
 		// stop listening for font changes
 		if (fontChangeListener != null) {
-//			JFaceResources.getFontRegistry().removeListener(fontChangeListener);
+			JFaceResources.getFontRegistry().removeListener(fontChangeListener);
 			fontChangeListener = null;
 		}
 		
@@ -500,10 +488,10 @@ public abstract class Window implements IShellProvider {
 		configureShell(newShell);
 
 		//Register for font changes
-//		if (fontChangeListener == null) {
-//			fontChangeListener = new FontChangeListener();
-//		}
-//		JFaceResources.getFontRegistry().addListener(fontChangeListener);
+		if (fontChangeListener == null) {
+			fontChangeListener = new FontChangeListener();
+		}
+		JFaceResources.getFontRegistry().addListener(fontChangeListener);
 
 		return newShell;
 	}

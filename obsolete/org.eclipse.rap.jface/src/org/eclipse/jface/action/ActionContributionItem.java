@@ -10,22 +10,12 @@
  *******************************************************************************/
 package org.eclipse.jface.action;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.resource.*;
+import org.eclipse.jface.util.*;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.internal.graphics.FontSizeEstimation;
+import org.eclipse.swt.widgets.*;
 
 
 /**
@@ -46,7 +36,7 @@ public class ActionContributionItem extends ContributionItem {
 	public static int MODE_FORCE_TEXT = 1;
 
 	/** a string inserted in the middle of text that has been shortened */
-//	private static final String ellipsis = "..."; //$NON-NLS-1$
+	private static final String ellipsis = "..."; //$NON-NLS-1$
 
 	private static boolean USE_COLOR_ICONS = true;
 
@@ -98,7 +88,7 @@ public class ActionContributionItem extends ContributionItem {
 	/**
 	 * Remembers all images in use by this contribution item
 	 */
-//	private LocalResourceManager imageManager;
+	private LocalResourceManager imageManager;
 
 	/**
 	 * Listener for SWT button widget events.
@@ -526,20 +516,19 @@ public class ActionContributionItem extends ContributionItem {
 			// See 1GAN3M6: ITPUI:WINNT - Any IAction in the workbench can be
 			// executed while disabled.
 			if (action.isEnabled()) {
-//				boolean trace = Policy.TRACE_ACTIONS;
+				boolean trace = Policy.TRACE_ACTIONS;
 
-//				long ms = System.currentTimeMillis();
-//				if (trace) {
-//					System.out.println("Running action: " + action.getText()); //$NON-NLS-1$
-//				}
+				long ms = System.currentTimeMillis();
+				if (trace) {
+					System.out.println("Running action: " + action.getText()); //$NON-NLS-1$
+				}
 
-//				action.runWithEvent(e);
-				action.run();
+				action.runWithEvent(e);
 
-//				if (trace) {
-//					System.out.println((System.currentTimeMillis() - ms)
-//							+ " ms to run action: " + action.getText()); //$NON-NLS-1$
-//				}
+				if (trace) {
+					System.out.println((System.currentTimeMillis() - ms)
+							+ " ms to run action: " + action.getText()); //$NON-NLS-1$
+				}
 			}
 		}
 	}
@@ -570,7 +559,7 @@ public class ActionContributionItem extends ContributionItem {
 	 */
 	private boolean isCommandActive() {
 //		IAction actionToCheck = getAction();
-
+//
 //		if (actionToCheck != null) {
 //			String commandId = actionToCheck.getActionDefinitionId();
 //			ExternalActionManager.ICallback callback = ExternalActionManager
@@ -950,128 +939,128 @@ public class ActionContributionItem extends ContributionItem {
 	        }
 	      } 
 	    
-//		ResourceManager parentResourceManager = JFaceResources.getResources();
-//
-//		if (widget instanceof ToolItem) {
-//			if (USE_COLOR_ICONS) {
-//				ImageDescriptor image = action.getHoverImageDescriptor();
-//				if (image == null) {
-//					image = action.getImageDescriptor();
-//				}
-//				ImageDescriptor disabledImage = action
-//						.getDisabledImageDescriptor();
-//
-//				// Make sure there is a valid image.
-//				if (image == null && forceImage) {
-//					image = ImageDescriptor.getMissingImageDescriptor();
-//				}
-//
-//				LocalResourceManager localManager = new LocalResourceManager(
-//						parentResourceManager);
-//
-//				// performance: more efficient in SWT to set disabled and hot
-//				// image before regular image
+		ResourceManager parentResourceManager = JFaceResources.getResources();
+
+		if (widget instanceof ToolItem) {
+			if (USE_COLOR_ICONS) {
+				ImageDescriptor image = action.getHoverImageDescriptor();
+				if (image == null) {
+					image = action.getImageDescriptor();
+				}
+				ImageDescriptor disabledImage = action
+						.getDisabledImageDescriptor();
+
+				// Make sure there is a valid image.
+				if (image == null && forceImage) {
+					image = ImageDescriptor.getMissingImageDescriptor();
+				}
+
+				LocalResourceManager localManager = new LocalResourceManager(
+						parentResourceManager);
+
+				// performance: more efficient in SWT to set disabled and hot
+				// image before regular image
 //				((ToolItem) widget)
 //						.setDisabledImage(disabledImage == null ? null
 //								: localManager
 //										.createImageWithDefault(disabledImage));
-//				((ToolItem) widget).setImage(image == null ? null
-//						: localManager.createImageWithDefault(image));
-//
-//				disposeOldImages();
-//				imageManager = localManager;
-//
-//				return image != null;
-//			}
-//			ImageDescriptor image = action.getImageDescriptor();
-//			ImageDescriptor hoverImage = action.getHoverImageDescriptor();
-//			ImageDescriptor disabledImage = action.getDisabledImageDescriptor();
-//
-//			// If there is no regular image, but there is a hover image,
-//			// convert the hover image to gray and use it as the regular image.
-//			if (image == null && hoverImage != null) {
+				((ToolItem) widget).setImage(image == null ? null
+						: localManager.createImageWithDefault(image));
+
+				disposeOldImages();
+				imageManager = localManager;
+
+				return image != null;
+			}
+			ImageDescriptor image = action.getImageDescriptor();
+			ImageDescriptor hoverImage = action.getHoverImageDescriptor();
+			ImageDescriptor disabledImage = action.getDisabledImageDescriptor();
+
+			// If there is no regular image, but there is a hover image,
+			// convert the hover image to gray and use it as the regular image.
+			if (image == null && hoverImage != null) {
 //				image = ImageDescriptor.createWithFlags(action
 //						.getHoverImageDescriptor(), SWT.IMAGE_GRAY);
-//			} else {
-//				// If there is no hover image, use the regular image as the
-//				// hover image,
-//				// and convert the regular image to gray
-//				if (hoverImage == null && image != null) {
-//					hoverImage = image;
+			} else {
+				// If there is no hover image, use the regular image as the
+				// hover image,
+				// and convert the regular image to gray
+				if (hoverImage == null && image != null) {
+					hoverImage = image;
 //					image = ImageDescriptor.createWithFlags(action
 //							.getImageDescriptor(), SWT.IMAGE_GRAY);
-//				}
-//			}
-//
-//			// Make sure there is a valid image.
-//			if (hoverImage == null && image == null && forceImage) {
-//				image = ImageDescriptor.getMissingImageDescriptor();
-//			}
-//
-//			// Create a local resource manager to remember the images we've
-//			// allocated for this tool item
-//			LocalResourceManager localManager = new LocalResourceManager(
-//					parentResourceManager);
-//
-//			// performance: more efficient in SWT to set disabled and hot image
-//			// before regular image
+				}
+			}
+
+			// Make sure there is a valid image.
+			if (hoverImage == null && image == null && forceImage) {
+				image = ImageDescriptor.getMissingImageDescriptor();
+			}
+
+			// Create a local resource manager to remember the images we've
+			// allocated for this tool item
+			LocalResourceManager localManager = new LocalResourceManager(
+					parentResourceManager);
+
+			// performance: more efficient in SWT to set disabled and hot image
+			// before regular image
 //			((ToolItem) widget).setDisabledImage(disabledImage == null ? null
 //					: localManager.createImageWithDefault(disabledImage));
 //			((ToolItem) widget).setHotImage(hoverImage == null ? null
 //					: localManager.createImageWithDefault(hoverImage));
-//			((ToolItem) widget).setImage(image == null ? null : localManager
-//					.createImageWithDefault(image));
-//
-//			// Now that we're no longer referencing the old images, clear them
-//			// out.
-//			disposeOldImages();
-//			imageManager = localManager;
-//
-//			return image != null;
-//		} else if (widget instanceof Item || widget instanceof Button) {
-//
-//			// Use hover image if there is one, otherwise use regular image.
-//			ImageDescriptor image = action.getHoverImageDescriptor();
-//			if (image == null) {
-//				image = action.getImageDescriptor();
-//			}
-//			// Make sure there is a valid image.
-//			if (image == null && forceImage) {
-//				image = ImageDescriptor.getMissingImageDescriptor();
-//			}
-//
-//			// Create a local resource manager to remember the images we've
-//			// allocated for this widget
-//			LocalResourceManager localManager = new LocalResourceManager(
-//					parentResourceManager);
-//
-//			if (widget instanceof Item) {
-//				((Item) widget).setImage(image == null ? null : localManager
-//						.createImageWithDefault(image));
-//			} else if (widget instanceof Button) {
-//				((Button) widget).setImage(image == null ? null : localManager
-//						.createImageWithDefault(image));
-//			}
-//
-//			// Now that we're no longer referencing the old images, clear them
-//			// out.
-//			disposeOldImages();
-//			imageManager = localManager;
-//
-//			return image != null;
-//		}
+			((ToolItem) widget).setImage(image == null ? null : localManager
+					.createImageWithDefault(image));
+
+			// Now that we're no longer referencing the old images, clear them
+			// out.
+			disposeOldImages();
+			imageManager = localManager;
+
+			return image != null;
+		} else if (widget instanceof Item || widget instanceof Button) {
+
+			// Use hover image if there is one, otherwise use regular image.
+			ImageDescriptor image = action.getHoverImageDescriptor();
+			if (image == null) {
+				image = action.getImageDescriptor();
+			}
+			// Make sure there is a valid image.
+			if (image == null && forceImage) {
+				image = ImageDescriptor.getMissingImageDescriptor();
+			}
+
+			// Create a local resource manager to remember the images we've
+			// allocated for this widget
+			LocalResourceManager localManager = new LocalResourceManager(
+					parentResourceManager);
+
+			if (widget instanceof Item) {
+				((Item) widget).setImage(image == null ? null : localManager
+						.createImageWithDefault(image));
+			} else if (widget instanceof Button) {
+				((Button) widget).setImage(image == null ? null : localManager
+						.createImageWithDefault(image));
+			}
+
+			// Now that we're no longer referencing the old images, clear them
+			// out.
+			disposeOldImages();
+			imageManager = localManager;
+
+			return image != null;
+		}
 		return false;
 	}
 
 	/**
 	 * Dispose any images allocated for this contribution item
 	 */
-//	private void disposeOldImages() {
-//		if (imageManager != null) {
-//			imageManager.dispose();
-//			imageManager = null;
-//		}
-//	}
+	private void disposeOldImages() {
+		if (imageManager != null) {
+			imageManager.dispose();
+			imageManager = null;
+		}
+	}
 
 	/**
 	 * Shorten the given text <code>t</code> so that its length doesn't exceed
@@ -1092,14 +1081,26 @@ public class ActionContributionItem extends ContributionItem {
 		}
 
 //		GC gc = new GC(item.getParent());
-//
-//		int maxWidth = item.getImage().getBounds().width * 4;
-//
+
+		int maxWidth = item.getImage().getBounds().width * 4;
+
+        Font font = item.getParent().getFont();
+        if( FontSizeEstimation.textExtent( textValue, 0, font ).x < maxWidth ) {
+			return textValue;
+        }
 //		if (gc.textExtent(textValue).x < maxWidth) {
 //			gc.dispose();
 //			return textValue;
 //		}
-//
+
+		for (int i = textValue.length(); i > 0; i--) {
+			String test = textValue.substring(0, i);
+			test = test + ellipsis;
+			if (FontSizeEstimation.textExtent( textValue, 0, font ).x < maxWidth ) {
+				return test;
+			}
+
+		}
 //		for (int i = textValue.length(); i > 0; i--) {
 //			String test = textValue.substring(0, i);
 //			test = test + ellipsis;

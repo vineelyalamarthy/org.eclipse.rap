@@ -11,12 +11,8 @@
 package org.eclipse.jface.operation;
 
 import java.lang.reflect.InvocationTargetException;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.ProgressMonitorWrapper;
-import org.eclipse.core.runtime.Assert;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.core.runtime.*;
+import org.eclipse.swt.graphics.Device;
 
 /**
  * Utility class for supporting modal operations.
@@ -95,7 +91,7 @@ public class ModalContext {
          * @param display the display to be used to read and dispatch events
          */
         private ModalContextThread(IRunnableWithProgress operation,
-                IProgressMonitor monitor, Display display) {
+                IProgressMonitor monitor, Device display) {
             super("ModalContext"); //$NON-NLS-1$
             Assert.isTrue(monitor != null && display != null);
             runnable = operation;
@@ -299,7 +295,7 @@ public class ModalContext {
      *  <code>InterruptedException</code>; this method propagates the exception
      */
     public static void run(IRunnableWithProgress operation, boolean fork,
-             IProgressMonitor monitor , Display display)
+             IProgressMonitor monitor , Device display)
             throws InvocationTargetException, InterruptedException {
 //        Assert.isTrue(operation != null && monitor != null);
         Assert.isTrue(operation != null);

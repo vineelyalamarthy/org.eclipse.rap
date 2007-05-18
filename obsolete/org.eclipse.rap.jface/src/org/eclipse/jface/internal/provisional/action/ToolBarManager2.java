@@ -15,9 +15,7 @@ import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.*;
 
 /**
  * Extends <code>ToolBarManager</code> to implement <code>IToolBarManager2</code>.

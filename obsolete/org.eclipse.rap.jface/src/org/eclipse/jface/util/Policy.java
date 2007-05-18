@@ -13,7 +13,6 @@
 package org.eclipse.jface.util;
 
 import java.util.Comparator;
-
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.AnimatorFactory;
 import org.eclipse.jface.dialogs.ErrorSupportProvider;

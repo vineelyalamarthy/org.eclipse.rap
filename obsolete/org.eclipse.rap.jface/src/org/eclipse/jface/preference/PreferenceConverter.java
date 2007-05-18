@@ -10,10 +10,13 @@
  *******************************************************************************/
 package org.eclipse.jface.preference;
 
+import java.util.Arrays;
+import java.util.StringTokenizer;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.StringConverter;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.SWTException;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * A utility class for dealing with preferences whose values are
@@ -56,32 +59,32 @@ public class PreferenceConverter {
      */
     public static final RGB COLOR_DEFAULT_DEFAULT = new RGB(0, 0, 0);
 
-//    private static final String ENTRY_SEPARATOR = ";"; //$NON-NLS-1$
+    private static final String ENTRY_SEPARATOR = ";"; //$NON-NLS-1$
 
     /**
      * The default-default value for <code>FontData[]</code> preferences.
      */
-//    public static final FontData[] FONTDATA_ARRAY_DEFAULT_DEFAULT;
+    public static final FontData[] FONTDATA_ARRAY_DEFAULT_DEFAULT;
 
     /**
      * The default-default value for <code>FontData</code> preferences.
      */
-//    public static final FontData FONTDATA_DEFAULT_DEFAULT;
-//    static {
-//		Display display = Display.getCurrent();
+    public static final FontData FONTDATA_DEFAULT_DEFAULT;
+    static {
+		Display display = Display.getCurrent();
 //		if (display == null) {
 //			display = Display.getDefault ();
 //		}
-//		
-//        FONTDATA_ARRAY_DEFAULT_DEFAULT = display.getSystemFont().getFontData();
-//        /**
-//         * The default-default value for <code>FontData</code> preferences.
-//         * This is left in for compatibility purposes. It is recommended that
-//         * FONTDATA_ARRAY_DEFAULT_DEFAULT is actually used.
-//         */
-//
-//        FONTDATA_DEFAULT_DEFAULT = FONTDATA_ARRAY_DEFAULT_DEFAULT[0];
-//    }
+		
+        FONTDATA_ARRAY_DEFAULT_DEFAULT = display.getSystemFont().getFontData();
+        /**
+         * The default-default value for <code>FontData</code> preferences.
+         * This is left in for compatibility purposes. It is recommended that
+         * FONTDATA_ARRAY_DEFAULT_DEFAULT is actually used.
+         */
+
+        FONTDATA_DEFAULT_DEFAULT = FONTDATA_ARRAY_DEFAULT_DEFAULT[0];
+    }
 
     /* (non-Javadoc)
      * private constructor to prevent instantiation.
@@ -117,27 +120,27 @@ public class PreferenceConverter {
      * 
      * @since 3.0
      */
-//    public static FontData[] basicGetFontData(String value) {
-//        if (IPreferenceStore.STRING_DEFAULT_DEFAULT.equals(value)) {
-//			return FONTDATA_ARRAY_DEFAULT_DEFAULT;
-//		}
-//
-//        //Read in all of them to get the value
-//        StringTokenizer tokenizer = new StringTokenizer(value, ENTRY_SEPARATOR);
-//        int numTokens = tokenizer.countTokens();
-//        FontData[] fontData = new FontData[numTokens];
-//
-//        for (int i = 0; i < numTokens; i++) {
-//            try {
-//                fontData[i] = new FontData(tokenizer.nextToken());
-//            } catch (SWTException error) {
-//                return FONTDATA_ARRAY_DEFAULT_DEFAULT;
-//            } catch (IllegalArgumentException error) {
-//                return FONTDATA_ARRAY_DEFAULT_DEFAULT;
-//            }
-//        }
-//        return fontData;
-//    }
+    public static FontData[] basicGetFontData(String value) {
+        if (IPreferenceStore.STRING_DEFAULT_DEFAULT.equals(value)) {
+			return FONTDATA_ARRAY_DEFAULT_DEFAULT;
+		}
+
+        //Read in all of them to get the value
+        StringTokenizer tokenizer = new StringTokenizer(value, ENTRY_SEPARATOR);
+        int numTokens = tokenizer.countTokens();
+        FontData[] fontData = new FontData[numTokens];
+
+        for (int i = 0; i < numTokens; i++) {
+            try {
+                fontData[i] = new FontData(tokenizer.nextToken());
+            } catch (SWTException error) {
+                return FONTDATA_ARRAY_DEFAULT_DEFAULT;
+            } catch (IllegalArgumentException error) {
+                return FONTDATA_ARRAY_DEFAULT_DEFAULT;
+            }
+        }
+        return fontData;
+    }
 
     /**
      * Reads the supplied string and returns its corresponding
@@ -147,9 +150,9 @@ public class PreferenceConverter {
      * @param fontDataValue the string value for the font data  
      * @return the font data
      */
-//    public static FontData[] readFontData(String fontDataValue) {
-//        return basicGetFontData(fontDataValue);
-//    }
+    public static FontData[] readFontData(String fontDataValue) {
+        return basicGetFontData(fontDataValue);
+    }
 
     /**
      * Helper method to construct a point from the given string.
@@ -223,10 +226,10 @@ public class PreferenceConverter {
      * @param name the name of the preference
      * @return the default value of the preference
      */
-//    public static FontData[] getDefaultFontDataArray(IPreferenceStore store,
-//            String name) {
-//        return basicGetFontData(store.getDefaultString(name));
-//    }
+    public static FontData[] getDefaultFontDataArray(IPreferenceStore store,
+            String name) {
+        return basicGetFontData(store.getDefaultString(name));
+    }
 
     /**
      * Returns a single default value for the font-valued preference
@@ -242,10 +245,10 @@ public class PreferenceConverter {
      * @param name the name of the preference
      * @return the default value of the preference
      */
-//    public static FontData getDefaultFontData(IPreferenceStore store,
-//            String name) {
-//        return getDefaultFontDataArray(store, name)[0];
-//    }
+    public static FontData getDefaultFontData(IPreferenceStore store,
+            String name) {
+        return getDefaultFontDataArray(store, name)[0];
+    }
 
     /**
      * Returns the default value for the point-valued preference
@@ -289,10 +292,10 @@ public class PreferenceConverter {
      * @param name the name of the preference
      * @return the font-valued preference
      */
-//    public static FontData[] getFontDataArray(IPreferenceStore store,
-//            String name) {
-//        return basicGetFontData(store.getString(name));
-//    }
+    public static FontData[] getFontDataArray(IPreferenceStore store,
+            String name) {
+        return basicGetFontData(store.getString(name));
+    }
 
     /**
      * Returns the current value of the first entry of the
@@ -308,9 +311,9 @@ public class PreferenceConverter {
      * @param name the name of the preference
      * @return the font-valued preference
      */
-//    public static FontData getFontData(IPreferenceStore store, String name) {
-//        return getFontDataArray(store, name)[0];
-//    }
+    public static FontData getFontData(IPreferenceStore store, String name) {
+        return getFontDataArray(store, name)[0];
+    }
 
     /**
      * Returns the current value of the point-valued preference with the
@@ -353,12 +356,12 @@ public class PreferenceConverter {
      * @param name the name of the preference
      * @param value the new default value of the preference
      */
-//    public static void setDefault(IPreferenceStore store, String name,
-//            FontData value) {
-//        FontData[] fontDatas = new FontData[1];
-//        fontDatas[0] = value;
-//        setDefault(store, name, fontDatas);
-//    }
+    public static void setDefault(IPreferenceStore store, String name,
+            FontData value) {
+        FontData[] fontDatas = new FontData[1];
+        fontDatas[0] = value;
+        setDefault(store, name, fontDatas);
+    }
 
     /**
      * Sets the default value of the preference with the given name
@@ -368,10 +371,10 @@ public class PreferenceConverter {
      * @param name the name of the preference
      * @param value the new default value of the preference
      */
-//    public static void setDefault(IPreferenceStore store, String name,
-//            FontData[] value) {
-//        store.setDefault(name, getStoredRepresentation(value));
-//    }
+    public static void setDefault(IPreferenceStore store, String name,
+            FontData[] value) {
+        store.setDefault(name, getStoredRepresentation(value));
+    }
 
     /**
      * Sets the default value of the preference with the given name
@@ -423,10 +426,10 @@ public class PreferenceConverter {
      * @param name the name of the preference
      * @param value the new current value of the preference
      */
-//    public static void setValue(IPreferenceStore store, String name,
-//            FontData value) {
-//        setValue(store, name, new FontData[] { value });
-//    }
+    public static void setValue(IPreferenceStore store, String name,
+            FontData value) {
+        setValue(store, name, new FontData[] { value });
+    }
 
     /**
      * Sets the current value of the preference with the given name
@@ -445,16 +448,16 @@ public class PreferenceConverter {
      * 
      * @see #putValue(IPreferenceStore, String, FontData[])
      */
-//    public static void setValue(IPreferenceStore store, String name,
-//            FontData[] value) {
-//        FontData[] oldValue = getFontDataArray(store, name);
-//        // see if the font has changed
-//        if (!Arrays.equals(oldValue, value)) {
-//            store.putValue(name, getStoredRepresentation(value));
-//            JFaceResources.getFontRegistry().put(name, value);
-//            store.firePropertyChangeEvent(name, oldValue, value);
-//        }
-//    }
+    public static void setValue(IPreferenceStore store, String name,
+            FontData[] value) {
+        FontData[] oldValue = getFontDataArray(store, name);
+        // see if the font has changed
+        if (!Arrays.equals(oldValue, value)) {
+            store.putValue(name, getStoredRepresentation(value));
+            JFaceResources.getFontRegistry().put(name, value);
+            store.firePropertyChangeEvent(name, oldValue, value);
+        }
+    }
 
     /**
      * Sets the current value of the preference with the given name
@@ -467,14 +470,14 @@ public class PreferenceConverter {
      * 
      * @see PreferenceConverter#setValue(IPreferenceStore, String, FontData[])
      */
-//    public static void putValue(IPreferenceStore store, String name,
-//            FontData[] value) {
-//        FontData[] oldValue = getFontDataArray(store, name);
-//        // see if the font has changed
-//        if (!Arrays.equals(oldValue, value)) {
-//            store.putValue(name, getStoredRepresentation(value));
-//        }
-//    }
+    public static void putValue(IPreferenceStore store, String name,
+            FontData[] value) {
+        FontData[] oldValue = getFontDataArray(store, name);
+        // see if the font has changed
+        if (!Arrays.equals(oldValue, value)) {
+            store.putValue(name, getStoredRepresentation(value));
+        }
+    }
 
     /**
      * Returns the stored representation of the given array of FontData objects.
@@ -485,16 +488,16 @@ public class PreferenceConverter {
      * @return the stored representation of the FontData objects
      * @since 3.0
      */
-//    public static String getStoredRepresentation(FontData[] fontData) {
-//        StringBuffer buffer = new StringBuffer();
-//        for (int i = 0; i < fontData.length; i++) {
-//            if (fontData[i] != null) {
-//                buffer.append(fontData[i].toString());
-//                buffer.append(ENTRY_SEPARATOR);
-//            }
-//        }
-//        return buffer.toString();
-//    }
+    public static String getStoredRepresentation(FontData[] fontData) {
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < fontData.length; i++) {
+            if (fontData[i] != null) {
+                buffer.append(fontData[i].toString());
+                buffer.append(ENTRY_SEPARATOR);
+            }
+        }
+        return buffer.toString();
+    }
 
     /**
      * Sets the current value of the preference with the given name

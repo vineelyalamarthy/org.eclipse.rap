@@ -13,33 +13,16 @@
 package org.eclipse.jface.window;
 
 import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jface.action.CoolBarManager;
-import org.eclipse.jface.action.ICoolBarManager;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.StatusLineManager;
-import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.action.*;
 import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
 import org.eclipse.jface.internal.provisional.action.IToolBarManager2;
-import org.eclipse.jface.operation.IRunnableContext;
-import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.operation.ModalContext;
+import org.eclipse.jface.operation.*;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.CoolBar;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 
 /**
  * An application window is a high-level "main window", with built-in
@@ -542,9 +525,9 @@ public class ApplicationWindow extends Window implements IRunnableContext {
      *
      * @return the default font, or <code>null</code> if none
      */
-//    protected Font getFont() {
-//        return JFaceResources.getFont(getSymbolicFontName());
-//    }
+    protected Font getFont() {
+        return JFaceResources.getFont(getSymbolicFontName());
+    }
 
     /**
      * Returns the menu bar manager for this window (if it has one).

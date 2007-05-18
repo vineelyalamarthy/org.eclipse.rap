@@ -11,7 +11,6 @@
 package org.eclipse.ui.dialogs;
 
 import java.util.*;
-
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.views.*;

@@ -11,10 +11,7 @@
 
 package org.eclipse.jface.action;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
-
+import java.util.*;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 

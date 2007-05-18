@@ -12,7 +12,6 @@ package org.eclipse.jface.action;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.*;
 

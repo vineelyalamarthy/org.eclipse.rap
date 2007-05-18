@@ -10,23 +10,12 @@
  *******************************************************************************/
 package org.eclipse.jface.preference;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Properties;
-
+import java.io.*;
+import java.util.*;
 import org.eclipse.core.commands.common.EventManager;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.util.SafeRunnable;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.util.*;
 
 /**
  * A concrete preference store implementation based on an internal

@@ -11,9 +11,7 @@
 
 package org.eclipse.jface.internal.provisional.action;
 
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IContributionManager;
-import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.*;
 
 /**
  * The intention of this interface is to provide in interface for 

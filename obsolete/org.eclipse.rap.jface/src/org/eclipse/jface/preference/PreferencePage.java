@@ -12,22 +12,19 @@
  *******************************************************************************/
 package org.eclipse.jface.preference;
 
+import org.eclipse.jface.dialogs.*;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.DialogPage;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.*;
 
 /**
  * Abstract base implementation for all preference page implementations.
@@ -566,25 +563,25 @@ public abstract class PreferencePage extends DialogPage implements
 
         final Label noteLabel = new Label(messageComposite, SWT.BOLD);
         noteLabel.setText(title);
-//        noteLabel.setFont(JFaceResources.getFontRegistry().getBold(
-//				JFaceResources.DEFAULT_FONT));	
+        noteLabel.setFont(JFaceResources.getFontRegistry().getBold(
+				JFaceResources.DEFAULT_FONT));	
         noteLabel
                 .setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
-//        final IPropertyChangeListener fontListener = new IPropertyChangeListener() {
-//            public void propertyChange(PropertyChangeEvent event) {
-//                if (JFaceResources.BANNER_FONT.equals(event.getProperty())) {
-//                    noteLabel.setFont(JFaceResources
-//                            .getFont(JFaceResources.BANNER_FONT));
-//                }
-//            }
-//        };
-//        JFaceResources.getFontRegistry().addListener(fontListener);
-//        noteLabel.addDisposeListener(new DisposeListener() {
-//            public void widgetDisposed(DisposeEvent event) {
-//                JFaceResources.getFontRegistry().removeListener(fontListener);
-//            }
-//        });
+        final IPropertyChangeListener fontListener = new IPropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent event) {
+                if (JFaceResources.BANNER_FONT.equals(event.getProperty())) {
+                    noteLabel.setFont(JFaceResources
+                            .getFont(JFaceResources.BANNER_FONT));
+                }
+            }
+        };
+        JFaceResources.getFontRegistry().addListener(fontListener);
+        noteLabel.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent event) {
+                JFaceResources.getFontRegistry().removeListener(fontListener);
+            }
+        });
 
         Label messageLabel = new Label(messageComposite, SWT.WRAP);
         messageLabel.setText(message);

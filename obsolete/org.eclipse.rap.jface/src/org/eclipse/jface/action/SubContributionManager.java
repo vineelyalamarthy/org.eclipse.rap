@@ -10,10 +10,7 @@
  *******************************************************************************/
 package org.eclipse.jface.action;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A <code>SubContributionManager</code> is used to define a set of contribution

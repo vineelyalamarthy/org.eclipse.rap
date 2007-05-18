@@ -12,7 +12,6 @@ package org.eclipse.jface.wizard;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -97,7 +96,7 @@ public abstract class Wizard implements IWizard {
      * The default page image descriptor, used for creating a default page image
      * if required; <code>null</code> if none.
      */
-//    private ImageDescriptor defaultImageDescriptor = JFaceResources.getImageRegistry().getDescriptor(DEFAULT_IMAGE);
+    private ImageDescriptor defaultImageDescriptor = JFaceResources.getImageRegistry().getDescriptor(DEFAULT_IMAGE);
 
     /**
      * The color of the wizard title bar; <code>null</code> if none.
@@ -189,7 +188,7 @@ public abstract class Wizard implements IWizard {
         }
         // dispose of image
         if (defaultImage != null) {
-//            JFaceResources.getResources().destroyImage(defaultImageDescriptor);
+            JFaceResources.getResources().destroyImage(defaultImageDescriptor);
             defaultImage = null;
         }
     }
@@ -206,8 +205,7 @@ public abstract class Wizard implements IWizard {
      */
     public Image getDefaultPageImage() {
         if (defaultImage == null) {
-//            defaultImage = JFaceResources.getResources().createImageWithDefault(defaultImageDescriptor);
-        	defaultImage = JFaceResources.getImage(DEFAULT_IMAGE, getClass().getClassLoader());
+            defaultImage = JFaceResources.getResources().createImageWithDefault(defaultImageDescriptor);
         }
         return defaultImage;
     }
@@ -366,7 +364,7 @@ public abstract class Wizard implements IWizard {
      *            the default page image descriptor
      */
     public void setDefaultPageImageDescriptor(ImageDescriptor imageDescriptor) {
-//        defaultImageDescriptor = imageDescriptor;
+        defaultImageDescriptor = imageDescriptor;
     }
 
     /**

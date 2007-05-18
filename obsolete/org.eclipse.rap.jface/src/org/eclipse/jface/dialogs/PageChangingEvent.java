@@ -12,7 +12,6 @@
 package org.eclipse.jface.dialogs;
 
 import java.util.EventObject;
-
 import org.eclipse.core.runtime.Assert;
 
 /**

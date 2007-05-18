@@ -10,13 +10,12 @@
  *******************************************************************************/
 package org.eclipse.jface.dialogs;
 
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
 
 /**
  * The DialogMessageArea is a resusable component for adding an accessible
@@ -60,7 +59,7 @@ public class DialogMessageArea extends Object {
         // Message label
 //        titleLabel = new CLabel(parent, SWT.NONE);
     	titleLabel = new Label(parent, SWT.NONE);
-//        titleLabel.setFont(JFaceResources.getBannerFont());
+        titleLabel.setFont(JFaceResources.getBannerFont());
         messageComposite = new Composite(parent, SWT.NONE);
         GridLayout messageLayout = new GridLayout();
         messageLayout.numColumns = 2;
@@ -69,8 +68,8 @@ public class DialogMessageArea extends Object {
         messageLayout.makeColumnsEqualWidth = false;
         messageComposite.setLayout(messageLayout);
         messageImageLabel = new Label(messageComposite, SWT.NONE);
-//        messageImageLabel.setImage(JFaceResources
-//                .getImage(Dialog.DLG_IMG_MESSAGE_INFO));
+        messageImageLabel.setImage(JFaceResources
+                .getImage(Dialog.DLG_IMG_MESSAGE_INFO));
         messageImageLabel.setLayoutData(new GridData(
                 GridData.VERTICAL_ALIGN_CENTER));
   

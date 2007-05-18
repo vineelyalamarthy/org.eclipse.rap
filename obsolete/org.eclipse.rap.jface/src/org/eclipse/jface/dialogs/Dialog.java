@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.jface.dialogs;
 
+import java.util.Arrays;
 import java.util.HashMap;
-
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.Policy;
@@ -147,7 +147,7 @@ public abstract class Dialog extends Window {
 	 *
 	 *@since 3.2
 	 */
-//	private static final String DIALOG_FONT_DATA = "DIALOG_FONT_NAME"; //$NON-NLS-1$
+	private static final String DIALOG_FONT_DATA = "DIALOG_FONT_NAME"; //$NON-NLS-1$
 	
 	/**
 	 * A value that can be used for stored dialog width or height that
@@ -335,27 +335,28 @@ public abstract class Dialog extends Window {
 			return null;
 		}
 //		GC gc = new GC(control);
-//		int maxWidth = control.getBounds().width - 5;
-//		if (gc.textExtent(textValue).x < maxWidth) {
+        Font font = control.getFont();
+		int maxWidth = control.getBounds().width - 5;
+		if (FontSizeEstimation.textExtent(textValue, 0, font).x < maxWidth) {
 //			gc.dispose();
-//			return textValue;
-//		}
-//		int length = textValue.length();
-//		int pivot = length / 2;
-//		int start = pivot;
-//		int end = pivot + 1;
-//		while (start >= 0 && end < length) {
-//			String s1 = textValue.substring(0, start);
-//			String s2 = textValue.substring(end, length);
-//			String s = s1 + ELLIPSIS + s2;
-//			int l = gc.textExtent(s).x;
-//			if (l < maxWidth) {
+			return textValue;
+		}
+		int length = textValue.length();
+		int pivot = length / 2;
+		int start = pivot;
+		int end = pivot + 1;
+		while (start >= 0 && end < length) {
+			String s1 = textValue.substring(0, start);
+			String s2 = textValue.substring(end, length);
+			String s = s1 + ELLIPSIS + s2;
+			int l = FontSizeEstimation.textExtent(s, 0, font).x;
+			if (l < maxWidth) {
 //				gc.dispose();
-//				return s;
-//			}
-//			start--;
-//			end++;
-//		}
+				return s;
+			}
+			start--;
+			end++;
+		}
 //		gc.dispose();
 		return textValue;
 	}
@@ -514,7 +515,7 @@ public abstract class Dialog extends Window {
 //		}
 //		return convertHorizontalDLUsToPixels(fontMetrics, dlus);
 	    int avgCharWidth 
-	    = Math.round( FontSizeEstimation.getAvgCharWidth( dialogFont ) );
+	      = Math.round( FontSizeEstimation.getAvgCharWidth( dialogFont ) );
 	    int result = ( avgCharWidth * dlus + HORIZONTAL_DIALOG_UNIT_PER_CHAR / 2 )
 	    / HORIZONTAL_DIALOG_UNIT_PER_CHAR;
 	    return result;
@@ -542,8 +543,9 @@ public abstract class Dialog extends Window {
 //		}
 //		return convertVerticalDLUsToPixels(fontMetrics, dlus);
 	    int charHeight = FontSizeEstimation.getCharHeight( dialogFont );
-	    int result = ( charHeight * dlus + VERTICAL_DIALOG_UNITS_PER_CHAR / 2 )
-	    / VERTICAL_DIALOG_UNITS_PER_CHAR;
+	    int result 
+          =    ( charHeight * dlus + VERTICAL_DIALOG_UNITS_PER_CHAR / 2 )
+	         / VERTICAL_DIALOG_UNITS_PER_CHAR;
 	    return result;
 	}
 
@@ -877,9 +879,9 @@ public abstract class Dialog extends Window {
 	 * 
 	 * @see Display#getSystemImage(int)
 	 */
-//	public static Image getImage(String key) {
-//		return JFaceResources.getImageRegistry().get(key);
-//	}
+	public static Image getImage(String key) {
+		return JFaceResources.getImageRegistry().get(key);
+	}
 
 	/**
 	 * Returns the button created when <code>createButton</code> is called
@@ -1024,21 +1026,18 @@ public abstract class Dialog extends Window {
 	 * @return boolean
 	 */
 	private static boolean hasDefaultFont(Control control) {
-//		FontData[] controlFontData = control.getFont().getFontData();
-//		FontData[] defaultFontData = getDefaultFont(control).getFontData();
-//		if (controlFontData.length == defaultFontData.length) {
-//			for (int i = 0; i < controlFontData.length; i++) {
-//				if (controlFontData[i].equals(defaultFontData[i])) {
-//					continue;
-//				}
-//				return false;
-//			}
-//			return true;
-//		}
-//		return false;
-	    Font controlFontData = control.getFont();
-	    Font defaultFontData = getDefaultFont(control);
-	    return defaultFontData.equals( controlFontData );
+		FontData[] controlFontData = control.getFont().getFontData();
+		FontData[] defaultFontData = getDefaultFont(control).getFontData();
+		if (controlFontData.length == defaultFontData.length) {
+			for (int i = 0; i < controlFontData.length; i++) {
+				if (controlFontData[i].equals(defaultFontData[i])) {
+					continue;
+				}
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1048,20 +1047,16 @@ public abstract class Dialog extends Window {
 	 * @return the default font
 	 */
 	private static Font getDefaultFont(Control control) {
-//		String fontName = "DEFAULT_FONT_" + control.getClass().getName(); //$NON-NLS-1$
-//		if (JFaceResources.getFontRegistry().hasValueFor(fontName)) {
-//			return JFaceResources.getFontRegistry().get(fontName);
-//		}
-//		Font cached = control.getFont();
-//		control.setFont(null);
-//		Font defaultFont = control.getFont();
-//		control.setFont(cached);
-//		JFaceResources.getFontRegistry().put(fontName,
-//				defaultFont.getFontData());
-	    Font cached = control.getFont();
-	    control.setFont(null);
-	    Font defaultFont = control.getFont();
-	    control.setFont(cached);
+		String fontName = "DEFAULT_FONT_" + control.getClass().getName(); //$NON-NLS-1$
+		if (JFaceResources.getFontRegistry().hasValueFor(fontName)) {
+			return JFaceResources.getFontRegistry().get(fontName);
+		}
+		Font cached = control.getFont();
+		control.setFont(null);
+		Font defaultFont = control.getFont();
+		control.setFont(cached);
+		JFaceResources.getFontRegistry().put(fontName,
+				defaultFont.getFontData());
 		return defaultFont;
 	}
 
@@ -1072,12 +1067,11 @@ public abstract class Dialog extends Window {
 	 * @return boolean if the two are the same
 	 */
 	protected static boolean dialogFontIsDefault() {
-//		FontData[] dialogFontData = JFaceResources.getFontRegistry()
-//				.getFontData(JFaceResources.DIALOG_FONT);
-//		FontData[] defaultFontData = JFaceResources.getFontRegistry()
-//				.getFontData(JFaceResources.DEFAULT_FONT);
-//		return Arrays.equals(dialogFontData, defaultFontData);
-		return true;
+		FontData[] dialogFontData = JFaceResources.getFontRegistry()
+				.getFontData(JFaceResources.DIALOG_FONT);
+		FontData[] defaultFontData = JFaceResources.getFontRegistry()
+				.getFontData(JFaceResources.DEFAULT_FONT);
+		return Arrays.equals(dialogFontData, defaultFontData);
 	}
 
 	/*
@@ -1173,10 +1167,10 @@ public abstract class Dialog extends Window {
 			if ((strategy & DIALOG_PERSISTSIZE) != 0) {
 				settings.put(DIALOG_WIDTH, shellSize.x);
 				settings.put(DIALOG_HEIGHT, shellSize.y);
-//				FontData [] fontDatas = JFaceResources.getDialogFont().getFontData();
-//				if (fontDatas.length > 0) {
-//					settings.put(DIALOG_FONT_DATA, fontDatas[0].toString());
-//				}
+				FontData [] fontDatas = JFaceResources.getDialogFont().getFontData();
+				if (fontDatas.length > 0) {
+					settings.put(DIALOG_FONT_DATA, fontDatas[0].toString());
+				}
 			}
 		}
 	}
@@ -1204,18 +1198,18 @@ public abstract class Dialog extends Window {
 				// we do not honor the stored settings.  
 				// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=132821
 				boolean useStoredBounds = true;
-//				String previousDialogFontData = settings.get(DIALOG_FONT_DATA);
+				String previousDialogFontData = settings.get(DIALOG_FONT_DATA);
 				// There is a previously stored font, so we will check it.
 				// Note that if we haven't stored the font before, then we will
 				// use the stored bounds.  This allows restoring of dialog bounds 
 				// that were stored before we started storing the fontdata.
-//				if (previousDialogFontData != null && previousDialogFontData.length() > 0) {
-//					FontData [] fontDatas = JFaceResources.getDialogFont().getFontData();
-//					if (fontDatas.length > 0) {
-//						String currentDialogFontData = fontDatas[0].toString();
-//						useStoredBounds = currentDialogFontData.equalsIgnoreCase(previousDialogFontData);
-//					}
-//				}
+				if (previousDialogFontData != null && previousDialogFontData.length() > 0) {
+					FontData [] fontDatas = JFaceResources.getDialogFont().getFontData();
+					if (fontDatas.length > 0) {
+						String currentDialogFontData = fontDatas[0].toString();
+						useStoredBounds = currentDialogFontData.equalsIgnoreCase(previousDialogFontData);
+					}
+				}
 				if (useStoredBounds) {
 					try {
 						// Get the stored width and height.

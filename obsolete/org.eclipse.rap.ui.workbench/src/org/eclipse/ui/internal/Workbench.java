@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.window.WindowManager;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
@@ -98,7 +99,7 @@ public class Workbench extends SessionSingletonBase implements IWorkbench {
   // /////////////////////
   // interface IWorkbench
   
-  public Display getDisplay() {
+  public Device getDisplay() {
     return display;
   }
   

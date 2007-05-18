@@ -10,8 +10,7 @@
  *******************************************************************************/
 package org.eclipse.jface.resource;
 
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.*;
 
 /**
  * Describes a color by its RGB values.
@@ -71,18 +70,19 @@ class RGBColorDescriptor extends ColorDescriptor {
     /* (non-Javadoc)
      * @see org.eclipse.jface.resources.ColorDescriptor#createColor()
      */
-//    public Color createColor(Device device) {
-//        // If this descriptor is wrapping an existing color, then we can return the original color
-//        // if this is the same device.
-//        if (originalColor != null) {
-//            // If we're allocating on the same device as the original color, return the original.
+    public Color createColor(Device device) {
+        // If this descriptor is wrapping an existing color, then we can return the original color
+        // if this is the same device.
+        if (originalColor != null) {
+            // If we're allocating on the same device as the original color, return the original.
 //            if (originalColor.getDevice() == device) {
-//                return originalColor;
+                return originalColor;
 //            }            
-//        }
-//        
+        }
+        
 //        return new Color(device, color);
-//    }
+        return Color.getColor( color);
+    }
 
     /* (non-Javadoc)
      * @see org.eclipse.jface.resource.ColorDescriptor#destroyColor(org.eclipse.swt.graphics.Color)

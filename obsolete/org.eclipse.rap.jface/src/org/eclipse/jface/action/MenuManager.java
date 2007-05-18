@@ -12,7 +12,6 @@ package org.eclipse.jface.action;
 
 import java.util.*;
 import java.util.List;
-
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuAdapter;

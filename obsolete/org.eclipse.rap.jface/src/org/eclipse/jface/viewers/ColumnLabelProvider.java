@@ -11,9 +11,7 @@
 
 package org.eclipse.jface.viewers;
 
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.*;
 
 /**
  * The ColumnLabelProvider is the label provider for viewers

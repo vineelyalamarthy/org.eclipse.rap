@@ -13,14 +13,10 @@ package org.eclipse.jface.dialogs;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.internal.graphics.FontSizeEstimation;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.*;
 
 /**
  * Abstract base implementation of a dialog page. All dialog pages are
@@ -168,9 +164,10 @@ public abstract class DialogPage implements IDialogPage, IMessageProvider {
 //		}
 //        return Dialog.convertHorizontalDLUsToPixels(fontMetrics, dlus);
         int avgCharWidth 
-        = Math.round( FontSizeEstimation.getAvgCharWidth( dialogFont ) );
-        int result = ( avgCharWidth * dlus + HORIZONTAL_DIALOG_UNIT_PER_CHAR / 2 )
-        / HORIZONTAL_DIALOG_UNIT_PER_CHAR;
+          = Math.round( FontSizeEstimation.getAvgCharWidth( dialogFont ) );
+        int result 
+          =   ( avgCharWidth * dlus + HORIZONTAL_DIALOG_UNIT_PER_CHAR / 2 )
+            / HORIZONTAL_DIALOG_UNIT_PER_CHAR;
         return result;
     }
 
@@ -196,8 +193,9 @@ public abstract class DialogPage implements IDialogPage, IMessageProvider {
 //		}
 //        return Dialog.convertVerticalDLUsToPixels(fontMetrics, dlus);
         int charHeight = FontSizeEstimation.getCharHeight( dialogFont );
-        int result = ( charHeight * dlus + VERTICAL_DIALOG_UNITS_PER_CHAR / 2 )
-        / VERTICAL_DIALOG_UNITS_PER_CHAR;
+        int result
+          =   ( charHeight * dlus + VERTICAL_DIALOG_UNITS_PER_CHAR / 2 )
+            / VERTICAL_DIALOG_UNITS_PER_CHAR;
         return result;
     }
 
@@ -273,9 +271,9 @@ public abstract class DialogPage implements IDialogPage, IMessageProvider {
      * 
      * @return the font
      */
-//    protected Font getFont() {
-//        return JFaceResources.getFontRegistry().get(getDialogFontName());
-//    }
+    protected Font getFont() {
+        return JFaceResources.getFontRegistry().get(getDialogFontName());
+    }
 
     /*
      * (non-Javadoc) Method declared on IDialogPage.

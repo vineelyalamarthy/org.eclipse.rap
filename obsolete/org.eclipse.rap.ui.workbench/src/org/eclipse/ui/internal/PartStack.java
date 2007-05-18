@@ -12,7 +12,6 @@
 package org.eclipse.ui.internal;
 
 import java.util.*;
-
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.graphics.Point;

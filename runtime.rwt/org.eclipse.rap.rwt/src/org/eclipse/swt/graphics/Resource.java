@@ -9,14 +9,11 @@
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
 
-package org.eclipse.ui;
+package org.eclipse.swt.graphics;
 
-import org.eclipse.swt.graphics.Device;
-
-
-public interface IWorkbench {
-  IWorkbenchWindow getActiveWorkbenchWindow();
-  Device getDisplay();
-  IPerspectiveRegistry getPerspectiveRegistry();
-  void close();
+/**
+ * TODO: [fappel] comment 
+ */
+public abstract class Resource {
+  
 }

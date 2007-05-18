@@ -10,10 +10,7 @@
  *******************************************************************************/
 package org.eclipse.jface.action;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.CoolBar;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.*;
 
 /**
  * An abstract base implementation for contribution items.

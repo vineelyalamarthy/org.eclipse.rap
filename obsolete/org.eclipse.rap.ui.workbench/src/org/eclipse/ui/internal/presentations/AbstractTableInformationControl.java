@@ -151,7 +151,7 @@ public abstract class AbstractTableInformationControl {
                                           int controlStyle )
   {
     fShell = new Shell( parent, shellStyle );
-    Display display = fShell.getDisplay();
+    Device display = fShell.getDisplay();
     fShell.setBackground( display.getSystemColor( SWT.COLOR_BLACK ) );
     // Composite for filter text and viewer
 //    fComposite = new Composite( fShell, SWT.RESIZE );
@@ -358,7 +358,7 @@ public abstract class AbstractTableInformationControl {
   }
 
   private void setInfoSystemColor() {
-    Display display = fShell.getDisplay();
+    Device display = fShell.getDisplay();
 //    setForegroundColor( display.getSystemColor( SWT.COLOR_INFO_FOREGROUND ) );
 //    setBackgroundColor( display.getSystemColor( SWT.COLOR_INFO_BACKGROUND ) );
   }

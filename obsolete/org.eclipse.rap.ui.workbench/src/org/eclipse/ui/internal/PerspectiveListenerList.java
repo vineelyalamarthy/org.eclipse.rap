@@ -13,14 +13,7 @@ package org.eclipse.ui.internal;
 import org.eclipse.core.commands.common.EventManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.util.SafeRunnable;
-import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.IPerspectiveListener;
-//import org.eclipse.ui.IPerspectiveListener2;
-//import org.eclipse.ui.IPerspectiveListener3;
-//import org.eclipse.ui.IPerspectiveListener4;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPartReference;
-//import org.eclipse.ui.internal.misc.UIStats;
+import org.eclipse.ui.*;
 
 /**
  * Perspective listener list.

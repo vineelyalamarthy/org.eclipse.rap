@@ -13,35 +13,16 @@ package org.eclipse.jface.dialogs;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.GroupMarker;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.*;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A lightweight, transient dialog that is popped up to show contextual or
@@ -238,19 +219,19 @@ public class PopupDialog extends Window {
 	/**
 	 * The images for the dialog menu.
 	 */
-//	private Image menuImage, disabledMenuImage = null;
+	private Image menuImage, disabledMenuImage = null;
 
 	/**
 	 * Font to be used for the info area text. Computed based on the dialog's
 	 * font.
 	 */
-//	private Font infoFont;
+	private Font infoFont;
 	
 	/**
 	 * Font to be used for the title area text. Computed based on the dialog's
 	 * font.
 	 */
-//	private Font titleFont;
+	private Font titleFont;
 
 	/**
 	 * Flags indicating whether we are listening for shell deactivate events,
@@ -353,7 +334,7 @@ public class PopupDialog extends Window {
 	 * @see org.eclipse.jface.window.Window#configureShell(Shell)
 	 */
 	protected void configureShell(Shell shell) {
-		Display display = shell.getDisplay();
+		Device display = shell.getDisplay();
 		shell.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
 
 		int border = ((getShellStyle() & SWT.NO_TRIM) == 0) ? 0
@@ -602,13 +583,16 @@ public class PopupDialog extends Window {
 			.span(showDialogMenu ? 1 : 2, 1)
 			.applyTo(titleLabel);	
 		
-//		Font font = titleLabel.getFont();
-//		FontData[] fontDatas = font.getFontData();
+		Font font = titleLabel.getFont();
+		FontData[] fontDatas = font.getFontData();
+        titleFont = Font.getFont( fontDatas[ 0 ].getName(), 
+                                  fontDatas[ 0 ].getHeight(), 
+                                  SWT.BOLD );
 //		for (int i = 0; i < fontDatas.length; i++) {
 //			fontDatas[i].setStyle(SWT.BOLD);
 //		}
 //		titleFont = new Font(titleLabel.getDisplay(), fontDatas);
-//		titleLabel.setFont(titleFont);
+		titleLabel.setFont(titleFont);
 		
 		if (titleText != null) {
 			titleLabel.setText(titleText);
@@ -638,13 +622,16 @@ public class PopupDialog extends Window {
 		// Status label
 		infoLabel = new Label(parent, SWT.RIGHT);
 		infoLabel.setText(infoText);
-//		Font font = infoLabel.getFont();
-//		FontData[] fontDatas = font.getFontData();
+		Font font = infoLabel.getFont();
+		FontData[] fontDatas = font.getFontData();
+        infoFont = Font.getFont( fontDatas[ 0 ].getName(),
+                                 fontDatas[ 0 ].getHeight() * 9 / 10,
+                                 fontDatas[ 0 ].getStyle() );
 //		for (int i = 0; i < fontDatas.length; i++) {
 //			fontDatas[i].setHeight(fontDatas[i].getHeight() * 9 / 10);
 //		}
 //		infoFont = new Font(infoLabel.getDisplay(), fontDatas);
-//		infoLabel.setFont(infoFont);
+		infoLabel.setFont(infoFont);
 		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.BEGINNING)
 			.applyTo(infoLabel);
 //		infoLabel.setForeground(parent.getDisplay().getSystemColor(
@@ -680,11 +667,11 @@ public class PopupDialog extends Window {
 
 		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).applyTo(toolBar);
 
-//		menuImage = ImageDescriptor.createFromFile(PopupDialog.class,
-//				"images/popup_menu.gif").createImage();//$NON-NLS-1$
-//		disabledMenuImage = ImageDescriptor.createFromFile(PopupDialog.class,
-//				"images/popup_menu_disabled.gif").createImage();//$NON-NLS-1$
-//		viewMenuButton.setImage(menuImage);
+		menuImage = ImageDescriptor.createFromFile(PopupDialog.class,
+				"images/popup_menu.gif").createImage();//$NON-NLS-1$
+		disabledMenuImage = ImageDescriptor.createFromFile(PopupDialog.class,
+				"images/popup_menu_disabled.gif").createImage();//$NON-NLS-1$
+		viewMenuButton.setImage(menuImage);
 //		viewMenuButton.setDisableadImage(disabledMenuImage);
 		viewMenuButton.setToolTipText(JFaceResources
 				.getString("PopupDialog.menuTooltip")); //$NON-NLS-1$
@@ -696,9 +683,9 @@ public class PopupDialog extends Window {
 		viewMenuButton.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 //				menuImage.dispose();
-//				menuImage = null;
+				menuImage = null;
 //				disabledMenuImage.dispose();
-//				disabledMenuImage = null;
+				disabledMenuImage = null;
 			}
 		});
 		// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=177183
@@ -1217,10 +1204,10 @@ public class PopupDialog extends Window {
 //		if (infoFont != null && !infoFont.isDisposed()) {
 //			infoFont.dispose();
 //		}
-//		infoFont = null;
+		infoFont = null;
 //		if (titleFont != null && !titleFont.isDisposed()) {
 //			titleFont.dispose();
 //		}
-//		titleFont = null;
+		titleFont = null;
 	}
 }

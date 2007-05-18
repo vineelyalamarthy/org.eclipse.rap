@@ -11,8 +11,9 @@
 package org.eclipse.jface.resource;
 
 import java.net.URL;
-
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * An image descriptor is an object that knows how to create
@@ -43,7 +44,7 @@ import org.eclipse.swt.graphics.Image;
  *
  * @see org.eclipse.swt.graphics.Image
  */
-public abstract class ImageDescriptor /* extends DeviceResourceDescriptor */ {
+public abstract class ImageDescriptor extends DeviceResourceDescriptor  {
 
     /** 
      * A small red square used to warn that an image cannot be created.
@@ -68,9 +69,9 @@ public abstract class ImageDescriptor /* extends DeviceResourceDescriptor */ {
      * @param filename the file name
      * @return a new image descriptor
      */
-//    public static ImageDescriptor createFromFile(Class location, String filename) {
-//        return new FileImageDescriptor(location, filename);
-//    }
+    public static ImageDescriptor createFromFile(Class location, String filename) {
+        return new FileImageDescriptor(location, filename);
+    }
     
     /**
      * Creates and returns a new image descriptor given ImageData
@@ -155,20 +156,20 @@ public abstract class ImageDescriptor /* extends DeviceResourceDescriptor */ {
     /* (non-Javadoc)
      * @see org.eclipse.jface.resource.DeviceResourceDescriptor#createResource(org.eclipse.swt.graphics.Device)
      */
-//    public Object createResource(Device device) throws DeviceResourceException {
-//        Image result = createImage(false, device);
-//        if (result == null) {
-//            throw new DeviceResourceException(this);
-//        }
-//        return result;
-//    }
+    public Object createResource(Device device) throws DeviceResourceException {
+        Image result = createImage(false, device);
+        if (result == null) {
+            throw new DeviceResourceException(this);
+        }
+        return result;
+    }
     
     /* (non-Javadoc)
      * @see org.eclipse.jface.resource.DeviceResourceDescriptor#destroyResource(Object)
      */
-//    public void destroyResource(Object previouslyCreatedObject) {
+    public void destroyResource(Object previouslyCreatedObject) {
 //        ((Image)previouslyCreatedObject).dispose();
-//    }
+    }
     
     /**
 	 * Creates and returns a new SWT image for this image descriptor. Note that
@@ -196,8 +197,7 @@ public abstract class ImageDescriptor /* extends DeviceResourceDescriptor */ {
 	 *         created
 	 */
     public Image createImage() {
-//        return createImage(true);
-    	throw new UnsupportedOperationException();
+        return createImage(true);
     }
 
     /**
@@ -218,9 +218,9 @@ public abstract class ImageDescriptor /* extends DeviceResourceDescriptor */ {
 	 * @return a new image or <code>null</code> if the image could not be
 	 *         created
 	 */
-//    public Image createImage(boolean returnMissingImageOnError) {
-//        return createImage(returnMissingImageOnError, Display.getCurrent());
-//    }
+    public Image createImage(boolean returnMissingImageOnError) {
+        return createImage(returnMissingImageOnError, Display.getCurrent());
+    }
 
     /**
 	 * Creates and returns a new SWT image for this image descriptor. The
@@ -238,9 +238,9 @@ public abstract class ImageDescriptor /* extends DeviceResourceDescriptor */ {
 	 *         created
 	 * @since 2.0
 	 */
-//    public Image createImage(Device device) {
-//        return createImage(true, device);
-//    }
+    public Image createImage(Device device) {
+        return createImage(true, device);
+    }
 
     /**
 	 * Creates and returns a new SWT image for this image descriptor. The
@@ -263,8 +263,9 @@ public abstract class ImageDescriptor /* extends DeviceResourceDescriptor */ {
 	 *         created
 	 * @since 2.0
 	 */
-//    public Image createImage(boolean returnMissingImageOnError, Device device) {
-//
+    public Image createImage(boolean returnMissingImageOnError, Device device) {
+      throw new UnsupportedOperationException();
+      
 //        ImageData data = getImageData();
 //        if (data == null) {
 //            if (!returnMissingImageOnError) {
@@ -294,7 +295,7 @@ public abstract class ImageDescriptor /* extends DeviceResourceDescriptor */ {
 //            }
 //            return null;
 //        }
-//    }
+    }
 
     /**
      * Creates and returns a new SWT <code>ImageData</code> object

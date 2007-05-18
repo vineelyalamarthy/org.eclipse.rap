@@ -11,10 +11,7 @@
 
 package org.eclipse.jface.menus;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.CoolBar;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.*;
 
 /**
  * <p>

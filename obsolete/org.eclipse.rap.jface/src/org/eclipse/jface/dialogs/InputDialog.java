@@ -15,12 +15,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A simple input dialog for soliciting an input string from the user.
@@ -176,7 +171,7 @@ public class InputDialog extends Dialog {
         errorMessageText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
                 | GridData.HORIZONTAL_ALIGN_FILL));
 //        errorMessageText.setBackground(errorMessageText.getDisplay()
-//                .getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+//                                       .getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
         // Set the error message text
         // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=66292
         setErrorMessage(errorMessage);

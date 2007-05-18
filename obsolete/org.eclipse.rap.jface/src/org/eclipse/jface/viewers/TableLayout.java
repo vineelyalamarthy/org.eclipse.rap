@@ -12,17 +12,11 @@ package org.eclipse.jface.viewers;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A layout for a table. Call <code>addColumnData</code> to add columns.

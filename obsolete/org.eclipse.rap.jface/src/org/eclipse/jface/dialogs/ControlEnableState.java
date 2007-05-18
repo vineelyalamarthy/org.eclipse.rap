@@ -12,7 +12,6 @@ package org.eclipse.jface.dialogs;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 

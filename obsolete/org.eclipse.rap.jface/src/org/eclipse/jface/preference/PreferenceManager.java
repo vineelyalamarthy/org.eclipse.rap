@@ -10,10 +10,7 @@
  *******************************************************************************/
 package org.eclipse.jface.preference;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
+import java.util.*;
 import org.eclipse.core.runtime.Assert;
 
 /**

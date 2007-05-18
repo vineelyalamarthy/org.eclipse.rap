@@ -12,7 +12,6 @@
 package org.eclipse.ui.internal;
 
 import java.util.*;
-
 import org.eclipse.jface.util.Geometry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;

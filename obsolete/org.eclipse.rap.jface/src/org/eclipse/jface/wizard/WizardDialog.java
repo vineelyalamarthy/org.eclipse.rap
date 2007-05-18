@@ -13,8 +13,8 @@ package org.eclipse.jface.wizard;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-
-import org.eclipse.core.runtime.*;
+import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.operation.ModalContext;
@@ -1060,6 +1060,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 				createPageControls();
 				// Ensure the dialog is large enough for the wizard
 				updateSizeForWizard(wizard);
+				pageContainer.layout();
 //				pageContainer.layout(true);
 			}
 		} else {
