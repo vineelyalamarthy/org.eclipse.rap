@@ -34,7 +34,8 @@ public class ViewDescriptor implements IViewDescriptor, IPluginContribution {
   }
 
   public boolean getAllowMultiple() {
-    return false;
+	  String string = element.getAttribute(IWorkbenchRegistryConstants.ATT_ALLOW_MULTIPLE);    	
+      return string == null ? false : Boolean.valueOf(string).booleanValue();
   }
 
   public String[] getCategoryPath() {
