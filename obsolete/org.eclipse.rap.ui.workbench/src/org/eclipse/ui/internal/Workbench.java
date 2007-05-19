@@ -20,7 +20,10 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
 import org.eclipse.ui.application.WorkbenchAdvisor;
+import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
+import org.eclipse.ui.internal.browser.WorkbenchBrowserSupport;
 import org.eclipse.ui.internal.registry.PerspectiveRegistry;
+
 import com.w4t.SessionSingletonBase;
 
 // TODO: [fappel] completion of this basic Workbench implementation...
@@ -64,6 +67,10 @@ public class Workbench extends SessionSingletonBase implements IWorkbench {
     return "org.eclipse.ui.presentations.default";
   }
   
+  public IWorkbenchBrowserSupport getBrowserSupport() {
+    return WorkbenchBrowserSupport.getInstance();
+  }
+
   public void close() {
     // TODO: [fappel] reasonable implementation
     MessageDialog.openError( getActiveWorkbenchWindow().getShell(), 

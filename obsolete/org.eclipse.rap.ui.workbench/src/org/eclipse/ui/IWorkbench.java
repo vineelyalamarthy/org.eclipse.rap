@@ -12,11 +12,13 @@
 package org.eclipse.ui;
 
 import org.eclipse.swt.graphics.Device;
+import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 
 public interface IWorkbench {
   IWorkbenchWindow getActiveWorkbenchWindow();
   Device getDisplay();
   IPerspectiveRegistry getPerspectiveRegistry();
+  IWorkbenchBrowserSupport getBrowserSupport();
   void close();
 }
