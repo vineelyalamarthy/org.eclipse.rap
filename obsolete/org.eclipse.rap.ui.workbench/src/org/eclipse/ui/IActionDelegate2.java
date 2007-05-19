@@ -11,7 +11,7 @@
 package org.eclipse.ui;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.swt.events.RWTEvent;
+import org.eclipse.swt.events.TypedEvent;
 
 
 /**
@@ -68,5 +68,5 @@ public interface IActionDelegate2 extends IActionDelegate {
      * @param event the SWT event which triggered this action being run
      * @since 2.0
      */
-    public void runWithEvent(IAction action, RWTEvent event);
+    public void runWithEvent(IAction action, TypedEvent event);
 }

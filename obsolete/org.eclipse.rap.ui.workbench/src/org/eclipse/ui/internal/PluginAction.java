@@ -12,7 +12,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.events.RWTEvent;
+import org.eclipse.swt.events.TypedEvent;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.misc.StatusUtil;
@@ -173,13 +173,13 @@ public abstract class PluginAction extends Action
    * (non-Javadoc) Method declared on IAction.
    */
   public void run() {
-    runWithEvent( ( RWTEvent )null );
+    runWithEvent( ( TypedEvent )null );
   }
 
   /*
    * (non-Javadoc) Method declared on IAction.
    */
-  public void runWithEvent( RWTEvent event ) {
+  public void runWithEvent( TypedEvent event ) {
     // this message dialog is problematic.
     if( delegate == null ) {
       createDelegate();
