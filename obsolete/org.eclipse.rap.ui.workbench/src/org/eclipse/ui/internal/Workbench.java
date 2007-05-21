@@ -33,6 +33,7 @@ public class Workbench extends SessionSingletonBase implements IWorkbench {
   private WorkbenchConfigurer workbenchConfigurer;
   private Display display;
   private WindowManager windowManager;
+  private ISharedImages sharedImages;
 
   private Workbench() {
   }
@@ -205,5 +206,14 @@ public class Workbench extends SessionSingletonBase implements IWorkbench {
       }
     }
     return count + 1;
+  }
+  
+  /**
+   * Returns the shared images for the workbench.
+   *
+   * @return the shared image manager
+   */
+  public ISharedImages getSharedImages() {
+      return SharedImages.getInstance();
   }
 }

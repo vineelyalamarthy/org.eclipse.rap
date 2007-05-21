@@ -21,4 +21,11 @@ public interface IWorkbench {
   IPerspectiveRegistry getPerspectiveRegistry();
   IWorkbenchBrowserSupport getBrowserSupport();
   void close();
+  
+  /**
+   * Returns the shared images for the workbench.
+   * 
+   * @return the shared image manager
+   */
+  public ISharedImages getSharedImages();
 }
