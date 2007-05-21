@@ -238,8 +238,7 @@ public class TableViewer extends AbstractTableViewer {
 	}
 
 	protected void doRemove(int start, int end) {
-//		table.remove(start, end);
-		throw new UnsupportedOperationException();
+		table.remove(start, end);
 	}
 	
 	protected void doRemoveAll() {
@@ -247,8 +246,7 @@ public class TableViewer extends AbstractTableViewer {
 	}
 
 	protected void doRemove(int[] indices) {
-//		table.remove(indices);
-		throw new UnsupportedOperationException();
+		table.remove(indices);
 	}
 
 	protected void doShowItem(Item item) {
