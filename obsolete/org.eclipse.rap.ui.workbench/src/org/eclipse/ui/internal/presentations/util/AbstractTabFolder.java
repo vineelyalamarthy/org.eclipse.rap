@@ -100,9 +100,9 @@ public abstract class AbstractTabFolder {
    * @return the location for the pane menu (display coordinates)
    * @since 3.1
    */
-//  public Point getPaneMenuLocation() {
-//    return getControl().toDisplay( new Point( 0, 0 ) );
-//  }
+  public Point getPaneMenuLocation() {
+    return getControl().toDisplay( new Point( 0, 0 ) );
+  }
 
   /**
    * Returns the location where the part list should be opened when activated by

@@ -12,7 +12,10 @@
 package org.eclipse.ui.internal.presentations.util;
 
 import java.util.ArrayList;
+
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultPartList;
@@ -60,11 +63,11 @@ public class TabbedStackPresentation extends StackPresentation {
           }
           break;
         }
-//        case TabFolderEvent.EVENT_PANE_MENU: {
-//          TabbedStackPresentation.this.showPaneMenu( folder.getPartForTab( e.tab ),
-//                                                     new Point( e.x, e.y ) );
-//          break;
-//        }
+        case TabFolderEvent.EVENT_PANE_MENU: {
+          TabbedStackPresentation.this.showPaneMenu( folder.getPartForTab( e.tab ),
+                                                     new Point( e.x, e.y ) );
+          break;
+        }
 //        case TabFolderEvent.EVENT_DRAG_START: {
 //          AbstractTabItem beingDragged = e.tab;
 //          Point initialLocation = new Point( e.x, e.y );
@@ -259,10 +262,36 @@ public class TabbedStackPresentation extends StackPresentation {
     folder.setVisible(isVisible);
   }
 
+  /* (non-Javadoc)
+   * @see org.eclipse.ui.presentations.StackPresentation#showPaneMenu()
+   */
   public void showPaneMenu() {
-    throw new UnsupportedOperationException();
+      IPresentablePart part = getSite().getSelectedPart();
+      
+      if (part != null) {
+          showPaneMenu(part, folder.getTabFolder().getPaneMenuLocation());
+      }
   }
 
+  public void showPaneMenu(IPresentablePart part, Point location) {
+      Assert.isTrue(!isDisposed());
+      
+      IPartMenu menu = part.getMenu();
+
+      if (menu != null) {
+          menu.showMenu(location);
+      }
+  }
+  
+  /**
+   * Returns true iff the presentation has been disposed
+   * 
+   * @return true iff the presentation has been disposed
+   */
+  private boolean isDisposed() {
+      return folder == null; /* || folder.isDisposed(); */
+  }
+  
   public void showSystemMenu() {
     throw new UnsupportedOperationException();
   }

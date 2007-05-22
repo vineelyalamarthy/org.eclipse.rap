@@ -124,13 +124,15 @@ public class DefaultTabFolder extends AbstractTabFolder {
 //      ToolBar actualToolBar = new ToolBar( paneFolder.getControl(),
 //                                           SWT.FLAT | SWT.NO_BACKGROUND );
       ToolBar actualToolBar = new ToolBar( paneFolder.getControl(),
-                                           SWT.NONE );
+                                           SWT.FLAT );
       viewToolBar = actualToolBar;
       ToolItem pullDownButton = new ToolItem( actualToolBar, SWT.PUSH );
 //      Image hoverImage = WorkbenchImages.getImage( IWorkbenchGraphicConstants.IMG_LCL_RENDERED_VIEW_MENU );
 //      pullDownButton.setDisabledImage( hoverImage );
 //      pullDownButton.setImage( hoverImage );
 //      pullDownButton.setToolTipText( WorkbenchMessages.Menu );
+      pullDownButton.setImage( Image.find("resources/view_menu.gif", getClass().getClassLoader()) );
+      pullDownButton.setToolTipText( "Menu" );
 //      actualToolBar.addMouseListener( new MouseAdapter() {
 //
 //        public void mouseDown( MouseEvent e ) {
