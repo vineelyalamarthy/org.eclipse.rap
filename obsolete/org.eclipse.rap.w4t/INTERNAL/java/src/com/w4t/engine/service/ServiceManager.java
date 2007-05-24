@@ -30,6 +30,8 @@ import com.w4t.engine.util.ResourceManager;
  */
 // TODO [rh] Could implement resource/timestamp request handler as regular
 //      IServiceHandler
+// TODO [rh] access to customHandlers Map is unsynchronized and may cause
+//      trouble in case of unproper use
 public class ServiceManager {
   
   private static final String SERVICEHANDLER_XML = "servicehandler.xml";
@@ -42,31 +44,33 @@ public class ServiceManager {
   static {
     try {
       IResourceManager manager = ResourceManager.getInstance();
-      Enumeration resources = manager.getResources( SERVICEHANDLER_XML );
-      while( resources.hasMoreElements() ) {
-        URL url = ( URL )resources.nextElement();
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        URLConnection con = url.openConnection();
-        con.setUseCaches( false );
-        Document document;
-        InputStream is = con.getInputStream();
-        try {
-          document = builder.parse( is );
-        } finally {
-          is.close();
-        }
-        NodeList handlers = document.getElementsByTagName( "handler" );
-        int count = handlers.getLength();
-        for( int i = 0; i < count; i++ ) {
-          Node handler = handlers.item( i );
-          NamedNodeMap attributes = handler.getAttributes();
-          String name = attributes.getNamedItem( "class" ).getNodeValue();
-          String param = "requestparameter";
-          String id = attributes.getNamedItem( param ).getNodeValue();
-          Class clazz = ServiceManager.class.getClassLoader().loadClass( name );
-          Object handlerInstance = clazz.newInstance();
-          customHandlers .put( id, handlerInstance );
+      if( manager != null ) {
+        Enumeration resources = manager.getResources( SERVICEHANDLER_XML );
+        while( resources.hasMoreElements() ) {
+          URL url = ( URL )resources.nextElement();
+          DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+          DocumentBuilder builder = factory.newDocumentBuilder();
+          URLConnection con = url.openConnection();
+          con.setUseCaches( false );
+          Document document;
+          InputStream is = con.getInputStream();
+          try {
+            document = builder.parse( is );
+          } finally {
+            is.close();
+          }
+          NodeList handlers = document.getElementsByTagName( "handler" );
+          int count = handlers.getLength();
+          for( int i = 0; i < count; i++ ) {
+            Node handler = handlers.item( i );
+            NamedNodeMap attributes = handler.getAttributes();
+            String name = attributes.getNamedItem( "class" ).getNodeValue();
+            String param = "requestparameter";
+            String id = attributes.getNamedItem( param ).getNodeValue();
+            Class clazz = ServiceManager.class.getClassLoader().loadClass( name );
+            Object handlerInstance = clazz.newInstance();
+            registerServiceHandler( id, ( IServiceHandler )handlerInstance );
+          }
         }
       }
     } catch( final Throwable thr ) {
@@ -74,7 +78,17 @@ public class ServiceManager {
       thr.printStackTrace();
     }
   }
+  
+  public static void registerServiceHandler( final String id, 
+                                             final IServiceHandler handler ) 
+  {
+    customHandlers.put( id, handler );
+  }
 
+  public static void unregisterServiceHandler( final String id ) {
+    customHandlers.remove( id );
+  }
+  
   private static final class HandlerDispatcher implements IServiceHandler {
     
     public void service() throws ServletException, IOException {

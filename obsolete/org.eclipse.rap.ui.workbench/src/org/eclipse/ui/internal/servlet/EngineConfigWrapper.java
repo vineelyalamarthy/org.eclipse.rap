@@ -16,8 +16,7 @@ import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import org.eclipse.core.runtime.*;
 import org.eclipse.swt.internal.engine.*;
-import org.eclipse.swt.internal.lifecycle.EntryPointManager;
-import org.eclipse.swt.internal.lifecycle.RWTLifeCycle;
+import org.eclipse.swt.internal.lifecycle.*;
 import org.eclipse.swt.resources.IResource;
 import org.eclipse.swt.resources.ResourceManager;
 import org.eclipse.ui.Activator;
@@ -26,6 +25,7 @@ import org.osgi.framework.Bundle;
 import com.w4t.engine.lifecycle.LifeCycleFactory;
 import com.w4t.engine.lifecycle.PhaseListener;
 import com.w4t.engine.service.BrowserSurvey;
+import com.w4t.engine.service.ServiceManager;
 import com.w4t.engine.util.EngineConfig;
 import com.w4t.engine.util.IEngineConfig;
 
@@ -67,6 +67,7 @@ final class EngineConfigWrapper implements IEngineConfig {
     registerFactories();
     registerResources();
     registerIndexTemplate();
+    registerUICallBackServiceHandler();
   }
 
   public File getClassDir() {
@@ -237,4 +238,8 @@ final class EngineConfigWrapper implements IEngineConfig {
     }
   }
 
+  private static void registerUICallBackServiceHandler() {
+    ServiceManager.registerServiceHandler( UICallBackServiceHandler.HANDLER_ID, 
+                                           new UICallBackServiceHandler() );
+  }
 }

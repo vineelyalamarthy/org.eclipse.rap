@@ -98,6 +98,13 @@ public class ContextProvider {
       CONTEXT_HOLDER.set( null );
     }
   }
+ 
+  /**
+   * Returns whether the current thread has an associated service context.
+   */
+  public static boolean hasContext() {
+    return CONTEXT_HOLDER.get() != null;    
+  }
   
   
   //////////////////

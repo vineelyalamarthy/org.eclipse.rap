@@ -55,7 +55,7 @@ class IndexTemplate implements IIndexTemplate {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     HtmlResponseWriter writer = stateInfo.getResponseWriter();
     writer.startElement( HTML.SCRIPT, null );
-    writer.writeText( "safd", null );
+    writer.writeText( "close started element", null );
     writer.clearBody();
     try {
       // TODO: [fappel] this works only as long as only one display per
