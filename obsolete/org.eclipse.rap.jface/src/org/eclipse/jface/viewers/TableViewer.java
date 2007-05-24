@@ -191,9 +191,8 @@ public class TableViewer extends AbstractTableViewer {
 	}
 
 	protected void doSetItemCount(int count) {
+		// TODO: get this back when we have Table#setItemCount(int)
 //		table.setItemCount(count);
-		//throw new UnsupportedOperationException();
-		// TODO: implement
 	}
 
 	protected Item[] doGetItems() {
@@ -279,8 +278,8 @@ public class TableViewer extends AbstractTableViewer {
 	}
 	
 	protected void doSelect(int[] indices) {
+		// TODO: get this back when we have Table#select(int[])
 //		table.select(indices);
-		throw new UnsupportedOperationException();
 	}
 
 	/**
