@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2006 IBM Corporation and others.
+ * Copyright (c) 2000, 2007 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,17 +11,18 @@
 
 package org.eclipse.ui.internal;
 
+import java.text.Collator;
 import java.util.*;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
+
+import org.eclipse.core.commands.*;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.action.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.handlers.ShowViewHandler;
-import org.eclipse.ui.internal.registry.ViewRegistry;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.views.IViewDescriptor;
 import org.eclipse.ui.views.IViewRegistry;
 
@@ -34,8 +35,7 @@ public class ShowViewMenu extends ContributionItem {
 
 	private IWorkbenchWindow window;
 
-//	private static final String NO_TARGETS_MSG = "<No Applicable Views>"; //WorkbenchMessages.Workbench_showInNoTargets;
-	private static final String NO_TARGETS_MSG = "No Applicable Views"; //WorkbenchMessages.Workbench_showInNoTargets;
+	private static final String NO_TARGETS_MSG = WorkbenchMessages.Workbench_showInNoTargets;
 
 	private Comparator actionComparator = new Comparator() {
 		public int compare(Object o1, Object o2) {
@@ -65,7 +65,7 @@ public class ShowViewMenu extends ContributionItem {
 		}
 	};
 
-//	private static Collator collator;
+	private static Collator collator;
     private boolean makeFast;
 
     /**
@@ -91,24 +91,33 @@ public class ShowViewMenu extends ContributionItem {
 	public ShowViewMenu(IWorkbenchWindow window, String id, final boolean makeFast) {
 		super(id);
 		this.window = window;
-//        showDlgAction = new Action(WorkbenchMessages.ShowView_title) {
-        showDlgAction = new Action("Other...") {
-            final ShowViewHandler handler = new ShowViewHandler(makeFast);
-
+		final IHandlerService handlerService = (IHandlerService) window
+				.getService(IHandlerService.class);
+        showDlgAction = new Action(WorkbenchMessages.ShowView_title) {
             public void run() {
-                try {
-                    handler.execute(new ExecutionEvent());
-                } catch (final ExecutionException e) {
-                    // Do nothing.
-                }
-            }
+				try {
+					handlerService.executeCommand(
+							"org.eclipse.ui.views.showView", null); //$NON-NLS-1$
+//				} catch (final ExecutionException e) {
+//					// Do nothing.
+//				} catch (NotDefinedException e) {
+//					// Do nothing.
+//				} catch (NotEnabledException e) {
+//					// Do nothing.
+//				} catch (NotHandledException e) {
+//					// Do nothing.
+//				}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
         };
         
 //        window.getWorkbench().getHelpSystem().setHelp(showDlgAction,
 //				IWorkbenchHelpContextIds.SHOW_VIEW_OTHER_ACTION);
 		// indicate that a show views submenu has been created
-//		((WorkbenchWindow) window)
-//				.addSubmenu(WorkbenchWindow.SHOW_VIEW_SUBMENU);
+		((WorkbenchWindow) window)
+				.addSubmenu(WorkbenchWindow.SHOW_VIEW_SUBMENU);
         
 		showDlgAction.setActionDefinitionId("org.eclipse.ui.views.showView"); //$NON-NLS-1$
         this.makeFast = makeFast;
@@ -139,9 +148,9 @@ public class ShowViewMenu extends ContributionItem {
 		}
 
 		// If no active perspective disable all
-//		if (page.getPerspective() == null) {
-//			return;
-//		}
+		if (page.getPerspective() == null) {
+			return;
+		}
 
 		// Get visible actions.
 		List viewIds = Arrays.asList(page.getShowViewShortcuts());
@@ -200,8 +209,7 @@ public class ShowViewMenu extends ContributionItem {
 		// so that image caching in ActionContributionItem works.
 		IAction action = (IAction) actions.get(id);
 		if (action == null) {
-//			IViewRegistry reg = WorkbenchPlugin.getDefault().getViewRegistry();
-			IViewRegistry reg = ViewRegistry.getInstance();
+			IViewRegistry reg = WorkbenchPlugin.getDefault().getViewRegistry();
 			IViewDescriptor desc = reg.find(id);
 			if (desc != null) {
 				action = new ShowViewAction(window, desc, makeFast);

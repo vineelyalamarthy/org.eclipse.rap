@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 IBM Corporation and others.
+ * Copyright (c) 2004, 2006 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.eclipse.ui.internal.layout;
 
 import java.util.List;
+
 import org.eclipse.jface.util.Geometry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -287,15 +288,17 @@ public class SizeCache {
             return true;
         }
 
-        if (    control instanceof Button 
-             //|| control instanceof ProgressBar
-             || control instanceof Sash 
-             //|| control instanceof Scale
-             //|| control instanceof Slider 
-             || control instanceof List
-             || control instanceof Combo 
-             || control instanceof Tree) {
-            return true;
+//        if (control instanceof Button || control instanceof ProgressBar
+//                || control instanceof Sash || control instanceof Scale
+//                || control instanceof Slider || control instanceof List
+//                || control instanceof Combo || control instanceof Tree) {
+//            return true;
+//        }
+        if (control instanceof Button
+        		|| control instanceof Sash
+        		|| control instanceof List
+        		|| control instanceof Combo || control instanceof Tree) {
+        	return true;
         }
 
         if (control instanceof Label || control instanceof Text) {

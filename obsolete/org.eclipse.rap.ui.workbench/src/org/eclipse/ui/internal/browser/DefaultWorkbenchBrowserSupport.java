@@ -24,56 +24,56 @@ import org.eclipse.ui.browser.IWebBrowser;
  * @since 1.0
  */
 public class DefaultWorkbenchBrowserSupport extends
-    AbstractWorkbenchBrowserSupport {
-  private Hashtable browsers;
+		AbstractWorkbenchBrowserSupport {
+	private Hashtable browsers;
 
-  /**
-   * The default constructor.
-   */
-  public DefaultWorkbenchBrowserSupport() {
-    browsers = new Hashtable();
-  }
+	/**
+	 * The default constructor.
+	 */
+	public DefaultWorkbenchBrowserSupport() {
+		browsers = new Hashtable();
+	}
 
-  void registerBrowser(IWebBrowser browser) {
-    browsers.put(browser.getId(), browser);
-  }
+	void registerBrowser(IWebBrowser browser) {
+		browsers.put(browser.getId(), browser);
+	}
 
-  void unregisterBrowser(IWebBrowser browser) {
-    browsers.remove(browser.getId());
-  }
+	void unregisterBrowser(IWebBrowser browser) {
+		browsers.remove(browser.getId());
+	}
 
-  IWebBrowser findBrowser(String id) {
-    return (IWebBrowser) browsers.get(id);
-  }
+	IWebBrowser findBrowser(String id) {
+		return (IWebBrowser) browsers.get(id);
+	}
 
-  protected IWebBrowser doCreateBrowser(int style, String browserId,
-      String name, String tooltip) {
-    return new DefaultWebBrowser(this, browserId, style);
-  }
+	protected IWebBrowser doCreateBrowser(int style, String browserId,
+			String name, String tooltip) {
+		return new DefaultWebBrowser(this, browserId, style);
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.browser.IWorkbenchBrowserSupport#createBrowser(int,
-   *      java.lang.String, java.lang.String, java.lang.String)
-   */
-  public IWebBrowser createBrowser(int style, String browserId, String name,
-      String tooltip) throws PartInitException {
-    IWebBrowser browser = findBrowser(browserId);
-    if (browser != null) {
-      return browser;
-    }
-    browser = doCreateBrowser(style, browserId, name, tooltip);
-    registerBrowser(browser);
-    return browser;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.browser.IWorkbenchBrowserSupport#createBrowser(int,
+	 *      java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public IWebBrowser createBrowser(int style, String browserId, String name,
+			String tooltip) throws PartInitException {
+		IWebBrowser browser = findBrowser(browserId);
+		if (browser != null) {
+			return browser;
+		}
+		browser = doCreateBrowser(style, browserId, name, tooltip);
+		registerBrowser(browser);
+		return browser;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.browser.IWorkbenchBrowserSupport#createBrowser(java.lang.String)
-   */
-  public IWebBrowser createBrowser(String browserId) throws PartInitException {
-    return createBrowser(AS_EXTERNAL, browserId, null, null);
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.browser.IWorkbenchBrowserSupport#createBrowser(java.lang.String)
+	 */
+	public IWebBrowser createBrowser(String browserId) throws PartInitException {
+		return createBrowser(AS_EXTERNAL, browserId, null, null);
+	}
 }

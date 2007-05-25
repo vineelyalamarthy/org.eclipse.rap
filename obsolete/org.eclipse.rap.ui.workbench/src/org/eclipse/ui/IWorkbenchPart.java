@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH. All rights
- * reserved. This program and the accompanying materials are made available
- * under the terms of the Eclipse Public License v1.0 which accompanies this
- * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
- * Contributors: Innoopract Informationssysteme GmbH - initial API and
- * implementation
- ******************************************************************************/
+ * Copyright (c) 2000, 2005 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.ui;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -30,34 +32,34 @@ import org.eclipse.swt.widgets.Composite;
  * </p><p>
  * The lifecycle of a workbench part is as follows:
  * <ul>
- *  <li>When a part extension is created:
+ * 	<li>When a part extension is created:
  *    <ul>
- *    <li>instantiate the part</li>
- *    <li>create a part site</li>
- *    <li>call <code>part.init(site)</code></li>
- *    </ul>
+ *		<li>instantiate the part</li>
+ *		<li>create a part site</li>
+ *		<li>call <code>part.init(site)</code></li>
+ * 	  </ul>
  *  <li>When a part becomes visible in the workbench:
- *    <ul> 
- *    <li>add part to presentation by calling 
+ * 	  <ul> 
+ *		<li>add part to presentation by calling 
  *        <code>part.createControl(parent)</code> to create actual widgets</li>
- *    <li>fire <code>partOpened</code> event to all listeners</li>
- *    </ul>
+ *		<li>fire <code>partOpened</code> event to all listeners</li>
+ *	  </ul>
  *   </li>
  *  <li>When a part is activated or gets focus:
  *    <ul>
- *    <li>call <code>part.setFocus()</code></li>
- *    <li>fire <code>partActivated</code> event to all listeners</li>
- *    </ul>
+ *		<li>call <code>part.setFocus()</code></li>
+ *		<li>fire <code>partActivated</code> event to all listeners</li>
+ *	  </ul>
  *   </li>
  *  <li>When a part is closed:
  *    <ul>
- *    <li>if save is needed, do save; if it fails or is canceled return</li>
- *    <li>if part is active, deactivate part</li>
- *    <li>fire <code>partClosed</code> event to all listeners</li>
- *    <li>remove part from presentation; part controls are disposed as part
+ *		<li>if save is needed, do save; if it fails or is canceled return</li>
+ *		<li>if part is active, deactivate part</li>
+ *		<li>fire <code>partClosed</code> event to all listeners</li>
+ *		<li>remove part from presentation; part controls are disposed as part
  *         of the SWT widget tree
- *    <li>call <code>part.dispose()</code></li>
- *    </ul>
+ *		<li>call <code>part.dispose()</code></li>
+ *	  </ul>
  *   </li>
  * </ul>
  * </p>
@@ -147,7 +149,7 @@ public interface IWorkbenchPart extends IAdaptable {
      * appropriate times).
      * </p>
      */
-//    public void dispose();
+    public void dispose();
 
     /**
      * Returns the site for this workbench part. The site can be

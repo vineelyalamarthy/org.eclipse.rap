@@ -12,11 +12,15 @@ package org.eclipse.ui.internal.registry;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IPluginContribution;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.WorkbenchException;
+import org.eclipse.ui.internal.WorkbenchImages;
+import org.eclipse.ui.internal.WorkbenchMessages;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
@@ -32,7 +36,7 @@ public class Category implements IWorkbenchAdapter, IPluginContribution, IAdapta
     /**
      * Name of the miscellaneous category
      */
-    public final static String MISC_NAME = "Other"; //WorkbenchMessages.ICategory_other;
+    public final static String MISC_NAME = WorkbenchMessages.ICategory_other;
 
     /**
      * Identifier of the miscellaneous category
@@ -128,8 +132,7 @@ public class Category implements IWorkbenchAdapter, IPluginContribution, IAdapta
      * Method declared on IWorkbenchAdapter.
      */
     public ImageDescriptor getImageDescriptor(Object object) {
-        //return WorkbenchImages.getImageDescriptor(ISharedImages.IMG_OBJ_FOLDER);
-    	return null;
+        return WorkbenchImages.getImageDescriptor(ISharedImages.IMG_OBJ_FOLDER);
     }
 
     /* (non-Javadoc)

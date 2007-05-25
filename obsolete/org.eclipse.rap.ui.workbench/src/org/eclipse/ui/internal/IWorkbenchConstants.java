@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2006 IBM Corporation and others.
+ * Copyright (c) 2000, 2007 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,6 +23,8 @@ public interface IWorkbenchConstants {
      */
     public static final String ACCELERATOR_CONFIGURATION_ID = "acceleratorConfigurationId"; //$NON-NLS-1$
 
+    public static final String DEFAULT_PRESENTATION_ID = "org.eclipse.ui.presentations.default"; //$NON-NLS-1$
+    
     /**
      * @deprecated 
      */
@@ -53,7 +55,7 @@ public interface IWorkbenchConstants {
             + ".OleEditor"; //$NON-NLS-1$
 
     // Default view category.
-    public static final String DEFAULT_CATEGORY_ID = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE;
+    public static final String DEFAULT_CATEGORY_ID = PlatformUI.PLUGIN_ID;
 
     // Persistance tags.
     public static final String TRUE = "true"; //$NON-NLS-1$
@@ -86,9 +88,15 @@ public interface IWorkbenchConstants {
 
     public static final String TAG_AREA_VISIBLE = "editorAreaVisible"; //$NON-NLS-1$
 
+    public static final String TAG_AREA_HIDDEN = "editorAreaHidden"; //$NON-NLS-1$
+
+    public static final String TAG_AREA_TRIM_STATE = "editorAreaTrimState"; //$NON-NLS-1$
+
     public static final String TAG_INPUT = "input"; //$NON-NLS-1$
 
     public static final String TAG_FACTORY_ID = "factoryID"; //$NON-NLS-1$
+
+    public static final String TAG_EDITOR_STATE = "editorState"; //$NON-NLS-1$
 
     public static final String TAG_TITLE = "title"; //$NON-NLS-1$
 
@@ -117,6 +125,10 @@ public interface IWorkbenchConstants {
     public static final String TAG_PART = "part"; //$NON-NLS-1$
 
     public static final String TAG_PART_NAME = "partName"; //$NON-NLS-1$
+
+	public static final String TAG_PROPERTIES = "properties"; //$NON-NLS-1$
+	
+    public static final String TAG_PROPERTY = "property"; //$NON-NLS-1$
 
     public static final String TAG_RELATIVE = "relative"; //$NON-NLS-1$
 
@@ -210,6 +222,14 @@ public interface IWorkbenchConstants {
 
     public static final String TAG_FAST_VIEWS = "fastViews"; //$NON-NLS-1$
 
+    public static final String TAG_FAST_VIEW_BAR = "fastViewBar"; //$NON-NLS-1$
+
+    public static final String TAG_FAST_VIEW_BARS = "fastViewBars"; //$NON-NLS-1$
+
+    public static final String TAG_GLOBAL_FAST_VIEWS = "globalFastViews"; //$NON-NLS-1$
+
+    public static final String TAG_FAST_GROUPS = "fastGroups"; //$NON-NLS-1$
+
     public static final String TAG_FIXED = "fixed";//$NON-NLS-1$
 
     public static final String TAG_CLOSEABLE = "closeable";//$NON-NLS-1$
@@ -299,6 +319,10 @@ public interface IWorkbenchConstants {
     public static final String TAG_FAST_VIEW_DATA = "fastViewData"; //$NON-NLS-1$
 
     public static final String TAG_FAST_VIEW_ORIENTATION = "orientation"; //$NON-NLS-1$
+
+    public static final String TAG_FAST_VIEW_SEL_ID = "selectedTabId"; //$NON-NLS-1$
+
+    public static final String TAG_FAST_VIEW_STYLE = "style"; //$NON-NLS-1$
 
     public static final String TAG_THEME = "theme";//$NON-NLS-1$	
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2005 IBM Corporation and others.
+ * Copyright (c) 2000, 2006 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,8 +11,7 @@
 package org.eclipse.ui;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.swt.events.TypedEvent;
-
+import org.eclipse.swt.widgets.Event;
 
 /**
  * Interface extension to <code>IActionDelegate</code> adding lifecycle methods.
@@ -68,5 +67,5 @@ public interface IActionDelegate2 extends IActionDelegate {
      * @param event the SWT event which triggered this action being run
      * @since 2.0
      */
-    public void runWithEvent(IAction action, TypedEvent event);
+    public void runWithEvent(IAction action, Event event);
 }

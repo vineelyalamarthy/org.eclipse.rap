@@ -17,28 +17,25 @@ import org.eclipse.swt.externalbrowser.ExternalBrowser;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.browser.AbstractWebBrowser;
 
-
 public final class DefaultWebBrowser extends AbstractWebBrowser {
 
-  private final DefaultWorkbenchBrowserSupport support;
-  private final int style;
+	private final DefaultWorkbenchBrowserSupport support;
+	private final int style;
 
-  public DefaultWebBrowser( final DefaultWorkbenchBrowserSupport support, 
-                            final String id,
-                            final int style )
-  {
-    super( id );
-    this.support = support;
-    this.style = style;
-  }
+	public DefaultWebBrowser(final DefaultWorkbenchBrowserSupport support,
+			final String id, final int style) {
+		super(id);
+		this.support = support;
+		this.style = style;
+	}
 
-  public void openURL( final URL url ) throws PartInitException {
-    ExternalBrowser.open( getId(), url.toExternalForm(), style );
-  }
+	public void openURL(final URL url) throws PartInitException {
+		ExternalBrowser.open(getId(), url.toExternalForm(), style);
+	}
 
-  public boolean close() {
-    ExternalBrowser.close( getId() );
-    support.unregisterBrowser( this );
-    return true;
-  }
+	public boolean close() {
+		ExternalBrowser.close(getId());
+		support.unregisterBrowser(this);
+		return true;
+	}
 }

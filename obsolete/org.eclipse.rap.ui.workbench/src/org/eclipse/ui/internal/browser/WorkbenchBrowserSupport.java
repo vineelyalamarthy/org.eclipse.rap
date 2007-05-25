@@ -17,16 +17,16 @@ import com.w4t.SessionSingletonBase;
 
 public class WorkbenchBrowserSupport extends SessionSingletonBase {
 
-  /* (intentionally non-JavaDoc'ed)
-   * Returns the default implementation since the browserSupport extension point
-   * is not implemented (yet).
-   */
+	/*
+	 * (intentionally non-JavaDoc'ed) Returns the default implementation since
+	 * the browserSupport extension point is not implemented (yet).
+	 */
 	public static IWorkbenchBrowserSupport getInstance() {
-		Object result = getInstance( DefaultWorkbenchBrowserSupport.class );
-    return ( IWorkbenchBrowserSupport )result;
+		Object result = getInstance(DefaultWorkbenchBrowserSupport.class);
+		return (IWorkbenchBrowserSupport) result;
 	}
 
 	private WorkbenchBrowserSupport() {
-	  // prevent instantiation
+		// prevent instantiation
 	}
 }

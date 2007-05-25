@@ -43,16 +43,16 @@ public class PerspectiveListenerList extends EventManager {
      * @param description
      */
     private void fireEvent(SafeRunnable runnable, IPerspectiveListener listener, IPerspectiveDescriptor perspective, String description) {
-        String label = null;//for debugging
-//        if (UIStats.isDebugging(UIStats.NOTIFY_PERSPECTIVE_LISTENERS)) {
-//            label = description + perspective.getId();
-//            UIStats.start(UIStats.NOTIFY_PERSPECTIVE_LISTENERS, label);
-//        }
-        Platform.run(runnable);
-//        if (UIStats.isDebugging(UIStats.NOTIFY_PERSPECTIVE_LISTENERS)) {
-//            UIStats.end(UIStats.NOTIFY_PERSPECTIVE_LISTENERS, listener, label);
-//        }
-    }
+//    	String label = null;//for debugging
+//    	if (UIStats.isDebugging(UIStats.NOTIFY_PERSPECTIVE_LISTENERS)) {
+//    		label = description + perspective.getId();
+//    		UIStats.start(UIStats.NOTIFY_PERSPECTIVE_LISTENERS, label);
+//    	}
+    	Platform.run(runnable);
+//    	if (UIStats.isDebugging(UIStats.NOTIFY_PERSPECTIVE_LISTENERS)) {
+//			UIStats.end(UIStats.NOTIFY_PERSPECTIVE_LISTENERS, listener, label);
+//		}
+	}
 
     /**
      * Notifies the listener that a perspective has been activated.
@@ -75,40 +75,40 @@ public class PerspectiveListenerList extends EventManager {
      * 
      * @since 3.2
      */
-//    public void firePerspectivePreDeactivate(final IWorkbenchPage page,
-//            final IPerspectiveDescriptor perspective) {
-//        Object[] array = getListeners();
-//        for (int nX = 0; nX < array.length; nX++) {
-//            if (array[nX] instanceof IPerspectiveListener4) {
-//                final IPerspectiveListener4 l4 = (IPerspectiveListener4) array[nX];
-//                fireEvent(new SafeRunnable() {
-//                    public void run() {
-//                        l4.perspectivePreDeactivate(page, perspective);
-//                    }
-//                }, l4, perspective, "pre-deactivate::"); //$NON-NLS-1$
-//            }
-//        }
-//    }
+    public void firePerspectivePreDeactivate(final IWorkbenchPage page,
+            final IPerspectiveDescriptor perspective) {
+        Object[] array = getListeners();
+        for (int nX = 0; nX < array.length; nX++) {
+            if (array[nX] instanceof IPerspectiveListener4) {
+                final IPerspectiveListener4 l4 = (IPerspectiveListener4) array[nX];
+                fireEvent(new SafeRunnable() {
+                    public void run() {
+                        l4.perspectivePreDeactivate(page, perspective);
+                    }
+                }, l4, perspective, "pre-deactivate::"); //$NON-NLS-1$
+            }
+        }
+    }
 
     /**
      * Notifies the listener that a perspective has been deactivated.
      * 
      * @since 3.1
      */
-//    public void firePerspectiveDeactivated(final IWorkbenchPage page,
-//            final IPerspectiveDescriptor perspective) {
-//        Object[] array = getListeners();
-//        for (int nX = 0; nX < array.length; nX++) {
-//            if (array[nX] instanceof IPerspectiveListener3) {
-//                final IPerspectiveListener3 l3 = (IPerspectiveListener3) array[nX];
-//                fireEvent(new SafeRunnable() {
-//                    public void run() {
-//                        l3.perspectiveDeactivated(page, perspective);
-//                    }
-//                }, l3, perspective, "deactivated::"); //$NON-NLS-1$
-//            }
-//        }
-//    }
+    public void firePerspectiveDeactivated(final IWorkbenchPage page,
+            final IPerspectiveDescriptor perspective) {
+        Object[] array = getListeners();
+        for (int nX = 0; nX < array.length; nX++) {
+            if (array[nX] instanceof IPerspectiveListener3) {
+                final IPerspectiveListener3 l3 = (IPerspectiveListener3) array[nX];
+                fireEvent(new SafeRunnable() {
+                    public void run() {
+                        l3.perspectiveDeactivated(page, perspective);
+                    }
+                }, l3, perspective, "deactivated::"); //$NON-NLS-1$
+            }
+        }
+    }
 
     /**
      * Notifies the listener that a perspective has been changed.
@@ -132,83 +132,83 @@ public class PerspectiveListenerList extends EventManager {
      * 
      * @since 3.0
      */
-//    public void firePerspectiveChanged(final IWorkbenchPage page,
-//            final IPerspectiveDescriptor perspective,
-//            final IWorkbenchPartReference partRef, final String changeId) {
-//        Object[] array = getListeners();
-//        for (int nX = 0; nX < array.length; nX++) {
-//            if (array[nX] instanceof IPerspectiveListener2) {
-//                final IPerspectiveListener2 l2 = (IPerspectiveListener2) array[nX];
-//                fireEvent(new SafeRunnable() {
-//                    public void run() {
-//                        l2.perspectiveChanged(page, perspective, partRef,
-//                                changeId);
-//                    }
-//                }, l2, perspective, "changed::"); //$NON-NLS-1$
-//            }
-//        }
-//    }
+    public void firePerspectiveChanged(final IWorkbenchPage page,
+            final IPerspectiveDescriptor perspective,
+            final IWorkbenchPartReference partRef, final String changeId) {
+        Object[] array = getListeners();
+        for (int nX = 0; nX < array.length; nX++) {
+            if (array[nX] instanceof IPerspectiveListener2) {
+                final IPerspectiveListener2 l2 = (IPerspectiveListener2) array[nX];
+                fireEvent(new SafeRunnable() {
+                    public void run() {
+                        l2.perspectiveChanged(page, perspective, partRef,
+                                changeId);
+                    }
+                }, l2, perspective, "changed::"); //$NON-NLS-1$
+            }
+        }
+    }
 
     /**
      * Notifies the listener that a perspective has been closed.
      * 
      * @since 3.1
      */
-//    public void firePerspectiveClosed(final IWorkbenchPage page,
-//            final IPerspectiveDescriptor perspective) {
-//        Object[] array = getListeners();
-//        for (int nX = 0; nX < array.length; nX++) {
-//            if (array[nX] instanceof IPerspectiveListener3) {
-//                final IPerspectiveListener3 l3 = (IPerspectiveListener3) array[nX];
-//                fireEvent(new SafeRunnable() {
-//                    public void run() {
-//                        l3.perspectiveClosed(page, perspective);
-//                    }
-//                }, l3, perspective, "closed::"); //$NON-NLS-1$
-//            }
-//        }
-//    }
+    public void firePerspectiveClosed(final IWorkbenchPage page,
+            final IPerspectiveDescriptor perspective) {
+        Object[] array = getListeners();
+        for (int nX = 0; nX < array.length; nX++) {
+            if (array[nX] instanceof IPerspectiveListener3) {
+                final IPerspectiveListener3 l3 = (IPerspectiveListener3) array[nX];
+                fireEvent(new SafeRunnable() {
+                    public void run() {
+                        l3.perspectiveClosed(page, perspective);
+                    }
+                }, l3, perspective, "closed::"); //$NON-NLS-1$
+            }
+        }
+    }
 
     /**
      * Notifies the listener that a perspective has been opened.
      * 
      * @since 3.1
      */
-//    public void firePerspectiveOpened(final IWorkbenchPage page,
-//            final IPerspectiveDescriptor perspective) {
-//        Object[] array = getListeners();
-//        for (int nX = 0; nX < array.length; nX++) {
-//            if (array[nX] instanceof IPerspectiveListener3) {
-//                final IPerspectiveListener3 l3 = (IPerspectiveListener3) array[nX];
-//                fireEvent(new SafeRunnable() {
-//                    public void run() {
-//                        l3.perspectiveOpened(page, perspective);
-//                    }
-//                }, l3, perspective, "opened::"); //$NON-NLS-1$
-//            }
-//        }
-//    }
+    public void firePerspectiveOpened(final IWorkbenchPage page,
+            final IPerspectiveDescriptor perspective) {
+        Object[] array = getListeners();
+        for (int nX = 0; nX < array.length; nX++) {
+            if (array[nX] instanceof IPerspectiveListener3) {
+                final IPerspectiveListener3 l3 = (IPerspectiveListener3) array[nX];
+                fireEvent(new SafeRunnable() {
+                    public void run() {
+                        l3.perspectiveOpened(page, perspective);
+                    }
+                }, l3, perspective, "opened::"); //$NON-NLS-1$
+            }
+        }
+    }
     
     /**
      * Notifies the listener that a perspective has been deactivated.
      * 
      * @since 3.1
      */
-//    public void firePerspectiveSavedAs(final IWorkbenchPage page,
-//            final IPerspectiveDescriptor oldPerspective,
-//            final IPerspectiveDescriptor newPerspective) {
-//        Object[] array = getListeners();
-//        for (int nX = 0; nX < array.length; nX++) {
-//            if (array[nX] instanceof IPerspectiveListener3) {
-//                final IPerspectiveListener3 l3 = (IPerspectiveListener3) array[nX];
-//                fireEvent(new SafeRunnable() {
-//                    public void run() {
-//                        l3.perspectiveSavedAs(page, oldPerspective, newPerspective);
-//                    }
-//                }, l3, newPerspective, "saveAs::"); //$NON-NLS-1$
-//            }
-//        }
-//    }
+    public void firePerspectiveSavedAs(final IWorkbenchPage page,
+            final IPerspectiveDescriptor oldPerspective,
+            final IPerspectiveDescriptor newPerspective) {
+        Object[] array = getListeners();
+        for (int nX = 0; nX < array.length; nX++) {
+            if (array[nX] instanceof IPerspectiveListener3) {
+                final IPerspectiveListener3 l3 = (IPerspectiveListener3) array[nX];
+                fireEvent(new SafeRunnable() {
+                    public void run() {
+                        l3.perspectiveSavedAs(page, oldPerspective, newPerspective);
+                    }
+                }, l3, newPerspective, "saveAs::"); //$NON-NLS-1$
+            }
+        }
+    }
 
     /**
      * Removes an IPerspectiveListener from the perspective service.

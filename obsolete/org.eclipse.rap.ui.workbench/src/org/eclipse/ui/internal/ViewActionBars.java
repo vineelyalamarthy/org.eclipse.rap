@@ -14,7 +14,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.SubActionBars;
-
+import org.eclipse.ui.services.IServiceLocator;
 
 /**
  * An editor container manages the services for an editor.
@@ -25,17 +25,11 @@ public class ViewActionBars extends SubActionBars {
 	/**
 	 * ViewActionBars constructor comment.
 	 */
-//	public ViewActionBars(IActionBars parent,
-//			final IServiceLocator serviceLocator, ViewPane pane) {
-//		super(parent, serviceLocator);
-//		this.pane = pane;
-//	}
-
-  // TODO [rh] work around missing IServiceLocator
-  public ViewActionBars( final IActionBars parent, final ViewPane pane ) {
-    super( parent );
-    this.pane = pane;
-  }
+	public ViewActionBars(IActionBars parent,
+			final IServiceLocator serviceLocator, ViewPane pane) {
+		super(parent, serviceLocator);
+		this.pane = pane;
+	}
 
 	/**
 	 * Returns the menu manager. If items are added or removed from the manager
@@ -63,7 +57,7 @@ public class ViewActionBars extends SubActionBars {
 	 */
 	public void updateActionBars() {
 		pane.updateActionBars();
-//		getStatusLineManager().update(false);
+		getStatusLineManager().update(false);
 		fireActionHandlersChanged();
 	}
 }

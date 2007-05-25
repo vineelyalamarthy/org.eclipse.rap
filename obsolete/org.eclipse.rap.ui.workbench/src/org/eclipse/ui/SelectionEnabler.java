@@ -12,9 +12,16 @@ package org.eclipse.ui;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
-import org.eclipse.core.runtime.*;
-import org.eclipse.jface.viewers.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.actions.SimpleWildcardTester;
 import org.eclipse.ui.internal.ActionExpression;
 import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
@@ -480,8 +487,7 @@ public final class SelectionEnabler {
 			if (sc.nameFilter == null) {
 				return true;
 			}
-			IWorkbenchAdapter de = (IWorkbenchAdapter) element
-					.getAdapter(IWorkbenchAdapter.class);
+			IWorkbenchAdapter de = (IWorkbenchAdapter) Util.getAdapter(element, IWorkbenchAdapter.class);
 			if ((de != null)
 					&& verifyNameMatch(de.getLabel(element), sc.nameFilter)) {
 				return true;

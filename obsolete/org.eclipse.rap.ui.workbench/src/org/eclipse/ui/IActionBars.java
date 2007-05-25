@@ -10,9 +10,8 @@
  *******************************************************************************/
 package org.eclipse.ui;
 
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
-
+import org.eclipse.jface.action.*;
+import org.eclipse.ui.services.IServiceLocator;
 
 /**
  * Used by a part to access its menu, toolbar, and status line managers.  
@@ -61,7 +60,7 @@ public interface IActionBars {
      * can be propagated throughout the workbench.
      * </p>
      */
-//    public void clearGlobalActionHandlers();
+    public void clearGlobalActionHandlers();
 
     /**
      * Returns the global action handler for the action with the given id.  
@@ -72,7 +71,7 @@ public interface IActionBars {
      * @see IWorkbenchActionConstants
      * @see #setGlobalActionHandler(String, IAction)
      */
-//    public IAction getGlobalActionHandler(String actionId);
+    public IAction getGlobalActionHandler(String actionId);
 
     /**
      * Returns the menu manager.
@@ -93,7 +92,7 @@ public interface IActionBars {
 	 * @return The service locator; never <code>null</code>.
 	 * @since 3.2
 	 */
-//	public IServiceLocator getServiceLocator();
+	public IServiceLocator getServiceLocator();
 
     /**
 	 * Returns the status line manager.
@@ -105,7 +104,7 @@ public interface IActionBars {
 	 * 
 	 * @return the status line manager
 	 */
-//    public IStatusLineManager getStatusLineManager();
+    public IStatusLineManager getStatusLineManager();
 
     /**
      * Returns the tool bar manager.
@@ -132,7 +131,7 @@ public interface IActionBars {
      *	<code>null</code> to clear any existing handler
      * @see IWorkbenchActionConstants
      */
-//    public void setGlobalActionHandler(String actionId, IAction handler);
+    public void setGlobalActionHandler(String actionId, IAction handler);
 
     /**
      * Updates the action bars.

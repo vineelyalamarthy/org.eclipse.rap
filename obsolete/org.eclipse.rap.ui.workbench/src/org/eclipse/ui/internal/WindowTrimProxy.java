@@ -1,10 +1,14 @@
 /*******************************************************************************
- * Copyright (c) 2005, 2006 IBM Corporation and others. All rights reserved.
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html Contributors:
- * IBM Corporation - initial API and implementation
- ******************************************************************************/
+ * Copyright (c) 2005, 2006 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.ui.internal;
 
 import org.eclipse.swt.SWT;
@@ -20,158 +24,159 @@ import org.eclipse.ui.internal.layout.IWindowTrim;
  */
 public class WindowTrimProxy implements IWindowTrim {
 
-  private Control fTrimControl;
-  private String fId;
-  private String fDisplayName;
-  private int fValidSides;
-  private boolean fIsResizeable = false;
-  private int fWidthHint = SWT.DEFAULT;
-  private int fHeightHint = SWT.DEFAULT;
+	private Control fTrimControl;
 
-  /**
-   * Create the trim proxy for a control.
-   * 
-   * @param c the trim control
-   * @param id an ID that it's known by
-   * @param displayName the NLS name, for use in created menus
-   * @param validSides bitwise or of valid sides
-   * @see #getValidSides()
-   */
-  public WindowTrimProxy( Control c,
-                          String id,
-                          String displayName,
-                          int validSides )
-  {
-    fTrimControl = c;
-    fId = id;
-    fDisplayName = displayName;
-    fValidSides = validSides;
-  }
+	private String fId;
 
-  /**
-   * Create a trim proxy for a control.
-   * 
-   * @param c
-   * @param id
-   * @param displayName
-   * @param validSides
-   * @param resizeable
-   */
-  public WindowTrimProxy( Control c,
-                          String id,
-                          String displayName,
-                          int validSides,
-                          boolean resizeable )
-  {
-    this( c, id, displayName, validSides );
-    fIsResizeable = resizeable;
-  }
+	private String fDisplayName;
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.internal.IWindowTrim#getControl()
-   */
-  public Control getControl() {
-    return fTrimControl;
-  }
+	private int fValidSides;
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.internal.IWindowTrim#getValidSides()
-   */
-  public int getValidSides() {
-    return fValidSides;
-  }
+	private boolean fIsResizeable = false;
+	
+	private int fWidthHint = SWT.DEFAULT;
+	
+	private int fHeightHint = SWT.DEFAULT;
 
-  /**
-   * The default for a proxied window trim is to do nothing, as it can't be
-   * moved around.
-   * 
-   * @see org.eclipse.ui.internal.layout.IWindowTrim#dock(int)
-   */
-  public void dock( int dropSide ) {
-  }
+	/**
+	 * Create the trim proxy for a control.
+	 * 
+	 * @param c
+	 *            the trim control
+	 * @param id
+	 *            an ID that it's known by
+	 * @param displayName
+	 *            the NLS name, for use in created menus
+	 * @param validSides
+	 *            bitwise or of valid sides
+	 * @see #getValidSides()
+	 */
+	public WindowTrimProxy(Control c, String id, String displayName,
+			int validSides) {
+		fTrimControl = c;
+		fId = id;
+		fDisplayName = displayName;
+		fValidSides = validSides;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.internal.IWindowTrim#getId()
-   */
-  public String getId() {
-    return fId;
-  }
+	/**
+	 * Create a trim proxy for a control.
+	 * 
+	 * @param c
+	 * @param id
+	 * @param displayName
+	 * @param validSides
+	 * @param resizeable
+	 */
+	public WindowTrimProxy(Control c, String id, String displayName,
+			int validSides, boolean resizeable) {
+		this(c, id, displayName, validSides);
+		fIsResizeable = resizeable;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.internal.IWindowTrim#getDisplayName()
-   */
-  public String getDisplayName() {
-    return fDisplayName;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.internal.IWindowTrim#getControl()
+	 */
+	public Control getControl() {
+		return fTrimControl;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.internal.IWindowTrim#isCloseable()
-   */
-  public boolean isCloseable() {
-    return false;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.internal.IWindowTrim#getValidSides()
+	 */
+	public int getValidSides() {
+		return fValidSides;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.internal.IWindowTrim#handleClose()
-   */
-  public void handleClose() {
-    // nothing to do...
-  }
+	/**
+	 * The default for a proxied window trim is to do nothing, as it can't be
+	 * moved around.
+	 * 
+	 * @see org.eclipse.ui.internal.layout.IWindowTrim#dock(int)
+	 */
+	public void dock(int dropSide) {
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.IWindowTrim#getWidthHint()
-   */
-  public int getWidthHint() {
-    return fWidthHint;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.internal.IWindowTrim#getId()
+	 */
+	public String getId() {
+		return fId;
+	}
 
-  /**
-   * Update the width hint for this control.
-   * 
-   * @param w pixels, or SWT.DEFAULT
-   */
-  public void setWidthHint( int w ) {
-    fWidthHint = w;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.internal.IWindowTrim#getDisplayName()
+	 */
+	public String getDisplayName() {
+		return fDisplayName;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.IWindowTrim#getHeightHint()
-   */
-  public int getHeightHint() {
-    return fHeightHint;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.internal.IWindowTrim#isCloseable()
+	 */
+	public boolean isCloseable() {
+		return false;
+	}
 
-  /**
-   * Update the height hint for this control.
-   * 
-   * @param h pixels, or SWT.DEFAULT
-   */
-  public void setHeightHint( int h ) {
-    fHeightHint = h;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.internal.IWindowTrim#handleClose()
+	 */
+	public void handleClose() {
+		// nothing to do...
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.IWindowTrim#isResizeable()
-   */
-  public boolean isResizeable() {
-    return fIsResizeable;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWindowTrim#getWidthHint()
+	 */
+	public int getWidthHint() {
+		return fWidthHint;
+	}
+	
+	/**
+	 * Update the width hint for this control.
+	 * @param w pixels, or SWT.DEFAULT
+	 */
+	public void setWidthHint(int w) {
+		fWidthHint = w;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWindowTrim#getHeightHint()
+	 */
+	public int getHeightHint() {
+		return fHeightHint;
+	}
+	
+	/**
+	 * Update the height hint for this control.
+	 * @param h pixels, or SWT.DEFAULT
+	 */
+	public void setHeightHint(int h) {
+		fHeightHint = h;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWindowTrim#isResizeable()
+	 */
+	public boolean isResizeable() {
+		return fIsResizeable;
+	}
 }

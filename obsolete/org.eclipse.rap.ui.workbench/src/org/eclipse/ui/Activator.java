@@ -13,6 +13,7 @@ package org.eclipse.ui;
 
 import java.text.MessageFormat;
 import org.eclipse.core.runtime.*;
+import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.misc.StatusUtil;
 import org.osgi.framework.BundleContext;
 

@@ -10,7 +10,14 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.presentations.util;
 
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.internal.IWorkbenchConstants;
 import org.eclipse.ui.presentations.IPresentablePart;
+import org.eclipse.ui.presentations.IPresentationSerializer;
 
 /**
  * @since 3.0
@@ -79,37 +86,37 @@ public class LeftToRightTabOrder extends TabOrder {
      * @param serializer (not null)
      * @param savedState (not null)
      */
-//    public void restoreState(IPresentationSerializer serializer,
-//            IMemento savedState) {
-//        IMemento[] parts = savedState.getChildren(IWorkbenchConstants.TAG_PART);
-//
-//        for (int idx = 0; idx < parts.length; idx++) {
-//            String id = parts[idx].getString(IWorkbenchConstants.TAG_ID);
-//
-//            if (id != null) {
-//                IPresentablePart part = serializer.getPart(id);
-//
-//                if (part != null) {
-//                    addInitial(part);
-//                }
-//            }
-//        }
-//    }
+    public void restoreState(IPresentationSerializer serializer,
+            IMemento savedState) {
+        IMemento[] parts = savedState.getChildren(IWorkbenchConstants.TAG_PART);
+
+        for (int idx = 0; idx < parts.length; idx++) {
+            String id = parts[idx].getString(IWorkbenchConstants.TAG_ID);
+
+            if (id != null) {
+                IPresentablePart part = serializer.getPart(id);
+
+                if (part != null) {
+                    addInitial(part);
+                }
+            }
+        }
+    }
 
     /* (non-Javadoc)
      * @see org.eclipse.ui.presentations.StackPresentation#saveState(org.eclipse.ui.presentations.IPresentationSerializer, org.eclipse.ui.IMemento)
      */
-//    public void saveState(IPresentationSerializer context, IMemento memento) {
-//
-//        List parts = Arrays.asList(list.getPartList());
-//
-//        Iterator iter = parts.iterator();
-//        while (iter.hasNext()) {
-//            IPresentablePart next = (IPresentablePart) iter.next();
-//
-//            IMemento childMem = memento
-//                    .createChild(IWorkbenchConstants.TAG_PART);
-//            childMem.putString(IWorkbenchConstants.TAG_ID, context.getId(next));
-//        }
-//    }
+    public void saveState(IPresentationSerializer context, IMemento memento) {
+
+        List parts = Arrays.asList(list.getPartList());
+
+        Iterator iter = parts.iterator();
+        while (iter.hasNext()) {
+            IPresentablePart next = (IPresentablePart) iter.next();
+
+            IMemento childMem = memento
+                    .createChild(IWorkbenchConstants.TAG_PART);
+            childMem.putString(IWorkbenchConstants.TAG_ID, context.getId(next));
+        }
+    }
 }

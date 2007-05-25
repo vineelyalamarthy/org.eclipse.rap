@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2006 IBM Corporation and others.
+ * Copyright (c) 2000, 2007 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,10 +10,15 @@
  *******************************************************************************/
 package org.eclipse.ui;
 
+import java.util.*;
+
 import org.eclipse.core.commands.common.EventManager;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.ui.handlers.IHandlerActivation;
+import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.services.IServiceLocator;
 
 /**
  * Generic implementation of the <code>IActionBars</code> interface.
@@ -42,16 +47,16 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 */
 	public static final String P_ACTION_HANDLERS = "org.eclipse.ui.internal.actionHandlers"; //$NON-NLS-1$
 
-//	private Map actionHandlers;
+	private Map actionHandlers;
 
 	private boolean actionHandlersChanged;
 
-//	/**
-//	 * A map of handler activations ({@link IHandlerActivation} indexed by
-//	 * action id ({@link String}) indexed by service locator ({@link IServiceLocator}).
-//	 * This value is <code>null</code> if there are no activations.
-//	 */
-//	private Map activationsByActionIdByServiceLocator;
+	/**
+	 * A map of handler activations ({@link IHandlerActivation} indexed by
+	 * action id ({@link String}) indexed by service locator ({@link IServiceLocator}).
+	 * This value is <code>null</code> if there are no activations.
+	 */
+	private Map activationsByActionIdByServiceLocator;
 
 	private boolean active = false;
 
@@ -59,16 +64,18 @@ public class SubActionBars extends EventManager implements IActionBars {
 
 	private IActionBars parent;
 
-//	/**
-//	 * A service locator appropriate for this action bar. This value is never
-//	 * <code>null</code>. It must be capable of providing a
-//	 * {@link IHandlerService}.
-//	 */
-//	private IServiceLocator serviceLocator;
+	/**
+	 * A service locator appropriate for this action bar. This value is never
+	 * <code>null</code>. It must be capable of providing a
+	 * {@link IHandlerService}.
+	 */
+	private IServiceLocator serviceLocator;
 
-//	private SubStatusLineManager statusLineMgr;
+	private SubStatusLineManager statusLineMgr;
 
 	private SubToolBarManager toolBarMgr;
+
+	private Map actionIdByCommandId = new HashMap();
 
 	/**
 	 * Construct a new <code>SubActionBars</code> object. The service locator
@@ -77,16 +84,9 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 * @param parent
 	 *            The parent of this action bar; must not be <code>null</code>.
 	 */
-  // TODO [rh] work around missing IServiceLocator
-//	public SubActionBars(final IActionBars parent) {
-//		this(parent, null);
-//	}
-	public SubActionBars( final IActionBars parent ) {
-    if( parent == null ) {
-      throw new NullPointerException( "The parent cannot be null" ); //$NON-NLS-1$
-    }
-    this.parent = parent;
-  }
+	public SubActionBars(final IActionBars parent) {
+		this(parent, null);
+	}
 
 	/**
 	 * Constructs a new instance of <code>SubActionBars</code>.
@@ -99,16 +99,15 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 *            
 	 * @since 3.2
 	 */
-  // TODO [rh] work around missing IServiceLocator
-//	public SubActionBars(final IActionBars parent,
-//			final IServiceLocator serviceLocator) {
-//		if (parent == null) {
-//			throw new NullPointerException("The parent cannot be null"); //$NON-NLS-1$
-//		}
-//
-//		this.parent = parent;
-//		this.serviceLocator = serviceLocator;
-//	}
+	public SubActionBars(final IActionBars parent,
+			final IServiceLocator serviceLocator) {
+		if (parent == null) {
+			throw new NullPointerException("The parent cannot be null"); //$NON-NLS-1$
+		}
+
+		this.parent = parent;
+		this.serviceLocator = serviceLocator;
+	}
 
 	/**
 	 * Activate the contributions.
@@ -152,35 +151,35 @@ public class SubActionBars extends EventManager implements IActionBars {
 	/**
 	 * Clear the global action handlers.
 	 */
-//	public void clearGlobalActionHandlers() {
-//		if (actionHandlers != null) {
-//			actionHandlers.clear();
-//			actionHandlersChanged = true;
-//		}
-//
-//		if (activationsByActionIdByServiceLocator != null) {
-//			// Clean up the activations.
-//			final Iterator activationItr = activationsByActionIdByServiceLocator
-//					.entrySet().iterator();
-//			while (activationItr.hasNext()) {
-//				final Map.Entry value = (Map.Entry) activationItr.next();
-//				final IServiceLocator locator = (IServiceLocator) value
-//						.getKey();
-//				final IHandlerService service = (IHandlerService) locator
-//						.getService(IHandlerService.class);
-//				final Map activationsByActionId = (Map) value.getValue();
-//				final Iterator iterator = activationsByActionId.values()
-//						.iterator();
-//				while (iterator.hasNext()) {
-//					final IHandlerActivation activation = (IHandlerActivation) iterator
-//							.next();
-//					service.deactivateHandler(activation);
-//					activation.getHandler().dispose();
-//				}
-//			}
-//			activationsByActionIdByServiceLocator.clear();
-//		}
-//	}
+	public void clearGlobalActionHandlers() {
+		if (actionHandlers != null) {
+			actionHandlers.clear();
+			actionHandlersChanged = true;
+		}
+
+		if (activationsByActionIdByServiceLocator != null) {
+			// Clean up the activations.
+			final Iterator activationItr = activationsByActionIdByServiceLocator
+					.entrySet().iterator();
+			while (activationItr.hasNext()) {
+				final Map.Entry value = (Map.Entry) activationItr.next();
+				final IServiceLocator locator = (IServiceLocator) value
+						.getKey();
+				final IHandlerService service = (IHandlerService) locator
+						.getService(IHandlerService.class);
+				final Map activationsByActionId = (Map) value.getValue();
+				final Iterator iterator = activationsByActionId.values()
+						.iterator();
+				while (iterator.hasNext()) {
+					final IHandlerActivation activation = (IHandlerActivation) iterator
+							.next();
+					service.deactivateHandler(activation);
+					activation.getHandler().dispose();
+				}
+			}
+			activationsByActionIdByServiceLocator.clear();
+		}
+	}
 
 	/**
 	 * Returns a new sub menu manager.
@@ -228,14 +227,14 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 * Dispose the contributions.
 	 */
 	public void dispose() {
-//		clearGlobalActionHandlers();
+		clearGlobalActionHandlers();
 		if (menuMgr != null) {
 			menuMgr.dispose();
 			menuMgr.disposeManager();
 		}
-//		if (statusLineMgr != null) {
-//			statusLineMgr.disposeManager();
-//		}
+		if (statusLineMgr != null) {
+			statusLineMgr.disposeManager();
+		}
 		if (toolBarMgr != null) {
 			toolBarMgr.disposeManager();
 		}
@@ -286,20 +285,20 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 * @return an action handler which implements the action ID, or
 	 *         <code>null</code> if none is registered.
 	 */
-//	public IAction getGlobalActionHandler(String actionID) {
-//		if (actionHandlers == null) {
-//			return null;
-//		}
-//		return (IAction) actionHandlers.get(actionID);
-//	}
+	public IAction getGlobalActionHandler(String actionID) {
+		if (actionHandlers == null) {
+			return null;
+		}
+		return (IAction) actionHandlers.get(actionID);
+	}
 
 	/**
 	 * Returns the complete list of active global action handlers. If there are
 	 * no global action handlers registered return null.
 	 */
-//	public Map getGlobalActionHandlers() {
-//		return actionHandlers;
-//	}
+	public Map getGlobalActionHandlers() {
+		return actionHandlers;
+	}
 
 	/**
 	 * Returns the abstract menu manager. If items are added or removed from the
@@ -330,13 +329,13 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 *     
 	 * @since 3.2
 	 */
-//	public final IServiceLocator getServiceLocator() {
-//		if (serviceLocator != null) {
-//			return serviceLocator;
-//		}
-//
-//		return parent.getServiceLocator();
-//	}
+	public final IServiceLocator getServiceLocator() {
+		if (serviceLocator != null) {
+			return serviceLocator;
+		}
+
+		return parent.getServiceLocator();
+	}
 
 	/**
 	 * Returns the status line manager. If items are added or removed from the
@@ -344,14 +343,14 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 * 
 	 * @return the status line manager
 	 */
-//	public IStatusLineManager getStatusLineManager() {
-//		if (statusLineMgr == null) {
-//			statusLineMgr = new SubStatusLineManager(parent
-//					.getStatusLineManager());
-//			statusLineMgr.setVisible(active);
-//		}
-//		return statusLineMgr;
-//	}
+	public IStatusLineManager getStatusLineManager() {
+		if (statusLineMgr == null) {
+			statusLineMgr = new SubStatusLineManager(parent
+					.getStatusLineManager());
+			statusLineMgr.setVisible(active);
+		}
+		return statusLineMgr;
+	}
 
 	/**
 	 * Returns the tool bar manager. If items are added or removed from the
@@ -378,8 +377,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 * Return whether the sub status line manager has been created yet.
 	 */
 	protected final boolean isSubStatusLineManagerCreated() {
-//		return statusLineMgr != null;
-    return false;
+		return statusLineMgr != null;
 	}
 
 	/**
@@ -415,9 +413,9 @@ public class SubActionBars extends EventManager implements IActionBars {
 			menuMgr.setVisible(set);
 		}
 
-//		if (statusLineMgr != null) {
-//			statusLineMgr.setVisible(set);
-//		}
+		if (statusLineMgr != null) {
+			statusLineMgr.setVisible(set);
+		}
 
 		if (toolBarMgr != null) {
 			toolBarMgr.setVisible(set);
@@ -433,15 +431,29 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 *            an action which implements the action ID. <code>null</code>
 	 *            may be passed to deregister a handler.
 	 */
-//	public void setGlobalActionHandler(String actionID, IAction handler) {
+	public void setGlobalActionHandler(String actionID, IAction handler) {
 //		if (actionID == null) {
 //			/*
 //			 * Bug 124061. It used to be invalid to pass null as an action id,
 //			 * but some people still did it. Handle this case by trapping the
 //			 * exception and logging it.
 //			 */
+//			WorkbenchPlugin
+//					.log("Cannot set the global action handler for a null action id"); //$NON-NLS-1$
+//			return;
+//		}
+//		
+////		if (handler instanceof CommandLegacyActionWrapper) {
+////        	// this is a registration of a fake action for an already
+////			// registered handler
 ////			WorkbenchPlugin
-////					.log("Cannot set the global action handler for a null action id"); //$NON-NLS-1$
+////					.log("Cannot feed a CommandLegacyActionWrapper back into the system"); //$NON-NLS-1$
+////			return;
+////		}
+//		
+//		if (handler instanceof CommandAction) {
+//			// we unfortunately had to allow these out into the wild, but they
+//			// still must not feed back into the system
 //			return;
 //		}
 //		
@@ -479,6 +491,16 @@ public class SubActionBars extends EventManager implements IActionBars {
 //								.remove(actionID);
 //						if (value instanceof IHandlerActivation) {
 //							final IHandlerActivation activation = (IHandlerActivation) value;
+//							actionIdByCommandId.remove(activation.getCommandId());
+//							service.deactivateHandler(activation);
+//							activation.getHandler().dispose();
+//						}
+//					} else if (commandId != null
+//							&& actionIdByCommandId.containsKey(commandId)) {
+//						final Object value = activationsByActionId
+//								.remove(actionIdByCommandId.remove(commandId));
+//						if (value instanceof IHandlerActivation) {
+//							final IHandlerActivation activation = (IHandlerActivation) value;
 //							service.deactivateHandler(activation);
 //							activation.getHandler().dispose();
 //						}
@@ -486,6 +508,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 //				}
 //
 //				if (commandId != null) {
+//					actionIdByCommandId.put(commandId, actionID);
 //					// Register this as a handler with the given definition id.
 //					// the expression gives the setGlobalActionHandler() a
 //					// priority.
@@ -520,6 +543,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 //								.remove(actionID);
 //						if (value instanceof IHandlerActivation) {
 //							final IHandlerActivation activation = (IHandlerActivation) value;
+//							actionIdByCommandId.remove(activation.getCommandId());
 //							service.deactivateHandler(activation);
 //							activation.getHandler().dispose();
 //						}
@@ -528,7 +552,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 //			}
 //		}
 //		actionHandlersChanged = true;
-//	}
+	}
 
 	/**
 	 * Sets the service locator for this action bar.
@@ -538,12 +562,12 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 *            
 	 * @since 3.2
 	 */
-//	protected final void setServiceLocator(final IServiceLocator locator) {
-//		if (locator == null) {
-//			throw new NullPointerException("The service locator cannot be null"); //$NON-NLS-1$
-//		}
-//		this.serviceLocator = locator;
-//	}
+	protected final void setServiceLocator(final IServiceLocator locator) {
+		if (locator == null) {
+			throw new NullPointerException("The service locator cannot be null"); //$NON-NLS-1$
+		}
+		this.serviceLocator = locator;
+	}
 
 	/**
 	 * Commits all UI changes. This should be called after additions or

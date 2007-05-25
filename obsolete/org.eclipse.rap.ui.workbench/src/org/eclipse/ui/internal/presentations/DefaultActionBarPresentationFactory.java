@@ -1,14 +1,22 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2006 IBM Corporation and others. All rights reserved.
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html Contributors:
- * IBM Corporation - initial API and implementation
- ******************************************************************************/
+ * Copyright (c) 2000, 2006 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.ui.internal.presentations;
 
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.internal.provisional.action.*;
+import org.eclipse.jface.internal.provisional.action.CoolBarManager2;
+import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
+import org.eclipse.jface.internal.provisional.action.IToolBarContributionItem;
+import org.eclipse.jface.internal.provisional.action.IToolBarManager2;
+import org.eclipse.jface.internal.provisional.action.ToolBarContributionItem2;
+import org.eclipse.jface.internal.provisional.action.ToolBarManager2;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.internal.provisional.presentations.IActionBarPresentationFactory;
 
@@ -24,46 +32,34 @@ import org.eclipse.ui.internal.provisional.presentations.IActionBarPresentationF
  * 
  * @since 3.2
  */
-public class DefaultActionBarPresentationFactory
-  implements IActionBarPresentationFactory
-{
+public class DefaultActionBarPresentationFactory implements IActionBarPresentationFactory {
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.internal.presentations.IActionBarPresentationFactory#createCoolBarManager()
-   */
-  public ICoolBarManager2 createCoolBarManager() {
-    return new CoolBarManager2( SWT.FLAT );
-  }
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.internal.presentations.IActionBarPresentationFactory#createCoolBarManager()
+	 */
+	public ICoolBarManager2 createCoolBarManager() {
+		return new CoolBarManager2(SWT.FLAT);
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.internal.presentations.IActionBarPresentationFactory#createToolBarManager()
-   */
-  public IToolBarManager2 createToolBarManager() {
-    return new ToolBarManager2( SWT.FLAT | SWT.RIGHT );
-  }
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.internal.presentations.IActionBarPresentationFactory#createToolBarManager()
+	 */
+	public IToolBarManager2 createToolBarManager() {
+		return new ToolBarManager2(SWT.FLAT | SWT.RIGHT);
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.internal.presentations.IActionBarPresentationFactory#createViewToolBarManager()
-   */
-  public IToolBarManager2 createViewToolBarManager() {
-    return new ToolBarManager2( SWT.FLAT | SWT.RIGHT | SWT.WRAP );
-  }
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.internal.presentations.IActionBarPresentationFactory#createViewToolBarManager()
+	 */
+	public IToolBarManager2 createViewToolBarManager() {
+		return new ToolBarManager2(SWT.FLAT | SWT.RIGHT | SWT.WRAP);
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.eclipse.ui.internal.presentations.IActionBarPresentationFactory#createToolBarContributionItem(org.eclipse.jface.action.IToolBarManager,
-   *      java.lang.String)
-   */
-  public IToolBarContributionItem createToolBarContributionItem( IToolBarManager toolBarManager,
-                                                                 String id )
-  {
-    return new ToolBarContributionItem2( toolBarManager, id );
-  }
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.internal.presentations.IActionBarPresentationFactory#createToolBarContributionItem(org.eclipse.jface.action.IToolBarManager, java.lang.String)
+	 */
+	public IToolBarContributionItem createToolBarContributionItem(
+			IToolBarManager toolBarManager, String id) {
+		return new ToolBarContributionItem2(toolBarManager, id);
+	}
 }

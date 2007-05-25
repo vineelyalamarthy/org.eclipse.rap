@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.resources.IResourceManagerFactory;
 import org.eclipse.ui.Activator;
+import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.*;
@@ -125,7 +126,8 @@ final class ResourceManagerFactory implements IResourceManagerFactory {
       String contextRoot = W4TContext.getWebAppBase();
       IPath path = new Path( name ).removeLastSegments( 1 );
       IPath location = new Path( contextRoot ).append( path );
-      BundleContext context = Activator.getDefault().getContext();
+//      BundleContext context = Activator.getDefault().getContext();
+      BundleContext context = WorkbenchPlugin.getDefault().getBundleContext();
       String serviceName = HttpService.class.getName();
       ServiceReference reference = context.getServiceReference( serviceName );
       HttpService httpService = ( HttpService )context.getService( reference );

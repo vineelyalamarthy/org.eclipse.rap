@@ -220,10 +220,10 @@ public/*final*/class WorkbenchImages {
         declareImage(IWorkbenchGraphicConstants.IMG_DTOOL_NEW_FASTVIEW,
                 PATH_DTOOL + "new_fastview.gif", true); //$NON-NLS-1$
 
-//        declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_RESTORE_TRIMPART,
-//                PATH_ETOOL + "fastview_restore.gif", true); //$NON-NLS-1$
-//        declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_EDITOR_TRIMPART,
-//                PATH_ETOOL + "editor_area.gif", true); //$NON-NLS-1$
+        declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_RESTORE_TRIMPART,
+                PATH_ETOOL + "fastview_restore.gif", true); //$NON-NLS-1$
+        declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_EDITOR_TRIMPART,
+                PATH_ETOOL + "editor_area.gif", true); //$NON-NLS-1$
         
         declareImage(ISharedImages.IMG_TOOL_FORWARD, PATH_ELOCALTOOL
                 + "forward_nav.gif", true); //$NON-NLS-1$
@@ -292,13 +292,13 @@ public/*final*/class WorkbenchImages {
         declareImage(IWorkbenchGraphicConstants.IMG_OBJ_WORKING_SETS, 
      		   PATH_OBJECT + "workingsets.gif", true); //$NON-NLS-1$
         
-//        declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SEPARATOR, 
-//      		   PATH_OBJECT + "separator.gif", true); //$NON-NLS-1$
-//
-//        declareImage(IWorkbenchGraphicConstants.IMG_OBJ_NODE,
-//        		PATH_OBJECT + "generic_elements.gif", true); //$NON-NLS-1$
-//        declareImage(IWorkbenchGraphicConstants.IMG_OBJ_ELEMENT,
-//        		PATH_OBJECT + "generic_element.gif", true); //$NON-NLS-1$
+        declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SEPARATOR, 
+      		   PATH_OBJECT + "separator.gif", true); //$NON-NLS-1$
+
+        declareImage(IWorkbenchGraphicConstants.IMG_OBJ_NODE,
+        		PATH_OBJECT + "generic_elements.gif", true); //$NON-NLS-1$
+        declareImage(IWorkbenchGraphicConstants.IMG_OBJ_ELEMENT,
+        		PATH_OBJECT + "generic_element.gif", true); //$NON-NLS-1$
         
         declareImage(ISharedImages.IMG_OBJ_FILE,
                 PATH_OBJECT + "file_obj.gif", true); //$NON-NLS-1$
@@ -377,12 +377,12 @@ public/*final*/class WorkbenchImages {
                 PATH_POINTER + "tofastview_mask.bmp", true); //$NON-NLS-1$
         
         // signed jar images
-//		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_YES, PATH_OBJECT
-//				+ "signed_yes.gif", true); //$NON-NLS-1$
-//		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_NO, PATH_OBJECT
-//				+ "signed_no.gif", true); //$NON-NLS-1$
-//		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_UNKNOWN,
-//				PATH_OBJECT + "signed_unknown.gif", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_YES, PATH_OBJECT
+				+ "signed_yes.gif", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_NO, PATH_OBJECT
+				+ "signed_no.gif", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_UNKNOWN,
+				PATH_OBJECT + "signed_unknown.gif", true); //$NON-NLS-1$
         
         // Manually create the view menu
         
@@ -403,10 +403,11 @@ public/*final*/class WorkbenchImages {
 //        Image vm2 = new Image(d, viewMenu.getImageData(), viewMenuMask.getImageData());
 //        viewMenu.dispose();
 //        viewMenuMask.dispose();
-                
+//                
 //        getImageRegistry().put(IWorkbenchGraphicConstants.IMG_LCL_RENDERED_VIEW_MENU, vm2);
-        declareImage(IWorkbenchGraphicConstants.IMG_LCL_RENDERED_VIEW_MENU,
-        		PATH_EVIEW + "view_menu.gif", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_RENDERED_VIEW_MENU,
+				PATH_EVIEW + "view_menu.gif", true); //$NON-NLS-1$
+        
     }
 
     /**

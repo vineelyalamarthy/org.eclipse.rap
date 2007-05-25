@@ -14,31 +14,15 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 
-import com.w4t.SessionSingletonBase;
-
 /**
  * Common images used by the workbench which may be useful to other plug-ins.
  */
 public class SharedImages implements ISharedImages {
-    
-	private static SharedImages instance;
-	
-	private SharedImages() {
-	}
-
-	public static SharedImages getInstance() {
-		if( instance == null ) {
-			instance = new SharedImages();
-		}
-		return instance;
-	}
-	
-	
-	/**
-	 * Retrieves the specified image from the workbench plugin's image registry.
-	 * 
-	 * @see ISharedImages
-	 */
+    /**
+     * Retrieves the specified image from the workbench plugin's image registry.
+     *
+     * @see ISharedImages
+     */
     public Image getImage(String symbolicName) {
         Image image = WorkbenchImages.getImage(symbolicName);
         if (image != null) {

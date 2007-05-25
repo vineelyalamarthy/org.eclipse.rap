@@ -10,8 +10,9 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.presentations.util;
 
-//import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.presentations.IPresentablePart;
+import org.eclipse.ui.presentations.IPresentationSerializer;
 
 /**
  * @since 3.0
@@ -32,11 +33,11 @@ public abstract class TabOrder {
      */
     public abstract void addInitial(IPresentablePart newPart);
 
-//    public abstract void restoreState(IPresentationSerializer serializer,
-//            IMemento savedState);
-//    
-//    public abstract void saveState(IPresentationSerializer serializer, IMemento memento);
-//    
+    public abstract void restoreState(IPresentationSerializer serializer,
+            IMemento savedState);
+    
+    public abstract void saveState(IPresentationSerializer serializer, IMemento memento);
+    
     /**
      * Adds a part at a particular index due to a drag/drop operation. 
      * 

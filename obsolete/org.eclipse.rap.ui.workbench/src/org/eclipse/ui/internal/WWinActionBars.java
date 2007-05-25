@@ -11,8 +11,13 @@
 package org.eclipse.ui.internal;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.jface.action.*;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.ICoolBarManager;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IStatusLineManager;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.ui.IActionBars2;
+import org.eclipse.ui.services.IServiceLocator;
 
 public class WWinActionBars implements IActionBars2 {
     private WorkbenchWindow window;
@@ -60,9 +65,9 @@ public class WWinActionBars implements IActionBars2 {
         return window.getMenuManager();
     }
 
-//	public final IServiceLocator getServiceLocator() {
-//		return window;
-//	}
+	public final IServiceLocator getServiceLocator() {
+		return window;
+	}
 
     /**
      * Returns the status line manager.  If items are added or
@@ -70,9 +75,9 @@ public class WWinActionBars implements IActionBars2 {
      *
      * @return the status line manager
      */
-//    public IStatusLineManager getStatusLineManager() {
-//        return window.getStatusLineManager();
-//    }
+    public IStatusLineManager getStatusLineManager() {
+        return window.getStatusLineManager();
+    }
 
     /**
      * Returns the tool bar manager.

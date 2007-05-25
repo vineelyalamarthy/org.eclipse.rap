@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2005 IBM Corporation and others.
+ * Copyright (c) 2000, 2007 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,13 @@ package org.eclipse.ui.internal;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.ui.*;
+import org.eclipse.ui.IPluginContribution;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.internal.registry.ViewDescriptor;
 import org.eclipse.ui.views.IViewDescriptor;
 
 /**
@@ -32,9 +38,8 @@ public class ShowViewAction extends Action implements IPluginContribution {
         super(""); //$NON-NLS-1$
         
         // TODO: is this wart still needed? 
-//        String accel = desc instanceof ViewDescriptor ? ((ViewDescriptor) desc)
-//				.getAccelerator() : null;
-        String accel = null;
+        String accel = desc instanceof ViewDescriptor ? ((ViewDescriptor) desc)
+				.getAccelerator() : null;
         String label = desc.getLabel();
         setText(accel == null ? label : label + "@" + accel); //$NON-NLS-1$
         setImageDescriptor(desc.getImageDescriptor());
@@ -53,25 +58,30 @@ public class ShowViewAction extends Action implements IPluginContribution {
         IWorkbenchPage page = window.getActivePage();
         if (page != null) {
             try {
-//                if (makeFast) {
-//                    WorkbenchPage wp = (WorkbenchPage) page;
-//                    
-//                    IViewReference ref = wp.findViewReference(desc.getId());
-//                    
-//                    if (ref == null) {
-//                        IViewPart part = page.showView(desc.getId(), null, IWorkbenchPage.VIEW_CREATE);
-//                        ref = (IViewReference)wp.getReference(part); 
-//                    }
-//                    
+                if (makeFast) {
+                    WorkbenchPage wp = (WorkbenchPage) page;
+                    
+                    IViewReference ref = wp.findViewReference(desc.getId());
+                    
+                    if (ref == null) {
+                        IViewPart part = page.showView(desc.getId(), null, IWorkbenchPage.VIEW_CREATE);
+                        ref = (IViewReference)wp.getReference(part); 
+                    }
+                    
 //                    if (!wp.isFastView(ref)) {
-//                        wp.addFastView(ref);
+//                        if (!wp.isFastView(ref)) {
+//                        	Perspective persp = wp.getActivePerspective();
+//                        	if (persp != null) {
+//                        		persp.getFastViewManager().addViewReference(FastViewBar.FASTVIEWBAR_ID, -1, ref, true);
+//                        	}
+//                        }
 //                    }
-//                    wp.activate(ref.getPart(true));
-//                } else {
+                    wp.activate(ref.getPart(true));
+                } else {
                     page.showView(desc.getId());
-//                }
+                }
             } catch (PartInitException e) {
-                ErrorDialog.openError(window.getShell(), "Show view error", // WorkbenchMessages.ShowView_errorTitle,
+                ErrorDialog.openError(window.getShell(), WorkbenchMessages.ShowView_errorTitle,
                         e.getMessage(), e.getStatus(), null);
             }
         }

@@ -30,7 +30,16 @@
       id="org.eclipse.ui.viewActions" 
       name="viewActions"
       schema="schema/viewAction.exsd"/>
-      
+  <extension-point
+  	  id="org.eclipse.ui.handlers"
+  	  name="Handlers"
+  	  schema="schema/handlers.exsd"/>
+  <extension-point
+  	  id="org.eclipse.ui.commands"
+  	  name="Commands"
+  	  schema="schema/commands.exsd"/>
+  <extension-point id="org.eclipse.ui.perspectiveExtensions" name="perspectiveExtensions" schema="schema/perspectiveExtensions.exsd"/>
+  
   <extension
       id="org.eclipse.ui.requestHandler"
       point="org.eclipse.equinox.http.registry.servlets">
@@ -69,4 +78,34 @@
      <listener class="org.eclipse.swt.internal.lifecycle.CurrentPhase$Listener"/>
   </extension>
   
+  <extension
+        point="org.eclipse.ui.handlers">
+	<handler
+            class="org.eclipse.ui.handlers.ShowViewHandler"
+            commandId="org.eclipse.ui.window.showViewMenu">
+         <enabledWhen>
+            <with
+                  variable="activePart">
+               <instanceof
+                     value="org.eclipse.ui.IViewPart">
+               </instanceof>
+            </with>
+         </enabledWhen>
+      </handler>
+  </extension>
+  
+  <extension
+  		point="org.eclipse.ui.commands">
+      <command
+      		name="Show View"
+      		description="Shows a particular view"
+      		categoryId="org.eclipse.ui.category.views"
+      		id="org.eclipse.ui.views.showView"
+      		defaultHandler="org.eclipse.ui.handlers.ShowViewHandler">
+      		<commandParameter
+      			id="org.eclipse.ui.views.showView.viewId"
+      			name="View"
+      			values="org.eclipse.ui.internal.registry.ViewParameterValues" />
+      </command>
+  </extension>
 </plugin>
