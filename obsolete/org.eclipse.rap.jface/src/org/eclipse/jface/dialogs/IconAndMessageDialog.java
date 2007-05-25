@@ -251,7 +251,7 @@ public abstract class IconAndMessageDialog extends Dialog {
 	 */
 	private Image getSWTImage(final int imageID) {
 		Shell shell = getShell();
-		final Device display;
+		final Display display;
 		if (shell == null) {
 			shell = getParentShell();
 		}
