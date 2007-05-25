@@ -963,7 +963,8 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			topBar.setLeft(coolbarCacheWrapper.getControl());
 		}
 
-		createStatusLine(shell);
+		// TODO: removed statusline until size bug is fixed
+//		createStatusLine(shell);
 
 //		fastViewBar = new FastViewBar(this);
 //		fastViewBar.createControl(shell);
@@ -3420,15 +3421,16 @@ public class WorkbenchWindow extends ApplicationWindow implements
 //			}
 //		}
 
-		if (getStatusLineVisible() && getWindowConfigurer().getShowStatusLine()) {
-			if (defaultLayout.getTrim(getStatusLineTrim().getId()) == null) {
-				defaultLayout.addTrim(SWT.BOTTOM, getStatusLineTrim());
-			}
-			getStatusLineManager().getControl().setVisible(true);
-		} else {
-			defaultLayout.removeTrim(getStatusLineTrim());
-			getStatusLineManager().getControl().setVisible(false);
-		}
+		//TODO removed statusline until size bug is fixed
+//		if (getStatusLineVisible() && getWindowConfigurer().getShowStatusLine()) {
+//			if (defaultLayout.getTrim(getStatusLineTrim().getId()) == null) {
+//				defaultLayout.addTrim(SWT.BOTTOM, getStatusLineTrim());
+//			}
+//			getStatusLineManager().getControl().setVisible(true);
+//		} else {
+//			defaultLayout.removeTrim(getStatusLineTrim());
+//			getStatusLineManager().getControl().setVisible(false);
+//		}
 
 //		if (heapStatus != null) {
 //			if (getShowHeapStatus()) {
