@@ -137,7 +137,7 @@ class IndexTemplate implements IIndexTemplate {
     ClassLoader buffer = manager.getContextLoader();
     manager.setContextLoader( SWT.class.getClassLoader() );
     try {
-      manager.register( "org/eclipse/swt/widgets/display/bg.gif" );
+      manager.register( "resource/widget/rap/display/bg.gif" );
     } finally {
       manager.setContextLoader( buffer );
     }
