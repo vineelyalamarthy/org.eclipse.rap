@@ -16,6 +16,7 @@ import org.eclipse.jface.resource.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
@@ -292,6 +293,20 @@ import org.eclipse.swt.widgets.*;
         layout.marginHeight = 0;
         layout.marginWidth = 0;
         fProgressBarComposite.setLayout(layout);
+        
+        ////////////////////////////////////////////////////////////////////////
+        // TODO [fappel]: replace this with valid progress bar...
+        Label progressBarFake = new Label( fProgressBarComposite, SWT.NONE ) {
+          public Point computeSize( int hint, int hint2, boolean changed ) {
+            Point original = super.computeSize( hint, hint2, changed );
+            return new Point( original.x, 10 );
+          }
+        };
+        progressBarFake.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+                | GridData.GRAB_VERTICAL));
+        ////////////////////////////////////////////////////////////////////////
+        
+        
 //        fProgressBar = new ProgressIndicator(fProgressBarComposite);
 //        fProgressBar.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 //                | GridData.GRAB_VERTICAL));
