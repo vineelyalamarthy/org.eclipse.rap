@@ -993,7 +993,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @see IWorkbenchWindow#getExtensionTracker()
 	 * @since 3.1
 	 */
-//	public IExtensionTracker getExtensionTracker();
+	public IExtensionTracker getExtensionTracker();
 
 	/**
 	 * Return the visible working sets for this page. Please note that this

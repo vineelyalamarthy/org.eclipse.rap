@@ -16,7 +16,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.core.runtime.dynamichelpers.*;
+import org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler;
+import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
@@ -30,8 +31,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.misc.UIListenerLogging;
-import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
-import org.eclipse.ui.internal.registry.PerspectiveDescriptor;
+import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.util.Util;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.ui.presentations.IStackPresentationSite;
@@ -4593,12 +4593,12 @@ public class WorkbenchPage implements
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchPage#getExtensionTracker()
 	 */
-//	public IExtensionTracker getExtensionTracker() {
-//		if (tracker == null) {
-//			tracker = new UIExtensionTracker(getWorkbenchWindow().getWorkbench().getDisplay());
-//		}
-//		return tracker;		
-//	}
+	public IExtensionTracker getExtensionTracker() {
+		if (tracker == null) {
+			tracker = new UIExtensionTracker(getWorkbenchWindow().getWorkbench().getDisplay());
+		}
+		return tracker;		
+	}
 
     /*
      * (non-Javadoc)

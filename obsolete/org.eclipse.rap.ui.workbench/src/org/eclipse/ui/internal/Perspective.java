@@ -16,7 +16,6 @@ import java.util.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.Geometry;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -26,8 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.misc.StatusUtil;
-import org.eclipse.ui.internal.registry.PerspectiveDescriptor;
-import org.eclipse.ui.internal.registry.PerspectiveRegistry;
+import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.presentations.IStackPresentationSite;
 
 /**
@@ -725,9 +723,8 @@ public class Perspective {
 
         // Run layout engine.
         factory.createInitialLayout(layout);
-        // TODO perspective extensions
-//        PerspectiveExtensionReader extender = new PerspectiveExtensionReader();
-//        extender.extendLayout(page.getExtensionTracker(), descriptor.getId(), layout);
+        PerspectiveExtensionReader extender = new PerspectiveExtensionReader();
+        extender.extendLayout(page.getExtensionTracker(), descriptor.getId(), layout);
 
         // Retrieve view layout info stored in the page layout.
         mapIDtoViewLayoutRec.putAll(layout.getIDtoViewLayoutRecMap());
