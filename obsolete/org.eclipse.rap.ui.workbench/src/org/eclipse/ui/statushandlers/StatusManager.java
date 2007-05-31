@@ -21,6 +21,8 @@ import org.eclipse.ui.internal.WorkbenchErrorHandlerProxy;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.misc.StatusUtil;
 
+import com.w4t.SessionSingletonBase;
+
 /**
  * <p>
  * Status manager is responsible for handling statuses.
@@ -72,7 +74,7 @@ import org.eclipse.ui.internal.misc.StatusUtil;
  * 
  * @since 3.3
  */
-public class StatusManager {
+public class StatusManager extends SessionSingletonBase {
 	/**
 	 * A style indicating that the status should not be acted on. This is used
 	 * by objects such as log listeners that do not want to report a status
@@ -99,7 +101,7 @@ public class StatusManager {
 	 */
 	public static final int BLOCK = 0x04;
 
-	private static StatusManager MANAGER;
+//	private static StatusManager MANAGER;
 
 	private AbstractStatusHandler workbenchHandler;
 
@@ -111,10 +113,7 @@ public class StatusManager {
 	 * @return StatusManager instance
 	 */
 	public static StatusManager getManager() {
-		if (MANAGER == null) {
-			MANAGER = new StatusManager();
-		}
-		return MANAGER;
+		return ( StatusManager ) getInstance( StatusManager.class );
 	}
 
 	private StatusManager() {

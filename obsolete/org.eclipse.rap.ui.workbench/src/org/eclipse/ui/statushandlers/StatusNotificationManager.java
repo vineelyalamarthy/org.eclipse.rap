@@ -19,20 +19,22 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 
+import com.w4t.SessionSingletonBase;
+
 /**
  * The StatusNotificationManager is the class that manages the display of status
  * information.
  */
-public class StatusNotificationManager {
+public class StatusNotificationManager extends SessionSingletonBase {
 
 	private Collection errors = Collections.synchronizedSet(new HashSet());
 
-//	private StatusDialog dialog;
-	private ErrorDialog dialog;
+	private StatusDialog dialog;
+//	private ErrorDialog dialog;
 
 	private boolean dialogOpened = false;
 
-	private static StatusNotificationManager sharedInstance;
+//	private static StatusNotificationManager sharedInstance;
 
 	private DisposeListener disposeListener = new DisposeListener() {
 		/*
@@ -53,10 +55,11 @@ public class StatusNotificationManager {
 	 * @return the shared instance
 	 */
 	public static StatusNotificationManager getInstance() {
-		if (sharedInstance == null) {
-			sharedInstance = new StatusNotificationManager();
-		}
-		return sharedInstance;
+//		if (sharedInstance == null) {
+//			sharedInstance = new StatusNotificationManager();
+//		}
+//		return sharedInstance;
+		return ( StatusNotificationManager )getInstance( StatusNotificationManager.class );
 	}
 
 	/**
