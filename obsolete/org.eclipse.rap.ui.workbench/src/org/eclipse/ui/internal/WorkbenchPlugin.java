@@ -820,17 +820,17 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
         // The UI plugin needs to be initialized so that it can install the callback in PrefUtil,
         // which needs to be done as early as possible, before the workbench
         // accesses any API preferences.
-        Bundle uiBundle = Platform.getBundle(PlatformUI.PLUGIN_ID);
-        try {
-            // Attempt to load the activator of the ui bundle.  This will force lazy start
-            // of the ui bundle.  Using the bundle activator class here because it is a
-            // class that needs to be loaded anyway so it should not cause extra classes
-            // to be loaded.
-        	if(uiBundle != null)
-        		uiBundle.loadClass(UI_BUNDLE_ACTIVATOR);
-        } catch (ClassNotFoundException e) {
-            WorkbenchPlugin.log("Unable to load UI activator", e); //$NON-NLS-1$
-        }
+//        Bundle uiBundle = Platform.getBundle(PlatformUI.PLUGIN_ID);
+//        try {
+//            // Attempt to load the activator of the ui bundle.  This will force lazy start
+//            // of the ui bundle.  Using the bundle activator class here because it is a
+//            // class that needs to be loaded anyway so it should not cause extra classes
+//            // to be loaded.
+//        	if(uiBundle != null)
+//        		uiBundle.loadClass(UI_BUNDLE_ACTIVATOR);
+//        } catch (ClassNotFoundException e) {
+//            WorkbenchPlugin.log("Unable to load UI activator", e); //$NON-NLS-1$
+//        }
 		/*
 		 * DO NOT RUN ANY OTHER CODE AFTER THIS LINE.  If you do, then you are
 		 * likely to cause a deadlock in class loader code.  Please see Bug 86450
