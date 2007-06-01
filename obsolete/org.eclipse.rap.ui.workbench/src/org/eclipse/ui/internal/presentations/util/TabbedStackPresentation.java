@@ -331,11 +331,13 @@ public final class TabbedStackPresentation extends StackPresentation {
 	        } else {
 	            if (cookie == null) {
 	                tabs.add(newPart);
-//	            } else {
+	            } else {
+	            	// XXX: workaround for missing dragBehavior
 //	                int insertionPoint = dragBehavior
 //	                        .getInsertionPosition(cookie);
-//	
-//	                tabs.insert(newPart, insertionPoint);
+	            	int insertionPoint = Math.min(folder.getTabFolder().getItemCount(), 
+	                        Integer.parseInt(cookie.toString()));
+	                tabs.insert(newPart, insertionPoint);
 	            }
 	        }
         } finally {
