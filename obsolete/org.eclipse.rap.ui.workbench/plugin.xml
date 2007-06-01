@@ -39,7 +39,7 @@
   	  name="Commands"
   	  schema="schema/commands.exsd"/>
   <extension-point
-  	  id="org.eclipse.ui.perspectiveExtensions"
+      id="org.eclipse.ui.perspectiveExtensions"
   	  name="perspectiveExtensions"
   	  schema="schema/perspectiveExtensions.exsd"/>
   <extension-point
@@ -49,7 +49,11 @@
   <extension-point
   	  id="org.eclipse.ui.actionSetPartAssociations"
   	  name="actionSetPartAssociations"
-  	  schema="schema/actionSetPartAssociations.exsd"/>
+  	  schema="schema/actionSetPartAssociations.exsd"/>  	  
+  <extension-point
+      id="org.eclipse.rap.swt.themes"
+      name="SWTThemes"
+      schema="schema/swtThemes.exsd"/>
   
   <extension
       id="org.eclipse.ui.requestHandler"

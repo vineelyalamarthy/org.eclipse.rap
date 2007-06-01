@@ -13,11 +13,13 @@ package org.eclipse.ui.internal.servlet;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.swt.internal.engine.*;
 import org.eclipse.swt.internal.lifecycle.*;
+import org.eclipse.swt.internal.theme.ThemeManager;
 import org.eclipse.swt.resources.IResource;
 import org.eclipse.swt.resources.ResourceManager;
 import org.eclipse.ui.Activator;
@@ -51,6 +53,9 @@ final class EngineConfigWrapper implements IEngineConfig {
   //  extension point id for entry point registration
   private static final String ID_ENTRY_POINT
     = "org.eclipse.rap.ui.workbench.entrypoint";
+  //  extension point id for entry point registration
+  private static final String ID_SWT_THEMES
+    = "org.eclipse.rap.swt.themes";
   //  extension point id for phase listener registration
   private static final String ID_PHASE_LISTENER
     = "org.eclipse.rap.ui.workbench.phaselistener";
@@ -67,6 +72,7 @@ final class EngineConfigWrapper implements IEngineConfig {
     registerRWTLifeCycle();
     registerResourceManagerFactory();
     registerWorkbenchEntryPoint();
+    registerSWTThemes();
     registerFactories();
     registerResources();
     registerIndexTemplate();
@@ -177,6 +183,45 @@ final class EngineConfigWrapper implements IEngineConfig {
                                     msg, 
                                     thr );
 //        Activator.getDefault().getLog().log( status );  
+        WorkbenchPlugin.getDefault().getLog().log( status );
+      }
+    }
+  }
+  
+  private static void registerSWTThemes() {
+    ThemeManager.getInstance().initialize();
+    IExtensionRegistry registry = Platform.getExtensionRegistry();
+    IExtensionPoint point = registry.getExtensionPoint( ID_SWT_THEMES );
+    IConfigurationElement[] elements = point.getConfigurationElements();
+    for( int i = 0; i < elements.length; i++ ) {
+      String contributorName = elements[ i ].getContributor().getName();
+      String themeId = elements[ i ].getAttribute( "id" );
+      String themeFile = elements[ i ].getAttribute( "file" );
+      String themeName = elements[ i ].getAttribute( "name" );
+      String asDefaultStr = elements[ i ].getAttribute( "default" );
+      boolean asDefault = Boolean.valueOf( asDefaultStr ).booleanValue();
+      try {
+        Bundle bundle = Platform.getBundle( contributorName );
+        URL url = bundle.getResource( themeFile );
+        InputStream inStream = url.openStream();
+        if( inStream != null ) {
+          try {
+            ThemeManager manager = ThemeManager.getInstance();
+            manager.registerTheme( themeId, themeName, inStream, asDefault );
+          } finally {
+            inStream.close();
+          }
+        }
+      } catch( final Throwable thr ) {
+        String text =   "Could not register SWT theme ''{0}'' "
+          + "from file ''{1}''.";
+        Object[] param = new Object[] { themeId, themeFile };
+        String msg = MessageFormat.format( text, param );
+        Status status = new Status( IStatus.ERROR, 
+                                    contributorName, 
+                                    IStatus.OK, 
+                                    msg,
+                                    thr );
         WorkbenchPlugin.getDefault().getLog().log( status );
       }
     }
