@@ -499,9 +499,11 @@ public class ActionContributionItem extends ContributionItem {
 							Menu m = mc.getMenu(ti.getParent());
 							if (m != null) {
 								// position the menu below the drop down item
-								Rectangle b = ti.getBounds();
-								Point p = ti.getParent().toDisplay(
-										new Point(b.x, b.y + b.height));
+//								Rectangle b = ti.getBounds();
+//								Point p = ti.getParent().toDisplay(
+//										new Point(b.x, b.y + b.height));
+								// TODO: remove hack when toDisplay is fixed
+								Point p = new Point(e.x, e.y);
 								m.setLocation(p.x, p.y); // waiting for SWT
 															// 0.42
 								m.setVisible(true);
