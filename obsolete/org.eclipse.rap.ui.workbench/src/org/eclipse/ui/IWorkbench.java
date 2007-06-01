@@ -12,12 +12,10 @@ package org.eclipse.ui;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
-import org.eclipse.jface.operation.IRunnableContext;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.PreferenceManager;
-import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.ui.views.IViewRegistry;
 
@@ -539,7 +537,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * @see IWorkbenchPage#getExtensionTracker()
 	 * @since 3.1
 	 */
-//	public IExtensionTracker getExtensionTracker();
+	public IExtensionTracker getExtensionTracker();
 
 	/**
 	 * Returns the view registry for the workbench.

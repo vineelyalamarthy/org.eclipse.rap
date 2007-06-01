@@ -23,6 +23,8 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.presentations.PresentationFactoryUtil;
+import org.eclipse.ui.internal.registry.ActionSetRegistry;
+import org.eclipse.ui.internal.registry.IActionSetDescriptor;
 import org.eclipse.ui.views.IViewDescriptor;
 import org.eclipse.ui.views.IViewRegistry;
 
@@ -633,17 +635,16 @@ public class PageLayout implements IPageLayout {
         addEditorArea();
 
         // Add default action sets.
-        // TODO [bm] action sets
-//        ActionSetRegistry reg = WorkbenchPlugin.getDefault()
-//                .getActionSetRegistry();
-//        IActionSetDescriptor[] array = reg.getActionSets();
-//        int count = array.length;
-//        for (int nX = 0; nX < count; nX++) {
-//            IActionSetDescriptor desc = array[nX];
-//            if (desc.isInitiallyVisible()) {
-//				addActionSet(desc.getId());
-//			}
-//        }
+        ActionSetRegistry reg = WorkbenchPlugin.getDefault()
+                .getActionSetRegistry();
+        IActionSetDescriptor[] array = reg.getActionSets();
+        int count = array.length;
+        for (int nX = 0; nX < count; nX++) {
+            IActionSetDescriptor desc = array[nX];
+            if (desc.isInitiallyVisible()) {
+				addActionSet(desc.getId());
+			}
+        }
     }
 
     /* (non-Javadoc)

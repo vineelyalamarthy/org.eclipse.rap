@@ -13,12 +13,7 @@ package org.eclipse.ui.internal;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IPluginContribution;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -262,8 +257,8 @@ public class ActionDescriptor implements IPluginContribution {
             actionStyle = IAction.AS_DROP_DOWN_MENU;
             return new WWinPluginPulldown(actionElement,
                     (IWorkbenchWindow) target, id, actionStyle);
-//        case T_POPUP:
-//            return new ObjectPluginAction(actionElement, id, actionStyle);
+        case T_POPUP:
+            return new ObjectPluginAction(actionElement, id, actionStyle);
         default:
             WorkbenchPlugin.log("Unknown Action Type: " + targetType);//$NON-NLS-1$
             return null;

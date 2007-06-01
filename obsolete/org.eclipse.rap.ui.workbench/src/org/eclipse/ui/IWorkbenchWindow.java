@@ -219,5 +219,5 @@ public interface IWorkbenchWindow extends IPageService, IRunnableContext,
 	 * @see IWorkbenchPage#getExtensionTracker()
 	 * @since 3.1
 	 */
-//    public IExtensionTracker getExtensionTracker();
+    public IExtensionTracker getExtensionTracker();
 }

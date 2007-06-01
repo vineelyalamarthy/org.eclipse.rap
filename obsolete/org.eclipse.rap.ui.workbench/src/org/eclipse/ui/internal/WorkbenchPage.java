@@ -16,8 +16,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler;
-import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
+import org.eclipse.core.runtime.dynamichelpers.*;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
@@ -71,7 +70,7 @@ public class WorkbenchPage implements
 
     private IActionBars actionBars;
     
-//    private ActionSetManager actionSets;
+    private ActionSetManager actionSets;
     
     private ViewFactory viewFactory;
 
@@ -276,17 +275,17 @@ public class WorkbenchPage implements
                 activateContributions(newPart, true);
             }
 
-//            ArrayList newActionSets = null;
-//            if (isNewPartAnEditor
-//                    || (activePart == topEditor && newPart == null)) {
-//				newActionSets = calculateActionSets(newPart, null);
-//			} else {
-//				newActionSets = calculateActionSets(newPart, topEditor);
-//			}
+            ArrayList newActionSets = null;
+            if (isNewPartAnEditor
+                    || (activePart == topEditor && newPart == null)) {
+				newActionSets = calculateActionSets(newPart, null);
+			} else {
+				newActionSets = calculateActionSets(newPart, topEditor);
+			}
 
-//            if (!updateActionSets(newActionSets)) {
-//				updateActionBars();
-//			}
+            if (!updateActionSets(newActionSets)) {
+				updateActionBars();
+			}
 
             if (isNewPartAnEditor) {
                 topEditor = (IEditorPart) newPart;
@@ -339,10 +338,10 @@ public class WorkbenchPage implements
 				activateContributions(newEditor, false);
 			}
 
-//            ArrayList newActionSets = calculateActionSets(activePart, newEditor);
-//            if (!updateActionSets(newActionSets)) {
-//				updateActionBars();
-//			}
+            ArrayList newActionSets = calculateActionSets(activePart, newEditor);
+            if (!updateActionSets(newActionSets)) {
+				updateActionBars();
+			}
 
             topEditor = newEditor;
         }
@@ -389,27 +388,27 @@ public class WorkbenchPage implements
          *            the active part
          * @return the new action sets
          */
-//        private ArrayList calculateActionSets(IWorkbenchPart part,
-//                IEditorPart editor) {
-//            ArrayList newActionSets = new ArrayList();
-//            if (part != null) {
-//                IActionSetDescriptor[] partActionSets = WorkbenchPlugin
-//                        .getDefault().getActionSetRegistry().getActionSetsFor(
-//                                part.getSite().getId());
-//                for (int i = 0; i < partActionSets.length; i++) {
-//                    newActionSets.add(partActionSets[i]);
-//                }
-//            }
-//            if (editor != null && editor != part) {
-//                IActionSetDescriptor[] editorActionSets = WorkbenchPlugin
-//                        .getDefault().getActionSetRegistry().getActionSetsFor(
-//                                editor.getSite().getId());
-//                for (int i = 0; i < editorActionSets.length; i++) {
-//                    newActionSets.add(editorActionSets[i]);
-//                }
-//            }
-//            return newActionSets;
-//        }
+        private ArrayList calculateActionSets(IWorkbenchPart part,
+                IEditorPart editor) {
+            ArrayList newActionSets = new ArrayList();
+            if (part != null) {
+                IActionSetDescriptor[] partActionSets = WorkbenchPlugin
+                        .getDefault().getActionSetRegistry().getActionSetsFor(
+                                part.getSite().getId());
+                for (int i = 0; i < partActionSets.length; i++) {
+                    newActionSets.add(partActionSets[i]);
+                }
+            }
+            if (editor != null && editor != part) {
+                IActionSetDescriptor[] editorActionSets = WorkbenchPlugin
+                        .getDefault().getActionSetRegistry().getActionSetsFor(
+                                editor.getSite().getId());
+                for (int i = 0; i < editorActionSets.length; i++) {
+                    newActionSets.add(editorActionSets[i]);
+                }
+            }
+            return newActionSets;
+        }
 
         /**
          * Updates the actions we are showing for the active part and current
@@ -430,18 +429,18 @@ public class WorkbenchPage implements
 //				service.activateContext(ContextAuthority.DEFER_EVENTS);
 //
 //				// show the new
-//				for (int i = 0; i < newActionSets.size(); i++) {
-//					actionSets.showAction((IActionSetDescriptor) newActionSets
-//							.get(i));
-//				}
-//
-//				// hide the old
-//				for (int i = 0; i < oldActionSets.size(); i++) {
-//					actionSets.hideAction((IActionSetDescriptor) oldActionSets
-//							.get(i));
-//				}
-//
-//				oldActionSets = newActionSets;
+				for (int i = 0; i < newActionSets.size(); i++) {
+					actionSets.showAction((IActionSetDescriptor) newActionSets
+							.get(i));
+				}
+
+				// hide the old
+				for (int i = 0; i < oldActionSets.size(); i++) {
+					actionSets.hideAction((IActionSetDescriptor) oldActionSets
+							.get(i));
+				}
+
+				oldActionSets = newActionSets;
 //
 //			} finally {
 //				service.activateContext(ContextAuthority.SEND_EVENTS);
@@ -1752,11 +1751,11 @@ public class WorkbenchPage implements
     /**
      * Returns an array of the visible action sets.
      */
-//    public IActionSetDescriptor[] getActionSets() {
-//        Collection collection = actionSets.getVisibleItems();
-//        
-//        return (IActionSetDescriptor[]) collection.toArray(new IActionSetDescriptor[collection.size()]);
-//    }
+    public IActionSetDescriptor[] getActionSets() {
+        Collection collection = actionSets.getVisibleItems();
+        
+        return (IActionSetDescriptor[]) collection.toArray(new IActionSetDescriptor[collection.size()]);
+    }
 
     /**
      * @see IWorkbenchPage
@@ -2081,15 +2080,15 @@ public class WorkbenchPage implements
     /**
      * @see IWorkbenchPage
      */
-//    public void hideActionSet(String actionSetID) {
-//        Perspective persp = getActivePerspective();
-//        if (persp != null) {
-//            persp.removeActionSet(actionSetID);
-//            window.updateActionSets();
-//            window.firePerspectiveChanged(this, getPerspective(),
-//                    CHANGE_ACTION_SET_HIDE);
-//        }
-//    }
+    public void hideActionSet(String actionSetID) {
+        Perspective persp = getActivePerspective();
+        if (persp != null) {
+            persp.removeActionSet(actionSetID);
+            window.updateActionSets();
+            window.firePerspectiveChanged(this, getPerspective(),
+                    CHANGE_ACTION_SET_HIDE);
+        }
+    }
 
     /*
      * (non-Javadoc)
@@ -2197,7 +2196,7 @@ public class WorkbenchPage implements
         // Save args.
         this.window = w;
         this.input = input;
-//        actionSets = new ActionSetManager(w);
+        actionSets = new ActionSetManager(w);
 
         // Create presentation.
         createClientComposite();
@@ -2235,11 +2234,11 @@ public class WorkbenchPage implements
             window.firePerspectiveActivated(this, desc);
         }
         
-//        getExtensionTracker()
-//                .registerHandler(
-//                        perspectiveChangeHandler,
-//                        ExtensionTracker
-//                                .createExtensionPointFilter(getPerspectiveExtensionPoint()));
+        getExtensionTracker()
+                .registerHandler(
+                        perspectiveChangeHandler,
+                        ExtensionTracker
+                                .createExtensionPointFilter(getPerspectiveExtensionPoint()));
     }
     
     /**
@@ -3326,11 +3325,11 @@ public class WorkbenchPage implements
         }
     }
 
-//    void perspectiveActionSetChanged(Perspective perspective, IActionSetDescriptor descriptor, int changeType) {
-//        if (perspective == getActivePerspective()) {
-//            actionSets.change(descriptor, changeType);
-//        }
-//    }
+    void perspectiveActionSetChanged(Perspective perspective, IActionSetDescriptor descriptor, int changeType) {
+        if (perspective == getActivePerspective()) {
+            actionSets.change(descriptor, changeType);
+        }
+    }
     
 	/*
      * Update visibility state of all views.
@@ -3389,7 +3388,7 @@ public class WorkbenchPage implements
         // Going from multiple to single rows can make the coolbar
         // and its adjacent views appear jumpy as perspectives are
         // switched. Turn off redraw to help with this.
-        ICoolBarManager2 mgr = (ICoolBarManager2) window.getCoolBarManager2();
+//        ICoolBarManager2 mgr = (ICoolBarManager2) window.getCoolBarManager2();
         try {
 //            mgr.getControl2().setRedraw(false);
 //            getClientComposite().setRedraw(false);
@@ -3455,21 +3454,21 @@ public class WorkbenchPage implements
     /**
      * @see IWorkbenchPage
      */
-//    public void showActionSet(String actionSetID) {
-//        Perspective persp = getActivePerspective();
-//        if (persp != null) {
-//            ActionSetRegistry reg = WorkbenchPlugin.getDefault()
-//                 .getActionSetRegistry();
-//            
-//            IActionSetDescriptor desc = reg.findActionSet(actionSetID);
-//            if (desc != null) {
-//                persp.addActionSet(desc);
-//                window.updateActionSets();
-//                window.firePerspectiveChanged(this, getPerspective(),
-//                        CHANGE_ACTION_SET_SHOW);
-//            }
-//        }
-//    }
+    public void showActionSet(String actionSetID) {
+        Perspective persp = getActivePerspective();
+        if (persp != null) {
+            ActionSetRegistry reg = WorkbenchPlugin.getDefault()
+                 .getActionSetRegistry();
+            
+            IActionSetDescriptor desc = reg.findActionSet(actionSetID);
+            if (desc != null) {
+                persp.addActionSet(desc);
+                window.updateActionSets();
+                window.firePerspectiveChanged(this, getPerspective(),
+                        CHANGE_ACTION_SET_SHOW);
+            }
+        }
+    }
 
     /**
      * See IWorkbenchPage.
@@ -4194,7 +4193,7 @@ public class WorkbenchPage implements
          */
         public boolean remove(Perspective perspective) {
             if (active == perspective) {
-//                updateActionSets(active, null);
+                updateActionSets(active, null);
                 active = null;
             }
             usedList.remove(perspective);
@@ -4265,7 +4264,7 @@ public class WorkbenchPage implements
 				return;
 			}
 
-//            updateActionSets(active, perspective);
+            updateActionSets(active, perspective);
             active = perspective;
 
             if (perspective != null) {
@@ -4274,52 +4273,52 @@ public class WorkbenchPage implements
             }
         }
         
-//        private void updateActionSets(Perspective oldPersp, Perspective newPersp) {
-//			// Update action sets
-//
-////			IContextService service = (IContextService) window
-////					.getService(IContextService.class);
-//			try {
+        private void updateActionSets(Perspective oldPersp, Perspective newPersp) {
+			// Update action sets
+
+//			IContextService service = (IContextService) window
+//					.getService(IContextService.class);
+			try {
 //				service.activateContext(ContextAuthority.DEFER_EVENTS);
-//				if (newPersp != null) {
-//					IActionSetDescriptor[] newAlwaysOn = newPersp
-//							.getAlwaysOnActionSets();
-//					for (int i = 0; i < newAlwaysOn.length; i++) {
-//						IActionSetDescriptor descriptor = newAlwaysOn[i];
-//
-//						actionSets.showAction(descriptor);
-//					}
-//
-//					IActionSetDescriptor[] newAlwaysOff = newPersp
-//							.getAlwaysOffActionSets();
-//					for (int i = 0; i < newAlwaysOff.length; i++) {
-//						IActionSetDescriptor descriptor = newAlwaysOff[i];
-//
-//						actionSets.maskAction(descriptor);
-//					}
-//				}
-//
-//				if (oldPersp != null) {
-//					IActionSetDescriptor[] newAlwaysOn = oldPersp
-//							.getAlwaysOnActionSets();
-//					for (int i = 0; i < newAlwaysOn.length; i++) {
-//						IActionSetDescriptor descriptor = newAlwaysOn[i];
-//
-//						actionSets.hideAction(descriptor);
-//					}
-//
-//					IActionSetDescriptor[] newAlwaysOff = oldPersp
-//							.getAlwaysOffActionSets();
-//					for (int i = 0; i < newAlwaysOff.length; i++) {
-//						IActionSetDescriptor descriptor = newAlwaysOff[i];
-//
-//						actionSets.unmaskAction(descriptor);
-//					}
-//				}
-//			} finally {
+				if (newPersp != null) {
+					IActionSetDescriptor[] newAlwaysOn = newPersp
+							.getAlwaysOnActionSets();
+					for (int i = 0; i < newAlwaysOn.length; i++) {
+						IActionSetDescriptor descriptor = newAlwaysOn[i];
+
+						actionSets.showAction(descriptor);
+					}
+
+					IActionSetDescriptor[] newAlwaysOff = newPersp
+							.getAlwaysOffActionSets();
+					for (int i = 0; i < newAlwaysOff.length; i++) {
+						IActionSetDescriptor descriptor = newAlwaysOff[i];
+
+						actionSets.maskAction(descriptor);
+					}
+				}
+
+				if (oldPersp != null) {
+					IActionSetDescriptor[] newAlwaysOn = oldPersp
+							.getAlwaysOnActionSets();
+					for (int i = 0; i < newAlwaysOn.length; i++) {
+						IActionSetDescriptor descriptor = newAlwaysOn[i];
+
+						actionSets.hideAction(descriptor);
+					}
+
+					IActionSetDescriptor[] newAlwaysOff = oldPersp
+							.getAlwaysOffActionSets();
+					for (int i = 0; i < newAlwaysOff.length; i++) {
+						IActionSetDescriptor descriptor = newAlwaysOff[i];
+
+						actionSets.unmaskAction(descriptor);
+					}
+				}
+			} finally {
 //				service.activateContext(ContextAuthority.SEND_EVENTS);
-//			}
-//		}
+			}
+		}
     }
 
     // for dynamic UI

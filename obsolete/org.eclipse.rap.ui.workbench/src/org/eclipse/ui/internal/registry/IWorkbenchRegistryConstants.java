@@ -713,7 +713,8 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The name of the <code>org.eclipse.ui.actionSets</code> extension point.
 	 */
-	public static String EXTENSION_ACTION_SETS = PlatformUI.PLUGIN_ID
+//	public static String EXTENSION_ACTION_SETS = PlatformUI.PLUGIN_ID
+	public static String EXTENSION_ACTION_SETS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
 			+ '.' + IWorkbenchRegistryConstants.PL_ACTION_SETS;
 
 	/**

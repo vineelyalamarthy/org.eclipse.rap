@@ -38,7 +38,18 @@
   	  id="org.eclipse.ui.commands"
   	  name="Commands"
   	  schema="schema/commands.exsd"/>
-  <extension-point id="org.eclipse.ui.perspectiveExtensions" name="perspectiveExtensions" schema="schema/perspectiveExtensions.exsd"/>
+  <extension-point
+  	  id="org.eclipse.ui.perspectiveExtensions"
+  	  name="perspectiveExtensions"
+  	  schema="schema/perspectiveExtensions.exsd"/>
+  <extension-point
+  	  id="org.eclipse.ui.actionSets"
+  	  name="actionSets"
+  	  schema="schema/actionSets.exsd"/>
+  <extension-point
+  	  id="org.eclipse.ui.actionSetPartAssociations"
+  	  name="actionSetPartAssociations"
+  	  schema="schema/actionSetPartAssociations.exsd"/>
   
   <extension
       id="org.eclipse.ui.requestHandler"

@@ -15,10 +15,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
 
+import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.runtime.*;
-import org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler;
-import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
+import org.eclipse.core.runtime.dynamichelpers.*;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.dialogs.Dialog;
@@ -33,7 +33,8 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.application.*;
@@ -41,13 +42,15 @@ import org.eclipse.ui.handlers.IHandlerActivation;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.actions.CommandAction;
 import org.eclipse.ui.internal.expressions.WorkbenchWindowExpression;
-import org.eclipse.ui.internal.handlers.IActionCommandMappingService;
-import org.eclipse.ui.internal.handlers.SlaveHandlerService;
+import org.eclipse.ui.internal.handlers.*;
 import org.eclipse.ui.internal.layout.*;
+import org.eclipse.ui.internal.menus.IActionSetsListener;
+import org.eclipse.ui.internal.menus.LegacyActionPersistence;
 import org.eclipse.ui.internal.misc.UIListenerLogging;
 import org.eclipse.ui.internal.presentations.DefaultActionBarPresentationFactory;
 import org.eclipse.ui.internal.provisional.application.IActionBarConfigurer2;
 import org.eclipse.ui.internal.provisional.presentations.IActionBarPresentationFactory;
+import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.services.ServiceLocator;
 import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.presentations.AbstractPresentationFactory;
@@ -72,7 +75,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 
 	private WWinPartService partService = new WWinPartService(this);
 
-//	private ActionPresentation actionPresentation;
+	private ActionPresentation actionPresentation;
 
 	private WWinActionBars actionBars;
 
@@ -273,11 +276,11 @@ public class WorkbenchWindow extends ApplicationWindow implements
 		addStatusLine();
 
 		// register with the tracker
-//		getExtensionTracker()
-//				.registerHandler(
-//						actionSetHandler,
-//						ExtensionTracker
-//								.createExtensionPointFilter(getActionSetExtensionPoint()));
+		getExtensionTracker()
+				.registerHandler(
+						actionSetHandler,
+						ExtensionTracker
+								.createExtensionPointFilter(getActionSetExtensionPoint()));
 
 		fireWindowOpening();
 
@@ -294,10 +297,13 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * @return the action set extension point
 	 * @since 3.1
 	 */
-//	private IExtensionPoint getActionSetExtensionPoint() {
+	private IExtensionPoint getActionSetExtensionPoint() {
 //		return Platform.getExtensionRegistry().getExtensionPoint(
 //				PlatformUI.PLUGIN_ID, IWorkbenchRegistryConstants.PL_ACTION_SETS);
-//	}
+		return Platform.getExtensionRegistry().getExtensionPoint(
+				PlatformUI.PLUGIN_EXTENSION_NAME_SPACE,
+				IWorkbenchRegistryConstants.PL_ACTION_SETS);
+	}
 
 	/**
 	 * Return the style bits for the shortcut bar.
@@ -361,36 +367,35 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			// look for all new sets that are on by default. Examine the tracker
 			// at the workbench level to see what descriptors are registered
 			// against this extension
-			// TODO: actionssets
-//			Object[] registeredObjects = getWorkbench().getExtensionTracker()
-//					.getObjects(extension);
-//			for (int i = 0; i < registeredObjects.length; i++) {
-//				if (registeredObjects[i] instanceof IActionSetDescriptor) {
-//					IActionSetDescriptor desc = (IActionSetDescriptor) registeredObjects[i];
-//					if (desc.isInitiallyVisible()) {
-//						setsToActivate.add(desc);
-//					}
-//				}
-//			}
-//
-//			// if none of the new sets are marked as initially visible, abort.
-//			if (setsToActivate.isEmpty()) {
-//				return;
-//			}
-//
-//			IActionSetDescriptor[] descriptors = (IActionSetDescriptor[]) setsToActivate
-//					.toArray(new IActionSetDescriptor[setsToActivate.size()]);
-//
-//			WorkbenchPage page = getActiveWorkbenchPage();
-//			if (page != null) {
-//				Perspective[] perspectives = page.getOpenInternalPerspectives();
-//
-//				for (int i = 0; i < perspectives.length; i++) {
-//					perspectives[i].turnOnActionSets(descriptors);
-//				}
-//			}
-//
-//			updateActionSets();
+			Object[] registeredObjects = getWorkbench().getExtensionTracker()
+					.getObjects(extension);
+			for (int i = 0; i < registeredObjects.length; i++) {
+				if (registeredObjects[i] instanceof IActionSetDescriptor) {
+					IActionSetDescriptor desc = (IActionSetDescriptor) registeredObjects[i];
+					if (desc.isInitiallyVisible()) {
+						setsToActivate.add(desc);
+					}
+				}
+			}
+
+			// if none of the new sets are marked as initially visible, abort.
+			if (setsToActivate.isEmpty()) {
+				return;
+			}
+
+			IActionSetDescriptor[] descriptors = (IActionSetDescriptor[]) setsToActivate
+					.toArray(new IActionSetDescriptor[setsToActivate.size()]);
+
+			WorkbenchPage page = getActiveWorkbenchPage();
+			if (page != null) {
+				Perspective[] perspectives = page.getOpenInternalPerspectives();
+
+				for (int i = 0; i < perspectives.length; i++) {
+					perspectives[i].turnOnActionSets(descriptors);
+				}
+			}
+
+			updateActionSets();
 		}
 
 		/*
@@ -402,36 +407,35 @@ public class WorkbenchWindow extends ApplicationWindow implements
 		public void removeExtension(IExtension extension, Object[] objects) {
 			// remove the contributions from the window bars and dispose of the
 			// actions
-			// TODO: actionsets
-//			for (int i = 0; i < objects.length; i++) {
-//				if (objects[i] instanceof PluginActionSetBuilder.Binding) {
-//					PluginActionSetBuilder.Binding binding = (PluginActionSetBuilder.Binding) objects[i];
-//					binding.builder.removeActionExtensions(binding.set,
-//							binding.window);
-//					binding.set.dispose();
-//				}
-//			}
-//
-//			// update all opened perspectives
-//			Perspective[] perspectives = getActiveWorkbenchPage()
-//					.getOpenInternalPerspectives();
-//			boolean updateNeeded = true;
-//			for (int i = 0; i < perspectives.length; i++) {
-//
-//				for (int j = 0; j < objects.length; j++) {
-//					if (objects[j] instanceof IActionSetDescriptor) {
-//						perspectives[i]
-//								.removeActionSet((IActionSetDescriptor) objects[j]);
-//						getActionPresentation()
-//								.removeActionSet((IActionSetDescriptor) objects[j]);
-//					}
-//				}
-//			}
-//
-//			if (updateNeeded) {
-//				// refresh the window
-//				updateActionSets();
-//			}
+			for (int i = 0; i < objects.length; i++) {
+				if (objects[i] instanceof PluginActionSetBuilder.Binding) {
+					PluginActionSetBuilder.Binding binding = (PluginActionSetBuilder.Binding) objects[i];
+					binding.builder.removeActionExtensions(binding.set,
+							binding.window);
+					binding.set.dispose();
+				}
+			}
+
+			// update all opened perspectives
+			Perspective[] perspectives = getActiveWorkbenchPage()
+					.getOpenInternalPerspectives();
+			boolean updateNeeded = true;
+			for (int i = 0; i < perspectives.length; i++) {
+
+				for (int j = 0; j < objects.length; j++) {
+					if (objects[j] instanceof IActionSetDescriptor) {
+						perspectives[i]
+								.removeActionSet((IActionSetDescriptor) objects[j]);
+						getActionPresentation()
+								.removeActionSet((IActionSetDescriptor) objects[j]);
+					}
+				}
+			}
+
+			if (updateNeeded) {
+				// refresh the window
+				updateActionSets();
+			}
 		}
 	};
 
@@ -477,46 +481,46 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * </p>
 	 */
 	void submitGlobalActions() {
-//		final IHandlerService handlerService = (IHandlerService) getWorkbench().getService(IHandlerService.class);
-//
-//		/*
-//		 * Mash the action sets and global actions together, with global actions
-//		 * taking priority.
-//		 */
-//		Map handlersByCommandId = new HashMap();
-//		handlersByCommandId.putAll(globalActionHandlersByCommandId);
-//
-//		List newHandlers = new ArrayList(handlersByCommandId.size());
-//
-//		Iterator existingIter = handlerActivations.iterator();
-//		while (existingIter.hasNext()) {
-//			IHandlerActivation next = (IHandlerActivation) existingIter.next();
-//
-//			String cmdId = next.getCommandId();
-//
-//			Object handler = handlersByCommandId.get(cmdId);
-//			if (handler == next.getHandler()) {
-//				handlersByCommandId.remove(cmdId);
-//				newHandlers.add(next);
-//			} else {
-//				handlerService.deactivateHandler(next);
-//			}
-//		}
-//
-//		final Shell shell = getShell();
-//		if (shell != null) {
-//			final Expression expression = new ActiveShellExpression(shell);
-//			for (Iterator iterator = handlersByCommandId.entrySet().iterator(); iterator
-//					.hasNext();) {
-//				Map.Entry entry = (Map.Entry) iterator.next();
-//				String commandId = (String) entry.getKey();
-//				IHandler handler = (IHandler) entry.getValue();
-//				newHandlers.add(handlerService.activateHandler(commandId,
-//						handler, expression));
-//			}
-//		}
-//
-//		handlerActivations = newHandlers;
+		final IHandlerService handlerService = (IHandlerService) getWorkbench().getService(IHandlerService.class);
+
+		/*
+		 * Mash the action sets and global actions together, with global actions
+		 * taking priority.
+		 */
+		Map handlersByCommandId = new HashMap();
+		handlersByCommandId.putAll(globalActionHandlersByCommandId);
+
+		List newHandlers = new ArrayList(handlersByCommandId.size());
+
+		Iterator existingIter = handlerActivations.iterator();
+		while (existingIter.hasNext()) {
+			IHandlerActivation next = (IHandlerActivation) existingIter.next();
+
+			String cmdId = next.getCommandId();
+
+			Object handler = handlersByCommandId.get(cmdId);
+			if (handler == next.getHandler()) {
+				handlersByCommandId.remove(cmdId);
+				newHandlers.add(next);
+			} else {
+				handlerService.deactivateHandler(next);
+			}
+		}
+
+		final Shell shell = getShell();
+		if (shell != null) {
+			final Expression expression = new ActiveShellExpression(shell);
+			for (Iterator iterator = handlersByCommandId.entrySet().iterator(); iterator
+					.hasNext();) {
+				Map.Entry entry = (Map.Entry) iterator.next();
+				String commandId = (String) entry.getKey();
+				IHandler handler = (IHandler) entry.getValue();
+				newHandlers.add(handlerService.activateHandler(commandId,
+						handler, expression));
+			}
+		}
+
+		handlerActivations = newHandlers;
 	}
 	
 	/**
@@ -1416,23 +1420,22 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	}
 
 	public String getToolbarLabel(String actionSetId) {
-		// TODO actionsets
-//		ActionSetRegistry registry = WorkbenchPlugin.getDefault()
-//				.getActionSetRegistry();
-//		IActionSetDescriptor actionSet = registry.findActionSet(actionSetId);
-//		if (actionSet != null) {
-//			return actionSet.getLabel();
-//		}
-//
-//		if (IWorkbenchActionConstants.TOOLBAR_FILE
-//				.equalsIgnoreCase(actionSetId)) {
-//			return WorkbenchMessages.WorkbenchWindow_FileToolbar;
-//		}
-//
-//		if (IWorkbenchActionConstants.TOOLBAR_NAVIGATE
-//				.equalsIgnoreCase(actionSetId)) {
-//			return WorkbenchMessages.WorkbenchWindow_NavigateToolbar;
-//		}
+		ActionSetRegistry registry = WorkbenchPlugin.getDefault()
+				.getActionSetRegistry();
+		IActionSetDescriptor actionSet = registry.findActionSet(actionSetId);
+		if (actionSet != null) {
+			return actionSet.getLabel();
+		}
+
+		if (IWorkbenchActionConstants.TOOLBAR_FILE
+				.equalsIgnoreCase(actionSetId)) {
+			return WorkbenchMessages.WorkbenchWindow_FileToolbar;
+		}
+
+		if (IWorkbenchActionConstants.TOOLBAR_NAVIGATE
+				.equalsIgnoreCase(actionSetId)) {
+			return WorkbenchMessages.WorkbenchWindow_NavigateToolbar;
+		}
 
 		return null;
 	}
@@ -1445,7 +1448,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 		boolean result;
 		try {
 			// Clear the action sets, fix for bug 27416.
-//            getActionPresentation().clearActionSets();
+            getActionPresentation().clearActionSets();
 
 			// Remove the handler submissions. Bug 64024.
 			final IWorkbench workbench = getWorkbench();
@@ -1469,16 +1472,16 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			fireWindowClosed();
 			
 			// time to wipe our our populate
-			IMenuService menuService = (IMenuService) workbench
-					.getService(IMenuService.class);
-			menuService
-					.releaseContributions(((ContributionManager) getActionBars()
-							.getMenuManager()));
-			ICoolBarManager coolbar = getActionBars().getCoolBarManager();
-			if (coolbar != null) {
-				menuService
-						.releaseContributions(((ContributionManager) coolbar));
-			}
+//			IMenuService menuService = (IMenuService) workbench
+//					.getService(IMenuService.class);
+//			menuService
+//					.releaseContributions(((ContributionManager) getActionBars()
+//							.getMenuManager()));
+//			ICoolBarManager coolbar = getActionBars().getCoolBarManager();
+//			if (coolbar != null) {
+//				menuService
+//						.releaseContributions(((ContributionManager) coolbar));
+//			}
 
 			getActionBarAdvisor().dispose();
 			getWindowAdvisor().dispose();
@@ -2928,16 +2931,16 @@ public class WorkbenchWindow extends ApplicationWindow implements
 
 		WorkbenchPage currentPage = getActiveWorkbenchPage();
 		if (currentPage == null) {
-//			getActionPresentation().clearActionSets();
+			getActionPresentation().clearActionSets();
 		} else {
 			ICoolBarManager2 coolBarManager = (ICoolBarManager2) getCoolBarManager2();
 			if (coolBarManager != null) {
 				coolBarManager.refresh();
 			}
-//			getActionPresentation().setActionSets(
-//					currentPage.getActionSets());
+			getActionPresentation().setActionSets(
+					currentPage.getActionSets());
 		}
-//		fireActionSetsChanged();
+		fireActionSetsChanged();
 		updateActionBars();
 
 		// hide the launch menu if it is empty
@@ -2958,40 +2961,40 @@ public class WorkbenchWindow extends ApplicationWindow implements
 
 	private ListenerList backgroundSaveListeners = new ListenerList(ListenerList.IDENTITY);
 
-//	private final void fireActionSetsChanged() {
-//		if (actionSetListeners != null) {
-//			final Object[] listeners = actionSetListeners.getListeners();
-//			for (int i = 0; i < listeners.length; i++) {
-//				final IActionSetsListener listener = (IActionSetsListener) listeners[i];
-//				final WorkbenchPage currentPage = getActiveWorkbenchPage();
-//				final IActionSetDescriptor[] newActionSets;
-//				if (currentPage == null) {
-//					newActionSets = null;
-//				} else {
-//					newActionSets = currentPage.getActionSets();
-//				}
-//				final ActionSetsEvent event = new ActionSetsEvent(newActionSets);
-//				listener.actionSetsChanged(event);
-//			}
-//		}
-//	}
+	private final void fireActionSetsChanged() {
+		if (actionSetListeners != null) {
+			final Object[] listeners = actionSetListeners.getListeners();
+			for (int i = 0; i < listeners.length; i++) {
+				final IActionSetsListener listener = (IActionSetsListener) listeners[i];
+				final WorkbenchPage currentPage = getActiveWorkbenchPage();
+				final IActionSetDescriptor[] newActionSets;
+				if (currentPage == null) {
+					newActionSets = null;
+				} else {
+					newActionSets = currentPage.getActionSets();
+				}
+				final ActionSetsEvent event = new ActionSetsEvent(newActionSets);
+				listener.actionSetsChanged(event);
+			}
+		}
+	}
 
-//	final void addActionSetsListener(final IActionSetsListener listener) {
-//		if (actionSetListeners == null) {
-//			actionSetListeners = new ListenerList();
-//		}
-//
-//		actionSetListeners.add(listener);
-//	}
-//
-//	final void removeActionSetsListener(final IActionSetsListener listener) {
-//		if (actionSetListeners != null) {
-//			actionSetListeners.remove(listener);
-//			if (actionSetListeners.isEmpty()) {
-//				actionSetListeners = null;
-//			}
-//		}
-//	}
+	final void addActionSetsListener(final IActionSetsListener listener) {
+		if (actionSetListeners == null) {
+			actionSetListeners = new ListenerList();
+		}
+
+		actionSetListeners.add(listener);
+	}
+
+	final void removeActionSetsListener(final IActionSetsListener listener) {
+		if (actionSetListeners != null) {
+			actionSetListeners.remove(listener);
+			if (actionSetListeners.isEmpty()) {
+				actionSetListeners = null;
+			}
+		}
+	}
 
 	/**
 	 * Create the progress indicator for the receiver.
@@ -3507,12 +3510,12 @@ public class WorkbenchWindow extends ApplicationWindow implements
      * Returns the action presentation for dynamic UI
      * @return action presentation
      */
-//    public ActionPresentation getActionPresentation() {
-//        if (actionPresentation == null) {
-//        	actionPresentation = new ActionPresentation(this);
-//        }
-//        return actionPresentation;
-//    }
+    public ActionPresentation getActionPresentation() {
+        if (actionPresentation == null) {
+        	actionPresentation = new ActionPresentation(this);
+        }
+        return actionPresentation;
+    }
     
     /*package*/ IActionBarPresentationFactory getActionBarPresentationFactory() {
     	// allow replacement of the actionbar presentation
@@ -3625,12 +3628,12 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * 
 	 * @see org.eclipse.ui.IWorkbenchWindow#getExtensionTracker()
 	 */
-//	public IExtensionTracker getExtensionTracker() {
-//		if (tracker == null) {
-//			tracker = new UIExtensionTracker(getWorkbench().getDisplay());
-//		}
-//		return tracker;
-//	}
+	public IExtensionTracker getExtensionTracker() {
+		if (tracker == null) {
+			tracker = new UIExtensionTracker(getWorkbench().getDisplay());
+		}
+		return tracker;
+	}
 
 	/**
 	 * Creates the perspective customization dialog.
@@ -3738,15 +3741,15 @@ public class WorkbenchWindow extends ApplicationWindow implements
 //		}
 //		serviceLocator.registerService(IMenuService.class, menuService);
 
-//		final ActionCommandMappingService mappingService = new ActionCommandMappingService();
-//		serviceLocator.registerService(IActionCommandMappingService.class,
-//				mappingService);
-//
-//		final LegacyActionPersistence actionPersistence = new LegacyActionPersistence(
-//				this);
-//		serviceLocator.registerService(LegacyActionPersistence.class,
-//				actionPersistence);
-//		actionPersistence.read();
+		final ActionCommandMappingService mappingService = new ActionCommandMappingService();
+		serviceLocator.registerService(IActionCommandMappingService.class,
+				mappingService);
+
+		final LegacyActionPersistence actionPersistence = new LegacyActionPersistence(
+				this);
+		serviceLocator.registerService(LegacyActionPersistence.class,
+				actionPersistence);
+		actionPersistence.read();
 
 	}
 

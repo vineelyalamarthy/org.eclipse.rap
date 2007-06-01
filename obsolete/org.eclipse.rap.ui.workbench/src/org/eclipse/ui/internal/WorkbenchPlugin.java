@@ -107,7 +107,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 
     private PerspectiveRegistry perspRegistry;
 
-//    private ActionSetRegistry actionSetRegistry;
+    private ActionSetRegistry actionSetRegistry;
 
     private SharedImages sharedImages;
 
@@ -164,7 +164,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
             perspRegistry.dispose();
             perspRegistry = null;
         }
-//        actionSetRegistry = null;
+        actionSetRegistry = null;
         sharedImages = null;
 
 //        productInfo = null;
@@ -366,13 +366,12 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      *
      * @return the workbench action set registry
      */
-    // TODO: action sets
-//    public ActionSetRegistry getActionSetRegistry() {
-//        if (actionSetRegistry == null) {
-//            actionSetRegistry = new ActionSetRegistry();
-//        }
-//        return actionSetRegistry;
-//    }
+    public ActionSetRegistry getActionSetRegistry() {
+        if (actionSetRegistry == null) {
+            actionSetRegistry = new ActionSetRegistry();
+        }
+        return actionSetRegistry;
+    }
 
     /**
      * Return the default instance of the receiver. This represents the runtime plugin.

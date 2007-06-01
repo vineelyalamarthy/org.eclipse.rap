@@ -38,7 +38,7 @@ import org.eclipse.ui.internal.StartupThreading.StartupRunnable;
 import org.eclipse.ui.internal.browser.WorkbenchBrowserSupport;
 import org.eclipse.ui.internal.commands.CommandService;
 import org.eclipse.ui.internal.handlers.HandlerService;
-import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
+import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.services.*;
 import org.eclipse.ui.internal.util.SessionSingletonEventManager;
 import org.eclipse.ui.internal.util.Util;
@@ -1492,9 +1492,9 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 		 * services. These source providers notify the services when particular
 		 * pieces of workbench state change.
 		 */
-//		final ISourceProviderService sourceProviderService = new SourceProviderService();
-//		serviceLocator.registerService(ISourceProviderService.class,
-//				sourceProviderService);
+		final ISourceProviderService sourceProviderService = new SourceProviderService();
+		serviceLocator.registerService(ISourceProviderService.class,
+				sourceProviderService);
 //		StartupThreading.runWithoutExceptions(new StartupRunnable() {
 //
 //			public void runWithException() {
@@ -1539,12 +1539,12 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //				menuService.addSourceProvider(currentSelectionSourceProvider);
 //				sourceProviderService.registerProvider(currentSelectionSourceProvider);
 //				
-//				actionSetSourceProvider = new ActionSetSourceProvider();
-//				evaluationService.addSourceProvider(actionSetSourceProvider);
-//				handlerService[0].addSourceProvider(actionSetSourceProvider);
+				actionSetSourceProvider = new ActionSetSourceProvider();
+				evaluationService.addSourceProvider(actionSetSourceProvider);
+				handlerService[0].addSourceProvider(actionSetSourceProvider);
 //				contextService.addSourceProvider(actionSetSourceProvider);
 //				menuService.addSourceProvider(actionSetSourceProvider);
-//				sourceProviderService.registerProvider(actionSetSourceProvider);
+				sourceProviderService.registerProvider(actionSetSourceProvider);
 //				
 //				FocusControlSourceProvider focusControl = new FocusControlSourceProvider();
 //				serviceLocator.registerService(IFocusService.class, focusControl);
@@ -2821,14 +2821,14 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * workbench. This source provider is <code>null</code> until
 	 * {@link #initializeDefaultServices()} is called.
 	 */
-//	private ActionSetSourceProvider actionSetSourceProvider;
+	private ActionSetSourceProvider actionSetSourceProvider;
 
 	private WorkbenchWindow activeWorkbenchWindow = null;
 
 	private void updateActiveWorkbenchWindowMenuManager(boolean textOnly) {
 		if (activeWorkbenchWindow != null) {
-//			activeWorkbenchWindow
-//					.removeActionSetsListener(actionSetSourceProvider);
+			activeWorkbenchWindow
+					.removeActionSetsListener(actionSetSourceProvider);
 			activeWorkbenchWindow = null;
 		}
 		boolean actionSetsUpdated = false;
@@ -2845,18 +2845,18 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 			final Shell windowShell = activeWorkbenchWindow.getShell();
 			final Shell activeShell = getDisplay().getActiveShell();
 			if (Util.equals(windowShell, activeShell)) {
-//				activeWorkbenchWindow
-//						.addActionSetsListener(actionSetSourceProvider);
+				activeWorkbenchWindow
+						.addActionSetsListener(actionSetSourceProvider);
 				final WorkbenchPage page = activeWorkbenchWindow
 						.getActiveWorkbenchPage();
-//				final IActionSetDescriptor[] newActionSets;
-//				if (page != null) {
-//					newActionSets = page.getActionSets();
-//					final ActionSetsEvent event = new ActionSetsEvent(
-//							newActionSets);
-//					actionSetSourceProvider.actionSetsChanged(event);
-//					actionSetsUpdated = true;
-//				}
+				final IActionSetDescriptor[] newActionSets;
+				if (page != null) {
+					newActionSets = page.getActionSets();
+					final ActionSetsEvent event = new ActionSetsEvent(
+							newActionSets);
+					actionSetSourceProvider.actionSetsChanged(event);
+					actionSetsUpdated = true;
+				}
 			}
 
 			final MenuManager menuManager = activeWorkbenchWindow
@@ -2869,10 +2869,10 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 			}
 		}
 
-//		if (!actionSetsUpdated) {
-//			final ActionSetsEvent event = new ActionSetsEvent(null);
-//			actionSetSourceProvider.actionSetsChanged(event);
-//		}
+		if (!actionSetsUpdated) {
+			final ActionSetsEvent event = new ActionSetsEvent(null);
+			actionSetSourceProvider.actionSetsChanged(event);
+		}
 	}
 
 //	private ActivityPersistanceHelper activityHelper;
@@ -3077,12 +3077,12 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * 
 	 * @see org.eclipse.ui.IWorkbench#getExtensionTracker()
 	 */
-//	public IExtensionTracker getExtensionTracker() {
-//		if (tracker == null) {
-//			tracker = new UIExtensionTracker(getDisplay());
-//		}
-//		return tracker;
-//	}
+	public IExtensionTracker getExtensionTracker() {
+		if (tracker == null) {
+			tracker = new UIExtensionTracker(getDisplay());
+		}
+		return tracker;
+	}
 
 	/**
 	 * Adds the listener that handles startup plugins

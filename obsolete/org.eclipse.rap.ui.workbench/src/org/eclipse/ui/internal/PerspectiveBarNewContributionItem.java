@@ -57,7 +57,7 @@ public class PerspectiveBarNewContributionItem extends ContributionItem {
             parent.addDisposeListener(new DisposeListener() {
                 public void widgetDisposed(DisposeEvent e) {
                     //toolItem.getImage().dispose();
-                    toolItem.dispose();
+//                    toolItem.dispose();
                     toolItem = null;
                 }
             });

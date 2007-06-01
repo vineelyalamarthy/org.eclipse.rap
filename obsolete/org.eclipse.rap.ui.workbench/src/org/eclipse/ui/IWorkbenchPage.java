@@ -515,7 +515,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @param actionSetID
 	 *            the action set to hide
 	 */
-//	public void hideActionSet(String actionSetID);
+	public void hideActionSet(String actionSetID);
 
 	/**
 	 * Hides the given view. The view must belong to this page.
@@ -795,7 +795,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @param actionSetID
 	 *            the action set to show
 	 */
-//	public void showActionSet(String actionSetID);
+	public void showActionSet(String actionSetID);
 
 	/**
 	 * Shows the view identified by the given view id in this page and gives it

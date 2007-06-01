@@ -49,7 +49,7 @@ public class Perspective {
 
     private ArrayList alwaysOffActionSets;
 
-    private ArrayList newWizardShortcuts;
+//    private ArrayList newWizardShortcuts;
 
     private ArrayList showViewShortcuts;
 
@@ -72,12 +72,12 @@ public class Perspective {
 
     protected PerspectiveHelper presentation;
 
-    final static private String VERSION_STRING = "0.016";//$NON-NLS-1$
+//    final static private String VERSION_STRING = "0.016";//$NON-NLS-1$
 
 //    private FastViewPane fastViewPane = new FastViewPane();
 
     // fields used by fast view resizing via a sash
-    private static final int FASTVIEW_HIDE_STEPS = 5;
+//    private static final int FASTVIEW_HIDE_STEPS = 5;
 
     /**
      * Reference to the part that was previously active
@@ -187,19 +187,18 @@ public class Perspective {
      * Create the initial list of action sets.
      */
     private void createInitialActionSets(List outputList, List stringList) {
-    	// TODO actionsets
-//        ActionSetRegistry reg = WorkbenchPlugin.getDefault()
-//                .getActionSetRegistry();
-//        Iterator iter = stringList.iterator();
-//        while (iter.hasNext()) {
-//            String id = (String) iter.next();
-//            IActionSetDescriptor desc = reg.findActionSet(id);
-//            if (desc != null) {
-//				outputList.add(desc);
-//			} else {
-//				WorkbenchPlugin.log("Unable to find Action Set: " + id);//$NON-NLS-1$
-//			}
-//        }
+        ActionSetRegistry reg = WorkbenchPlugin.getDefault()
+                .getActionSetRegistry();
+        Iterator iter = stringList.iterator();
+        while (iter.hasNext()) {
+            String id = (String) iter.next();
+            IActionSetDescriptor desc = reg.findActionSet(id);
+            if (desc != null) {
+				outputList.add(desc);
+			} else {
+				WorkbenchPlugin.log("Unable to find Action Set: " + id);//$NON-NLS-1$
+			}
+        }
     }
 
     /**
@@ -623,23 +622,23 @@ public class Perspective {
 //        }
 //    }
 
-    private void unableToOpenPerspective(PerspectiveDescriptor persp,
-            IStatus status) {
-        PerspectiveRegistry perspRegistry = (PerspectiveRegistry) WorkbenchPlugin
-                .getDefault().getPerspectiveRegistry();
-        perspRegistry.deletePerspective(persp);
-        // If this is a predefined perspective, we will not be able to delete
-        // the perspective (we wouldn't want to).  But make sure to delete the
-        // customized portion.
-//        persp.deleteCustomDefinition();
-        String title = WorkbenchMessages.Perspective_problemRestoringTitle;
-        String msg = WorkbenchMessages.Perspective_errorReadingState;
-        if (status == null) {
-            MessageDialog.openError((Shell) null, title, msg, null);
-        } else {
-            ErrorDialog.openError((Shell) null, title, msg, status, null);
-        }
-    }
+//    private void unableToOpenPerspective(PerspectiveDescriptor persp,
+//            IStatus status) {
+//        PerspectiveRegistry perspRegistry = (PerspectiveRegistry) WorkbenchPlugin
+//                .getDefault().getPerspectiveRegistry();
+//        perspRegistry.deletePerspective(persp);
+//        // If this is a predefined perspective, we will not be able to delete
+//        // the perspective (we wouldn't want to).  But make sure to delete the
+//        // customized portion.
+////        persp.deleteCustomDefinition();
+//        String title = WorkbenchMessages.Perspective_problemRestoringTitle;
+//        String msg = WorkbenchMessages.Perspective_errorReadingState;
+//        if (status == null) {
+//            MessageDialog.openError((Shell) null, title, msg, null);
+//        } else {
+//            ErrorDialog.openError((Shell) null, title, msg, status, null);
+//        }
+//    }
 
     /**
      * Create a presentation for a perspective.
@@ -742,11 +741,11 @@ public class Perspective {
 //        	if (service!=null) {
 //        		service.activateContext(ContextAuthority.DEFER_EVENTS);
 //        	}
-//			for (Iterator iter = temp.iterator(); iter.hasNext();) {
-//				IActionSetDescriptor descriptor = (IActionSetDescriptor) iter
-//						.next();
-//				addAlwaysOn(descriptor);
-//			}
+			for (Iterator iter = temp.iterator(); iter.hasNext();) {
+				IActionSetDescriptor descriptor = (IActionSetDescriptor) iter
+						.next();
+				addAlwaysOn(descriptor);
+			}
 //		} finally {
 //			if (service!=null) {
 //				service.activateContext(ContextAuthority.SEND_EVENTS);
@@ -780,60 +779,60 @@ public class Perspective {
 
     }
 
-//    private void removeAlwaysOn(IActionSetDescriptor descriptor) {
-//        if (descriptor == null) {
-//            return;
-//        }
-//        if (!alwaysOnActionSets.contains(descriptor)) {
-//            return;
-//        }
-//        
-//        alwaysOnActionSets.remove(descriptor);
-//        if (page != null) {
-//            page.perspectiveActionSetChanged(this, descriptor, ActionSetManager.CHANGE_HIDE);
-//        }
-//    }
+    private void removeAlwaysOn(IActionSetDescriptor descriptor) {
+        if (descriptor == null) {
+            return;
+        }
+        if (!alwaysOnActionSets.contains(descriptor)) {
+            return;
+        }
+        
+        alwaysOnActionSets.remove(descriptor);
+        if (page != null) {
+            page.perspectiveActionSetChanged(this, descriptor, ActionSetManager.CHANGE_HIDE);
+        }
+    }
     
-//    private void addAlwaysOff(IActionSetDescriptor descriptor) {
-//        if (descriptor == null) {
-//            return;
-//        }
-//        if (alwaysOffActionSets.contains(descriptor)) {
-//            return;
-//        }
-//        alwaysOffActionSets.add(descriptor);
-//        if (page != null) {
-//            page.perspectiveActionSetChanged(this, descriptor, ActionSetManager.CHANGE_MASK);
-//        }
-//        removeAlwaysOn(descriptor);
-//    }
+    private void addAlwaysOff(IActionSetDescriptor descriptor) {
+        if (descriptor == null) {
+            return;
+        }
+        if (alwaysOffActionSets.contains(descriptor)) {
+            return;
+        }
+        alwaysOffActionSets.add(descriptor);
+        if (page != null) {
+            page.perspectiveActionSetChanged(this, descriptor, ActionSetManager.CHANGE_MASK);
+        }
+        removeAlwaysOn(descriptor);
+    }
     
-//    private void addAlwaysOn(IActionSetDescriptor descriptor) {
-//        if (descriptor == null) {
-//            return;
-//        }
-//        if (alwaysOnActionSets.contains(descriptor)) {
-//            return;
-//        }
-//        alwaysOnActionSets.add(descriptor);
-//        if (page != null) {
-//            page.perspectiveActionSetChanged(this, descriptor, ActionSetManager.CHANGE_SHOW);
-//        }
-//        removeAlwaysOff(descriptor);
-//    }
-//    
-//    private void removeAlwaysOff(IActionSetDescriptor descriptor) {
-//        if (descriptor == null) {
-//            return;
-//        }
-//        if (!alwaysOffActionSets.contains(descriptor)) {
-//            return;
-//        }
-//        alwaysOffActionSets.remove(descriptor);
-//        if (page != null) {
-//            page.perspectiveActionSetChanged(this, descriptor, ActionSetManager.CHANGE_UNMASK);
-//        }
-//    }
+    private void addAlwaysOn(IActionSetDescriptor descriptor) {
+        if (descriptor == null) {
+            return;
+        }
+        if (alwaysOnActionSets.contains(descriptor)) {
+            return;
+        }
+        alwaysOnActionSets.add(descriptor);
+        if (page != null) {
+            page.perspectiveActionSetChanged(this, descriptor, ActionSetManager.CHANGE_SHOW);
+        }
+        removeAlwaysOff(descriptor);
+    }
+    
+    private void removeAlwaysOff(IActionSetDescriptor descriptor) {
+        if (descriptor == null) {
+            return;
+        }
+        if (!alwaysOffActionSets.contains(descriptor)) {
+            return;
+        }
+        alwaysOffActionSets.remove(descriptor);
+        if (page != null) {
+            page.perspectiveActionSetChanged(this, descriptor, ActionSetManager.CHANGE_UNMASK);
+        }
+    }
     
     /**
      * activate.
@@ -1421,14 +1420,14 @@ public class Perspective {
     /**
      * Returns the ActionSets read from perspectiveExtensions in the registry.  
      */
-//    private ArrayList getPerspectiveExtensionActionSets() {
-//        PerspectiveExtensionReader reader = new PerspectiveExtensionReader();
-//        reader
-//                .setIncludeOnlyTags(new String[] { IWorkbenchRegistryConstants.TAG_ACTION_SET });
-//        PageLayout layout = new PageLayout();
-//        reader.extendLayout(null, descriptor.getOriginalId(), layout);
-//        return layout.getActionSets();
-//    }
+    private ArrayList getPerspectiveExtensionActionSets() {
+        PerspectiveExtensionReader reader = new PerspectiveExtensionReader();
+        reader
+                .setIncludeOnlyTags(new String[] { IWorkbenchRegistryConstants.TAG_ACTION_SET });
+        PageLayout layout = new PageLayout();
+        reader.extendLayout(null, descriptor.getOriginalId(), layout);
+        return layout.getActionSets();
+    }
 
     /**
      * Returns the Show In... part ids read from the registry.  
@@ -1664,25 +1663,25 @@ public class Perspective {
     	return null;
     }
     
-//    public void turnOnActionSets(IActionSetDescriptor[] newArray) {
-//        for (int i = 0; i < newArray.length; i++) {
-//            IActionSetDescriptor descriptor = newArray[i];
-//            
-//            addAlwaysOn(descriptor);
-//        }
-//    }
-//    
-//    public void turnOffActionSets(IActionSetDescriptor[] toDisable) {
-//        for (int i = 0; i < toDisable.length; i++) {
-//            IActionSetDescriptor descriptor = toDisable[i];
-//            
-//            turnOffActionSet(descriptor);
-//        }
-//    }
-//
-//    public void turnOffActionSet(IActionSetDescriptor toDisable) {
-//        addAlwaysOff(toDisable);
-//    }
+    public void turnOnActionSets(IActionSetDescriptor[] newArray) {
+        for (int i = 0; i < newArray.length; i++) {
+            IActionSetDescriptor descriptor = newArray[i];
+            
+            addAlwaysOn(descriptor);
+        }
+    }
+    
+    public void turnOffActionSets(IActionSetDescriptor[] toDisable) {
+        for (int i = 0; i < toDisable.length; i++) {
+            IActionSetDescriptor descriptor = toDisable[i];
+            
+            turnOffActionSet(descriptor);
+        }
+    }
+
+    public void turnOffActionSet(IActionSetDescriptor toDisable) {
+        addAlwaysOff(toDisable);
+    }
     
     /**
      * Return the active fast view or null if there are no
@@ -1760,9 +1759,9 @@ public class Perspective {
      * Sets the new wizard actions for the page.
      * This is List of Strings.
      */
-    public void setNewWizardActionIds(ArrayList newList) {
-        newWizardShortcuts = newList;
-    }
+//    public void setNewWizardActionIds(ArrayList newList) {
+//        newWizardShortcuts = newList;
+//    }
 
     /**
      * Sets the perspective actions for this page.
@@ -2024,56 +2023,56 @@ public class Perspective {
     }
 
     //for dynamic UI
-//    /* package */void addActionSet(IActionSetDescriptor newDesc) {
+    /* package */void addActionSet(IActionSetDescriptor newDesc) {
 //    	IContextService service = (IContextService)page.getWorkbenchWindow().getService(IContextService.class);
-//    	try {
+    	try {
 //			service.activateContext(ContextAuthority.DEFER_EVENTS);
-//			for (int i = 0; i < alwaysOnActionSets.size(); i++) {
-//				IActionSetDescriptor desc = (IActionSetDescriptor) alwaysOnActionSets
-//						.get(i);
-//				if (desc.getId().equals(newDesc.getId())) {
-//					removeAlwaysOn(desc);
-//					removeAlwaysOff(desc);
-//					break;
-//				}
-//			}
-//			addAlwaysOn(newDesc);
-//		} finally {
+			for (int i = 0; i < alwaysOnActionSets.size(); i++) {
+				IActionSetDescriptor desc = (IActionSetDescriptor) alwaysOnActionSets
+						.get(i);
+				if (desc.getId().equals(newDesc.getId())) {
+					removeAlwaysOn(desc);
+					removeAlwaysOff(desc);
+					break;
+				}
+			}
+			addAlwaysOn(newDesc);
+		} finally {
 //    		service.activateContext(ContextAuthority.SEND_EVENTS);
-//    	}
-//    }
+    	}
+    }
 
     // for dynamic UI
-//    /* package */void removeActionSet(String id) {
+    /* package */void removeActionSet(String id) {
 //    	IContextService service = (IContextService)page.getWorkbenchWindow().getService(IContextService.class);
-//    	try {
+    	try {
 //			service.activateContext(ContextAuthority.DEFER_EVENTS);
-//			for (int i = 0; i < alwaysOnActionSets.size(); i++) {
-//				IActionSetDescriptor desc = (IActionSetDescriptor) alwaysOnActionSets
-//						.get(i);
-//				if (desc.getId().equals(id)) {
-//					removeAlwaysOn(desc);
-//					break;
-//				}
-//			}
-//
-//			for (int i = 0; i < alwaysOffActionSets.size(); i++) {
-//				IActionSetDescriptor desc = (IActionSetDescriptor) alwaysOffActionSets
-//						.get(i);
-//				if (desc.getId().equals(id)) {
-//					removeAlwaysOff(desc);
-//					break;
-//				}
-//			}
-//		} finally {
+			for (int i = 0; i < alwaysOnActionSets.size(); i++) {
+				IActionSetDescriptor desc = (IActionSetDescriptor) alwaysOnActionSets
+						.get(i);
+				if (desc.getId().equals(id)) {
+					removeAlwaysOn(desc);
+					break;
+				}
+			}
+
+			for (int i = 0; i < alwaysOffActionSets.size(); i++) {
+				IActionSetDescriptor desc = (IActionSetDescriptor) alwaysOffActionSets
+						.get(i);
+				if (desc.getId().equals(id)) {
+					removeAlwaysOff(desc);
+					break;
+				}
+			}
+		} finally {
 //    		service.activateContext(ContextAuthority.SEND_EVENTS);
-//    	}
-//    }
+    	}
+    }
     
-//    void removeActionSet(IActionSetDescriptor toRemove) {
-//        removeAlwaysOn(toRemove);
-//        removeAlwaysOff(toRemove);
-//    }
+    void removeActionSet(IActionSetDescriptor toRemove) {
+        removeAlwaysOn(toRemove);
+        removeAlwaysOff(toRemove);
+    }
 
 //    public void setFastViewState(int newState) {
 //        fastViewPane.setState(newState);
@@ -2150,13 +2149,13 @@ public class Perspective {
         getPresentation().getLayout().testInvariants();
     }
 
-//    public IActionSetDescriptor[] getAlwaysOnActionSets() {
-//        return (IActionSetDescriptor[]) alwaysOnActionSets.toArray(new IActionSetDescriptor[alwaysOnActionSets.size()]);
-//    }
-//    
-//    public IActionSetDescriptor[] getAlwaysOffActionSets() {
-//        return (IActionSetDescriptor[]) alwaysOffActionSets.toArray(new IActionSetDescriptor[alwaysOffActionSets.size()]);
-//    }
+    public IActionSetDescriptor[] getAlwaysOnActionSets() {
+        return (IActionSetDescriptor[]) alwaysOnActionSets.toArray(new IActionSetDescriptor[alwaysOnActionSets.size()]);
+    }
+    
+    public IActionSetDescriptor[] getAlwaysOffActionSets() {
+        return (IActionSetDescriptor[]) alwaysOffActionSets.toArray(new IActionSetDescriptor[alwaysOffActionSets.size()]);
+    }
 
 //	/* package */ FastViewPane getFastViewPane() {
 //		return fastViewPane;
