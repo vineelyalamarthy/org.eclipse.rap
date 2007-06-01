@@ -225,15 +225,14 @@ public class TableViewer extends AbstractTableViewer {
 	}
 	
 	protected void doResetItem(Item item) {
-//		TableItem tableItem = (TableItem) item;
-//		int columnCount = Math.max(1, table.getColumnCount());
-//		for (int i = 0; i < columnCount; i++) {
-//			tableItem.setText(i, ""); //$NON-NLS-1$
-//			if (tableItem.getImage(i) != null) {
-//				tableItem.setImage(i, null);
-//			}
-//		}
-		throw new UnsupportedOperationException();
+		TableItem tableItem = (TableItem) item;
+		int columnCount = Math.max(1, table.getColumnCount());
+		for (int i = 0; i < columnCount; i++) {
+			tableItem.setText(i, ""); //$NON-NLS-1$
+			if (tableItem.getImage(i) != null) {
+				tableItem.setImage(i, null);
+			}
+		}
 	}
 
 	protected void doRemove(int start, int end) {

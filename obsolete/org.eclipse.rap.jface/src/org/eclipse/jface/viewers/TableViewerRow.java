@@ -92,8 +92,7 @@ public class TableViewerRow extends ViewerRow {
 	 * @see org.eclipse.jface.viewers.ViewerRow#getImage(int)
 	 */
 	public Image getImage(int columnIndex) {
-//		return item.getImage(columnIndex);
-		throw new UnsupportedOperationException();
+		return item.getImage(columnIndex);
 	}
 
 	/* (non-Javadoc)
@@ -131,12 +130,10 @@ public class TableViewerRow extends ViewerRow {
 	 * @see org.eclipse.jface.viewers.ViewerRow#setImage(int, org.eclipse.swt.graphics.Image)
 	 */
 	public void setImage(int columnIndex, Image image) {
-//		Image oldImage = item.getImage(columnIndex);
-//		if (oldImage != image) {
-//			item.setImage(columnIndex,image);
-//			throw new UnsupportedOperationException();
-//		}
-		// TODO: implement get/set image for tableitem
+		Image oldImage = item.getImage(columnIndex);
+		if (oldImage != image) {
+			item.setImage(columnIndex,image);
+		}
 	}
 
 	/* (non-Javadoc)
