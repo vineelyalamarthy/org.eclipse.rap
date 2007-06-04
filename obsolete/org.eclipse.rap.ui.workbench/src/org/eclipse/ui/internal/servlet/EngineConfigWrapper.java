@@ -223,6 +223,8 @@ final class EngineConfigWrapper implements IEngineConfig {
                                     msg,
                                     thr );
         WorkbenchPlugin.getDefault().getLog().log( status );
+        // TODO [rst] Added to make errors in custom themes visible on the console
+        System.err.println( msg + " Reason: " + thr.getMessage() );
       }
     }
   }
