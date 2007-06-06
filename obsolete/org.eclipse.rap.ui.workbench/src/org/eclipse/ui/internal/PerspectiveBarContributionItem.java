@@ -16,7 +16,9 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.internal.graphics.FontSizeEstimation;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IPerspectiveDescriptor;
@@ -131,10 +133,10 @@ public class PerspectiveBarContributionItem extends ContributionItem {
 //                if (apiPreferenceStore.getString(
 //                        IWorkbenchPreferenceConstants.DOCK_PERSPECTIVE_BAR)
 //                        .equals(IWorkbenchPreferenceConstants.TOP_LEFT)) {
-					toolItem.setText(perspective.getLabel());
+//					toolItem.setText(perspective.getLabel());
 //				} else {
-//					toolItem.setText(shortenText(perspective.getLabel(),
-//                            toolItem));
+					toolItem.setText(shortenText(perspective.getLabel(),
+                            toolItem));
 //				}
 //            } else {
 //                toolItem.setText(""); //$NON-NLS-1$
@@ -214,18 +216,20 @@ public class PerspectiveBarContributionItem extends ContributionItem {
 			return null;
 		}
         String returnText = textValue;
+        Font font = item.getParent().getFont();
 //        GC gc = new GC(item.getParent());
-//        int maxWidth = getMaxWidth(item.getImage());
+        int maxWidth = getMaxWidth(item.getImage());
+        if (FontSizeEstimation.textExtent(textValue, 0, font).x >= maxWidth) {
 //        if (gc.textExtent(textValue).x >= maxWidth) {
-//            for (int i = textValue.length(); i > 0; i--) {
-//                String test = textValue.substring(0, i);
-//                test = test + ellipsis;
-//                if (gc.textExtent(test).x < maxWidth) {
-//                    returnText = test;
-//                    break;
-//                }
-//            }
-//        }
+            for (int i = textValue.length(); i > 0; i--) {
+                String test = textValue.substring(0, i);
+                test = test + ellipsis;
+                if (FontSizeEstimation.textExtent(test, 0, font).x < maxWidth) {
+                    returnText = test;
+                    break;
+                }
+            }
+        }
 //        gc.dispose();
         return returnText;
     }

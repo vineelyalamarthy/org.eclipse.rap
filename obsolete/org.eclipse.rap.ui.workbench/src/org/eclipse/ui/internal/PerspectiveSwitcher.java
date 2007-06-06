@@ -19,7 +19,8 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CBanner;
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
@@ -758,7 +759,7 @@ public class PerspectiveSwitcher implements IWindowTrim {
         if (rows == 1 || (toolbar.getStyle() & SWT.WRAP) == 0
                 || currentLocation == TOP_LEFT) {
             Point p = toolbar.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-            coolItem.setSize(coolItem.computeSize(p.x, p.y));
+            coolItem.setSize(coolItem.computeSize(p.x, p.y) );
             return;
         }
         Point offset = coolItem.computeSize(0, 0);
