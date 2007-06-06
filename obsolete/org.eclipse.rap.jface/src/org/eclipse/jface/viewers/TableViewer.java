@@ -220,8 +220,7 @@ public class TableViewer extends AbstractTableViewer {
 	}
 
 	protected void doClearAll() {
-//		table.clearAll();
-		// TODO
+		table.clearAll();
 	}
 	
 	protected void doResetItem(Item item) {
@@ -277,8 +276,7 @@ public class TableViewer extends AbstractTableViewer {
 	}
 	
 	protected void doSelect(int[] indices) {
-		// TODO: get this back when we have Table#select(int[])
-//		table.select(indices);
+		table.select(indices);
 	}
 
 	/**
