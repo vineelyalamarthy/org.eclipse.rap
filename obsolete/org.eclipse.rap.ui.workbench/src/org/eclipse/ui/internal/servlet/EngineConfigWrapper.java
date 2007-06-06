@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.swt.internal.engine.*;
 import org.eclipse.swt.internal.lifecycle.*;
 import org.eclipse.swt.internal.theme.ThemeManager;
+import org.eclipse.swt.internal.theme.ThemeManager.ResourceLoader;
 import org.eclipse.swt.resources.IResource;
 import org.eclipse.swt.resources.ResourceManager;
 import org.eclipse.ui.Activator;
@@ -201,13 +202,25 @@ final class EngineConfigWrapper implements IEngineConfig {
       String asDefaultStr = elements[ i ].getAttribute( "default" );
       boolean asDefault = Boolean.valueOf( asDefaultStr ).booleanValue();
       try {
-        Bundle bundle = Platform.getBundle( contributorName );
+        final Bundle bundle = Platform.getBundle( contributorName );
         URL url = bundle.getResource( themeFile );
         InputStream inStream = url.openStream();
         if( inStream != null ) {
           try {
             ThemeManager manager = ThemeManager.getInstance();
-            manager.registerTheme( themeId, themeName, inStream, asDefault );
+            ResourceLoader resLoader = new ResourceLoader() {
+              public InputStream getResourceAsStream( String resourceName )
+                throws IOException
+              {
+                URL url = bundle.getResource( resourceName );
+                return url.openStream();
+              }
+            };
+            manager.registerTheme( themeId,
+                                   themeName,
+                                   inStream,
+                                   resLoader ,
+                                   asDefault );
           } finally {
             inStream.close();
           }
