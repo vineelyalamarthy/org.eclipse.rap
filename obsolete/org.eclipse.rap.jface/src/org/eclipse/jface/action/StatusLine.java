@@ -89,8 +89,8 @@ import org.eclipse.swt.widgets.*;
     protected ToolItem fCancelButton;
 
     /** stop image descriptor */
-//    protected static ImageDescriptor fgStopImage = ImageDescriptor
-//            .createFromFile(StatusLine.class, "images/stop.gif");//$NON-NLS-1$
+    protected static ImageDescriptor fgStopImage = ImageDescriptor
+            .createFromFile(StatusLine.class, "images/stop.gif");//$NON-NLS-1$
 //    static {
 //        JFaceResources.getImageRegistry().put(
 //                "org.eclipse.jface.parts.StatusLine.stopImage", fgStopImage);//$NON-NLS-1$
@@ -266,7 +266,7 @@ import org.eclipse.swt.widgets.*;
 
         fToolBar = new ToolBar(this, SWT.FLAT);
         fCancelButton = new ToolItem(fToolBar, SWT.PUSH);
-//        fCancelButton.setImage(fgStopImage.createImage());
+        fCancelButton.setImage(fgStopImage.createImage());
         fCancelButton.setText("Stop"); //$NON-NLS-1$
         fCancelButton.setToolTipText(JFaceResources
                 .getString("Cancel_Current_Operation")); //$NON-NLS-1$

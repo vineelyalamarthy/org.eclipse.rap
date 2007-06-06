@@ -92,6 +92,7 @@ Export-Package: org.eclipse.ui;
    org.eclipse.jface.action,
    org.eclipse.swt.widgets,
    org.eclipse.ui",
+ org.eclipse.ui.progress,
  org.eclipse.ui.services,
  org.eclipse.ui.statushandlers,
  org.eclipse.ui.views;uses:="org.eclipse.jface.resource,org.eclipse.core.runtime,org.eclipse.ui"

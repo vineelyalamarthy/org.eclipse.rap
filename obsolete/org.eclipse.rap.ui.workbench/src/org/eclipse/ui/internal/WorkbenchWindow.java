@@ -48,11 +48,11 @@ import org.eclipse.ui.internal.menus.IActionSetsListener;
 import org.eclipse.ui.internal.menus.LegacyActionPersistence;
 import org.eclipse.ui.internal.misc.UIListenerLogging;
 import org.eclipse.ui.internal.presentations.DefaultActionBarPresentationFactory;
+import org.eclipse.ui.internal.progress.ProgressRegion;
 import org.eclipse.ui.internal.provisional.application.IActionBarConfigurer2;
 import org.eclipse.ui.internal.provisional.presentations.IActionBarPresentationFactory;
 import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.services.ServiceLocator;
-import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.presentations.AbstractPresentationFactory;
 
 /**
@@ -91,7 +91,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 
 	private TrimLayout defaultLayout;
 
-//	ProgressRegion progressRegion = null;
+	ProgressRegion progressRegion = null;
 
 	// Legacy (3.2) contribution handling
 //	private TrimBarManager2 trimMgr2 = null;
@@ -978,7 +978,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			perspectiveSwitcher.createControl(shell);
 		}
 
-//		createProgressIndicator(shell);
+		createProgressIndicator(shell);
 
 //		if (getShowHeapStatus()) {
 //			createHeapStatus(shell);
@@ -1491,7 +1491,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			serviceLocator.dispose();
 
 			// Null out the progress region. Bug 64024.
-//			progressRegion = null;
+			progressRegion = null;
 			
 			// Remove drop targets
 //			DragUtil.removeDragTarget(null, trimDropTarget);
@@ -3002,13 +3002,13 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * @param shell
 	 *            the parent shell
 	 */
-//	private void createProgressIndicator(Shell shell) {
-//		if (getWindowConfigurer().getShowProgressIndicator()) {
-//			progressRegion = new ProgressRegion();
-//			progressRegion.createContents(shell, this);
-//		}
-//
-//	}
+	private void createProgressIndicator(Shell shell) {
+		if (getWindowConfigurer().getShowProgressIndicator()) {
+			progressRegion = new ProgressRegion();
+			progressRegion.createContents(shell, this);
+		}
+
+	}
 
 	class PageList {
 		// List of pages in the order they were created;
@@ -3456,17 +3456,17 @@ public class WorkbenchWindow extends ApplicationWindow implements
 //			}
 //		}
 
-//		if (progressRegion != null) {
-//			if (getWindowConfigurer().getShowProgressIndicator()) {
-//				if (defaultLayout.getTrim(progressRegion.getId()) == null) {
-//					defaultLayout.addTrim(SWT.BOTTOM, progressRegion);
-//				}
-//				progressRegion.getControl().setVisible(true);
-//			} else {
-//				defaultLayout.removeTrim(progressRegion);
-//				progressRegion.getControl().setVisible(false);
-//			}
-//		}
+		if (progressRegion != null) {
+			if (getWindowConfigurer().getShowProgressIndicator()) {
+				if (defaultLayout.getTrim(progressRegion.getId()) == null) {
+					defaultLayout.addTrim(SWT.BOTTOM, progressRegion);
+				}
+				progressRegion.getControl().setVisible(true);
+			} else {
+				defaultLayout.removeTrim(progressRegion);
+				progressRegion.getControl().setVisible(false);
+			}
+		}
 		
 		defaultLayout.setCenterControl(getPageComposite());
 
@@ -3604,9 +3604,9 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	/**
 	 * @return Returns the progressRegion.
 	 */
-//	public ProgressRegion getProgressRegion() {
-//		return progressRegion;
-//	}
+	public ProgressRegion getProgressRegion() {
+		return progressRegion;
+	}
 
 	/**
 	 * Adds the given control to the specified side of this window's trim.

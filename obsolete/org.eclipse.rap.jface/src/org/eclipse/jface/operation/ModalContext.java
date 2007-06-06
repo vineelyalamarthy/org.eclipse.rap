@@ -11,8 +11,9 @@
 package org.eclipse.jface.operation;
 
 import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.core.runtime.*;
-import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Utility class for supporting modal operations.
@@ -68,12 +69,12 @@ public class ModalContext {
         /**
          * The display used for event dispatching.
          */
-//        private Display display;
+        private Display display;
 
         /**
          * Indicates whether to continue event queue dispatching.
          */
-//        private volatile boolean continueEventDispatching = true;
+        private volatile boolean continueEventDispatching = true;
         
         /**
          * The thread that forked this modal context thread.
@@ -91,12 +92,12 @@ public class ModalContext {
          * @param display the display to be used to read and dispatch events
          */
         private ModalContextThread(IRunnableWithProgress operation,
-                IProgressMonitor monitor, Device display) {
+                IProgressMonitor monitor, Display display) {
             super("ModalContext"); //$NON-NLS-1$
             Assert.isTrue(monitor != null && display != null);
             runnable = operation;
-//            progressMonitor = new AccumulatingProgressMonitor(monitor, display);
-//            this.display = display;
+            progressMonitor = new AccumulatingProgressMonitor(monitor, display);
+            this.display = display;
             this.callingThread = Thread.currentThread();
         }
 
@@ -295,7 +296,7 @@ public class ModalContext {
      *  <code>InterruptedException</code>; this method propagates the exception
      */
     public static void run(IRunnableWithProgress operation, boolean fork,
-             IProgressMonitor monitor , Device display)
+             IProgressMonitor monitor , Display display)
             throws InvocationTargetException, InterruptedException {
 //        Assert.isTrue(operation != null && monitor != null);
         Assert.isTrue(operation != null);

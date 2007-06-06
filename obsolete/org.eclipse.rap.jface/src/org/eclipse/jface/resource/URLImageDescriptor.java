@@ -98,14 +98,19 @@ class URLImageDescriptor extends ImageDescriptor {
     public String toString() {
         return "URLImageDescriptor(" + url + ")"; //$NON-NLS-1$ //$NON-NLS-2$
     }
-    
-    public Image createImage(boolean returnMissingImageOnError, Device device) {
-        String path = url.toString();
-        String schema = "bundleentry://"; //$NON-NLS-1$
-        int pos = path.indexOf( schema );
-        if( pos != -1 ) {
-          path = path.substring( pos + schema.length() );
-        }
-        return Image.find( path, getStream() );
-      }
+
+  public Image createImage( boolean returnMissingImageOnError, Device device ) {
+    String path = url.toString();
+    String schema = "bundleentry://"; //$NON-NLS-1$
+    int pos = path.indexOf( schema );
+    if( pos != -1 ) {
+      path = path.substring( pos + schema.length() );
+    }
+    schema = "bundleresource://"; //$NON-NLS-1$
+    pos = path.indexOf( schema );
+    if( pos != -1 ) {
+      path = path.substring( pos + schema.length() );
+    }
+    return Image.find( path, getStream() );
+  }
 }

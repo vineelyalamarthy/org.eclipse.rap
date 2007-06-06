@@ -16,6 +16,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.progress.IProgressService;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.ui.views.IViewRegistry;
 
@@ -84,7 +87,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * @return the progress service
 	 * @since 3.0
 	 */
-//	public IProgressService getProgressService();
+	public IProgressService getProgressService();
 
 	/**
 	 * Adds a workbench listener.

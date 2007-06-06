@@ -38,10 +38,13 @@ import org.eclipse.ui.internal.StartupThreading.StartupRunnable;
 import org.eclipse.ui.internal.browser.WorkbenchBrowserSupport;
 import org.eclipse.ui.internal.commands.CommandService;
 import org.eclipse.ui.internal.handlers.HandlerService;
+import org.eclipse.ui.internal.progress.ProgressManager;
+import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
 import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.services.*;
 import org.eclipse.ui.internal.util.SessionSingletonEventManager;
 import org.eclipse.ui.internal.util.Util;
+import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.services.IDisposable;
 import org.eclipse.ui.views.IViewRegistry;
 
@@ -2735,9 +2738,9 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * 
 	 * @see org.eclipse.ui.IWorkbench#getProgressService()
 	 */
-//	public IProgressService getProgressService() {
-//		return ProgressManager.getInstance();
-//	}
+	public IProgressService getProgressService() {
+		return ProgressManager.getInstance();
+	}
 
 //	private WorkbenchActivitySupport workbenchActivitySupport;
 
