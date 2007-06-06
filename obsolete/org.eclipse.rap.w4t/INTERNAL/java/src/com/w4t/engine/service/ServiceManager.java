@@ -46,7 +46,7 @@ public class ServiceManager {
       IResourceManager manager = ResourceManager.getInstance();
       if( manager != null ) {
         Enumeration resources = manager.getResources( SERVICEHANDLER_XML );
-        while( resources.hasMoreElements() ) {
+        while( resources != null && resources.hasMoreElements() ) {
           URL url = ( URL )resources.nextElement();
           DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
           DocumentBuilder builder = factory.newDocumentBuilder();
