@@ -5,10 +5,10 @@
       The Rich Ajax Platform Project Updates
    </description>
    <feature url="features/org.eclipse.rap_1.0.0.qualifier.jar" id="org.eclipse.rap" version="1.0.0.qualifier">
-      <category name="Rich Ajax Platform (RAP)"/>
+      <category name="Rich Ajax Platform (RAP) Incubation"/>
    </feature>
    <feature url="features/org.eclipse.rap.sdk_1.0.0.qualifier.jar" id="org.eclipse.rap.sdk" version="1.0.0.qualifier">
-      <category name="Rich Ajax Platform (RAP)"/>
+      <category name="Rich Ajax Platform (RAP) Incubation"/>
    </feature>
-   <category-def name="Rich Ajax Platform (RAP)" label="org.eclipse.rap.updatesite"/>
+   <category-def name="Rich Ajax Platform (RAP) Incubation" label="org.eclipse.rap.updatesite"/>
 </site>
