@@ -182,6 +182,10 @@ public class DefaultTabFolder extends AbstractTabFolder {
 //        paneFolder.setTabHeight(computeTabHeight());
         
         viewToolBar.moveAbove(null);
+        
+        // TODO: hack around workbench themes
+        activeShellColors[1].background[0] = paneFolder.getControl().getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION);
+        inactiveShellColors[1].background[0] = paneFolder.getControl().getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION);
     }
 
     /**
