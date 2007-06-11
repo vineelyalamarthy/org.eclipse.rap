@@ -329,8 +329,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * (non-Javadoc) Method declared in AbstractTreeViewer.
 	 */
 	protected void showItem(Item item) {
-//		getTree().showItem((TreeItem) item);
-		throw new UnsupportedOperationException();
+		getTree().showItem((TreeItem) item);
 	}
 
 	/*
