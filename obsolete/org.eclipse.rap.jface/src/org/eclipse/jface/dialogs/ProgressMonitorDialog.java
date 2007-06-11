@@ -20,6 +20,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.lifecycle.UICallBackUtil;
 import org.eclipse.swt.widgets.*;
 
 /**
@@ -487,6 +488,7 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
     // this request.
     progressMonitor.forked = true;
     final Display display = Display.getCurrent();
+    final String[] runnableId = new String[ 1 ];
     IRunnableWithProgress wrapper = new IRunnableWithProgress() {
       public void run( final IProgressMonitor monitor )
         throws InvocationTargetException, InterruptedException
@@ -503,11 +505,20 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
           display.syncExec( new Runnable() {
             public void run() {
               finishedRun();
+              deactivateUICallBack();
             }
           } );
         }
       }
-
+      
+      private void deactivateUICallBack() {
+        UICallBackUtil.runNonUIThreadWithFakeContext( display, new Runnable() {
+          public void run() {
+            UICallBackUtil.deactivateUICallBack( runnableId[ 0 ] );
+          }
+        } );
+      }
+      
       private void openError( final Throwable thr ) {
         String pluginId = "org.eclipse.rap.jface";
         IStatus status = new Status( IStatus.ERROR,
@@ -522,6 +533,8 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
                                null );
       }
     };
+    runnableId[ 0 ] = String.valueOf( wrapper.hashCode() );
+    UICallBackUtil.activateUICallBack( runnableId[ 0 ] );
     ModalContext.run( wrapper,
                       true,
                       getProgressMonitor(),
