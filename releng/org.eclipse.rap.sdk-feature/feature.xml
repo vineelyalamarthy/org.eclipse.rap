@@ -17,23 +17,12 @@
       %license
    </license>
 
-   <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/technology/rap/update-site"/>
-   </url>
-
-   <includes
-         id="org.eclipse.rap.source"
-         version="0.0.0"/>
-
    <requires>
       <import feature="org.eclipse.rap" version="1.0.0" match="equivalent"/>
    </requires>
-
-   <plugin
-         id="org.eclipse.rap.help"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+   
+   <includes
+         id="org.eclipse.rap.source"
+         version="0.0.0"/>
 
 </feature>
