@@ -167,11 +167,15 @@ public class PerspectiveSwitcher implements IWindowTrim {
 //		setPropertyChangeListener();
 		// this listener will only be run when the Shell is being disposed
 		// and each WorkbenchWindow has its own PerspectiveSwitcher
-		toolBarListener = new DisposeListener() {
-			public void widgetDisposed(DisposeEvent e) {
-				dispose();
-			}
-		};
+		
+		// TODO: [bm] review this. this causes an endless loop when you do
+		// PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().close();
+		// see bug 191977
+//		toolBarListener = new DisposeListener() {
+//			public void widgetDisposed(DisposeEvent e) {
+//				dispose();
+//			}
+//		};
         window.addPerspectiveListener(changeListener);
         window.addPageListener(changeListener);
 	}
@@ -482,7 +486,8 @@ public class PerspectiveSwitcher implements IWindowTrim {
 		}
 //		hookDragSupport();
 
-		perspectiveBar.getControl().addDisposeListener(toolBarListener);
+		// XXX: see comment in line 171
+//		perspectiveBar.getControl().addDisposeListener(toolBarListener);
 	}
 
 	/**
