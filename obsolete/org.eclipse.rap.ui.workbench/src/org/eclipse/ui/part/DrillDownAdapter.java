@@ -222,8 +222,7 @@ public class DrillDownAdapter implements ISelectionChangedListener {
      * </p>
      */
     public void goBack() {
-//        Object currentInput = fChildTree.getInput();
-    	ISelection oldSelection = fChildTree.getSelection();
+        Object currentInput = fChildTree.getInput();
     	
         DrillFrame oFrame = fDrillStack.goBack();
         Object input = oFrame.getElement();
@@ -231,10 +230,10 @@ public class DrillDownAdapter implements ISelectionChangedListener {
         expand(oFrame.getExpansion());
         // if there was a selection, it should have been preserved,
         // but if not, select the element that was drilled into
-//        if (fChildTree.getSelection().isEmpty()) {
-//			fChildTree
-//                    .setSelection(new StructuredSelection(currentInput), true);
-//		}
+        if (fChildTree.getSelection().isEmpty()) {
+			fChildTree
+                    .setSelection(new StructuredSelection(currentInput), true);
+		}
         updateNavigationButtons();
     }
 
@@ -247,17 +246,17 @@ public class DrillDownAdapter implements ISelectionChangedListener {
      * </p>
      */
     public void goHome() {
-//        Object currentInput = fChildTree.getInput();
+        Object currentInput = fChildTree.getInput();
         DrillFrame oFrame = fDrillStack.goHome();
         Object input = oFrame.getElement();
         fChildTree.setInput(input);
         expand(oFrame.getExpansion());
         // if there was a selection, it should have been preserved,
         // but if not, select the element that was last drilled into
-//        if (fChildTree.getSelection().isEmpty()) {
-//			fChildTree
-//                    .setSelection(new StructuredSelection(currentInput), true);
-//		}
+        if (fChildTree.getSelection().isEmpty()) {
+			fChildTree
+                    .setSelection(new StructuredSelection(currentInput), true);
+		}
         updateNavigationButtons();
     }
 
