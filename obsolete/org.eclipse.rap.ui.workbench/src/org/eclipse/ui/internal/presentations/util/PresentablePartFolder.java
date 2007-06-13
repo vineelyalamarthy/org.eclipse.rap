@@ -342,7 +342,8 @@ public final class PresentablePartFolder implements IPresentablePartList {
     }
     
     public IPresentablePart getPartForTab(AbstractTabItem tab) {
-        Assert.isTrue(!isDisposed());
+    	// XXX: widget is already disposed due to our concept
+//        Assert.isTrue(!isDisposed());
 
         if (tab == null) {
             return null;
@@ -360,7 +361,8 @@ public final class PresentablePartFolder implements IPresentablePartList {
      * @return the tab for the given part, or null if there is no such tab
      */
     public AbstractTabItem getTab(IPresentablePart part) {
-        Assert.isTrue(!isDisposed());
+    	// XXX: widget is already disposed due to our concept
+//        Assert.isTrue(!isDisposed());
         
         return folder.findItem(part);
     }

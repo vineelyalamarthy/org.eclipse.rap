@@ -14,8 +14,6 @@ package org.eclipse.ui.internal;
 import java.util.*;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -580,11 +578,13 @@ public class PerspectiveHelper {
 //        }
 
         // *** Do we even need to do this if detached windows not supported?
-        Enumeration itr = children.elements();
-        while (itr.hasMoreElements()) {
-            LayoutPart part = (LayoutPart) itr.nextElement();
-            part.reparent(parent);
-        }
+
+        // XXX: widget is already disposed due to our concept
+//        Enumeration itr = children.elements();
+//        while (itr.hasMoreElements()) {
+//            LayoutPart part = (LayoutPart) itr.nextElement();
+//            part.reparent(parent);
+//        }
         
         // Dispose main layout.
 
