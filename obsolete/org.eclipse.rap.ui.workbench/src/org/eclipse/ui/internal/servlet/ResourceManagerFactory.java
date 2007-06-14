@@ -13,16 +13,18 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.resources.IResourceManagerFactory;
-import org.eclipse.ui.Activator;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.*;
+
 import com.w4t.IResourceManager;
 import com.w4t.W4TContext;
 
@@ -115,6 +117,15 @@ final class ResourceManagerFactory implements IResourceManagerFactory {
                           final RegisterOptions options )
     {
       resourceManager.register( name, charset, options );
+      registerAtHttpService( name );
+    }
+    
+    public void register( String name,
+                          InputStream is,
+                          String charset,
+                          RegisterOptions options )
+    {
+      resourceManager.register( name, is, charset, options );
       registerAtHttpService( name );
     }
 

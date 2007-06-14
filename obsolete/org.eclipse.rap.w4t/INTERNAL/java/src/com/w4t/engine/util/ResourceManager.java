@@ -14,6 +14,7 @@ import java.io.*;
 import java.net.*;
 import java.text.MessageFormat;
 import java.util.*;
+
 import com.w4t.IResourceManager;
 import com.w4t.ParamCheck;
 import com.w4t.engine.requests.RequestParams;
@@ -178,6 +179,43 @@ public class ResourceManager extends ResourceBase implements IResourceManager {
     doRegister( name, charset, options );
   }
   
+  public void register( final String name, final InputStream is ) {
+    ParamCheck.notNull( name, "name" );
+    ParamCheck.notNull( is, "is" );
+    String key = createKey( name );
+    try {
+      int[] content = ResourceUtil.readBinary( is );
+      doRegister( name, null, RegisterOptions.NONE, key, content );
+    } catch ( IOException e ) {
+      String text = "Failed to register resource ''{0}''.";
+      String msg = MessageFormat.format( text, new Object[] { name } );
+      throw new ResourceRegistrationException( msg, e ) ;
+    }
+    repository.put( key, name );
+  }
+
+  public void register( final String name,
+                        final InputStream is, 
+                        final String charset, 
+                        final RegisterOptions options ) 
+  {
+    ParamCheck.notNull( name, "name" );
+    ParamCheck.notNull( is, "is" );
+    ParamCheck.notNull( charset, "charset" );
+    ParamCheck.notNull( options, "options" );
+    boolean compress = shouldCompress( options );
+    String key = createKey( name );
+    try {
+      int[] content = ResourceUtil.read( is, charset, compress );
+      doRegister( name, charset, options, key, content );
+    } catch ( IOException e ) {
+      String text = "Failed to register resource ''{0}''.";
+      String msg = MessageFormat.format( text, new Object[] { name } );
+      throw new ResourceRegistrationException( msg, e ) ;
+    }
+    repository.put( key, name );
+  }
+  
   public String getCharset( final String name ) {
     ParamCheck.notNull( name, "name" );
     Resource resource = ( Resource )cache.get( createKey( name ) );
@@ -313,22 +351,6 @@ public class ResourceManager extends ResourceBase implements IResourceManager {
       }
       repository.put( key, name );
     }
-  }
-  
-  public void register( final String name, final InputStream is ) {
-    ParamCheck.notNull( name, "name" );
-    ParamCheck.notNull( is, "is" );
-    String key = createKey( name );
-
-    try {
-      int[] content = ResourceUtil.readBinary( is );
-      doRegister( name, null, RegisterOptions.NONE, key, content );
-    } catch ( IOException e ) {
-      String text = "Failed to register resource ''{0}''.";
-      String msg = MessageFormat.format( text, new Object[] { name } );
-      throw new ResourceRegistrationException( msg, e ) ;
-    }
-    repository.put( key, name );
   }
 
   private void doRegister( final String name, 

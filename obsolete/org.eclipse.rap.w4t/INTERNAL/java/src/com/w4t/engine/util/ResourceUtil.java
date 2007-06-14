@@ -46,6 +46,20 @@ final class ResourceUtil {
     return result;
   }
   
+  static int[] read( final InputStream is, 
+                     final String charset, 
+                     final boolean compress )
+  throws IOException
+  {
+    final int[] result;
+    if( charset != null ) {
+      result = readText( is, charset, compress );
+    } else {
+      result = readBinary( is );
+    }
+    return result;
+  }
+  
   static void write( final File toWrite, final int[] content )
     throws IOException
   {
@@ -75,22 +89,32 @@ final class ResourceUtil {
     throws IOException
   {
     // read resource
-    StringBuffer buffer = new StringBuffer();
     InputStream is = openStream( name );
+    int[] result;
     try {
-      InputStreamReader reader = new InputStreamReader( is, charset );
-      BufferedReader br = new BufferedReader( reader );
-      try {
-        int character = br.read();    
-        while( character != -1 ) {
-          buffer.append( ( char )character );
-          character = br.read();
-        }
-      } finally {
-        br.close();
-      }
+      result = readText( is, charset, compress );
     } finally {
       is.close();
+    }
+    return result;
+  }
+
+  static int[] readText( final InputStream is,
+                         final String charset,
+                         final boolean compress )
+    throws UnsupportedEncodingException, IOException
+  {
+    StringBuffer buffer = new StringBuffer();
+    InputStreamReader reader = new InputStreamReader( is, charset );
+    BufferedReader br = new BufferedReader( reader );
+    try {
+      int character = br.read();    
+      while( character != -1 ) {
+        buffer.append( ( char )character );
+        character = br.read();
+      }
+    } finally {
+      br.close();
     }
     // compress (JavaScript-) buffer if requested
     if( compress ) {

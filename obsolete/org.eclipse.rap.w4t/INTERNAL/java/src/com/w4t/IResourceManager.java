@@ -117,6 +117,29 @@ public interface IResourceManager {
    *         be versioned and/or compressed. Must not be <code>null</code>.
    */
   void register( String name, String charset, RegisterOptions options );
+  
+  /**
+   * <p> registers a text resource that is encoded with the given
+   * <code>charset</code> for download with the given name relative to the
+   * context root.</p>
+   * <p>By specifying an <code>option</code> other than <code>NONE</code> the
+   * resource will be versioned and/or compressed. As compressing is only
+   * intended for resources that contain JavaScript, versioning might be useful
+   * for other resources as well. When versioning is enabled a version number is
+   * appended to the resources' name which is derived from its content.</p>
+   * 
+   * @param name filename that represents the download path relative to the
+   *            applications context root.
+   * @param is the content of the resource to register.
+   * @param charset - the name of the charset which was used when the resource
+   *            was stored. Must not be <code>null</code>.
+   * @param options - an enumeration which specifies whether the resource will
+   *            be versioned and/or compressed. Must not be <code>null</code>.
+   */
+  void register( String name,
+                 InputStream is,
+                 String charset,
+                 RegisterOptions options );
 
   /**
    * <p>Returns the charset of a registered resource as it was specified in
