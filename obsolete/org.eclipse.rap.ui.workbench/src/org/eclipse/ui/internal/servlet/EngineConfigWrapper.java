@@ -209,17 +209,21 @@ final class EngineConfigWrapper implements IEngineConfig {
           try {
             ThemeManager manager = ThemeManager.getInstance();
             ResourceLoader resLoader = new ResourceLoader() {
-              public InputStream getResourceAsStream( String resourceName )
+              public InputStream getResourceAsStream( final String resourceName )
                 throws IOException
               {
+                InputStream result = null;
                 URL url = bundle.getResource( resourceName );
-                return url.openStream();
+                if( url != null ) {
+                  result = url.openStream();
+                }
+                return result;
               }
             };
             manager.registerTheme( themeId,
                                    themeName,
                                    inStream,
-                                   resLoader ,
+                                   resLoader,
                                    asDefault );
           } finally {
             inStream.close();
