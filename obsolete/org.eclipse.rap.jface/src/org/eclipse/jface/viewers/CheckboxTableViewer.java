@@ -11,11 +11,18 @@
 package org.eclipse.jface.viewers;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Widget;
 
 /**
  * A concrete viewer based on an SWT <code>Table</code>
@@ -161,17 +168,17 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
      *
      * @see ICheckStateListener#checkStateChanged
      */
-//    private void fireCheckStateChanged(final CheckStateChangedEvent event) {
-//        Object[] array = checkStateListeners.getListeners();
-//        for (int i = 0; i < array.length; i++) {
-//            final ICheckStateListener l = (ICheckStateListener) array[i];
-//            SafeRunnable.run(new SafeRunnable() {
-//                public void run() {
-//                    l.checkStateChanged(event);
-//                }
-//            });
-//        }
-//    }
+    private void fireCheckStateChanged(final CheckStateChangedEvent event) {
+        Object[] array = checkStateListeners.getListeners();
+        for (int i = 0; i < array.length; i++) {
+            final ICheckStateListener l = (ICheckStateListener) array[i];
+            SafeRunnable.run(new SafeRunnable() {
+                public void run() {
+                    l.checkStateChanged(event);
+                }
+            });
+        }
+    }
 
     /* (non-Javadoc)
      * Method declared on ICheckable.
@@ -179,7 +186,7 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
     public boolean getChecked(Object element) {
         Widget widget = findItem(element);
         if (widget instanceof TableItem) {
-//            return ((TableItem) widget).getChecked();
+            return ((TableItem) widget).getChecked();
         }
         return false;
     }
@@ -199,68 +206,68 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
         TableItem[] children = getTable().getItems();
         ArrayList v = new ArrayList(children.length);
         for (int i = 0; i < children.length; i++) {
-//            TableItem item = children[i];
-//            if (item.getChecked()) {
-//				v.add(item.getData());
-//			}
+          TableItem item = children[i];
+          if (item.getChecked()) {
+            v.add(item.getData());
+          }
         }
         return v.toArray();
     }
 
-//    /**
-//     * Returns the grayed state of the given element.
-//     *
-//     * @param element the element
-//     * @return <code>true</code> if the element is grayed,
-//     *   and <code>false</code> if not grayed
-//     */
-//    public boolean getGrayed(Object element) {
-//        Widget widget = findItem(element);
-//        if (widget instanceof TableItem) {
-//            return ((TableItem) widget).getGrayed();
-//        }
-//        return false;
-//    }
+    /**
+     * Returns the grayed state of the given element.
+     *
+     * @param element the element
+     * @return <code>true</code> if the element is grayed,
+     *   and <code>false</code> if not grayed
+     */
+    public boolean getGrayed(Object element) {
+        Widget widget = findItem(element);
+        if (widget instanceof TableItem) {
+            return ((TableItem) widget).getGrayed();
+        }
+        return false;
+    }
 
-//    /**
-//     * Returns a list of elements corresponding to grayed nodes in this
-//     * viewer.
-//     * <p>
-//     * This method is typically used when preserving the interesting
-//     * state of a viewer; <code>setGrayedElements</code> is used during the restore.
-//     * </p>
-//     *
-//     * @return the array of grayed elements
-//     * @see #setGrayedElements
-//     */
-//    public Object[] getGrayedElements() {
-//        TableItem[] children = getTable().getItems();
-//        List v = new ArrayList(children.length);
-//        for (int i = 0; i < children.length; i++) {
-//            TableItem item = children[i];
-//            if (item.getGrayed()) {
-//				v.add(item.getData());
-//			}
-//        }
-//        return v.toArray();
-//    }
+    /**
+     * Returns a list of elements corresponding to grayed nodes in this
+     * viewer.
+     * <p>
+     * This method is typically used when preserving the interesting
+     * state of a viewer; <code>setGrayedElements</code> is used during the restore.
+     * </p>
+     *
+     * @return the array of grayed elements
+     * @see #setGrayedElements
+     */
+    public Object[] getGrayedElements() {
+        TableItem[] children = getTable().getItems();
+        List v = new ArrayList(children.length);
+        for (int i = 0; i < children.length; i++) {
+            TableItem item = children[i];
+            if (item.getGrayed()) {
+				v.add(item.getData());
+			}
+        }
+        return v.toArray();
+    }
 
     /* (non-Javadoc)
      * Method declared on StructuredViewer.
      */
     public void handleSelect(SelectionEvent event) {
-//        if (event.detail == SWT.CHECK) {
-//            super.handleSelect(event); // this will change the current selection
-//
-//            TableItem item = (TableItem) event.item;
-//            Object data = item.getData();
-//            if (data != null) {
-//                fireCheckStateChanged(new CheckStateChangedEvent(this, data,
-//                        item.getChecked()));
-//            }
-//        } else {
-//			super.handleSelect(event);
-//		}
+      if (event.detail == SWT.CHECK) {
+        super.handleSelect(event); // this will change the current selection
+
+        TableItem item = (TableItem) event.item;
+        Object data = item.getData();
+        if (data != null) {
+          fireCheckStateChanged(new CheckStateChangedEvent(this, data,
+                                                           item.getChecked()));
+        }
+      } else {
+        super.handleSelect(event);
+      }
     }
 
     /* (non-Javadoc)
@@ -269,19 +276,19 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
     protected void preservingSelection(Runnable updateCode) {
 
         TableItem[] children = getTable().getItems();
-//        CustomHashtable checked = newHashtable(children.length * 2 + 1);
-//        CustomHashtable grayed = newHashtable(children.length * 2 + 1);
+        CustomHashtable checked = newHashtable(children.length * 2 + 1);
+        CustomHashtable grayed = newHashtable(children.length * 2 + 1);
 
         for (int i = 0; i < children.length; i++) {
             TableItem item = children[i];
             Object data = item.getData();
             if (data != null) {
-//                if (item.getChecked()) {
-//					checked.put(data, data);
-//				}
-//                if (item.getGrayed()) {
-//					grayed.put(data, data);
-//				}
+              if (item.getChecked()) {
+                checked.put(data, data);
+              }
+              if (item.getGrayed()) {
+                grayed.put(data, data);
+              }
             }
         }
 
@@ -289,12 +296,12 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 
         children = getTable().getItems();
         for (int i = 0; i < children.length; i++) {
-//            TableItem item = children[i];
-//            Object data = item.getData();
-//            if (data != null) {
-//                item.setChecked(checked.containsKey(data));
-//                item.setGrayed(grayed.containsKey(data));
-//            }
+          TableItem item = children[i];
+          Object data = item.getData();
+          if (data != null) {
+            item.setChecked(checked.containsKey(data));
+            item.setGrayed(grayed.containsKey(data));
+          }
         }
     }
 
@@ -315,24 +322,24 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
     public void setAllChecked(boolean state) {
         TableItem[] children = getTable().getItems();
         for (int i = 0; i < children.length; i++) {
-//            TableItem item = children[i];
-//            item.setChecked(state);
+            TableItem item = children[i];
+            item.setChecked(state);
         }
     }
 
-//    /**
-//     * Sets to the given value the grayed state for all elements in this viewer.
-//     *
-//     * @param state <code>true</code> if the element should be grayed,
-//     *  and <code>false</code> if it should be ungrayed
-//     */
-//    public void setAllGrayed(boolean state) {
-//        TableItem[] children = getTable().getItems();
-//        for (int i = 0; i < children.length; i++) {
-//            TableItem item = children[i];
-//            item.setGrayed(state);
-//        }
-//    }
+    /**
+     * Sets to the given value the grayed state for all elements in this viewer.
+     *
+     * @param state <code>true</code> if the element should be grayed,
+     *  and <code>false</code> if it should be ungrayed
+     */
+    public void setAllGrayed(boolean state) {
+        TableItem[] children = getTable().getItems();
+        for (int i = 0; i < children.length; i++) {
+            TableItem item = children[i];
+            item.setGrayed(state);
+        }
+    }
 
     /* (non-Javadoc)
      * Method declared on ICheckable.
@@ -341,7 +348,7 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
         Assert.isNotNull(element);
         Widget widget = findItem(element);
         if (widget instanceof TableItem) {
-//            ((TableItem) widget).setChecked(state);
+            ((TableItem) widget).setChecked(state);
             return true;
         }
         return false;
@@ -371,64 +378,64 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
             TableItem item = items[i];
             Object element = item.getData();
             if (element != null) {
-//                boolean check = set.containsKey(element);
+                boolean check = set.containsKey(element);
                 // only set if different, to avoid flicker
-//                if (item.getChecked() != check) {
-//                    item.setChecked(check);
-//                }
+                if (item.getChecked() != check) {
+                    item.setChecked(check);
+                }
             }
         }
     }
 
-//    /**
-//     * Sets the grayed state for the given element in this viewer.
-//     *
-//     * @param element the element
-//     * @param state <code>true</code> if the item should be grayed,
-//     *  and <code>false</code> if it should be ungrayed
-//     * @return <code>true</code> if the element is visible and the gray
-//     *  state could be set, and <code>false</code> otherwise
-//     */
-//    public boolean setGrayed(Object element, boolean state) {
-//        Assert.isNotNull(element);
-//        Widget widget = findItem(element);
-//        if (widget instanceof TableItem) {
-//            ((TableItem) widget).setGrayed(state);
-//            return true;
-//        }
-//        return false;
-//    }
+    /**
+     * Sets the grayed state for the given element in this viewer.
+     *
+     * @param element the element
+     * @param state <code>true</code> if the item should be grayed,
+     *  and <code>false</code> if it should be ungrayed
+     * @return <code>true</code> if the element is visible and the gray
+     *  state could be set, and <code>false</code> otherwise
+     */
+    public boolean setGrayed(Object element, boolean state) {
+        Assert.isNotNull(element);
+        Widget widget = findItem(element);
+        if (widget instanceof TableItem) {
+            ((TableItem) widget).setGrayed(state);
+            return true;
+        }
+        return false;
+    }
 
-//    /**
-//     * Sets which nodes are grayed in this viewer.
-//     * The given list contains the elements that are to be grayed;
-//     * all other nodes are to be ungrayed.
-//     * <p>
-//     * This method is typically used when restoring the interesting
-//     * state of a viewer captured by an earlier call to <code>getGrayedElements</code>.
-//     * </p>
-//     *
-//     * @param elements the array of grayed elements
-//     *
-//     * @see #getGrayedElements
-//     */
-//    public void setGrayedElements(Object[] elements) {
-//        assertElementsNotNull(elements);
-//        CustomHashtable set = newHashtable(elements.length * 2 + 1);
-//        for (int i = 0; i < elements.length; ++i) {
-//            set.put(elements[i], elements[i]);
-//        }
-//        TableItem[] items = getTable().getItems();
-//        for (int i = 0; i < items.length; ++i) {
-//            TableItem item = items[i];
-//            Object element = item.getData();
-//            if (element != null) {
-//                boolean gray = set.containsKey(element);
-//                // only set if different, to avoid flicker
-//                if (item.getGrayed() != gray) {
-//                    item.setGrayed(gray);
-//                }
-//            }
-//        }
-//    }
+    /**
+     * Sets which nodes are grayed in this viewer.
+     * The given list contains the elements that are to be grayed;
+     * all other nodes are to be ungrayed.
+     * <p>
+     * This method is typically used when restoring the interesting
+     * state of a viewer captured by an earlier call to <code>getGrayedElements</code>.
+     * </p>
+     *
+     * @param elements the array of grayed elements
+     *
+     * @see #getGrayedElements
+     */
+    public void setGrayedElements(Object[] elements) {
+        assertElementsNotNull(elements);
+        CustomHashtable set = newHashtable(elements.length * 2 + 1);
+        for (int i = 0; i < elements.length; ++i) {
+            set.put(elements[i], elements[i]);
+        }
+        TableItem[] items = getTable().getItems();
+        for (int i = 0; i < items.length; ++i) {
+            TableItem item = items[i];
+            Object element = item.getData();
+            if (element != null) {
+                boolean gray = set.containsKey(element);
+                // only set if different, to avoid flicker
+                if (item.getGrayed() != gray) {
+                    item.setGrayed(gray);
+                }
+            }
+        }
+    }
 }
