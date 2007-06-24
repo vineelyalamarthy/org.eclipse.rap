@@ -191,8 +191,7 @@ public class TableViewer extends AbstractTableViewer {
 	}
 
 	protected void doSetItemCount(int count) {
-		// TODO: get this back when we have Table#setItemCount(int)
-//		table.setItemCount(count);
+		table.setItemCount(count);
 	}
 
 	protected Item[] doGetItems() {

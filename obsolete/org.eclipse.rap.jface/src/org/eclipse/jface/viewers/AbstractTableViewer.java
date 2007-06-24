@@ -50,34 +50,33 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		 * Add the listener for SetData on the table
 		 */
 		private void addTableListener() {
-			// TODO: review when we have setData event
-//			getControl().addListener(SWT.SetData, new Listener() {
-//				/*
-//				 * (non-Javadoc)
-//				 * 
-//				 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
-//				 */
-//				public void handleEvent(Event event) {
-//					Item item = (Item) event.item;
-//					final int index = doIndexOf(item);
-//					Object element = resolveElement(index);
-//					if (element == null) {
-//						// Didn't find it so make a request
-//						// Keep looking if it is not in the cache.
-//						IContentProvider contentProvider = getContentProvider();
-//						// If we are building lazily then request lookup now
-//						if (contentProvider instanceof ILazyContentProvider) {
-//							((ILazyContentProvider) contentProvider)
-//									.updateElement(index);
-//							return;
-//						}
-//					}
-//
-//					associate(element, item);
-//					updateItem(item, element);
-//				}
-//
-//			});
+			getControl().addListener(SWT.SetData, new Listener() {
+				/*
+				 * (non-Javadoc)
+				 * 
+				 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+				 */
+				public void handleEvent(Event event) {
+					Item item = (Item) event.item;
+					final int index = doIndexOf(item);
+					Object element = resolveElement(index);
+					if (element == null) {
+						// Didn't find it so make a request
+						// Keep looking if it is not in the cache.
+						IContentProvider contentProvider = getContentProvider();
+						// If we are building lazily then request lookup now
+						if (contentProvider instanceof ILazyContentProvider) {
+							((ILazyContentProvider) contentProvider)
+									.updateElement(index);
+							return;
+						}
+					}
+
+					associate(element, item);
+					updateItem(item, element);
+				}
+
+			});
 		}
 
 		/**
@@ -211,11 +210,11 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @param style
 	 */
 	private void initializeVirtualManager(int style) {
-//		if ((style & SWT.VIRTUAL) == 0) {
-//			return;
-//		}
+		if ((style & SWT.VIRTUAL) == 0) {
+			return;
+		}
 
-//		virtualManager = new VirtualManager();
+		virtualManager = new VirtualManager();
 	}
 
 	/**
