@@ -324,23 +324,23 @@ public class CoolBarManager extends ContributionManager implements
      *            the wrap indicies from the cool bar widget
      * @return the adjusted wrap indicies.
      */
-//    private int[] getAdjustedWrapIndices(int[] wraps) {
-//        int[] adjustedWrapIndices;
-//        if (wraps.length == 0) {
-//            adjustedWrapIndices = new int[] { 0 };
-//        } else {
-//            if (wraps[0] != 0) {
-//                adjustedWrapIndices = new int[wraps.length + 1];
-//                adjustedWrapIndices[0] = 0;
-//                for (int i = 0; i < wraps.length; i++) {
-//                    adjustedWrapIndices[i + 1] = wraps[i];
-//                }
-//            } else {
-//                adjustedWrapIndices = wraps;
-//            }
-//        }
-//        return adjustedWrapIndices;
-//    }
+    private int[] getAdjustedWrapIndices(int[] wraps) {
+        int[] adjustedWrapIndices;
+        if (wraps.length == 0) {
+            adjustedWrapIndices = new int[] { 0 };
+        } else {
+            if (wraps[0] != 0) {
+                adjustedWrapIndices = new int[wraps.length + 1];
+                adjustedWrapIndices[0] = 0;
+                for (int i = 0; i < wraps.length; i++) {
+                    adjustedWrapIndices[i + 1] = wraps[i];
+                }
+            } else {
+                adjustedWrapIndices = wraps;
+            }
+        }
+        return adjustedWrapIndices;
+    }
 
     /**
      * Returns the control of the Menu Manager. If the menu manager does not
@@ -560,7 +560,7 @@ public class CoolBarManager extends ContributionManager implements
         // The list of all the cool items in their visual order
         CoolItem[] coolItems = coolBar.getItems();
         // The wrap indicies of the coolbar
-//        int[] wrapIndicies = getAdjustedWrapIndices(coolBar.getWrapIndices());
+        int[] wrapIndicies = getAdjustedWrapIndices(coolBar.getWrapIndices());
 
         int row = 0;
         int coolItemIndex = 0;
@@ -579,12 +579,12 @@ public class CoolBarManager extends ContributionManager implements
         }
 
         // Add separators to the displayed Items data structure
-//        int offset = 0;
-//        for (int i = 1; i < wrapIndicies.length; i++) {
-//            int insertAt = wrapIndicies[i] + offset;
-//            displayedItems.add(insertAt, new Separator(USER_SEPARATOR));
-//            offset++;
-//        }
+        int offset = 0;
+        for (int i = 1; i < wrapIndicies.length; i++) {
+            int insertAt = wrapIndicies[i] + offset;
+            displayedItems.add(insertAt, new Separator(USER_SEPARATOR));
+            offset++;
+        }
 
         // Determine which rows are invisible
         ArrayList existingVisibleRows = new ArrayList(4);
@@ -1013,21 +1013,21 @@ public class CoolBarManager extends ContributionManager implements
          * Check to see if these new wrap indices are different than the old
          * ones.
          */
-//        final int[] oldIndices = coolBar.getWrapIndices();
-//        boolean shouldUpdate = false;
-//        if (oldIndices.length == wrapIndices.length) {
-//            for (int i = 0; i < oldIndices.length; i++) {
-//                if (oldIndices[i] != wrapIndices[i]) {
-//                    shouldUpdate = true;
-//                    break;
-//                }
-//            }
-//        } else {
-//            shouldUpdate = true;
-//        }
-//
-//        if (shouldUpdate) {
-//            coolBar.setWrapIndices(wrapIndices);
-//        }
+        final int[] oldIndices = coolBar.getWrapIndices();
+        boolean shouldUpdate = false;
+        if (oldIndices.length == wrapIndices.length) {
+            for (int i = 0; i < oldIndices.length; i++) {
+                if (oldIndices[i] != wrapIndices[i]) {
+                    shouldUpdate = true;
+                    break;
+                }
+            }
+        } else {
+            shouldUpdate = true;
+        }
+
+        if (shouldUpdate) {
+            coolBar.setWrapIndices(wrapIndices);
+        }
     }
 }

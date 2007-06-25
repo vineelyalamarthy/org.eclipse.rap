@@ -11,13 +11,16 @@
 
 package org.eclipse.jface.action;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.internal.provisional.action.IToolBarContributionItem;
 import org.eclipse.jface.util.Policy;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.*;
 
 /**
@@ -43,7 +46,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
      * The pull down menu used to list all hidden tool items if the current
      * size is less than the preffered size.
      */
-//    private MenuManager chevronMenuManager = null;
+    private MenuManager chevronMenuManager = null;
 
     /**
      * The widget created for this item; <code>null</code> before creation
@@ -187,8 +190,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 			}
             int flags = SWT.DROP_DOWN;
             if (index >= 0) {
-//                coolItem = new CoolItem(coolBar, flags, index);
-            	coolItem = new CoolItem(coolBar, flags);
+                coolItem = new CoolItem(coolBar, flags, index);
             } else {
                 coolItem = new CoolItem(coolBar, flags);
             }
@@ -216,14 +218,14 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
             // Handle for chevron clicking
             if (getUseChevron()) {
                 // Chevron Support
-//                coolItem.addSelectionListener(new SelectionAdapter() {
-//
-//                    public void widgetSelected(SelectionEvent event) {
-//                        if (event.detail == SWT.ARROW) {
-//                            handleChevron(event);
-//                        }
-//                    }
-//                });
+                coolItem.addSelectionListener(new SelectionAdapter() {
+
+                    public void widgetSelected(SelectionEvent event) {
+                        if (event.detail == SWT.ARROW) {
+                            handleChevron(event);
+                        }
+                    }
+                });
             }
 
             // Handle for disposal
@@ -245,23 +247,23 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
      * CoolBar.getWrapIndices() is inconsistent in whether or not it returns an
      * index for the first row.
      */
-//    private int[] getAdjustedWrapIndices(int[] wraps) {
-//        int[] adjustedWrapIndices;
-//        if (wraps.length == 0) {
-//            adjustedWrapIndices = new int[] { 0 };
-//        } else {
-//            if (wraps[0] != 0) {
-//                adjustedWrapIndices = new int[wraps.length + 1];
-//                adjustedWrapIndices[0] = 0;
-//                for (int i = 0; i < wraps.length; i++) {
-//                    adjustedWrapIndices[i + 1] = wraps[i];
-//                }
-//            } else {
-//                adjustedWrapIndices = wraps;
-//            }
-//        }
-//        return adjustedWrapIndices;
-//    }
+    private int[] getAdjustedWrapIndices(int[] wraps) {
+        int[] adjustedWrapIndices;
+        if (wraps.length == 0) {
+            adjustedWrapIndices = new int[] { 0 };
+        } else {
+            if (wraps[0] != 0) {
+                adjustedWrapIndices = new int[wraps.length + 1];
+                adjustedWrapIndices[0] = 0;
+                for (int i = 0; i < wraps.length; i++) {
+                    adjustedWrapIndices[i + 1] = wraps[i];
+                }
+            } else {
+                adjustedWrapIndices = wraps;
+            }
+        }
+        return adjustedWrapIndices;
+    }
 
     /**
      * Returns the current height of the corresponding cool item.
@@ -331,54 +333,54 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
     /**
      * Create and display the chevron menu.
      */
-//    private void handleChevron(SelectionEvent event) {
-//        CoolItem item = (CoolItem) event.widget;
-//        Control control = item.getControl();
-//        if ((control instanceof ToolBar) == false) {
-//            return;
-//        }
-//        CoolBar coolBar = item.getParent();
-//        ToolBar toolBar = (ToolBar) control;
-//        Rectangle toolBarBounds = toolBar.getBounds();
-//        ToolItem[] items = toolBar.getItems();
-//        ArrayList hidden = new ArrayList();
-//        for (int i = 0; i < items.length; ++i) {
-//            Rectangle itemBounds = items[i].getBounds();
-//            if (!((itemBounds.x + itemBounds.width <= toolBarBounds.width) && (itemBounds.y
-//                    + itemBounds.height <= toolBarBounds.height))) {
-//                hidden.add(items[i]);
-//            }
-//        }
-//
-//        // Create a pop-up menu with items for each of the hidden buttons.
-//        if (chevronMenuManager != null) {
-//            chevronMenuManager.dispose();
-//        }
-//        chevronMenuManager = new MenuManager();
-//        for (Iterator i = hidden.iterator(); i.hasNext();) {
-//            ToolItem toolItem = (ToolItem) i.next();
-//            IContributionItem data = (IContributionItem) toolItem.getData();
-//            if (data instanceof ActionContributionItem) {
-//                ActionContributionItem contribution = new ActionContributionItem(
-//                        ((ActionContributionItem) data).getAction());
-//                chevronMenuManager.add(contribution);
-//            } else if (data instanceof SubContributionItem) {
-//                IContributionItem innerData = ((SubContributionItem) data)
-//                        .getInnerItem();
-//                if (innerData instanceof ActionContributionItem) {
-//                    ActionContributionItem contribution = new ActionContributionItem(
-//                            ((ActionContributionItem) innerData).getAction());
-//                    chevronMenuManager.add(contribution);
-//                }
-//            } else if (data.isSeparator()) {
-//                chevronMenuManager.add(new Separator());
-//            }
-//        }
-//        Menu popup = chevronMenuManager.createContextMenu(coolBar);
-//        Point chevronPosition = coolBar.toDisplay(event.x, event.y);
-//        popup.setLocation(chevronPosition.x, chevronPosition.y);
-//        popup.setVisible(true);
-//    }
+    private void handleChevron(SelectionEvent event) {
+        CoolItem item = (CoolItem) event.widget;
+        Control control = item.getControl();
+        if ((control instanceof ToolBar) == false) {
+            return;
+        }
+        CoolBar coolBar = item.getParent();
+        ToolBar toolBar = (ToolBar) control;
+        Rectangle toolBarBounds = toolBar.getBounds();
+        ToolItem[] items = toolBar.getItems();
+        ArrayList hidden = new ArrayList();
+        for (int i = 0; i < items.length; ++i) {
+            Rectangle itemBounds = items[i].getBounds();
+            if (!((itemBounds.x + itemBounds.width <= toolBarBounds.width) && (itemBounds.y
+                    + itemBounds.height <= toolBarBounds.height))) {
+                hidden.add(items[i]);
+            }
+        }
+
+        // Create a pop-up menu with items for each of the hidden buttons.
+        if (chevronMenuManager != null) {
+            chevronMenuManager.dispose();
+        }
+        chevronMenuManager = new MenuManager();
+        for (Iterator i = hidden.iterator(); i.hasNext();) {
+            ToolItem toolItem = (ToolItem) i.next();
+            IContributionItem data = (IContributionItem) toolItem.getData();
+            if (data instanceof ActionContributionItem) {
+                ActionContributionItem contribution = new ActionContributionItem(
+                        ((ActionContributionItem) data).getAction());
+                chevronMenuManager.add(contribution);
+            } else if (data instanceof SubContributionItem) {
+                IContributionItem innerData = ((SubContributionItem) data)
+                        .getInnerItem();
+                if (innerData instanceof ActionContributionItem) {
+                    ActionContributionItem contribution = new ActionContributionItem(
+                            ((ActionContributionItem) innerData).getAction());
+                    chevronMenuManager.add(contribution);
+                }
+            } else if (data.isSeparator()) {
+                chevronMenuManager.add(new Separator());
+            }
+        }
+        Menu popup = chevronMenuManager.createContextMenu(coolBar);
+        Point chevronPosition = coolBar.toDisplay(event.x, event.y);
+        popup.setLocation(chevronPosition.x, chevronPosition.y);
+        popup.setVisible(true);
+    }
 
     /**
      * Handles the event when the toobar item does not have its own context
@@ -465,36 +467,35 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 		}
 
         //1. Save current size
-//        CoolBar coolBar = coolItem.getParent();
+        CoolBar coolBar = coolItem.getParent();
         boolean isLastOnRow = false;
-//        int lastIndex = coolBar.getItemCount() - 1;
-//        int coolItemIndex = coolBar.indexOf(coolItem);
-//        int[] wrapIndicies = getAdjustedWrapIndices(coolBar.getWrapIndices());
+        int lastIndex = coolBar.getItemCount() - 1;
+        int coolItemIndex = coolBar.indexOf(coolItem);
+        int[] wrapIndicies = getAdjustedWrapIndices(coolBar.getWrapIndices());
         // Traverse through all wrap indicies backwards
-//        for (int row = wrapIndicies.length - 1; row >= 0; row--) {
-//            if (wrapIndicies[row] <= coolItemIndex) {
-//
-//                int nextRow = row + 1;
-//                int nextRowStartIndex;
-//                if (nextRow > (wrapIndicies.length - 1)) {
-//                    nextRowStartIndex = lastIndex + 1;
-//                } else {
-//                    nextRowStartIndex = wrapIndicies[nextRow];
-//                }
-//
-//                // Check to see if its the last item on the row
-//                if (coolItemIndex == (nextRowStartIndex - 1)) {
-//                    isLastOnRow = true;
-//                }
-//                break;
-//            }
-//        }
+        for (int row = wrapIndicies.length - 1; row >= 0; row--) {
+            if (wrapIndicies[row] <= coolItemIndex) {
+
+                int nextRow = row + 1;
+                int nextRowStartIndex;
+                if (nextRow > (wrapIndicies.length - 1)) {
+                    nextRowStartIndex = lastIndex + 1;
+                } else {
+                    nextRowStartIndex = wrapIndicies[nextRow];
+                }
+
+                // Check to see if its the last item on the row
+                if (coolItemIndex == (nextRowStartIndex - 1)) {
+                    isLastOnRow = true;
+                }
+                break;
+            }
+        }
 
         // Save the preferred size as actual size for the last item on a row
         int nCurrentWidth;
         if (isLastOnRow) {
-//            nCurrentWidth = coolItem.getPreferredSize().x;
-        	nCurrentWidth = coolItem.getSize().x;
+            nCurrentWidth = coolItem.getPreferredSize().x;
         } else {
             nCurrentWidth = coolItem.getSize().x;
         }
@@ -639,13 +640,13 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
                 // note setMinimumSize must be called before setSize, see PR
                 // 15565
                 // Set minimum size
-//                if (getMinimumItemsToShow() != SHOW_ALL_ITEMS) {
-//                    int toolItemWidth = toolBar.getItems()[0].getWidth();
-//                    int minimumWidth = toolItemWidth * getMinimumItemsToShow();
-//                    coolItem.setMinimumSize(minimumWidth, toolBarSize.y);
-//                } else {
-//                    coolItem.setMinimumSize(toolBarSize.x, toolBarSize.y);
-//                }
+                if (getMinimumItemsToShow() != SHOW_ALL_ITEMS) {
+                    int toolItemWidth = toolBar.getItems()[0].getWidth();
+                    int minimumWidth = toolItemWidth * getMinimumItemsToShow();
+                    coolItem.setMinimumSize(minimumWidth, toolBarSize.y);
+                } else {
+                    coolItem.setMinimumSize(toolBarSize.x, toolBarSize.y);
+                }
                 if (changeCurrentSize) {
                     // Set current size to preferred size
                     coolItem.setSize(preferredSize);

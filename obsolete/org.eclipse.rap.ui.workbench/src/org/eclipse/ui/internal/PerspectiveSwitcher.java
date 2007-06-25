@@ -152,7 +152,7 @@ public class PerspectiveSwitcher implements IWindowTrim {
 
 	private DisposeListener toolBarListener;
 
-	private IReorderListener reorderListener;
+//	private IReorderListener reorderListener;
 
 	/**
      * Creates an instance of the perspective switcher.
@@ -689,6 +689,7 @@ public class PerspectiveSwitcher implements IWindowTrim {
         perspectiveBar = createBarManager(SWT.VERTICAL);
 
         perspectiveBar.createControl(trimControl);
+        // XXX: [bm] this is commented out by the eclipse guys
 //        perspectiveBar.getControl().addListener(SWT.MenuDetect, popupListener);
 
 //        trimSeparator = new Label(trimControl, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -725,16 +726,16 @@ public class PerspectiveSwitcher implements IWindowTrim {
         });
 
         // TODO implement chevron
-//        coolItem.addSelectionListener(new SelectionAdapter() {
-//            public void widgetSelected(SelectionEvent e) {
-//                if (e.detail == SWT.ARROW) {
-//                    if (perspectiveBar != null) {
-//                        perspectiveBar.handleChevron(e);
-//                    }
-//                }
-//            }
-//        });
-//        coolItem.setMinimumSize(0, 0);
+        coolItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                if (e.detail == SWT.ARROW) {
+                    if (perspectiveBar != null) {
+                        perspectiveBar.handleChevron(e);
+                    }
+                }
+            }
+        });
+        coolItem.setMinimumSize(0, 0);
 //        perspectiveBar.getControl().addListener(SWT.MenuDetect, popupListener);
     }
 
@@ -1171,9 +1172,9 @@ public class PerspectiveSwitcher implements IWindowTrim {
 	 * 
 	 * @param listener
 	 */
-	public void addReorderListener(IReorderListener listener) {
-		reorderListener = listener;	
-	}
+//	public void addReorderListener(IReorderListener listener) {
+//		reorderListener = listener;	
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.internal.IWindowTrim#dock(int)
