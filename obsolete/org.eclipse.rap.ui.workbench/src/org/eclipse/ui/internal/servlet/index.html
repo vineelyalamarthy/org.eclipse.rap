@@ -4,52 +4,51 @@
     <title>RAP Startup Page</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <head>
-  
-  <!-- rap runtime js script libraries -->
-   ${libraries}
-  <!-- end rap runtime js script libraries -->
-  
-  <!-- validation and retrievment of startup conditions -->
-  <script type="text/javascript">
-  var org_eclipse_rap_width = 1024;
-  var org_eclipse_rap_height = 768;
-  
-  function discoverAjax() {
-    var result;
-    if( window.ActiveXObject ) {
-        result = false;
-        var requestObject = null;
-        try {
-          requestObject = new ActiveXObject( "Msxml2.XMLHTTP" );
-        } catch ( e ) {
-          try {
-            requestObject = new ActiveXObject( "Microsoft.XMLHTTP" );
-          } catch( e ) {
-          }
-        }
-        result = requestObject != null;
-    } else if( window.XMLHttpRequest ) {
-      result = true;
-    }    
-    return result;
-  }
-  
-  function discoverSize() {
-    if( document.layers || ( document.getElementById && !document.all ) ) {
-       org_eclipse_rap_width = window.innerWidth;
-       org_eclipse_rap_height = window.innerHeight;
-    } else if( document.all ) {
-       org_eclipse_rap_width = document.body.clientWidth;
-       org_eclipse_rap_height = document.body.clientHeight;
-    }  
-  }
-  </script>
-  
-  <body background="org/eclipse/rap/rwt/widgets/display/bg.gif">  
+
+  <body background="resource/widget/rap/display/bg.gif">
+
+    <!-- rap runtime js script libraries -->
+    ${libraries}
+    <!-- end rap runtime js script libraries -->
+
+    <!-- validation and retrievment of startup conditions -->
     <script type="text/javascript">
+      var org_eclipse_rap_width = 1024;
+      var org_eclipse_rap_height = 768;
+
+      function discoverAjax() {
+        var result;
+        if( window.ActiveXObject ) {
+          result = false;
+          var requestObject = null;
+          try {
+            requestObject = new ActiveXObject( "Msxml2.XMLHTTP" );
+          } catch ( e ) {
+            try {
+              requestObject = new ActiveXObject( "Microsoft.XMLHTTP" );
+            } catch( e ) {
+            }
+          }
+          result = requestObject != null;
+        } else if( window.XMLHttpRequest ) {
+          result = true;
+        }
+        return result;
+      }
+  
+      function discoverSize() {
+        if( document.layers || ( document.getElementById && !document.all ) ) {
+          org_eclipse_rap_width = window.innerWidth;
+          org_eclipse_rap_height = window.innerHeight;
+        } else if( document.all ) {
+          org_eclipse_rap_width = document.body.clientWidth;
+         org_eclipse_rap_height = document.body.clientHeight;
+        }  
+      }
+
       if( discoverAjax() ) {
         discoverSize();
-        
+
         // rap runtime application
         ${appscript}
         // end rap runtime application
@@ -69,5 +68,6 @@
         document.write( "Ensure that javascript is enabled and " );
         document.write( "XMLHttpRequests are allowed.</p>" );
       }
-    </script>  
+    </script>
+  </body>
 </html>
