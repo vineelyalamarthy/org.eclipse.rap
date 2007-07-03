@@ -49,12 +49,16 @@
   <extension-point
   	  id="org.eclipse.ui.actionSetPartAssociations"
   	  name="actionSetPartAssociations"
-  	  schema="schema/actionSetPartAssociations.exsd"/>  	  
+  	  schema="schema/actionSetPartAssociations.exsd"/>
   <extension-point
       id="org.eclipse.rap.swt.themes"
       name="SWTThemes"
       schema="schema/swtThemes.exsd"/>
-  
+  <extension-point
+      id="org.eclipse.rap.swt.themeableWidgets"
+      name="ThemeableWidgets"
+      schema="schema/swtThemeableWidgets.exsd"/>
+
   <extension
       id="org.eclipse.ui.requestHandler"
       point="org.eclipse.equinox.http.registry.servlets">
