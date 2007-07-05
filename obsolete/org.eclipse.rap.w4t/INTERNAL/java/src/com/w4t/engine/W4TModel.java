@@ -11,11 +11,11 @@
 package com.w4t.engine;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
+
 import com.w4t.*;
 import com.w4t.engine.lifecycle.LifeCycle;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.internal.adaptable.IServiceAdapter;
 import com.w4t.util.WebComponentRegistry;
 
@@ -36,12 +36,10 @@ public class W4TModel extends SessionSingletonBase implements Adaptable {
   public final static String W4T_SESSION_WRAPPER = "W4T_Session_Wrapper";
   
   private WebComponentRegistry componentRegistry;
-  private HttpSession session;
   private IServiceAdapter serviceAdapter;
   
   private final class ServiceAdapter implements IServiceAdapter {
     public void execute() throws ServletException, IOException {
-      prepareSession();
       prepareRegistry();
       LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
       lifeCycle.execute();   
@@ -86,13 +84,6 @@ public class W4TModel extends SessionSingletonBase implements Adaptable {
   
   //////////////////
   // helping methods
-  
-  private void prepareSession() {
-    HttpSession contextSession = ContextProvider.getSession();
-    if( this.session == null ) {
-      this.session = contextSession;
-    }
-  }
   
   private void prepareRegistry() {
     componentRegistry = WebComponentRegistry.getInstance();

@@ -11,6 +11,7 @@
 package com.w4t.engine.lifecycle.standard;
 
 import java.io.IOException;
+
 import com.w4t.*;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.IServiceStateInfo;
@@ -68,7 +69,7 @@ class LifeCycleAdapter implements ILifeCycleAdapter {
           = ( ExitForm )W4TContext.loadForm( className );
         invalidationForm.addWebRenderListener( new WebRenderAdapter() {
           public void afterRender( final WebRenderEvent e ) {
-            ContextProvider.getSession().invalidate();
+            ContextProvider.getRequest().getSession().invalidate();
           }
         } );
         W4TContext.dispatchTo( invalidationForm );

@@ -9,29 +9,17 @@
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
 
-package org.eclipse.swt.internal.widgets;
-
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.*;
-
-import com.w4t.engine.service.ISessionStore;
-
+package com.w4t.engine.service;
 
 /**
- * TODO [rh] JavaDoc
+ * <code>SessionStoreListener</code>s are
+ * used to get notifcations before the session store is destroyed.                                session.
  */
-public interface IDisplayAdapter {
+public interface SessionStoreListener {
   
-  final static IFilterEntry[] EMPTY_FILTERS = new IFilterEntry[ 0 ];
-  
-  interface IFilterEntry {
-    int getType();
-    Listener getListener();
-  }
-  
-  void setBounds( Rectangle bounds );
-  void setActiveShell( Shell shell );
-  void setFocusControl( Control control );
-  ISessionStore getSession();
-  IFilterEntry[] getFilters();
+  /**
+   * Notification callback before the session store of interest is
+   * destroyed.
+   */
+  void beforeDestroy( SessionStoreEvent event );
 }

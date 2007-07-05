@@ -2,8 +2,12 @@
 package com.w4t.engine;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import junit.framework.TestCase;
+
 import com.w4t.Fixture;
 import com.w4t.Fixture.*;
 import com.w4t.engine.requests.RequestParams;
@@ -17,7 +21,8 @@ public class FirstAccess_Test extends TestCase {
     Fixture.createContext( false );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     response.setOutputStream( new TestServletOutputStream() );
-    TestSession session = ( TestSession )ContextProvider.getSession();
+    HttpServletRequest request = ContextProvider.getRequest();
+    TestSession session = ( TestSession )request.getSession();
     session.setNew( true );
   }
   
@@ -86,7 +91,8 @@ public class FirstAccess_Test extends TestCase {
   }
   
   private void createNewContext() {
-    TestSession session = ( TestSession )ContextProvider.getSession();
+    HttpServletRequest request = ContextProvider.getRequest();
+    TestSession session = ( TestSession )request.getSession();
     session.setNew( false );
     ContextProvider.disposeContext();
     TestRequest testRequest = new TestRequest();

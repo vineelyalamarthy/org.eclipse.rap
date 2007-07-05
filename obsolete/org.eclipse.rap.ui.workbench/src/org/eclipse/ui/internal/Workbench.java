@@ -27,6 +27,7 @@ import org.eclipse.jface.window.WindowManager;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.internal.lifecycle.UICallBackServiceHandler;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
@@ -39,7 +40,6 @@ import org.eclipse.ui.internal.browser.WorkbenchBrowserSupport;
 import org.eclipse.ui.internal.commands.CommandService;
 import org.eclipse.ui.internal.handlers.HandlerService;
 import org.eclipse.ui.internal.progress.ProgressManager;
-import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
 import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.services.*;
 import org.eclipse.ui.internal.util.SessionSingletonEventManager;
@@ -47,6 +47,8 @@ import org.eclipse.ui.internal.util.Util;
 import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.services.IDisposable;
 import org.eclipse.ui.views.IViewRegistry;
+
+import com.w4t.engine.service.*;
 
 /**
  * The workbench class represents the top of the Eclipse user interface. Its
@@ -65,6 +67,35 @@ import org.eclipse.ui.views.IViewRegistry;
 //public final class Workbench extends EventManager implements IWorkbench {
 public final class Workbench extends SessionSingletonEventManager implements IWorkbench {
 
+  
+  ////////////////////////////////////////////////////////////////////////
+  // ensure that workbench is properly shutdown in case of session timeout
+  
+  private boolean started;
+  
+  private static final class ShutdownHandler
+    implements SessionStoreListener
+  {
+    private final Display display;
+    private ShutdownHandler( final Display display ) {
+      this.display = display;
+    }
+    public void beforeDestroy( final SessionStoreEvent event ) {
+      Runnable runnable = new Runnable() {
+        public void run() {
+          if( Workbench.getInstance().started ) {
+            Workbench.getInstance().close();
+          }
+        }
+      };
+      UICallBackServiceHandler.runNonUIThreadWithFakeContext( display,
+                                                              runnable,
+                                                              true );
+    }
+  }
+  // end session timeout shutdown handler
+  /////////////////////////////////////////////////////////////////////////
+  
 //	private final class StartupProgressBundleListener implements
 //			SynchronousBundleListener {
 //
@@ -124,7 +155,8 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //		}
 //	}
 
-	/**
+
+  /**
 	 * Family for the early startup job.
 	 */
 	public static final String EARLY_STARTUP_FAMILY = "earlyStartup"; //$NON-NLS-1$
@@ -136,7 +168,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/**
 	 * Holds onto the only instance of Workbench.
 	 */
-	private static Workbench instance;
+//	private static Workbench instance;
 
 	/**
 	 * The testable object facade.
@@ -334,10 +366,14 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 					Assert.isNotNull(advisor);
 					workbench.advisor = advisor;
 					workbench.display = display;
-					Workbench.instance = workbench;
+//					Workbench.instance = workbench;
 					
 //				}
 				// run the workbench event loop
+					
+				ISessionStore session = ContextProvider.getSession();
+				ShutdownHandler shutdownHandler = new ShutdownHandler( display );
+                session.addSessionStoreListener( shutdownHandler );
 				returnCode[0] = workbench.runUI();
 //			}
 //		});
@@ -783,6 +819,9 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 					isClosing = windowManager.close();
 				}
 			}
+			public void handleException( Throwable e ) {
+			  e.printStackTrace();
+			}
 		});
 
 		if (!force && !isClosing) {
@@ -946,24 +985,28 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 */
 	/* package */
 	boolean close(int returnCode, final boolean force) {
-//		this.returnCode = returnCode;
-//		final boolean[] ret = new boolean[1];
-//		BusyIndicator.showWhile(null, new Runnable() {
-//			public void run() {
-//				ret[0] = busyClose(force);
-//			}
-//		});
-//		return ret[0];
-        Exception e = new UnsupportedOperationException();
-        // TODO: remove 3.2 compatibility hack
-		IStatus s = new Status( IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH,0,
-				"Not yet implemented", e);
-		IWorkbenchWindow window = getActiveWorkbenchWindow();
-		Shell shell = window.getShell();
-		ErrorDialog ed = new ErrorDialog( shell,
-				"Quit Action", "Not yet implemented", s, IStatus.ERROR );
-		ed.open(null);
-		return false;
+	  try {
+		this.returnCode = returnCode;
+		final boolean[] ret = new boolean[1];
+		BusyIndicator.showWhile(null, new Runnable() {
+			public void run() {
+				ret[0] = busyClose(force);
+			}
+		});
+		return ret[0];
+	  } finally {
+	    started = false;
+	  }
+//        Exception e = new UnsupportedOperationException();
+//        // TODO: remove 3.2 compatibility hack
+//		IStatus s = new Status( IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH,0,
+//				"Not yet implemented", e);
+//		IWorkbenchWindow window = getActiveWorkbenchWindow();
+//		Shell shell = window.getShell();
+//		ErrorDialog ed = new ErrorDialog( shell,
+//				"Quit Action", "Not yet implemented", s, IStatus.ERROR );
+//		ed.open(null);
+//		return false;
 	}
 
 	/*
@@ -1157,6 +1200,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * @return true if init succeeded.
 	 */
 	private boolean init() {
+	  started = true;
 		// setup debug mode if required.
 		if (WorkbenchPlugin.getDefault().isDebugging()) {
 			WorkbenchPlugin.DEBUG = true;
@@ -2215,7 +2259,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 
 				// allow ModalContext to spin the event loop
 //				ModalContext.setAllowReadAndDispatch(true);
-//				isStarting = false;
+				isStarting = false;
 //
 //				if (synchronizer != null)
 //					synchronizer.started();

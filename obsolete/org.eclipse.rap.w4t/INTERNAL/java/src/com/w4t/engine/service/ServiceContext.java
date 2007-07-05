@@ -12,6 +12,7 @@ package com.w4t.engine.service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.w4t.ParamCheck;
 
 /** 
@@ -35,8 +36,9 @@ public final class ServiceContext {
   private HttpServletResponse response;
   private IServiceStateInfo stateInfo;
   private boolean disposed;
+  private ISessionStore sessionStore;
   
-  /** 
+  /**
    * creates a new instance of <code>ServiceContext</code>
    * 
    * @param request the instance of the currently processed request. Must not
@@ -51,6 +53,25 @@ public final class ServiceContext {
     ParamCheck.notNull( response, "response" );
     this.request = request;
     this.response = response;
+  }
+
+  /**
+   * creates a new instance of <code>ServiceContext</code>
+   * 
+   * @param request the instance of the currently processed request. Must not
+   *                be null.
+   * @param response the corresponding response to the currently processed
+   *                 request. Must not be null.
+   * @param sessionStore the <code>ISessionStore</code> that represents the
+   *                     <code>HttpSession<code> instance to which the currently
+   *                     processed request belongs to.
+   */
+  public ServiceContext( final HttpServletRequest request,
+                         final HttpServletResponse response,
+                         final ISessionStore sessionStore )
+  {
+    this( request, response );
+    this.sessionStore = sessionStore;
   }
 
   /**
@@ -97,12 +118,26 @@ public final class ServiceContext {
     this.stateInfo = stateInfo;
   }
   
+  ISessionStore getSessionStore() {
+    if(    sessionStore != null 
+        && !( ( SessionStoreImpl )sessionStore ).isBound() )
+    {
+      sessionStore = null;
+    }
+    return sessionStore;
+  }
+  
+  void setSessionStore( final ISessionStore sessionStore ) {
+    this.sessionStore = sessionStore;
+  }
+  
   void dispose() {
     checkState();
     request = null;
     response = null;
     stateInfo = null;
     disposed = true;
+    sessionStore = null;
   }
   
   

@@ -11,11 +11,10 @@
 package com.w4t.dhtml;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
 import com.w4t.NoscriptUtil;
 import com.w4t.dhtml.event.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
+import com.w4t.engine.service.*;
 import com.w4t.event.WebActionEvent;
 
 
@@ -146,17 +145,17 @@ public class DHTMLProcessActionUtil {
   }
 
   private static Item getDragSourceBuffer() {
-    HttpSession session = ContextProvider.getSession();
+    ISessionStore session = ContextProvider.getSession();
     return ( Item )session.getAttribute( DRAG_SOURCE_BUFFER );
   }
 
   private static void bufferDragSource( final Item source ) {
-    HttpSession session = ContextProvider.getSession();
+    ISessionStore session = ContextProvider.getSession();
     session.setAttribute( DRAG_SOURCE_BUFFER, source );
   }
 
   private static boolean hasDragSourceBuffer() {
-    HttpSession session = ContextProvider.getSession();
+    ISessionStore session = ContextProvider.getSession();
     return session.getAttribute( DRAG_SOURCE_BUFFER ) != null;
   }
 

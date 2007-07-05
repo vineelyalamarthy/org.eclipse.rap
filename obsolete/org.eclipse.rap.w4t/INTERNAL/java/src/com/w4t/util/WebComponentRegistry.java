@@ -12,7 +12,9 @@ package com.w4t.util;
 
 import java.lang.ref.WeakReference;
 import java.util.*;
+
 import javax.servlet.http.HttpSession;
+
 import com.w4t.*;
 import com.w4t.engine.service.*;
 import com.w4t.event.WebFormEvent;
@@ -33,7 +35,7 @@ public class WebComponentRegistry extends SessionSingletonBase {
   private WebComponentRegistry() {
     this.registry = new WeakHashMap();
     this.creationTime = System.currentTimeMillis();    
-    this.session = ContextProvider.getSession();
+    this.session = ContextProvider.getRequest().getSession();
   }
 
   /**

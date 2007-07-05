@@ -12,6 +12,8 @@ package com.w4t.util;
 
 import java.io.File;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import com.w4t.engine.service.ContextProvider;
 
 /** <p>Manages the server context directories. This is especially important
@@ -31,7 +33,8 @@ public class ContextDirManager {
   
   /** <p>constructs the singleton instance von ContextDirManager.</p> */
   private ContextDirManager() {
-    ServletContext context = ContextProvider.getSession().getServletContext(); 
+    HttpServletRequest request = ContextProvider.getRequest();
+    ServletContext context = request.getSession().getServletContext(); 
     additionalRoot = ( File )context.getAttribute( "w4t_add_root" );
   }
   

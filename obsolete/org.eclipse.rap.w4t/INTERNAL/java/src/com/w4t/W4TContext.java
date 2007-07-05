@@ -218,7 +218,7 @@ public final class W4TContext {
   
   /** <p>Returns the <code>ILifeCycle</code> for the current session.</p> */
   public static ILifeCycle getLifeCycle() {
-    HttpSession session = ContextProvider.getSession();
+    ISessionStore session = ContextProvider.getSession();
     String id = LifeCycle.class.getName();
     ILifeCycle lifeCycle = ( ILifeCycle )session.getAttribute( id );
     if( lifeCycle == null ) {

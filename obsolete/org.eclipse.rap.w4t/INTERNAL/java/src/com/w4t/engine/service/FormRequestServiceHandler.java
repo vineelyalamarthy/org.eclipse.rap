@@ -81,7 +81,7 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
 
   private static Browser getBrowser() {
     String id = ServiceContext.DETECTED_SESSION_BROWSER;
-    return ( Browser )getRequest().getSession().getAttribute( id );
+    return ( Browser )ContextProvider.getSession().getAttribute( id );
   }
   
   private static void detectBrowser() {
@@ -91,7 +91,7 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
       {
         Browser browser = BrowserLoader.load();
         String id = ServiceContext.DETECTED_SESSION_BROWSER;
-        getRequest().getSession().setAttribute( id, browser );
+        ContextProvider.getSession().setAttribute( id, browser );
       }
     }
     if ( isBrowserDetected() ) {

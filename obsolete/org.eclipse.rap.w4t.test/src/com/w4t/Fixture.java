@@ -16,12 +16,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
 import java.util.*;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
+
 import junit.framework.Assert;
+
 import org.xml.sax.SAXException;
+
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.ajax.AjaxStatus;
 import com.w4t.ajax.AjaxStatusAdapterFactory;
@@ -777,7 +781,14 @@ public class Fixture {
     }
     
     public void removeAttribute( final String arg0 ) {
-      attributes.remove( arg0 );
+      Object removed = attributes.remove( arg0 );
+      if( removed instanceof HttpSessionBindingListener ) {
+        HttpSessionBindingListener listener
+          = ( HttpSessionBindingListener )removed;
+        HttpSessionBindingEvent evt
+          = new HttpSessionBindingEvent( this, arg0, removed );
+        listener.valueUnbound( evt );
+      }
     }
     
     public void removeValue( final String arg0 ) {
@@ -883,7 +894,7 @@ public class Fixture {
     renderInfoAdapterFactory = null;
     manager.deregisterAdapters( ajaxStatusAdapterFactory, WebComponent.class );
     ajaxStatusAdapterFactory = null;
-    HttpSession session = ContextProvider.getSession();
+    HttpSession session = ContextProvider.getRequest().getSession();
     ContextProvider.disposeContext();
     session.invalidate();
     clearSingletons();
@@ -996,7 +1007,7 @@ public class Fixture {
   }
   
   public static void fakeBrowser( final Browser browser ) {
-    HttpSession session = ContextProvider.getSession();
+    ISessionStore session = ContextProvider.getSession();
     session.setAttribute( ServiceContext.DETECTED_SESSION_BROWSER, browser );
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     stateInfo.setDetectedBrowser( browser );

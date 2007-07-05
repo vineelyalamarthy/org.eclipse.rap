@@ -13,8 +13,10 @@ package com.w4t.engine.util;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Hashtable;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+
 import com.w4t.*;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.IServiceStateInfo;
@@ -328,7 +330,7 @@ public class WindowManager
   
   private static String getServletContextName() {
     String result = "";
-    HttpSession session = ContextProvider.getSession();
+    HttpSession session = ContextProvider.getRequest().getSession();
     ServletContext servletContext = session.getServletContext();
     if( servletContext != null ) {
       String contextName = servletContext.getServletContextName();

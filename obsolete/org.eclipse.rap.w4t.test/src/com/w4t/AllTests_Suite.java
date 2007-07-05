@@ -12,6 +12,7 @@ package com.w4t;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
 import com.w4t.ajax.*;
 import com.w4t.custom.*;
 import com.w4t.dhtml.*;
@@ -92,6 +93,7 @@ public class AllTests_Suite {
     suite.addTestSuite( WebFileUpload_Test.class );
     suite.addTestSuite( WebGridLayoutRenderer_Test.class );
     suite.addTestSuite( AdapterManager_Test.class );
+    suite.addTestSuite( SessionStore_Test.class );
     suite.addTestSuite( SessionSingleton_Test.class );
     suite.addTestSuite( ConfigurationReader_Test.class );
     suite.addTestSuite( ComponentTreeVisitor_Test.class );

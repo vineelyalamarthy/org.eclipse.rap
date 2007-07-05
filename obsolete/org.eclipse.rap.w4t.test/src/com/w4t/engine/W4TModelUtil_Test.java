@@ -10,10 +10,11 @@
  ******************************************************************************/
 package com.w4t.engine;
 
-import javax.servlet.http.HttpSession;
 import junit.framework.TestCase;
+
 import com.w4t.Fixture;
 import com.w4t.engine.service.ContextProvider;
+import com.w4t.engine.service.ISessionStore;
 import com.w4t.engine.util.W4TModelList;
 
 public class W4TModelUtil_Test extends TestCase {
@@ -34,7 +35,7 @@ public class W4TModelUtil_Test extends TestCase {
       model1 = W4TModel.getInstance();
       assertNotNull( model1 );
       
-      HttpSession session = ContextProvider.getSession();
+      ISessionStore session = ContextProvider.getSession();
       Object storedModel = W4TModel.getInstance();
       assertSame( model1, storedModel );
       storedModel = W4TModelList.getInstance().get( session.getId() );

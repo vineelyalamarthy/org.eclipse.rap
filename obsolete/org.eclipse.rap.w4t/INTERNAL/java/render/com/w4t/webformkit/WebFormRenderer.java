@@ -11,10 +11,10 @@
 package com.w4t.webformkit;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
 import com.w4t.*;
-import com.w4t.engine.W4TModel;
 import com.w4t.engine.lifecycle.standard.IFormRenderer;
 import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.service.IServiceStateInfo;
@@ -161,18 +161,6 @@ abstract class WebFormRenderer
   static boolean parameterExists( final String name ) {
     return    ContextProvider.getRequest().getParameter( name ) != null
            && !ContextProvider.getRequest().getParameter( name ).equals( "" );
-  }
-  
-  /** checks if the servlets session object contains a W4 Toolkit session
-   *  wrapper in case of using the preloading mechanism and returns this
-   *  instead of the real servlet session. */
-  static HttpSession getInternalSessionImpl() {
-    HttpSession result = ContextProvider.getSession();          
-    Object wrapper = result.getAttribute( W4TModel.W4T_SESSION_WRAPPER );
-    if( wrapper != null ) {
-      result = ( HttpSession )wrapper;
-    }
-    return result;
   }
 
   private static boolean useBufferedMarkup() {

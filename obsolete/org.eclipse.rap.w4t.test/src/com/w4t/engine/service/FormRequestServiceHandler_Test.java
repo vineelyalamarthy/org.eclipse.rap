@@ -12,8 +12,11 @@ package com.w4t.engine.service;
 
 import java.util.List;
 import java.util.Vector;
+
 import javax.servlet.http.HttpSession;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.Fixture.*;
 import com.w4t.IWindowManager.IWindow;
@@ -121,7 +124,7 @@ public class FormRequestServiceHandler_Test extends TestCase {
   
   public void testSameFormSynchLock() throws Exception {
     WebForm form = newForm();
-    HttpSession session = ContextProvider.getSession();
+    HttpSession session = ContextProvider.getRequest().getSession();
     Fixture.fakeBrowser( new Ie6( true, true ) );
     
     Worker worker1 = new Worker( session, form );
@@ -153,7 +156,7 @@ public class FormRequestServiceHandler_Test extends TestCase {
   public void testDifferentFormsSynchLock() throws Exception {
     WebForm form1 = newForm();
     WebForm form2 = newForm();
-    HttpSession session = ContextProvider.getSession();
+    HttpSession session = ContextProvider.getRequest().getSession();
     Fixture.fakeBrowser( new Ie6( true, true ) );
     
     Worker worker1 = new Worker( session, form1 );
@@ -189,12 +192,14 @@ public class FormRequestServiceHandler_Test extends TestCase {
    */
   public void testEmptyRequest() throws Exception {
     newForm();
-    HttpSession session = ContextProvider.getSession();
+    ISessionStore session = ContextProvider.getSession();
     session.setAttribute( "test-attribute", "test-attribute-value" );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     response.setOutputStream( new TestServletOutputStream() );
     
     ServiceManager.getHandler().service();
+    HttpSession httpSession = ContextProvider.getRequest().getSession();
+    httpSession.setAttribute( SessionStoreImpl.ID_SESSION_STORE, session );
     assertEquals( null, session.getAttribute( "test-attribute" ) );
     String markup = Fixture.getAllMarkup();
     assertTrue( markup.indexOf( "Startup Page" ) > -1 );
@@ -203,12 +208,14 @@ public class FormRequestServiceHandler_Test extends TestCase {
   public void testStartupRequestInExistingSession() throws Exception {
     newForm();
     Fixture.fakeBrowser( new Default( true, true ) );
-    HttpSession session = ContextProvider.getSession();
+    ISessionStore session = ContextProvider.getSession();
     session.setAttribute( "test-attribute", "test-attribute-value" );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     response.setOutputStream( new TestServletOutputStream() );
     
     ServiceManager.getHandler().service();
+    HttpSession httpSession = ContextProvider.getRequest().getSession();
+    httpSession.setAttribute( SessionStoreImpl.ID_SESSION_STORE, session );
     assertEquals( null, session.getAttribute( "test-attribute" ) );
     String markup = Fixture.getAllMarkup();
     assertTrue( markup.indexOf( "Startup Page" ) > -1 );

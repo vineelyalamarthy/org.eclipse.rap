@@ -11,6 +11,7 @@
 package com.w4t.engine.service;
 
 import javax.servlet.http.*;
+
 import com.w4t.ParamCheck;
 
 
@@ -68,12 +69,21 @@ public class ContextProvider {
   }
 
   /**
-   * Returns the <code>HttpSession</code> to which the currently processed
-   * request belongs. This is a convenience method that delegates to 
-   * <code>ContextProvider.getContext().getRequest().getSession()</code>;  
+   * Returns the <code>ISessionStore</code> of the <code>HttpSession</code>
+   * to which the currently processed request belongs.
    */
-  public static HttpSession getSession() {
-    return getRequest().getSession();
+  public static ISessionStore getSession() {
+    ISessionStore result = getContext().getSessionStore();
+    if( result == null ) {
+      HttpSession httpSession = getRequest().getSession();
+      String id = SessionStoreImpl.ID_SESSION_STORE;
+      result = ( ISessionStore )httpSession.getAttribute( id );
+      if( result == null ) { 
+        result = new SessionStoreImpl( httpSession );
+      }
+      getContext().setSessionStore( result );
+    }
+    return result;
   }
 
   /**
