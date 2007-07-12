@@ -11,11 +11,8 @@
 
 package org.eclipse.ui.presentations;
 
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IWorkbenchPreferenceConstants;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultTabFolder;
 import org.eclipse.ui.internal.presentations.defaultpresentation.EmptyTabFolder;
 import org.eclipse.ui.internal.presentations.util.*;
@@ -46,6 +43,12 @@ public class WorkbenchPresentationFactory extends AbstractPresentationFactory {
         DefaultTabFolder folder = new DefaultTabFolder(parent, editorTabPosition | SWT.BORDER, 
                 site.supportsState(IStackPresentationSite.STATE_MINIMIZED), 
                 site.supportsState(IStackPresentationSite.STATE_MAXIMIZED));
+        
+        // TODO: [bm] review why we to set this explicit to false
+        // makes sense but original workbench does not need it
+        // 195092: small button in empty editorarea throws exception on click
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=195092
+        folder.enablePaneMenu(false);
         
         /*
          * Set the minimum characters to display, if the preference is something
