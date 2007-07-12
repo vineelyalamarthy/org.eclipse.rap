@@ -95,9 +95,9 @@ public abstract class ImageDescriptor extends DeviceResourceDescriptor  {
      * @param img image to create
      * @return a newly created image descriptor
      */
-//    public static ImageDescriptor createFromImage(Image img) {
-//        return new ImageDataImageDescriptor(img);
-//    }
+    public static ImageDescriptor createFromImage(Image img) {
+        return new ImageDataImageDescriptor(img);
+    }
     
     /**
      * Creates an ImageDescriptor based on the given original descriptor, but with additional

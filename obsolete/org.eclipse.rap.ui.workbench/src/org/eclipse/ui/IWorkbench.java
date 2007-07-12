@@ -17,8 +17,6 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.progress.IProgressService;
-import org.eclipse.ui.commands.ICommandService;
-import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.ui.views.IViewRegistry;
 
@@ -152,7 +150,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return the workbench editor registry
 	 */
-//	public IEditorRegistry getEditorRegistry();
+	public IEditorRegistry getEditorRegistry();
 
 	/**
 	 * <p>

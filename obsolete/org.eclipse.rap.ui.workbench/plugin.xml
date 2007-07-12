@@ -58,6 +58,7 @@
       id="org.eclipse.rap.swt.themeableWidgets"
       name="ThemeableWidgets"
       schema="schema/swtThemeableWidgets.exsd"/>
+  <extension-point id="org.eclipse.ui.editors" name="editors" schema="schema/editors.exsd"/>
 
   <extension
       id="org.eclipse.ui.requestHandler"

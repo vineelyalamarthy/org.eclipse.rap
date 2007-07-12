@@ -287,7 +287,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @return <code>true</code> if all editors were successfully closed, and
 	 *         <code>false</code> if at least one is still open
 	 */
-//	public boolean closeAllEditors(boolean save);
+	public boolean closeAllEditors(boolean save);
 
 	/**
 	 * Closes the given <code>Array</code> of editor references. The editors
@@ -308,7 +308,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 *         <code>false</code> if the editors are still open
 	 * @since 3.0
 	 */
-//	public boolean closeEditors(IEditorReference[] editorRefs, boolean save);
+	public boolean closeEditors(IEditorReference[] editorRefs, boolean save);
 
 	/**
 	 * Closes the given editor. The editor must belong to this workbench page.
@@ -326,7 +326,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @return <code>true</code> if the editor was successfully closed, and
 	 *         <code>false</code> if the editor is still open
 	 */
-//	public boolean closeEditor(IEditorPart editor, boolean save);
+	public boolean closeEditor(IEditorPart editor, boolean save);
 
 	/**
 	 * Returns the view in this page with the specified id. There is at most one
@@ -370,7 +370,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @return the active editor, or <code>null</code> if no editor is active
 	 */
-//	public IEditorPart getActiveEditor();
+	public IEditorPart getActiveEditor();
 
 	/**
 	 * Returns the editor with the specified input. Returns null if there is no
@@ -380,7 +380,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 *            the editor input
 	 * @return an editor with input equals to <code>input</code>
 	 */
-//	public IEditorPart findEditor(IEditorInput input);
+	public IEditorPart findEditor(IEditorInput input);
 
 	/**
 	 * Returns an array of editor references that match the given input and/or
@@ -403,8 +403,8 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @see #MATCH_ID
 	 * @since 3.2
 	 */
-//	public IEditorReference[] findEditors(IEditorInput input, String editorId,
-//			int matchFlags);
+	public IEditorReference[] findEditors(IEditorInput input, String editorId,
+			int matchFlags);
 
 	/**
 	 * Returns a list of the editors open in this page.
@@ -417,7 +417,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @deprecated use #getEditorReferences() instead
 	 */
-//	public IEditorPart[] getEditors();
+	public IEditorPart[] getEditors();
 
 	/**
 	 * Returns an array of references to open editors in this page.
@@ -428,14 +428,14 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @return a list of open editors
 	 */
-//	public IEditorReference[] getEditorReferences();
+	public IEditorReference[] getEditorReferences();
 
 	/**
 	 * Returns a list of dirty editors in this page.
 	 * 
 	 * @return a list of dirty editors
 	 */
-//	public IEditorPart[] getDirtyEditors();
+	public IEditorPart[] getDirtyEditors();
 
 	/**
 	 * Returns the input for this page.
@@ -560,7 +560,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @param input
 	 *            the new input for the reusable editor
 	 */
-//	public void reuseEditor(IReusableEditor editor, IEditorInput input);
+	public void reuseEditor(IReusableEditor editor, IEditorInput input);
 
 	/**
 	 * Opens an editor on the given input.
@@ -591,8 +591,8 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @exception PartInitException
 	 *                if the editor could not be created or initialized
 	 */
-//	public IEditorPart openEditor(IEditorInput input, String editorId)
-//			throws PartInitException;
+	public IEditorPart openEditor(IEditorInput input, String editorId)
+			throws PartInitException;
 
 	/**
 	 * Opens an editor on the given input.
@@ -618,8 +618,8 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @return an open editor, or <code>null</code> if an external editor was opened
 	 * @exception PartInitException if the editor could not be created or initialized
 	 */
-//	public IEditorPart openEditor(IEditorInput input, String editorId,
-//			boolean activate) throws PartInitException;
+	public IEditorPart openEditor(IEditorInput input, String editorId,
+			boolean activate) throws PartInitException;
 
 	/**
 	 * Opens an editor on the given input.
@@ -652,9 +652,9 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @see #MATCH_ID
 	 * @since 3.2
 	 */
-//	public IEditorPart openEditor(final IEditorInput input,
-//			final String editorId, final boolean activate, final int matchFlags)
-//			throws PartInitException;
+	public IEditorPart openEditor(final IEditorInput input,
+			final String editorId, final boolean activate, final int matchFlags)
+			throws PartInitException;
 
 	/**
 	 * Removes the property change listener.
@@ -696,7 +696,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 *         <code>false</code> if the operation was canceled by the user or
 	 *         an error occurred while saving
 	 */
-//	public boolean saveAllEditors(boolean confirm);
+	public boolean saveAllEditors(boolean confirm);
 
 	/**
 	 * Saves the contents of the given editor if dirty. If not, this method
@@ -718,7 +718,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @return <code>true</code> if the command succeeded, and
 	 *         <code>false</code> if the editor was not saved
 	 */
-//	public boolean saveEditor(IEditorPart editor, boolean confirm);
+	public boolean saveEditor(IEditorPart editor, boolean confirm);
 
 	/**
 	 * Saves the visible views, their layout, and the visible action sets for

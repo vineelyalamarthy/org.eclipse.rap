@@ -62,7 +62,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
     private static WorkbenchPlugin inst;
 
     // Manager that maps resources to descriptors of editors to use
-//    private EditorRegistry editorRegistry;
+    private EditorRegistry editorRegistry;
 
     // Manager for the DecoratorManager
 //    private DecoratorManager decoratorManager;
@@ -139,7 +139,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * @since 3.0 
      */
     void reset() {
-//        editorRegistry = null;
+        editorRegistry = null;
 
 //        if (decoratorManager != null) {
 //            decoratorManager.dispose();
@@ -389,12 +389,13 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * by this plug-in.
      */
 
-//    public IEditorRegistry getEditorRegistry() {
+    public IEditorRegistry getEditorRegistry() {
 //        if (editorRegistry == null) {
 //            editorRegistry = new EditorRegistry();
 //        }
 //        return editorRegistry;
-//    }
+      return EditorRegistry.getInstance();
+    }
 
     /**
      * Answer the element factory for an id, or <code>null</code. if not found.

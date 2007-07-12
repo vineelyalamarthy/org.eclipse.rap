@@ -16,12 +16,10 @@ package org.eclipse.ui.internal;
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.IMemento;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.presentations.PresentablePart;
 import org.eclipse.ui.internal.presentations.PresentationFactoryUtil;
 import org.eclipse.ui.internal.presentations.util.TabbedStackPresentation;
-import org.eclipse.ui.internal.util.Util;
 import org.eclipse.ui.presentations.*;
 
 /**
@@ -91,32 +89,31 @@ public class EditorStack extends PartStack {
         return new EditorStack(editorArea, page);
     }
 
-//    protected void add(LayoutPart newChild, Object cookie) {
-//        super.add(newChild, cookie);
-//
-//        ((EditorPane) newChild).setWorkbook(this);
-//    }
+    protected void add(LayoutPart newChild, Object cookie) {
+        super.add(newChild, cookie);
+
+        ((EditorPane) newChild).setWorkbook(this);
+    }
 
     /**
      * See IVisualContainer#add
      */
-//    public void add(LayoutPart child) {
-//        super.add(child);
-//
-//        if (child instanceof EditorPane) {
-//            ((EditorPane) child).setWorkbook(this);
-//        }
-//    }
+    public void add(LayoutPart child) {
+        super.add(child);
+
+        if (child instanceof EditorPane) {
+            ((EditorPane) child).setWorkbook(this);
+        }
+    }
 
     protected void updateActions(PresentablePart current) {
-//        EditorPane pane = null;
-//        if (current != null && current.getPane() instanceof EditorPane) {
-//            pane = (EditorPane) current.getPane();
-//        }
-//
+        EditorPane pane = null;
+        if (current != null && current.getPane() instanceof EditorPane) {
+            pane = (EditorPane) current.getPane();
+        }
+
 //        sizeItem.setPane(pane);
 //        pinEditorItem.setPane(pane);
-    	throw new UnsupportedOperationException();
     }
 
     public Control[] getTabList() {
@@ -149,16 +146,16 @@ public class EditorStack extends PartStack {
 		}
     }
 
-//    public EditorPane[] getEditors() {
-//        LayoutPart[] children = getChildren();
-//
-//        EditorPane[] panes = new EditorPane[children.length];
-//        for (int idx = 0; idx < children.length; idx++) {
-//            panes[idx] = (EditorPane) children[idx];
-//        }
-//
-//        return panes;
-//    }
+    public EditorPane[] getEditors() {
+        LayoutPart[] children = getChildren();
+
+        EditorPane[] panes = new EditorPane[children.length];
+        for (int idx = 0; idx < children.length; idx++) {
+            panes[idx] = (EditorPane) children[idx];
+        }
+
+        return panes;
+    }
 
     public EditorSashContainer getEditorArea() {
         return editorArea;
@@ -194,25 +191,25 @@ public class EditorStack extends PartStack {
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.PartStack#close(org.eclipse.ui.presentations.IPresentablePart[])
      */
-//    protected void close(IPresentablePart[] parts) {
-//
-//        if (parts.length == 1) {
-//            close(parts[0]);
-//            return;
-//        }
-//
-//        IEditorReference[] toClose = new IEditorReference[parts.length];
-//        for (int idx = 0; idx < parts.length; idx++) {
-//            EditorPane part = (EditorPane) getPaneFor(parts[idx]);
-//            toClose[idx] = part.getEditorReference();
-//        }
-//
-//        WorkbenchPage page = getPage();
-//
-//        if (page != null) {
-//            page.closeEditors(toClose, true);
-//        }
-//    }
+    protected void close(IPresentablePart[] parts) {
+
+        if (parts.length == 1) {
+            close(parts[0]);
+            return;
+        }
+
+        IEditorReference[] toClose = new IEditorReference[parts.length];
+        for (int idx = 0; idx < parts.length; idx++) {
+            EditorPane part = (EditorPane) getPaneFor(parts[idx]);
+            toClose[idx] = part.getEditorReference();
+        }
+
+        WorkbenchPage page = getPage();
+
+        if (page != null) {
+            page.closeEditors(toClose, true);
+        }
+    }
 
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.LayoutPart#testInvariants()
@@ -235,56 +232,56 @@ public class EditorStack extends PartStack {
      * @see org.eclipse.ui.internal.PartStack#restoreState(org.eclipse.ui.IMemento)
      */
     public IStatus restoreState(IMemento memento) {
-        Integer expanded = memento.getInteger(IWorkbenchConstants.TAG_EXPANDED);
-        setState((expanded == null || expanded.intValue() != IStackPresentationSite.STATE_MINIMIZED) ? IStackPresentationSite.STATE_RESTORED
-                : IStackPresentationSite.STATE_MINIMIZED);
+//        Integer expanded = memento.getInteger(IWorkbenchConstants.TAG_EXPANDED);
+//        setState((expanded == null || expanded.intValue() != IStackPresentationSite.STATE_MINIMIZED) ? IStackPresentationSite.STATE_RESTORED
+//                : IStackPresentationSite.STATE_MINIMIZED);
+//
+//        Integer appearance = memento
+//                .getInteger(IWorkbenchConstants.TAG_APPEARANCE);
+//        if (appearance != null) {
+//            this.appearance = appearance.intValue();
+//        }
+//
+//        // Determine if the presentation has saved any info here
+//        savedPresentationState = null;
+//        IMemento[] presentationMementos = memento
+//                .getChildren(IWorkbenchConstants.TAG_PRESENTATION);
+//
+//        for (int idx = 0; idx < presentationMementos.length; idx++) {
+//            IMemento child = presentationMementos[idx];
+//
+//            String id = child.getString(IWorkbenchConstants.TAG_ID);
+//
+//            if (Util.equals(id, getFactory().getId())) {
+//                savedPresentationState = child;
+//                break;
+//            }
+//        }
 
-        Integer appearance = memento
-                .getInteger(IWorkbenchConstants.TAG_APPEARANCE);
-        if (appearance != null) {
-            this.appearance = appearance.intValue();
-        }
-
-        // Determine if the presentation has saved any info here
-        savedPresentationState = null;
-        IMemento[] presentationMementos = memento
-                .getChildren(IWorkbenchConstants.TAG_PRESENTATION);
-
-        for (int idx = 0; idx < presentationMementos.length; idx++) {
-            IMemento child = presentationMementos[idx];
-
-            String id = child.getString(IWorkbenchConstants.TAG_ID);
-
-            if (Util.equals(id, getFactory().getId())) {
-                savedPresentationState = child;
-                break;
-            }
-        }
-
-        return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, 0, "", null); //$NON-NLS-1$
+        return new Status(IStatus.ERROR, PlatformUI.PLUGIN_ID, 0, "", null); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.PartStack#saveState(org.eclipse.ui.IMemento)
      */
     public IStatus saveState(IMemento memento) {
-        memento
-                .putInteger(
-                        IWorkbenchConstants.TAG_EXPANDED,
-                        (getPresentationSite().getState() == IStackPresentationSite.STATE_MINIMIZED) ? IStackPresentationSite.STATE_MINIMIZED
-                                : IStackPresentationSite.STATE_RESTORED);
-
-        memento.putInteger(IWorkbenchConstants.TAG_APPEARANCE, appearance);
-
-        savePresentationState();
-
-        if (savedPresentationState != null) {
-            IMemento presentationState = memento
-                    .createChild(IWorkbenchConstants.TAG_PRESENTATION);
-            presentationState.putMemento(savedPresentationState);
-        }
-
-        return new Status(IStatus.OK, PlatformUI.PLUGIN_ID, 0, "", null); //$NON-NLS-1$
+//        memento
+//                .putInteger(
+//                        IWorkbenchConstants.TAG_EXPANDED,
+//                        (getPresentationSite().getState() == IStackPresentationSite.STATE_MINIMIZED) ? IStackPresentationSite.STATE_MINIMIZED
+//                                : IStackPresentationSite.STATE_RESTORED);
+//
+//        memento.putInteger(IWorkbenchConstants.TAG_APPEARANCE, appearance);
+//
+//        savePresentationState();
+//
+//        if (savedPresentationState != null) {
+//            IMemento presentationState = memento
+//                    .createChild(IWorkbenchConstants.TAG_PRESENTATION);
+//            presentationState.putMemento(savedPresentationState);
+//        }
+      
+        return new Status(IStatus.ERROR, PlatformUI.PLUGIN_ID, 0, "", null); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)

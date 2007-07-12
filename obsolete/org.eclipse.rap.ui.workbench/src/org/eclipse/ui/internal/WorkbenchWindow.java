@@ -3788,19 +3788,19 @@ public class WorkbenchWindow extends ApplicationWindow implements
 		getShell().layout();
 	}
 
-//	/*package*/ void addBackgroundSaveListener(IBackgroundSaveListener listener) {
-//		backgroundSaveListeners.add(listener);
-//	}
-//	
-//	/*package*/ void fireBackgroundSaveStarted() {
-//		Object[] listeners = backgroundSaveListeners.getListeners();
-//		for (int i = 0; i < listeners.length; i++) {
-//			IBackgroundSaveListener listener = (IBackgroundSaveListener) listeners[i];
-//			listener.handleBackgroundSaveStarted();
-//		}
-//	}
-//
-//	/*package*/ void removeBackgroundSaveListener(IBackgroundSaveListener listener) {
-//		backgroundSaveListeners.remove(listener);
-//	}
+	/*package*/ void addBackgroundSaveListener(IBackgroundSaveListener listener) {
+		backgroundSaveListeners.add(listener);
+	}
+	
+	/*package*/ void fireBackgroundSaveStarted() {
+		Object[] listeners = backgroundSaveListeners.getListeners();
+		for (int i = 0; i < listeners.length; i++) {
+			IBackgroundSaveListener listener = (IBackgroundSaveListener) listeners[i];
+			listener.handleBackgroundSaveStarted();
+		}
+	}
+
+	/*package*/ void removeBackgroundSaveListener(IBackgroundSaveListener listener) {
+		backgroundSaveListeners.remove(listener);
+	}
 }

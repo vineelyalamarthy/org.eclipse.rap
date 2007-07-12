@@ -19,11 +19,12 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.operation.ModalContext;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.SafeRunnable;
-import org.eclipse.jface.window.Window;
-import org.eclipse.jface.window.WindowManager;
+import org.eclipse.jface.window.*;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
@@ -47,6 +48,8 @@ import org.eclipse.ui.internal.util.Util;
 import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.services.IDisposable;
 import org.eclipse.ui.views.IViewRegistry;
+
+import com.w4t.engine.service.*;
 
 import com.w4t.engine.service.*;
 
@@ -95,7 +98,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
   }
   // end session timeout shutdown handler
   /////////////////////////////////////////////////////////////////////////
-  
+
 //	private final class StartupProgressBundleListener implements
 //			SynchronousBundleListener {
 //
@@ -155,8 +158,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //		}
 //	}
 
-
-  /**
+	/**
 	 * Family for the early startup job.
 	 */
 	public static final String EARLY_STARTUP_FAMILY = "earlyStartup"; //$NON-NLS-1$
@@ -758,31 +760,32 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 		}
 
 		// save any open editors if they are dirty
-//		isClosing = saveAllEditors(!force);
+		isClosing = saveAllEditors(!force);
 		if (!force && !isClosing) {
 			return false;
 		}
 
-//		boolean closeEditors = !force
+		boolean closeEditors = !force
 //				&& PrefUtil.getAPIPreferenceStore().getBoolean(
 //						IWorkbenchPreferenceConstants.CLOSE_EDITORS_ON_EXIT);
-//		if (closeEditors) {
-//			SafeRunner.run(new SafeRunnable() {
-//				public void run() {
-//					IWorkbenchWindow windows[] = getWorkbenchWindows();
-//					for (int i = 0; i < windows.length; i++) {
-//						IWorkbenchPage pages[] = windows[i].getPages();
-//						for (int j = 0; j < pages.length; j++) {
-//							isClosing = isClosing
-//									&& pages[j].closeAllEditors(false);
-//						}
-//					}
-//				}
-//			});
-//			if (!force && !isClosing) {
-//				return false;
-//			}
-//		}
+		        && true;
+		if (closeEditors) {
+			SafeRunner.run(new SafeRunnable() {
+				public void run() {
+					IWorkbenchWindow windows[] = getWorkbenchWindows();
+					for (int i = 0; i < windows.length; i++) {
+						IWorkbenchPage pages[] = windows[i].getPages();
+						for (int j = 0; j < pages.length; j++) {
+							isClosing = isClosing
+									&& pages[j].closeAllEditors(false);
+						}
+					}
+				}
+			});
+			if (!force && !isClosing) {
+				return false;
+			}
+		}
 
 //		if (getWorkbenchConfigurer().getSaveAndRestore()) {
 //			SafeRunner.run(new SafeRunnable() {
@@ -838,68 +841,68 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbench#saveAllEditors(boolean)
 	 */
-//	public boolean saveAllEditors(boolean confirm) {
-//		final boolean finalConfirm = confirm;
-//		final boolean[] result = new boolean[1];
-//		result[0] = true;
-//
-//		SafeRunner.run(new SafeRunnable(WorkbenchMessages.ErrorClosing) {
-//			public void run() {
-//				// Collect dirtyParts
-//				ArrayList dirtyParts = new ArrayList();
-//				ArrayList dirtyEditorsInput = new ArrayList();
-//				IWorkbenchWindow windows[] = getWorkbenchWindows();
-//				for (int i = 0; i < windows.length; i++) {
-//					IWorkbenchPage pages[] = windows[i].getPages();
-//					for (int j = 0; j < pages.length; j++) {
-//						WorkbenchPage page = (WorkbenchPage) pages[j];
-//
-//						ISaveablePart[] parts = page.getDirtyParts();
-//
-//						for (int k = 0; k < parts.length; k++) {
-//							ISaveablePart part = parts[k];
-//
-//							if (part.isSaveOnCloseNeeded()) {
-//								if (part instanceof IEditorPart) {
-//									IEditorPart editor = (IEditorPart) part;
-//									if (!dirtyEditorsInput.contains(editor
-//											.getEditorInput())) {
-//										dirtyParts.add(editor);
-//										dirtyEditorsInput.add(editor
-//												.getEditorInput());
-//									}
-//								} else {
-//									dirtyParts.add(part);
-//								}
-//							}
-//						}
-//					}
-//				}
-//				IShellProvider shellProvider;
-//				IRunnableContext runnableContext;
-//				IWorkbenchWindow w = getActiveWorkbenchWindow();
-//				if (w == null && windows.length > 0) {
-//					w = windows[0];
-//				}
-//				if (w != null) {
-//					shellProvider = (WorkbenchWindow)w;
-//					runnableContext = w;
-//				} else {
-//					shellProvider = new IShellProvider() {
-//						public Shell getShell() {
-//							return null;
-//						}
-//					};
-//					runnableContext = new ProgressMonitorDialog(null);
-//				}
-//				// The fourth parameter is true to also save saveables from
-//				// non-part sources, see bug 139004.
-//				result[0] = EditorManager.saveAll(dirtyParts, finalConfirm,
-//						false, true, runnableContext, shellProvider);
-//			}
-//		});
-//		return result[0];
-//	}
+	public boolean saveAllEditors(boolean confirm) {
+		final boolean finalConfirm = confirm;
+		final boolean[] result = new boolean[1];
+		result[0] = true;
+
+		SafeRunner.run(new SafeRunnable(WorkbenchMessages.ErrorClosing) {
+			public void run() {
+				// Collect dirtyParts
+				ArrayList dirtyParts = new ArrayList();
+				ArrayList dirtyEditorsInput = new ArrayList();
+				IWorkbenchWindow windows[] = getWorkbenchWindows();
+				for (int i = 0; i < windows.length; i++) {
+					IWorkbenchPage pages[] = windows[i].getPages();
+					for (int j = 0; j < pages.length; j++) {
+						WorkbenchPage page = (WorkbenchPage) pages[j];
+
+						ISaveablePart[] parts = page.getDirtyParts();
+
+						for (int k = 0; k < parts.length; k++) {
+							ISaveablePart part = parts[k];
+
+							if (part.isSaveOnCloseNeeded()) {
+								if (part instanceof IEditorPart) {
+									IEditorPart editor = (IEditorPart) part;
+									if (!dirtyEditorsInput.contains(editor
+											.getEditorInput())) {
+										dirtyParts.add(editor);
+										dirtyEditorsInput.add(editor
+												.getEditorInput());
+									}
+								} else {
+									dirtyParts.add(part);
+								}
+							}
+						}
+					}
+				}
+				IShellProvider shellProvider;
+				IRunnableContext runnableContext;
+				IWorkbenchWindow w = getActiveWorkbenchWindow();
+				if (w == null && windows.length > 0) {
+					w = windows[0];
+				}
+				if (w != null) {
+					shellProvider = (WorkbenchWindow)w;
+					runnableContext = w;
+				} else {
+					shellProvider = new IShellProvider() {
+						public Shell getShell() {
+							return null;
+						}
+					};
+					runnableContext = new ProgressMonitorDialog(null);
+				}
+				// The fourth parameter is true to also save saveables from
+				// non-part sources, see bug 139004.
+				result[0] = EditorManager.saveAll(dirtyParts, finalConfirm,
+						false, true, runnableContext, shellProvider);
+			}
+		});
+		return result[0];
+	}
 
 	/**
 	 * Opens a new workbench window and page with a specific perspective.
@@ -1068,9 +1071,9 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/*
 	 * (non-Javadoc) Method declared on IWorkbench.
 	 */
-//	public IEditorRegistry getEditorRegistry() {
-//		return WorkbenchPlugin.getDefault().getEditorRegistry();
-//	}
+	public IEditorRegistry getEditorRegistry() {
+		return WorkbenchPlugin.getDefault().getEditorRegistry();
+	}
 
 	/*
 	 * Returns the number for a new window. This will be the first number > 0
@@ -1442,8 +1445,8 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //		StartupThreading.runWithoutExceptions(new StartupRunnable() {
 //
 //			public void runWithException() {
-//				serviceLocator.registerService(ISaveablesLifecycleListener.class,
-//						new SaveablesList());
+				serviceLocator.registerService(ISaveablesLifecycleListener.class,
+						new SaveablesList());
 //			}});
 		
 		/*

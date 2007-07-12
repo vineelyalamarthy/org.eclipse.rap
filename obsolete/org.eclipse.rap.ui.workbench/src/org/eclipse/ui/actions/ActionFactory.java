@@ -17,8 +17,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.internal.QuitAction;
-import org.eclipse.ui.internal.WorkbenchMessages;
+import org.eclipse.ui.internal.*;
 import org.eclipse.ui.internal.actions.CommandAction;
 import org.eclipse.ui.services.IServiceLocator;
 
@@ -1167,39 +1166,39 @@ public abstract class ActionFactory {
      * Workbench action (id "save"): Save the active editor. This action
      * maintains its enablement state.
      */
-//    public static final ActionFactory SAVE = new ActionFactory("save") {//$NON-NLS-1$
-//        
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            IWorkbenchAction action = new SaveAction(window);
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+    public static final ActionFactory SAVE = new ActionFactory("save") {//$NON-NLS-1$
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            IWorkbenchAction action = new SaveAction(window);
+            action.setId(getId());
+            return action;
+        }
+    };
 
     /**
      * Workbench action (id "saveAll"): Save all open editors with unsaved
      * changes. This action maintains its enablement state.
      */
-//    public static final ActionFactory SAVE_ALL = new ActionFactory("saveAll") {//$NON-NLS-1$
-//        
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            IWorkbenchAction action = new SaveAllAction(window);
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+    public static final ActionFactory SAVE_ALL = new ActionFactory("saveAll") {//$NON-NLS-1$
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            IWorkbenchAction action = new SaveAllAction(window);
+            action.setId(getId());
+            return action;
+        }
+    };
 
     /**
      * Workbench action (id "saveAs"): Save As for the active editor. This

@@ -211,9 +211,9 @@ public abstract class PartList {
 		// open event was fired or that a closed editor was somehow activated)
 		Assert.isTrue(activeEditorReference != ref);
 
-//		SaveablesList modelManager = (SaveablesList) actualPart
-//				.getSite().getService(ISaveablesLifecycleListener.class);
-//		modelManager.postOpen(actualPart);
+		SaveablesList modelManager = (SaveablesList) actualPart
+				.getSite().getService(ISaveablesLifecycleListener.class);
+		modelManager.postOpen(actualPart);
 
 		// Fire the "part opened" event
 		firePartOpened(ref);

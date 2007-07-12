@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.presentations.IStackPresentationSite;
 import org.eclipse.ui.presentations.StackPresentation;
 
 /**
@@ -39,7 +40,7 @@ public class EditorSashContainer extends PartSashContainer {
 
     private EditorStack activeEditorWorkbook;
 
-    private DropTarget dropTarget;
+//    private DropTarget dropTarget;
 
     public EditorSashContainer(String editorId, WorkbenchPage page, Composite parent) {
         super(editorId, page, parent);
@@ -51,10 +52,10 @@ public class EditorSashContainer extends PartSashContainer {
     /**
      * Add an editor to the active workbook.
      */
-//    public void addEditor(EditorPane pane, EditorStack stack) {
-//        //EditorStack workbook = getActiveWorkbook();
-//        stack.add(pane);
-//    }
+    public void addEditor(EditorPane pane, EditorStack stack) {
+        //EditorStack workbook = getActiveWorkbook();
+        stack.add(pane);
+    }
 
     /* (non-Javadoc)
 	 * @see org.eclipse.ui.internal.PartSashContainer#addChild(org.eclipse.ui.internal.PartSashContainer.RelationshipInfo)
@@ -267,28 +268,28 @@ public class EditorSashContainer extends PartSashContainer {
     /**
      * Remove an editor from its' workbook.
      */
-//    public void removeEditor(EditorPane pane) {
-//        EditorStack workbook = pane.getWorkbook();
-//        if (workbook == null) {
-//			return;
-//		}
-//        workbook.remove(pane);
-//
-//        // remove the editor workbook if empty
-//        if (workbook.getItemCount() < 1 /* && editorWorkbooks.size() > 1*/) {
-//        	// If the user closes the last editor and the editor area
-//        	// is maximized, restore it
-//    		Perspective persp = getPage().getActivePerspective();
-//            if (Perspective.useNewMinMax(persp)) {
-//            	if (persp.getPresentation().getMaximizedStack() instanceof EditorStack)
-//            		persp.getPresentation().getMaximizedStack().
-//            			setState(IStackPresentationSite.STATE_RESTORED);
-//            }
-//
-//            remove(workbook);
-//            workbook.dispose();
-//        }
-//    }
+    public void removeEditor(EditorPane pane) {
+        EditorStack workbook = pane.getWorkbook();
+        if (workbook == null) {
+			return;
+		}
+        workbook.remove(pane);
+
+        // remove the editor workbook if empty
+        if (workbook.getItemCount() < 1 /* && editorWorkbooks.size() > 1*/) {
+        	// If the user closes the last editor and the editor area
+        	// is maximized, restore it
+    		Perspective persp = getPage().getActivePerspective();
+            if (Perspective.useNewMinMax(persp)) {
+            	if (persp.getPresentation().getMaximizedStack() instanceof EditorStack)
+            		persp.getPresentation().getMaximizedStack().
+            			setState(IStackPresentationSite.STATE_RESTORED);
+            }
+
+            remove(workbook);
+            workbook.dispose();
+        }
+    }
 
     /**
      * @see IPersistablePart
@@ -405,47 +406,48 @@ public class EditorSashContainer extends PartSashContainer {
      * @see IPersistablePart
      */
     public IStatus saveState(IMemento memento) {
-        RelationshipInfo[] relationships = computeRelation();
-        MultiStatus result = new MultiStatus(
-                PlatformUI.PLUGIN_ID,
-                IStatus.OK,
-                WorkbenchMessages.RootLayoutContainer_problemsSavingPerspective, null); 
-
-        for (int i = 0; i < relationships.length; i++) {
-            // Save the relationship info ..
-            //		private LayoutPart part;
-            // 		private int relationship;
-            // 		private float ratio;
-            // 		private LayoutPart relative;
-            RelationshipInfo info = relationships[i];
-            IMemento childMem = memento
-                    .createChild(IWorkbenchConstants.TAG_INFO);
-            childMem.putString(IWorkbenchConstants.TAG_PART, info.part.getID());
-
-            EditorStack stack = (EditorStack) info.part;
-            if (stack != null) {
-                IMemento folderMem = childMem
-                        .createChild(IWorkbenchConstants.TAG_FOLDER);
-                result.add(stack.saveState(folderMem));
-            }
-
-            if (info.relative != null) {
-                childMem.putString(IWorkbenchConstants.TAG_RELATIVE,
-                        info.relative.getID());
-                childMem.putInteger(IWorkbenchConstants.TAG_RELATIONSHIP,
-                        info.relationship);
-                childMem.putInteger(IWorkbenchConstants.TAG_RATIO_LEFT,
-                        info.left);
-                childMem.putInteger(IWorkbenchConstants.TAG_RATIO_RIGHT,
-                        info.right);
-                // Note: "ratio" is not used in newer versions of Eclipse, which use "left" 
-                // and "right" (above) instead
-                childMem.putFloat(IWorkbenchConstants.TAG_RATIO, info
-                        .getRatio());
-            }
-        }
-        
-        return result;
+//        RelationshipInfo[] relationships = computeRelation();
+//        MultiStatus result = new MultiStatus(
+//                PlatformUI.PLUGIN_ID,
+//                IStatus.OK,
+//                WorkbenchMessages.RootLayoutContainer_problemsSavingPerspective, null); 
+//
+//        for (int i = 0; i < relationships.length; i++) {
+//            // Save the relationship info ..
+//            //		private LayoutPart part;
+//            // 		private int relationship;
+//            // 		private float ratio;
+//            // 		private LayoutPart relative;
+//            RelationshipInfo info = relationships[i];
+//            IMemento childMem = memento
+//                    .createChild(IWorkbenchConstants.TAG_INFO);
+//            childMem.putString(IWorkbenchConstants.TAG_PART, info.part.getID());
+//
+//            EditorStack stack = (EditorStack) info.part;
+//            if (stack != null) {
+//                IMemento folderMem = childMem
+//                        .createChild(IWorkbenchConstants.TAG_FOLDER);
+//                result.add(stack.saveState(folderMem));
+//            }
+//
+//            if (info.relative != null) {
+//                childMem.putString(IWorkbenchConstants.TAG_RELATIVE,
+//                        info.relative.getID());
+//                childMem.putInteger(IWorkbenchConstants.TAG_RELATIONSHIP,
+//                        info.relationship);
+//                childMem.putInteger(IWorkbenchConstants.TAG_RATIO_LEFT,
+//                        info.left);
+//                childMem.putInteger(IWorkbenchConstants.TAG_RATIO_RIGHT,
+//                        info.right);
+//                // Note: "ratio" is not used in newer versions of Eclipse, which use "left" 
+//                // and "right" (above) instead
+//                childMem.putFloat(IWorkbenchConstants.TAG_RATIO, info
+//                        .getRatio());
+//            }
+//        }
+//        
+//        return result;
+      throw new UnsupportedOperationException();
     }
 
     /**
@@ -565,8 +567,7 @@ public class EditorSashContainer extends PartSashContainer {
      * @see org.eclipse.ui.internal.PartSashContainer#isPaneType(org.eclipse.ui.internal.LayoutPart)
      */
     public boolean isPaneType(LayoutPart toTest) {
-//        return (toTest instanceof EditorPane);
-    	throw new UnsupportedOperationException();
+        return (toTest instanceof EditorPane);
     }
 
     /* (non-Javadoc)

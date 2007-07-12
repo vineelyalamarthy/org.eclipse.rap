@@ -284,8 +284,8 @@ public abstract class WorkbenchPartReference implements IWorkbenchPartReference 
         if (propId == IWorkbenchPartConstants.PROP_DIRTY) {
         	IWorkbenchPart actualPart = getPart(false);
         	if (actualPart != null) {
-//				SaveablesList modelManager = (SaveablesList) actualPart.getSite().getService(ISaveablesLifecycleListener.class);
-//	        	modelManager.dirtyChanged(actualPart);
+				SaveablesList modelManager = (SaveablesList) actualPart.getSite().getService(ISaveablesLifecycleListener.class);
+	        	modelManager.dirtyChanged(actualPart);
         	}
         }
     }
@@ -466,10 +466,10 @@ public abstract class WorkbenchPartReference implements IWorkbenchPartReference 
     }
 
     public boolean isDirty() {
-//        if (!(part instanceof ISaveablePart)) {
+        if (!(part instanceof ISaveablePart)) {
 			return false;
-//		}
-//        return ((ISaveablePart) part).isDirty();
+		}
+        return ((ISaveablePart) part).isDirty();
     }
 
     public String getTitle() {

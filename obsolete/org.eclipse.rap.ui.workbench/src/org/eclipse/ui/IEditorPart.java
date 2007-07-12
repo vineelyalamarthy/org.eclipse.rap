@@ -48,8 +48,7 @@ package org.eclipse.ui;
  * @see org.eclipse.ui.IWorkbenchPage#openEditor(IEditorInput, String)
  * @see org.eclipse.ui.part.EditorPart
  */
-//public interface IEditorPart extends IWorkbenchPart, ISaveablePart {
-public interface IEditorPart extends IWorkbenchPart {
+public interface IEditorPart extends IWorkbenchPart, ISaveablePart {
 
     /**
      * The property id for <code>isDirty</code>.
@@ -67,7 +66,7 @@ public interface IEditorPart extends IWorkbenchPart {
      *
      * @return the editor input
      */
-//    public IEditorInput getEditorInput();
+    public IEditorInput getEditorInput();
 
     /**
      * Returns the site for this editor. 
@@ -81,7 +80,7 @@ public interface IEditorPart extends IWorkbenchPart {
      * @return the editor site; this value may be <code>null</code> if the editor
      *         has not yet been initialized
      */
-//    public IEditorSite getEditorSite();
+    public IEditorSite getEditorSite();
 
     /**
      * Initializes this editor with the given editor site and input.
@@ -99,6 +98,6 @@ public interface IEditorPart extends IWorkbenchPart {
      * @param input the editor input
      * @exception PartInitException if this editor was not initialized successfully
      */
-//    public void init(IEditorSite site, IEditorInput input)
-//            throws PartInitException;
+    public void init(IEditorSite site, IEditorInput input)
+            throws PartInitException;
 }

@@ -70,6 +70,8 @@ public class WorkbenchPresentationFactory extends AbstractPresentationFactory {
         		null);
 //                new StandardEditorSystemMenu(site));
         
+        folder.setUnselectedCloseVisible(false);
+        
 //        DefaultThemeListener themeListener = new DefaultThemeListener(folder, result.getTheme());
 //        result.getTheme().addListener(themeListener);
 //        

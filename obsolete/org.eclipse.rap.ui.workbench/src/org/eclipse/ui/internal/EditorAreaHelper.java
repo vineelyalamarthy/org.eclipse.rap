@@ -15,6 +15,7 @@ import java.util.*;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.ui.*;
+import org.eclipse.ui.part.MultiEditor;
 
 /**
  * EditorAreaHelper is a wrapper for PartTabworkbook.
@@ -51,34 +52,34 @@ public class EditorAreaHelper {
      *
      * @param part the editor to close
      */
-//    public void closeEditor(IEditorReference ref) {
-//        EditorPane pane = (EditorPane) ((WorkbenchPartReference) ref).getPane();
-//        closeEditor(pane);
-//    }
+    public void closeEditor(IEditorReference ref) {
+        EditorPane pane = (EditorPane) ((WorkbenchPartReference) ref).getPane();
+        closeEditor(pane);
+    }
 
     /**
      * Closes an editor.   
      *
      * @param part the editor to close
      */
-//    public void closeEditor(IEditorPart part) {
-//        EditorPane pane = (EditorPane) ((PartSite) part.getEditorSite())
-//                .getPane();
-//        closeEditor(pane);
-//    }
+    public void closeEditor(IEditorPart part) {
+        EditorPane pane = (EditorPane) ((PartSite) part.getEditorSite())
+                .getPane();
+        closeEditor(pane);
+    }
 
     /**
      * Closes an editor.   
      *
      * @param part the editor to close
      */
-//    private void closeEditor(EditorPane pane) {
-//        if (pane != null) {
-//            if (!(pane instanceof MultiEditorInnerPane)) {
-//				editorArea.removeEditor(pane);
-//			}
-//        }
-//    }
+    private void closeEditor(EditorPane pane) {
+        if (pane != null) {
+            if (!(pane instanceof MultiEditorInnerPane)) {
+				editorArea.removeEditor(pane);
+			}
+        }
+    }
 
     /**
      * Deref a given part.  Deconstruct its container as required.
@@ -146,21 +147,21 @@ public class EditorAreaHelper {
      *
      * @return the active editor, or <code>null</code> if no editor is active
      */
-//    public IEditorReference getVisibleEditor() {
-//        EditorStack activeWorkbook = editorArea.getActiveWorkbook();
-//        EditorPane pane = (EditorPane)activeWorkbook.getSelection();
-//        if (pane != null) {
-//            IEditorReference result = pane.getEditorReference();
-//            IEditorPart editorPart = (IEditorPart) result.getPart(false);
-//            if ((editorPart != null) && (editorPart instanceof MultiEditor)) {
-//                editorPart = ((MultiEditor) editorPart).getActiveEditor();
-//                EditorSite site = (EditorSite) editorPart.getSite();
-//                result = (IEditorReference) site.getPartReference();
-//            }
-//            return result;
-//        }
-//        return null;
-//    }
+    public IEditorReference getVisibleEditor() {
+        EditorStack activeWorkbook = editorArea.getActiveWorkbook();
+        EditorPane pane = (EditorPane)activeWorkbook.getSelection();
+        if (pane != null) {
+            IEditorReference result = pane.getEditorReference();
+            IEditorPart editorPart = (IEditorPart) result.getPart(false);
+            if ((editorPart != null) && (editorPart instanceof MultiEditor)) {
+                editorPart = ((MultiEditor) editorPart).getActiveEditor();
+                EditorSite site = (EditorSite) editorPart.getSite();
+                result = (IEditorReference) site.getPartReference();
+            }
+            return result;
+        }
+        return null;
+    }
 
 //    public void moveEditor(IEditorPart part, int position) {
 //        /*EditorPane pane = (EditorPane)*/ ((EditorSite) part.getSite()).getPane();
@@ -178,38 +179,38 @@ public class EditorAreaHelper {
      * @param workbookId workbook that will contain the editor (or null if the editor
      * should be added to the default workbook)
      */
-//    public void addEditor(EditorReference ref, String workbookId) {
-//        IEditorReference refs[] = editorArea.getPage().getEditorReferences();
-//        for (int i = 0; i < refs.length; i++) {
-//            if (ref == refs[i]) {
-//				return;
-//			}
-//        }
-//        
-//        if (!(ref.getPane() instanceof MultiEditorInnerPane)) {
-//            
-//            EditorStack stack = null;
-//            
-//            if (workbookId != null) {
-//                stack = getWorkbookFromID(workbookId);
-//            }
-//            
-//            if (stack == null) {
-//                stack = getActiveWorkbook();
-//            }
-//            
-//            addToLayout((EditorPane)ref.getPane(), stack);
-//        }
-//        
-//        editorArea.getPage().partAdded(ref);
-//    }
+    public void addEditor(EditorReference ref, String workbookId) {
+        IEditorReference refs[] = editorArea.getPage().getEditorReferences();
+        for (int i = 0; i < refs.length; i++) {
+            if (ref == refs[i]) {
+				return;
+			}
+        }
+        
+        if (!(ref.getPane() instanceof MultiEditorInnerPane)) {
+            
+            EditorStack stack = null;
+            
+            if (workbookId != null) {
+                stack = getWorkbookFromID(workbookId);
+            }
+            
+            if (stack == null) {
+                stack = getActiveWorkbook();
+            }
+            
+            addToLayout((EditorPane)ref.getPane(), stack);
+        }
+        
+        editorArea.getPage().partAdded(ref);
+    }
     
-//    private void addToLayout(EditorPane pane, EditorStack stack) {
-//        //EditorStack stack = editorArea.getActiveWorkbook();
-//        pane.setWorkbook(stack);
-//        
-//        editorArea.addEditor(pane, stack);
-//    }
+    private void addToLayout(EditorPane pane, EditorStack stack) {
+        //EditorStack stack = editorArea.getActiveWorkbook();
+        pane.setWorkbook(stack);
+        
+        editorArea.addEditor(pane, stack);
+    }
 
 
     /**
@@ -251,36 +252,36 @@ public class EditorAreaHelper {
      * @param setFocus whether to give the editor focus
      * @return true if the visible editor was changed, false if not.
      */
-//    public boolean setVisibleEditor(IEditorReference ref, boolean setFocus) {
-//        IEditorReference visibleEditor = getVisibleEditor();
-//        if (ref != visibleEditor) {
-//            IEditorPart part = (IEditorPart) ref.getPart(true);
-//            EditorPane pane = null;
-//            if (part != null) {
-//				pane = (EditorPane) ((PartSite) part.getEditorSite()).getPane();
-//			}
-//            if (pane != null) {
-//                if (pane instanceof MultiEditorInnerPane) {
-//                    EditorPane parentPane = ((MultiEditorInnerPane) pane)
-//                            .getParentPane();
-//                    EditorStack activeWorkbook = parentPane.getWorkbook();
-//                    PartPane activePane = activeWorkbook.getSelection();
-//                    if (activePane != parentPane) {
-//						parentPane.getWorkbook().setSelection(parentPane);
-//					} else {
-//						return false;
-//					}
-//                } else {
-//                    pane.getWorkbook().setSelection(pane);
-//                }
-//                if (setFocus) {
-//					part.setFocus();
-//				}
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    public boolean setVisibleEditor(IEditorReference ref, boolean setFocus) {
+        IEditorReference visibleEditor = getVisibleEditor();
+        if (ref != visibleEditor) {
+            IEditorPart part = (IEditorPart) ref.getPart(true);
+            EditorPane pane = null;
+            if (part != null) {
+				pane = (EditorPane) ((PartSite) part.getEditorSite()).getPane();
+			}
+            if (pane != null) {
+                if (pane instanceof MultiEditorInnerPane) {
+                    EditorPane parentPane = ((MultiEditorInnerPane) pane)
+                            .getParentPane();
+                    EditorStack activeWorkbook = parentPane.getWorkbook();
+                    PartPane activePane = activeWorkbook.getSelection();
+                    if (activePane != parentPane) {
+						parentPane.getWorkbook().setSelection(parentPane);
+					} else {
+						return false;
+					}
+                } else {
+                    pane.getWorkbook().setSelection(pane);
+                }
+                if (setFocus) {
+					part.setFocus();
+				}
+                return true;
+            }
+        }
+        return false;
+    }
 
     
     

@@ -10,15 +10,31 @@
  *******************************************************************************/
 package org.eclipse.ui.internal;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
+import org.eclipse.jface.operation.IRunnableContext;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.resource.*;
 import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.window.IShellProvider;
+import org.eclipse.osgi.util.NLS;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.*;
 import org.eclipse.ui.handlers.IHandlerActivation;
+import org.eclipse.ui.internal.dialogs.EventLoopProgressMonitor;
+import org.eclipse.ui.internal.misc.StatusUtil;
+import org.eclipse.ui.internal.misc.UIStats;
+import org.eclipse.ui.internal.registry.EditorDescriptor;
+import org.eclipse.ui.internal.util.Util;
+import org.eclipse.ui.part.MultiEditor;
+import org.eclipse.ui.part.MultiEditorInput;
 
 /**
  * Manage a group of element editors. Prevent the creation of two editors on the
@@ -50,10 +66,10 @@ public class EditorManager implements IExtensionChangeHandler {
 
 	// When the user removes or adds the close editors automatically preference
 	// the icon should be removed or added accordingly
-	private IPropertyChangeListener editorPropChangeListnener = null;
+//	private IPropertyChangeListener editorPropChangeListnener = null;
 
 	// Handler for the pin editor keyboard shortcut
-	private IHandlerActivation pinEditorHandlerActivation = null;
+//	private IHandlerActivation pinEditorHandlerActivation = null;
 
 	static final String RESOURCES_TO_SAVE_MESSAGE = WorkbenchMessages.EditorManager_saveResourcesMessage;
 
@@ -161,410 +177,410 @@ public class EditorManager implements IExtensionChangeHandler {
 //					new ActiveShellExpression(shell));
 //		}
 //	}
-//
-//	/**
-//	 * Method to create the editor's pin ImageDescriptor
-//	 * 
-//	 * @return the single image descriptor for the editor's pin icon
-//	 */
-//	ImageDescriptor getEditorPinImageDesc() {
-//		ImageRegistry registry = JFaceResources.getImageRegistry();
-//		ImageDescriptor pinDesc = registry.getDescriptor(PIN_EDITOR_KEY);
-//		// Avoid registering twice
-//		if (pinDesc == null) {
-//			pinDesc = WorkbenchImages.getWorkbenchImageDescriptor(PIN_EDITOR);
-//			registry.put(PIN_EDITOR_KEY, pinDesc);
-//
-//		}
-//		return pinDesc;
-//	}
-//
-//	/**
-//	 * Answer a list of dirty editors.
-//	 */
-//	private List collectDirtyEditors() {
-//		List result = new ArrayList(3);
-//		IEditorReference[] editors = page.getEditorReferences();
-//		for (int i = 0; i < editors.length; i++) {
-//			IEditorPart part = (IEditorPart) editors[i].getPart(false);
-//			if (part != null && part.isDirty()) {
-//				result.add(part);
-//			}
-//
-//		}
-//		return result;
-//	}
-//
-//	/**
-//	 * Returns whether the manager contains an editor.
-//	 */
-//	public boolean containsEditor(IEditorReference ref) {
-//		IEditorReference[] editors = page.getEditorReferences();
-//		for (int i = 0; i < editors.length; i++) {
-//			if (ref == editors[i]) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-//
-//	/*
-//	 * Creates the action bars for an editor. Editors of the same type should
-//	 * share a single editor action bar, so this implementation may return an
-//	 * existing action bar vector.
-//	 */
-//	private EditorActionBars createEditorActionBars(EditorDescriptor desc,
-//			final IEditorSite site) {
-//		// Get the editor type.
-//		String type = desc.getId();
-//
-//		// If an action bar already exists for this editor type return it.
-//		EditorActionBars actionBars = (EditorActionBars) actionCache.get(type);
-//		if (actionBars != null) {
-//			actionBars.addRef();
-//			return actionBars;
-//		}
-//
-//		// Create a new action bar set.
-//		actionBars = new EditorActionBars(page, site.getWorkbenchWindow(), type);
-//		actionBars.addRef();
-//		actionCache.put(type, actionBars);
-//
-//		// Read base contributor.
-//		IEditorActionBarContributor contr = desc.createActionBarContributor();
-//		if (contr != null) {
-//			actionBars.setEditorContributor(contr);
-//			contr.init(actionBars, page);
-//		}
-//
-//		// Read action extensions.
-//		EditorActionBuilder builder = new EditorActionBuilder();
-//		contr = builder.readActionExtensions(desc);
-//		if (contr != null) {
-//			actionBars.setExtensionContributor(contr);
-//			contr.init(actionBars, page);
-//		}
-//
-//		// Return action bars.
-//		return actionBars;
-//	}
-//
-//	/*
-//	 * Creates the action bars for an editor.
-//	 */
-//	private EditorActionBars createEmptyEditorActionBars(final IEditorSite site) {
-//		// Get the editor type.
-//		String type = String.valueOf(System.currentTimeMillis());
-//
-//		// Create a new action bar set.
-//		// Note: It is an empty set.
-//		EditorActionBars actionBars = new EditorActionBars(page, site.getWorkbenchWindow(), type);
-//		actionBars.addRef();
-//		actionCache.put(type, actionBars);
-//
-//		// Return action bars.
-//		return actionBars;
-//	}
-//
-//	/*
-//	 * Dispose
-//	 */
-//	void disposeEditorActionBars(EditorActionBars actionBars) {
-//		actionBars.removeRef();
-//		if (actionBars.getRef() <= 0) {
-//			String type = actionBars.getEditorType();
-//			actionCache.remove(type);
-//			// refresh the cool bar manager before disposing of a cool item
-//			ICoolBarManager2 coolBar = (ICoolBarManager2) window.getCoolBarManager2();
-//            if (coolBar != null) {
-//            	coolBar.refresh();
-//			}
-//			actionBars.dispose();
-//		}
-//	}
-//
-//	/**
-//	 * Returns an open editor matching the given editor input. If none match,
-//	 * returns <code>null</code>.
-//	 * 
-//	 * @param input
-//	 *            the editor input
-//	 * @return the matching editor, or <code>null</code> if no match fond
-//	 */
-//	public IEditorPart findEditor(IEditorInput input) {
-//		return findEditor(null, input, IWorkbenchPage.MATCH_INPUT);
-//	}
-//
-//	/**
-//	 * Returns an open editor matching the given editor input and/or editor id,
-//	 * as specified by matchFlags. If none match, returns <code>null</code>.
-//	 * 
-//	 * @param editorId
-//	 *            the editor id
-//	 * @param input
-//	 *            the editor input
-//	 * @param matchFlags
-//	 *            flags specifying which aspects to match
-//	 * @return the matching editor, or <code>null</code> if no match fond
-//	 * @since 3.1
-//	 */
-//	public IEditorPart findEditor(String editorId, IEditorInput input,
-//			int matchFlags) {
-//		IEditorReference[] refs = findEditors(input, editorId, matchFlags);
-//		if (refs.length == 0) {
-//			return null;
-//		}
-//		return refs[0].getEditor(true);
-//	}
-//
-//	/**
-//	 * Returns the open editor references matching the given editor input and/or
-//	 * editor id, as specified by matchFlags. If none match, returns an empty
-//	 * array.
-//	 * 
-//	 * @param editorId
-//	 *            the editor id
-//	 * @param input
-//	 *            the editor input
-//	 * @param matchFlags
-//	 *            flags specifying which aspects to match
-//	 * @return the matching editor, or <code>null</code> if no match fond
-//	 * @since 3.1
-//	 */
-//	public IEditorReference[] findEditors(IEditorInput input, String editorId,
-//			int matchFlags) {
-//		if (matchFlags == IWorkbenchPage.MATCH_NONE) {
-//			return new IEditorReference[0];
-//		}
-//		List result = new ArrayList();
-//		ArrayList othersList = new ArrayList(Arrays.asList(page
-//				.getEditorReferences()));
-//		if (!othersList.isEmpty()) {
-//			IEditorReference active = page.getActiveEditorReference();
-//			if (active != null) {
-//				othersList.remove(active);
-//				ArrayList activeList = new ArrayList(1);
-//				activeList.add(active);
-//				findEditors(activeList, input, editorId, matchFlags, result);
-//			}
-//			findEditors(othersList, input, editorId, matchFlags, result);
-//		}
-//		return (IEditorReference[]) result.toArray(new IEditorReference[result
-//				.size()]);
-//	}
-//
-//	/**
-//	 * Returns an open editor matching the given editor id and/or editor input.
-//	 * Returns <code>null</code> if none match.
-//	 * 
-//	 * @param editorId
-//	 *            the editor id
-//	 * @param input
-//	 *            the editor input
-//	 * @param editorList
-//	 *            a mutable list containing the references for the editors to
-//	 *            check (warning: items may be removed)
-//	 * @param result
-//	 *            the list to which matching editor references should be added
-//	 * @since 3.1
-//	 */
-//	private void findEditors(List editorList, IEditorInput input,
-//			String editorId, int matchFlags, List result) {
-//		if (matchFlags == IWorkbenchPage.MATCH_NONE) {
-//			return;
-//		}
-//
-//		// Phase 0: Remove editors whose ids don't match (if matching by id)
-//		if (((matchFlags & IWorkbenchPage.MATCH_ID) != 0) && editorId != null) {
-//			for (Iterator i = editorList.iterator(); i.hasNext();) {
-//				EditorReference editor = (EditorReference) i.next();
-//				if (!editorId.equals(editor.getId())) {
-//					i.remove();
-//				}
-//			}
-//		}
-//
-//		// If not matching on editor input, just return the remaining editors.
-//		// In practice, this case is never used.
-//		if ((matchFlags & IWorkbenchPage.MATCH_INPUT) == 0) {
-//			result.addAll(editorList);
-//			return;
-//		}
-//
-//		// Phase 1: check editors that have their own matching strategy
-//		for (Iterator i = editorList.iterator(); i.hasNext();) {
-//			EditorReference editor = (EditorReference) i.next();
-//			IEditorDescriptor desc = editor.getDescriptor();
-//			if (desc != null) {
-//				IEditorMatchingStrategy matchingStrategy = desc
-//						.getEditorMatchingStrategy();
-//				if (matchingStrategy != null) {
-//					i.remove(); // We're handling this one here, so remove it
-//					// from the list.
-//					if (matchingStrategy.matches(editor, input)) {
-//						result.add(editor);
-//					}
-//				}
-//			}
-//		}
-//
-//		// Phase 2: check materialized editors (without their own matching
-//		// strategy)
-//		for (Iterator i = editorList.iterator(); i.hasNext();) {
-//			IEditorReference editor = (IEditorReference) i.next();
-//			IEditorPart part = (IEditorPart) editor.getPart(false);
-//			if (part != null) {
-//				i.remove(); // We're handling this one here, so remove it from
-//				// the list.
-//				if (part.getEditorInput() != null
-//						&& part.getEditorInput().equals(input)) {
-//					result.add(editor);
-//				}
-//			}
-//		}
-//
-//		// Phase 3: check unmaterialized editors for input equality,
-//		// delaying plug-in activation further by only restoring the editor
-//		// input
-//		// if the editor reference's factory id and name match.
-//		String name = input.getName();
-//		IPersistableElement persistable = input.getPersistable();
-//		if (name == null || persistable == null) {
-//			return;
-//		}
-//		String id = persistable.getFactoryId();
-//		if (id == null) {
-//			return;
-//		}
-//		for (Iterator i = editorList.iterator(); i.hasNext();) {
-//			EditorReference editor = (EditorReference) i.next();
-//			if (name.equals(editor.getName())
-//					&& id.equals(editor.getFactoryId())) {
-//				IEditorInput restoredInput;
-//				try {
-//					restoredInput = editor.getEditorInput();
-//					if (Util.equals(restoredInput, input)) {
-//						result.add(editor);
-//					}
-//				} catch (PartInitException e1) {
-//					WorkbenchPlugin.log(e1);
-//				}
-//			}
-//		}
-//	}
-//
-//	/**
-//	 * Returns the SWT Display.
-//	 */
-//	private Display getDisplay() {
-//		return window.getShell().getDisplay();
-//	}
-//
-//	/**
-//	 * Answer the number of editors.
-//	 */
-//	public int getEditorCount() {
-//		return page.getEditorReferences().length;
-//	}
-//
-//	/*
-//	 * Answer the editor registry.
-//	 */
-//	private IEditorRegistry getEditorRegistry() {
-//		return WorkbenchPlugin.getDefault().getEditorRegistry();
-//	}
-//
-//	/*
-//	 * See IWorkbenchPage.
-//	 */
-//	public IEditorPart[] getDirtyEditors() {
-//		List dirtyEditors = collectDirtyEditors();
-//		return (IEditorPart[]) dirtyEditors
-//				.toArray(new IEditorPart[dirtyEditors.size()]);
-//	}
-//
-//	/*
-//	 * See IWorkbenchPage.
-//	 */
-//	public IEditorReference[] getEditors() {
-//		return page.getEditorReferences();
-//	}
-//
-//	/*
-//	 * See IWorkbenchPage#getFocusEditor
-//	 */
-//	public IEditorPart getVisibleEditor() {
-//		IEditorReference ref = editorPresentation.getVisibleEditor();
-//		if (ref == null) {
-//			return null;
-//		}
-//		return (IEditorPart) ref.getPart(true);
-//	}
-//
-//	/**
-//	 * Answer true if save is needed in any one of the editors.
-//	 */
-//	public boolean isSaveAllNeeded() {
-//		IEditorReference[] editors = page.getEditorReferences();
-//		for (int i = 0; i < editors.length; i++) {
-//			IEditorReference ed = editors[i];
-//			if (ed.isDirty()) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-//
-//	/*
-//	 * Prompt the user to save the reusable editor. Return false if a new editor
-//	 * should be opened.
-//	 */
+
+	/**
+	 * Method to create the editor's pin ImageDescriptor
+	 * 
+	 * @return the single image descriptor for the editor's pin icon
+	 */
+	ImageDescriptor getEditorPinImageDesc() {
+		ImageRegistry registry = JFaceResources.getImageRegistry();
+		ImageDescriptor pinDesc = registry.getDescriptor(PIN_EDITOR_KEY);
+		// Avoid registering twice
+		if (pinDesc == null) {
+			pinDesc = WorkbenchImages.getWorkbenchImageDescriptor(PIN_EDITOR);
+			registry.put(PIN_EDITOR_KEY, pinDesc);
+
+		}
+		return pinDesc;
+	}
+
+	/**
+	 * Answer a list of dirty editors.
+	 */
+	private List collectDirtyEditors() {
+		List result = new ArrayList(3);
+		IEditorReference[] editors = page.getEditorReferences();
+		for (int i = 0; i < editors.length; i++) {
+			IEditorPart part = (IEditorPart) editors[i].getPart(false);
+			if (part != null && part.isDirty()) {
+				result.add(part);
+			}
+
+		}
+		return result;
+	}
+
+	/**
+	 * Returns whether the manager contains an editor.
+	 */
+	public boolean containsEditor(IEditorReference ref) {
+		IEditorReference[] editors = page.getEditorReferences();
+		for (int i = 0; i < editors.length; i++) {
+			if (ref == editors[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * Creates the action bars for an editor. Editors of the same type should
+	 * share a single editor action bar, so this implementation may return an
+	 * existing action bar vector.
+	 */
+	private EditorActionBars createEditorActionBars(EditorDescriptor desc,
+			final IEditorSite site) {
+		// Get the editor type.
+		String type = desc.getId();
+
+		// If an action bar already exists for this editor type return it.
+		EditorActionBars actionBars = (EditorActionBars) actionCache.get(type);
+		if (actionBars != null) {
+			actionBars.addRef();
+			return actionBars;
+		}
+
+		// Create a new action bar set.
+		actionBars = new EditorActionBars(page, site.getWorkbenchWindow(), type);
+		actionBars.addRef();
+		actionCache.put(type, actionBars);
+
+		// Read base contributor.
+		IEditorActionBarContributor contr = desc.createActionBarContributor();
+		if (contr != null) {
+			actionBars.setEditorContributor(contr);
+			contr.init(actionBars, page);
+		}
+
+		// Read action extensions.
+		EditorActionBuilder builder = new EditorActionBuilder();
+		contr = builder.readActionExtensions(desc);
+		if (contr != null) {
+			actionBars.setExtensionContributor(contr);
+			contr.init(actionBars, page);
+		}
+
+		// Return action bars.
+		return actionBars;
+	}
+
+	/*
+	 * Creates the action bars for an editor.
+	 */
+	private EditorActionBars createEmptyEditorActionBars(final IEditorSite site) {
+		// Get the editor type.
+		String type = String.valueOf(System.currentTimeMillis());
+
+		// Create a new action bar set.
+		// Note: It is an empty set.
+		EditorActionBars actionBars = new EditorActionBars(page, site.getWorkbenchWindow(), type);
+		actionBars.addRef();
+		actionCache.put(type, actionBars);
+
+		// Return action bars.
+		return actionBars;
+	}
+
+	/*
+	 * Dispose
+	 */
+	void disposeEditorActionBars(EditorActionBars actionBars) {
+		actionBars.removeRef();
+		if (actionBars.getRef() <= 0) {
+			String type = actionBars.getEditorType();
+			actionCache.remove(type);
+			// refresh the cool bar manager before disposing of a cool item
+			ICoolBarManager2 coolBar = (ICoolBarManager2) window.getCoolBarManager2();
+            if (coolBar != null) {
+            	coolBar.refresh();
+			}
+			actionBars.dispose();
+		}
+	}
+
+	/**
+	 * Returns an open editor matching the given editor input. If none match,
+	 * returns <code>null</code>.
+	 * 
+	 * @param input
+	 *            the editor input
+	 * @return the matching editor, or <code>null</code> if no match fond
+	 */
+	public IEditorPart findEditor(IEditorInput input) {
+		return findEditor(null, input, IWorkbenchPage.MATCH_INPUT);
+	}
+
+	/**
+	 * Returns an open editor matching the given editor input and/or editor id,
+	 * as specified by matchFlags. If none match, returns <code>null</code>.
+	 * 
+	 * @param editorId
+	 *            the editor id
+	 * @param input
+	 *            the editor input
+	 * @param matchFlags
+	 *            flags specifying which aspects to match
+	 * @return the matching editor, or <code>null</code> if no match fond
+	 * @since 3.1
+	 */
+	public IEditorPart findEditor(String editorId, IEditorInput input,
+			int matchFlags) {
+		IEditorReference[] refs = findEditors(input, editorId, matchFlags);
+		if (refs.length == 0) {
+			return null;
+		}
+		return refs[0].getEditor(true);
+	}
+
+	/**
+	 * Returns the open editor references matching the given editor input and/or
+	 * editor id, as specified by matchFlags. If none match, returns an empty
+	 * array.
+	 * 
+	 * @param editorId
+	 *            the editor id
+	 * @param input
+	 *            the editor input
+	 * @param matchFlags
+	 *            flags specifying which aspects to match
+	 * @return the matching editor, or <code>null</code> if no match fond
+	 * @since 3.1
+	 */
+	public IEditorReference[] findEditors(IEditorInput input, String editorId,
+			int matchFlags) {
+		if (matchFlags == IWorkbenchPage.MATCH_NONE) {
+			return new IEditorReference[0];
+		}
+		List result = new ArrayList();
+		ArrayList othersList = new ArrayList(Arrays.asList(page
+				.getEditorReferences()));
+		if (!othersList.isEmpty()) {
+			IEditorReference active = page.getActiveEditorReference();
+			if (active != null) {
+				othersList.remove(active);
+				ArrayList activeList = new ArrayList(1);
+				activeList.add(active);
+				findEditors(activeList, input, editorId, matchFlags, result);
+			}
+			findEditors(othersList, input, editorId, matchFlags, result);
+		}
+		return (IEditorReference[]) result.toArray(new IEditorReference[result
+				.size()]);
+	}
+
+	/**
+	 * Returns an open editor matching the given editor id and/or editor input.
+	 * Returns <code>null</code> if none match.
+	 * 
+	 * @param editorId
+	 *            the editor id
+	 * @param input
+	 *            the editor input
+	 * @param editorList
+	 *            a mutable list containing the references for the editors to
+	 *            check (warning: items may be removed)
+	 * @param result
+	 *            the list to which matching editor references should be added
+	 * @since 3.1
+	 */
+	private void findEditors(List editorList, IEditorInput input,
+			String editorId, int matchFlags, List result) {
+		if (matchFlags == IWorkbenchPage.MATCH_NONE) {
+			return;
+		}
+
+		// Phase 0: Remove editors whose ids don't match (if matching by id)
+		if (((matchFlags & IWorkbenchPage.MATCH_ID) != 0) && editorId != null) {
+			for (Iterator i = editorList.iterator(); i.hasNext();) {
+				EditorReference editor = (EditorReference) i.next();
+				if (!editorId.equals(editor.getId())) {
+					i.remove();
+				}
+			}
+		}
+
+		// If not matching on editor input, just return the remaining editors.
+		// In practice, this case is never used.
+		if ((matchFlags & IWorkbenchPage.MATCH_INPUT) == 0) {
+			result.addAll(editorList);
+			return;
+		}
+
+		// Phase 1: check editors that have their own matching strategy
+		for (Iterator i = editorList.iterator(); i.hasNext();) {
+			EditorReference editor = (EditorReference) i.next();
+			IEditorDescriptor desc = editor.getDescriptor();
+			if (desc != null) {
+				IEditorMatchingStrategy matchingStrategy = desc
+						.getEditorMatchingStrategy();
+				if (matchingStrategy != null) {
+					i.remove(); // We're handling this one here, so remove it
+					// from the list.
+					if (matchingStrategy.matches(editor, input)) {
+						result.add(editor);
+					}
+				}
+			}
+		}
+
+		// Phase 2: check materialized editors (without their own matching
+		// strategy)
+		for (Iterator i = editorList.iterator(); i.hasNext();) {
+			IEditorReference editor = (IEditorReference) i.next();
+			IEditorPart part = (IEditorPart) editor.getPart(false);
+			if (part != null) {
+				i.remove(); // We're handling this one here, so remove it from
+				// the list.
+				if (part.getEditorInput() != null
+						&& part.getEditorInput().equals(input)) {
+					result.add(editor);
+				}
+			}
+		}
+
+		// Phase 3: check unmaterialized editors for input equality,
+		// delaying plug-in activation further by only restoring the editor
+		// input
+		// if the editor reference's factory id and name match.
+		String name = input.getName();
+		IPersistableElement persistable = input.getPersistable();
+		if (name == null || persistable == null) {
+			return;
+		}
+		String id = persistable.getFactoryId();
+		if (id == null) {
+			return;
+		}
+		for (Iterator i = editorList.iterator(); i.hasNext();) {
+			EditorReference editor = (EditorReference) i.next();
+			if (name.equals(editor.getName())
+					&& id.equals(editor.getFactoryId())) {
+				IEditorInput restoredInput;
+				try {
+					restoredInput = editor.getEditorInput();
+					if (Util.equals(restoredInput, input)) {
+						result.add(editor);
+					}
+				} catch (PartInitException e1) {
+					WorkbenchPlugin.log(e1);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Returns the SWT Display.
+	 */
+	private Display getDisplay() {
+		return window.getShell().getDisplay();
+	}
+
+	/**
+	 * Answer the number of editors.
+	 */
+	public int getEditorCount() {
+		return page.getEditorReferences().length;
+	}
+
+	/*
+	 * Answer the editor registry.
+	 */
+	private IEditorRegistry getEditorRegistry() {
+		return WorkbenchPlugin.getDefault().getEditorRegistry();
+	}
+
+	/*
+	 * See IWorkbenchPage.
+	 */
+	public IEditorPart[] getDirtyEditors() {
+		List dirtyEditors = collectDirtyEditors();
+		return (IEditorPart[]) dirtyEditors
+				.toArray(new IEditorPart[dirtyEditors.size()]);
+	}
+
+	/*
+	 * See IWorkbenchPage.
+	 */
+	public IEditorReference[] getEditors() {
+		return page.getEditorReferences();
+	}
+
+	/*
+	 * See IWorkbenchPage#getFocusEditor
+	 */
+	public IEditorPart getVisibleEditor() {
+		IEditorReference ref = editorPresentation.getVisibleEditor();
+		if (ref == null) {
+			return null;
+		}
+		return (IEditorPart) ref.getPart(true);
+	}
+
+	/**
+	 * Answer true if save is needed in any one of the editors.
+	 */
+	public boolean isSaveAllNeeded() {
+		IEditorReference[] editors = page.getEditorReferences();
+		for (int i = 0; i < editors.length; i++) {
+			IEditorReference ed = editors[i];
+			if (ed.isDirty()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * Prompt the user to save the reusable editor. Return false if a new editor
+	 * should be opened.
+	 */
 //	private IEditorReference findReusableEditor(EditorDescriptor desc) {
 //		return ((TabBehaviour)Tweaklets.get(TabBehaviour.KEY)).findReusableEditor(page);
 //	}
-//
-//	/**
-//	 * @param editorId
-//	 *            the editor part id
-//	 * @param input
-//	 *            the input
-//	 * @param setVisible
-//	 *            if this is to be created visible ... not used
-//	 * @param editorState
-//	 *            an {@link IMemento} &lt;editorState&gt; for persistable
-//	 *            editors. Can be <code>null</code>.
-//	 * @return a created editor reference
-//	 * @throws PartInitException
-//	 */
-//	public IEditorReference openEditor(String editorId, IEditorInput input,
-//			boolean setVisible, IMemento editorState) throws PartInitException {
-//		if (editorId == null || input == null) {
-//			throw new IllegalArgumentException();
-//		}
-//
-//		IEditorRegistry reg = getEditorRegistry();
-//		EditorDescriptor desc = (EditorDescriptor) reg.findEditor(editorId);
-//		if (desc == null) {
-//			throw new PartInitException(NLS.bind(
-//					WorkbenchMessages.EditorManager_unknownEditorIDMessage,
-//					editorId));
-//		}
-//
-//		IEditorReference result = openEditorFromDescriptor(desc, input, editorState);
-//		return result;
-//	}
-//
-//	/*
-//	 * Open a new editor
-//	 */
-//	private IEditorReference openEditorFromDescriptor(EditorDescriptor desc,
-//			IEditorInput input, IMemento editorState) throws PartInitException {
-//		IEditorReference result = null;
-//		if (desc.isInternal()) {
+
+	/**
+	 * @param editorId
+	 *            the editor part id
+	 * @param input
+	 *            the input
+	 * @param setVisible
+	 *            if this is to be created visible ... not used
+	 * @param editorState
+	 *            an {@link IMemento} &lt;editorState&gt; for persistable
+	 *            editors. Can be <code>null</code>.
+	 * @return a created editor reference
+	 * @throws PartInitException
+	 */
+	public IEditorReference openEditor(String editorId, IEditorInput input,
+			boolean setVisible, IMemento editorState) throws PartInitException {
+		if (editorId == null || input == null) {
+			throw new IllegalArgumentException();
+		}
+
+		IEditorRegistry reg = getEditorRegistry();
+		EditorDescriptor desc = (EditorDescriptor) reg.findEditor(editorId);
+		if (desc == null) {
+			throw new PartInitException(NLS.bind(
+					WorkbenchMessages.EditorManager_unknownEditorIDMessage,
+					editorId));
+		}
+
+		IEditorReference result = openEditorFromDescriptor(desc, input, editorState);
+		return result;
+	}
+
+	/*
+	 * Open a new editor
+	 */
+	private IEditorReference openEditorFromDescriptor(EditorDescriptor desc,
+			IEditorInput input, IMemento editorState) throws PartInitException {
+		IEditorReference result = null;
+		if (desc.isInternal()) {
 //			result = reuseInternalEditor(desc, input);
-//			if (result == null) {
-//				result = new EditorReference(this, input, desc, editorState);
-//			}
+			if (result == null) {
+				result = new EditorReference(this, input, desc, editorState);
+			}
 //		} else if (desc.getId()
 //				.equals(IEditorRegistry.SYSTEM_INPLACE_EDITOR_ID)) {
 //			if (ComponentSupport.inPlaceEditorSupported()) {
@@ -581,22 +597,22 @@ public class EditorManager implements IExtensionChangeHandler {
 //			}
 //		} else if (desc.isOpenExternal()) {
 //			result = openExternalEditor(desc, input);
-//		} else {
-//			// this should never happen
-//			throw new PartInitException(NLS.bind(
-//					WorkbenchMessages.EditorManager_invalidDescriptor, desc
-//							.getId()));
-//		}
-//
-//		if (result != null) {
-//			createEditorTab((EditorReference) result, ""); //$NON-NLS-1$
-//		}
-//
-//		Workbench wb = (Workbench) window.getWorkbench();
+		} else {
+			// this should never happen
+			throw new PartInitException(NLS.bind(
+					WorkbenchMessages.EditorManager_invalidDescriptor, desc
+							.getId()));
+		}
+
+		if (result != null) {
+			createEditorTab((EditorReference) result, ""); //$NON-NLS-1$
+		}
+
+		Workbench wb = (Workbench) window.getWorkbench();
 //		wb.getEditorHistory().add(input, desc);
-//		return result;
-//	}
-//
+		return result;
+	}
+
 //	/**
 //	 * Open a specific external editor on an file based on the descriptor.
 //	 */
@@ -641,104 +657,104 @@ public class EditorManager implements IExtensionChangeHandler {
 //		// we do not have an editor part for external editors
 //		return null;
 //	}
-//
-//	/**
-//	 * Create the part and reference for each inner editor.
-//	 * 
-//	 * @param ref
-//	 *            the MultiEditor reference
-//	 * @param part
-//	 *            the part
-//	 * @param input
-//	 *            the MultiEditor input
-//	 * @return the array of inner references to store in the MultiEditor reference
-//	 */
-//	IEditorReference[] openMultiEditor(final IEditorReference ref,
-//			final MultiEditor part, final MultiEditorInput input)
-//			throws PartInitException {
-//
-//		String[] editorArray = input.getEditors();
-//		IEditorInput[] inputArray = input.getInput();
-//
-//		// find all descriptors
-//		EditorDescriptor[] descArray = new EditorDescriptor[editorArray.length];
-//		IEditorReference refArray[] = new IEditorReference[editorArray.length];
-//		IEditorPart partArray[] = new IEditorPart[editorArray.length];
-//
-//		IEditorRegistry reg = getEditorRegistry();
-//		for (int i = 0; i < editorArray.length; i++) {
-//			EditorDescriptor innerDesc = (EditorDescriptor) reg
-//					.findEditor(editorArray[i]);
-//			if (innerDesc == null) {
-//				throw new PartInitException(NLS.bind(
-//						WorkbenchMessages.EditorManager_unknownEditorIDMessage,
-//						editorArray[i]));
-//			}
-//			descArray[i] = innerDesc;
-//			InnerEditor innerRef = new InnerEditor(ref, inputArray[i],
-//					descArray[i]);
-//			refArray[i] = innerRef;
-//			partArray[i] = innerRef.getEditor(true);
-//		}
-//		part.setChildren(partArray);
-//		return refArray;
-//	}
-//
-//	/*
-//	 * Opens an editor part.
-//	 */
-//	private void createEditorTab(final EditorReference ref,
-//			final String workbookId) throws PartInitException {
-//
-//		editorPresentation.addEditor(ref, workbookId);
-//
-//	}
-//
-//	/*
-//	 * Create the site and initialize it with its action bars.
-//	 */
-//	EditorSite createSite(final IEditorReference ref, final IEditorPart part,
-//			final EditorDescriptor desc, final IEditorInput input)
-//			throws PartInitException {
-//		EditorSite site = new EditorSite(ref, part, page, desc);
-//		if (desc != null) {
-//			site.setActionBars(createEditorActionBars(desc, site));
-//		} else {
-//			site.setActionBars(createEmptyEditorActionBars(site));
-//		}
-//		final String label = part.getTitle(); // debugging only
-//		try {
-//			try {
-//				UIStats.start(UIStats.INIT_PART, label);
-//				part.init(site, input);
-//			} finally {
-//				UIStats.end(UIStats.INIT_PART, part, label);
-//			}
-//
-//			// Sanity-check the site
-//			if (part.getSite() != site || part.getEditorSite() != site) {
-//				throw new PartInitException(NLS.bind(
-//						WorkbenchMessages.EditorManager_siteIncorrect, desc
-//								.getId()));
-//			}
-//
-//		} catch (Exception e) {
-//			disposeEditorActionBars((EditorActionBars) site.getActionBars());
-//			site.dispose();
-//			if (e instanceof PartInitException) {
-//				throw (PartInitException) e;
-//			}
-//
-//			throw new PartInitException(
-//					WorkbenchMessages.EditorManager_errorInInit, e);
-//		}
-//
-//		return site;
-//	}
-//
-//	/*
-//	 * See IWorkbenchPage.
-//	 */
+
+	/**
+	 * Create the part and reference for each inner editor.
+	 * 
+	 * @param ref
+	 *            the MultiEditor reference
+	 * @param part
+	 *            the part
+	 * @param input
+	 *            the MultiEditor input
+	 * @return the array of inner references to store in the MultiEditor reference
+	 */
+	IEditorReference[] openMultiEditor(final IEditorReference ref,
+			final MultiEditor part, final MultiEditorInput input)
+			throws PartInitException {
+
+		String[] editorArray = input.getEditors();
+		IEditorInput[] inputArray = input.getInput();
+
+		// find all descriptors
+		EditorDescriptor[] descArray = new EditorDescriptor[editorArray.length];
+		IEditorReference refArray[] = new IEditorReference[editorArray.length];
+		IEditorPart partArray[] = new IEditorPart[editorArray.length];
+
+		IEditorRegistry reg = getEditorRegistry();
+		for (int i = 0; i < editorArray.length; i++) {
+			EditorDescriptor innerDesc = (EditorDescriptor) reg
+					.findEditor(editorArray[i]);
+			if (innerDesc == null) {
+				throw new PartInitException(NLS.bind(
+						WorkbenchMessages.EditorManager_unknownEditorIDMessage,
+						editorArray[i]));
+			}
+			descArray[i] = innerDesc;
+			InnerEditor innerRef = new InnerEditor(ref, inputArray[i],
+					descArray[i]);
+			refArray[i] = innerRef;
+			partArray[i] = innerRef.getEditor(true);
+		}
+		part.setChildren(partArray);
+		return refArray;
+	}
+
+	/*
+	 * Opens an editor part.
+	 */
+	private void createEditorTab(final EditorReference ref,
+			final String workbookId) throws PartInitException {
+
+		editorPresentation.addEditor(ref, workbookId);
+
+	}
+
+	/*
+	 * Create the site and initialize it with its action bars.
+	 */
+	EditorSite createSite(final IEditorReference ref, final IEditorPart part,
+			final EditorDescriptor desc, final IEditorInput input)
+			throws PartInitException {
+		EditorSite site = new EditorSite(ref, part, page, desc);
+		if (desc != null) {
+			site.setActionBars(createEditorActionBars(desc, site));
+		} else {
+			site.setActionBars(createEmptyEditorActionBars(site));
+		}
+		final String label = part.getTitle(); // debugging only
+		try {
+			try {
+				UIStats.start(UIStats.INIT_PART, label);
+				part.init(site, input);
+			} finally {
+				UIStats.end(UIStats.INIT_PART, part, label);
+			}
+
+			// Sanity-check the site
+			if (part.getSite() != site || part.getEditorSite() != site) {
+				throw new PartInitException(NLS.bind(
+						WorkbenchMessages.EditorManager_siteIncorrect, desc
+								.getId()));
+			}
+
+		} catch (Exception e) {
+			disposeEditorActionBars((EditorActionBars) site.getActionBars());
+			site.dispose();
+			if (e instanceof PartInitException) {
+				throw (PartInitException) e;
+			}
+
+			throw new PartInitException(
+					WorkbenchMessages.EditorManager_errorInInit, e);
+		}
+
+		return site;
+	}
+
+	/*
+	 * See IWorkbenchPage.
+	 */
 //	private IEditorReference reuseInternalEditor(EditorDescriptor desc,
 //			IEditorInput input) throws PartInitException {
 //
@@ -753,25 +769,25 @@ public class EditorManager implements IExtensionChangeHandler {
 //		}
 //		return null;
 //	}
-//
-//	IEditorPart createPart(final EditorDescriptor desc)
-//			throws PartInitException {
-//		try {
-//			IEditorPart result = desc.createEditor();
-//			IConfigurationElement element = desc.getConfigurationElement();
-//			if (element != null) {
-//				page.getExtensionTracker().registerObject(
-//						element.getDeclaringExtension(), result,
-//						IExtensionTracker.REF_WEAK);
-//			}
-//			return result;
-//		} catch (CoreException e) {
-//			throw new PartInitException(StatusUtil.newStatus(
-//					desc.getPluginID(),
-//					WorkbenchMessages.EditorManager_instantiationError, e));
-//		}
-//	}
-//
+
+	IEditorPart createPart(final EditorDescriptor desc)
+			throws PartInitException {
+		try {
+			IEditorPart result = desc.createEditor();
+			IConfigurationElement element = desc.getConfigurationElement();
+			if (element != null) {
+				page.getExtensionTracker().registerObject(
+						element.getDeclaringExtension(), result,
+						IExtensionTracker.REF_WEAK);
+			}
+			return result;
+		} catch (CoreException e) {
+			throw new PartInitException(StatusUtil.newStatus(
+					desc.getPluginID(),
+					WorkbenchMessages.EditorManager_instantiationError, e));
+		}
+	}
+
 //	/**
 //	 * Open a system external editor on the input path.
 //	 */
@@ -799,21 +815,21 @@ public class EditorManager implements IExtensionChangeHandler {
 //		// We do not have an editor part for external editors
 //		return null;
 //	}
-//
-//	ImageDescriptor findImage(EditorDescriptor desc, IPath path) {
-//		if (desc == null) {
-//			// @issue what should be the default image?
-//			return ImageDescriptor.getMissingImageDescriptor();
-//		}
-//
+
+	ImageDescriptor findImage(EditorDescriptor desc, IPath path) {
+		if (desc == null) {
+			// @issue what should be the default image?
+			return ImageDescriptor.getMissingImageDescriptor();
+		}
+
 //		if (desc.isOpenExternal() && path != null) {
 //			return PlatformUI.getWorkbench().getEditorRegistry()
 //					.getImageDescriptor(path.toOSString());
 //		}
-//
-//		return desc.getImageDescriptor();
-//	}
-//
+
+		return desc.getImageDescriptor();
+	}
+
 //	/**
 //	 * @see org.eclipse.ui.IPersistable
 //	 */
@@ -886,209 +902,212 @@ public class EditorManager implements IExtensionChangeHandler {
 //		
 //		return result;
 //	}
-//
-//	/**
-//	 * Save all of the editors in the workbench. Return true if successful.
-//	 * Return false if the user has canceled the command.
-//	 * @param confirm true if the user should be prompted before the save
-//	 * @param closing true if the page is being closed
-//	 * @param addNonPartSources true if saveables from non-part sources should be saved too.
-//	 * @return false if the user canceled or an error occurred while saving
-//	 */
-//	public boolean saveAll(boolean confirm, boolean closing, boolean addNonPartSources) {
-//		// Get the list of dirty editors and views. If it is
-//		// empty just return.
-//		ISaveablePart[] parts = page.getDirtyParts();
-//		if (parts.length == 0) {
-//			return true;
-//		}
-//		// saveAll below expects a mutable list
-//		List dirtyParts = new ArrayList(parts.length);
-//		for (int i = 0; i < parts.length; i++) {
-//			dirtyParts.add(parts[i]);
-//		}
-//
-//		// If confirmation is required ..
-//		return saveAll(dirtyParts, confirm, closing, addNonPartSources, window);
-//	}
-//
-//	/**
-//	 * Saves the given dirty editors and views, optionally prompting the user.
-//	 * 
-//	 * @param dirtyParts
-//	 *            the dirty views and editors
-//	 * @param confirm
-//	 *            <code>true</code> to prompt whether to save, <code>false</code>
-//	 *            to save without prompting
-//	 * @param closing
-//	 *            <code>true</code> if the parts are being closed,
-//	 *            <code>false</code> if just being saved without closing
-//	 * @param addNonPartSources true if non-part sources should be saved too
-//	 * @param window
-//	 *            the window to use as the parent for the dialog that prompts to
-//	 *            save multiple dirty editors and views
-//	 * @return <code>true</code> on success, <code>false</code> if the user
-//	 *         canceled the save or an error occurred while saving
-//	 */
-//	public static boolean saveAll(List dirtyParts, boolean confirm, boolean closing,
-//			boolean addNonPartSources, final IWorkbenchWindow window) {
-//		return saveAll(dirtyParts, confirm, closing, addNonPartSources, window, window);
-//	}
-//	
-//	/**
-//	 * Saves the given dirty editors and views, optionally prompting the user.
-//	 * 
-//	 * @param dirtyParts
-//	 *            the dirty views and editors
-//	 * @param confirm
-//	 *            <code>true</code> to prompt whether to save,
-//	 *            <code>false</code> to save without prompting
-//	 * @param closing
-//	 *            <code>true</code> if the parts are being closed,
-//	 *            <code>false</code> if just being saved without closing
-//	 * @param addNonPartSources
-//	 *            true if non-part sources should be saved too
-//	 * @param runnableContext
-//	 *            the context in which to run long-running operations
-//	 * @param shellProvider
-//	 *            providing the shell to use as the parent for the dialog that
-//	 *            prompts to save multiple dirty editors and views
-//	 * @return <code>true</code> on success, <code>false</code> if the user
-//	 *         canceled the save
-//	 */
-//	public static boolean saveAll(List dirtyParts, final boolean confirm, final boolean closing,
-//				boolean addNonPartSources, final IRunnableContext runnableContext, final IShellProvider shellProvider) {
-//		// clone the input list
-//		dirtyParts = new ArrayList(dirtyParts);
-//    	List modelsToSave;
-//		if (confirm) {
-//			boolean saveable2Processed = false;
-//			// Process all parts that implement ISaveablePart2.
-//			// These parts are removed from the list after saving
-//			// them. We then need to restore the workbench to
-//			// its previous state, for now this is just last
-//			// active perspective.
-//			// Note that the given parts may come from multiple
-//			// windows, pages and perspectives.
-//			ListIterator listIterator = dirtyParts.listIterator();
-//
-//			WorkbenchPage currentPage = null;
-//			Perspective currentPageOriginalPerspective = null;
-//			while (listIterator.hasNext()) {
-//				IWorkbenchPart part = (IWorkbenchPart) listIterator.next();
-//				if (part instanceof ISaveablePart2) {
-//					WorkbenchPage page = (WorkbenchPage) part.getSite()
-//							.getPage();
-//					if (!Util.equals(currentPage, page)) {
-//						if (currentPage != null
-//								&& currentPageOriginalPerspective != null) {
-//							if (!currentPageOriginalPerspective
-//									.equals(currentPage.getActivePerspective())) {
-//								currentPage
-//										.setPerspective(currentPageOriginalPerspective
-//												.getDesc());
-//							}
-//						}
-//						currentPage = page;
-//						currentPageOriginalPerspective = page
-//								.getActivePerspective();
-//					}
-//					if (confirm) {
-//						if (part instanceof IViewPart) {
-//							Perspective perspective = page
-//									.getFirstPerspectiveWithView((IViewPart) part);
-//							if (perspective != null) {
-//								page.setPerspective(perspective.getDesc());
-//							}
-//						}
-//						// show the window containing the page?
-//						IWorkbenchWindow partsWindow = page
-//								.getWorkbenchWindow();
-//						if (partsWindow != partsWindow.getWorkbench()
-//								.getActiveWorkbenchWindow()) {
-//							Shell shell = partsWindow.getShell();
-//							if (shell.getMinimized()) {
-//								shell.setMinimized(false);
-//							}
-//							shell.setActive();
-//						}
-//						page.bringToTop(part);
-//					}
-//					// try to save the part
-//					int choice = SaveableHelper.savePart((ISaveablePart2) part,
-//							page.getWorkbenchWindow(), confirm);
-//					if (choice == ISaveablePart2.CANCEL) {
-//						// If the user cancels, don't restore the previous
-//						// workbench state, as that will
-//						// be an unexpected switch from the current state.
-//						return false;
-//					} else if (choice != ISaveablePart2.DEFAULT) {
-//						saveable2Processed = true;
-//						listIterator.remove();
-//					}
-//				}
-//			}
-//
-//			// try to restore the workbench to its previous state
-//			if (currentPage != null && currentPageOriginalPerspective != null) {
-//				if (!currentPageOriginalPerspective.equals(currentPage
-//						.getActivePerspective())) {
-//					currentPage.setPerspective(currentPageOriginalPerspective
-//							.getDesc());
-//				}
-//			}
-//
-//			// if processing a ISaveablePart2 caused other parts to be
-//			// saved, remove them from the list presented to the user.
-//			if (saveable2Processed) {
-//				listIterator = dirtyParts.listIterator();
-//				while (listIterator.hasNext()) {
-//					ISaveablePart part = (ISaveablePart) listIterator.next();
-//					if (!part.isDirty()) {
-//						listIterator.remove();
-//					}
-//				}
-//			}
-//
-//            modelsToSave = convertToSaveables(dirtyParts, closing, addNonPartSources);
-//            
-//            // If nothing to save, return.
-//            if (modelsToSave.isEmpty()) {
-//				return true;
-//			}
-//			boolean canceled = SaveableHelper.waitForBackgroundSaveJobs(modelsToSave);
-//			if (canceled) {
-//				return false;
-//			}
-//            // Use a simpler dialog if there's only one
-//            if (modelsToSave.size() == 1) {
-//            	Saveable model = (Saveable) modelsToSave.get(0);
-//				String message = NLS.bind(WorkbenchMessages.EditorManager_saveChangesQuestion, model.getName()); 
-//				// Show a dialog.
-//				String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL };
-//				MessageDialog d = new MessageDialog(
-//					shellProvider.getShell(), WorkbenchMessages.Save_Resource,
-//					null, message, MessageDialog.QUESTION, buttons, 0);
-//				
-//				int choice = SaveableHelper.testGetAutomatedResponse();
-//				if (SaveableHelper.testGetAutomatedResponse() == SaveableHelper.USER_RESPONSE) {
+
+	/**
+	 * Save all of the editors in the workbench. Return true if successful.
+	 * Return false if the user has canceled the command.
+	 * @param confirm true if the user should be prompted before the save
+	 * @param closing true if the page is being closed
+	 * @param addNonPartSources true if saveables from non-part sources should be saved too.
+	 * @return false if the user canceled or an error occurred while saving
+	 */
+	public boolean saveAll(boolean confirm, boolean closing, boolean addNonPartSources) {
+		// Get the list of dirty editors and views. If it is
+		// empty just return.
+		ISaveablePart[] parts = page.getDirtyParts();
+		if (parts.length == 0) {
+			return true;
+		}
+		// saveAll below expects a mutable list
+		List dirtyParts = new ArrayList(parts.length);
+		for (int i = 0; i < parts.length; i++) {
+			dirtyParts.add(parts[i]);
+		}
+
+		// If confirmation is required ..
+		return saveAll(dirtyParts, confirm, closing, addNonPartSources, window);
+	}
+
+	/**
+	 * Saves the given dirty editors and views, optionally prompting the user.
+	 * 
+	 * @param dirtyParts
+	 *            the dirty views and editors
+	 * @param confirm
+	 *            <code>true</code> to prompt whether to save, <code>false</code>
+	 *            to save without prompting
+	 * @param closing
+	 *            <code>true</code> if the parts are being closed,
+	 *            <code>false</code> if just being saved without closing
+	 * @param addNonPartSources true if non-part sources should be saved too
+	 * @param window
+	 *            the window to use as the parent for the dialog that prompts to
+	 *            save multiple dirty editors and views
+	 * @return <code>true</code> on success, <code>false</code> if the user
+	 *         canceled the save or an error occurred while saving
+	 */
+	public static boolean saveAll(List dirtyParts, boolean confirm, boolean closing,
+			boolean addNonPartSources, final IWorkbenchWindow window) {
+		return saveAll(dirtyParts, confirm, closing, addNonPartSources, window, window);
+	}
+	
+	/**
+	 * Saves the given dirty editors and views, optionally prompting the user.
+	 * 
+	 * @param dirtyParts
+	 *            the dirty views and editors
+	 * @param confirm
+	 *            <code>true</code> to prompt whether to save,
+	 *            <code>false</code> to save without prompting
+	 * @param closing
+	 *            <code>true</code> if the parts are being closed,
+	 *            <code>false</code> if just being saved without closing
+	 * @param addNonPartSources
+	 *            true if non-part sources should be saved too
+	 * @param runnableContext
+	 *            the context in which to run long-running operations
+	 * @param shellProvider
+	 *            providing the shell to use as the parent for the dialog that
+	 *            prompts to save multiple dirty editors and views
+	 * @return <code>true</code> on success, <code>false</code> if the user
+	 *         canceled the save
+	 */
+	public static boolean saveAll(List dirtyParts, final boolean confirm, final boolean closing,
+				boolean addNonPartSources, final IRunnableContext runnableContext, final IShellProvider shellProvider) {
+		// clone the input list
+		dirtyParts = new ArrayList(dirtyParts);
+    	List modelsToSave;
+		if (confirm) {
+			boolean saveable2Processed = false;
+			// Process all parts that implement ISaveablePart2.
+			// These parts are removed from the list after saving
+			// them. We then need to restore the workbench to
+			// its previous state, for now this is just last
+			// active perspective.
+			// Note that the given parts may come from multiple
+			// windows, pages and perspectives.
+			ListIterator listIterator = dirtyParts.listIterator();
+
+			WorkbenchPage currentPage = null;
+			Perspective currentPageOriginalPerspective = null;
+			while (listIterator.hasNext()) {
+				IWorkbenchPart part = (IWorkbenchPart) listIterator.next();
+				if (part instanceof ISaveablePart2) {
+					WorkbenchPage page = (WorkbenchPage) part.getSite()
+							.getPage();
+					if (!Util.equals(currentPage, page)) {
+						if (currentPage != null
+								&& currentPageOriginalPerspective != null) {
+							if (!currentPageOriginalPerspective
+									.equals(currentPage.getActivePerspective())) {
+								currentPage
+										.setPerspective(currentPageOriginalPerspective
+												.getDesc());
+							}
+						}
+						currentPage = page;
+						currentPageOriginalPerspective = page
+								.getActivePerspective();
+					}
+					if (confirm) {
+						if (part instanceof IViewPart) {
+							Perspective perspective = page
+									.getFirstPerspectiveWithView((IViewPart) part);
+							if (perspective != null) {
+								page.setPerspective(perspective.getDesc());
+							}
+						}
+						// show the window containing the page?
+						IWorkbenchWindow partsWindow = page
+								.getWorkbenchWindow();
+						if (partsWindow != partsWindow.getWorkbench()
+								.getActiveWorkbenchWindow()) {
+							Shell shell = partsWindow.getShell();
+							if (shell.getMinimized()) {
+								shell.setMinimized(false);
+							}
+							shell.setActive();
+						}
+						page.bringToTop(part);
+					}
+					// try to save the part
+					int choice = SaveableHelper.savePart((ISaveablePart2) part,
+							page.getWorkbenchWindow(), confirm);
+					if (choice == ISaveablePart2.CANCEL) {
+						// If the user cancels, don't restore the previous
+						// workbench state, as that will
+						// be an unexpected switch from the current state.
+						return false;
+					} else if (choice != ISaveablePart2.DEFAULT) {
+						saveable2Processed = true;
+						listIterator.remove();
+					}
+				}
+			}
+
+			// try to restore the workbench to its previous state
+			if (currentPage != null && currentPageOriginalPerspective != null) {
+				if (!currentPageOriginalPerspective.equals(currentPage
+						.getActivePerspective())) {
+					currentPage.setPerspective(currentPageOriginalPerspective
+							.getDesc());
+				}
+			}
+
+			// if processing a ISaveablePart2 caused other parts to be
+			// saved, remove them from the list presented to the user.
+			if (saveable2Processed) {
+				listIterator = dirtyParts.listIterator();
+				while (listIterator.hasNext()) {
+					ISaveablePart part = (ISaveablePart) listIterator.next();
+					if (!part.isDirty()) {
+						listIterator.remove();
+					}
+				}
+			}
+
+            modelsToSave = convertToSaveables(dirtyParts, closing, addNonPartSources);
+            
+            // If nothing to save, return.
+            if (modelsToSave.isEmpty()) {
+				return true;
+			}
+			boolean canceled = SaveableHelper.waitForBackgroundSaveJobs(modelsToSave);
+			if (canceled) {
+				return false;
+			}
+            // Use a simpler dialog if there's only one
+            if (modelsToSave.size() == 1) {
+            	Saveable model = (Saveable) modelsToSave.get(0);
+				String message = NLS.bind(WorkbenchMessages.EditorManager_saveChangesQuestion, model.getName()); 
+				// Show a dialog.
+				String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL };
+				MessageDialog d = new MessageDialog(
+					shellProvider.getShell(), WorkbenchMessages.Save_Resource,
+					null, message, MessageDialog.QUESTION, buttons, 0);
+				
+				int choice = SaveableHelper.testGetAutomatedResponse();
+				if (SaveableHelper.testGetAutomatedResponse() == SaveableHelper.USER_RESPONSE) {
+					// TODO: remove callback hack
+					// returns always true
 //					choice = d.open();
-//				}
-//
-//				// Branch on the user choice.
-//				// The choice id is based on the order of button labels
-//				// above.
-//				switch (choice) {
-//				case ISaveablePart2.YES: // yes
-//					break;
-//				case ISaveablePart2.NO: // no
-//					return true;
-//				default:
-//				case ISaveablePart2.CANCEL: // cancel
-//					return false;
-//				}
-//            }
-//            else {
+					d.open(null);
+				}
+
+				// Branch on the user choice.
+				// The choice id is based on the order of button labels
+				// above.
+				switch (choice) {
+				case ISaveablePart2.YES: // yes
+					break;
+				case ISaveablePart2.NO: // no
+					return true;
+				default:
+				case ISaveablePart2.CANCEL: // cancel
+					return false;
+				}
+            }
+            else {
 //	            ListSelectionDialog dlg = new ListSelectionDialog(
 //	                    shellProvider.getShell(), modelsToSave,
 //	                    new ArrayContentProvider(),
@@ -1106,164 +1125,165 @@ public class EditorManager implements IExtensionChangeHandler {
 //	
 //	                modelsToSave = Arrays.asList(dlg.getResult());
 //	            }
-//            }
-//        }
-//        else {
-//        	modelsToSave = convertToSaveables(dirtyParts, closing, addNonPartSources);
-//		}
-//
-//        // If the editor list is empty return.
-//        if (modelsToSave.isEmpty()) {
-//			return true;
-//		}
-//		
-//		// Create save block.
-//        final List finalModels = modelsToSave;
-//		IRunnableWithProgress progressOp = new IRunnableWithProgress() {
-//			public void run(IProgressMonitor monitor) {
-//				IProgressMonitor monitorWrap = new EventLoopProgressMonitor(
-//						monitor);
-//				monitorWrap.beginTask("", finalModels.size()); //$NON-NLS-1$
-//				for (Iterator i = finalModels.iterator(); i.hasNext();) {
-//					Saveable model = (Saveable) i.next();
-//					// handle case where this model got saved as a result of saving another
-//					if (!model.isDirty()) {
-//						monitor.worked(1);
-//						continue;
-//					}
-//					SaveableHelper.doSaveModel(model, new SubProgressMonitor(monitorWrap, 1), shellProvider, closing || confirm);
-//					if (monitorWrap.isCanceled()) {
-//						break;
-//					}
-//				}
-//				monitorWrap.done();
-//			}
-//		};
-//
-//		// Do the save.
-//		return SaveableHelper.runProgressMonitorOperation(
-//				WorkbenchMessages.Save_All, progressOp, runnableContext, shellProvider);
-//	}
-//
-//	/**
-//	 * For each part (view or editor) in the given list, attempts to convert it
-//	 * to one or more saveable models. Duplicate models are removed. If closing
-//	 * is true, then models that will remain open in parts other than the given
-//	 * parts are removed.
-//	 * 
-//	 * @param parts
-//	 *            the parts (list of IViewPart or IEditorPart)
-//	 * @param closing
-//	 *            whether the parts are being closed
-//	 * @param addNonPartSources
-//	 *            whether non-part sources should be added (true for the Save
-//	 *            All action, see bug 139004)
-//	 * @return the dirty models
-//	 */
-//	private static List convertToSaveables(List parts, boolean closing, boolean addNonPartSources) {
-//		ArrayList result = new ArrayList();
-//		HashSet seen = new HashSet();
-//		for (Iterator i = parts.iterator(); i.hasNext();) {
-//			IWorkbenchPart part = (IWorkbenchPart) i.next();
-//			Saveable[] saveables = getSaveables(part);
-//			for (int j = 0; j < saveables.length; j++) {
-//				Saveable saveable = saveables[j];
-//				if (saveable.isDirty() && !seen.contains(saveable)) {
-//					seen.add(saveable);
-//					if (!closing
-//							|| closingLastPartShowingModel(saveable, parts, part
-//									.getSite().getPage())) {
-//						result.add(saveable);
-//					}
-//				}
-//			}
-//		}
-//		if (addNonPartSources) {
-//			SaveablesList saveablesList = (SaveablesList) PlatformUI
-//					.getWorkbench().getService(
-//							ISaveablesLifecycleListener.class);
-//			ISaveablesSource[] nonPartSources = saveablesList
-//					.getNonPartSources();
-//			for (int i = 0; i < nonPartSources.length; i++) {
-//				Saveable[] saveables = nonPartSources[i].getSaveables();
-//				for (int j = 0; j < saveables.length; j++) {
-//					Saveable saveable = saveables[j];
-//					if (saveable.isDirty() && !seen.contains(saveable)) {
-//						seen.add(saveable);
-//						result.add(saveable);
-//					}
-//				}
-//			}
-//		}
-//		return result;
-//	}
-//
-//	/**
-//	 * Returns the saveable models provided by the given part.
-//	 * If the part does not provide any models, a default model
-//	 * is returned representing the part.
-//	 * 
-//	 * @param part the workbench part
-//	 * @return the saveable models
-//	 */
-//	private static Saveable[] getSaveables(IWorkbenchPart part) {
-//		if (part instanceof ISaveablesSource) {
-//			ISaveablesSource source = (ISaveablesSource) part;
-//			return source.getSaveables();
-//		}
-//		return new Saveable[] { new DefaultSaveable(part) };
-//	}
-//
-//	/**
-//	 * Returns true if, in the given page, no more parts will reference the
-//	 * given model if the given parts are closed.
-//	 * 
-//	 * @param model
-//	 *            the model
-//	 * @param closingParts
-//	 *            the parts being closed (list of IViewPart or IEditorPart)
-//	 * @param page
-//	 *            the page
-//	 * @return <code>true</code> if no more parts in the page will reference
-//	 *         the given model, <code>false</code> otherwise
-//	 */
-//	private static boolean closingLastPartShowingModel(Saveable model,
-//			List closingParts, IWorkbenchPage page) {
-//		HashSet closingPartsWithSameModel = new HashSet();
-//		for (Iterator i = closingParts.iterator(); i.hasNext();) {
-//			IWorkbenchPart part = (IWorkbenchPart) i.next();
-//			Saveable[] models = getSaveables(part);
-//			if (Arrays.asList(models).contains(model)) {
-//				closingPartsWithSameModel.add(part);
-//			}
-//		}
-//		IWorkbenchPartReference[] pagePartRefs = ((WorkbenchPage) page).getAllParts();
-//		HashSet pagePartsWithSameModels = new HashSet();
-//		for (int i = 0; i < pagePartRefs.length; i++) {
-//			IWorkbenchPartReference partRef = pagePartRefs[i];
-//			IWorkbenchPart part = partRef.getPart(false);
-//			if (part != null) {
-//				Saveable[] models = getSaveables(part);
-//				if (Arrays.asList(models).contains(model)) {
-//					pagePartsWithSameModels.add(part);
-//				}
-//			}
-//		}
-//		for (Iterator i = closingPartsWithSameModel.iterator(); i.hasNext();) {
-//			IWorkbenchPart part = (IWorkbenchPart) i.next();
-//			pagePartsWithSameModels.remove(part);
-//		}
-//		return pagePartsWithSameModels.isEmpty();
-//	}
-//	
-//	/*
-//	 * Saves the workbench part.
-//	 */
-//	public boolean savePart(final ISaveablePart saveable, IWorkbenchPart part,
-//			boolean confirm) {
-//		return SaveableHelper.savePart(saveable, part, window, confirm);
-//	}
-//
+              throw new UnsupportedOperationException();
+            }
+        }
+        else {
+        	modelsToSave = convertToSaveables(dirtyParts, closing, addNonPartSources);
+		}
+
+        // If the editor list is empty return.
+        if (modelsToSave.isEmpty()) {
+			return true;
+		}
+		
+		// Create save block.
+        final List finalModels = modelsToSave;
+		IRunnableWithProgress progressOp = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor) {
+				IProgressMonitor monitorWrap = new EventLoopProgressMonitor(
+						monitor);
+				monitorWrap.beginTask("", finalModels.size()); //$NON-NLS-1$
+				for (Iterator i = finalModels.iterator(); i.hasNext();) {
+					Saveable model = (Saveable) i.next();
+					// handle case where this model got saved as a result of saving another
+					if (!model.isDirty()) {
+						monitor.worked(1);
+						continue;
+					}
+					SaveableHelper.doSaveModel(model, new SubProgressMonitor(monitorWrap, 1), shellProvider, closing || confirm);
+					if (monitorWrap.isCanceled()) {
+						break;
+					}
+				}
+				monitorWrap.done();
+			}
+		};
+
+		// Do the save.
+		return SaveableHelper.runProgressMonitorOperation(
+				WorkbenchMessages.Save_All, progressOp, runnableContext, shellProvider);
+	}
+
+	/**
+	 * For each part (view or editor) in the given list, attempts to convert it
+	 * to one or more saveable models. Duplicate models are removed. If closing
+	 * is true, then models that will remain open in parts other than the given
+	 * parts are removed.
+	 * 
+	 * @param parts
+	 *            the parts (list of IViewPart or IEditorPart)
+	 * @param closing
+	 *            whether the parts are being closed
+	 * @param addNonPartSources
+	 *            whether non-part sources should be added (true for the Save
+	 *            All action, see bug 139004)
+	 * @return the dirty models
+	 */
+	private static List convertToSaveables(List parts, boolean closing, boolean addNonPartSources) {
+		ArrayList result = new ArrayList();
+		HashSet seen = new HashSet();
+		for (Iterator i = parts.iterator(); i.hasNext();) {
+			IWorkbenchPart part = (IWorkbenchPart) i.next();
+			Saveable[] saveables = getSaveables(part);
+			for (int j = 0; j < saveables.length; j++) {
+				Saveable saveable = saveables[j];
+				if (saveable.isDirty() && !seen.contains(saveable)) {
+					seen.add(saveable);
+					if (!closing
+							|| closingLastPartShowingModel(saveable, parts, part
+									.getSite().getPage())) {
+						result.add(saveable);
+					}
+				}
+			}
+		}
+		if (addNonPartSources) {
+			SaveablesList saveablesList = (SaveablesList) PlatformUI
+					.getWorkbench().getService(
+							ISaveablesLifecycleListener.class);
+			ISaveablesSource[] nonPartSources = saveablesList
+					.getNonPartSources();
+			for (int i = 0; i < nonPartSources.length; i++) {
+				Saveable[] saveables = nonPartSources[i].getSaveables();
+				for (int j = 0; j < saveables.length; j++) {
+					Saveable saveable = saveables[j];
+					if (saveable.isDirty() && !seen.contains(saveable)) {
+						seen.add(saveable);
+						result.add(saveable);
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Returns the saveable models provided by the given part.
+	 * If the part does not provide any models, a default model
+	 * is returned representing the part.
+	 * 
+	 * @param part the workbench part
+	 * @return the saveable models
+	 */
+	private static Saveable[] getSaveables(IWorkbenchPart part) {
+		if (part instanceof ISaveablesSource) {
+			ISaveablesSource source = (ISaveablesSource) part;
+			return source.getSaveables();
+		}
+		return new Saveable[] { new DefaultSaveable(part) };
+	}
+
+	/**
+	 * Returns true if, in the given page, no more parts will reference the
+	 * given model if the given parts are closed.
+	 * 
+	 * @param model
+	 *            the model
+	 * @param closingParts
+	 *            the parts being closed (list of IViewPart or IEditorPart)
+	 * @param page
+	 *            the page
+	 * @return <code>true</code> if no more parts in the page will reference
+	 *         the given model, <code>false</code> otherwise
+	 */
+	private static boolean closingLastPartShowingModel(Saveable model,
+			List closingParts, IWorkbenchPage page) {
+		HashSet closingPartsWithSameModel = new HashSet();
+		for (Iterator i = closingParts.iterator(); i.hasNext();) {
+			IWorkbenchPart part = (IWorkbenchPart) i.next();
+			Saveable[] models = getSaveables(part);
+			if (Arrays.asList(models).contains(model)) {
+				closingPartsWithSameModel.add(part);
+			}
+		}
+		IWorkbenchPartReference[] pagePartRefs = ((WorkbenchPage) page).getAllParts();
+		HashSet pagePartsWithSameModels = new HashSet();
+		for (int i = 0; i < pagePartRefs.length; i++) {
+			IWorkbenchPartReference partRef = pagePartRefs[i];
+			IWorkbenchPart part = partRef.getPart(false);
+			if (part != null) {
+				Saveable[] models = getSaveables(part);
+				if (Arrays.asList(models).contains(model)) {
+					pagePartsWithSameModels.add(part);
+				}
+			}
+		}
+		for (Iterator i = closingPartsWithSameModel.iterator(); i.hasNext();) {
+			IWorkbenchPart part = (IWorkbenchPart) i.next();
+			pagePartsWithSameModels.remove(part);
+		}
+		return pagePartsWithSameModels.isEmpty();
+	}
+	
+	/*
+	 * Saves the workbench part.
+	 */
+	public boolean savePart(final ISaveablePart saveable, IWorkbenchPart part,
+			boolean confirm) {
+		return SaveableHelper.savePart(saveable, part, window, confirm);
+	}
+
 //	/**
 //	 * @see IPersistablePart
 //	 */
@@ -1313,17 +1333,17 @@ public class EditorManager implements IExtensionChangeHandler {
 //		}
 //		return result;
 //	}
-//
-//	/**
-//	 * Shows an editor. If <code>setFocus == true</code> then give it focus,
-//	 * too.
-//	 * 
-//	 * @return true if the active editor was changed, false if not.
-//	 */
-//	public boolean setVisibleEditor(IEditorReference newEd, boolean setFocus) {
-//		return editorPresentation.setVisibleEditor(newEd, setFocus);
-//	}
-//
+
+	/**
+	 * Shows an editor. If <code>setFocus == true</code> then give it focus,
+	 * too.
+	 * 
+	 * @return true if the active editor was changed, false if not.
+	 */
+	public boolean setVisibleEditor(IEditorReference newEd, boolean setFocus) {
+		return editorPresentation.setVisibleEditor(newEd, setFocus);
+	}
+
 //	private IPathEditorInput getPathEditorInput(IEditorInput input) {
 //		if (input instanceof IPathEditorInput) {
 //			return (IPathEditorInput) input;
@@ -1332,23 +1352,23 @@ public class EditorManager implements IExtensionChangeHandler {
 //		return (IPathEditorInput) Util.getAdapter(input, IPathEditorInput.class);
 //	}
 //
-//	private class InnerEditor extends EditorReference {
-//
-//		private IEditorReference outerEditor;
-//
-//		public InnerEditor(IEditorReference outerEditor, IEditorInput input,
-//				EditorDescriptor desc) {
-//			super(EditorManager.this, input, desc);
-//			this.outerEditor = outerEditor;
-//		}
-//
-//		protected PartPane createPane() {
-//			return new MultiEditorInnerPane(
-//					(EditorPane) ((EditorReference) outerEditor).getPane(),
-//					this, page, editorPresentation.getActiveWorkbook());
-//		}
-//
-//	}
+	private class InnerEditor extends EditorReference {
+
+		private IEditorReference outerEditor;
+
+		public InnerEditor(IEditorReference outerEditor, IEditorInput input,
+				EditorDescriptor desc) {
+			super(EditorManager.this, input, desc);
+			this.outerEditor = outerEditor;
+		}
+
+		protected PartPane createPane() {
+			return new MultiEditorInnerPane(
+					(EditorPane) ((EditorReference) outerEditor).getPane(),
+					this, page, editorPresentation.getActiveWorkbook());
+		}
+
+	}
 //
 //	/*
 //	 * Made public for Mylar in 3.3 - see bug 138666. Can be made private once
@@ -1559,9 +1579,10 @@ public class EditorManager implements IExtensionChangeHandler {
 //		return null;
 //	}
 //	
-//	public static boolean useIPersistableEditor() {
+	public static boolean useIPersistableEditor() {
 //		IPreferenceStore store = WorkbenchPlugin.getDefault()
 //				.getPreferenceStore();
 //		return store.getBoolean(IPreferenceConstants.USE_IPERSISTABLE_EDITORS);
-//	}
+	  return true;
+	}
 }
