@@ -240,13 +240,7 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
       for( int i = 0; i < content.getFootSize(); i ++ ) {
         msg.append( content.getFootToken( i ) );
       }
-      String[] split = msg.toString().split( ";" );
-      for( int i = 0; i < split.length; i++ ) {
-        System.out.print( split[ i ] );
-        System.out.println( ";" );
-      }
-      
-//      responseContentLogger.log( LOG_LEVEL, msg.toString() );
+      responseContentLogger.log( LOG_LEVEL, msg.toString() );
     }
   }
 }
