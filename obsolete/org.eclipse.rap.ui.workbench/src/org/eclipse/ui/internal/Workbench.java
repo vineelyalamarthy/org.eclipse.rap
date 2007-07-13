@@ -75,6 +75,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
   // ensure that workbench is properly shutdown in case of session timeout
   
   private boolean started;
+  private boolean sessionInvalidated;
   
   private static final class ShutdownHandler
     implements SessionStoreListener
@@ -87,6 +88,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
       Runnable runnable = new Runnable() {
         public void run() {
           if( Workbench.getInstance().started ) {
+            Workbench.getInstance().sessionInvalidated = true;
             Workbench.getInstance().close();
           }
         }
@@ -760,9 +762,13 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 		}
 
 		// save any open editors if they are dirty
-		isClosing = saveAllEditors(!force);
-		if (!force && !isClosing) {
-			return false;
+		if( !sessionInvalidated ) {
+		    // TODO [fappel] if user has moved to another URL, what else can
+		    //               we do than skip editor saving?
+    		isClosing = saveAllEditors(!force);
+    		if (!force && !isClosing) {
+    			return false;
+    		}
 		}
 
 		boolean closeEditors = !force
@@ -816,16 +822,20 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 			return false;
 		}
 
-		SafeRunner.run(new SafeRunnable(WorkbenchMessages.ErrorClosing) {
-			public void run() {
-				if (isClosing || force) {
-					isClosing = windowManager.close();
-				}
-			}
-			public void handleException( Throwable e ) {
-			  e.printStackTrace();
-			}
-		});
+		if( !sessionInvalidated ) {
+            // TODO [fappel] if user has moved to another URL, what else can
+            //               we do than skip window closing?
+    		SafeRunner.run(new SafeRunnable(WorkbenchMessages.ErrorClosing) {
+    			public void run() {
+    				if (isClosing || force) {
+    					isClosing = windowManager.close();
+    				}
+    			}
+    			public void handleException( Throwable e ) {
+    			  e.printStackTrace();
+    			}
+    		});
+		}
 
 		if (!force && !isClosing) {
 			return false;

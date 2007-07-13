@@ -61,8 +61,7 @@ class IndexTemplate implements IIndexTemplate {
       // TODO: [fappel] this works only as long as only one display per
       //                session is supported...
       DisplayUtil.writeAppScript( "w1" );
-      String result = getContent( writer );
-      return result;
+      return getContent( writer );
     } finally {
       restoreWriter();
     }

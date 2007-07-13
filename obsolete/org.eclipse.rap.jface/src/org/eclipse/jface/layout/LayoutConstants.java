@@ -14,7 +14,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.internal.graphics.FontSizeEstimation;
+import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 
 /**
  * Contains various layout constants
@@ -98,7 +98,7 @@ public final class LayoutConstants {
 //		}
 //        return Dialog.convertHorizontalDLUsToPixels(fontMetrics, dlus);
         int avgCharWidth 
-        = Math.round( FontSizeEstimation.getAvgCharWidth( dialogFont ) );
+        = Math.round( FontSizeCalculator.getAvgCharWidth( dialogFont ) );
         int result = ( avgCharWidth * dlus + HORIZONTAL_DIALOG_UNIT_PER_CHAR / 2 )
         / HORIZONTAL_DIALOG_UNIT_PER_CHAR;
         return result;
@@ -110,7 +110,7 @@ public final class LayoutConstants {
 //			return 0;
 //		}
 //        return Dialog.convertVerticalDLUsToPixels(fontMetrics, dlus);
-        int charHeight = FontSizeEstimation.getCharHeight( dialogFont );
+        int charHeight = FontSizeCalculator.getCharHeight( dialogFont );
         int result = ( charHeight * dlus + VERTICAL_DIALOG_UNITS_PER_CHAR / 2 )
         / VERTICAL_DIALOG_UNITS_PER_CHAR;
         return result;

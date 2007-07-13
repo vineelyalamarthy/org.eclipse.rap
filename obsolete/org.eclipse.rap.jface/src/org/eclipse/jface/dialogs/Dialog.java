@@ -12,6 +12,7 @@ package org.eclipse.jface.dialogs;
 
 import java.util.Arrays;
 import java.util.HashMap;
+
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.Policy;
@@ -20,7 +21,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.internal.graphics.FontSizeEstimation;
+import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 
@@ -337,7 +338,7 @@ public abstract class Dialog extends Window {
 //		GC gc = new GC(control);
         Font font = control.getFont();
 		int maxWidth = control.getBounds().width - 5;
-		if (FontSizeEstimation.textExtent(textValue, 0, font).x < maxWidth) {
+		if (FontSizeCalculator.textExtent(font, textValue, 0).x < maxWidth) {
 //			gc.dispose();
 			return textValue;
 		}
@@ -349,7 +350,7 @@ public abstract class Dialog extends Window {
 			String s1 = textValue.substring(0, start);
 			String s2 = textValue.substring(end, length);
 			String s = s1 + ELLIPSIS + s2;
-			int l = FontSizeEstimation.textExtent(s, 0, font).x;
+			int l = FontSizeCalculator.textExtent(font, s, 0).x;
 			if (l < maxWidth) {
 //				gc.dispose();
 				return s;
@@ -515,7 +516,7 @@ public abstract class Dialog extends Window {
 //		}
 //		return convertHorizontalDLUsToPixels(fontMetrics, dlus);
 	    int avgCharWidth 
-	      = Math.round( FontSizeEstimation.getAvgCharWidth( dialogFont ) );
+	      = Math.round( FontSizeCalculator.getAvgCharWidth( dialogFont ) );
 	    int result = ( avgCharWidth * dlus + HORIZONTAL_DIALOG_UNIT_PER_CHAR / 2 )
 	    / HORIZONTAL_DIALOG_UNIT_PER_CHAR;
 	    return result;
@@ -542,7 +543,7 @@ public abstract class Dialog extends Window {
 //			return 0;
 //		}
 //		return convertVerticalDLUsToPixels(fontMetrics, dlus);
-	    int charHeight = FontSizeEstimation.getCharHeight( dialogFont );
+	    int charHeight = FontSizeCalculator.getCharHeight( dialogFont );
 	    int result 
           =    ( charHeight * dlus + VERTICAL_DIALOG_UNITS_PER_CHAR / 2 )
 	         / VERTICAL_DIALOG_UNITS_PER_CHAR;

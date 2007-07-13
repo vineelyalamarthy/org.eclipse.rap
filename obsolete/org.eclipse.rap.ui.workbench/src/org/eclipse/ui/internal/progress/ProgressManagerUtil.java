@@ -20,8 +20,9 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.internal.graphics.FontSizeEstimation;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
@@ -144,11 +145,11 @@ public class ProgressManagerUtil {
 		}
 		int maxWidth = control.getBounds().width - 5;
 		Font font = control.getFont();
-        if (FontSizeEstimation.textExtent(textValue, 0, font).x < maxWidth) {
+        if (FontSizeCalculator.textExtent(font, textValue, 0).x < maxWidth) {
 		  return textValue;
 		}
 		int length = textValue.length();
-		int ellipsisWidth = FontSizeEstimation.textExtent(ellipsis, 0, font).x;
+		int ellipsisWidth = FontSizeCalculator.textExtent(font, ellipsis, 0).x;
 		// Find the second space seperator and start from there
 		int secondWord = findSecondWhitespace(textValue, font, maxWidth);
 		int pivot = ((length - secondWord) / 2) + secondWord;
@@ -157,8 +158,8 @@ public class ProgressManagerUtil {
 		while (start >= secondWord && end < length) {
 		  String s1 = textValue.substring(0, start);
 		  String s2 = textValue.substring(end, length);
-		  int l1 = FontSizeEstimation.textExtent(s1, 0, font).x;
-		  int l2 = FontSizeEstimation.textExtent(s2, 0, font).x;
+		  int l1 = FontSizeCalculator.textExtent(font, s1, 0).x;
+		  int l2 = FontSizeCalculator.textExtent(font, s2, 0).x;
 		  if (l1 + ellipsisWidth + l2 < maxWidth) {
 		    return s1 + ellipsis + s2;
 		  }
@@ -234,8 +235,8 @@ public class ProgressManagerUtil {
 		}
 		// Check that we haven't gone over max width. Throw
 		// out an index that is too high
-		if (FontSizeEstimation.textExtent(textValue.substring(0, secondCharacter), 0, font).x > maxWidth) {
-			if (FontSizeEstimation.textExtent(textValue.substring(0, firstCharacter), 0, font).x > maxWidth) {
+		if (FontSizeCalculator.textExtent(font, textValue.substring(0, secondCharacter), 0).x > maxWidth) {
+			if (FontSizeCalculator.textExtent(font, textValue.substring(0, firstCharacter), 0).x > maxWidth) {
 				return 0;
 			}
 			return firstCharacter;

@@ -22,6 +22,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
@@ -43,7 +44,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 	/**
 	 * Reserve room for this many list items.
 	 */
-//	private static final int LIST_ITEM_COUNT = 7;
+	private static final int LIST_ITEM_COUNT = 7;
 
 	/**
 	 * The nesting indent.
@@ -283,10 +284,12 @@ public class ErrorDialog extends IconAndMessageDialog {
 		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.GRAB_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL
 				| GridData.GRAB_VERTICAL);
+		list.setFont(parent.getFont());
+		data.heightHint 
+		  = FontSizeCalculator.getCharHeight( list.getFont() ) * LIST_ITEM_COUNT;
 //		data.heightHint = list.getItemHeight() * LIST_ITEM_COUNT;
 		data.horizontalSpan = 2;
 		list.setLayoutData(data);
-		list.setFont(parent.getFont());
 		Menu copyMenu = new Menu(list);
 		MenuItem copyItem = new MenuItem(copyMenu, SWT.NONE);
 		copyItem.addSelectionListener(new SelectionListener() {
