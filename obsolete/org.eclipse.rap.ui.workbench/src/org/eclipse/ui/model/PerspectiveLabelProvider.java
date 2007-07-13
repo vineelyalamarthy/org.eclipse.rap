@@ -121,7 +121,9 @@ public final class PerspectiveLabelProvider extends LabelProvider implements
      * @see ITableLabelProvider#getColumnImage
      */
     public final Image getColumnImage(Object element, int columnIndex) {
-        return getImage(element);
+    	// TODO: [bm] change this when table+icon+text works again
+//        return getImage(element);
+    	return null;
     }
 
     /**
