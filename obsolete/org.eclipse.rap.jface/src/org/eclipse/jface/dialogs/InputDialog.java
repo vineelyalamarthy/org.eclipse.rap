@@ -152,8 +152,9 @@ public class InputDialog extends Dialog {
         if (message != null) {
             Label label = new Label(composite, SWT.WRAP);
             label.setText(message);
+            // TODO [fappel]: FontSize calculation causes problem with GRAB_VERICAL
             GridData data = new GridData(GridData.GRAB_HORIZONTAL
-                    | GridData.GRAB_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL
+                    /*| GridData.GRAB_VERTICAL*/ | GridData.HORIZONTAL_ALIGN_FILL
                     | GridData.VERTICAL_ALIGN_CENTER);
             data.widthHint = convertHorizontalDLUsToPixels(IDialogConstants.MINIMUM_MESSAGE_AREA_WIDTH);
             label.setLayoutData(data);

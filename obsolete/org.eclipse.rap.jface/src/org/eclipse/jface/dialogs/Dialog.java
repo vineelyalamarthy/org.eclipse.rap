@@ -194,8 +194,6 @@ public abstract class Dialog extends Window {
 	
 	private Font dialogFont;
 
-//	private Point computedSize;
-
 	/**
 	 * Font metrics to use for determining pixel sizes.
 	 */
@@ -704,7 +702,6 @@ public abstract class Dialog extends Window {
 //				}
 //			}
 //		}
-//		computedSize = getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT, true); 
 		super.initializeBounds();
 	}
 
