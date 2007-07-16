@@ -245,7 +245,7 @@ class ViewReference extends WorkbenchPartReference implements IViewReference {
 				label = desc.getLabel();
 			}
 
-			ErrorViewPart part = new ErrorViewPart();
+			ErrorViewPart part = new ErrorViewPart(displayStatus);
 
 			PartPane pane = getPane();
 			ViewSite site = new ViewSite(this, part, factory.page, getId(),
