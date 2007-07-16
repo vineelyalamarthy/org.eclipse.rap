@@ -37,7 +37,7 @@ final class ResourceUtil {
                      final boolean compress )
     throws IOException
   {
-    final int[] result;
+    int[] result;
     if( charset != null ) {
       result = readText( name, charset, compress );
     } else {
@@ -49,9 +49,9 @@ final class ResourceUtil {
   static int[] read( final InputStream is, 
                      final String charset, 
                      final boolean compress )
-  throws IOException
+    throws IOException
   {
-    final int[] result;
+    int[] result;
     if( charset != null ) {
       result = readText( is, charset, compress );
     } else {
@@ -78,11 +78,6 @@ final class ResourceUtil {
     }
   }
 
-  /** <p>Reads the resource denoted by <code>name</code> which must be encoded 
-    * with the given <code>charset</code> and optionally compresses it.</p> 
-    * <p>Compression only makes sense for JavaScript content.</p>
-    * <p>The resulting <code>int[]</code>  represents  the content which is 
-    * <strong>always</strong> <code>UTF-8</code>-encoded.</p> */
   private static int[] readText( final String name, 
                                  final String charset, 
                                  final boolean compress ) 
@@ -99,6 +94,11 @@ final class ResourceUtil {
     return result;
   }
 
+  /** <p>Reads the resource from the given <code>is</code> which must be encoded 
+   * with the given <code>charset</code> and optionally compresses it.</p> 
+   * <p>Compression only makes sense for JavaScript content.</p>
+   * <p>The resulting <code>int[]</code>  represents  the content which is 
+   * <strong>always</strong> <code>UTF-8</code>-encoded.</p> */
   static int[] readText( final InputStream is,
                          final String charset,
                          final boolean compress )
@@ -147,7 +147,7 @@ final class ResourceUtil {
   private static int[] readBinary( final String name ) 
     throws IOException
   {
-    int[] result = null;
+    int[] result;
     InputStream is = openStream( name );
     try {
       result = readBinary( is );
