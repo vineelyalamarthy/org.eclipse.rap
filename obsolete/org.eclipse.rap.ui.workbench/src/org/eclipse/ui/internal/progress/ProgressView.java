@@ -14,7 +14,6 @@ import org.eclipse.jface.action.*;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.*;
@@ -42,9 +41,6 @@ public class ProgressView extends ViewPart implements IViewPart {
 	public void createPartControl(Composite parent) {
 		viewer = new DetailedProgressViewer(parent, SWT.MULTI);
 		viewer.setComparator(ProgressManagerUtil.getProgressViewerComparator());
-
-		viewer.getControl().setLayoutData(
-				new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// TODO [fappel]: fix this
 //		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent,
