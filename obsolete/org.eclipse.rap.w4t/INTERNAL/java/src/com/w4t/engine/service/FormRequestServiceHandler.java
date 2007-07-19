@@ -50,10 +50,10 @@ class FormRequestServiceHandler extends AbstractServiceHandler {
     = Logger.getLogger( LOG_RESPONSE_CONTENT );
   
   public void service() throws IOException, ServletException {
-    HttpSession session = getRequest().getSession( true );
     logRequestHeader();
     logRequestParams();
-    synchronized( session ) {  
+    synchronized( ContextProvider.getSession() ) {
+      HttpSession session = ContextProvider.getSession().getHttpSession();
       // start point of process time
       long startTime = System.currentTimeMillis();
       initializeStateInfo();

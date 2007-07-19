@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.WorkbenchJob;
 
 import com.w4t.SessionSingletonBase;
+import com.w4t.engine.service.*;
 
 /**
  * The AnimationManager is the class that keeps track of the animation items to
@@ -60,15 +61,20 @@ public class AnimationManager extends SessionSingletonBase {
      * @return Color
      */
     static Color getItemBackgroundColor(Control control) {
-        return control.getDisplay().getSystemColor(SWT.COLOR_WHITE );
-//        return control.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND);
+        return control.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND);
     }
 
     AnimationManager() {
-
+       // This is a helping flag used to avoid a memory leak due to 
+       // thread management.
+       // Note that this is still under investigation.
+       // see comment in JobManagerAdapter
+        final boolean[] done = new boolean[ 1 ];
+      
         animationProcessor = new ProgressAnimationProcessor(this);
 
-        animationUpdateJob = new WorkbenchJob(ProgressMessages.AnimationManager_AnimationStart) {
+        animationUpdateJob 
+          = new WorkbenchJob(ProgressMessages.AnimationManager_AnimationStart){
 
             /*
              * (non-Javadoc)
@@ -84,13 +90,46 @@ public class AnimationManager extends SessionSingletonBase {
 				}
                 return Status.OK_STATUS;
             }
+            
+            // This is a helping mechanism used to avoid a memory leak due to 
+            // thread management.
+            // Note that this is still under investigation.
+            // see comment in JobManagerAdapter
+            public Object getAdapter( Class adapter ) {
+              Object result;
+              if( adapter == IJobMarker.class ) {
+                result = new IJobMarker() {
+                  public boolean canBeRemoved() {
+                    return done[ 0 ];
+                  }
+                };
+              } else {
+                result = super.getAdapter( adapter );
+              }
+              return result;
+            }
+            
         };
         animationUpdateJob.setSystem(true);
         
         listener = getProgressListener();
         ProgressManager.getInstance().addListener(listener);
 
-
+        // This is a helping mechanism used to avoid a memory leak due to 
+        // thread management.
+        // Note that this is still under investigation.
+        // see comment in JobManagerAdapter
+        ISessionStore session = ContextProvider.getSession();
+        session.addSessionStoreListener( new SessionStoreListener() {
+          public void beforeDestroy( final SessionStoreEvent event ) {
+            if( animationUpdateJob != null ) {
+              animationUpdateJob.cancel();
+              animationUpdateJob.addJobChangeListener( new JobCanceler() );
+              dispose();
+              done[ 0 ] = true;
+            }
+          }
+        } );
     }
 
     /**

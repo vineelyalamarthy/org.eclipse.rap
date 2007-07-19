@@ -14,8 +14,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
 import java.util.Map;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
+import com.w4t.engine.service.*;
 
 
 /**
@@ -40,6 +39,9 @@ import com.w4t.engine.service.IServiceStateInfo;
  */
 public abstract class SessionSingletonBase {
 
+  public static final String LOCK
+    = SessionSingletonBase.class.getName() + ".Lock";
+  
   /**
    * This is used as prefix for the key under which the instance
    * is stored as session attribute. The key exists of the prefix
@@ -70,7 +72,9 @@ public abstract class SessionSingletonBase {
       result = stateInfo.getAttribute( getKey( type ) );
     }
     if( result == null ) {
-      result = getInstanceInternal( type );
+      synchronized( ContextProvider.getSession().getAttribute( LOCK ) ) {
+        result = getInstanceInternal( type );
+      }
       if( stateInfo != null ) {
         stateInfo.setAttribute( getKey( type ), result );
       }
@@ -94,7 +98,7 @@ public abstract class SessionSingletonBase {
     return result;
   }
   
-  private static synchronized Object getInstanceInternal( final Class type ) {
+  private static Object getInstanceInternal( final Class type ) {
     Object result = getAttribute( getKey( type ) ); 
     if( result == null ) {
       try {
@@ -158,4 +162,5 @@ public abstract class SessionSingletonBase {
   private static void setAttribute( final String name, final Object object ) {
     ContextProvider.getSession().setAttribute( name, object );
   }
+
 }

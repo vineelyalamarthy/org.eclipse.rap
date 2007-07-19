@@ -26,6 +26,8 @@ class SessionStoreImpl implements ISessionStore, HttpSessionBindingListener {
   private final Set listeners = new HashSet();
   private final HttpSession session;
   private boolean bound;
+  private boolean aboutUnbound;
+
   
   SessionStoreImpl( final HttpSession session ) {
     ParamCheck.notNull( session, "session" );
@@ -36,7 +38,9 @@ class SessionStoreImpl implements ISessionStore, HttpSessionBindingListener {
   
   public Object getAttribute( final String name ) {
     checkBound();
-    return attributes.get( name );
+    synchronized( attributes ) {
+      return attributes.get( name );
+    }
   }
 
   public void setAttribute( final String name, final Object value ) {
@@ -44,18 +48,23 @@ class SessionStoreImpl implements ISessionStore, HttpSessionBindingListener {
     if( value == null ) {
       removeAttribute( name );
     } else {
-      if( attributes.containsKey( name ) ) {
-        removeAttribute( name );
+      Object removed = null;
+      synchronized( attributes ) {
+        if( attributes.containsKey( name ) ) {
+          removed = removeAttributeInternal( name );
+        }
+        attributes.put( name, value );        
       }
-      attributes.put( name, value );
+      if( removed != null ) {
+        fireValueUnbound( name, removed );
+      }
       fireValueBound( name, value );
     }
   }
   
   public void removeAttribute( final String name ) {
     checkBound();
-    Object removed = attributes.remove( name );
-    fireValueUnbound( name, removed );
+    fireValueUnbound( name, removeAttributeInternal( name ) );
   }
 
   public Enumeration getAttributeNames() {
@@ -84,13 +93,19 @@ class SessionStoreImpl implements ISessionStore, HttpSessionBindingListener {
   }
 
   public void addSessionStoreListener( final SessionStoreListener lsnr ) {
+    checkAboutUnbound();
     checkBound();
-    listeners.add( lsnr );
+    synchronized( listeners ) {
+      listeners.add( lsnr );
+    }
   }
 
   public void removeSessionStoreListener( final SessionStoreListener lsnr ) {
+    checkAboutUnbound();
     checkBound();
-    listeners.remove( lsnr );
+    synchronized( listeners ) {
+      listeners.remove( lsnr );
+    }
   }
 
   
@@ -99,17 +114,26 @@ class SessionStoreImpl implements ISessionStore, HttpSessionBindingListener {
   
   public void valueBound( final HttpSessionBindingEvent event ) {
     bound = true;
+    aboutUnbound = false;
   }
   
   public void valueUnbound( final HttpSessionBindingEvent event ) {
-    Object[] lsnrs = listeners.toArray();
+    aboutUnbound = true;
+    Object[] lsnrs;
+    synchronized( listeners ) {      
+      lsnrs = listeners.toArray();
+    }
     SessionStoreEvent evt = new SessionStoreEvent( this );
     for( int i = 0; i < lsnrs.length; i++ ) {
       ( ( SessionStoreListener )lsnrs[ i ] ).beforeDestroy( evt );
     }
-    Object[] names = attributes.keySet().toArray();
+    Object[] names;
+    synchronized( attributes ) {      
+      names = attributes.keySet().toArray();
+    }
     for( int i = 0; i < names.length; i++ ) {
-      removeAttribute( ( String )names[ i ] );
+      String name = ( String )names[ i ];
+      fireValueUnbound( name, removeAttributeInternal( name ) );
     }
     bound = false;
   }
@@ -118,9 +142,24 @@ class SessionStoreImpl implements ISessionStore, HttpSessionBindingListener {
   //////////////////
   // helping methods
   
+  private Object removeAttributeInternal( final String name ) {
+    Object result;
+    synchronized( attributes ) {      
+      result = attributes.remove( name );
+    }
+    return result;
+  }
+  
   private void checkBound() {
     if( !bound ) {
       throw new IllegalStateException( "The session store has been unbound." );
+    }
+  }
+  
+  private void checkAboutUnbound() {
+    if( aboutUnbound ) {
+      String msg = "The session store is about to be unbound.";
+      throw new IllegalStateException( msg );
     }
   }
     

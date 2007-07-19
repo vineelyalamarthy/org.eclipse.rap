@@ -72,6 +72,12 @@ public class W4TDelegate extends HttpServlet {
     try {
       ServiceContext context = new ServiceContext( wrappedRequest, response );
       ContextProvider.setContext( context );
+      // TODO [fappel]: move this into a method ContextProvider#ensureSession().
+      //                Ensure that there is exactly one ISessionStore per 
+      //                session created
+      synchronized( registrySkimmer ) {
+        ContextProvider.getSession();
+      }
       ServiceManager.getHandler().service( );
     } finally {
       ContextProvider.disposeContext();

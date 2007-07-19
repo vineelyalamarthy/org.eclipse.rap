@@ -51,8 +51,6 @@ import org.eclipse.ui.views.IViewRegistry;
 
 import com.w4t.engine.service.*;
 
-import com.w4t.engine.service.*;
-
 /**
  * The workbench class represents the top of the Eclipse user interface. Its
  * primary responsability is the management of workbench windows, dialogs,
@@ -769,28 +767,28 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
     		if (!force && !isClosing) {
     			return false;
     		}
-		}
 
-		boolean closeEditors = !force
+    		boolean closeEditors = !force
 //				&& PrefUtil.getAPIPreferenceStore().getBoolean(
 //						IWorkbenchPreferenceConstants.CLOSE_EDITORS_ON_EXIT);
-		        && true;
-		if (closeEditors) {
-			SafeRunner.run(new SafeRunnable() {
-				public void run() {
-					IWorkbenchWindow windows[] = getWorkbenchWindows();
-					for (int i = 0; i < windows.length; i++) {
-						IWorkbenchPage pages[] = windows[i].getPages();
-						for (int j = 0; j < pages.length; j++) {
-							isClosing = isClosing
-									&& pages[j].closeAllEditors(false);
-						}
-					}
-				}
-			});
-			if (!force && !isClosing) {
-				return false;
-			}
+    		  && true;
+    		if (closeEditors) {
+    		    SafeRunner.run(new SafeRunnable() {
+    		        public void run() {
+    		            IWorkbenchWindow windows[] = getWorkbenchWindows();
+    		            for (int i = 0; i < windows.length; i++) {
+    		                IWorkbenchPage pages[] = windows[i].getPages();
+    		                for (int j = 0; j < pages.length; j++) {
+    		                    isClosing = isClosing
+    		                      && pages[j].closeAllEditors(false);
+    		                }
+    		            }
+    		        }
+    		    });
+    		    if (!force && !isClosing) {
+    		      return false;
+    		    }
+    		}
 		}
 
 //		if (getWorkbenchConfigurer().getSaveAndRestore()) {

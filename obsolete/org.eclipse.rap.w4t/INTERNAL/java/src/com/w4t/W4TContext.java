@@ -11,7 +11,7 @@
 package com.w4t;
 
 import java.util.Locale;
-import javax.servlet.http.HttpSession;
+
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.lifecycle.*;
 import com.w4t.engine.service.*;

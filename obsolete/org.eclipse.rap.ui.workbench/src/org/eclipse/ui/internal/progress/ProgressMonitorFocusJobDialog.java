@@ -24,7 +24,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.ui.progress.WorkbenchJob;
 
-import com.w4t.engine.service.ContextProvider;
+import com.w4t.engine.service.*;
 
 /**
  * The ProgressMonitorFocusJobDialog is a dialog that shows progress for a
@@ -43,7 +43,9 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 	public ProgressMonitorFocusJobDialog(Shell parentShell) {
 		super(parentShell == null ? ProgressManagerUtil.getNonModalShell()
 				: parentShell);
-		// TODO [fappel]: fix this
+		// TODO [fappel]: fix this, switched to modal since we do not have
+		//                a client side window management system to keep
+		//                the dialog in front...
 		setShellStyle(getDefaultOrientation() | SWT.BORDER | SWT.TITLE
 		              | SWT.RESIZE | SWT.APPLICATION_MODAL);
 //		setShellStyle(getDefaultOrientation() | SWT.BORDER | SWT.TITLE
@@ -142,25 +144,26 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 				if (getShell() == null) {
 					return;
 				}
-				WorkbenchJob closeJob = new WorkbenchJob( display,
-						ProgressMessages.ProgressMonitorFocusJobDialog_CLoseDialogJob) {
-					/*
-					 * (non-Javadoc)
-					 * 
-					 * @see org.eclipse.ui.progress.UIJob#runInUIThread(org.eclipse.core.runtime.IProgressMonitor)
-					 */
-					public IStatus runInUIThread(IProgressMonitor monitor) {
-						Shell currentShell = getShell();
-						if (currentShell == null || currentShell.isDisposed()) {
-							return Status.CANCEL_STATUS;
-						}
-						finishedRun();
-						return Status.OK_STATUS;
-					}
-				};
-				closeJob.setSystem(true);
-				closeJob.schedule();
-			}
+				
+  				WorkbenchJob closeJob = new WorkbenchJob( display,
+  						ProgressMessages.ProgressMonitorFocusJobDialog_CLoseDialogJob) {
+  					/*
+  					 * (non-Javadoc)
+  					 * 
+  					 * @see org.eclipse.ui.progress.UIJob#runInUIThread(org.eclipse.core.runtime.IProgressMonitor)
+  					 */
+    					public IStatus runInUIThread(IProgressMonitor monitor) {
+    						Shell currentShell = getShell();
+    						if (currentShell == null || currentShell.isDisposed()) {
+    							return Status.CANCEL_STATUS;
+    						}
+    						finishedRun();
+    						return Status.OK_STATUS;
+    					}
+    				};
+    				closeJob.setSystem(true);
+    				closeJob.schedule();
+				}
       };
 	}
 
@@ -393,7 +396,7 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 		super.open( callBack );
 
 		// add a listener that will close the dialog when the job completes.
-		IJobChangeListener listener = createCloseListener();
+		final IJobChangeListener listener = createCloseListener();
 		job.addJobChangeListener(listener);
 		if (job.getState() == Job.NONE) {
 			// if the job completed before we had a chance to add
@@ -401,6 +404,32 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 			job.removeJobChangeListener(listener);
 			finishedRun();
 			cleanUpFinishedJob();
+		} else {
+		  // Ensure that job changed listener is removed in case of
+		  // session timeout before the job ends. Note that this is
+		  // still under investigation
+		  final ISessionStore session = ContextProvider.getSession();		    
+		  final JobChangeAdapter doneListener[] = new JobChangeAdapter[ 1 ];
+  		  final SessionStoreListener invalidateHandler
+  		    = new SessionStoreListener()
+  		  {
+  		    public void beforeDestroy( final SessionStoreEvent event ) {
+  		      job.removeJobChangeListener( listener );
+  		      if( doneListener[ 0 ] != null ) {
+  		        job.removeJobChangeListener( doneListener[ 0 ] );
+  		      }
+  		      job.cancel();
+              job.addJobChangeListener( new JobCanceler() );
+  		    }
+  		  };
+  		  session.addSessionStoreListener( invalidateHandler );
+          doneListener[ 0 ] = new JobChangeAdapter() {
+  		    public void done( IJobChangeEvent event ) {
+  		      job.removeJobChangeListener( this );
+  		      session.removeSessionStoreListener( invalidateHandler );
+  		    }
+  		  };
+          job.addJobChangeListener( doneListener[ 0 ] );
 		}
 
 //		return result;

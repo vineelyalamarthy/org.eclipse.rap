@@ -133,5 +133,21 @@ public class SessionStore_Test extends TestCase {
     }
     
     
+    final SessionStoreImpl checkAboutUnbound
+      = new SessionStoreImpl( new TestSession() );
+    checkAboutUnbound.addSessionStoreListener( new SessionStoreListener() {
+      public void beforeDestroy( final SessionStoreEvent event ) {
+        checkAboutUnbound.addSessionStoreListener( new SessionStoreListener() {
+          public void beforeDestroy( SessionStoreEvent event ) {
+          }
+        } );
+      }
+    } );
+    try {
+      checkAboutUnbound.getHttpSession().invalidate();
+      fail();
+    } catch( final IllegalStateException iae ) {
+    }
+    
   }
 }

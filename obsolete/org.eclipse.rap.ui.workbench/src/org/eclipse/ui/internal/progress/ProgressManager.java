@@ -63,6 +63,10 @@ public class ProgressManager extends ProgressProvider implements
         ProgressManager instance 
           = ( ProgressManager )getInstance( ProgressManager.class );
 	    if( instance.display == null ) {
+	        JobManagerAdapter jobManager = JobManagerAdapter.getInstance();
+	        jobManager.setProgressProvider( instance );
+	        Dialog.setBlockedHandler(new WorkbenchDialogBlockedHandler());
+
 	        instance.display = Display.getCurrent();
 	        // TODO [fappel]: find a better place for initialization...
 	        ProgressInfoItem.init();
@@ -334,15 +338,6 @@ public class ProgressManager extends ProgressProvider implements
 	 * Create a new instance of the receiver.
 	 */
 	ProgressManager() {
-	  this( false );
-	}
-	
-	ProgressManager( final boolean createDefault ) {
-	    if( !createDefault ) {
-	      JobManagerAdapter jobManager = JobManagerAdapter.getInstance();
-          jobManager.setProgressProvider( this );
-          Dialog.setBlockedHandler(new WorkbenchDialogBlockedHandler());
-	    }
 		createChangeListener();
 		URL iconsRoot = ProgressManagerUtil.getIconsRoot();
 		try {

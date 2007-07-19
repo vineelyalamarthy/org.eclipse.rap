@@ -13,6 +13,7 @@ package com.w4t.engine.service;
 import javax.servlet.http.*;
 
 import com.w4t.ParamCheck;
+import com.w4t.SessionSingletonBase;
 
 
 /** 
@@ -75,11 +76,12 @@ public class ContextProvider {
   public static ISessionStore getSession() {
     ISessionStore result = getContext().getSessionStore();
     if( result == null ) {
-      HttpSession httpSession = getRequest().getSession();
+      HttpSession httpSession = getRequest().getSession( true );
       String id = SessionStoreImpl.ID_SESSION_STORE;
       result = ( ISessionStore )httpSession.getAttribute( id );
       if( result == null ) { 
         result = new SessionStoreImpl( httpSession );
+        result.setAttribute( SessionSingletonBase.LOCK, new Object() );
       }
       getContext().setSessionStore( result );
     }

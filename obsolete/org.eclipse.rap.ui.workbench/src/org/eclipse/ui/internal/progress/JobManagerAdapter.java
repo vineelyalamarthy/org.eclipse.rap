@@ -11,27 +11,24 @@
 
 package org.eclipse.ui.internal.progress;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpSessionBindingEvent;
-import javax.servlet.http.HttpSessionBindingListener;
+import java.lang.reflect.Field;
+import java.util.*;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.*;
 import org.eclipse.swt.lifecycle.UICallBackUtil;
 import org.eclipse.swt.widgets.Display;
 
-import com.w4t.engine.service.ContextProvider;
+import com.w4t.engine.service.*;
 
 class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
   
   private static JobManagerAdapter _instance;
   private final Map providers;
   private final Map jobs;
+  private final Map sessionStoreListeners;
   private final ProgressManager defaultProgressManager;
   final Object lock;
-  private int count;
 
   static synchronized JobManagerAdapter getInstance() {
     if( _instance == null ) {
@@ -42,10 +39,22 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
   
   
   private JobManagerAdapter() {
-    lock = new Object();
+    // To avoid deadlocks we have to use the same synchronisation lock.
+    // If anyone has a better idea - you're welcome.
+    IJobManager jobManager = Job.getJobManager();
+    Class clazz = jobManager.getClass();
+    try {
+      Field jobManagerLock = clazz.getDeclaredField( "lock" );
+      jobManagerLock.setAccessible( true );
+      lock = jobManagerLock.get( jobManager );
+    } catch( final Throwable thr ) {
+      String msg = "Could not initialize synchronization lock.";
+      throw new IllegalStateException( msg );
+    }
     providers = new HashMap();
     jobs = new HashMap();
-    defaultProgressManager = new ProgressManager( true );
+    sessionStoreListeners = new HashMap();
+    defaultProgressManager = new ProgressManager();
     Job.getJobManager().setProgressProvider( this );
     Job.getJobManager().addJobChangeListener( this );
   }
@@ -105,7 +114,12 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
         if( display != null ) {
           display.asyncExec( new Runnable() {
             public void run() {
-              String id = String.valueOf( event.getJob().hashCode() );
+              Job job = event.getJob();
+              String id = String.valueOf( job.hashCode() );
+              SessionStoreListener listener
+                = ( SessionStoreListener )sessionStoreListeners.get( job );
+              ISessionStore session = ContextProvider.getSession();
+//              session.removeSessionStoreListener( listener );
               UICallBackUtil.deactivateUICallBack( id );
             }
           } );
@@ -163,17 +177,53 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
   }
   
   private void bindToSession( final Object keyToRemove ) {
-    String id = JobManagerAdapter.class.getName() + count++;
-    HttpSessionBindingListener listener = new HttpSessionBindingListener() {
-      public void valueBound( final HttpSessionBindingEvent event ) {
-      }
-      public void valueUnbound( final HttpSessionBindingEvent event ) {
+    ISessionStore session = ContextProvider.getSession();
+    SessionStoreListener listener = new SessionStoreListener() {
+      public void beforeDestroy( SessionStoreEvent event ) {
         synchronized( lock ) {
           providers.remove( keyToRemove );
           jobs.remove( keyToRemove );
         }
+//          sessionStoreListeners.remove( keyToRemove );
+        //////////////////////////////////////////////////////////////////////
+        // TODO [fappel]: Very ugly hack to avoid a memory leak.
+        //                As a job can not be removed from the
+        //                running set directly, I use reflection. Jobs
+        //                can be catched in the set on session timeouts.
+        //                Don't know a proper solution jet.
+        //                Note that this is still under investigation.
+        if( keyToRemove instanceof Job ) {
+          ( ( Job )keyToRemove ).cancel();
+          ( ( Job )keyToRemove ).addJobChangeListener( new JobCanceler() );
+          try {
+            IJobManager jobManager = Job.getJobManager();
+            Class clazz = jobManager.getClass();
+            Field running = clazz.getDeclaredField( "running" );
+            running.setAccessible( true );
+            Set set = ( Set )running.get( jobManager );
+            synchronized( lock ) {
+              set.remove( keyToRemove );
+              // still sometimes job get catched - use the job marker adapter
+              // to check whether they can be eliminated
+              Object[] runningJobs = set.toArray();
+              for( int i = 0; i < runningJobs.length; i++ ) {
+                Job toCheck = ( Job )runningJobs[ i ];
+                IJobMarker marker
+                  = ( IJobMarker )toCheck.getAdapter( IJobMarker.class );
+                if( marker != null && marker.canBeRemoved() ) {
+                  set.remove( toCheck );
+                }
+              }
+            }
+          } catch( final Throwable thr ) {
+            // TODO [fappel]: exception handling
+            thr.printStackTrace();
+          }
+        }
       }
+      //////////////////////////////////////////////////////////////////////
     };
-    ContextProvider.getSession().setAttribute( id, listener );
+    sessionStoreListeners.put( keyToRemove, listener );
+    session.addSessionStoreListener( listener );
   }
 }
