@@ -1,0 +1,183 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Innoopract Informationssysteme GmbH.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Innoopract Informationssysteme GmbH - initial API and implementation
+ ******************************************************************************/
+
+package org.eclipse.ui.forms.internal.widgets.hyperlinkkit;
+
+import java.io.IOException;
+
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.lifecycle.*;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.forms.internal.widgets.IHyperlinkAdapter;
+import org.eclipse.ui.forms.widgets.Hyperlink;
+
+/* (intentionally non-JavaDoc'ed)
+ * This class serves as the LCA for org.eclipse.ui.forms.widgets.TreeNode and  
+ * org.eclipse.ui.forms.widgets.Twistie. 
+ */
+public final class HyperlinkLCA extends AbstractWidgetLCA {
+
+  private static final String PROP_TEXT = "text";
+  private static final String PROP_UNDERLINED = "underlined";
+  private static final String PROP_SELECTION_LISTENERS = "selectionListeners";
+  private static final String PROP_ACTIVE_FOREGROUND = "activeForeground";
+  private static final String PROP_ACTIVE_BACKGROUND = "activeBackground";
+  private static final String PROP_INACTIVE_FOREGROUND = "inactiveForeground";
+  private static final String PROP_INACTIVE_BACKGROUND = "inactiveBackground";
+  
+  private static final JSListenerInfo SELECTION_LISTENER
+    = new JSListenerInfo( "click", 
+                          "org.eclipse.ui.forms.widgets.Hyperlink.onClick", 
+                          JSListenerType.ACTION );
+
+  public void createResetHandlerCalls( final String typePoolId ) 
+    throws IOException 
+  {
+  }
+
+  public String getTypePoolId( final Widget widget ) throws IOException {
+    return null;
+  }
+  
+  public void readData( final Widget widget ) {
+    ControlLCAUtil.processSelection( widget, null, false );
+  }
+  
+  public void preserveValues( final Widget widget ) {
+    Hyperlink hyperlink = ( Hyperlink )widget;
+    ControlLCAUtil.preserveValues( hyperlink );
+    IWidgetAdapter adapter = WidgetUtil.getAdapter( hyperlink );
+    adapter.preserve( PROP_TEXT, hyperlink.getText() );
+    adapter.preserve( PROP_UNDERLINED, 
+                      Boolean.valueOf( hyperlink.isUnderlined() ) );
+    boolean hasListener = SelectionEvent.hasListener( hyperlink );
+    adapter.preserve( PROP_SELECTION_LISTENERS, 
+                      Boolean.valueOf( hasListener ) );
+    adapter.preserve( PROP_ACTIVE_BACKGROUND,
+    		          getActiveBackground( hyperlink ) );
+    adapter.preserve( PROP_ACTIVE_FOREGROUND, 
+                      getActiveForeground( hyperlink ) );
+    adapter.preserve( PROP_INACTIVE_BACKGROUND, hyperlink.getBackground() );
+    adapter.preserve( PROP_INACTIVE_FOREGROUND, hyperlink.getForeground() );
+  }
+  
+  public void renderInitialization( final Widget widget ) throws IOException {
+    Hyperlink hyperlink = ( Hyperlink )widget;
+    JSWriter writer = JSWriter.getWriterFor( hyperlink );
+    writer.newWidget( "org.eclipse.ui.forms.widgets.Hyperlink" );
+  }
+  
+  public void renderChanges( final Widget widget ) throws IOException {
+    Hyperlink hyperlink = ( Hyperlink )widget;
+    ControlLCAUtil.writeChanges( hyperlink );
+    writeText( hyperlink );
+    writeSelectionListener( hyperlink );
+    writeInactiveForeground( hyperlink );
+    writeInactiveBackground( hyperlink );
+    writeActiveForeground( hyperlink );
+    writeActiveBackground( hyperlink );
+  }
+
+  public void renderDispose( final Widget widget ) throws IOException {
+    JSWriter writer = JSWriter.getWriterFor( widget );
+    writer.dispose();
+  }
+  
+  ////////////////
+  // Write changes
+
+  private static void writeText( final Hyperlink hyperlink ) throws IOException 
+  {
+    String text = hyperlink.getText();
+    Boolean underlined = Boolean.valueOf( hyperlink.isUnderlined() );
+    Boolean def = Boolean.FALSE;
+    boolean textChanged 
+      = WidgetLCAUtil.hasChanged( hyperlink, PROP_TEXT, text, "" );
+    boolean underlinedChanged 
+      = WidgetLCAUtil.hasChanged( hyperlink, PROP_UNDERLINED, underlined, def );
+    if( textChanged || underlinedChanged ) {
+      text = WidgetLCAUtil.escapeText( text, false );
+      if( underlined.booleanValue() ) {
+        text = underlineText( text );
+      }
+      JSWriter writer = JSWriter.getWriterFor( hyperlink );
+      writer.set( JSConst.QX_FIELD_LABEL, text );
+    }
+  }
+  
+  private static void writeSelectionListener( final Hyperlink hyperlink ) 
+    throws IOException 
+  {
+    JSWriter writer = JSWriter.getWriterFor( hyperlink );
+    writer.updateListener( SELECTION_LISTENER, 
+                           PROP_SELECTION_LISTENERS, 
+                           SelectionEvent.hasListener( hyperlink ) );
+  }
+
+  private static void writeActiveForeground( final Hyperlink hyperlink ) 
+    throws IOException 
+  {
+	  Color newValue = getActiveForeground( hyperlink );
+	  JSWriter writer = JSWriter.getWriterFor( hyperlink );
+	  writer.set( PROP_ACTIVE_FOREGROUND, "activeForeground", newValue, null );
+  }
+  
+  private static void writeActiveBackground( final Hyperlink hyperlink ) 
+    throws IOException 
+  {
+    Color newValue = getActiveBackground( hyperlink );
+    JSWriter writer = JSWriter.getWriterFor( hyperlink );
+    writer.set( PROP_ACTIVE_BACKGROUND, "activeBackground", newValue, null );
+  }
+  
+  private static void writeInactiveForeground( final Hyperlink hyperlink ) 
+    throws IOException 
+  {
+	JSWriter writer = JSWriter.getWriterFor( hyperlink );
+	Color color = hyperlink.getForeground();
+	writer.set( PROP_INACTIVE_FOREGROUND, "inactiveForeground", color, null );
+  }
+  
+  private static void writeInactiveBackground( final Hyperlink hyperlink ) 
+    throws IOException 
+  {
+	JSWriter writer = JSWriter.getWriterFor( hyperlink );
+	Color color = hyperlink.getBackground();
+	writer.set( PROP_INACTIVE_BACKGROUND, "inactiveBackground", color, null );
+  }
+  
+  //////////////////
+  // Helping methods
+  
+  private static String underlineText( final String text ) {
+    StringBuffer result = new StringBuffer();
+    result.append( "<u>" );
+    result.append( text );
+    result.append( "</u>" );
+    return result.toString();
+  }
+
+  private static Color getActiveForeground( final Hyperlink hyperlink ) {
+    Object adapter = hyperlink.getAdapter( IHyperlinkAdapter.class );
+    IHyperlinkAdapter hyperlinkAdapter = ( IHyperlinkAdapter )adapter;
+    Color newValue = hyperlinkAdapter.getActiveForeground();
+    return newValue;
+  }
+
+  private static Color getActiveBackground( final Hyperlink hyperlink ) {
+    Object adapter = hyperlink.getAdapter( IHyperlinkAdapter.class );
+    IHyperlinkAdapter hyperlinkAdapter = ( IHyperlinkAdapter )adapter;
+    Color newValue = hyperlinkAdapter.getActiveBackground();
+    return newValue;
+  }
+
+}
