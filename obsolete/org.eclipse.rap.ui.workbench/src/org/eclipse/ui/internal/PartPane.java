@@ -22,6 +22,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.dnd.SwtUtil;
+import org.eclipse.ui.part.MultiEditor;
 import org.eclipse.ui.presentations.IPresentablePart;
 
 /**
@@ -136,8 +137,7 @@ public abstract class PartPane extends LayoutPart implements IPropertyListener,
 
         
         // When the pane or any child gains focus, notify the workbench.
-//        control.addListener(SWT.Activate, this);
-        ActivateEvent.addListener( control, this );
+        control.addListener(SWT.Activate, this);
 //        control.addTraverseListener(traverseListener);
     }
 
@@ -153,7 +153,7 @@ public abstract class PartPane extends LayoutPart implements IPropertyListener,
         super.dispose();
 
         if ((control != null) && (!control.isDisposed())) {
-//            control.removeListener(SWT.Activate, this);
+            control.removeListener(SWT.Activate, this);
 //            control.removeTraverseListener(traverseListener);
             control.dispose();
             control = null;
@@ -241,9 +241,9 @@ public abstract class PartPane extends LayoutPart implements IPropertyListener,
         // of overriding requestActivation with a NOP... however, keeping the old pattern would
         // mean it is necessary to eagerly activate an editor's plugin in order to determine
         // what type of pane to create.
-//        if (part instanceof MultiEditor) {
-//            return;
-//        }
+        if (part instanceof MultiEditor) {
+            return;
+        }
         
         this.page.requestActivation(part);
     }

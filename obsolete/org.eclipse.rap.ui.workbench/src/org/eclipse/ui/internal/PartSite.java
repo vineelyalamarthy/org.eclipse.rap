@@ -14,6 +14,7 @@ package org.eclipse.ui.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.MenuManager;
@@ -21,8 +22,14 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.internal.commands.SlaveCommandService;
+import org.eclipse.ui.internal.expressions.ActivePartExpression;
+import org.eclipse.ui.internal.handlers.SlaveHandlerService;
 import org.eclipse.ui.internal.services.ServiceLocator;
 import org.eclipse.ui.services.IServiceLocator;
+import org.eclipse.ui.services.IServiceScopes;
 
 /**
  * <code>PartSite</code> is the general implementation for an
@@ -149,13 +156,13 @@ public abstract class PartSite implements IWorkbenchPartSite {
 	 * Initialize the local services.
 	 */
 	private void initializeDefaultServices() {
-//		serviceLocator.registerService(IWorkbenchPartSite.class, this);
-//		final IHandlerService parentService = (IHandlerService) serviceLocator
-//				.getService(IHandlerService.class);
-//		final Expression defaultExpression = new ActivePartExpression(part);
-//		final IHandlerService slave = new SlaveHandlerService(parentService,
-//				defaultExpression);
-//		serviceLocator.registerService(IHandlerService.class, slave);
+		serviceLocator.registerService(IWorkbenchPartSite.class, this);
+		final IHandlerService parentService = (IHandlerService) serviceLocator
+				.getService(IHandlerService.class);
+		final Expression defaultExpression = new ActivePartExpression(part);
+		final IHandlerService slave = new SlaveHandlerService(parentService,
+				defaultExpression);
+		serviceLocator.registerService(IHandlerService.class, slave);
 
 //		final IContextService parentContextService = (IContextService) serviceLocator
 //				.getService(IContextService.class);
@@ -163,12 +170,12 @@ public abstract class PartSite implements IWorkbenchPartSite {
 //				parentContextService, defaultExpression);
 //		serviceLocator.registerService(IContextService.class, contextService);
 
-//		final ICommandService parentCommandService = (ICommandService) serviceLocator
-//				.getService(ICommandService.class);
-//		final ICommandService commandService = new SlaveCommandService(
-//				parentCommandService, IServiceScopes.PARTSITE_SCOPE,
-//				this);
-//		serviceLocator.registerService(ICommandService.class, commandService);
+		final ICommandService parentCommandService = (ICommandService) serviceLocator
+				.getService(ICommandService.class);
+		final ICommandService commandService = new SlaveCommandService(
+				parentCommandService, IServiceScopes.PARTSITE_SCOPE,
+				this);
+		serviceLocator.registerService(ICommandService.class, commandService);
 	}
 
 	/**

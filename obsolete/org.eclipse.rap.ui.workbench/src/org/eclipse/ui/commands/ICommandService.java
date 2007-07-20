@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.core.commands.*;
 import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.ui.menus.UIElement;
 import org.eclipse.ui.services.IDisposable;
 
 /**
@@ -285,9 +286,9 @@ public interface ICommandService extends IDisposable {
 	 *             defined, or the element is <code>null</code>.
 	 * @since 3.3
 	 */
-//	public IElementReference registerElementForCommand(
-//			ParameterizedCommand command, UIElement element)
-//			throws NotDefinedException;
+	public IElementReference registerElementForCommand(
+			ParameterizedCommand command, UIElement element)
+			throws NotDefinedException;
 
 	/**
 	 * Re-register a callback element provided by the ICommandService. This
@@ -299,7 +300,7 @@ public interface ICommandService extends IDisposable {
 	 *            The reference to re-register. Must not be <code>null</code>.
 	 * @since 3.3
 	 */
-//	public void registerElement(IElementReference elementReference);
+	public void registerElement(IElementReference elementReference);
 
 	/**
 	 * Unregister an element callback. It will be removed from the
@@ -311,7 +312,7 @@ public interface ICommandService extends IDisposable {
 	 *            service on registration. Must not be <code>null</code>.
 	 * @since 3.3
 	 */
-//	public void unregisterElement(IElementReference elementReference);
+	public void unregisterElement(IElementReference elementReference);
 
 	/**
 	 * Refresh any elements registered against the command with the given id.

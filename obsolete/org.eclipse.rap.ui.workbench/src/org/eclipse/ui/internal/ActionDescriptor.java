@@ -247,9 +247,9 @@ public class ActionDescriptor implements IPluginContribution {
         case T_VIEW:
             return new ViewPluginAction(actionElement, (IViewPart) target, id,
                     actionStyle);
-//        case T_EDITOR:
-//            return new EditorPluginAction(actionElement, (IEditorPart) target,
-//                    id, actionStyle);
+        case T_EDITOR:
+            return new EditorPluginAction(actionElement, (IEditorPart) target,
+                    id, actionStyle);
         case T_WORKBENCH:
             return new WWinPluginAction(actionElement,
                     (IWorkbenchWindow) target, id, actionStyle);
