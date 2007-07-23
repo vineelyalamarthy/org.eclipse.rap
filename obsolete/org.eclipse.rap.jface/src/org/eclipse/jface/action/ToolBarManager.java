@@ -95,8 +95,7 @@ public class ToolBarManager extends ContributionManager implements
 		if (!toolBarExist() && parent != null) {
 			toolBar = new ToolBar(parent, itemStyle);
 			toolBar.setMenu(getContextMenuControl());
-//			update(true);
-			update(false);
+			update(true);
 			
 //			toolBar.getAccessible().addAccessibleListener(getAccessibleListener());
 		}

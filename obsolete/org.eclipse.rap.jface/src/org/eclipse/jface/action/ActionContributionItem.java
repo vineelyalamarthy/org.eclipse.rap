@@ -76,15 +76,15 @@ public class ActionContributionItem extends ContributionItem {
 	 * The listener for changes to the text of the action contributed by an
 	 * external source.
 	 */
-//	private final IPropertyChangeListener actionTextListener = new IPropertyChangeListener() {
-//
-//		/**
-//		 * @see IPropertyChangeListener#propertyChange(PropertyChangeEvent)
-//		 */
-//		public void propertyChange(PropertyChangeEvent event) {
-//			update(event.getProperty());
-//		}
-//	};
+	private final IPropertyChangeListener actionTextListener = new IPropertyChangeListener() {
+
+		/**
+		 * @see IPropertyChangeListener#propertyChange(PropertyChangeEvent)
+		 */
+		public void propertyChange(PropertyChangeEvent event) {
+			update(event.getProperty());
+		}
+	};
 
 	/**
 	 * Remembers all images in use by this contribution item
@@ -201,16 +201,16 @@ public class ActionContributionItem extends ContributionItem {
 
 			// Attach some extra listeners.
 			action.addPropertyChangeListener(propertyListener);
-//			if (action != null) {
-//				String commandId = action.getActionDefinitionId();
-//				ExternalActionManager.ICallback callback = ExternalActionManager
-//						.getInstance().getCallback();
-//
-//				if ((callback != null) && (commandId != null)) {
-//					callback.addPropertyChangeListener(commandId,
-//							actionTextListener);
-//				}
-//			}
+			if (action != null) {
+				String commandId = action.getActionDefinitionId();
+				ExternalActionManager.ICallback callback = ExternalActionManager
+						.getInstance().getCallback();
+
+				if ((callback != null) && (commandId != null)) {
+					callback.addPropertyChangeListener(commandId,
+							actionTextListener);
+				}
+			}
 		}
 	}
 
@@ -264,16 +264,16 @@ public class ActionContributionItem extends ContributionItem {
 
 			// Attach some extra listeners.
 			action.addPropertyChangeListener(propertyListener);
-//			if (action != null) {
-//				String commandId = action.getActionDefinitionId();
-//				ExternalActionManager.ICallback callback = ExternalActionManager
-//						.getInstance().getCallback();
-//
-//				if ((callback != null) && (commandId != null)) {
-//					callback.addPropertyChangeListener(commandId,
-//							actionTextListener);
-//				}
-//			}
+			if (action != null) {
+				String commandId = action.getActionDefinitionId();
+				ExternalActionManager.ICallback callback = ExternalActionManager
+						.getInstance().getCallback();
+
+				if ((callback != null) && (commandId != null)) {
+					callback.addPropertyChangeListener(commandId,
+							actionTextListener);
+				}
+			}
 		}
 	}
 
@@ -315,16 +315,16 @@ public class ActionContributionItem extends ContributionItem {
 
 			// Attach some extra listeners.
 			action.addPropertyChangeListener(propertyListener);
-//			if (action != null) {
-//				String commandId = action.getActionDefinitionId();
-//				ExternalActionManager.ICallback callback = ExternalActionManager
-//						.getInstance().getCallback();
-//
-//				if ((callback != null) && (commandId != null)) {
-//					callback.addPropertyChangeListener(commandId,
-//							actionTextListener);
-//				}
-//			}
+			if (action != null) {
+				String commandId = action.getActionDefinitionId();
+				ExternalActionManager.ICallback callback = ExternalActionManager
+						.getInstance().getCallback();
+
+				if ((callback != null) && (commandId != null)) {
+					callback.addPropertyChangeListener(commandId,
+							actionTextListener);
+				}
+			}
 		}
 	}
 
@@ -448,16 +448,16 @@ public class ActionContributionItem extends ContributionItem {
 
 			// Unhook all of the listeners.
 			action.removePropertyChangeListener(propertyListener);
-//			if (action != null) {
-//				String commandId = action.getActionDefinitionId();
-//				ExternalActionManager.ICallback callback = ExternalActionManager
-//						.getInstance().getCallback();
-//
-//				if ((callback != null) && (commandId != null)) {
-//					callback.removePropertyChangeListener(commandId,
-//							actionTextListener);
-//				}
-//			}
+			if (action != null) {
+				String commandId = action.getActionDefinitionId();
+				ExternalActionManager.ICallback callback = ExternalActionManager
+						.getInstance().getCallback();
+
+				if ((callback != null) && (commandId != null)) {
+					callback.removePropertyChangeListener(commandId,
+							actionTextListener);
+				}
+			}
 
 			// Clear the widget field.
 			widget = null;
@@ -561,17 +561,17 @@ public class ActionContributionItem extends ContributionItem {
 	 * Returns whether the command corresponding to this action is active.
 	 */
 	private boolean isCommandActive() {
-//		IAction actionToCheck = getAction();
-//
-//		if (actionToCheck != null) {
-//			String commandId = actionToCheck.getActionDefinitionId();
-//			ExternalActionManager.ICallback callback = ExternalActionManager
-//					.getInstance().getCallback();
-//
-//			if (callback != null) {
-//				return callback.isActive(commandId);
-//			}
-//		}
+		IAction actionToCheck = getAction();
+
+		if (actionToCheck != null) {
+			String commandId = actionToCheck.getActionDefinitionId();
+			ExternalActionManager.ICallback callback = ExternalActionManager
+					.getInstance().getCallback();
+
+			if (callback != null) {
+				return callback.isActive(commandId);
+			}
+		}
 		return true;
 	}
 
@@ -714,17 +714,17 @@ public class ActionContributionItem extends ContributionItem {
 						toolTip = text;
 					}
 					
-//					ExternalActionManager.ICallback callback = ExternalActionManager
-//							.getInstance().getCallback();
-//					String commandId = action.getActionDefinitionId();
-//					if ((callback != null) && (commandId != null) && (toolTip != null)) {
-//						String acceleratorText = callback.getAcceleratorText(commandId);
-//						if (acceleratorText != null && acceleratorText.length() != 0) {
-//							toolTip = JFaceResources.format(
-//									"Toolbar_Tooltip_Accelerator", //$NON-NLS-1$
-//									new Object[] { toolTip, acceleratorText });
-//						}
-//					}
+					ExternalActionManager.ICallback callback = ExternalActionManager
+							.getInstance().getCallback();
+					String commandId = action.getActionDefinitionId();
+					if ((callback != null) && (commandId != null) && (toolTip != null)) {
+						String acceleratorText = callback.getAcceleratorText(commandId);
+						if (acceleratorText != null && acceleratorText.length() != 0) {
+							toolTip = JFaceResources.format(
+									"Toolbar_Tooltip_Accelerator", //$NON-NLS-1$
+									new Object[] { toolTip, acceleratorText });
+						}
+					}
 
 					// if the text is showing, then only set the tooltip if
 					// different
@@ -941,7 +941,7 @@ public class ActionContributionItem extends ContributionItem {
 	          ( ( Item )widget ).setImage( imageDescriptor.createImage() );
 	        }
 	      } 
-	    
+
 		ResourceManager parentResourceManager = JFaceResources.getResources();
 
 		if (widget instanceof ToolItem) {
