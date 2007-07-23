@@ -252,6 +252,21 @@ public final class HandlerService implements IHandlerService {
 	}
 
 	/**
+	 * Normally the context returned from getCurrentState() still tracks the
+	 * application state. This method creates a copy and fills it in with all the
+	 * variables that we know about.
+	 * <p>
+	 * DO NOT CALL THIS METHOD. It is experimental in 3.3.
+	 * </p>
+	 * 
+	 * @return an evaluation context with no parent.
+	 * @since 3.3
+	 */
+	public final IEvaluationContext getFullContextSnapshot() {
+		return handlerAuthority.getFullContextSnapshot();
+	}	
+
+	/**
 	 * Execute the command using the provided context. It takes care of finding
 	 * the correct active handler given the context, and executes with that
 	 * handler.
@@ -281,27 +296,27 @@ public final class HandlerService implements IHandlerService {
 			IEvaluationContext context) throws ExecutionException,
 			NotDefinedException, NotEnabledException, NotHandledException {
 		// TODO: remove 3.2 compatibility hack
-		return null;
-//		IHandler oldHandler = command.getCommand().getHandler();
-//
-//		IHandler handler = findHandler(command.getId(), context);
-//		boolean enabled = true;
-//		if (handler instanceof HandlerProxy) {
-//			enabled = ((HandlerProxy) handler).getProxyEnabled();
-//		}
-//
-//		try {
-//			command.getCommand().setHandler(handler);
-//			if (handler instanceof HandlerProxy) {
-//				((HandlerProxy) handler).setEnabledFor(context);
-//			}
-//
-//			return command.executeWithChecks(trigger, context);
-//		} finally {
-//			if (handler instanceof HandlerProxy) {
-//				((HandlerProxy) handler).setProxyEnabled(enabled);
-//			}
-//			command.getCommand().setHandler(oldHandler);
-//		}
+//		return null;
+		IHandler oldHandler = command.getCommand().getHandler();
+
+		IHandler handler = findHandler(command.getId(), context);
+		boolean enabled = true;
+		if (handler instanceof HandlerProxy) {
+			enabled = ((HandlerProxy) handler).getProxyEnabled();
+		}
+
+		try {
+			command.getCommand().setHandler(handler);
+			if (handler instanceof HandlerProxy) {
+				((HandlerProxy) handler).setEnabledFor(context);
+			}
+
+			return command.executeWithChecks(trigger, context);
+		} finally {
+			if (handler instanceof HandlerProxy) {
+				((HandlerProxy) handler).setProxyEnabled(enabled);
+			}
+			command.getCommand().setHandler(oldHandler);
+		}
 	}
 }

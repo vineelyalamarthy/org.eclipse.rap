@@ -38,14 +38,15 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.application.*;
+import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerActivation;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.actions.CommandAction;
+import org.eclipse.ui.internal.commands.SlaveCommandService;
 import org.eclipse.ui.internal.expressions.WorkbenchWindowExpression;
 import org.eclipse.ui.internal.handlers.*;
 import org.eclipse.ui.internal.layout.*;
-import org.eclipse.ui.internal.menus.IActionSetsListener;
-import org.eclipse.ui.internal.menus.LegacyActionPersistence;
+import org.eclipse.ui.internal.menus.*;
 import org.eclipse.ui.internal.misc.UIListenerLogging;
 import org.eclipse.ui.internal.presentations.DefaultActionBarPresentationFactory;
 import org.eclipse.ui.internal.progress.ProgressRegion;
@@ -53,7 +54,10 @@ import org.eclipse.ui.internal.provisional.application.IActionBarConfigurer2;
 import org.eclipse.ui.internal.provisional.presentations.IActionBarPresentationFactory;
 import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.services.ServiceLocator;
+import org.eclipse.ui.menus.IMenuService;
+import org.eclipse.ui.menus.MenuUtil;
 import org.eclipse.ui.presentations.AbstractPresentationFactory;
+import org.eclipse.ui.services.IServiceScopes;
 
 /**
  * A window within the workbench.
@@ -836,7 +840,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 //		workbench.getHelpSystem().setHelp(shell,
 //				IWorkbenchHelpContextIds.WORKBENCH_WINDOW);
 
-		initializeDefaultServices();
+//		initializeDefaultServices();
 //		final IContextService contextService = (IContextService) getWorkbench().getService(IContextService.class);
 //		contextService.registerShell(shell, IContextService.TYPE_WINDOW);
 
@@ -1472,16 +1476,16 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			fireWindowClosed();
 			
 			// time to wipe our our populate
-//			IMenuService menuService = (IMenuService) workbench
-//					.getService(IMenuService.class);
-//			menuService
-//					.releaseContributions(((ContributionManager) getActionBars()
-//							.getMenuManager()));
-//			ICoolBarManager coolbar = getActionBars().getCoolBarManager();
-//			if (coolbar != null) {
-//				menuService
-//						.releaseContributions(((ContributionManager) coolbar));
-//			}
+			IMenuService menuService = (IMenuService) workbench
+					.getService(IMenuService.class);
+			menuService
+					.releaseContributions(((ContributionManager) getActionBars()
+							.getMenuManager()));
+			ICoolBarManager coolbar = getActionBars().getCoolBarManager();
+			if (coolbar != null) {
+				menuService
+						.releaseContributions(((ContributionManager) coolbar));
+			}
 
 			getActionBarAdvisor().dispose();
 			getWindowAdvisor().dispose();
@@ -3188,17 +3192,17 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			getActionBarAdvisor().fillActionBars(flags);
 			//
 			// 3.3 start
-//			final IMenuService menuService = (IMenuService) serviceLocator
-//					.getService(IMenuService.class);
-//			menuService.populateContributionManager(
-//					(ContributionManager) getActionBars().getMenuManager(),
-//					MenuUtil.MAIN_MENU);
-//			ICoolBarManager coolbar = getActionBars().getCoolBarManager();
-//			if (coolbar != null) {
-//				menuService.populateContributionManager(
-//						(ContributionManager) coolbar,
-//						MenuUtil.MAIN_TOOLBAR);
-//			}
+			final IMenuService menuService = (IMenuService) serviceLocator
+					.getService(IMenuService.class);
+			menuService.populateContributionManager(
+					(ContributionManager) getActionBars().getMenuManager(),
+					MenuUtil.MAIN_MENU);
+			ICoolBarManager coolbar = getActionBars().getCoolBarManager();
+			if (coolbar != null) {
+				menuService.populateContributionManager(
+						(ContributionManager) coolbar,
+						MenuUtil.MAIN_TOOLBAR);
+			}
 			// 3.3 end
 		} finally {
 			workbench.largeUpdateEnd();
@@ -3517,7 +3521,13 @@ public class WorkbenchWindow extends ApplicationWindow implements
         return actionPresentation;
     }
     
-    /*package*/ IActionBarPresentationFactory getActionBarPresentationFactory() {
+    /**
+     * Return the action bar presentation used for creating toolbars.  This
+     * is for internal use only, used for consistency with the window.
+     * 
+     * @return the presentation used.
+     */
+    public IActionBarPresentationFactory getActionBarPresentationFactory() {
     	// allow replacement of the actionbar presentation
     	IActionBarPresentationFactory actionBarPresentation;        	
     	AbstractPresentationFactory presentationFactory = 
@@ -3721,15 +3731,15 @@ public class WorkbenchWindow extends ApplicationWindow implements
 //				parentContextService, defaultExpression);
 //		serviceLocator.registerService(IContextService.class, contextService);
 
-//		final ICommandService parentCommandService = (ICommandService) serviceLocator
-//				.getService(ICommandService.class);
-//		final ICommandService commandService = new SlaveCommandService(
-//				parentCommandService, IServiceScopes.WINDOW_SCOPE,
-//				this);
-//		serviceLocator.registerService(ICommandService.class, commandService);
-//
-//		final IMenuService menuService = new WindowMenuService(serviceLocator);
-//		serviceLocator.registerService(IMenuService.class, menuService);
+		final ICommandService parentCommandService = (ICommandService) serviceLocator
+				.getService(ICommandService.class);
+		final ICommandService commandService = new SlaveCommandService(
+				parentCommandService, IServiceScopes.WINDOW_SCOPE,
+				this);
+		serviceLocator.registerService(ICommandService.class, commandService);
+
+		final IMenuService menuService = new WindowMenuService(serviceLocator);
+		serviceLocator.registerService(IMenuService.class, menuService);
 
 //		final ISourceProviderService sourceProviderService = (ISourceProviderService) serviceLocator
 //				.getService(ISourceProviderService.class);

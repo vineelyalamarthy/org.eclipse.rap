@@ -108,15 +108,15 @@ final class HandlerPersistence extends RegistryPersistence {
 		 * the command extensions change (i.e., action definitions).
 		 */
 		final IExtensionDelta[] handlerDeltas = event.getExtensionDeltas(
-				PlatformUI.PLUGIN_ID, IWorkbenchRegistryConstants.PL_HANDLERS);
+				PlatformUI.PLUGIN_EXTENSION_NAME_SPACE, IWorkbenchRegistryConstants.PL_HANDLERS);
 		if (handlerDeltas.length == 0) {
 			final IExtensionDelta[] commandDeltas = event.getExtensionDeltas(
-					PlatformUI.PLUGIN_ID,
+					PlatformUI.PLUGIN_EXTENSION_NAME_SPACE,
 					IWorkbenchRegistryConstants.PL_COMMANDS);
 			if (commandDeltas.length == 0) {
 				final IExtensionDelta[] actionDefinitionDeltas = event
 						.getExtensionDeltas(
-								PlatformUI.PLUGIN_ID,
+								PlatformUI.PLUGIN_EXTENSION_NAME_SPACE,
 								IWorkbenchRegistryConstants.PL_ACTION_DEFINITIONS);
 				if (actionDefinitionDeltas.length == 0) {
 					return false;

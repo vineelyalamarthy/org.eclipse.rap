@@ -707,7 +707,7 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The name of the action definitions extension point.
 	 */
-	public static String EXTENSION_ACTION_DEFINITIONS = PlatformUI.PLUGIN_ID
+	public static String EXTENSION_ACTION_DEFINITIONS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
 			+ '.' + PL_ACTION_DEFINITIONS;
 
 	/**
@@ -762,13 +762,17 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The name of the <code>org.eclipse.ui.menus</code> extension point.
 	 */
-	public static String EXTENSION_MENUS = PlatformUI.PLUGIN_ID + '.'
+//	public static String EXTENSION_MENUS = PlatformUI.PLUGIN_ID + '.'
+//	+ PL_MENUS;
+	public static String EXTENSION_MENUS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE + '.'
 			+ PL_MENUS;
 
 	/**
 	 * The name of the <code>org.eclipse.ui.menus2</code> extension point.
 	 */
-	public static String COMMON_MENU_ADDITIONS = PlatformUI.PLUGIN_ID + '.'
+//	public static String COMMON_MENU_ADDITIONS = PlatformUI.PLUGIN_ID + '.'
+//	+ PL_MENUS + '2';
+	public static String COMMON_MENU_ADDITIONS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE + '.'
 			+ PL_MENUS + '2';
 
 	/**

@@ -18,11 +18,16 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.PartSite;
+import org.eclipse.ui.internal.commands.SlaveCommandService;
 import org.eclipse.ui.internal.expressions.ActivePartExpression;
+import org.eclipse.ui.internal.handlers.NestableHandlerService;
 import org.eclipse.ui.internal.services.INestable;
 import org.eclipse.ui.internal.services.ServiceLocator;
 import org.eclipse.ui.services.IServiceLocator;
+import org.eclipse.ui.services.IServiceScopes;
 
 /**
  * Site for a nested editor within a multi-page editor. Selection is handled by
@@ -110,11 +115,11 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 		final Expression defaultExpression = new ActivePartExpression(
 				multiPageEditor);
 
-//		final IHandlerService parentService = (IHandlerService) serviceLocator
-//				.getService(IHandlerService.class);
-//		final IHandlerService slave = new NestableHandlerService(parentService,
-//				defaultExpression);
-//		serviceLocator.registerService(IHandlerService.class, slave);
+		final IHandlerService parentService = (IHandlerService) serviceLocator
+				.getService(IHandlerService.class);
+		final IHandlerService slave = new NestableHandlerService(parentService,
+				defaultExpression);
+		serviceLocator.registerService(IHandlerService.class, slave);
 
 //		final IContextService parentContext = (IContextService) serviceLocator
 //				.getService(IContextService.class);
@@ -122,12 +127,12 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 //				parentContext, defaultExpression);
 //		serviceLocator.registerService(IContextService.class, context);
 //
-//		final ICommandService parentCommandService = (ICommandService) serviceLocator
-//				.getService(ICommandService.class);
-//		final ICommandService commandService = new SlaveCommandService(
-//				parentCommandService, IServiceScopes.MPESITE_SCOPE,
-//				this);
-//		serviceLocator.registerService(ICommandService.class, commandService);
+		final ICommandService parentCommandService = (ICommandService) serviceLocator
+				.getService(ICommandService.class);
+		final ICommandService commandService = new SlaveCommandService(
+				parentCommandService, IServiceScopes.MPESITE_SCOPE,
+				this);
+		serviceLocator.registerService(ICommandService.class, commandService);
 
 	}
 

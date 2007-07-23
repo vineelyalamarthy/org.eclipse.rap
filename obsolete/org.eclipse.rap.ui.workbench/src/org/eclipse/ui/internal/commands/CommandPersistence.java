@@ -435,10 +435,10 @@ final class CommandPersistence extends RegistryPersistence {
 
 	protected final boolean isChangeImportant(final IRegistryChangeEvent event) {
 		final IExtensionDelta[] commandDeltas = event.getExtensionDeltas(
-				PlatformUI.PLUGIN_ID, IWorkbenchRegistryConstants.PL_COMMANDS);
+				PlatformUI.PLUGIN_EXTENSION_NAME_SPACE, IWorkbenchRegistryConstants.PL_COMMANDS);
 		if (commandDeltas.length == 0) {
 			final IExtensionDelta[] actionDefinitionDeltas = event
-					.getExtensionDeltas(PlatformUI.PLUGIN_ID,
+					.getExtensionDeltas(PlatformUI.PLUGIN_EXTENSION_NAME_SPACE,
 							IWorkbenchRegistryConstants.PL_ACTION_DEFINITIONS);
 			if (actionDefinitionDeltas.length == 0) {
 				return false;

@@ -10,11 +10,7 @@
  *******************************************************************************/
 package org.eclipse.ui.internal;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -509,15 +505,15 @@ public class ActionExpression {
 //			if (resourceClass.isInstance(object)) {
 //				return false;
 //			}
-
+//
 //			Object res = Util.getAdapter(object, resourceClass);
 //			if (res == null) {
 //				return false;
 //			}
-
+//
 //			return preciselyMatches(res);
-			return false;
-
+			// [bm] hack
+			return true;
 		}
 
 		private boolean preciselyMatches(Object object) {

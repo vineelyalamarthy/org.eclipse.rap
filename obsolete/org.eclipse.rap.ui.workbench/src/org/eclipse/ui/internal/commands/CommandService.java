@@ -196,53 +196,53 @@ public final class CommandService implements ICommandService {
 	 */
 	public final void refreshElements(String commandId, Map filter) {
 		// TODO: remove 3.2 compatibility hack
-//		Command cmd = getCommand(commandId);
-//
-//		if (!cmd.isDefined() || !(cmd.getHandler() instanceof IElementUpdater)) {
-//			return;
-//		}
-//		final IElementUpdater updater = (IElementUpdater) cmd.getHandler();
-//
-//		if (commandCallbacks == null) {
-//			return;
-//		}
-//
-//		List callbackRefs = (List) commandCallbacks.get(commandId);
-//		if (callbackRefs == null) {
-//			return;
-//		}
-//
-//		for (Iterator i = callbackRefs.iterator(); i.hasNext();) {
-//			final IElementReference callbackRef = (IElementReference) i.next();
-//			final Map parms = Collections.unmodifiableMap(callbackRef
-//					.getParameters());
-//			ISafeRunnable run = new ISafeRunnable() {
-//				public void handleException(Throwable exception) {
-//					WorkbenchPlugin.log("Failed to update callback: "  //$NON-NLS-1$
-//							+ callbackRef.getCommandId(), exception);
-//				}
-//
-//				public void run() throws Exception {
-//					updater.updateElement(callbackRef.getElement(), parms);
-//				}
-//			};
-//			if (filter == null) {
-//				SafeRunner.run(run);
-//			} else {
-//				boolean match = true;
-//				for (Iterator j = filter.entrySet().iterator(); j.hasNext()
-//						&& match;) {
-//					Map.Entry parmEntry = (Map.Entry) j.next();
-//					Object value = parms.get(parmEntry.getKey());
-//					if (!parmEntry.getValue().equals(value)) {
-//						match = false;
-//					}
-//				}
-//				if (match) {
-//					SafeRunner.run(run);
-//				}
-//			}
-//		}
+		Command cmd = getCommand(commandId);
+
+		if (!cmd.isDefined() || !(cmd.getHandler() instanceof IElementUpdater)) {
+			return;
+		}
+		final IElementUpdater updater = (IElementUpdater) cmd.getHandler();
+
+		if (commandCallbacks == null) {
+			return;
+		}
+
+		List callbackRefs = (List) commandCallbacks.get(commandId);
+		if (callbackRefs == null) {
+			return;
+		}
+
+		for (Iterator i = callbackRefs.iterator(); i.hasNext();) {
+			final IElementReference callbackRef = (IElementReference) i.next();
+			final Map parms = Collections.unmodifiableMap(callbackRef
+					.getParameters());
+			ISafeRunnable run = new ISafeRunnable() {
+				public void handleException(Throwable exception) {
+					WorkbenchPlugin.log("Failed to update callback: "  //$NON-NLS-1$
+							+ callbackRef.getCommandId(), exception);
+				}
+
+				public void run() throws Exception {
+					updater.updateElement(callbackRef.getElement(), parms);
+				}
+			};
+			if (filter == null) {
+				SafeRunner.run(run);
+			} else {
+				boolean match = true;
+				for (Iterator j = filter.entrySet().iterator(); j.hasNext()
+						&& match;) {
+					Map.Entry parmEntry = (Map.Entry) j.next();
+					Object value = parms.get(parmEntry.getKey());
+					if (!parmEntry.getValue().equals(value)) {
+						match = false;
+					}
+				}
+				if (match) {
+					SafeRunner.run(run);
+				}
+			}
+		}
 	}
 
 	/*
@@ -288,14 +288,14 @@ public final class CommandService implements ICommandService {
 		// If the active handler wants to update the callback, it can do
 		// so now
 		// TODO: remove 3.2 compatibility hack
-//		Command command = getCommand(elementReference.getCommandId());
-//		if (command.isDefined()) {
-//			if (command.getHandler() instanceof IElementUpdater) {
-//				((IElementUpdater) command.getHandler()).updateElement(
-//						elementReference.getElement(), elementReference
-//								.getParameters());
-//			}
-//		}
+		Command command = getCommand(elementReference.getCommandId());
+		if (command.isDefined()) {
+			if (command.getHandler() instanceof IElementUpdater) {
+				((IElementUpdater) command.getHandler()).updateElement(
+						elementReference.getElement(), elementReference
+								.getParameters());
+			}
+		}
 	}
 
 	/*

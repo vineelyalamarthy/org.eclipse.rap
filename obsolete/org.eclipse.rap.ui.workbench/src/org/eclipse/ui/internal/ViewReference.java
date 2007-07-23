@@ -94,12 +94,12 @@ class ViewReference extends WorkbenchPartReference implements IViewReference {
 			//
 			// 3.3 start
 			//
-//			IMenuService menuService = (IMenuService) site
-//					.getService(IMenuService.class);
-//			menuService.releaseContributions((ContributionManager) site.getActionBars()
-//					.getMenuManager());
-//			menuService.releaseContributions((ContributionManager) site.getActionBars()
-//					.getToolBarManager());
+			IMenuService menuService = (IMenuService) site
+					.getService(IMenuService.class);
+			menuService.releaseContributions((ContributionManager) site.getActionBars()
+					.getMenuManager());
+			menuService.releaseContributions((ContributionManager) site.getActionBars()
+					.getToolBarManager());
 			// 3.3 end
 			actionBars.dispose();
 			
@@ -373,16 +373,16 @@ class ViewReference extends WorkbenchPartReference implements IViewReference {
 				//
 				// 3.3 start
 				//
-//				IMenuService menuService = (IMenuService) site
-//						.getService(IMenuService.class);
-//				menuService.populateContributionManager(
-//						(ContributionManager) site.getActionBars()
-//								.getMenuManager(), "menu:" //$NON-NLS-1$
-//								+ site.getId());
-//				menuService
-//						.populateContributionManager((ContributionManager) site
-//								.getActionBars().getToolBarManager(),
-//								"toolbar:" + site.getId()); //$NON-NLS-1$
+				IMenuService menuService = (IMenuService) site
+						.getService(IMenuService.class);
+				menuService.populateContributionManager(
+						(ContributionManager) site.getActionBars()
+								.getMenuManager(), "menu:" //$NON-NLS-1$
+								+ site.getId());
+				menuService
+						.populateContributionManager((ContributionManager) site
+								.getActionBars().getToolBarManager(),
+								"toolbar:" + site.getId()); //$NON-NLS-1$
 				// 3.3 end
 
 				actionBuilder = new ViewActionBuilder();

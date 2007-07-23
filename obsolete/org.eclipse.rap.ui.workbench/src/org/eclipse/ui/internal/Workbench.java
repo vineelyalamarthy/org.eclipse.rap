@@ -38,13 +38,15 @@ import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.StartupThreading.StartupRunnable;
 import org.eclipse.ui.internal.browser.WorkbenchBrowserSupport;
-import org.eclipse.ui.internal.commands.CommandService;
+import org.eclipse.ui.internal.commands.*;
 import org.eclipse.ui.internal.handlers.HandlerService;
+import org.eclipse.ui.internal.menus.WorkbenchMenuService;
 import org.eclipse.ui.internal.progress.ProgressManager;
 import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.services.*;
 import org.eclipse.ui.internal.util.SessionSingletonEventManager;
 import org.eclipse.ui.internal.util.Util;
+import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.services.IDisposable;
 import org.eclipse.ui.views.IViewRegistry;
@@ -766,29 +768,29 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
     		isClosing = saveAllEditors(!force);
     		if (!force && !isClosing) {
     			return false;
-    		}
+		}
 
-    		boolean closeEditors = !force
+		boolean closeEditors = !force
 //				&& PrefUtil.getAPIPreferenceStore().getBoolean(
 //						IWorkbenchPreferenceConstants.CLOSE_EDITORS_ON_EXIT);
-    		  && true;
-    		if (closeEditors) {
-    		    SafeRunner.run(new SafeRunnable() {
-    		        public void run() {
-    		            IWorkbenchWindow windows[] = getWorkbenchWindows();
-    		            for (int i = 0; i < windows.length; i++) {
-    		                IWorkbenchPage pages[] = windows[i].getPages();
-    		                for (int j = 0; j < pages.length; j++) {
-    		                    isClosing = isClosing
-    		                      && pages[j].closeAllEditors(false);
-    		                }
-    		            }
-    		        }
-    		    });
-    		    if (!force && !isClosing) {
-    		      return false;
+		        && true;
+		if (closeEditors) {
+			SafeRunner.run(new SafeRunnable() {
+				public void run() {
+					IWorkbenchWindow windows[] = getWorkbenchWindows();
+					for (int i = 0; i < windows.length; i++) {
+						IWorkbenchPage pages[] = windows[i].getPages();
+						for (int j = 0; j < pages.length; j++) {
+							isClosing = isClosing
+									&& pages[j].closeAllEditors(false);
+						}
+					}
+				}
+			});
+			if (!force && !isClosing) {
+				return false;
     		    }
-    		}
+			}
 		}
 
 //		if (getWorkbenchConfigurer().getSaveAndRestore()) {
@@ -1525,23 +1527,23 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //		bindingService[0].readRegistryAndPreferences(commandService[0]);
 //		serviceLocator.registerService(IBindingService.class, bindingService[0]);
 
-//		final CommandImageManager commandImageManager = new CommandImageManager();
-//		final CommandImageService commandImageService = new CommandImageService(
-//				commandImageManager, commandService[0]);
-//		commandImageService.readRegistry();
-//		serviceLocator.registerService(ICommandImageService.class,
-//				commandImageService);
+		final CommandImageManager commandImageManager = new CommandImageManager();
+		final CommandImageService commandImageService = new CommandImageService(
+				commandImageManager, commandService[0]);
+		commandImageService.readRegistry();
+		serviceLocator.registerService(ICommandImageService.class,
+				commandImageService);
 		
-//		final WorkbenchMenuService menuService = new WorkbenchMenuService(serviceLocator);
-//		
-//		serviceLocator.registerService(IMenuService.class, menuService);
+		final WorkbenchMenuService menuService = new WorkbenchMenuService(serviceLocator);
+		
+		serviceLocator.registerService(IMenuService.class, menuService);
 		// the service must be registered before it is initialized - its
 		// initialization uses the service locator to address a dependency on
 		// the menu service
 //		StartupThreading.runWithoutExceptions(new StartupRunnable() {
 //
 //			public void runWithException() {
-//				menuService.readRegistry();
+				menuService.readRegistry();
 //			}});
 
 		/*
@@ -1601,7 +1603,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 				evaluationService.addSourceProvider(actionSetSourceProvider);
 				handlerService[0].addSourceProvider(actionSetSourceProvider);
 //				contextService.addSourceProvider(actionSetSourceProvider);
-//				menuService.addSourceProvider(actionSetSourceProvider);
+				menuService.addSourceProvider(actionSetSourceProvider);
 				sourceProviderService.registerProvider(actionSetSourceProvider);
 //				
 //				FocusControlSourceProvider focusControl = new FocusControlSourceProvider();
@@ -1613,12 +1615,12 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //				sourceProviderService.registerProvider(focusControl);
 //				
 //				
-//				menuSourceProvider = new MenuSourceProvider();
-//				evaluationService.addSourceProvider(menuSourceProvider);
-//				handlerService[0].addSourceProvider(menuSourceProvider);
+				menuSourceProvider = new MenuSourceProvider();
+				evaluationService.addSourceProvider(menuSourceProvider);
+				handlerService[0].addSourceProvider(menuSourceProvider);
 //				contextService.addSourceProvider(menuSourceProvider);
-//				menuService.addSourceProvider(menuSourceProvider);
-//				sourceProviderService.registerProvider(menuSourceProvider);
+				menuService.addSourceProvider(menuSourceProvider);
+				sourceProviderService.registerProvider(menuSourceProvider);
 //			}});
 		
 		/*
@@ -3357,7 +3359,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * target identifiers) are now showing. This value is <code>null</code>
 	 * until {@link #initializeDefaultServices()} is called.
 	 */
-//	private MenuSourceProvider menuSourceProvider;
+	private MenuSourceProvider menuSourceProvider;
 
 
 	/**

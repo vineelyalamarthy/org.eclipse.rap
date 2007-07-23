@@ -537,20 +537,24 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 
 	public final void dispose() {
 		super.dispose();
-//		clearBindings();
+		clear();
+	}
+
+	private void clear() {
 		clearActivations();
+//		clearBindings();
 		clearImages();
 		clearMenus();
 	}
 
 	protected final boolean isChangeImportant(final IRegistryChangeEvent event) {
-		return !((event.getExtensionDeltas(PlatformUI.PLUGIN_ID,
+		return !((event.getExtensionDeltas(PlatformUI.PLUGIN_EXTENSION_NAME_SPACE,
 				IWorkbenchRegistryConstants.PL_ACTION_SETS).length == 0)
-				&& (event.getExtensionDeltas(PlatformUI.PLUGIN_ID,
+				&& (event.getExtensionDeltas(PlatformUI.PLUGIN_EXTENSION_NAME_SPACE,
 						IWorkbenchRegistryConstants.PL_EDITOR_ACTIONS).length == 0)
-				&& (event.getExtensionDeltas(PlatformUI.PLUGIN_ID,
+				&& (event.getExtensionDeltas(PlatformUI.PLUGIN_EXTENSION_NAME_SPACE,
 						IWorkbenchRegistryConstants.PL_POPUP_MENU).length == 0) && (event
-				.getExtensionDeltas(PlatformUI.PLUGIN_ID,
+				.getExtensionDeltas(PlatformUI.PLUGIN_EXTENSION_NAME_SPACE,
 						IWorkbenchRegistryConstants.PL_VIEW_ACTIONS).length == 0));
 	}
 
@@ -566,7 +570,8 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 	 * </p>
 	 */
 	public final void read() {
-		super.read();
+		clear();
+		LegacyActionPersistence.super.read();
 
 		// Create the extension registry mementos.
 		final IExtensionRegistry registry = Platform.getExtensionRegistry();
@@ -628,9 +633,6 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 			}
 		}
 
-		clearMenus();
-//		clearBindings();
-		clearImages();
 		readActionSets(indexedConfigurationElements[INDEX_ACTION_SETS],
 				actionSetCount);
 		readEditorContributions(
