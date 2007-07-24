@@ -223,7 +223,8 @@ public final class CommandContributionItem extends ContributionItem {
 			commandListener = new ICommandListener() {
 				public void commandChanged(CommandEvent commandEvent) {
 					if (commandEvent.isHandledChanged()
-							|| commandEvent.isEnabledChanged()
+							// TODO: [bm] remove 3.2 compatibility hacks
+//							|| commandEvent.isEnabledChanged()
 							|| commandEvent.isDefinedChanged()) {
 						if (commandEvent.isHandledChanged()) {
 							dropDownMenuOverride = null;

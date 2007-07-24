@@ -195,13 +195,13 @@ public final class CommandService implements ICommandService {
 	 *      java.util.Map)
 	 */
 	public final void refreshElements(String commandId, Map filter) {
-		// TODO: remove 3.2 compatibility hack
+		// TODO: remove 3.2 compatibility hack, see run() below
 		Command cmd = getCommand(commandId);
 
-		if (!cmd.isDefined() || !(cmd.getHandler() instanceof IElementUpdater)) {
+		if (!cmd.isDefined() /* || !(cmd.getHandler() instanceof IElementUpdater) */) {
 			return;
 		}
-		final IElementUpdater updater = (IElementUpdater) cmd.getHandler();
+//		final IElementUpdater updater = (IElementUpdater) cmd.getHandler();
 
 		if (commandCallbacks == null) {
 			return;
@@ -223,7 +223,7 @@ public final class CommandService implements ICommandService {
 				}
 
 				public void run() throws Exception {
-					updater.updateElement(callbackRef.getElement(), parms);
+//					updater.updateElement(callbackRef.getElement(), parms);
 				}
 			};
 			if (filter == null) {
@@ -288,14 +288,14 @@ public final class CommandService implements ICommandService {
 		// If the active handler wants to update the callback, it can do
 		// so now
 		// TODO: remove 3.2 compatibility hack
-		Command command = getCommand(elementReference.getCommandId());
-		if (command.isDefined()) {
-			if (command.getHandler() instanceof IElementUpdater) {
-				((IElementUpdater) command.getHandler()).updateElement(
-						elementReference.getElement(), elementReference
-								.getParameters());
-			}
-		}
+//		Command command = getCommand(elementReference.getCommandId());
+//		if (command.isDefined()) {
+//			if (command.getHandler() instanceof IElementUpdater) {
+//				((IElementUpdater) command.getHandler()).updateElement(
+//						elementReference.getElement(), elementReference
+//								.getParameters());
+//			}
+//		}
 	}
 
 	/*

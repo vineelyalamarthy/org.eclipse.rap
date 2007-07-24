@@ -291,32 +291,32 @@ public final class HandlerService implements IHandlerService {
 	 * @since 3.3
 	 * @see #getContextSnapshot()
 	 */
-	public final Object executeCommandInContext(
-			final ParameterizedCommand command, final Event trigger,
-			IEvaluationContext context) throws ExecutionException,
-			NotDefinedException, NotEnabledException, NotHandledException {
-		// TODO: remove 3.2 compatibility hack
-//		return null;
-		IHandler oldHandler = command.getCommand().getHandler();
-
-		IHandler handler = findHandler(command.getId(), context);
-		boolean enabled = true;
-		if (handler instanceof HandlerProxy) {
-			enabled = ((HandlerProxy) handler).getProxyEnabled();
-		}
-
-		try {
-			command.getCommand().setHandler(handler);
-			if (handler instanceof HandlerProxy) {
-				((HandlerProxy) handler).setEnabledFor(context);
-			}
-
-			return command.executeWithChecks(trigger, context);
-		} finally {
-			if (handler instanceof HandlerProxy) {
-				((HandlerProxy) handler).setProxyEnabled(enabled);
-			}
-			command.getCommand().setHandler(oldHandler);
-		}
-	}
+//	public final Object executeCommandInContext(
+//			final ParameterizedCommand command, final Event trigger,
+//			IEvaluationContext context) throws ExecutionException,
+//			NotDefinedException, NotEnabledException, NotHandledException {
+//		// TODO: remove 3.2 compatibility hack
+////		return null;
+//		IHandler oldHandler = command.getCommand().getHandler();
+//
+//		IHandler handler = findHandler(command.getId(), context);
+//		boolean enabled = true;
+//		if (handler instanceof HandlerProxy) {
+//			enabled = ((HandlerProxy) handler).getProxyEnabled();
+//		}
+//
+//		try {
+//			command.getCommand().setHandler(handler);
+//			if (handler instanceof HandlerProxy) {
+//				((HandlerProxy) handler).setEnabledFor(context);
+//			}
+//
+//			return command.executeWithChecks(trigger, context);
+//		} finally {
+//			if (handler instanceof HandlerProxy) {
+//				((HandlerProxy) handler).setProxyEnabled(enabled);
+//			}
+//			command.getCommand().setHandler(oldHandler);
+//		}
+//	}
 }
