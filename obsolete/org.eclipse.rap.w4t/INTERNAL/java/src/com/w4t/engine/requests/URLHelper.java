@@ -30,7 +30,7 @@ public final class URLHelper {
     HttpServletRequest request = ContextProvider.getRequest();
     StringBuffer result = new StringBuffer();
     result.append( getContextURLString() );
-    result.append(  request.getServletPath() );
+    result.append( request.getServletPath() );
     
     ///////////////////////////////////////////////////////////////////////
     // add a dummy parameter to create a complete session id encoding
