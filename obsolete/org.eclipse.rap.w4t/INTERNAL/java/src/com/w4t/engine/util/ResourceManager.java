@@ -15,8 +15,7 @@ import java.net.*;
 import java.text.MessageFormat;
 import java.util.*;
 
-import com.w4t.IResourceManager;
-import com.w4t.ParamCheck;
+import com.w4t.*;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.requests.URLHelper;
 import com.w4t.engine.service.ContextProvider;
@@ -31,7 +30,10 @@ import com.w4t.util.ConfigurationReader;
  *  <p>Implementation as Singleton.</p>
  *  <p>This class is not intended to be used by clients.</p>
  */
-public class ResourceManager extends ResourceBase implements IResourceManager {
+public class ResourceManager
+  extends ResourceBase
+  implements IResourceManager, Adaptable
+{
   
   /** <p>The singleton instance of ResourceManager.</p> */
   private static IResourceManager _instance;
@@ -41,6 +43,7 @@ public class ResourceManager extends ResourceBase implements IResourceManager {
   private final Map cache;
   private ClassLoader loader;
   private ThreadLocal contextLoader;
+  private JsConcatenator jsConcatenator;
 
   private static final class Resource {
     /** the 'raw' content of the resource. In case of a text resource (charset 
@@ -154,8 +157,48 @@ public class ResourceManager extends ResourceBase implements IResourceManager {
   }
 
   
-  ////////////////////////////
-  // interface implementations
+  //////////////////////
+  // interface Adaptable
+  
+  public Object getAdapter( final Class adapter ) {
+    Object result = null;
+    if( adapter == JsConcatenator.class ){
+      if( jsConcatenator == null ) {
+        jsConcatenator = new JsConcatenator() {
+          private String content;
+          private boolean registered = false;
+          public String getLocation() {
+            String concatedName = "rap.js";
+            if( !registered ) {
+              byte[] content = getContent().getBytes();
+              register( concatedName,
+                        new ByteArrayInputStream( content ),
+                        HTML.CHARSET_NAME_UTF_8,
+                        RegisterOptions.VERSION );
+              registered = true;
+            }
+            return ResourceManager.this.getLocation( concatedName );
+          }
+
+          public void startJsConcatenation() {
+            ResourceUtil.startJsConcatenation();
+          }
+          public String getContent() {
+            if( content == null ) {
+              content = ResourceUtil.getJsConcatenationContentAsString();
+            }
+            return content;
+          }
+        };
+      }
+      result = jsConcatenator;
+    }
+    return result;
+  }
+  
+  
+  /////////////////////////////
+  // interface IResourceManager
   
   public void register( final String name ) {
     ParamCheck.notNull( name, "name" );

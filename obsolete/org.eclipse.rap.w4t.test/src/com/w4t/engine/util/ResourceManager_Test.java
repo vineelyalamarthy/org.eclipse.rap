@@ -25,47 +25,60 @@ public class ResourceManager_Test extends TestCase {
 
   // /////////////////////
   // constant definitions
-  private final static String TEST_RESOURCE_1_JAR = "resources/js/resourcetest.js";
-  private final static String TEST_RESOURCE_1 = "com/w4t/engine/util/resourcetest1.js";
-  private final static String TEST_RESOURCE_1_VERSIONED = "com/w4t/engine/util/resourcetest11895582734.js";
-  private final static String TEST_RESOURCE_2 = "com/w4t/engine/util/resourcetest2.gif";
-  private final static String TEST_RESOURCE_3 = "com/w4t/engine/util/resourcetest3.gif";
-  private final static String ISO_RESOURCE = "com/w4t/engine/util/iso-resource.js";
-  private final static String UTF_8_RESOURCE = "com/w4t/engine/util/utf-8-resource.js";
+  private final static String TEST_RESOURCE_1_JAR
+    = "resources/js/resourcetest.js";
+  private final static String TEST_RESOURCE_1
+    = "com/w4t/engine/util/resourcetest1.js";
+  private final static String TEST_RESOURCE_1_VERSIONED
+    = "com/w4t/engine/util/resourcetest11895582734.js";
+  private final static String TEST_RESOURCE_2
+    = "com/w4t/engine/util/resourcetest2.gif";
+  private final static String TEST_RESOURCE_3
+    = "com/w4t/engine/util/resourcetest3.gif";
+  private final static String ISO_RESOURCE
+    = "com/w4t/engine/util/iso-resource.js";
+  private final static String UTF_8_RESOURCE
+    = "com/w4t/engine/util/utf-8-resource.js";
   private static final String TEST_CONTEXT = "/test";
   private static final int TEST_PORT = 4711;
   private static final String TEST_SERVER = "TestCase";
   private static final String TEST_SERVLET_PATH = "/W4TDelegate";
-  private static final String TEST_REQUEST_URI = TEST_CONTEXT
-                                                 + "/W4TDelegate?anyParam=true";
-  private static final String TEST_CONTEXT_URL = "http://"
-                                                 + TEST_SERVER
-                                                 + ":"
-                                                 + TEST_PORT
-                                                 + TEST_CONTEXT;
-  private static final String TEST_LOCATION_DISK = TEST_CONTEXT_URL
-                                                   + "/"
-                                                   + TEST_RESOURCE_1;
-  private static final String TEST_LOCATION_VERSIONED_DISK = TEST_CONTEXT_URL
-                                                             + "/"
-                                                             + TEST_RESOURCE_1_VERSIONED;
-  private static final String TEST_LOCATION_SERVLET = TEST_CONTEXT_URL
-                                                      + TEST_SERVLET_PATH
-                                                      + "?"
-                                                      + RequestParams.RESOURCE
-                                                      + "="
-                                                      + TEST_RESOURCE_2;
-  private static final String TEST_LOCATION_VERSIONED_SERVLET = TEST_CONTEXT_URL
-                                                                + TEST_SERVLET_PATH
-                                                                + "?"
-                                                                + RequestParams.RESOURCE
-                                                                + "="
-                                                                + TEST_RESOURCE_1
-                                                                + "&"
-                                                                + RequestParams.RESOURCE_VERSION
-                                                                + "="
-                                                                + "1895582734";
-  // ///////
+  private static final String TEST_REQUEST_URI 
+    = TEST_CONTEXT + "/W4TDelegate?anyParam=true";
+  private static final String TEST_CONTEXT_URL
+    =   "http://"
+      + TEST_SERVER
+      + ":"
+      + TEST_PORT
+      + TEST_CONTEXT;
+  private static final String TEST_LOCATION_DISK
+    =   TEST_CONTEXT_URL
+      + "/"
+      + TEST_RESOURCE_1;
+  private static final String TEST_LOCATION_VERSIONED_DISK
+    =   TEST_CONTEXT_URL
+      + "/"
+      + TEST_RESOURCE_1_VERSIONED;
+  private static final String TEST_LOCATION_SERVLET
+    =   TEST_CONTEXT_URL
+      + TEST_SERVLET_PATH
+      + "?"
+      + RequestParams.RESOURCE
+      + "="
+      + TEST_RESOURCE_2;
+  private static final String TEST_LOCATION_VERSIONED_SERVLET
+    =   TEST_CONTEXT_URL
+      + TEST_SERVLET_PATH
+      + "?"
+      + RequestParams.RESOURCE
+      + "="
+      + TEST_RESOURCE_1
+      + "&"
+      + RequestParams.RESOURCE_VERSION
+      + "="
+      + "1895582734";
+  
+  /////////
   // fields
   private String webAppRoot;
 

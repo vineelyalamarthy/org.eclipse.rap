@@ -72,7 +72,22 @@ public class Fixture {
     }
   }
   
-  public final static class TestResourceManager implements IResourceManager {
+  public final static class TestResourceManager
+    implements IResourceManager, Adaptable
+  {
+    
+    public Object getAdapter( final Class adapter ) {
+      return new JsConcatenator() {
+        public void startJsConcatenation() {
+        }
+        public String getContent() {
+          return "";
+        }
+        public String getLocation() {
+          return "";
+        }
+      };
+    }
 
     public String getCharset( final String name ) {
       return null;

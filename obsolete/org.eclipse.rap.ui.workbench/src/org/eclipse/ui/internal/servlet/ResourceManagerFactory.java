@@ -25,8 +25,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.*;
 
-import com.w4t.IResourceManager;
-import com.w4t.W4TContext;
+import com.w4t.*;
+import com.w4t.engine.util.JsConcatenator;
 
 
 final class ResourceManagerFactory implements IResourceManagerFactory {
@@ -61,14 +61,24 @@ final class ResourceManagerFactory implements IResourceManagerFactory {
     }
   }
   
-  private final class ResourceManagerWrapper implements IResourceManager {
+  private final class ResourceManagerWrapper 
+    implements IResourceManager, Adaptable
+  {
 
     private final IResourceManager resourceManager;
 
     private ResourceManagerWrapper( final IResourceManager internal ) {
       this.resourceManager = internal;
+      Adaptable adaptable = ( Adaptable )resourceManager;
+      JsConcatenator jsConcatenator
+        = ( JsConcatenator )adaptable.getAdapter( JsConcatenator.class );
+      jsConcatenator.startJsConcatenation();
     }
 
+    public Object getAdapter( Class adapter ) {
+      return ( ( Adaptable )resourceManager ).getAdapter( adapter );
+    }
+    
     public String getCharset( final String name ) {
       return resourceManager.getCharset( name );
     }

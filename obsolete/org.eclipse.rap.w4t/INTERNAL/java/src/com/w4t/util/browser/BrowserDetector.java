@@ -65,17 +65,19 @@ public class BrowserDetector {
   }
   
   private String detectBrowser( final String theUserAgent ) {
-    // all comparison is done in lower case
-    String userAgent = theUserAgent.toLowerCase();
-    // set default in case no browser is found
     String result = Default.class.getName();
-    Object[] detectors = browserDetectors.toArray();
-    boolean detected = false;
-    for( int i = 0; !detected && i < detectors.length; i++ ) {
-      DetectorBase browserDetector = ( DetectorBase )detectors[ i ];
-      if( browserDetector.knowsBrowserString( userAgent ) ) {
-        result = browserDetector.getBrowserClassName( userAgent );
-        detected = true;
+    if( theUserAgent != null ) {    
+      // all comparison is done in lower case
+      String userAgent = theUserAgent.toLowerCase();
+      // set default in case no browser is found
+      Object[] detectors = browserDetectors.toArray();
+      boolean detected = false;
+      for( int i = 0; !detected && i < detectors.length; i++ ) {
+        DetectorBase browserDetector = ( DetectorBase )detectors[ i ];
+        if( browserDetector.knowsBrowserString( userAgent ) ) {
+          result = browserDetector.getBrowserClassName( userAgent );
+          detected = true;
+        }
       }
     }
     return result;

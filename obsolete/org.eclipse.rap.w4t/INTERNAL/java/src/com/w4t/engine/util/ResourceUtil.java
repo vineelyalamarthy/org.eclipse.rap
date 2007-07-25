@@ -13,6 +13,7 @@ package com.w4t.engine.util;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+
 import com.w4t.HTML;
 import com.w4t.IResourceManager;
 
@@ -30,6 +31,7 @@ final class ResourceUtil {
   private static final String NEWLINE_MAC = "\r";
   private static final String NEWLINE_UNIX = "\n";
   private static final String NEWLINE_WIN = "\r\n";
+  private static ByteArrayOutputStream jsConcatenationBuffer = null;
 
 
   static int[] read( final String name, 
@@ -69,6 +71,14 @@ final class ResourceUtil {
       try {
         for( int i = 0; i < content.length; i++ ) {
           out.write( content[ i ] );
+          if(    jsConcatenationBuffer != null 
+              && toWrite.getName().endsWith( "js" ) )
+          {
+            jsConcatenationBuffer.write( content[ i ] );
+            if( i == content.length - 1 ) {
+              jsConcatenationBuffer.write( '\n' );
+            }
+          }
         }
       } finally {
         out.close();
@@ -76,6 +86,22 @@ final class ResourceUtil {
     } finally {
       fos.close();
     }
+  }
+  
+  static void startJsConcatenation() {
+    jsConcatenationBuffer = new ByteArrayOutputStream();
+  }
+ 
+  static String getJsConcatenationContentAsString() {
+    String result = "";
+    try {
+      result = jsConcatenationBuffer.toString( HTML.CHARSET_NAME_UTF_8 );
+    } catch( UnsupportedEncodingException e ) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    jsConcatenationBuffer = null;
+    return result;
   }
 
   private static int[] readText( final String name, 
