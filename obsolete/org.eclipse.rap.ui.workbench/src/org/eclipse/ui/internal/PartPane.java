@@ -137,7 +137,8 @@ public abstract class PartPane extends LayoutPart implements IPropertyListener,
 
         
         // When the pane or any child gains focus, notify the workbench.
-        control.addListener(SWT.Activate, this);
+//        control.addListener(SWT.Activate, this);
+        ActivateEvent.addListener( control, this );
 //        control.addTraverseListener(traverseListener);
     }
 
@@ -153,7 +154,8 @@ public abstract class PartPane extends LayoutPart implements IPropertyListener,
         super.dispose();
 
         if ((control != null) && (!control.isDisposed())) {
-            control.removeListener(SWT.Activate, this);
+//            control.removeListener(SWT.Activate, this);
+        	ActivateEvent.removeListener(control, this);
 //            control.removeTraverseListener(traverseListener);
             control.dispose();
             control = null;
