@@ -553,7 +553,7 @@
           // malformed xml response) do a 'normal' submit
           var msg =  'The XML-HTTP-Request did not return a valid '
                    + 'AJaX-Response.\nRequesting the full document.';
-          eventHandler.reportError( msg );
+//          eventHandler.reportError( msg );
           submitFullDocument();
         } 
         // restore state as if page was just loaded
@@ -564,7 +564,7 @@
         var msg = 'The XML-HTTP-Request did not complete normally (' 
                 + requestStatus + ')'
                 + '\nRequesting the full document.';
-        eventHandler.reportError( msg );
+//        eventHandler.reportError( msg );
         submitFullDocument();
       }
     } finally {

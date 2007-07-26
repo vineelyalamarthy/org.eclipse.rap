@@ -542,7 +542,7 @@
                  + 'AJaX-Response.\nRequesting the full document:\n\n' 
                  + http_request.responseText;
           }
-				  eventHandler.reportError( text );
+//				  eventHandler.reportError( text );
           this.submitFullDocument();
         } 
         // restore state as if page was just loaded
@@ -558,7 +558,7 @@
         var msg = 'The XML-HTTP-Request did not complete normally (' 
                 + http_request.status + ')'
                 + '\nRequesting the full document.';
-        eventHandler.reportError( msg );
+//        eventHandler.reportError( msg );
         this.submitFullDocument();
       }
     } finally {
