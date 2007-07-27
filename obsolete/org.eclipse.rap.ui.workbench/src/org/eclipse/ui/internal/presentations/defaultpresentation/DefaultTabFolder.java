@@ -16,6 +16,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.internal.*;
 import org.eclipse.ui.internal.dnd.DragUtil;
@@ -179,7 +180,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
         attachListeners(paneFolder.getControl(), false);
         attachListeners(paneFolder.getViewForm(), false);
         
-//        paneFolder.setTabHeight(computeTabHeight());
+        paneFolder.setTabHeight(computeTabHeight());
         
         viewToolBar.moveAbove(null);
         
@@ -506,7 +507,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
     /**
      * @return the required tab height for this folder.
      */
-//    protected int computeTabHeight() {
+    protected int computeTabHeight() {
 //        GC gc = new GC(getControl());
 //
 //        // Compute the tab height
@@ -516,7 +517,14 @@ public class DefaultTabFolder extends AbstractTabFolder {
 //        gc.dispose();
 //
 //        return tabHeight;
-//    }
+
+        // Compute the tab height
+        int toolBarHeight = viewToolBar.computeSize(SWT.DEFAULT,SWT.DEFAULT).y;
+        int fontHeight = FontSizeCalculator.getCharHeight( getControl().getFont() );
+        int tabHeight = Math.max(toolBarHeight, fontHeight );
+
+        return tabHeight;
+    }
 
     /**
      * @param b

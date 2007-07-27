@@ -19,6 +19,7 @@ import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import com.w4t.IResourceManager;
+import com.w4t.W4TContext;
 import com.w4t.engine.util.ResourceManager;
 
 /**
@@ -87,9 +88,14 @@ public class BrowserDetector {
     try {
       // create a special URLLoader to avoid problems with other classloaders
       // that do not support getResources.
-      IResourceManager manager = ResourceManager.getInstance();
-      Enumeration browserDetectionFiles
-        = manager.getResources( BROWSERDETECTION_XML );
+      IResourceManager manager = W4TContext.getResourceManager();
+      Enumeration browserDetectionFiles;
+      if( manager == null ) {
+        ClassLoader loader = getClass().getClassLoader();
+        browserDetectionFiles = loader.getResources( BROWSERDETECTION_XML );
+      } else {
+        browserDetectionFiles = manager.getResources( BROWSERDETECTION_XML );
+      }
       
       while( browserDetectionFiles.hasMoreElements() ) {
         int nextItem = 0;
@@ -127,6 +133,7 @@ public class BrowserDetector {
       msg.append( thr.getMessage() );
       msg.append( ")." );
       System.out.println( msg );
+      thr.printStackTrace();
       // TODO [rh] An exception thrown from here never gets through (I think
       // due to the fact that it is called during class initialization)
       //      REWORK THIS!
