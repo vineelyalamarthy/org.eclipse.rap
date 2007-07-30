@@ -35,7 +35,7 @@ import com.w4t.engine.util.ResourceManager;
 public class ServiceManager {
   
   private static final String SERVICEHANDLER_XML = "servicehandler.xml";
-  private static IServiceHandler formRequestHandler;
+  private static IServiceHandler lifeCycleRequestHandler;
   private static IServiceHandler resourceRequestHandler;
   private static IServiceHandler triggerFormHandler;
   private static HandlerDispatcher handlerDispatcher;
@@ -101,7 +101,7 @@ public class ServiceManager {
       } else if( isTimeStampTrigger() ) {
         getTriggerFormRequestHandler().service();
       } else {
-        getFormRequestHandler().service();
+        getLifeCycleRequestHandler().service();
       }
     }
   }
@@ -139,11 +139,11 @@ public class ServiceManager {
     return request.getParameter( IServiceHandler.REQUEST_PARAM );
   }
   
-  private static IServiceHandler getFormRequestHandler() {
-    if( formRequestHandler == null ) {
-      formRequestHandler = new FormRequestServiceHandler();
+  private static IServiceHandler getLifeCycleRequestHandler() {
+    if( lifeCycleRequestHandler == null ) {
+      lifeCycleRequestHandler = new LifeCycleServiceHandler();
     }
-    return formRequestHandler;
+    return lifeCycleRequestHandler;
   }
   
   private synchronized static IServiceHandler getResourceRequestHandler() {

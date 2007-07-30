@@ -101,7 +101,7 @@ public class Logger_Test extends TestCase {
     ServiceManager.getHandler().service();
     LogRecord[] records = handler.getRecords();
     assertEquals( 1, records.length );
-    assertEquals( FormRequestServiceHandler.LOG_RESPONSE_CONTENT, 
+    assertEquals( LifeCycleServiceHandler.LOG_RESPONSE_CONTENT, 
                   records[ 0 ].getLoggerName() );
     assertTrue( records[ 0 ].getMessage().indexOf( "<!DOCTYPE HTML" ) > -1 );
   }

@@ -15,9 +15,11 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import com.w4t.Browser;
 import com.w4t.HtmlResponseWriter;
 import com.w4t.engine.W4TModel;
@@ -26,16 +28,16 @@ import com.w4t.engine.requests.RequestParams;
 import com.w4t.util.browser.BrowserLoader;
 
 
-class FormRequestServiceHandler extends AbstractServiceHandler {
+class LifeCycleServiceHandler extends AbstractServiceHandler {
 
   // TODO [rh] Should we have a separate class that contains all logger names?
   //      e.g. com.w4t.util.LogerNames?
   public static final String LOG_REQUEST_PARAMS 
-    = FormRequestServiceHandler.class.getName() + ".requestParams"; 
+    = LifeCycleServiceHandler.class.getName() + ".requestParams"; 
   public static final String LOG_REQUEST_HEADER 
-    = FormRequestServiceHandler.class.getName() + ".requestHeaders"; 
+    = LifeCycleServiceHandler.class.getName() + ".requestHeaders"; 
   public static final String LOG_RESPONSE_CONTENT
-    = FormRequestServiceHandler.class.getName() + ".responseContent"; 
+    = LifeCycleServiceHandler.class.getName() + ".responseContent"; 
   
   // The log level used by all loggers thoughout this class
   private static final Level LOG_LEVEL = Level.FINE;

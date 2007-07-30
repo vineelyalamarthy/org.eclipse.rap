@@ -13,8 +13,10 @@ package com.w4t.engine.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+
 import com.w4t.*;
 import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.requests.URLHelper;
@@ -30,6 +32,7 @@ public final class BrowserSurvey {
   public interface IIndexTemplate {
     InputStream getTemplateStream() throws IOException;
     void registerResources() throws IOException;
+    boolean modifiedSince();
   }
   
   public static IIndexTemplate indexTemplate = new IIndexTemplate() {
@@ -47,6 +50,9 @@ public final class BrowserSurvey {
     }
     public void registerResources() throws IOException {
     }
+    public boolean modifiedSince() {
+      return true;
+    }
   };
   
   /** 
@@ -54,24 +60,26 @@ public final class BrowserSurvey {
    *  determine which browser has originated the request.</p> 
    */
   static void sendBrowserSurvey() throws ServletException {
-    // first check whether a survey has already been sent
-    HttpServletRequest request = ContextProvider.getRequest();
-    String survey = request.getParameter( RequestParams.SURVEY );
-    if( survey != null && survey.equals( "true" ) ) {
-      String msg = "Initialization fault. Browser survey failed.";
-      throw new ServletException( msg );
-    }
-    // send out the survey
-    try {
-      if( isAjaxRequest() ) {
-        renderAjax();
-      } else {
-        renderScript();
+    if( indexTemplate.modifiedSince() ) {
+      HttpServletRequest request = ContextProvider.getRequest();
+      // first check whether a survey has already been sent
+      String survey = request.getParameter( RequestParams.SURVEY );
+      if( survey != null && survey.equals( "true" ) ) {
+        String msg = "Initialization fault. Browser survey failed.";
+        throw new ServletException( msg );
       }
-    } catch( IOException e ) {
-      String txt = "Failed to load Browser Survey HTML Page (Reason: {0})";
-      String msg = MessageFormat.format( txt, new Object[] { e.getMessage() } );
-      throw new ServletException( msg, e );
+      // send out the survey
+      try {
+        if( isAjaxRequest() ) {
+          renderAjax();
+        } else {
+          renderScript();
+        }
+      } catch( IOException e ) {
+        String txt = "Failed to load Browser Survey HTML Page (Reason: {0})";
+        String msg = MessageFormat.format( txt, new Object[] { e.getMessage() } );
+        throw new ServletException( msg, e );
+      }
     }
   }
 

@@ -161,7 +161,7 @@ public class AllTests_Suite {
     suite.addTestSuite( CMenu_Test.class );
     suite.addTestSuite( CToolbar_Test.class );
     suite.addTestSuite( ServiceHandler_Test.class );
-    suite.addTestSuite( FormRequestServiceHandler_Test.class );
+    suite.addTestSuite( LifeCycleServiceHandler_Test.class );
     suite.addTestSuite( FirstAccess_Test.class );
     suite.addTestSuite( ResourceServiceHandler_Test.class );
     suite.addTestSuite( TimestampServiceHandler_Test.class );

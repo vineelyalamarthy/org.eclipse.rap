@@ -28,7 +28,7 @@ import com.w4t.util.browser.Default;
 import com.w4t.util.browser.Ie6;
 
 
-public class FormRequestServiceHandler_Test extends TestCase {
+public class LifeCycleServiceHandler_Test extends TestCase {
   
   private final class ThreadController implements PhaseListener {
 

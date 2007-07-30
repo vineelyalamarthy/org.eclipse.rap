@@ -125,7 +125,7 @@ public class AnimationManager extends SessionSingletonBase {
             if( animationUpdateJob != null ) {
               animationUpdateJob.cancel();
               animationUpdateJob.addJobChangeListener( new JobCanceler() );
-              dispose();
+//              dispose();
               done[ 0 ] = true;
             }
           }

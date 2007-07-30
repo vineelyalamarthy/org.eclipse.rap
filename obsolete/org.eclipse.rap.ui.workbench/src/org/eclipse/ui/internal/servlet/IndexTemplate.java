@@ -13,7 +13,12 @@ package org.eclipse.ui.internal.servlet;
 
 import java.io.*;
 import java.text.MessageFormat;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.lifecycle.DisplayUtil;
 import org.eclipse.swt.resources.ResourceManager;
 import com.w4t.*;
@@ -26,6 +31,11 @@ class IndexTemplate implements IIndexTemplate {
   private final static String FOLDER
     = IndexTemplate.class.getPackage().getName().replace( '.', '/' );
   private final static String INDEX_TEMPLATE = FOLDER + "/index.html";
+  
+  // TODO [fappel]: think about clusters
+  // cache control variables
+  private static int probeCount;
+  private static long lastModified = System.currentTimeMillis();
   
   public InputStream getTemplateStream() throws IOException {
     InputStream result = loadTemplateFile();
@@ -140,5 +150,31 @@ class IndexTemplate implements IIndexTemplate {
     } finally {
       manager.setContextLoader( buffer );
     }
+  }
+
+  public synchronized boolean modifiedSince() {
+    boolean result;
+
+    int currentProbeCount = FontSizeCalculator.getProbeCount();
+    if( probeCount != currentProbeCount ) {
+      lastModified = System.currentTimeMillis();
+      probeCount = currentProbeCount;
+    }
+    
+    HttpServletRequest request = ContextProvider.getRequest();
+    HttpServletResponse response = ContextProvider.getResponse();
+    long dateHeader = request.getDateHeader( "If-Modified-Since" );
+    // Because browser store the date in format with seconds as smallest unit
+    // add one second to avoid rounding problems...
+    if( dateHeader + 1000 < lastModified ) {
+      result = true;
+      response.addDateHeader( "Last-Modified", lastModified );
+      // TODO [fappel]: Think about "expires"-header for proxy usage.
+      // TODO [fappel]: Seems as if Safari doesn't react to last-modified. 
+    } else {
+      result = false;
+      response.setStatus( HttpServletResponse.SC_NOT_MODIFIED );
+    }
+    return result;
   }
 }
