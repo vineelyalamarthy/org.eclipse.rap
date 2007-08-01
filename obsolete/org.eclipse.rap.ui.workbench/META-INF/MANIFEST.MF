@@ -50,6 +50,8 @@ Export-Package: org.eclipse.ui;
    org.eclipse.ui",
  org.eclipse.ui.browser,
  org.eclipse.ui.commands,
+ org.eclipse.ui.dialogs,
+ org.eclipse.ui.fieldassist,
  org.eclipse.ui.handlers,
  org.eclipse.ui.internal,
  org.eclipse.ui.internal.actions,

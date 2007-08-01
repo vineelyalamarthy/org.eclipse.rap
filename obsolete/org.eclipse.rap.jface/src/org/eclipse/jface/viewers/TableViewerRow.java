@@ -107,7 +107,7 @@ public class TableViewerRow extends ViewerRow {
 	 */
 	public void setBackground(int columnIndex, Color color) {
 //		item.setBackground(columnIndex, color);
-		throw new UnsupportedOperationException();
+//		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -115,7 +115,7 @@ public class TableViewerRow extends ViewerRow {
 	 */
 	public void setFont(int columnIndex, Font font) {
 //		item.setFont(columnIndex, font);
-		throw new UnsupportedOperationException();
+//		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -123,7 +123,7 @@ public class TableViewerRow extends ViewerRow {
 	 */
 	public void setForeground(int columnIndex, Color color) {
 //		item.setForeground(columnIndex, color);
-		throw new UnsupportedOperationException();
+//		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
