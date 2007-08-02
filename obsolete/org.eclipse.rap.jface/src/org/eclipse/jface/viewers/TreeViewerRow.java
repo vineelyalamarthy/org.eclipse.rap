@@ -54,8 +54,7 @@ public class TreeViewerRow extends ViewerRow {
 	 * @see org.eclipse.jface.viewers.ViewerRow#getColumnCount()
 	 */
 	public int getColumnCount() {
-//		return item.getParent().getColumnCount();
-		throw new UnsupportedOperationException();
+		return item.getParent().getColumnCount();
 	}
 
 	/* (non-Javadoc)
@@ -93,18 +92,14 @@ public class TreeViewerRow extends ViewerRow {
 	 * @see org.eclipse.jface.viewers.ViewerRow#getImage(int)
 	 */
 	public Image getImage(int columnIndex) {
-//		return item.getImage(columnIndex);
-		// TODO: implement columns
-		return item.getImage();
+		return item.getImage(columnIndex);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.ViewerRow#getText(int)
 	 */
 	public String getText(int columnIndex) {
-//		return item.getText(columnIndex);
-		// TODO: columns in tree
-		return item.getText();
+		return item.getText(columnIndex);
 	}
 
 	/* (non-Javadoc)
@@ -137,9 +132,7 @@ public class TreeViewerRow extends ViewerRow {
 	public void setImage(int columnIndex, Image image) {
 		Image oldImage = item.getImage();
 		if (image != oldImage) {
-//			item.setImage(columnIndex, image);
-			// TODO: implement columns
-			item.setImage(image);
+			item.setImage(columnIndex, image);
 		}
 	}
 
@@ -147,9 +140,7 @@ public class TreeViewerRow extends ViewerRow {
 	 * @see org.eclipse.jface.viewers.ViewerRow#setText(int, java.lang.String)
 	 */
 	public void setText(int columnIndex, String text) {
-		// TODO: implement columns
-//		item.setText(columnIndex, text == null ? "" : text); //$NON-NLS-1$
-		item.setText(text);
+		item.setText(columnIndex, text == null ? "" : text); //$NON-NLS-1$
 	}
 	
 	/* (non-Javadoc)

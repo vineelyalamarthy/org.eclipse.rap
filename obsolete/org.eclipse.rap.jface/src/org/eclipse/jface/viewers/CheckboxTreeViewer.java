@@ -103,7 +103,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
                 if (data != null) {
                     TreeItem ti = (TreeItem) item;
                     ti.setChecked(checked.containsKey(data));
-//                    ti.setGrayed(grayed.containsKey(data));
+                    ti.setGrayed(grayed.containsKey(data));
                 }
             }
             applyState(checked, grayed, item);
@@ -151,9 +151,9 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
                     if (ti.getChecked()) {
 						checked.put(data, data);
 					}
-//                    if (ti.getGrayed()) {
-//						grayed.put(data, data);
-//					}
+                    if (ti.getGrayed()) {
+						grayed.put(data, data);
+					}
                 }
             }
             gatherState(checked, grayed, item);
@@ -191,39 +191,39 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
         return v.toArray();
     }
 
-//    /**
-//     * Returns the grayed state of the given element.
-//     *
-//     * @param element the element
-//     * @return <code>true</code> if the element is grayed,
-//     *   and <code>false</code> if not grayed
-//     */
-//    public boolean getGrayed(Object element) {
-//        Widget widget = findItem(element);
-//        if (widget instanceof TreeItem) {
-//            return ((TreeItem) widget).getGrayed();
-//        }
-//        return false;
-//    }
+    /**
+     * Returns the grayed state of the given element.
+     *
+     * @param element the element
+     * @return <code>true</code> if the element is grayed,
+     *   and <code>false</code> if not grayed
+     */
+    public boolean getGrayed(Object element) {
+        Widget widget = findItem(element);
+        if (widget instanceof TreeItem) {
+            return ((TreeItem) widget).getGrayed();
+        }
+        return false;
+    }
 
-//    /**
-//     * Returns a list of grayed elements in this viewer's tree, 
-//     * including currently hidden ones that are marked as
-//     * grayed but are under a collapsed ancestor.
-//     * <p>
-//     * This method is typically used when preserving the interesting
-//     * state of a viewer; <code>setGrayedElements</code> is used during the restore.
-//     * </p>
-//     *
-//     * @return the array of grayed elements
-//     *
-//     * @see #setGrayedElements
-//     */
-//    public Object[] getGrayedElements() {
-//        List result = new ArrayList();
-//        internalCollectGrayed(result, getControl());
-//        return result.toArray();
-//    }
+    /**
+     * Returns a list of grayed elements in this viewer's tree, 
+     * including currently hidden ones that are marked as
+     * grayed but are under a collapsed ancestor.
+     * <p>
+     * This method is typically used when preserving the interesting
+     * state of a viewer; <code>setGrayedElements</code> is used during the restore.
+     * </p>
+     *
+     * @return the array of grayed elements
+     *
+     * @see #setGrayedElements
+     */
+    public Object[] getGrayedElements() {
+        List result = new ArrayList();
+        internalCollectGrayed(result, getControl());
+        return result.toArray();
+    }
 
     /* (non-Javadoc)
      * Method declared on StructuredViewer.
@@ -294,19 +294,19 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
      * @param result a writable list of elements (element type: <code>Object</code>)
      * @param widget the widget
      */
-//    private void internalCollectGrayed(List result, Widget widget) {
-//        Item[] items = getChildren(widget);
-//        for (int i = 0; i < items.length; i++) {
-//            Item item = items[i];
-//            if (item instanceof TreeItem && ((TreeItem) item).getGrayed()) {
-//                Object data = item.getData();
-//                if (data != null) {
-//					result.add(data);
-//				}
-//            }
-//            internalCollectGrayed(result, item);
-//        }
-//    }
+    private void internalCollectGrayed(List result, Widget widget) {
+        Item[] items = getChildren(widget);
+        for (int i = 0; i < items.length; i++) {
+            Item item = items[i];
+            if (item instanceof TreeItem && ((TreeItem) item).getGrayed()) {
+                Object data = item.getData();
+                if (data != null) {
+					result.add(data);
+				}
+            }
+            internalCollectGrayed(result, item);
+        }
+    }
 
     /**
      * Sets the checked state of all items to correspond to the given set of checked elements.
@@ -330,26 +330,26 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
         }
     }
 
-//    /**
-//     * Sets the grayed state of all items to correspond to the given set of grayed elements.
-//     *
-//     * @param grayedElements the set (element type: <code>Object</code>) of elements which are grayed
-//     * @param widget the widget
-//     */
-//    private void internalSetGrayed(CustomHashtable grayedElements, Widget widget) {
-//        Item[] items = getChildren(widget);
-//        for (int i = 0; i < items.length; i++) {
-//            TreeItem item = (TreeItem) items[i];
-//            Object data = item.getData();
-//            if (data != null) {
-//                boolean grayed = grayedElements.containsKey(data);
-//                if (grayed != item.getGrayed()) {
-//                    item.setGrayed(grayed);
-//                }
-//            }
-//            internalSetGrayed(grayedElements, item);
-//        }
-//    }
+    /**
+     * Sets the grayed state of all items to correspond to the given set of grayed elements.
+     *
+     * @param grayedElements the set (element type: <code>Object</code>) of elements which are grayed
+     * @param widget the widget
+     */
+    private void internalSetGrayed(CustomHashtable grayedElements, Widget widget) {
+        Item[] items = getChildren(widget);
+        for (int i = 0; i < items.length; i++) {
+            TreeItem item = (TreeItem) items[i];
+            Object data = item.getData();
+            if (data != null) {
+                boolean grayed = grayedElements.containsKey(data);
+                if (grayed != item.getGrayed()) {
+                    item.setGrayed(grayed);
+                }
+            }
+            internalSetGrayed(grayedElements, item);
+        }
+    }
 
     /* (non-Javadoc)
      * Method declared on Viewer.
@@ -446,15 +446,15 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
      * @return <code>true</code> if the gray state could be set, 
      *  and <code>false</code> otherwise
      */
-//    public boolean setGrayed(Object element, boolean state) {
-//        Assert.isNotNull(element);
-//        Widget widget = internalExpand(element, false);
-//        if (widget instanceof TreeItem) {
-//            ((TreeItem) widget).setGrayed(state);
-//            return true;
-//        }
-//        return false;
-//    }
+    public boolean setGrayed(Object element, boolean state) {
+        Assert.isNotNull(element);
+        Widget widget = internalExpand(element, false);
+        if (widget instanceof TreeItem) {
+            ((TreeItem) widget).setGrayed(state);
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Check and gray the selection rather than calling both
@@ -464,45 +464,45 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
      * @param state a boolean indicating selection or deselection
      * @return boolean indicating success or failure.
      */
-//    public boolean setGrayChecked(Object element, boolean state) {
-//        Assert.isNotNull(element);
-//        Widget widget = internalExpand(element, false);
-//        if (widget instanceof TreeItem) {
-//            TreeItem item = (TreeItem) widget;
-//            item.setChecked(state);
-//            item.setGrayed(state);
-//            return true;
-//        }
-//        return false;
-//    }
+    public boolean setGrayChecked(Object element, boolean state) {
+        Assert.isNotNull(element);
+        Widget widget = internalExpand(element, false);
+        if (widget instanceof TreeItem) {
+            TreeItem item = (TreeItem) widget;
+            item.setChecked(state);
+            item.setGrayed(state);
+            return true;
+        }
+        return false;
+    }
 
-//    /**
-//     * Sets which elements are grayed in this viewer's tree.
-//     * The given list contains the elements that are to be grayed;
-//     * all other elements are to be ungrayed.
-//     * <p>
-//     * This method is typically used when restoring the interesting
-//     * state of a viewer captured by an earlier call to <code>getGrayedElements</code>.
-//     * </p>
-//     *
-//     * @param elements the array of grayed elements
-//     *
-//     * @see #getGrayedElements
-//     */
-//    public void setGrayedElements(Object[] elements) {
-//        assertElementsNotNull(elements);
-//        CustomHashtable grayedElements = newHashtable(elements.length * 2 + 1);
-//        for (int i = 0; i < elements.length; ++i) {
-//            Object element = elements[i];
-//            // Ensure item exists for element
-//            internalExpand(element, false);
-//            grayedElements.put(element, element);
-//        }
-//        Control tree = getControl();
+    /**
+     * Sets which elements are grayed in this viewer's tree.
+     * The given list contains the elements that are to be grayed;
+     * all other elements are to be ungrayed.
+     * <p>
+     * This method is typically used when restoring the interesting
+     * state of a viewer captured by an earlier call to <code>getGrayedElements</code>.
+     * </p>
+     *
+     * @param elements the array of grayed elements
+     *
+     * @see #getGrayedElements
+     */
+    public void setGrayedElements(Object[] elements) {
+        assertElementsNotNull(elements);
+        CustomHashtable grayedElements = newHashtable(elements.length * 2 + 1);
+        for (int i = 0; i < elements.length; ++i) {
+            Object element = elements[i];
+            // Ensure item exists for element
+            internalExpand(element, false);
+            grayedElements.put(element, element);
+        }
+        Control tree = getControl();
 //        tree.setRedraw(false);
-//        internalSetGrayed(grayedElements, tree);
+        internalSetGrayed(grayedElements, tree);
 //        tree.setRedraw(true);
-//    }
+    }
 
     /**
      * Sets the grayed state for the given element and its parents
@@ -515,21 +515,21 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
      *  state could be set, and <code>false</code> otherwise
      * @see #setGrayed
      */
-//    public boolean setParentsGrayed(Object element, boolean state) {
-//        Assert.isNotNull(element);
-//        Widget widget = internalExpand(element, false);
-//        if (widget instanceof TreeItem) {
-//            TreeItem item = (TreeItem) widget;
-//            item.setGrayed(state);
-//            item = item.getParentItem();
-//            while (item != null) {
-//                item.setGrayed(state);
-//                item = item.getParentItem();
-//            }
-//            return true;
-//        }
-//        return false;
-//    }
+    public boolean setParentsGrayed(Object element, boolean state) {
+        Assert.isNotNull(element);
+        Widget widget = internalExpand(element, false);
+        if (widget instanceof TreeItem) {
+            TreeItem item = (TreeItem) widget;
+            item.setGrayed(state);
+            item = item.getParentItem();
+            while (item != null) {
+                item.setGrayed(state);
+                item = item.getParentItem();
+            }
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Sets the checked state for the given element and its visible

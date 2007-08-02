@@ -311,7 +311,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 	 */
 	protected Item getItem(int x, int y) {
 //		return getItemAt(getControl().toControl(x, y));
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	/**

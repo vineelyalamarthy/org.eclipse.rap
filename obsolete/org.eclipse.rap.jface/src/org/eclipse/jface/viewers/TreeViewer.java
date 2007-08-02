@@ -124,22 +124,14 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * @see org.eclipse.jface.viewers.ColumnViewer#getColumnViewerOwner(int)
 	 */
 	protected Widget getColumnViewerOwner(int columnIndex) {
-		// TODO: implement tree columns
-		if(columnIndex == 0) {
-		return getTree();
-		} else  {
-			return null;
-		}
+      if (columnIndex < 0 || ( columnIndex > 0 && columnIndex >= getTree().getColumnCount() ) ) {
+        return null;
+    }
 
-		
-//		if (columnIndex < 0 || ( columnIndex > 0 && columnIndex >= getTree().getColumnCount() ) ) {
-//			return null;
-//		}
-//
-//		if (getTree().getColumnCount() == 0)// Hang it off the table if it
-//			return getTree();
-//		}
-//		return getTree().getColumn(columnIndex);
+    if (getTree().getColumnCount() == 0)// Hang it off the table if it
+        return getTree();
+
+    return getTree().getColumn(columnIndex);
 	}
 
 	/*
@@ -454,16 +446,16 @@ public class TreeViewer extends AbstractTreeViewer {
 							if (itemsToDisassociate[i] instanceof TreeItem) {
 								TreeItem itemToDisassociate = (TreeItem)itemsToDisassociate[i];
 								if (itemToDisassociate != item && itemToDisassociate.getParentItem() == null) {
-//									int index = getTree().indexOf(itemToDisassociate);
+									int index = getTree().indexOf(itemToDisassociate);
 									disassociate(itemToDisassociate);
-//									getTree().clear(index, true);
+									getTree().clear(index, true);
 								}
 							}
 						}
 						Object oldData = item.getData();
 						updateItem(item, element);
 						if (!TreeViewer.this.equals(oldData, element)) {
-//							item.clearAll(true);
+							item.clearAll(true);
 						}
 					}
 				} else {
@@ -478,16 +470,16 @@ public class TreeViewer extends AbstractTreeViewer {
 								if (itemsToDisassociate[j] instanceof TreeItem) {
 									TreeItem itemToDisassociate = (TreeItem)itemsToDisassociate[j];
 									if (itemToDisassociate != item && itemToDisassociate.getParentItem() == parentItem) {
-//										int index = parentItem.indexOf(itemToDisassociate);
+										int index = parentItem.indexOf(itemToDisassociate);
 										disassociate(itemToDisassociate);
-//										parentItem.clear(index, true);
+										parentItem.clear(index, true);
 									}
 								}
 							}
 							Object oldData = item.getData();
 							updateItem(item, element);
 							if (!TreeViewer.this.equals(oldData, element)) {
-//								item.clearAll(true);
+								item.clearAll(true);
 							}
 						}
 					}
@@ -614,9 +606,9 @@ public class TreeViewer extends AbstractTreeViewer {
 		if (contentProviderIsLazy) {
 			// clear all starting with the given widget
 			if (widget instanceof Tree) {
-//				((Tree) widget).clearAll(true);
+				((Tree) widget).clearAll(true);
 			} else if (widget instanceof TreeItem) {
-//				((TreeItem) widget).clearAll(true);
+				((TreeItem) widget).clearAll(true);
 			}
 			int index = 0;
 			Widget parent = null;
@@ -900,7 +892,7 @@ public class TreeViewer extends AbstractTreeViewer {
 							if (child.getData() != null) {
 								disassociate(child);
 							}
-//							item.clear(0, true);
+							item.clear(0, true);
 						} else {
                             virtualLazyUpdateChildCount(item, item.getItemCount());
                         }                            
@@ -1009,9 +1001,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	}
 
 	protected int doGetColumnCount() {
-//		return tree.getColumnCount();
-//		throw new UnsupportedOperationException();
-		return 1;
+		return tree.getColumnCount();
 	}
 	
 	/**
