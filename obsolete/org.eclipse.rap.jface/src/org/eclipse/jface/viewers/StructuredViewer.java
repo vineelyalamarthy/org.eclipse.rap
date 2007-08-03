@@ -220,18 +220,18 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 				if(usedDecorators){
 					//If there is no provider only apply set values
 					if(background != null) {
-//						control.setBackground(background);
+						control.setBackground(background);
 					}
 				
 					if(foreground != null) {
-//						control.setForeground(foreground);
+						control.setForeground(foreground);
 					}
 				}
 			}
 			else{
 				//Always set the value if there is a provider
-//				control.setBackground(background);
-//				control.setForeground(foreground);
+				control.setBackground(background);
+				control.setForeground(foreground);
 			}
 			
 			if(fontProvider == null){
@@ -367,11 +367,11 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 			if(usedDecorators){
 				//If there is no provider only apply set values
 				if(background != null) {
-//					control.setBackground(background);
+					control.setBackground(background);
 				}
 			
 				if(foreground != null) {
-//					control.setForeground(foreground);
+					control.setForeground(foreground);
 				}
 		
 				if(font != null) {

@@ -208,13 +208,13 @@ public class TableLayout extends Layout {
 	 * @param width
 	 */
 	private void setWidth(Item item, int width) {
-//		if (item instanceof TreeColumn) {
-//			((TreeColumn) item).setWidth(width);
-//		} else {
+		if (item instanceof TreeColumn) {
+			((TreeColumn) item).setWidth(width);
+		} else {
 			if (item instanceof TableColumn) {
 				((TableColumn) item).setWidth(width);
 			}
-//		}
+		}
 
 	}
 
@@ -226,8 +226,7 @@ public class TableLayout extends Layout {
 	 */
 	private Item[] getColumns(Composite composite) {
 		if (composite instanceof Tree) {
-//			return ((Tree) composite).getColumns();
-			throw new UnsupportedOperationException();
+			return ((Tree) composite).getColumns();
 		}
 		return ((Table) composite).getColumns();
 	}
