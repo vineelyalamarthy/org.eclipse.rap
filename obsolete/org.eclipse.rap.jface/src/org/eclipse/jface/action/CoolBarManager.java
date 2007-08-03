@@ -814,7 +814,7 @@ public class CoolBarManager extends ContributionManager implements
         boolean changed = false;
 
         try {
-//            coolBar.setRedraw(false);
+            coolBar.setRedraw(false);
 
             // Refresh the widget data with the internal data structure.
             refresh();
@@ -951,7 +951,7 @@ public class CoolBarManager extends ContributionManager implements
             // We are no longer dirty.
             setDirty(false);
         } finally {
-//            coolBar.setRedraw(true);
+            coolBar.setRedraw(true);
         }
     }
 

@@ -887,9 +887,9 @@ public abstract class PartSashContainer extends LayoutPart implements
     }
     
     public void childRequestZoomIn(LayoutPart toZoom) {
-//        if (!SwtUtil.isDisposed(this.parent)) {
-//            this.parent.setRedraw(false);
-//        }
+        if (!SwtUtil.isDisposed(this.parent)) {
+            this.parent.setRedraw(false);
+        }
         try {
 	        zoomIn(toZoom);
 	        
@@ -899,16 +899,16 @@ public abstract class PartSashContainer extends LayoutPart implements
 	            resizeSashes();
 	        }
         } finally {
-//            if (!SwtUtil.isDisposed(this.parent)) {
-//                this.parent.setRedraw(true);
-//            }
+            if (!SwtUtil.isDisposed(this.parent)) {
+                this.parent.setRedraw(true);
+            }
         }
     }
     
     public void childRequestZoomOut() { 
-//        if (!SwtUtil.isDisposed(this.parent)) {
-//            this.parent.setRedraw(false);
-//        }
+        if (!SwtUtil.isDisposed(this.parent)) {
+            this.parent.setRedraw(false);
+        }
         try {
 	        zoomOut();
 	        
@@ -918,9 +918,9 @@ public abstract class PartSashContainer extends LayoutPart implements
 	            resizeSashes();
 	        }
         } finally {
-//            if (!SwtUtil.isDisposed(this.parent)) {
-//                this.parent.setRedraw(true);
-//            }
+            if (!SwtUtil.isDisposed(this.parent)) {
+                this.parent.setRedraw(true);
+            }
         }
     }
     

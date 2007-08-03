@@ -150,7 +150,7 @@ public class Hyperlink extends AbstractHyperlink {
 	 */
 	public void setUnderlined(boolean underlined) {
 		this.underlined = underlined;
-//		redraw();
+		redraw();
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class Hyperlink extends AbstractHyperlink {
 			this.text = text;
 		else
 			this.text = ""; //$NON-NLS-1$
-//		redraw();
+		redraw();
 	}
 
 //	/**

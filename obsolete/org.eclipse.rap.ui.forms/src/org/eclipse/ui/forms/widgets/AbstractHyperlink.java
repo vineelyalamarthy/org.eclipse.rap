@@ -176,7 +176,7 @@ public abstract class AbstractHyperlink extends Canvas {
 	 * must call 'super'.
 	 */
 	protected void handleEnter(Event e) {
-//		redraw();
+		redraw();
 		if (listeners == null)
 			return;
 		int size = listeners.size();
@@ -196,7 +196,7 @@ public abstract class AbstractHyperlink extends Canvas {
 	protected void handleExit(Event e) {
 		// disarm the link; won't activate on mouseup
 		armed = false;
-//		redraw();
+		redraw();
 		if (listeners == null)
 			return;
 		int size = listeners.size();
@@ -332,6 +332,6 @@ public abstract class AbstractHyperlink extends Canvas {
 
 	public void setEnabled (boolean enabled) {
 		super.setEnabled(enabled);
-//		redraw();
+		redraw();
 	}
 }

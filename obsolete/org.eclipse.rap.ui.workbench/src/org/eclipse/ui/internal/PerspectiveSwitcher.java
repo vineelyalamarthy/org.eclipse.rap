@@ -1136,7 +1136,7 @@ public class PerspectiveSwitcher implements IWindowTrim {
         // make sure the selected item is visible
         perspectiveBar.arrangeToolbar();
         setCoolItemSize(coolItem);
-//        perspectiveBar.getControl().redraw();
+        perspectiveBar.getControl().redraw();
     }
 
     /**

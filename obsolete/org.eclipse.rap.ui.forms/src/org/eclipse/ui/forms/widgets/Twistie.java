@@ -87,6 +87,6 @@ public class Twistie extends ToggleHyperlink {
 	 */
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
-//		redraw();
+		redraw();
 	}
 }

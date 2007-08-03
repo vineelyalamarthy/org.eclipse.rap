@@ -271,7 +271,7 @@ public class Form extends Composite {
 	public void setText(String text) {
 		head.setText(text);
 		layout();
-//		redraw();
+		redraw();
 	}
 
 	/**
@@ -291,7 +291,7 @@ public class Form extends Composite {
 	public void setImage(Image image) {
 		head.setImage(image);
 		layout();
-//		redraw();
+		redraw();
 	}
 
 	/**

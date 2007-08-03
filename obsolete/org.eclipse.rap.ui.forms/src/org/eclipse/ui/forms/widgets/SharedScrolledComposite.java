@@ -183,7 +183,7 @@ public abstract class SharedScrolledComposite extends ScrolledComposite {
 		if (flushCache) {
 			contentCache.flush();
 		}
-//		setRedraw(false);
+		setRedraw(false);
 		Point newSize = contentCache.computeSize(FormUtil.getWidthHint(
 				clientArea.width, c), FormUtil.getHeightHint(clientArea.height,
 				c));
@@ -201,7 +201,7 @@ public abstract class SharedScrolledComposite extends ScrolledComposite {
 		ignoreLayouts = true;
 
 		contentCache.layoutIfNecessary();
-//		setRedraw(true);
+		setRedraw(true);
 	}
 
 	private void updateSizeWhilePending() {

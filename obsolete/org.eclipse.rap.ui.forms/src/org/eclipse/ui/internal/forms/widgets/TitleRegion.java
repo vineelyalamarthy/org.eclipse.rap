@@ -278,7 +278,7 @@ public class TitleRegion extends Canvas {
 		if (menuHyperlink != null)
 			menuHyperlink.setBackground(color != null ? color
 					: getColor(FormHeading.COLOR_BASE_BG));
-//		redraw();
+		redraw();
 	}
 
 	/**

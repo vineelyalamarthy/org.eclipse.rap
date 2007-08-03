@@ -1428,7 +1428,7 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
 		if (useNewMinMax) {
 //        	StartupThreading.runWithoutExceptions(new StartupRunnable() {
 //				public void runWithException() throws Throwable {
-//					wbw.getPageComposite().setRedraw(false);
+					wbw.getPageComposite().setRedraw(false);
 					try {
 						if (newState == IStackPresentationSite.STATE_MAXIMIZED) {
 //							smartZoom();
@@ -1440,10 +1440,10 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
 							setMinimized(true);
 						}
 					} finally {
-//						wbw.getPageComposite().setRedraw(true);
+						wbw.getPageComposite().setRedraw(true);
 
 						// Force a redraw (fixes Mac refresh)
-//						wbw.getShell().redraw();
+						wbw.getShell().redraw();
 					}
 
 					setPresentationState(newState);

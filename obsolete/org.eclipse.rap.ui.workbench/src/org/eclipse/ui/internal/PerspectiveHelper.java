@@ -1359,11 +1359,11 @@ public class PerspectiveHelper {
         PartPane pane = ((WorkbenchPartReference) ref).getPane();
 
 
-//        parentWidget.setRedraw(false);
+        parentWidget.setRedraw(false);
         try {
             pane.requestZoomIn();
         } finally {
-//            parentWidget.setRedraw(true);
+            parentWidget.setRedraw(true);
         }
     }
 

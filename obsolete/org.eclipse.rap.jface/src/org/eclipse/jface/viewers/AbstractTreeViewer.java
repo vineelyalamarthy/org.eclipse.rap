@@ -1412,13 +1412,13 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				// (size > REDRAW_THRESHOLD) || (table.getItemCount() >
 				// REDRAW_THRESHOLD);
 				if (useRedraw) {
-//					tree.setRedraw(false);
+					tree.setRedraw(false);
 				}
 				removeAll(tree);
 				tree.setData(getRoot());
 				internalInitializeTree(tree);
 				if (useRedraw) {
-//					tree.setRedraw(true);
+					tree.setRedraw(true);
 				}
 			}
 
@@ -2020,10 +2020,10 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	protected void labelProviderChanged() {
 		// we have to walk the (visible) tree and update every item
 		Control tree = getControl();
-//		tree.setRedraw(false);
+		tree.setRedraw(false);
 		// don't pick up structure changes, but do force label updates
 		internalRefresh(tree, getRoot(), false, true);
-//		tree.setRedraw(true);
+		tree.setRedraw(true);
 	}
 
 	/**
@@ -2619,9 +2619,9 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 
 		// WORKAROUND
 		if (widget == tree && oldCnt == 0 && getItemCount(tree) != 0) {
-			// System.out.println("WORKAROUND setRedraw");
-//			tree.setRedraw(false);
-//			tree.setRedraw(true);
+			 System.out.println("WORKAROUND setRedraw");
+			tree.setRedraw(false);
+			tree.setRedraw(true);
 		}
 	}
 

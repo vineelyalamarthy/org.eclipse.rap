@@ -736,7 +736,7 @@ public class ContentProposalAdapter {
                     proposalTable.clearAll();
                 } else {
                     // Populate the table manually
-//                    proposalTable.setRedraw(false);
+                    proposalTable.setRedraw(false);
                     proposalTable.setItemCount(newSize);
                     TableItem[] items = proposalTable.getItems();
                     for (int i = 0; i < items.length; i++) {
@@ -746,7 +746,7 @@ public class ContentProposalAdapter {
                         item.setImage(getImage(proposal));
                         item.setData(proposal);
                     }
-//                    proposalTable.setRedraw(true);
+                    proposalTable.setRedraw(true);
                 }
                 // Default to the first selection if there is content.
                 if (newProposals.length > 0) {

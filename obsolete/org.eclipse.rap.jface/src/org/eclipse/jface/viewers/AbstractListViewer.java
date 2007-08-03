@@ -365,7 +365,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
             	topIndex = listGetTopIndex();
             }
             
-//            list.setRedraw(false);
+            list.setRedraw(false);
 			listRemoveAll();
             
             Object[] children = getSortedChildren(getRoot());
@@ -381,7 +381,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
             }
 			
 			listSetItems(items);
-//            list.setRedraw(true);
+            list.setRedraw(true);
             
             if (topIndex == -1) {
             	setSelectionToWidget(selection, false);

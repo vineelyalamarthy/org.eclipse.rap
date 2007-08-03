@@ -969,7 +969,7 @@ public class FormHeading extends Canvas {
 		if (messageToolTipManager != null)
 			messageToolTipManager.update();
 		layout();
-//		redraw();
+		redraw();
 	}
 
 	/**

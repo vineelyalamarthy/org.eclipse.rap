@@ -15,9 +15,11 @@ package org.eclipse.jface.viewers;
 
 import java.util.*;
 import java.util.List;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.*;
+
 
 /**
  * This is a widget independent class implementors of
@@ -331,51 +333,66 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @see org.eclipse.jface.viewers.StructuredViewer#doUpdateItem(org.eclipse.swt.widgets.Widget,
 	 *      java.lang.Object, boolean)
 	 */
-	protected void doUpdateItem(Widget widget, Object element, boolean fullMap) {
-		boolean oldBusy = busy;
-		busy = true;
-		try {
-			if (widget instanceof Item) {
-				final Item item = (Item) widget;
-	
-				// remember element we are showing
-				if (fullMap) {
-					associate(element, item);
-				} else {
-					Object data = item.getData();
-					if (data != null) {
-						unmapElement(data, item);
-					}
-					item.setData(element);
-					mapElement(element, item);
-				}
-	
-				int columnCount = doGetColumnCount();
-				if (columnCount == 0)
-					columnCount = 1;// If there are no columns do the first one
-	
-				ViewerRow viewerRowFromItem = getViewerRowFromItem(item);
-				// Also enter loop if no columns added. See 1G9WWGZ: JFUIF:WINNT -
-				// TableViewer with 0 columns does not work
-				for (int column = 0; column < columnCount || column == 0; column++) {
-					ViewerColumn columnViewer = getViewerColumn(column);
-					columnViewer.refresh(updateCell(viewerRowFromItem,
-							column, element));
-	
-					// As it is possible for user code to run the event
-					// loop check here.
-					if (item.isDisposed()) {
-						unmapElement(element, item);
-						return;
-					}
-	
-				}
-	
-			}
-		} finally {
-			busy = oldBusy;
-		}
-	}
+    protected void doUpdateItem(Widget widget, Object element, boolean fullMap) {
+      boolean oldBusy = busy;
+      busy = true;
+      try {
+          if (widget instanceof Item) {
+              final Item item = (Item) widget;
+  
+              // remember element we are showing
+              if (fullMap) {
+                  associate(element, item);
+              } else {
+                  Object data = item.getData();
+                  if (data != null) {
+                      unmapElement(data, item);
+                  }
+                  item.setData(element);
+                  mapElement(element, item);
+              }
+  
+              int columnCount = doGetColumnCount();
+              if (columnCount == 0)
+                  columnCount = 1;// If there are no columns do the first one
+  
+              ViewerRow viewerRowFromItem = getViewerRowFromItem(item);
+
+              boolean isVirtual = (getControl().getStyle() & SWT.VIRTUAL) != 0;
+
+              // If the control is virtual, we cannot use the cached viewer row object. See bug 188663.
+              if (isVirtual) {
+                  viewerRowFromItem = (ViewerRow) viewerRowFromItem.clone();
+              }
+              
+              // Also enter loop if no columns added. See 1G9WWGZ: JFUIF:WINNT -
+              // TableViewer with 0 columns does not work
+              for (int column = 0; column < columnCount || column == 0; column++) {
+                  ViewerColumn columnViewer = getViewerColumn(column);
+                  ViewerCell cellToUpdate = updateCell(viewerRowFromItem,
+                          column, element);
+                  
+                  // If the control is virtual, we cannot use the cached cell object. See bug 188663.
+                  if (isVirtual) {
+                      cellToUpdate = new ViewerCell(cellToUpdate.getViewerRow(), cellToUpdate.getColumnIndex(), element);
+                  }
+
+                  columnViewer.refresh(cellToUpdate);
+  
+                  // As it is possible for user code to run the event
+                  // loop check here.
+                  if (item.isDisposed()) {
+                      unmapElement(element, item);
+                      return;
+                  }
+  
+              }
+  
+          }
+      } finally {
+          busy = oldBusy;
+      }
+  }
 
 	/*
 	 * (non-Javadoc)
@@ -543,7 +560,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *      java.lang.Object)
 	 */
 	protected void inputChanged(Object input, Object oldInput) {
-//		getControl().setRedraw(false);
+		getControl().setRedraw(false);
 		try {
 			preservingSelection(new Runnable() {
 				public void run() {
@@ -551,7 +568,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 				}
 			});
 		} finally {
-//			getControl().setRedraw(true);
+			getControl().setRedraw(true);
 		}
 	}
 
@@ -993,10 +1010,11 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		if (virtualManager != null) {
 			virtualManager.adjustCacheSize(count);
 		}
-//		getControl().redraw();
+
+		getControl().redraw();
 	}
 
-	/**
+  /**
 	 * Replace the entries starting at index with elements. This method assumes
 	 * all of these values are correct and will not call the content provider to
 	 * verify. <strong>Note that this method will create a TableItem for all of

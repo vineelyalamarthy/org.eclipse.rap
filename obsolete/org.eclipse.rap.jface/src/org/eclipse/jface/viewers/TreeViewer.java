@@ -15,9 +15,10 @@ package org.eclipse.jface.viewers;
 
 import java.util.*;
 import java.util.List;
+
+import org.eclipse.jface.util.Policy;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.TreeEvent;
-import org.eclipse.swt.events.TreeListener;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.*;
 
@@ -42,8 +43,8 @@ import org.eclipse.swt.widgets.*;
  */
 public class TreeViewer extends AbstractTreeViewer {
 
-//	private static final String VIRTUAL_DISPOSE_KEY = Policy.JFACE
-//			+ ".DISPOSE_LISTENER"; //$NON-NLS-1$
+	private static final String VIRTUAL_DISPOSE_KEY = Policy.JFACE
+			+ ".DISPOSE_LISTENER"; //$NON-NLS-1$
 
 	/**
 	 * This viewer's control.
@@ -53,7 +54,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	/**
 	 * Flag for whether the tree has been disposed of.
 	 */
-//	private boolean treeIsDisposed = false;
+	private boolean treeIsDisposed = false;
 
 	private boolean contentProviderIsLazy;
 
@@ -235,31 +236,31 @@ public class TreeViewer extends AbstractTreeViewer {
 	 */
 	protected void hookControl(Control control) {
 		super.hookControl(control);
-//		Tree treeControl = (Tree) control;
+		Tree treeControl = (Tree) control;
 		
-//		if ((treeControl.getStyle() & SWT.VIRTUAL) != 0) {
-//			treeControl.addDisposeListener(new DisposeListener() {
-//				public void widgetDisposed(DisposeEvent e) {
-//					treeIsDisposed = true;
-//					unmapAllElements();
-//				}
-//			});
-			// TODO: review when SWT.SetData is here and VIRTUAL
-//			treeControl.addListener(SWT.SetData, new Listener() {
-//
-//				public void handleEvent(Event event) {
-//					if (contentProviderIsLazy) {
-//						TreeItem item = (TreeItem) event.item;
-//						TreeItem parentItem = item.getParentItem();
-//						int index = event.index;
-//						virtualLazyUpdateWidget(
-//								parentItem == null ? (Widget) getTree()
-//										: parentItem, index);
-//					}
-//				}
-//
-//			});
-//		}
+		if ((treeControl.getStyle() & SWT.VIRTUAL) != 0) {
+			treeControl.addDisposeListener(new DisposeListener() {
+				public void widgetDisposed(DisposeEvent e) {
+					treeIsDisposed = true;
+					unmapAllElements();
+				}
+			});
+//			 TODO: review when SWT.SetData is here and VIRTUAL
+			treeControl.addListener(SWT.SetData, new Listener() {
+
+				public void handleEvent(Event event) {
+					if (contentProviderIsLazy) {
+						TreeItem item = (TreeItem) event.item;
+						TreeItem parentItem = item.getParentItem();
+						int index = event.index;
+						virtualLazyUpdateWidget(
+								parentItem == null ? (Widget) getTree()
+										: parentItem, index);
+					}
+				}
+
+			});
+		}
 	}
 
 //	protected ColumnViewerEditor createViewerEditor() {
@@ -382,22 +383,21 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * @since 3.2
 	 */
 	public void setChildCount(final Object elementOrTreePath, final int count) {
-//		if (isBusy())
-//			return;
-//		preservingSelection(new Runnable() {
-//			public void run() {
-//				if (internalIsInputOrEmptyPath(elementOrTreePath)) {
-//					getTree().setItemCount(count);
-//					return;
-//				}
-//				Widget[] items = internalFindItems(elementOrTreePath);
-//				for (int i = 0; i < items.length; i++) {
-//					TreeItem treeItem = (TreeItem) items[i];
-//					treeItem.setItemCount(count);
-//				}
-//			}
-//		});
-		throw new UnsupportedOperationException();
+		if (isBusy())
+			return;
+		preservingSelection(new Runnable() {
+			public void run() {
+				if (internalIsInputOrEmptyPath(elementOrTreePath)) {
+					getTree().setItemCount(count);
+					return;
+				}
+				Widget[] items = internalFindItems(elementOrTreePath);
+				for (int i = 0; i < items.length; i++) {
+					TreeItem treeItem = (TreeItem) items[i];
+					treeItem.setItemCount(count);
+				}
+			}
+		});
 	}
 
 	/**
@@ -557,14 +557,14 @@ public class TreeViewer extends AbstractTreeViewer {
 			Object[] childElements) {
 		if (contentProviderIsLazy) {
 			if (widget instanceof TreeItem) {
-//				TreeItem ti = (TreeItem) widget;
-//				int count = ti.getItemCount() + childElements.length;
-//				ti.setItemCount(count);
-//				ti.clearAll(false);
+				TreeItem ti = (TreeItem) widget;
+				int count = ti.getItemCount() + childElements.length;
+				ti.setItemCount(count);
+				ti.clearAll(false);
 			} else {
-//				Tree t = (Tree) widget;
-//				t.setItemCount(t.getItemCount() + childElements.length);
-//				t.clearAll(false);
+				Tree t = (Tree) widget;
+				t.setItemCount(t.getItemCount() + childElements.length);
+				t.clearAll(false);
 			}
 			return;
 		}
@@ -642,7 +642,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	private void virtualRefreshExpandedItems(Widget parent, Widget widget, Object element, int index) {
 		if (widget instanceof Tree) {
 			if (element == null) {
-//				((Tree) widget).setItemCount(0);
+				((Tree) widget).setItemCount(0);
 				return;
 			}
 			virtualLazyUpdateChildCount(widget, getChildren(widget).length);
@@ -668,23 +668,23 @@ public class TreeViewer extends AbstractTreeViewer {
 	protected void mapElement(Object element, final Widget item) {
 		super.mapElement(element, item);
 		// make sure to unmap elements if the tree is virtual
-//		if ((getTree().getStyle() & SWT.VIRTUAL) != 0) {
-//			// only add a dispose listener if item hasn't already on assigned
-//			// because it is reused
-//			if (item.getData(VIRTUAL_DISPOSE_KEY) == null) {
-//				item.setData(VIRTUAL_DISPOSE_KEY, Boolean.TRUE);
-//				item.addDisposeListener(new DisposeListener() {
-//					public void widgetDisposed(DisposeEvent e) {
-//						if (!treeIsDisposed) {
-//							Object data = item.getData();
-//							if (usingElementMap() && data != null) {
-//								unmapElement(data, item);
-//							}
-//						}
-//					}
-//				});
-//			}
-//		}
+		if ((getTree().getStyle() & SWT.VIRTUAL) != 0) {
+			// only add a dispose listener if item hasn't already on assigned
+			// because it is reused
+			if (item.getData(VIRTUAL_DISPOSE_KEY) == null) {
+				item.setData(VIRTUAL_DISPOSE_KEY, Boolean.TRUE);
+				item.addDisposeListener(new DisposeListener() {
+					public void widgetDisposed(DisposeEvent e) {
+						if (!treeIsDisposed) {
+							Object data = item.getData();
+							if (usingElementMap() && data != null) {
+								unmapElement(data, item);
+							}
+						}
+					}
+				});
+			}
+		}
 	}
 
 	/*

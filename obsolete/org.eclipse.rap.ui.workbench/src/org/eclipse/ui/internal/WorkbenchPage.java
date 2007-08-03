@@ -2810,14 +2810,14 @@ public class WorkbenchPage implements
         // coolbar as the perspective is reset.
         ICoolBarManager2 mgr = (ICoolBarManager2) window.getCoolBarManager2();
         try {
-//            mgr.getControl2().setRedraw(false);
+            mgr.getControl2().setRedraw(false);
             BusyIndicator.showWhile(null, new Runnable() {
                 public void run() {
                     busyResetPerspective();
                 }
             });
         } finally {
-//            mgr.getControl2().setRedraw(true);
+            mgr.getControl2().setRedraw(true);
         }
     }
 
@@ -3424,10 +3424,10 @@ public class WorkbenchPage implements
         // Going from multiple to single rows can make the coolbar
         // and its adjacent views appear jumpy as perspectives are
         // switched. Turn off redraw to help with this.
-//        ICoolBarManager2 mgr = (ICoolBarManager2) window.getCoolBarManager2();
+        ICoolBarManager2 mgr = (ICoolBarManager2) window.getCoolBarManager2();
         try {
-//            mgr.getControl2().setRedraw(false);
-//            getClientComposite().setRedraw(false);
+            mgr.getControl2().setRedraw(false);
+            getClientComposite().setRedraw(false);
             // Run op in busy cursor.
             BusyIndicator.showWhile(null, new Runnable() {
                 public void run() {
@@ -3435,8 +3435,8 @@ public class WorkbenchPage implements
                 }
             });
         } finally {
-//            getClientComposite().setRedraw(true);
-//            mgr.getControl2().setRedraw(true);
+            getClientComposite().setRedraw(true);
+            mgr.getControl2().setRedraw(true);
             IWorkbenchPart part = getActivePart();
             if (part != null) {
 				part.setFocus();

@@ -128,7 +128,7 @@ public class ProgressCanvasViewer extends AbstractProgressViewer {
      */
     protected void doUpdateItem(Widget item, Object element, boolean fullMap) {
       updateLabel();
-//        canvas.redraw();
+        canvas.redraw();
     }
 
     /*
@@ -149,7 +149,7 @@ public class ProgressCanvasViewer extends AbstractProgressViewer {
     protected void internalRefresh(Object element) {
         displayedItems = getSortedChildren(getRoot());
         updateLabel();
-//        canvas.redraw();^
+        canvas.redraw();
     }
 
     /*

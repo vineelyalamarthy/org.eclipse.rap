@@ -173,11 +173,11 @@ public class ImageHyperlink extends Hyperlink {
 
 	protected void handleActivate(Event e) {
 		state &= ACTIVE;
-//		redraw();
+		redraw();
 		super.handleActivate(e);
 		state &= ~ACTIVE;
-//		if (!isDisposed())
-//			redraw();
+		if (!isDisposed())
+			redraw();
 	}
 
 	/**

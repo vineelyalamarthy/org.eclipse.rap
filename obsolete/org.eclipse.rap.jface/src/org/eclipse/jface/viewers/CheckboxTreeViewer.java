@@ -432,9 +432,9 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
             checkedElements.put(element, element);
         }
         Control tree = getControl();
-//        tree.setRedraw(false);
+        tree.setRedraw(false);
         internalSetChecked(checkedElements, tree);
-//        tree.setRedraw(true);
+        tree.setRedraw(true);
     }
 
     /**
@@ -499,9 +499,9 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
             grayedElements.put(element, element);
         }
         Control tree = getControl();
-//        tree.setRedraw(false);
+        tree.setRedraw(false);
         internalSetGrayed(grayedElements, tree);
-//        tree.setRedraw(true);
+        tree.setRedraw(true);
     }
 
     /**

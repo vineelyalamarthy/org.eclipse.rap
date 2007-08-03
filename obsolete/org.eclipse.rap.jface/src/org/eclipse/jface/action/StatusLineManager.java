@@ -302,7 +302,7 @@ public class StatusLineManager extends ContributionManager implements
         if (isDirty() || force) {
 
             if (statusLineExist()) {
-//                statusLine.setRedraw(false);
+                statusLine.setRedraw(false);
 
                 // NOTE: the update algorithm is non-incremental.
                 // An incremental algorithm requires that SWT items can be created in the middle of the list
@@ -336,7 +336,7 @@ public class StatusLineManager extends ContributionManager implements
                 setDirty(false);
 
                 statusLine.layout();
-//                statusLine.setRedraw(true);
+                statusLine.setRedraw(true);
             }
         }
     }

@@ -122,7 +122,7 @@ public class Section extends ExpandableComposite {
 	protected void reflow() {
 		Composite c = this;
 		while (c != null) {
-//			c.setRedraw(false);
+			c.setRedraw(false);
 			c = c.getParent();
 			if (c instanceof ScrolledForm) {
 				break;
@@ -139,7 +139,7 @@ public class Section extends ExpandableComposite {
 		}
 		c = this;
 		while (c != null) {
-//			c.setRedraw(true);
+			c.setRedraw(true);
 			c = c.getParent();
 			if (c instanceof ScrolledForm) {
 				break;

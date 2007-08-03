@@ -265,7 +265,7 @@ public class ToolBarManager extends ContributionManager implements
 						.size())) >= 3;
                 try {
                     if (useRedraw) {
-//                        toolBar.setRedraw(false);
+                        toolBar.setRedraw(false);
                     }
 
                     // remove obsolete items
@@ -337,7 +337,7 @@ public class ToolBarManager extends ContributionManager implements
                     // turn redraw back on if we turned it off above
                 } finally {
                     if (useRedraw) {
-//                        toolBar.setRedraw(true);
+                        toolBar.setRedraw(true);
                     }
                 }
 

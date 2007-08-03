@@ -272,7 +272,7 @@ public class DecoratedField {
 			if (!t.equals(text)) {
 //				Point oldSize = getExtent();
 				text = t;
-//				hoverShell.redraw();
+				hoverShell.redraw();
 //				Point newSize = getExtent();
 //				if (!oldSize.equals(newSize)) {
 //					// set a flag that indicates the direction of arrow

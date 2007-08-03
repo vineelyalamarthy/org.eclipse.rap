@@ -406,10 +406,10 @@ public abstract class AbstractTableInformationControl {
      */
     protected void stringMatcherUpdated() {
         // refresh viewer to refilter
-//        fTableViewer.getControl().setRedraw(false);
+        fTableViewer.getControl().setRedraw(false);
         fTableViewer.refresh();
         selectFirstMatch();
-//        fTableViewer.getControl().setRedraw(true);
+        fTableViewer.getControl().setRedraw(true);
     }
 
     /**
