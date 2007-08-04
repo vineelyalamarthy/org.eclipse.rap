@@ -13,9 +13,11 @@ package org.eclipse.jface.fieldassist;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.jface.resource.*;
 import org.eclipse.swt.graphics.Image;
 
-import com.w4t.util.ImageRegistry;
+import com.w4t.SessionSingletonBase;
+
 
 /**
  * FieldDecorationRegistry is a common registry used to define shared field
@@ -39,7 +41,7 @@ import com.w4t.util.ImageRegistry;
  * 
  * @since 3.2
  */
-public class FieldDecorationRegistry {
+public class FieldDecorationRegistry extends SessionSingletonBase {
 
 	/**
 	 * Decoration id for the decoration that should be used to cue the user that
@@ -84,82 +86,18 @@ public class FieldDecorationRegistry {
 	/*
 	 * Image id's
 	 */
-//	private static final String IMG_DEC_FIELD_CONTENT_PROPOSAL = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_CONTENT_PROPOSAL"; //$NON-NLS-1$
-//
-//	private static final String IMG_DEC_FIELD_REQUIRED = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_REQUIRED"; //$NON-NLS-1$
-//
-//	private static final String IMG_DEC_FIELD_ERROR = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_ERROR"; //$NON-NLS-1$
-//	
-//	private static final String IMG_DEC_FIELD_ERROR_QUICKFIX = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_ERROR_QUICKFIX"; //$NON-NLS-1$
-//
-//	private static final String IMG_DEC_FIELD_WARNING = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_WARNING"; //$NON-NLS-1$
-//
-//	private static final String IMG_DEC_FIELD_INFO = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_INFO"; //$NON-NLS-1$
+	private static final String IMG_DEC_FIELD_CONTENT_PROPOSAL = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_CONTENT_PROPOSAL"; //$NON-NLS-1$
 
-	/*
-	 * Declare images and decorations immediately.
-	 */
-	static {
-//		ImageRegistry imageRegistry = JFaceResources.getImageRegistry();
+	private static final String IMG_DEC_FIELD_REQUIRED = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_REQUIRED"; //$NON-NLS-1$
 
-		// Define the images used in the standard decorations.
-//		imageRegistry.put(IMG_DEC_FIELD_CONTENT_PROPOSAL, ImageDescriptor
-//				.createFromFile(FieldDecorationRegistry.class,
-//						"images/contassist_ovr.gif"));//$NON-NLS-1$
-//		imageRegistry.put(IMG_DEC_FIELD_ERROR, ImageDescriptor.createFromFile(
-//				FieldDecorationRegistry.class, "images/error_ovr.gif"));//$NON-NLS-1$
-//
-//		imageRegistry.put(IMG_DEC_FIELD_WARNING, ImageDescriptor
-//				.createFromFile(FieldDecorationRegistry.class,
-//						"images/warn_ovr.gif"));//$NON-NLS-1$
-//
-//		imageRegistry.put(IMG_DEC_FIELD_REQUIRED, ImageDescriptor
-//				.createFromFile(FieldDecorationRegistry.class,
-//						"images/required_field_cue.gif"));//$NON-NLS-1$	
-//		
-//		imageRegistry.put(IMG_DEC_FIELD_ERROR_QUICKFIX, ImageDescriptor
-//				.createFromFile(FieldDecorationRegistry.class,
-//						"images/errorqf_ovr.gif"));//$NON-NLS-1$
-//		
-//		imageRegistry.put(IMG_DEC_FIELD_INFO, ImageDescriptor
-//				.createFromFile(FieldDecorationRegistry.class,
-//						"images/info_ovr.gif"));//$NON-NLS-1$		
+	private static final String IMG_DEC_FIELD_ERROR = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_ERROR"; //$NON-NLS-1$
+	
+	private static final String IMG_DEC_FIELD_ERROR_QUICKFIX = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_ERROR_QUICKFIX"; //$NON-NLS-1$
 
-		// Define the standard decorations. Some do not have standard
-		// descriptions. Use null in these cases.
-//		getDefault()
-//				.registerFieldDecoration(
-//						DEC_CONTENT_PROPOSAL,
-//						JFaceResources
-//								.getString("FieldDecorationRegistry.contentAssistMessage"), //$NON-NLS-1$
-//						IMG_DEC_FIELD_CONTENT_PROPOSAL, imageRegistry);
-//
-//		getDefault().registerFieldDecoration(
-//				DEC_ERROR,
-//				JFaceResources
-//						.getString("FieldDecorationRegistry.errorMessage"), //$NON-NLS-1$
-//				IMG_DEC_FIELD_ERROR, imageRegistry);
-//		
-//		getDefault().registerFieldDecoration(
-//				DEC_ERROR_QUICKFIX,
-//				JFaceResources
-//						.getString("FieldDecorationRegistry.errorQuickFixMessage"), //$NON-NLS-1$
-//				IMG_DEC_FIELD_ERROR_QUICKFIX, imageRegistry);
-//
-//		getDefault().registerFieldDecoration(DEC_WARNING, null,
-//				IMG_DEC_FIELD_WARNING, imageRegistry);
-//		
-//		getDefault().registerFieldDecoration(DEC_INFORMATION, null,
-//				IMG_DEC_FIELD_INFO, imageRegistry);
-//
-//		getDefault()
-//				.registerFieldDecoration(
-//						DEC_REQUIRED,
-//						JFaceResources
-//								.getString("FieldDecorationRegistry.requiredFieldMessage"), //$NON-NLS-1$
-//						IMG_DEC_FIELD_REQUIRED, imageRegistry);
+	private static final String IMG_DEC_FIELD_WARNING = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_WARNING"; //$NON-NLS-1$
 
-	}
+	private static final String IMG_DEC_FIELD_INFO = "org.eclipse.jface.fieldassist.IMG_DEC_FIELD_INFO"; //$NON-NLS-1$
+
 
 	/*
 	 * Data structure that holds onto the decoration image info and description,
@@ -168,19 +106,19 @@ public class FieldDecorationRegistry {
 	class Entry {
 		private String description;
 
-//		private String imageId;
+		private String imageId;
 
-//		private ImageRegistry imageRegistry;
+		private ImageRegistry imageRegistry;
 
 		private Image image;
 
 		private FieldDecoration decoration;
 
-//		Entry(String description, String imageId, ImageRegistry registry) {
-//			this.description = description;
-//			this.imageId = imageId;
-//			this.imageRegistry = registry;
-//		}
+		Entry(String description, String imageId, ImageRegistry registry) {
+			this.description = description;
+			this.imageId = imageId;
+			this.imageRegistry = registry;
+		}
 
 		Entry(String description, Image image) {
 			this.description = description;
@@ -190,28 +128,91 @@ public class FieldDecorationRegistry {
 		FieldDecoration getDecoration() {
 			if (decoration == null) {
 				if (image == null) {
-//					if (imageRegistry == null) {
-//						imageRegistry = JFaceResources.getImageRegistry();
-//					}
-//					image = imageRegistry.get(imageId);
+					if (imageRegistry == null) {
+						imageRegistry = JFaceResources.getImageRegistry();
+					}
+					image = imageRegistry.get(imageId);
 				}
 				decoration = new FieldDecoration(image, description);
 			}
 			// Null out all other fields now that the decoration has an image
 			description = null;
-//			imageId = null;
-//			imageRegistry = null;
+			imageId = null;
+			imageRegistry = null;
 			image = null;
 
 			return decoration;
 		}
 	}
+	
+	/*
+     * Declare images and decorations immediately.
+     */
+    private void init() {
+        ImageRegistry imageRegistry = JFaceResources.getImageRegistry();
+
+        // Define the images used in the standard decorations.
+        imageRegistry.put(IMG_DEC_FIELD_CONTENT_PROPOSAL, ImageDescriptor
+                .createFromFile(FieldDecorationRegistry.class,
+                        "images/contassist_ovr.gif"));//$NON-NLS-1$
+        imageRegistry.put(IMG_DEC_FIELD_ERROR, ImageDescriptor.createFromFile(
+                FieldDecorationRegistry.class, "images/error_ovr.gif"));//$NON-NLS-1$
+
+        imageRegistry.put(IMG_DEC_FIELD_WARNING, ImageDescriptor
+                .createFromFile(FieldDecorationRegistry.class,
+                        "images/warn_ovr.gif"));//$NON-NLS-1$
+
+        imageRegistry.put(IMG_DEC_FIELD_REQUIRED, ImageDescriptor
+                .createFromFile(FieldDecorationRegistry.class,
+                        "images/required_field_cue.gif"));//$NON-NLS-1$ 
+        
+        imageRegistry.put(IMG_DEC_FIELD_ERROR_QUICKFIX, ImageDescriptor
+                .createFromFile(FieldDecorationRegistry.class,
+                        "images/errorqf_ovr.gif"));//$NON-NLS-1$
+        
+        imageRegistry.put(IMG_DEC_FIELD_INFO, ImageDescriptor
+                .createFromFile(FieldDecorationRegistry.class,
+                        "images/info_ovr.gif"));//$NON-NLS-1$       
+
+        // Define the standard decorations. Some do not have standard
+        // descriptions. Use null in these cases.
+        registerFieldDecoration(
+                        DEC_CONTENT_PROPOSAL,
+                        JFaceResources
+                                .getString("FieldDecorationRegistry.contentAssistMessage"), //$NON-NLS-1$
+                        IMG_DEC_FIELD_CONTENT_PROPOSAL, imageRegistry);
+
+        registerFieldDecoration(
+                DEC_ERROR,
+                JFaceResources
+                        .getString("FieldDecorationRegistry.errorMessage"), //$NON-NLS-1$
+                IMG_DEC_FIELD_ERROR, imageRegistry);
+        
+        registerFieldDecoration(
+                DEC_ERROR_QUICKFIX,
+                JFaceResources
+                        .getString("FieldDecorationRegistry.errorQuickFixMessage"), //$NON-NLS-1$
+                IMG_DEC_FIELD_ERROR_QUICKFIX, imageRegistry);
+
+        registerFieldDecoration(DEC_WARNING, null,
+                IMG_DEC_FIELD_WARNING, imageRegistry);
+        
+        registerFieldDecoration(DEC_INFORMATION, null,
+                IMG_DEC_FIELD_INFO, imageRegistry);
+
+        registerFieldDecoration(
+                        DEC_REQUIRED,
+                        JFaceResources
+                                .getString("FieldDecorationRegistry.requiredFieldMessage"), //$NON-NLS-1$
+                        IMG_DEC_FIELD_REQUIRED, imageRegistry);
+
+    }
 
 	/**
 	 * Default instance of the registry. Applications may install their own
 	 * registry.
 	 */
-	private static FieldDecorationRegistry defaultInstance;
+//	private static FieldDecorationRegistry defaultInstance;
 
 	/**
 	 * Maximum width and height used by decorations in this registry. Clients
@@ -230,10 +231,12 @@ public class FieldDecorationRegistry {
 	 *         shared field decorations.
 	 */
 	public static FieldDecorationRegistry getDefault() {
-		if (defaultInstance == null) {
-			defaultInstance = new FieldDecorationRegistry();
-		}
-		return defaultInstance;
+	  Class clazz = FieldDecorationRegistry.class;
+      return ( FieldDecorationRegistry )getInstance( clazz );
+//		if (defaultInstance == null) {
+//			defaultInstance = new FieldDecorationRegistry();
+//		}
+//		return defaultInstance;
 	}
 
 	/**
@@ -243,16 +246,17 @@ public class FieldDecorationRegistry {
 	 *            the singleton FieldDecorationRegistry that is used to manage
 	 *            shared field decorations.
 	 */
-	public static void setDefault(FieldDecorationRegistry defaultRegistry) {
-		defaultInstance = defaultRegistry;
-	}
+//	public static void setDefault(FieldDecorationRegistry defaultRegistry) {
+//		defaultInstance = defaultRegistry;
+//	}
 
 	/**
 	 * Construct a FieldDecorationRegistry.
 	 */
-	public FieldDecorationRegistry() {
+	private FieldDecorationRegistry() {
 		maxDecorationWidth = 0;
 		maxDecorationHeight = 0;
+		init();
 	}
 
 	/**
@@ -317,8 +321,8 @@ public class FieldDecorationRegistry {
 	 */
 	public void registerFieldDecoration(String id, String description,
 			String imageId) {
-//		decorations.put(id, new Entry(description, imageId, JFaceResources
-//				.getImageRegistry()));
+		decorations.put(id, new Entry(description, imageId, JFaceResources
+				.getImageRegistry()));
 		// Recompute the maximums as this could be a replacement of a previous
 		// image.
 		recomputeMaximums();
@@ -342,7 +346,7 @@ public class FieldDecorationRegistry {
 	 */
 	public void registerFieldDecoration(String id, String description,
 			String imageId, ImageRegistry imageRegistry) {
-//		decorations.put(id, new Entry(description, imageId, imageRegistry));
+		decorations.put(id, new Entry(description, imageId, imageRegistry));
 //		 Recompute the maximums since this could be a replacement
 		recomputeMaximums();
 	}

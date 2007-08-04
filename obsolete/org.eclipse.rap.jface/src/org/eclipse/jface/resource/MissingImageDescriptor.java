@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.eclipse.jface.resource;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Image;
+
 
 /**
  * The image descriptor for a missing image.
@@ -21,6 +27,7 @@ package org.eclipse.jface.resource;
  */
 class MissingImageDescriptor extends ImageDescriptor {
     private static MissingImageDescriptor instance;
+    private Image image;
 
     /**
      * Constructs a new missing image descriptor.
@@ -46,5 +53,16 @@ class MissingImageDescriptor extends ImageDescriptor {
             instance = new MissingImageDescriptor();
         }
         return instance;
+    }
+    
+    public Image createImage( final boolean returnMissingImageOnError, 
+                              final Device device )
+    {
+      if( image != null ) {
+        String path = "org/eclipse/jface/resource/images/missing_image.png";
+        ClassLoader loader = getClass().getClassLoader();
+        image = Image.find( path, loader.getResourceAsStream( path ) );
+      }
+      return image;
     }
 }

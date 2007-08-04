@@ -99,6 +99,12 @@ public class ImageRegistry {
                 super.destroyResource(toDispose);
             }
         }
+        
+        public Image createImage( final boolean returnMissingImageOnError,
+                                  final Device device )
+        {
+          return original;
+        }
 
         /* (non-Javadoc)
          * @see org.eclipse.jface.resource.ImageDescriptor#getImageData()
