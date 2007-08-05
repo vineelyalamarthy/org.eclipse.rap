@@ -117,7 +117,7 @@ public class ListDialog extends SelectionDialog {
         GridData gd = new GridData(GridData.FILL_BOTH);
         Font font = fTableViewer.getControl().getFont();
         gd.heightHint = FontSizeCalculator.getCharHeight( font ) * heightInChars;
-        gd.widthHint = ( int )( FontSizeCalculator.getAvgCharWidth( font ) * widthInChars );
+        gd.widthHint = ( int )( ( FontSizeCalculator.getAvgCharWidth( font ) * widthInChars ) );
 //        gd.heightHint = convertHeightInCharsToPixels(heightInChars);
 //        gd.widthHint = convertWidthInCharsToPixels(widthInChars);
         Table table = fTableViewer.getTable();
