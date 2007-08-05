@@ -68,24 +68,21 @@ public class TableViewerRow extends ViewerRow {
 	 * @see org.eclipse.jface.viewers.ViewerRow#getBackground(int)
 	 */
 	public Color getBackground(int columnIndex) {
-//		return item.getBackground(columnIndex);
-		throw new UnsupportedOperationException();
+		return item.getBackground(columnIndex);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.ViewerRow#getFont(int)
 	 */
 	public Font getFont(int columnIndex) {
-//		return item.getFont(columnIndex);
-		throw new UnsupportedOperationException();
+		return item.getFont(columnIndex);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.ViewerRow#getForeground(int)
 	 */
 	public Color getForeground(int columnIndex) {
-//		return item.getForeground(columnIndex);
-		throw new UnsupportedOperationException();
+		return item.getForeground(columnIndex);
 	}
 
 	/* (non-Javadoc)
@@ -106,24 +103,21 @@ public class TableViewerRow extends ViewerRow {
 	 * @see org.eclipse.jface.viewers.ViewerRow#setBackground(int, org.eclipse.swt.graphics.Color)
 	 */
 	public void setBackground(int columnIndex, Color color) {
-//		item.setBackground(columnIndex, color);
-//		throw new UnsupportedOperationException();
+		item.setBackground(columnIndex, color);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.ViewerRow#setFont(int, org.eclipse.swt.graphics.Font)
 	 */
 	public void setFont(int columnIndex, Font font) {
-//		item.setFont(columnIndex, font);
-//		throw new UnsupportedOperationException();
+		item.setFont(columnIndex, font);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.ViewerRow#setForeground(int, org.eclipse.swt.graphics.Color)
 	 */
 	public void setForeground(int columnIndex, Color color) {
-//		item.setForeground(columnIndex, color);
-//		throw new UnsupportedOperationException();
+		item.setForeground(columnIndex, color);
 	}
 
 	/* (non-Javadoc)
