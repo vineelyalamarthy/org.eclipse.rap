@@ -1314,7 +1314,11 @@ class PropertySheetViewer extends Viewer {
                 removeItem(items[i]);
             }
         }
-
+////////////////////////////////////////////////////////////////////////////////
+// TODO [fappel]: Remove this after resolving Tree bug that doesn't render
+//                columns of last item in hierarchy
+addDummy = true;
+////////////////////////////////////////////////////////////////////////////////
         if (addDummy) {
             new TreeItem(item, SWT.NULL); // append a dummy to create the
             // plus sign
