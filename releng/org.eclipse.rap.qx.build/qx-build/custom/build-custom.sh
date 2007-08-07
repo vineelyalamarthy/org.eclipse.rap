@@ -1,11 +1,12 @@
 #!/bin/bash
-VERSION=0.7.0.8735
+VERSION=0.7.0.9276
 QOOXDOO=../../../qooxdoo/qooxdoo
 TOOL=${QOOXDOO}/frontend/framework/tool
 TEMP=./temp
 SOURCE=${QOOXDOO}/frontend/framework/source  
 OUTPUT=./output
-OUTPUT_FILE_NAME=${OUTPUT}/script/custom.js
+OUTPUT_FILE=${OUTPUT}/qx.js
+OUTPUT_FILE_DEBUG=${OUTPUT}/qx-debug.js
 
 echo "  CLEANING DIRECTORIES"
 rm -r -f ${OUTPUT}
@@ -32,7 +33,6 @@ done
 
 echo "  STRIPPING DOWN SDK SOURCES"
 rm -r -f ${TEMP}/resource/static/stringbuilder
-rm -r ${TEMP}/class/qx/html2
 rm -r ${TEMP}/class/qx/theme/classic
 rm -r ${TEMP}/class/qx/theme/ext
 rm -r ${TEMP}/class/qx/theme/icon
@@ -41,6 +41,7 @@ rm -r ${TEMP}/class/qx/ui/listview
 rm -r ${TEMP}/class/qx/ui/pageview/buttonview
 rm -r ${TEMP}/class/qx/ui/pageview/radioview
 rm -r ${TEMP}/class/qx/ui/component
+rm -r ${TEMP}/class/qx/ui/splitpane
 rm -r ${TEMP}/class/qx/ui/table
 rm -r ${TEMP}/class/qx/ui/treevirtual
 rm ${TEMP}/class/qx/dev/ObjectSummary.js
@@ -72,8 +73,6 @@ rm ${TEMP}/class/qx/ui/embed/IconHtmlEmbed.js
 rm ${TEMP}/class/qx/ui/embed/LinkEmbed.js
 rm ${TEMP}/class/qx/ui/embed/NodeEmbed.js
 rm ${TEMP}/class/qx/ui/embed/TextEmbed.js
-rm ${TEMP}/class/qx/ui/splitpane/HorizontalSplitPane.js
-rm ${TEMP}/class/qx/ui/splitpane/VerticalSplitPane.js
 rm ${TEMP}/class/qx/ui/groupbox/CheckGroupBox.js
 rm ${TEMP}/class/qx/ui/groupbox/RadioGroupBox.js
 rm ${TEMP}/class/qx/ui/resizer/Resizer.js
@@ -87,55 +86,74 @@ rm ${TEMP}/class/qx/io/Json.js
 #  --add-new-lines \
 #  --add-file-ids \
 #  --optimize-strings \
+#  --optimize-variables \
+#  --optimize-base-call \
+#  --optimize-private \
+
+#  --add-file-ids \
+#  --add-new-lines \
 
 #  --print-modules \
 
-echo "  GENERATING ${OUTPUT_FILE_NAME}"
+SETTINGS="--use-setting=qx.theme:org.eclipse.swt.theme.Default 
+  --use-setting=qx.logAppender:qx.log.appender.Native 
+  --add-require qx.log.Logger:qx.log.appender.Native 
+  --use-variant=qx.debug:off
+  --version=${VERSION}"
+
+INCLUDES="--include=oo 
+  --include=core 
+  --include=ui_core 
+  --include=ui_window 
+  --include=log 
+  --include=ui_treefullcontrol 
+  --include=ui_tooltip 
+  --include=ui_tabview 
+  --include=ui_toolbar 
+  --include=ui_splitpane 
+  --include=ui_popup 
+  --include=ui_form 
+  --include=ui_menu 
+  --include=ui_layout 
+  --include=ui_basic 
+  --include=ui_dragdrop 
+  --include=io_remote 
+  --include-without-dependencies=qx.client.NativeWindow 
+  --include-without-dependencies=qx.ui.embed.Iframe 
+  --include-without-dependencies=qx.html.Window 
+  --include-without-dependencies=qx.ui.basic.ScrollBar 
+  --include-without-dependencies=qx.ui.basic.ScrollArea"
+  
+echo "  GENERATING ${OUTPUT_FILE}"
 ${TOOL}/generator.py \
   --generate-compiled-script \
-  --compiled-script-file ${OUTPUT_FILE_NAME} \
+  --compiled-script-file ${OUTPUT_FILE} \
   --class-path ${TEMP}/class/ \
-  --use-setting=qx.theme:org.eclipse.swt.theme.Default \
-  --use-setting=qx.logAppender:qx.log.appender.Native \
-  --use-variant=qx.debug:off \
+  `echo ${SETTINGS}` \
   --optimize-strings \
+  --optimize-variables \
+  --optimize-base-call \
+  `echo ${INCLUDES}`
+
+
+echo "  GENERATING ${OUTPUT_FILE_DEBUG}"
+${TOOL}/generator.py \
+  --generate-compiled-script \
+  --compiled-script-file ${OUTPUT_FILE_DEBUG} \
+  --class-path ${TEMP}/class/ \
+  `echo ${SETTINGS}` \
   --add-file-ids \
   --add-new-lines \
-  --version=${VERSION} \
-  --add-require qx.log.Logger:qx.log.appender.Native \
-  --include=oo \
-  --include=core \
-  --include=ui_core \
-  --include=ui_window \
-  --include=log \
-  --include=ui_treefullcontrol \
-  --include=ui_tooltip \
-  --include=ui_tabview \
-  --include=ui_toolbar \
-  --include=ui_splitpane \
-  --include=ui_popup \
-  --include=ui_form \
-  --include=ui_menu \
-  --include=ui_layout \
-  --include=ui_basic \
-  --include=ui_dragdrop \
-  --include=io_remote \
-  --include-without-dependencies=qx.client.NativeWindow \
-  --include-without-dependencies=qx.ui.embed.Iframe \
-  --include-without-dependencies=qx.html.Window \
-  --include-without-dependencies=qx.ui.basic.ScrollBar \
-  --include-without-dependencies=qx.ui.basic.ScrollArea \
+  `echo ${INCLUDES}`
 
 
-echo "    Size of ${OUTPUT_FILE_NAME} is `stat -c %s ${OUTPUT_FILE_NAME}` bytes"
+echo "    Size of ${OUTPUT_FILE} is `stat -c %s ${OUTPUT_FILE}` bytes"
+echo "    Size of ${OUTPUT_FILE_DEBUG} is `stat -c %s ${OUTPUT_FILE_DEBUG}` bytes"
+
 
 echo "  COPYING RESOURCES"
 mkdir -p ${OUTPUT}/resource/static
 cp -r ${TEMP}/resource/static ${OUTPUT}/resource
 
 
-echo "  BUILDING JAR"
-cd ${OUTPUT}
-zip -q -r qooxdoo-${VERSION}.jar .
-cd ..
 echo "  DONE"
