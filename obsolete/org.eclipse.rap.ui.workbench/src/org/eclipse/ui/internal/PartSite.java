@@ -11,8 +11,7 @@
  *******************************************************************************/
 package org.eclipse.ui.internal;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -85,22 +84,22 @@ public abstract class PartSite implements IWorkbenchPartSite {
 		 * already been used. If they have, then we can just add another menu
 		 * identifier to the existing PopupMenuExtender.
 		 */
-//		final Iterator extenderItr = menuExtenders.iterator();
-//		boolean foundMatch = false;
-//		while (extenderItr.hasNext()) {
-//			final PopupMenuExtender existingExtender = (PopupMenuExtender) extenderItr
-//					.next();
-//			if (existingExtender.matches(menuManager, selectionProvider, part)) {
-//				existingExtender.addMenuId(menuId);
-//				foundMatch = true;
-//				break;
-//			}
-//		}
+		final Iterator extenderItr = menuExtenders.iterator();
+		boolean foundMatch = false;
+		while (extenderItr.hasNext()) {
+			final PopupMenuExtender existingExtender = (PopupMenuExtender) extenderItr
+					.next();
+			if (existingExtender.matches(menuManager, selectionProvider, part)) {
+				existingExtender.addMenuId(menuId);
+				foundMatch = true;
+				break;
+			}
+		}
 
-//		if (!foundMatch) {
-//			menuExtenders.add(new PopupMenuExtender(menuId, menuManager,
-//					selectionProvider, part, includeEditorInput));
-//		}
+		if (!foundMatch) {
+			menuExtenders.add(new PopupMenuExtender(menuId, menuManager,
+					selectionProvider, part, includeEditorInput));
+		}
 	}
 
 	private IWorkbenchPartReference partReference;

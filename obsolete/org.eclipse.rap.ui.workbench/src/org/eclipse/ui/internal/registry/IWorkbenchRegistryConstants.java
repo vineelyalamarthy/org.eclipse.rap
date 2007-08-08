@@ -726,7 +726,8 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The name of the commands extension point.
 	 */
-	public static String EXTENSION_COMMAND_IMAGES = PlatformUI.PLUGIN_ID
+//	public static String EXTENSION_COMMAND_IMAGES = PlatformUI.PLUGIN_ID
+	public static String EXTENSION_COMMAND_IMAGES = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
 			+ '.' + PL_COMMAND_IMAGES;
 
 	/**
@@ -778,7 +779,8 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The name of the <code>org.eclipse.ui.popupMenus</code> extension point.
 	 */
-	public static String EXTENSION_POPUP_MENUS = PlatformUI.PLUGIN_ID
+//	public static String EXTENSION_POPUP_MENUS = PlatformUI.PLUGIN_ID
+	public static String EXTENSION_POPUP_MENUS = PlatformUI.PLUGIN_EXTENSION_NAME_SPACE
 			+ '.' + PL_POPUP_MENU;
 
 	/**
