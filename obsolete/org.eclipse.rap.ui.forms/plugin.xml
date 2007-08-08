@@ -2,7 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
-         point="org.eclipse.rap.ui.workbench.resources">
+         point="org.eclipse.rap.ui.resources">
       <resource
             class="org.eclipse.ui.forms.internal.widgets.togglehyperlinkkit.ToggleHyperlinkResource">
       </resource>
@@ -11,7 +11,7 @@
       </resource>
    </extension>
    <extension
-         point="org.eclipse.rap.swt.themeableWidgets">
+         point="org.eclipse.rap.ui.themeableWidgets">
       <widget
             class="org.eclipse.ui.forms.widgets.Hyperlink"
             id="org.eclipse.ui.forms.widgets.Hyperlink"
