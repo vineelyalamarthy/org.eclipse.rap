@@ -35,7 +35,7 @@ public final class PlatformUI {
     /**
      * Identifies the workbench plug-in.
      */
-	public static final String PLUGIN_ID = "org.eclipse.rap.ui.workbench"; 
+	public static final String PLUGIN_ID = "org.eclipse.rap.ui"; 
 	public static final String PLUGIN_EXTENSION_NAME_SPACE = "org.eclipse.ui"; 
 
     /**

@@ -50,23 +50,23 @@ final class EngineConfigWrapper implements IEngineConfig {
   private final static String CONFIG = FOLDER +"/config.xml";
   //  extension point id for adapter factory registration
   private static final String ID_ADAPTER_FACTORY
-    = "org.eclipse.rap.ui.workbench.adapterfactory";
+    = "org.eclipse.rap.ui.adapterfactory";
   //  extension point id for entry point registration
   private static final String ID_ENTRY_POINT
-    = "org.eclipse.rap.ui.workbench.entrypoint";
+    = "org.eclipse.rap.ui.entrypoint";
   //  extension point id for custom theme registration
   private static final String ID_SWT_THEMES
-    = "org.eclipse.rap.swt.themes";
+    = "org.eclipse.rap.ui.themes";
   //  extension point id for custom themeable widget registration
   private static final String ID_SWT_THEMEABLE_WIDGETS
-    = "org.eclipse.rap.swt.themeableWidgets";
+    = "org.eclipse.rap.ui.themeableWidgets";
   //  extension point id for phase listener registration
   private static final String ID_PHASE_LISTENER
-    = "org.eclipse.rap.ui.workbench.phaselistener";
+    = "org.eclipse.rap.ui.phaselistener";
   //  extension point id for registration of resources (i.e. javascript)
   //  which needed to be loaded at page startup
   private static final String ID_RESOURCES
-    = "org.eclipse.rap.ui.workbench.resources";
+    = "org.eclipse.rap.ui.resources";
 
   private final EngineConfig engineConfig;
 
