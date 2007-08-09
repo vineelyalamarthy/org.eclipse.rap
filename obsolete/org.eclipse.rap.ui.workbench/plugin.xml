@@ -12,7 +12,7 @@
   </extension>
 
   <extension
-      id="org.eclipseui.workbench.adapterfactories"
+      id="org.eclipse.ui.workbench.adapterfactories"
       point="org.eclipse.rap.ui.adapterfactory">
     <factory
         factoryClass="org.eclipse.swt.internal.lifecycle.LifeCycleAdapterFactory"
