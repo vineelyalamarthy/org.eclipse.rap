@@ -12,17 +12,13 @@
 package org.eclipse.ui.internal.util;
 
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
-
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
 
 /**
  * SWTResourceUtil is a class that holds onto Colors, Fonts and Images and
  * disposes them on shutdown.
  */
+// TODO [fappel]: check whether this should be moved into session namespace
 public class SWTResourceUtil {
 
     /**
@@ -50,21 +46,21 @@ public class SWTResourceUtil {
      */
     public static final void shutdown() {
         if (imageTable != null) {
-            for (Iterator i = imageTable.values().iterator(); i.hasNext();) {
+//            for (Iterator i = imageTable.values().iterator(); i.hasNext();) {
 //                ((Image) i.next()).dispose();
-            }
+//            }
             imageTable = null;
         }
         if (colorTable != null) {
-            for (Iterator i = colorTable.values().iterator(); i.hasNext();) {
+//            for (Iterator i = colorTable.values().iterator(); i.hasNext();) {
 //                ((Color) i.next()).dispose();
-            }
+//            }
             colorTable = null;
         }
         if (fontTable != null) {
-            for (Iterator i = fontTable.values().iterator(); i.hasNext();) {
+//            for (Iterator i = fontTable.values().iterator(); i.hasNext();) {
 //                ((Font) i.next()).dispose();
-            }
+//            }
             fontTable = null;
         }
     }
