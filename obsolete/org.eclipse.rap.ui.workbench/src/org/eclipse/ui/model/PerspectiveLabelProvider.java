@@ -92,9 +92,9 @@ public final class PerspectiveLabelProvider extends LabelProvider implements
      * @see org.eclipse.jface.viewers.ILabelProvider
      */
     public final void dispose() {
-        for (Iterator i = imageCache.values().iterator(); i.hasNext();) {
+//        for (Iterator i = imageCache.values().iterator(); i.hasNext();) {
 //            ((Image) i.next()).dispose();
-        }
+//        }
         imageCache.clear();
     }
 
