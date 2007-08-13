@@ -572,20 +572,20 @@ public abstract class ActionFactory {
      * Workbench action (id "maximize"): Maximize/restore the active part. This
      * action maintains its enablement state.
      */
-//    public static final ActionFactory MAXIMIZE = new ActionFactory("maximize") {//$NON-NLS-1$
-//       
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            IWorkbenchAction action = new MaximizePartAction(window);
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+    public static final ActionFactory MAXIMIZE = new ActionFactory("maximize") {//$NON-NLS-1$
+       
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            IWorkbenchAction action = new MaximizePartAction(window);
+            action.setId(getId());
+            return action;
+        }
+    };
 
     /**
      * Workbench action (id "minimize"): Minimizes the active part. This
@@ -593,20 +593,20 @@ public abstract class ActionFactory {
      * 
      * @since 3.1
      */
-//    public static final ActionFactory MINIMIZE = new ActionFactory("minimize") {//$NON-NLS-1$
-//        
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            IWorkbenchAction action = new MinimizePartAction(window);
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+    public static final ActionFactory MINIMIZE = new ActionFactory("minimize") {//$NON-NLS-1$
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            IWorkbenchAction action = new MinimizePartAction(window);
+            action.setId(getId());
+            return action;
+        }
+    };
     
     /**
      * Workbench action (id "move"): Move. This action is a
