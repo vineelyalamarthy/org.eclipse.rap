@@ -179,41 +179,41 @@ public abstract class ActionFactory {
      * Workbench action (id "close"): Close the active editor. This action
      * maintains its enablement state.
      */
-//    public static final ActionFactory CLOSE = new ActionFactory("close") {//$NON-NLS-1$
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            WorkbenchCommandAction action=new WorkbenchCommandAction("org.eclipse.ui.file.close",window); //$NON-NLS-1$
-//            action.setText(WorkbenchMessages.CloseEditorAction_text);
-//            action.setToolTipText(WorkbenchMessages.CloseEditorAction_toolTip);
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+    public static final ActionFactory CLOSE = new ActionFactory("close") {//$NON-NLS-1$
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            WorkbenchCommandAction action=new WorkbenchCommandAction("org.eclipse.ui.file.close",window); //$NON-NLS-1$
+            action.setText(WorkbenchMessages.CloseEditorAction_text);
+            action.setToolTipText(WorkbenchMessages.CloseEditorAction_toolTip);
+            action.setId(getId());
+            return action;
+        }
+    };
 
     /**
      * Workbench action (id "closeAll"): Close all open editors. This action
      * maintains its enablement state.
      */
-//    public static final ActionFactory CLOSE_ALL = new ActionFactory("closeAll") {//$NON-NLS-1$
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            WorkbenchCommandAction action=new WorkbenchCommandAction("org.eclipse.ui.file.closeAll",window); //$NON-NLS-1$
-//            action.setText(WorkbenchMessages.CloseAllAction_text);
-//            action.setToolTipText(WorkbenchMessages.CloseAllAction_toolTip);
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+    public static final ActionFactory CLOSE_ALL = new ActionFactory("closeAll") {//$NON-NLS-1$
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            WorkbenchCommandAction action=new WorkbenchCommandAction("org.eclipse.ui.file.closeAll",window); //$NON-NLS-1$
+            action.setText(WorkbenchMessages.CloseAllAction_text);
+            action.setToolTipText(WorkbenchMessages.CloseAllAction_toolTip);
+            action.setId(getId());
+            return action;
+        }
+    };
     
     /**
      * Workbench action (id "closeOthers"): Close all editors except the one that 
@@ -221,22 +221,22 @@ public abstract class ActionFactory {
 	 * 
 	 * @since 3.2
      */
-//    public static final ActionFactory CLOSE_OTHERS = new ActionFactory("closeOthers") {//$NON-NLS-1$
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//			if (window == null) {
-//				throw new IllegalArgumentException();
-//			}
-//			WorkbenchCommandAction action = new WorkbenchCommandAction(
-//					"org.eclipse.ui.file.closeOthers", window); //$NON-NLS-1$
-//			action.setText(WorkbenchMessages.CloseOthersAction_text);
-//			action.setToolTipText(WorkbenchMessages.CloseOthersAction_toolTip);
-//			action.setId(getId());
-//			return action;
-//        }
-//    };
+    public static final ActionFactory CLOSE_OTHERS = new ActionFactory("closeOthers") {//$NON-NLS-1$
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+			if (window == null) {
+				throw new IllegalArgumentException();
+			}
+			WorkbenchCommandAction action = new WorkbenchCommandAction(
+					"org.eclipse.ui.file.closeOthers", window); //$NON-NLS-1$
+			action.setText(WorkbenchMessages.CloseOthersAction_text);
+			action.setToolTipText(WorkbenchMessages.CloseOthersAction_toolTip);
+			action.setId(getId());
+			return action;
+        }
+    };
 
     /**
 	 * Workbench action (id "closeAllPerspectives"): Closes all perspectives.

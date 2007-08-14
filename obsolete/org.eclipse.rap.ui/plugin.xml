@@ -689,6 +689,7 @@
                optional="true"
                values="org.eclipse.ui.internal.registry.WizardParameterValues$New"/>
       </command>
+      -->
       <command
             categoryId="org.eclipse.ui.category.file"
             description="%command.close.description"
@@ -699,6 +700,7 @@
             description="%command.closeAll.description"
             id="org.eclipse.ui.file.closeAll"
             name="%command.closeAll.name"/>
+      <!--
       <command
             categoryId="org.eclipse.ui.category.file"
             defaultHandler="org.eclipse.ui.internal.handlers.WizardHandler$Import"
@@ -971,13 +973,14 @@
             description="%command.closePerspective.description"
             categoryId="org.eclipse.ui.category.window"
             id="org.eclipse.ui.window.closePerspective" />
-      TODO: [bm] could be done
+      -->
       <command
             categoryId="org.eclipse.ui.category.window"
             defaultHandler="org.eclipse.ui.internal.handlers.ClosePartHandler"
             description="%command.closePart.description"
             id="org.eclipse.ui.file.closePart"
             name="%command.closePart.name"/>
+      <!--
       <command
             name="%command.customizePerspective.name"
             description="%command.customizePerspective.description"
@@ -1055,11 +1058,13 @@
                name="%command.displayHelp.hrefParameter"
                optional="true"/>
       </command>
+      -->
       <command
             categoryId="org.eclipse.ui.category.file"
             description="%command.closeOthers.description"
             id="org.eclipse.ui.file.closeOthers"
             name="%command.closeOthers.name"/>
+      <!--
       <command
             categoryId="org.eclipse.ui.category.window"
             description="%command.toggleCoolbar.description"
@@ -1619,6 +1624,7 @@
             </with>
          </enabledWhen>
       </handler>
+      -->
       <handler
             class="org.eclipse.ui.internal.CloseEditorHandler"
             commandId="org.eclipse.ui.file.close">
@@ -1655,6 +1661,7 @@
             </with>
          </enabledWhen>
       </handler>
+      <!--
       <handler
       		class="org.eclipse.ui.internal.handlers.ToggleCoolbarHandler"
       		commandId="org.eclipse.ui.ToggleCoolbarAction">
