@@ -1560,9 +1560,10 @@
             name="%SettingsTransfer.WorkingSets">
       </settingsTransfer>
    </extension>
-   
+   -->
    <extension
            point="org.eclipse.core.expressions.propertyTesters">
+        <!--
         <propertyTester
               class="org.eclipse.ui.internal.activities.ActivityPropertyTester"
               id="org.eclipse.ui.activityPropertyTester"
@@ -1570,6 +1571,7 @@
               properties="isActivityEnabled,isCategoryEnabled"
               type="org.eclipse.ui.IWorkbench">
         </propertyTester>
+        -->
         <propertyTester
               class="org.eclipse.ui.internal.OpenPerspectivePropertyTester"
               id="org.eclipse.ui.openPerspectivePropertyTester"
@@ -1577,8 +1579,7 @@
               properties="isPerspectiveOpen"
               type="org.eclipse.ui.IWorkbenchWindow">
         </propertyTester>
-     </extension>
-     -->
+   </extension>
    <extension
          point="org.eclipse.ui.handlers">
          <!--
@@ -1666,6 +1667,7 @@
             </with>
          </enabledWhen>
       </handler>
+      -->
       <handler
             class="org.eclipse.ui.internal.CycleEditorHandler:true"
             commandId="org.eclipse.ui.window.nextEditor">
@@ -1738,7 +1740,6 @@
             </with>
          </enabledWhen>
       </handler>
-      -->
    </extension>
    <!--
    <extension

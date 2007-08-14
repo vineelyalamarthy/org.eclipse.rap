@@ -93,9 +93,13 @@ public class CommandAction extends Action {
 		if (commandListener == null) {
 			commandListener = new ICommandListener() {
 				public void commandChanged(CommandEvent commandEvent) {
-					// TODO: remove 3.2 compatibility hack
-					if (commandEvent.isHandledChanged()) {
-//							|| commandEvent.isEnabledChanged()) {
+					if (commandEvent.isHandledChanged()
+							// TODO [bm] remove 3.2 compatibility fix
+							// at the moment we force an update for every event
+							// due to enablement changes
+//							|| commandEvent.isEnabledChanged()
+							|| 1 == 1
+							) {
 						if (commandEvent.getCommand().isDefined()) {
 							setEnabled(commandEvent.getCommand().isEnabled());
 						}

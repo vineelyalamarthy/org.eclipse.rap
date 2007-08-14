@@ -26,9 +26,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.window.*;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.internal.lifecycle.UICallBackServiceHandler;
+import org.eclipse.rwt.internal.service.ContextProvider;
 import org.eclipse.rwt.service.*;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.*;
@@ -52,7 +53,6 @@ import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.services.IDisposable;
 import org.eclipse.ui.views.IViewRegistry;
-
 
 /**
  * The workbench class represents the top of the Eclipse user interface. Its
@@ -376,7 +376,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //				}
 				// run the workbench event loop
 					
-				ISessionStore session = RWT.getSessionStore();
+				ISessionStore session = ContextProvider.getSession();
 				ShutdownHandler shutdownHandler = new ShutdownHandler( display );
                 session.addSessionStoreListener( shutdownHandler );
 				returnCode[0] = workbench.runUI();
@@ -958,6 +958,12 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 		if (exceptions[0] != null)
 			throw exceptions[0];
 
+		// TODO: this is added to have filter capability in ActiveShellSourceProvider
+		newWindow.getShell().addListener(SWT.Activate, new Listener() {
+			public void handleEvent(Event event) {
+			}
+		});
+		
 		// Open window after opening page, to avoid flicker.
 //		StartupThreading.runWithWorkbenchExceptions(new StartupRunnable() {
 //
@@ -1559,25 +1565,25 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //		StartupThreading.runWithoutExceptions(new StartupRunnable() {
 //
 //			public void runWithException() {
-//				final ActiveShellSourceProvider activeShellSourceProvider = new ActiveShellSourceProvider(
-//						Workbench.this);
-//				evaluationService.addSourceProvider(activeShellSourceProvider);
-//				handlerService[0].addSourceProvider(activeShellSourceProvider);
+				final ActiveShellSourceProvider activeShellSourceProvider = new ActiveShellSourceProvider(
+						Workbench.this);
+				evaluationService.addSourceProvider(activeShellSourceProvider);
+				handlerService[0].addSourceProvider(activeShellSourceProvider);
 //				contextService.addSourceProvider(activeShellSourceProvider);
-//				menuService.addSourceProvider(activeShellSourceProvider);
-//				sourceProviderService.registerProvider(activeShellSourceProvider);		
+				menuService.addSourceProvider(activeShellSourceProvider);
+				sourceProviderService.registerProvider(activeShellSourceProvider);		
 //			}});
 //		
 //		StartupThreading.runWithoutExceptions(new StartupRunnable() {
 //
 //			public void runWithException() {
-//				final ActivePartSourceProvider activePartSourceProvider = new ActivePartSourceProvider(
-//						Workbench.this);
-//				evaluationService.addSourceProvider(activePartSourceProvider);
-//				handlerService[0].addSourceProvider(activePartSourceProvider);
+				final ActivePartSourceProvider activePartSourceProvider = new ActivePartSourceProvider(
+						Workbench.this);
+				evaluationService.addSourceProvider(activePartSourceProvider);
+				handlerService[0].addSourceProvider(activePartSourceProvider);
 //				contextService.addSourceProvider(activePartSourceProvider);
-//				menuService.addSourceProvider(activePartSourceProvider);
-//				sourceProviderService.registerProvider(activePartSourceProvider);
+				menuService.addSourceProvider(activePartSourceProvider);
+				sourceProviderService.registerProvider(activePartSourceProvider);
 //			}});
 //		StartupThreading.runWithoutExceptions(new StartupRunnable() {
 //

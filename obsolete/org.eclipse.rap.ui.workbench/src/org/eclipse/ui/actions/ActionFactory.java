@@ -705,30 +705,30 @@ public abstract class ActionFactory {
      * ActionFactory.linkCycleActionPair</code>} to connect the two.
      * </p>
      */
-//    public static final ActionFactory NEXT_EDITOR = new ActionFactory(
-//            "nextEditor") {//$NON-NLS-1$
-//       
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//			if (window == null) {
-//				throw new IllegalArgumentException();
-//			}
-//			IWorkbenchAction action = new WorkbenchCommandAction(
-//					"org.eclipse.ui.window.nextEditor", //$NON-NLS-1$
-//					window);
-//
-//			action.setText(WorkbenchMessages.CycleEditorAction_next_text); 
-//			action.setToolTipText(WorkbenchMessages.CycleEditorAction_next_toolTip); 
-//            // @issue missing action ids
+    public static final ActionFactory NEXT_EDITOR = new ActionFactory(
+            "nextEditor") {//$NON-NLS-1$
+       
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+			if (window == null) {
+				throw new IllegalArgumentException();
+			}
+			IWorkbenchAction action = new WorkbenchCommandAction(
+					"org.eclipse.ui.window.nextEditor", //$NON-NLS-1$
+					window);
+
+			action.setText(WorkbenchMessages.CycleEditorAction_next_text); 
+			action.setToolTipText(WorkbenchMessages.CycleEditorAction_next_toolTip); 
+            // @issue missing action ids
 //			window.getWorkbench().getHelpSystem().setHelp(action,
 //					IWorkbenchHelpContextIds.CYCLE_EDITOR_FORWARD_ACTION);
-//            
-//			action.setId(getId());
-//			return action;
-//		}
-//    };
+            
+			action.setId(getId());
+			return action;
+		}
+    };
 
     /**
 	 * Workbench action (id "nextPart"): Next part. This action maintains its
@@ -740,25 +740,25 @@ public abstract class ActionFactory {
 	 * ActionFactory.linkCycleActionPair</code>} to connect the two.
 	 * </p>
 	 */
-//    public static final ActionFactory NEXT_PART = new ActionFactory("nextPart") {//$NON-NLS-1$
-//        
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            WorkbenchCommandAction action=new WorkbenchCommandAction("org.eclipse.ui.window.nextView",window); //$NON-NLS-1$
-//            action.setText(WorkbenchMessages.CyclePartAction_next_text);
-//			action.setToolTipText(WorkbenchMessages.CyclePartAction_next_toolTip);
-//			// @issue missing action ids
+    public static final ActionFactory NEXT_PART = new ActionFactory("nextPart") {//$NON-NLS-1$
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            WorkbenchCommandAction action=new WorkbenchCommandAction("org.eclipse.ui.window.nextView",window); //$NON-NLS-1$
+            action.setText(WorkbenchMessages.CyclePartAction_next_text);
+			action.setToolTipText(WorkbenchMessages.CyclePartAction_next_toolTip);
+			// @issue missing action ids
 //			window.getWorkbench().getHelpSystem().setHelp(action,
 //					IWorkbenchHelpContextIds.CYCLE_PART_FORWARD_ACTION);
-//			action.setId(getId());
-//            return action;
-//        }
-//    };
+			action.setId(getId());
+            return action;
+        }
+    };
 
     /**
      * Workbench action (id "nextPerspective"): Next perspective. This action
@@ -770,26 +770,26 @@ public abstract class ActionFactory {
      * ActionFactory.linkCycleActionPair</code>} to connect the two.
      * </p>
      */
-//    public static final ActionFactory NEXT_PERSPECTIVE = new ActionFactory(
-//            "nextPerspective") {//$NON-NLS-1$
-//       
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            WorkbenchCommandAction action=new WorkbenchCommandAction("org.eclipse.ui.window.nextPerspective",window); //$NON-NLS-1$
-//            action.setText(WorkbenchMessages.CyclePerspectiveAction_next_text);
-//            action.setToolTipText(WorkbenchMessages.CyclePerspectiveAction_next_toolTip);
-//            // @issue missing action ids
+    public static final ActionFactory NEXT_PERSPECTIVE = new ActionFactory(
+            "nextPerspective") {//$NON-NLS-1$
+       
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            WorkbenchCommandAction action=new WorkbenchCommandAction("org.eclipse.ui.window.nextPerspective",window); //$NON-NLS-1$
+            action.setText(WorkbenchMessages.CyclePerspectiveAction_next_text);
+            action.setToolTipText(WorkbenchMessages.CyclePerspectiveAction_next_toolTip);
+            // @issue missing action ids
 //            window.getWorkbench().getHelpSystem().setHelp(action,
 //					IWorkbenchHelpContextIds.CYCLE_PERSPECTIVE_FORWARD_ACTION);
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+            action.setId(getId());
+            return action;
+        }
+    };
 
     /**
      * Workbench action (id "openNewWindow"): Open a new workbench window. This
@@ -892,29 +892,29 @@ public abstract class ActionFactory {
      * ActionFactory.linkCycleActionPair</code>} to connect the two.
      * </p>
      */
-//    public static final ActionFactory PREVIOUS_EDITOR = new ActionFactory(
-//            "previousEditor") {//$NON-NLS-1$
-//       
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            IWorkbenchAction action = new WorkbenchCommandAction(
-//					"org.eclipse.ui.window.previousEditor", //$NON-NLS-1$
-//					window);
-//            action.setText(WorkbenchMessages.CycleEditorAction_prev_text);
-//            action.setToolTipText(WorkbenchMessages.CycleEditorAction_prev_toolTip); 
-//            // @issue missing action ids
+    public static final ActionFactory PREVIOUS_EDITOR = new ActionFactory(
+            "previousEditor") {//$NON-NLS-1$
+       
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            IWorkbenchAction action = new WorkbenchCommandAction(
+					"org.eclipse.ui.window.previousEditor", //$NON-NLS-1$
+					window);
+            action.setText(WorkbenchMessages.CycleEditorAction_prev_text);
+            action.setToolTipText(WorkbenchMessages.CycleEditorAction_prev_toolTip); 
+            // @issue missing action ids
 //            window.getWorkbench().getHelpSystem().setHelp(action,
 //					IWorkbenchHelpContextIds.CYCLE_EDITOR_BACKWARD_ACTION);
-//
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+
+            action.setId(getId());
+            return action;
+        }
+    };
 
     /**
      * Workbench action (id "previousPart"): Previous part. This action
