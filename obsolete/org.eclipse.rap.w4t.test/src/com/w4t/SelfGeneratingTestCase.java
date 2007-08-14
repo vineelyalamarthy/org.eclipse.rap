@@ -63,13 +63,13 @@ public abstract class SelfGeneratingTestCase extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   public void tearDown() throws Exception {
-    Fixture.removeContext();
-    Fixture.tearDown();
+    W4TFixture.removeContext();
+    W4TFixture.tearDown();
     if( isGenerateResources() ) {
       StringBuffer sbContent = readPublicClass();
       Enumeration keys = htResources.keys();

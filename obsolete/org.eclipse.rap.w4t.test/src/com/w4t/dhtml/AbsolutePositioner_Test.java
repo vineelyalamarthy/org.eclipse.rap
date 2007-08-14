@@ -10,40 +10,41 @@
  ******************************************************************************/
 package com.w4t.dhtml;
 
+import org.eclipse.rwt.internal.browser.Ie5_5;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
 import junit.framework.TestCase;
-import com.w4t.Fixture;
+import com.w4t.W4TFixture;
 import com.w4t.WebLabel;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
-import com.w4t.util.browser.Ie5_5;
 
 public class AbsolutePositioner_Test extends TestCase {
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 
   public void testIe5_5() throws Exception {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    Fixture.fakeBrowser( new Ie5_5( true ) );
+    W4TFixture.fakeBrowser( new Ie5_5( true ) );
     AbsolutePositioner pos = new AbsolutePositioner();
     pos.setID( "pid" );
     pos.setContent( new WebLabel( "CONTENT" ) );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     pos.render( stateInfo.getResponseWriter() );
     String expected 
       = "<div id=\"pid\" " 
       + "style=\"position:absolute;background-color:white;\">" 
       + "<span id=\"p1\" class=\"w4tCsscd1f6403\">CONTENT</span>"
       + "</div>";
-    assertEquals( expected, Fixture.getAllMarkup() );
-    Fixture.fakeResponseWriter();
+    assertEquals( expected, W4TFixture.getAllMarkup() );
+    W4TFixture.fakeResponseWriter();
     AbsoluteConstraint constraint = new AbsoluteConstraint();
     pos.setPosition(constraint );
     pos.render( stateInfo.getResponseWriter() );
@@ -52,6 +53,6 @@ public class AbsolutePositioner_Test extends TestCase {
       + "style=\"position:absolute;background-color:white;" 
       + "top:0px;left:0px;width:100%;\">" 
       + "<span id=\"p1\" class=\"w4tCsscd1f6403\">CONTENT</span></div>";
-    assertEquals( expected, Fixture.getAllMarkup() );
+    assertEquals( expected, W4TFixture.getAllMarkup() );
   }
 }

@@ -22,13 +22,13 @@ public class WebComponent_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 
   // testing methods
@@ -66,7 +66,7 @@ public class WebComponent_Test extends TestCase {
   }
   
   public void testGetWebForm() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     assertSame( form, form.getWebForm() );
     
     WebButton button = new WebButton();
@@ -141,7 +141,7 @@ public class WebComponent_Test extends TestCase {
   }
   
   public void testGetParent() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     assertNull( form.getParent() );
     
     WebButton button = new WebButton();

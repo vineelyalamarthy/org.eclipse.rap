@@ -11,18 +11,22 @@
 package com.w4t.webradiobuttonkit;
 
 import javax.servlet.http.HttpServletRequest;
+
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.Browser;
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.RequestParams;
+
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.W4TModelUtil;
-import com.w4t.engine.lifecycle.LifeCycle;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.event.WebItemEvent;
 import com.w4t.event.WebItemListener;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.browser.Default;
 
 
 public class WebRadioButtonBehaviour_Test extends TestCase {
@@ -60,40 +64,40 @@ public class WebRadioButtonBehaviour_Test extends TestCase {
   
   public void testNoscript() throws Exception {
     // prepare
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     W4TModelUtil.initModel();
     RadioButtonForm form = new RadioButtonForm();
     form.setWebComponents();
-    Fixture.fakeEngineForRequestLifeCycle( form );
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeEngineForRequestLifeCycle( form );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     // initial form rendering: radio1 is selected
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();
-    String markup = Fixture.getAllMarkup();
+    String markup = W4TFixture.getAllMarkup();
     assertTrue( markup.indexOf( "radio1" ) != -1 );
     assertTrue( markup.indexOf( "radio2" ) != -1 );
     assertTrue( markup.indexOf( "checked" ) != -1 );
     assertTrue( markup.indexOf( "checked" ) < markup.indexOf( "radio2" ) );
     // fake request as if radio1 was clicked
     clearRequestParams();
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     fakeFormRequestParams( form );
     fakeNoscriptClick( form.radio1 );
     lifeCycle.execute();
     assertEquals( form.group.getValue(), form.radio1.getValue() );
     assertEquals( true, form.radio1.isSelected() );
-    markup = Fixture.getAllMarkup();
+    markup = W4TFixture.getAllMarkup();
     assertTrue( markup.indexOf( "radio1" ) != -1 );
     assertTrue( markup.indexOf( "radio2" ) != -1 );
     // fake second request as if radio1 was clicked
     clearRequestParams();
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     fakeFormRequestParams( form );
     fakeNoscriptClick( form.radio1 );
     lifeCycle.execute();
     assertEquals( form.group.getValue(), form.radio1.getValue() );
     assertEquals( true, form.radio1.isSelected() );
-    markup = Fixture.getAllMarkup();
+    markup = W4TFixture.getAllMarkup();
     assertTrue( markup.indexOf( "radio1" ) != -1 );
     assertTrue( markup.indexOf( "radio2" ) != -1 );
   }
@@ -107,23 +111,23 @@ public class WebRadioButtonBehaviour_Test extends TestCase {
         index = i;
       }
     }
-    Fixture.fakeRequestParam( "wie" + radioButton.getUniqueID() + ".x", "8" );
-    Fixture.fakeRequestParam( "wie" + radioButton.getUniqueID() + ".y", "8" );
+    W4TFixture.fakeRequestParam( "wie" + radioButton.getUniqueID() + ".x", "8" );
+    W4TFixture.fakeRequestParam( "wie" + radioButton.getUniqueID() + ".y", "8" );
     String groupId = group.getUniqueID();
-    Fixture.fakeRequestParam( groupId, buttons[ index ].getValue() );
+    W4TFixture.fakeRequestParam( groupId, buttons[ index ].getValue() );
   }
   
   private static void fakeFormRequestParams( final WebForm form ) {
     Browser browser = W4TContext.getBrowser();
     String isAjax = Boolean.toString( browser.isAjaxEnabled() );
     String isScript = Boolean.toString( browser.isScriptEnabled() );
-    Fixture.fakeRequestParam( RequestParams.AJAX_ENABLED, isAjax );
-    Fixture.fakeRequestParam( RequestParams.SCRIPT, isScript );
-    IFormAdapter adapter = Fixture.getFormAdapter( form );
+    W4TFixture.fakeRequestParam( RequestParams.AJAX_ENABLED, isAjax );
+    W4TFixture.fakeRequestParam( RequestParams.SCRIPT, isScript );
+    IFormAdapter adapter = W4TFixture.getFormAdapter( form );
     String formId = form.getUniqueID();
     String requestCounter = String.valueOf( adapter.getRequestCounter() - 1 );
     IWindow window = WindowManager.getInstance().findWindow( form );
-    Fixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
+    W4TFixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
   }
   
   private static void clearRequestParams() {
@@ -132,12 +136,12 @@ public class WebRadioButtonBehaviour_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 }

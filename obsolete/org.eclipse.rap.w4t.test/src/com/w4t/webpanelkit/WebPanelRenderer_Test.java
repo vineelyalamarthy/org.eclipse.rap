@@ -11,24 +11,28 @@
 package com.w4t.webpanelkit;
 
 import junit.framework.TestCase;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.browser.Mozilla1_7;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
+import com.w4t.W4TFixture;
+import com.w4t.WebPanel;
 import com.w4t.ajax.AjaxStatus;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.util.browser.Mozilla1_7;
 
 
 /** <p>Unit tests for WebPanelRenderer.</p> */
 public class WebPanelRenderer_Test extends TestCase {
   
   public void testAjaxRenderer() throws Exception {
-    Fixture.fakeBrowser( new Mozilla1_7( true, true ) );
+    W4TFixture.fakeBrowser( new Mozilla1_7( true, true ) );
     WebPanel panel = new WebPanel();
-    Fixture.setWebComponentUniqueId( panel, "a" );
+    W4TFixture.setWebComponentUniqueId( panel, "a" );
     AjaxStatus ajaxStatus = ( AjaxStatus )panel.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
+    W4TFixture.renderComponent( panel );
     String markup = getBodyMarkup( writer );
     assertEquals( "<div id=\"a\"></div>", markup );
   }
@@ -46,13 +50,13 @@ public class WebPanelRenderer_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.removeContext();
-    Fixture.tearDown();
+    W4TFixture.removeContext();
+    W4TFixture.tearDown();
   }
   
 }

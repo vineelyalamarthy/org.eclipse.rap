@@ -11,11 +11,15 @@
 package com.w4t.webimagekit;
 
 import junit.framework.TestCase;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie5up;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
+import com.w4t.W4TFixture;
+import com.w4t.WebImage;
 import com.w4t.ajax.AjaxStatus;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie5up;
 
 /**
  * <p>
@@ -27,13 +31,13 @@ public class WebImageRenderer_Test extends TestCase {
   public void testAjaxRenderer() throws Exception {
     WebImage image = new WebImage();
     image.setValue( "my-image.jpg" );
-    Fixture.setWebComponentUniqueId( image, "page1" );
+    W4TFixture.setWebComponentUniqueId( image, "page1" );
     AjaxStatus ajaxStatus = ( AjaxStatus )image.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Ie5up( true, true ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, true ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( image );
+    W4TFixture.renderComponent( image );
     String markup;
     markup = getBodyMarkup( writer );
     String expected;
@@ -48,7 +52,7 @@ public class WebImageRenderer_Test extends TestCase {
     image.setHeight( "100" );
     image.setAlt( "alt_text" );
     image.setBorder( "5" );
-    Fixture.renderComponent( image );
+    W4TFixture.renderComponent( image );
     markup = getBodyMarkup( writer );
     expected =   "<img id=\"page1\" " 
                + "src=\"my-image.jpg\" alt=\"alt_text\" " 
@@ -59,7 +63,7 @@ public class WebImageRenderer_Test extends TestCase {
     image.setEnabled( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( image );
+    W4TFixture.renderComponent( image );
     markup = getBodyMarkup( writer );
     expected = "<img id=\"page1\" src=\"disabledmy-image.jpg\" " 
              + "alt=\"alt_text\" " 
@@ -71,7 +75,7 @@ public class WebImageRenderer_Test extends TestCase {
     // image.setShowTextField( true );
     // writer = new HtmlResponseWriter();
     // setResponseWriter( writer );
-    // Fixture.renderComponent( image );
+    // W4TFixture.renderComponent( image );
     // markup = getBodyMarkup( writer );
     // expected = "<img id=\"page1_label1_img\" src=\"my-image.jpg\" alt=\"\"
     // border=\"0\" />"
@@ -84,7 +88,7 @@ public class WebImageRenderer_Test extends TestCase {
     // image.setDataField( new WebDataField( "field1" ) );
     // writer = new HtmlResponseWriter();
     // setResponseWriter( writer );
-    // Fixture.renderComponent( image );
+    // W4TFixture.renderComponent( image );
     // markup = getBodyMarkup( writer );
     // expected = "<img id=\"page1_label1_img\" src=\"my-image.jpg\" alt=\"\"
     // border=\"0\" />"
@@ -99,11 +103,11 @@ public class WebImageRenderer_Test extends TestCase {
   public void testScriptRenderer() throws Exception {
     WebImage image = new WebImage();
     image.setValue( "my-image.jpg" );
-    Fixture.setWebComponentUniqueId( image, "page1" );
+    W4TFixture.setWebComponentUniqueId( image, "page1" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( image );
+    W4TFixture.renderComponent( image );
     String markup = getBodyMarkup( writer );
     String expected;
     expected =   "<img id=\"page1\" " 
@@ -117,7 +121,7 @@ public class WebImageRenderer_Test extends TestCase {
     image.setHeight( "100" );
     image.setAlt( "alt_text" );
     image.setBorder( "5" );
-    Fixture.renderComponent( image );
+    W4TFixture.renderComponent( image );
     markup = getBodyMarkup( writer );
     expected =   "<img id=\"page1\" " 
                + "src=\"my-image.jpg\" alt=\"alt_text\" " 
@@ -128,7 +132,7 @@ public class WebImageRenderer_Test extends TestCase {
     image.setEnabled( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( image );
+    W4TFixture.renderComponent( image );
     markup = getBodyMarkup ( writer );
     expected =   "<img id=\"page1\" " 
                + "src=\"disabledmy-image.jpg\" alt=\"alt_text\" " 
@@ -140,7 +144,7 @@ public class WebImageRenderer_Test extends TestCase {
 // image.setShowTextField( true );
 // writer = new HtmlResponseWriter();
 // setResponseWriter( writer );
-// Fixture.renderComponent( image );
+// W4TFixture.renderComponent( image );
 // markup = getBodyMarkup( writer );
 // expected = "<img src=\"my-image.jpg\" alt=\"\" border=\"0\" />"
 // + "<input type=\"text\" name=\"page1_label1\" "
@@ -153,9 +157,9 @@ public class WebImageRenderer_Test extends TestCase {
     WebImage image = new WebImage();
     image.setValue( "my-image.jpg" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( image );
+    W4TFixture.renderComponent( image );
     String markup = getBodyMarkup( writer );
     String expected;
     expected = "<img src=\"my-image.jpg\" alt=\"\" border=\"0\">";
@@ -167,7 +171,7 @@ public class WebImageRenderer_Test extends TestCase {
     image.setAlt( "alt_text" );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( image );
+    W4TFixture.renderComponent( image );
     markup = getBodyMarkup( writer );
     expected = "<img src=\"my-image.jpg\" alt=\"alt_text\" border=\"0\" "
              + "height=\"20\" width=\"30\">";
@@ -177,7 +181,7 @@ public class WebImageRenderer_Test extends TestCase {
     image.setEnabled( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( image );
+    W4TFixture.renderComponent( image );
     markup = getBodyMarkup( writer );
     expected = "<img src=\"disabledmy-image.jpg\" alt=\"alt_text\" " 
              + "border=\"0\" height=\"20\" width=\"30\">";
@@ -185,13 +189,13 @@ public class WebImageRenderer_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 
   private void setResponseWriter( final HtmlResponseWriter writer ) {

@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.jface.resource.*;
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.graphics.Image;
 
-import com.w4t.SessionSingletonBase;
 
 
 /**

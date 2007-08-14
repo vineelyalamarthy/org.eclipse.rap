@@ -12,8 +12,8 @@
 package org.eclipse.ui.internal.util;
 
 import org.eclipse.core.commands.common.EventManager;
+import org.eclipse.rwt.SessionSingletonBase;
 
-import com.w4t.SessionSingletonBase;
 
 public class SessionSingletonEventManager extends SessionSingletonBase {
 

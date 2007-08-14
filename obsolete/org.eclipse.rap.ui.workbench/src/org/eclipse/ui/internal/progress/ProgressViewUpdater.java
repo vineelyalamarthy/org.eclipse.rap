@@ -13,12 +13,12 @@ package org.eclipse.ui.internal.progress;
 import java.util.*;
 
 import org.eclipse.core.runtime.*;
-import org.eclipse.core.runtime.jobs.*;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.rwt.RWT;
+import org.eclipse.rwt.SessionSingletonBase;
+import org.eclipse.rwt.service.*;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.WorkbenchJob;
-
-import com.w4t.SessionSingletonBase;
-import com.w4t.engine.service.*;
 
 /**
  * The ProgressViewUpdater is the singleton that updates viewers.
@@ -194,7 +194,7 @@ public class ProgressViewUpdater
         
         // Ensure that job is removed in case of session timeout.
         // Note that this is still under investigation.
-        ISessionStore session = ContextProvider.getSession();
+        ISessionStore session = RWT.getSessionStore();
         session.addSessionStoreListener( new SessionStoreListener() {
           public void beforeDestroy( final SessionStoreEvent event ) {
             if( updateJob != null ) {

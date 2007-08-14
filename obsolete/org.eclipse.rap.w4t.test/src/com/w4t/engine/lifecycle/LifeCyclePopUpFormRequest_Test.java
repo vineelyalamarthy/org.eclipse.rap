@@ -10,19 +10,21 @@
  ******************************************************************************/
 package com.w4t.engine.lifecycle;
 
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie5_5up;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.lifecycle.*;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.engine.W4TModelUtil;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie5_5up;
 
 
 public class LifeCyclePopUpFormRequest_Test extends TestCase {
@@ -33,7 +35,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     public void afterPhase( final PhaseEvent event ) {
     }
     public void beforePhase( final PhaseEvent event ) {
-      WebForm popUp = Fixture.loadStartupForm();
+      WebForm popUp = W4TFixture.loadStartupForm();
       IWindow window = W4TContext.showInNewWindow( popUp );
       assertSame( window, W4TContext.showInNewWindow( popUp ) );
       formToPopUpHashCode = popUp.hashCode();
@@ -47,19 +49,19 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext( false );
+    W4TFixture.setUp();
+    W4TFixture.createContext( false );
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 
   public void testOpenPopUpNoScript() throws Exception {
     // actually no popups in noscript -> use of FormCache
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     W4TModelUtil.initModel();
     prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -68,7 +70,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     lifeCycle.execute();
     
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     String expected
       =   "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">"
         + "<html><head><title>W4 Toolkit</title><style type=\"text/css\">"
@@ -100,7 +102,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "name=\"requestCounter\" value=\"1\" /><table id=\"p1\" "
         + "width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">"
         + "<tr><td align=\"center\" valign=\"middle\" colspan=\"3\">"
-        + "<span class=\"w4tCsscd1f6403\">This is the W4Toolkit Fixture Form!" 
+        + "<span class=\"w4tCsscd1f6403\">This is the W4Toolkit W4TFixture Form!" 
         + "</span></td></tr></table></form></body></html>";
     assertEquals( expected, allMarkup );
   }
@@ -109,8 +111,8 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     // Simulates an open Form1 -> open Form2 -> close Form2 -> open Form2 cycle
     //
     // set up environment 
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     W4TModelUtil.initModel();
     prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -123,7 +125,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     lifeCycle.execute();
     assertEquals( false, ContextProvider.getStateInfo().isExpired() );
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     String expected
       =   "<meta http-equiv=\"refresh\" content=\"0; "
         + "url=http://fooserver:8080/fooapp/W4TDelegate?"
@@ -138,16 +140,16 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     assertEquals( false, form.isRefreshing() );
     //
     // Simulate request issued by 'meta refresh' tag:
-    Fixture.fakeRequestParam( RequestParams.UIROOT, "w2;p3" );
-    Fixture.fakeRequestParam( "requestCounter", "-1" );
-    Fixture.fakeRequestParam( "w4t_paramlessGET", "true" );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeRequestParam( RequestParams.UIROOT, "w2;p3" );
+    W4TFixture.fakeRequestParam( "requestCounter", "-1" );
+    W4TFixture.fakeRequestParam( "w4t_paramlessGET", "true" );
+    W4TFixture.fakeResponseWriter();
     lifeCycle.removePhaseListener( popUpHandler );
     FormManager.setActive( null );
     WindowManager.setActive( null );
     lifeCycle.execute();
     assertEquals( false, ContextProvider.getStateInfo().isExpired() );
-    allMarkup = Fixture.getAllMarkup();
+    allMarkup = W4TFixture.getAllMarkup();
     assertTrue( allMarkup.indexOf( "http-equiv=\"refresh\"" ) == -1 );
     assertTrue( allMarkup.indexOf( "form id=\"p3\"" ) != -1 );
     //
@@ -165,15 +167,15 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
       
     };
     lifeCycle.addPhaseListener( closeHandler );
-    Fixture.fakeRequestParam( RequestParams.UIROOT, "w2;p3" );
-    Fixture.fakeRequestParam( "requestCounter", "0" );
-    Fixture.fakeRequestParam( "w4t_paramlessGET", null );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeRequestParam( RequestParams.UIROOT, "w2;p3" );
+    W4TFixture.fakeRequestParam( "requestCounter", "0" );
+    W4TFixture.fakeRequestParam( "w4t_paramlessGET", null );
+    W4TFixture.fakeResponseWriter();
     FormManager.setActive( null );
     WindowManager.setActive( null );
     lifeCycle.execute();
     assertEquals( false, ContextProvider.getStateInfo().isExpired() );
-    allMarkup = Fixture.getAllMarkup();
+    allMarkup = W4TFixture.getAllMarkup();
     expected 
       =   "<meta http-equiv=\"refresh\" content=\"0; " 
         + "url=http://fooserver:8080/fooapp/W4TDelegate?"
@@ -186,15 +188,15 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     //
     // Simulate request issued by 'meta refresh' tag in response to 'close p3'
     lifeCycle.removePhaseListener( closeHandler );
-    Fixture.fakeRequestParam( RequestParams.UIROOT, "w1;p1" );
-    Fixture.fakeRequestParam( "requestCounter", "1" );
-    Fixture.fakeRequestParam( "w4t_paramlessGET", "true" );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeRequestParam( RequestParams.UIROOT, "w1;p1" );
+    W4TFixture.fakeRequestParam( "requestCounter", "1" );
+    W4TFixture.fakeRequestParam( "w4t_paramlessGET", "true" );
+    W4TFixture.fakeResponseWriter();
     FormManager.setActive( null );
     WindowManager.setActive( null );
     lifeCycle.execute();
     assertEquals( false, ContextProvider.getStateInfo().isExpired() );
-    allMarkup = Fixture.getAllMarkup();
+    allMarkup = W4TFixture.getAllMarkup();
     assertTrue( allMarkup.indexOf( "http-equiv=\"refresh\"" ) == -1 );
     expected = "form id=\"p1\"";
     assertTrue( allMarkup.indexOf( expected ) != -1 );
@@ -213,14 +215,14 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
       }
     };
     lifeCycle.addPhaseListener( reOpenHandler );
-    Fixture.fakeRequestParam( RequestParams.UIROOT, "w1;p1" );
-    Fixture.fakeRequestParam( "requestCounter", "2" );
-    Fixture.fakeRequestParam( "w4t_paramlessGET", null );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeRequestParam( RequestParams.UIROOT, "w1;p1" );
+    W4TFixture.fakeRequestParam( "requestCounter", "2" );
+    W4TFixture.fakeRequestParam( "w4t_paramlessGET", null );
+    W4TFixture.fakeResponseWriter();
     FormManager.setActive( null );
     WindowManager.setActive( null );
     lifeCycle.execute();
-    allMarkup = Fixture.getAllMarkup();
+    allMarkup = W4TFixture.getAllMarkup();
     assertEquals( false, ContextProvider.getStateInfo().isExpired() );
     expected
       =   "<meta http-equiv=\"refresh\" content=\"0; "
@@ -234,8 +236,8 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
   }
   
   public void testOpenPopUpScript() throws Exception {
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     W4TModelUtil.initModel();
     prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -244,7 +246,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     lifeCycle.execute();
 
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     String expected
       =   "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">"
         + "<html><head><title>W4 Toolkit</title><style type=\"text/css\">"
@@ -321,15 +323,15 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
         + "width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">"
         + "<tr><td align=\"center\" valign=\"middle\" colspan=\"3\"><span "
         + "id=\"p2\" class=\"w4tCsscd1f6403\">"
-        + "This is the W4Toolkit Fixture Form!</span></td></tr></table>"
+        + "This is the W4Toolkit W4TFixture Form!</span></td></tr></table>"
         + "</form></body>"
         + "</html>";
     assertEquals( expected, allMarkup );
   }
   
   public void testOpenPopUpAjax() throws Exception {
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Ie5_5up( true, true ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Ie5_5up( true, true ) );
     W4TModelUtil.initModel();
     prepareFormAndRequestParamsAjax();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -338,7 +340,7 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     lifeCycle.execute();
     
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     String expected
       =   "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
         + "<ajax-response><input type=\"hidden\" id=\"webActionEvent\" "
@@ -376,11 +378,11 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
     // test refresh on popup
     WebForm form = FormManager.getAll()[ 0 ];
     form.refreshWindow();
-    Fixture.fakeResponseWriter();
-    Fixture.fakeRequestParam( RequestParams.REQUEST_COUNTER, "1" );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeRequestParam( RequestParams.REQUEST_COUNTER, "1" );
     lifeCycle.removePhaseListener( popUpHandler );
     lifeCycle.execute();
-    allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     expected
       =   "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
         + "<ajax-response><input type=\"hidden\" id=\"webActionEvent\" "
@@ -418,18 +420,18 @@ public class LifeCyclePopUpFormRequest_Test extends TestCase {
   }
   
   private void prepareFormAndRequestParms() throws Exception {
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     IWindow window = WindowManager.getInstance().create( form );
-    IFormAdapter adapter = Fixture.getFormAdapter( form );
+    IFormAdapter adapter = W4TFixture.getFormAdapter( form );
     adapter.increase();
     String formId = form.getUniqueID();
     String requestCounter = String.valueOf( adapter.getRequestCounter() - 1 );
-    Fixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
+    W4TFixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
   }
 
   private void prepareFormAndRequestParamsAjax() throws Exception {
     prepareFormAndRequestParms();
-    Fixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
     WebForm form = FormManager.getAll()[ 0 ];
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );

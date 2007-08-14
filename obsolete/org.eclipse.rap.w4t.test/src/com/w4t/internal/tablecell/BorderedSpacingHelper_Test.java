@@ -11,16 +11,21 @@
 package com.w4t.internal.tablecell;
 
 import java.io.IOException;
+
 import junit.framework.TestCase;
-import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
+
+import org.eclipse.rwt.internal.browser.Mozilla1_6;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
+import com.w4t.W4TFixture;
+import com.w4t.WebTableCell;
 import com.w4t.types.WebColor;
-import com.w4t.util.browser.Mozilla1_6;
 
 public class BorderedSpacingHelper_Test extends TestCase {
 
   public void testMarkup() throws IOException {
-    Fixture.fakeBrowser( new Mozilla1_6( true, true ) );
+    W4TFixture.fakeBrowser( new Mozilla1_6( true, true ) );
     BorderedSpacingHelper spacingHelper 
       = new BorderedSpacingHelper( "bottom", 1, new WebColor( "black" ) );
     WebTableCell cell = new WebTableCell();
@@ -29,7 +34,7 @@ public class BorderedSpacingHelper_Test extends TestCase {
     ContextProvider.getStateInfo().setResponseWriter( out );
     spacingHelper.getSpacingStart( cell );
     spacingHelper.getSpacingEnd( cell );
-    String markup = Fixture.getAllMarkup( out  );
+    String markup = W4TFixture.getAllMarkup( out  );
     assertEquals( "", markup );
     // render with spacing
     out = new HtmlResponseWriter();
@@ -37,7 +42,7 @@ public class BorderedSpacingHelper_Test extends TestCase {
     cell.setSpacing( "11" );
     spacingHelper.getSpacingStart( cell );
     spacingHelper.getSpacingEnd( cell );
-    markup = Fixture.getAllMarkup( out  );
+    markup = W4TFixture.getAllMarkup( out  );
     String expected 
       = "<td style=\"border-bottom:1px solid #000000\">"
       + "<table border=\"0\" cellpadding=\"\" cellspacing=\"11\">" 
@@ -50,7 +55,7 @@ public class BorderedSpacingHelper_Test extends TestCase {
     cell.setPadding( "12" );
     spacingHelper.getSpacingStart( cell );
     spacingHelper.getSpacingEnd( cell );
-    markup = Fixture.getAllMarkup( out  );
+    markup = W4TFixture.getAllMarkup( out  );
     expected 
       = "<td style=\"border-bottom:1px solid #000000\">" 
       + "<table border=\"0\" cellpadding=\"12\" cellspacing=\"\">"
@@ -59,12 +64,12 @@ public class BorderedSpacingHelper_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 }

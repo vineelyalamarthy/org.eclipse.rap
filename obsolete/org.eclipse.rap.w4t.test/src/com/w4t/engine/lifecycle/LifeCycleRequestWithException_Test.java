@@ -10,19 +10,21 @@
  ******************************************************************************/
 package com.w4t.engine.lifecycle;
 
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.lifecycle.*;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.W4TModelUtil;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.event.WebRenderAdapter;
 import com.w4t.event.WebRenderEvent;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.browser.Default;
 
 
 public class LifeCycleRequestWithException_Test extends TestCase {
@@ -46,26 +48,26 @@ public class LifeCycleRequestWithException_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext( false );
+    W4TFixture.setUp();
+    W4TFixture.createContext( false );
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 
   public void testExceptionOnStartup() throws Exception {
-    Fixture.fakeResponseWriter();
-    Fixture.fakeRequestParam( RequestParams.STARTUP, "true" );
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeRequestParam( RequestParams.STARTUP, "true" );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     W4TModelUtil.initModel();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.addPhaseListener( new ExceptionHandler() );
     lifeCycle.execute();
     
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     // ensure that the result contains a W4Toolkit WebForm
     String formMarkup
       =   "<form id=\"p3\" action=\"http://fooserver:8080/fooapp/W4TDelegate?"
@@ -78,24 +80,24 @@ public class LifeCycleRequestWithException_Test extends TestCase {
   }
   
   public void testExceptionDuringStandardRequest() throws Exception {
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     W4TModelUtil.initModel();
     WebForm form = prepareFormAndRequestParms();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();
     
     // test expired request
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     String requestCounter = getRequestCounter( form );
-    Fixture.fakeRequestParam( RequestParams.REQUEST_COUNTER, requestCounter );
+    W4TFixture.fakeRequestParam( RequestParams.REQUEST_COUNTER, requestCounter );
     FormManager.setActive( null );
     ExceptionHandler exceptionHandler = new ExceptionHandler();
     lifeCycle.addPhaseListener( exceptionHandler );
     lifeCycle.execute();
     
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     // form markup from render buffer + open script for error form/window
     String expectedStart
       =   "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">"
@@ -173,21 +175,21 @@ public class LifeCycleRequestWithException_Test extends TestCase {
         + "width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">"
         + "<tr><td align=\"center\" valign=\"middle\" colspan=\"3\"><span "
         + "id=\"p2\" class=\"w4tCsscd1f6403\">"
-        + "This is the W4Toolkit Fixture Form!</span></td></tr></table>"
+        + "This is the W4Toolkit W4TFixture Form!</span></td></tr></table>"
         + "</form></body>"
         + "</html>";
     assertTrue( allMarkup.startsWith( expectedStart ) );
     assertTrue( allMarkup.endsWith( expectedEnd ) );
     
     // test expired request
-    Fixture.fakeResponseWriter();
-    Fixture.fakeFormRequestParams( "-1", "w2", "p3" );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeFormRequestParams( "-1", "w2", "p3" );
     FormManager.setActive( null );
     WindowManager.setActive( null );
     stateInfo.setExceptionOccured( false );
     lifeCycle.removePhaseListener( exceptionHandler );
     lifeCycle.execute();
-    allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     // ensure that the result contains a W4Toolkit WebForm
     String formMarkup
       =   "<form id=\"p3\" action=\"http://fooserver:8080/fooapp/W4TDelegate?"
@@ -200,18 +202,18 @@ public class LifeCycleRequestWithException_Test extends TestCase {
   }
   
   private WebForm prepareFormAndRequestParms() throws Exception {
-    WebForm result = Fixture.loadStartupForm();
+    WebForm result = W4TFixture.loadStartupForm();
     IWindow window = WindowManager.getInstance().create( result );
-    IFormAdapter adapter = Fixture.getFormAdapter( result );
+    IFormAdapter adapter = W4TFixture.getFormAdapter( result );
     adapter.increase();
     String formId = result.getUniqueID();
     String requestCounter = getRequestCounter( result );
-    Fixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
+    W4TFixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
     return result;
   }
 
   private String getRequestCounter( final WebForm form ) {
-    IFormAdapter adapter = Fixture.getFormAdapter( form );
+    IFormAdapter adapter = W4TFixture.getFormAdapter( form );
     return String.valueOf( adapter.getRequestCounter() - 1 );
   }
 }

@@ -17,23 +17,22 @@ import java.net.URL;
 import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.*;
-import org.eclipse.swt.internal.engine.*;
-import org.eclipse.swt.internal.lifecycle.*;
-import org.eclipse.swt.internal.theme.ThemeManager;
-import org.eclipse.swt.internal.theme.ThemeManager.ResourceLoader;
-import org.eclipse.swt.resources.IResource;
-import org.eclipse.swt.resources.ResourceManager;
+import org.eclipse.rwt.internal.IEngineConfig;
+import org.eclipse.rwt.internal.engine.*;
+import org.eclipse.rwt.internal.lifecycle.*;
+import org.eclipse.rwt.internal.resources.ResourceManager;
+import org.eclipse.rwt.internal.service.BrowserSurvey;
+import org.eclipse.rwt.internal.theme.ThemeManager;
+import org.eclipse.rwt.internal.theme.ThemeManager.ResourceLoader;
+import org.eclipse.rwt.lifecycle.PhaseListener;
+import org.eclipse.rwt.resources.IResource;
+import org.eclipse.rwt.service.ServiceManager;
 import org.eclipse.ui.Activator;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.osgi.framework.Bundle;
 
-import com.w4t.engine.lifecycle.LifeCycleFactory;
-import com.w4t.engine.lifecycle.PhaseListener;
-import com.w4t.engine.service.BrowserSurvey;
-import com.w4t.engine.service.ServiceManager;
-import com.w4t.engine.util.EngineConfig;
-import com.w4t.engine.util.IEngineConfig;
+
 
 /**
  * The underlying W4Toolkit runtime engine expects some configuration

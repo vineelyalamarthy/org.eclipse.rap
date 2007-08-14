@@ -10,7 +10,10 @@
  ******************************************************************************/
 package com.w4t.util;
 
+import org.eclipse.rwt.internal.browser.Konqueror3_1up;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.WebFormListener_Test.Form;
 import com.w4t.administration.LinkButton;
@@ -38,7 +41,6 @@ import com.w4t.dhtml.webscrollpanekit.WebScrollPaneRenderer_Default_Noscript;
 import com.w4t.dhtml.webscrollpanekit.WebScrollPaneRenderer_Default_Script;
 import com.w4t.engine.lifecycle.standard.LoginForm;
 import com.w4t.mockup.*;
-import com.w4t.util.browser.Konqueror3_1up;
 import com.w4t.webanchorkit.WebAnchorRenderer_Default_Noscript;
 import com.w4t.webanchorkit.WebAnchorRenderer_Default_Script;
 import com.w4t.webbordercomponentkit.WebBorderComponentRenderer_Default_Noscript;
@@ -74,7 +76,7 @@ public class RendererCache_Konqueror3_1up_Test extends TestCase {
     Renderer renderer;
     //
     // konqueror3_1 up (no script)
-    Fixture.fakeBrowser( new Konqueror3_1up( false ) );
+    W4TFixture.fakeBrowser( new Konqueror3_1up( false ) );
     // WebAnchor
     RendererCache cache = RendererCache.getInstance();
     renderer = cache.retrieveRenderer( WebAnchor.class );
@@ -240,7 +242,7 @@ public class RendererCache_Konqueror3_1up_Test extends TestCase {
   public void testScript() {
     Renderer renderer;
     RendererCache cache = RendererCache.getInstance();
-    Fixture.fakeBrowser( new Konqueror3_1up( true ) );
+    W4TFixture.fakeBrowser( new Konqueror3_1up( true ) );
     // WebAnchor
     renderer = cache.retrieveRenderer( WebAnchor.class );
     assertEquals( WebAnchorRenderer_Default_Script.class, renderer.getClass() );
@@ -378,12 +380,12 @@ public class RendererCache_Konqueror3_1up_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 }

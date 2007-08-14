@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.ui;
 
+import org.eclipse.rwt.internal.service.ContextProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.internal.WorkbenchMessages;
 
-import com.w4t.engine.service.ContextProvider;
 
 /**
  * The central class for access to the Eclipse Platform User Interface. 

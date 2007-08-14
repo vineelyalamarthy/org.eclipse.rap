@@ -11,11 +11,15 @@
 package com.w4t.webanchorkit;
 
 import junit.framework.TestCase;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie5up;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
+import com.w4t.W4TFixture;
+import com.w4t.WebAnchor;
 import com.w4t.ajax.AjaxStatus;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie5up;
 
 public class WebAnchorRenderer_Test extends TestCase {
   
@@ -32,10 +36,10 @@ public class WebAnchorRenderer_Test extends TestCase {
     HtmlResponseWriter writer = new HtmlResponseWriter();
     AjaxStatus ajaxStatus = ( AjaxStatus )anchor.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
-    Fixture.fakeBrowser( new Default( true, true ) );
+    W4TFixture.fakeBrowser( new Default( true, true ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( anchor );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( anchor );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<a id=\"p1\" class=\"w4tCsscd1f6403\" "
       +"dir=\"myDir\" lang=\"myLang\" title=\"myTitle\" "
@@ -49,10 +53,10 @@ public class WebAnchorRenderer_Test extends TestCase {
     ajaxStatus = ( AjaxStatus )anchor.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
     writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( anchor );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( anchor );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<a id=\"p1\" class=\"w4tCsscd1f6403\" "
       + "title=\"T&uuml;ddelpip &amp; &quot;L&ouml;rz&quot;\" "
@@ -72,10 +76,10 @@ public class WebAnchorRenderer_Test extends TestCase {
     anchor.setTarget( "myTarget" );
     anchor.setTitle( "myTitle" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( anchor );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( anchor );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<a id=\"p1\" class=\"w4tCsscd1f6403\" "
       +"dir=\"myDir\" lang=\"myLang\" title=\"myTitle\" "
@@ -87,10 +91,10 @@ public class WebAnchorRenderer_Test extends TestCase {
     anchor.setLang( "" );
     anchor.setDir( "" );
     writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( anchor );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( anchor );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<a id=\"p1\" class=\"w4tCsscd1f6403\" "
       + "title=\"T&uuml;ddelpip &amp; &quot;L&ouml;rz&quot;\" "
@@ -110,10 +114,10 @@ public class WebAnchorRenderer_Test extends TestCase {
     anchor.setTarget( "myTarget" );
     anchor.setTitle( "myTitle" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( anchor );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( anchor );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<a id=\"p1\" class=\"w4tCsscd1f6403\" "
       + "dir=\"myDir\" lang=\"myLang\" title=\"myTitle\" "
@@ -125,10 +129,10 @@ public class WebAnchorRenderer_Test extends TestCase {
     anchor.setLang( "" );
     anchor.setDir( "" );
     writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( anchor );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( anchor );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<a id=\"p1\" class=\"w4tCsscd1f6403\" "
       + "title=\"T&uuml;ddelpip &amp; &quot;L&ouml;rz&quot;\" "
@@ -138,13 +142,13 @@ public class WebAnchorRenderer_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 
   private void setResponseWriter( final HtmlResponseWriter writer ) {

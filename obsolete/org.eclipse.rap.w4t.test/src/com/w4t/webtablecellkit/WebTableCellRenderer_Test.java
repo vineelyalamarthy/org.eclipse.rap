@@ -11,9 +11,14 @@
 package com.w4t.webtablecellkit;
 
 import junit.framework.TestCase;
-import com.w4t.*;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie5up;
+
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie5up;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.W4TFixture;
+import com.w4t.WebTableCell;
 
 /** <p>Unit tests for WebTableCellRenderer.</p> */
 public class WebTableCellRenderer_Test extends TestCase {
@@ -37,10 +42,10 @@ public class WebTableCellRenderer_Test extends TestCase {
     cell.setValue( "myValue" );
     cell.setWidth( "10" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( true, true ) );
-    Fixture.setResponseWriter( writer );
+    W4TFixture.fakeBrowser( new Default( true, true ) );
+    W4TFixture.setResponseWriter( writer );
     cell.render();
-    String markup = Fixture.getBodyMarkup( writer );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<td><table border=\"0\" cellpadding=\"5\" cellspacing=\"2\">"
       + "<tr><td align=\"center\" valign=\"vAlign\" nowrap "
@@ -70,10 +75,10 @@ public class WebTableCellRenderer_Test extends TestCase {
     cell.setWidth( "10" );
     cell.setStyle ( cell.getStyle() );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
-    Fixture.setResponseWriter( writer );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.setResponseWriter( writer );
     cell.render();
-    String markup = Fixture.getBodyMarkup( writer );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<td><table border=\"0\" cellpadding=\"5\" cellspacing=\"2\">"
       + "<tr><td align=\"center\" valign=\"vAlign\" nowrap=\"nowrap\" "
@@ -104,10 +109,10 @@ public class WebTableCellRenderer_Test extends TestCase {
     cell.setStyle ( cell.getStyle() );
     cell.setValue( "myValue" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
-    Fixture.setResponseWriter( writer );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.setResponseWriter( writer );
     cell.render();
-    String markup = Fixture.getBodyMarkup( writer );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<td><table border=\"0\" cellpadding=\"5\" cellspacing=\"2\">"
       + "<tr><td align=\"center\" valign=\"vAlign\" nowrap "
@@ -124,10 +129,10 @@ public class WebTableCellRenderer_Test extends TestCase {
     cell.setValue( HTML.NBSP );
     cell.setValueEncoded( true );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
-    Fixture.setResponseWriter( writer );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.setResponseWriter( writer );
     cell.render();
-    String markup = Fixture.getBodyMarkup( writer );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<td><table border=\"0\" cellpadding=\"3\" cellspacing=\"0\">" 
       + "<tr><td>&nbsp;</td></tr></table></td>";
@@ -135,12 +140,12 @@ public class WebTableCellRenderer_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 }

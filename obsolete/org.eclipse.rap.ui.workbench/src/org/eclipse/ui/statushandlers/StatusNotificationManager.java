@@ -15,11 +15,11 @@ import java.util.*;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 
-import com.w4t.SessionSingletonBase;
 
 /**
  * The StatusNotificationManager is the class that manages the display of status

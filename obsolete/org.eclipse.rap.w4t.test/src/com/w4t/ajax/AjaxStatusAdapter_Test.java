@@ -11,7 +11,11 @@
 package com.w4t.ajax;
 
 import junit.framework.TestCase;
-import com.w4t.*;
+
+import org.eclipse.rwt.AdapterFactory;
+
+import com.w4t.W4TFixture;
+import com.w4t.WebButton;
 
 public class AjaxStatusAdapter_Test extends TestCase {
   
@@ -37,13 +41,13 @@ public class AjaxStatusAdapter_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   private static class MyButton extends WebButton {

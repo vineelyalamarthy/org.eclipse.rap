@@ -10,12 +10,14 @@
  ******************************************************************************/
 package com.w4t.webcardlayoutkit;
 
+import org.eclipse.rwt.internal.IInitialization;
+import org.eclipse.rwt.internal.browser.Browser;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
-import com.w4t.util.IInitialization;
 import com.w4t.util.image.ImageCache;
 
-/** <p>Base class for rendering tests of com.w4t.WebCardLayout.</p>
+/** <p>Base class for rendering tests of org.eclipse.rap.WebCardLayout.</p>
   */
 abstract class WebCardLayoutRendererBase extends RenderingTestCase
 {
@@ -44,13 +46,13 @@ abstract class WebCardLayoutRendererBase extends RenderingTestCase
 
   protected void setUp() throws Exception {
     super.setUp();
-    ImageCache.createInstance( Fixture.getWebAppBase().toString(), 
+    ImageCache.createInstance( W4TFixture.getWebAppBase().toString(), 
                                IInitialization.NOSCRIPT_SUBMITTERS_NONE );
   }
   
   public void tearDown() throws Exception {
     super.tearDown();
-    Fixture.setPrivateField( ImageCache.class, null, "_instance", null );
+    W4TFixture.setPrivateField( ImageCache.class, null, "_instance", null );
   }
   
   private void prepare() throws Exception {
@@ -67,7 +69,7 @@ abstract class WebCardLayoutRendererBase extends RenderingTestCase
     createControls( testForm );
         
     // needed for renderer loading    
-    Fixture.fakeBrowser( browser );
+    W4TFixture.fakeBrowser( browser );
   }
 
   private void createControls( final WebForm testForm ) throws Exception {

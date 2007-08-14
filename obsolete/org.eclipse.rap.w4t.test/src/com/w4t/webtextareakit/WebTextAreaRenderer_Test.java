@@ -11,13 +11,16 @@
 package com.w4t.webtextareakit;
 
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.*;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatus;
 import com.w4t.ajax.AjaxStatusUtil;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.*;
 import com.w4t.util.RendererCache;
-import com.w4t.util.browser.*;
 
 
 /**
@@ -46,13 +49,13 @@ public class WebTextAreaRenderer_Test extends TestCase {
     text.setTitle( "myTitle" );
     text.setEnabled( false );
     text.setUpdatable( false );
-    Fixture.setWebComponentUniqueId( text, "text1" );
+    W4TFixture.setWebComponentUniqueId( text, "text1" );
     AjaxStatus ajaxStatus = ( AjaxStatus )text.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
-    Fixture.fakeBrowser( new Default( true, true ) );
+    W4TFixture.fakeBrowser( new Default( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
+    W4TFixture.renderComponent( text );
     String markup = getBodyMarkup( writer );
     String expected;
     expected = "<textarea "
@@ -88,13 +91,13 @@ public class WebTextAreaRenderer_Test extends TestCase {
     text.setTitle( "myTitle" );
     text.setEnabled( false );
     text.setUpdatable( false );
-    Fixture.setWebComponentUniqueId( text, "text1" );
+    W4TFixture.setWebComponentUniqueId( text, "text1" );
     AjaxStatus ajaxStatus = ( AjaxStatus )text.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
-    Fixture.fakeBrowser( new Ie5up( true, true ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
+    W4TFixture.renderComponent( text );
     String markup = getBodyMarkup( writer );
     String expected;
     expected =  "<textarea "
@@ -115,7 +118,7 @@ public class WebTextAreaRenderer_Test extends TestCase {
   public void testScriptRenderer() throws Exception {
     // disabled and readonly 
     WebTextArea text = new WebTextArea();
-    Fixture.setWebComponentUniqueId( text, "text1" );
+    W4TFixture.setWebComponentUniqueId( text, "text1" );
     text.setValue( "Hello World" );
       text.addWebItemListener( new WebItemListener() {
       public void webItemStateChanged( final WebItemEvent e ) {
@@ -133,10 +136,10 @@ public class WebTextAreaRenderer_Test extends TestCase {
     text.setTitle( "myTitle" );   
     text.setEnabled( false );
     text.setUpdatable( false );    
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
+    W4TFixture.renderComponent( text );
     String markup = getBodyMarkup( writer );
     String expected = "<textarea "
                     + "id=\"text1\" "
@@ -154,7 +157,7 @@ public class WebTextAreaRenderer_Test extends TestCase {
     text.setEnabled( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
+    W4TFixture.renderComponent( text );
     markup = getBodyMarkup( writer );
     expected =  "<textarea "
               + "id=\"text1\" "
@@ -176,7 +179,7 @@ public class WebTextAreaRenderer_Test extends TestCase {
     text.setUpdatable( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
+    W4TFixture.renderComponent( text );
     markup = getBodyMarkup( writer );
     expected =  "<textarea "
               + "id=\"text1\" "
@@ -198,7 +201,7 @@ public class WebTextAreaRenderer_Test extends TestCase {
     text.setUpdatable( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
+    W4TFixture.renderComponent( text );
     markup = getBodyMarkup( writer );
     expected =  "<textarea "
               + "id=\"text1\" "
@@ -215,7 +218,7 @@ public class WebTextAreaRenderer_Test extends TestCase {
   
   public void testNoScriptRenderer() throws Exception {
     WebTextArea text = new WebTextArea();
-    Fixture.setWebComponentUniqueId( text, "text1" );
+    W4TFixture.setWebComponentUniqueId( text, "text1" );
     text.setValue( "Hello World" );
     text.setCols( 20 );
     text.setRows( 20 );
@@ -231,9 +234,9 @@ public class WebTextAreaRenderer_Test extends TestCase {
       
     } );    
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
+    W4TFixture.renderComponent( text );
     String markup = getBodyMarkup( writer );
     String expected =   "<textarea "
                       + "name=\"text1\" "
@@ -253,7 +256,7 @@ public class WebTextAreaRenderer_Test extends TestCase {
     writer = new HtmlResponseWriter();
     text.setEnabled( false );
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
+    W4TFixture.renderComponent( text );
     markup = getBodyMarkup( writer );
     expected =  "<textarea "
               + "name=\"text1\" "
@@ -268,9 +271,9 @@ public class WebTextAreaRenderer_Test extends TestCase {
   }
   
   public void testReadData_Default_Script() throws Exception {
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     WebTextArea text = new WebTextArea();
-    Fixture.setWebComponentUniqueId( text, "text1" );
+    W4TFixture.setWebComponentUniqueId( text, "text1" );
     fakeRequestParameter( text.getUniqueID(), "newText" );
     RendererCache rendererCache = RendererCache.getInstance();
     Renderer renderer = rendererCache.retrieveRenderer( text.getClass() );
@@ -279,9 +282,9 @@ public class WebTextAreaRenderer_Test extends TestCase {
   }
   
   public void testReadData_Default_Ajax() throws Exception {
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     WebTextArea text = new WebTextArea();
-    Fixture.setWebComponentUniqueId( text, "text1" );
+    W4TFixture.setWebComponentUniqueId( text, "text1" );
     fakeRequestParameter( text.getUniqueID(), "newText" );
     RendererCache rendererCache = RendererCache.getInstance();
     Renderer renderer = rendererCache.retrieveRenderer( text.getClass() );
@@ -291,11 +294,11 @@ public class WebTextAreaRenderer_Test extends TestCase {
   
   public void testAjaxStatusAfterReadData() throws Exception {
     // case 1: value changed on client-side -> don't render WebText
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     WebTextArea textArea = new WebTextArea();
     form.add( textArea, WebBorderLayout.CENTER );
-    Fixture.fakeRequestParam( textArea.getUniqueID(), "newText" );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeRequestParam( textArea.getUniqueID(), "newText" );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     RendererCache rendererCache = RendererCache.getInstance();
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );
@@ -304,14 +307,14 @@ public class WebTextAreaRenderer_Test extends TestCase {
     renderer.readData( textArea );
     assertEquals( "newText", textArea.getValue() );
     AjaxStatusUtil.preRender( form );
-    assertEquals( false, Fixture.getAjaxStatus( textArea ).mustRender() );
+    assertEquals( false, W4TFixture.getAjaxStatus( textArea ).mustRender() );
     // case 2: value changed on client-side and programatically after readData
     //         -> must render WebText
-    form = Fixture.getEmptyWebFormInstance();
+    form = W4TFixture.getEmptyWebFormInstance();
     textArea = new WebTextArea();
     form.add( textArea, WebBorderLayout.CENTER );
-    Fixture.fakeRequestParam( textArea.getUniqueID(), "newText" );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeRequestParam( textArea.getUniqueID(), "newText" );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     rendererCache = RendererCache.getInstance();
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );
@@ -319,17 +322,17 @@ public class WebTextAreaRenderer_Test extends TestCase {
     renderer.readData( textArea );
     textArea.setValue( "anotherText" );
     AjaxStatusUtil.preRender( form );
-    assertEquals( true, Fixture.getAjaxStatus( textArea ).mustRender() );
+    assertEquals( true, W4TFixture.getAjaxStatus( textArea ).mustRender() );
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   private void setResponseWriter( final HtmlResponseWriter writer ) {
@@ -345,6 +348,6 @@ public class WebTextAreaRenderer_Test extends TestCase {
   }
 
   private static void fakeRequestParameter( final String key, final String value ) {
-    Fixture.fakeRequestParam( key, value );
+    W4TFixture.fakeRequestParam( key, value );
   }
 }

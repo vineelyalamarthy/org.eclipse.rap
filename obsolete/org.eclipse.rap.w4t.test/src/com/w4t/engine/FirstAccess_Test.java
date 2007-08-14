@@ -8,17 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import junit.framework.TestCase;
 
-import com.w4t.Fixture;
-import com.w4t.Fixture.*;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.*;
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.service.ServiceManager;
+
+import com.w4t.W4TFixture;
+import com.w4t.W4TFixture.*;
 
 
 public class FirstAccess_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext( false );
+    W4TFixture.setUp();
+    W4TFixture.createContext( false );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     response.setOutputStream( new TestServletOutputStream() );
     HttpServletRequest request = ContextProvider.getRequest();
@@ -27,64 +28,64 @@ public class FirstAccess_Test extends TestCase {
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testStartupWithoutParams() throws IOException, ServletException {
     ServiceManager.getHandler().service();
-    String allMarkup = Fixture.getAllMarkup();
+    String allMarkup = W4TFixture.getAllMarkup();
     int contains = allMarkup.indexOf( "W4Toolkit Startup Page" );
     assertTrue( contains != -1 );
     assertTrue( ContextProvider.getStateInfo().isFirstAccess() );
 
     createNewContext();
-    Fixture.fakeRequestParam( RequestParams.STARTUP, "xyz" );
-    Fixture.fakeRequestParam( RequestParams.SCRIPT, "true" );
-    Fixture.fakeRequestParam( RequestParams.AJAX_ENABLED, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.STARTUP, "xyz" );
+    W4TFixture.fakeRequestParam( RequestParams.SCRIPT, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.AJAX_ENABLED, "true" );
     String userAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)";
-    Fixture.fakeUserAgent( userAgent );
+    W4TFixture.fakeUserAgent( userAgent );
     ServiceManager.getHandler().service();
-    allMarkup = Fixture.getAllMarkup();
-    contains = allMarkup.indexOf( "This is the W4Toolkit Fixture Form!" );
+    allMarkup = W4TFixture.getAllMarkup();
+    contains = allMarkup.indexOf( "This is the W4Toolkit W4TFixture Form!" );
     assertTrue( contains != -1 );
     assertTrue( ContextProvider.getStateInfo().isFirstAccess() );
 
     createNewContext();
-    Fixture.fakeRequestParam( RequestParams.AJAX_ENABLED, "true" );
-    Fixture.fakeRequestParam( RequestParams.UIROOT, "w1;p1" );
-    Fixture.fakeRequestParam( RequestParams.REQUEST_COUNTER, "0" );
+    W4TFixture.fakeRequestParam( RequestParams.AJAX_ENABLED, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.UIROOT, "w1;p1" );
+    W4TFixture.fakeRequestParam( RequestParams.REQUEST_COUNTER, "0" );
     ServiceManager.getHandler().service();
-    contains = allMarkup.indexOf( "This is the W4Toolkit Fixture Form!" );
+    contains = allMarkup.indexOf( "This is the W4Toolkit W4TFixture Form!" );
     assertTrue( contains != -1 );
     assertFalse( ContextProvider.getStateInfo().isFirstAccess() );
   }
   
   public void testStartupWithParams() throws IOException, ServletException {
-    Fixture.fakeRequestParam( RequestParams.STARTUP, "xyz" );
-    Fixture.fakeRequestParam( RequestParams.SCRIPT, "true" );
-    Fixture.fakeRequestParam( RequestParams.AJAX_ENABLED, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.STARTUP, "xyz" );
+    W4TFixture.fakeRequestParam( RequestParams.SCRIPT, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.AJAX_ENABLED, "true" );
     String userAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)";
-    Fixture.fakeUserAgent( userAgent );
+    W4TFixture.fakeUserAgent( userAgent );
     ServiceManager.getHandler().service();
-    String allMarkup = Fixture.getAllMarkup();
-    int contains = allMarkup.indexOf( "This is the W4Toolkit Fixture Form!" );
+    String allMarkup = W4TFixture.getAllMarkup();
+    int contains = allMarkup.indexOf( "This is the W4Toolkit W4TFixture Form!" );
     assertTrue( contains != -1 );
     assertTrue( ContextProvider.getStateInfo().isFirstAccess() );
     
      createNewContext();
-     Fixture.fakeRequestParam( RequestParams.AJAX_ENABLED, "true" );
-     Fixture.fakeRequestParam( RequestParams.UIROOT, "w1;p1" );
-     Fixture.fakeRequestParam( RequestParams.REQUEST_COUNTER, "0" );
+     W4TFixture.fakeRequestParam( RequestParams.AJAX_ENABLED, "true" );
+     W4TFixture.fakeRequestParam( RequestParams.UIROOT, "w1;p1" );
+     W4TFixture.fakeRequestParam( RequestParams.REQUEST_COUNTER, "0" );
      ServiceManager.getHandler().service();
-     contains = allMarkup.indexOf( "This is the W4Toolkit Fixture Form!" );
+     contains = allMarkup.indexOf( "This is the W4Toolkit W4TFixture Form!" );
      assertTrue( contains != -1 );
      assertFalse( ContextProvider.getStateInfo().isFirstAccess() );
      
      createNewContext();
-     Fixture.fakeRequestParam( RequestParams.STARTUP, "xyz" );
+     W4TFixture.fakeRequestParam( RequestParams.STARTUP, "xyz" );
      ServiceManager.getHandler().service();
-     contains = allMarkup.indexOf( "This is the W4Toolkit Fixture Form!" );
+     contains = allMarkup.indexOf( "This is the W4Toolkit W4TFixture Form!" );
      assertTrue( contains != -1 );
      assertTrue( ContextProvider.getStateInfo().isFirstAccess() );
      

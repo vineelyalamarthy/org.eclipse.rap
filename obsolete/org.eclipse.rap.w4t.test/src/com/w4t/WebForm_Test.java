@@ -19,7 +19,7 @@ public class WebForm_Test extends TestCase {
   private static final String MYSTYLE2_CSS = "mystyle2.css";
 
   public void testCssFiles() {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     // addCssFile
     form.addCssFile( MYSTYLE1_CSS );
     form.addCssFile( MYSTYLE1_CSS );
@@ -46,10 +46,10 @@ public class WebForm_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
+    W4TFixture.setUp();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
+    W4TFixture.tearDown();
   }
 }

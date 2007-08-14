@@ -10,16 +10,16 @@
  ******************************************************************************/
 package com.w4t.webformkit;
 
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.*;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.lifecycle.LifeCycle;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.browser.Default;
 
 
 public class Focus_Test extends TestCase {
@@ -39,13 +39,13 @@ public class Focus_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testSetFocus() throws Exception {
@@ -53,7 +53,7 @@ public class Focus_Test extends TestCase {
     button.setFocus( true );
     assertFalse( button.hasFocus() );
     
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     WebPanel panel = new WebPanel();
     form.add( panel, WebBorderLayout.NORTH );
     panel.add( button );
@@ -73,8 +73,8 @@ public class Focus_Test extends TestCase {
     // prepare form with button and text
     FocusTestForm form 
       = ( FocusTestForm )W4TContext.loadForm( FocusTestForm.class.getName() );
-    Fixture.fakeBrowser( new Default( true, false ) );
-    Fixture.fakeEngineForRequestLifeCycle( form );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeEngineForRequestLifeCycle( form );
     fakeRequestCounter( form );
     // no focusElement-RequestParam -> no focus change
     form.button.setFocus( true );
@@ -89,11 +89,11 @@ public class Focus_Test extends TestCase {
     // prepare form with button and text
     FocusTestForm form 
       = ( FocusTestForm )W4TContext.loadForm( FocusTestForm.class.getName() );
-    Fixture.fakeEngineForRequestLifeCycle( form );
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeEngineForRequestLifeCycle( form );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     fakeRequestCounter( form );
     // test request which sets focus to different component
-    Fixture.fakeRequestParam( RequestParams.FOCUS_ELEMENT, 
+    W4TFixture.fakeRequestParam( RequestParams.FOCUS_ELEMENT, 
                               form.button.getUniqueID() );
     form.text.setFocus( true );
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -109,11 +109,11 @@ public class Focus_Test extends TestCase {
     // prepare form with button and text
     FocusTestForm form 
       = ( FocusTestForm )W4TContext.loadForm( FocusTestForm.class.getName() );
-    Fixture.fakeEngineForRequestLifeCycle( form );
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeEngineForRequestLifeCycle( form );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     fakeRequestCounter( form );
     // test request which sets focus to different component
-    Fixture.fakeRequestParam( RequestParams.FOCUS_ELEMENT, 
+    W4TFixture.fakeRequestParam( RequestParams.FOCUS_ELEMENT, 
                               form.text.getUniqueID() + ";1;4" );
     form.button.setFocus( true );
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -127,16 +127,16 @@ public class Focus_Test extends TestCase {
 
   private static String getAllMarkup() {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    return Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    return W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
   }
   
   private static void fakeRequestCounter( WebForm form ) {
-    IFormAdapter adapter = Fixture.getFormAdapter( form );
+    IFormAdapter adapter = W4TFixture.getFormAdapter( form );
     adapter.increase();
     String formId = form.getUniqueID();
     String requestCounter = String.valueOf( adapter.getRequestCounter() - 1 );
     IWindow window = WindowManager.getInstance().findWindow( form );
-    Fixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
+    W4TFixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
   }
   
 }

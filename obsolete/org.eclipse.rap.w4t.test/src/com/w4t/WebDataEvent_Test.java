@@ -10,13 +10,14 @@
  ******************************************************************************/
 package com.w4t;
 
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
 import junit.framework.TestCase;
 import com.w4t.engine.lifecycle.standard.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.event.WebDataEvent;
 import com.w4t.event.WebDataListener;
-import com.w4t.util.browser.Default;
 import com.w4t.webcheckboxkit.WebCheckBoxRenderer;
 
 
@@ -28,18 +29,18 @@ public class WebDataEvent_Test extends TestCase {
   private static final String NEW_VALUE = "mark2";
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testDataEventTriggering() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( true ) );
     final WebDataEvent[] dataEvent = new WebDataEvent[ 1 ];
     WebDataListener dataListener = new WebDataListener() {
       public void webValueChanged( final WebDataEvent evt ) {
@@ -59,7 +60,7 @@ public class WebDataEvent_Test extends TestCase {
     text.setValue( OLD_VALUE );
     dataEvent[ 0 ] = null;
     text.addWebDataListener( dataListener );
-    Fixture.fakeRequestParam( text.getUniqueID(), NEW_VALUE );
+    W4TFixture.fakeRequestParam( text.getUniqueID(), NEW_VALUE );
     getLifeCycleAdapter( form ).readData();
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     String key = EventQueueFilter.ATTRIBUTE_KEY;
@@ -75,8 +76,8 @@ public class WebDataEvent_Test extends TestCase {
   }
   
   public void testDataEventCheckBox() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( true ) );
     final WebDataEvent[] dataEvent = new WebDataEvent[ 1 ];
     WebDataListener dataListener = new WebDataListener() {
       public void webValueChanged( final WebDataEvent evt ) {
@@ -97,8 +98,8 @@ public class WebDataEvent_Test extends TestCase {
     dataEvent[ 0 ] = null;
     checkBox.addWebDataListener( dataListener );
     String id = checkBox.getUniqueID();
-    Fixture.fakeRequestParam( id, CHECKED );
-    Fixture.fakeRequestParam( WebCheckBoxRenderer.PREFIX + id, UNCHECKED );
+    W4TFixture.fakeRequestParam( id, CHECKED );
+    W4TFixture.fakeRequestParam( WebCheckBoxRenderer.PREFIX + id, UNCHECKED );
     getLifeCycleAdapter( form ).readData();
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     String key = EventQueueFilter.ATTRIBUTE_KEY;
@@ -112,8 +113,8 @@ public class WebDataEvent_Test extends TestCase {
     assertEquals( CHECKED, checkBox.getValue() );
 
     dataEvent[ 0 ] = null;
-    Fixture.fakeRequestParam( checkBox.getUniqueID(), null );
-    Fixture.fakeRequestParam( WebCheckBoxRenderer.PREFIX + id, CHECKED );
+    W4TFixture.fakeRequestParam( checkBox.getUniqueID(), null );
+    W4TFixture.fakeRequestParam( WebCheckBoxRenderer.PREFIX + id, CHECKED );
     getLifeCycleAdapter( form ).readData();
     eqv.filter();
     EventQueue.getEventQueue().fireEvents();
@@ -123,7 +124,7 @@ public class WebDataEvent_Test extends TestCase {
     assertSame( UNCHECKED, dataEvent[ 0 ].getNewValue() );
     assertEquals( UNCHECKED, checkBox.getValue() );
     
-    Fixture.fakeRequestParam( WebCheckBoxRenderer.PREFIX + id, UNCHECKED );
+    W4TFixture.fakeRequestParam( WebCheckBoxRenderer.PREFIX + id, UNCHECKED );
     dataEvent[ 0 ] = null;
     getLifeCycleAdapter( form ).readData();
     eqv.filter();

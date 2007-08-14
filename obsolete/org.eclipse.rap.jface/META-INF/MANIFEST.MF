@@ -34,6 +34,5 @@ Export-Package: org.eclipse.jface,
  org.eclipse.jface.wizard.images
 Require-Bundle: org.eclipse.core.commands;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
  org.eclipse.equinox.common;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.rap.rwt;bundle-version="1.0.0",
- org.eclipse.rap.w4t;bundle-version="1.0.0"
+ org.eclipse.rap.rwt;bundle-version="1.0.0"
 

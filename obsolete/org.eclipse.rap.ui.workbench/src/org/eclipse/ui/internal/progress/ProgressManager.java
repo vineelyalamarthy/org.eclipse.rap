@@ -21,6 +21,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.*;
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -36,7 +37,6 @@ import org.eclipse.ui.progress.*;
 import org.eclipse.ui.statushandlers.StatusAdapter;
 import org.eclipse.ui.statushandlers.StatusManager;
 
-import com.w4t.SessionSingletonBase;
 
 /**
  * JobProgressManager provides the progress monitor to the job manager and

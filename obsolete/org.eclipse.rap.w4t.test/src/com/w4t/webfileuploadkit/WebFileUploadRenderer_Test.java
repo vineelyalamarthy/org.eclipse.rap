@@ -11,17 +11,20 @@
 package com.w4t.webfileuploadkit;
 
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.*;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatus;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.util.browser.*;
 
 
 public class WebFileUploadRenderer_Test extends TestCase {
   
   public void testAjaxRenderer() throws Exception {
     WebFileUpload file = new WebFileUpload();
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     form.add( file, WebBorderLayout.CENTER );
     file.setDir( "myDir" );
     file.setEnabled( true );
@@ -32,10 +35,10 @@ public class WebFileUploadRenderer_Test extends TestCase {
     HtmlResponseWriter writer = new HtmlResponseWriter();
     AjaxStatus ajaxStatus = ( AjaxStatus )file.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( file );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( file );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<envelope id=\"p1\">"
       + "<!--<input type=\"file\" name=\"p1\" class=\"w4tCsscd1f6403\" "
@@ -47,7 +50,7 @@ public class WebFileUploadRenderer_Test extends TestCase {
   }
 
   public void testScriptRenderer() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     WebFileUpload file = new WebFileUpload();
     form.add( file, WebBorderLayout.CENTER );
     file.setDir( "myDir" );
@@ -57,10 +60,10 @@ public class WebFileUploadRenderer_Test extends TestCase {
     file.setTitle( "myTitle" );
     file.setDesignTime( false );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( file );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( file );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<input type=\"file\" name=\"p2\" class=\"w4tCsscd1f6403\" "
       + "dir=\"myDir\" lang=\"myLang\" title=\"myTitle\" "
@@ -69,7 +72,7 @@ public class WebFileUploadRenderer_Test extends TestCase {
   }
 
   public void testNo_ScriptRenderer() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     WebFileUpload file = new WebFileUpload();
     form.add( file, WebBorderLayout.CENTER );
     file.setDir( "myDir" );
@@ -79,10 +82,10 @@ public class WebFileUploadRenderer_Test extends TestCase {
     file.setTitle( "myTitle" );
     file.setDesignTime( true );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( file );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( file );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<input type=\"file\" name=\"p2\" class=\"w4tCsscd1f6403\" "
       + "dir=\"myDir\" lang=\"myLang\" title=\"myTitle\">";
@@ -90,13 +93,13 @@ public class WebFileUploadRenderer_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 
   private void setResponseWriter( final HtmlResponseWriter writer ) {

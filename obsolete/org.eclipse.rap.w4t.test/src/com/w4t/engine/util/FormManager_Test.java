@@ -11,7 +11,7 @@
 package com.w4t.engine.util;
 
 import junit.framework.TestCase;
-import com.w4t.Fixture;
+import com.w4t.W4TFixture;
 import com.w4t.WebForm;
 import com.w4t.IWindowManager.IWindow;
 
@@ -19,18 +19,18 @@ import com.w4t.IWindowManager.IWindow;
 public class FormManager_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testFlat() throws Exception {
-    WebForm form = Fixture.loadStartupForm();
-    WebForm formToDispatch = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
+    WebForm formToDispatch = W4TFixture.loadStartupForm();
     IWindow window = WindowManager.getInstance().create(form);
     WindowManager.setActive( window );
     IWindow activeWindow = WindowManager.getActive();

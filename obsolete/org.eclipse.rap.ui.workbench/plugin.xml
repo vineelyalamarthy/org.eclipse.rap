@@ -15,10 +15,10 @@
       id="org.eclipse.ui.workbench.adapterfactories"
       point="org.eclipse.rap.ui.adapterfactory">
     <factory
-        factoryClass="org.eclipse.swt.internal.lifecycle.LifeCycleAdapterFactory"
+        factoryClass="org.eclipse.rwt.internal.lifecycle.LifeCycleAdapterFactory"
         adaptableClass="org.eclipse.swt.widgets.Widget"/>
     <factory
-        factoryClass="org.eclipse.swt.internal.lifecycle.LifeCycleAdapterFactory"
+        factoryClass="org.eclipse.rwt.internal.lifecycle.LifeCycleAdapterFactory"
         adaptableClass="org.eclipse.swt.widgets.Display"/>
     <factory
         factoryClass="org.eclipse.swt.internal.widgets.WidgetAdapterFactory"
@@ -31,13 +31,13 @@
   <extension
         id="org.eclipse.ui.workbench.preserveWidgetValues"
         point="org.eclipse.rap.ui.phaselistener">
-     <listener class="org.eclipse.swt.internal.lifecycle.PreserveWidgetsPhaseListener"/>
+     <listener class="org.eclipse.rwt.internal.lifecycle.PreserveWidgetsPhaseListener"/>
   </extension>
 
   <extension
         id="org.eclipse.ui.workbench.currentPhase"
         point="org.eclipse.rap.ui.phaselistener">
-     <listener class="org.eclipse.swt.internal.lifecycle.CurrentPhase$Listener"/>
+     <listener class="org.eclipse.rwt.internal.lifecycle.CurrentPhase$Listener"/>
   </extension>
   
   

@@ -17,10 +17,10 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import com.w4t.SessionSingletonBase;
 
 /**
  * Utility methods to access JFace-specific resources.

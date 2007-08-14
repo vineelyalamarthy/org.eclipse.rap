@@ -12,7 +12,9 @@ package com.w4t.util;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 
@@ -33,8 +35,8 @@ public class ComponentTreeVisitor_Test extends TestCase {
   private TreeLeaf treeLeaf2;
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
     form = new WebForm() {
       protected void setWebComponents() throws Exception {
       }
@@ -67,8 +69,8 @@ public class ComponentTreeVisitor_Test extends TestCase {
   }
   
   protected void tearDown() {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   

@@ -10,7 +10,10 @@
  ******************************************************************************/
 package com.w4t.util;
 
+import org.eclipse.rwt.internal.browser.Mozilla1_6up;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.WebFormListener_Test.Form;
 import com.w4t.administration.LinkButton;
@@ -31,7 +34,6 @@ import com.w4t.engine.lifecycle.standard.LoginForm;
 import com.w4t.mockup.*;
 import com.w4t.mockup.nonajaxcomponentkit.NonAjaxComponentRenderer_Default_Script;
 import com.w4t.mockup.testcomponentkit.TestComponentRenderer_Default_Ajax;
-import com.w4t.util.browser.Mozilla1_6up;
 import com.w4t.webanchorkit.*;
 import com.w4t.webbordercomponentkit.*;
 import com.w4t.webbuttonkit.*;
@@ -53,7 +55,7 @@ public class RendererCache_Mozilla1_6up_Test extends TestCase {
     Renderer renderer;
     //
     // Mozilla1_6 up (no script)
-    Fixture.fakeBrowser( new Mozilla1_6up( false ) );
+    W4TFixture.fakeBrowser( new Mozilla1_6up( false ) );
     // WebAnchor
     RendererCache cache = RendererCache.getInstance();
     renderer = cache.retrieveRenderer( WebAnchor.class );
@@ -216,7 +218,7 @@ public class RendererCache_Mozilla1_6up_Test extends TestCase {
     Renderer renderer;
     //
     // Mozilla1_6 up (script)
-    Fixture.fakeBrowser( new Mozilla1_6up( true ) );
+    W4TFixture.fakeBrowser( new Mozilla1_6up( true ) );
     // WebAnchor
     RendererCache cache = RendererCache.getInstance();
     renderer = cache.retrieveRenderer( WebAnchor.class );
@@ -381,7 +383,7 @@ public class RendererCache_Mozilla1_6up_Test extends TestCase {
     Renderer renderer;
     //
     // Mozilla1_6 up (ajax)
-    Fixture.fakeBrowser( new Mozilla1_6up( true, true ) );
+    W4TFixture.fakeBrowser( new Mozilla1_6up( true, true ) );
     // WebAnchor
     RendererCache cache = RendererCache.getInstance();
     renderer = cache.retrieveRenderer( WebAnchor.class );
@@ -543,12 +545,12 @@ public class RendererCache_Mozilla1_6up_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 }

@@ -10,13 +10,15 @@
  ******************************************************************************/
 package com.w4t.util;
 
+import org.eclipse.rwt.internal.browser.Mozilla1_6;
+import org.eclipse.rwt.internal.browser.Mozilla1_7up;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.mockup.NonAjaxComponent;
 import com.w4t.mockup.TestComponentWithoutRenderer;
 import com.w4t.mockup.nonajaxcomponentkit.NonAjaxComponentRenderer_Default_Script;
-import com.w4t.util.browser.Mozilla1_6;
-import com.w4t.util.browser.Mozilla1_7up;
 
 /**
  * <p>Unit tests for RendererCache</p>
@@ -25,7 +27,7 @@ public class RendererCache_Test extends TestCase {
 
   public void testNoRenderer() {
     RendererCache cache = RendererCache.getInstance();
-    Fixture.fakeBrowser( new Mozilla1_7up( true, true ) );
+    W4TFixture.fakeBrowser( new Mozilla1_7up( true, true ) );
     // WebComponent
     try {
       cache.retrieveRenderer( WebComponent.class );
@@ -41,7 +43,7 @@ public class RendererCache_Test extends TestCase {
   }
 
   public void testGetRendererClass() {
-    Fixture.fakeBrowser( new Mozilla1_6( true, true ) );
+    W4TFixture.fakeBrowser( new Mozilla1_6( true, true ) );
     String name;
     RendererCache rendererCache = RendererCache.getInstance();
     name = rendererCache.getRendererClass( WebComponent.class );
@@ -52,10 +54,10 @@ public class RendererCache_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
+    W4TFixture.setUp();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
+    W4TFixture.tearDown();
   }
 }

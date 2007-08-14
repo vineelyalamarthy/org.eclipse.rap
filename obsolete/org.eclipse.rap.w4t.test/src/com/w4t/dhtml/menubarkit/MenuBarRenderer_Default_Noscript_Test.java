@@ -10,15 +10,17 @@
  ******************************************************************************/
 package com.w4t.dhtml.menubarkit;
 
+import org.eclipse.rwt.internal.IInitialization;
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.event.WebActionEvent;
 import com.w4t.event.WebActionListener;
 import com.w4t.mockup.TestForm;
-import com.w4t.util.IInitialization;
-import com.w4t.util.browser.Default;
 import com.w4t.util.image.ImageCache;
 
 
@@ -31,18 +33,18 @@ public class MenuBarRenderer_Default_Noscript_Test extends RenderingTestCase {
   
   protected void setUp() throws Exception {
     super.setUp();
-    Fixture.setPrivateField( ImageCache.class, null, "_instance", null );
-    ImageCache.createInstance( Fixture.getWebAppBase().toString(), 
+    W4TFixture.setPrivateField( ImageCache.class, null, "_instance", null );
+    ImageCache.createInstance( W4TFixture.getWebAppBase().toString(), 
                                IInitialization.NOSCRIPT_SUBMITTERS_NONE );
   }
   
   public void tearDown() throws Exception {
     super.tearDown();
-    Fixture.setPrivateField( ImageCache.class, null, "_instance", null );
+    W4TFixture.setPrivateField( ImageCache.class, null, "_instance", null );
   }
   
   public void testDefault_No_Script() throws Exception {
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     // reset the component counter, so that we have always the same IDs
     resetWebComponentCounter();
     WebForm form = new TestForm();

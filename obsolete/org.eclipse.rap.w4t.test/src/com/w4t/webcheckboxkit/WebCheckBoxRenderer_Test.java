@@ -11,12 +11,15 @@
 package com.w4t.webcheckboxkit;
 
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.*;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.*;
 import com.w4t.util.RendererCache;
-import com.w4t.util.browser.*;
 
 
 /** <p>Unit tests for WebCheckBoxRenderer.</p> */
@@ -31,12 +34,12 @@ public class WebCheckBoxRenderer_Test extends TestCase {
     checkbox.setTitle( "myTitle" );
     checkbox.setUpdatable( true );
     checkbox.setValue( "myValue" );
-    Fixture.setWebComponentUniqueId( checkbox, "page1" );
-    Fixture.forceAjaxRendering( checkbox );
-    Fixture.fakeBrowser( new Default( true, true ) );
+    W4TFixture.setWebComponentUniqueId( checkbox, "page1" );
+    W4TFixture.forceAjaxRendering( checkbox );
+    W4TFixture.fakeBrowser( new Default( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( checkbox );
+    W4TFixture.renderComponent( checkbox );
     String markup = getBodyMarkup( writer );
     String expected;
     expected 
@@ -63,7 +66,7 @@ public class WebCheckBoxRenderer_Test extends TestCase {
     checkbox.setSelected( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( checkbox );
+    W4TFixture.renderComponent( checkbox );
     markup = getBodyMarkup( writer );
     expected 
       = "<span id=\"page1\"><input type=\"checkbox\" name=\"page1\" "
@@ -89,11 +92,11 @@ public class WebCheckBoxRenderer_Test extends TestCase {
     checkbox.setTitle( "myTitle" );
     checkbox.setUpdatable( true );
     checkbox.setValue( "myValue" );
-    Fixture.setWebComponentUniqueId( checkbox, "page1" );
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.setWebComponentUniqueId( checkbox, "page1" );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( checkbox );
+    W4TFixture.renderComponent( checkbox );
     String markup = getBodyMarkup( writer );
     String expected;
     expected 
@@ -120,7 +123,7 @@ public class WebCheckBoxRenderer_Test extends TestCase {
     checkbox.setSelected( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( checkbox );
+    W4TFixture.renderComponent( checkbox );
     markup = getBodyMarkup( writer );
     expected 
     = "<span id=\"page1\"><input type=\"checkbox\" name=\"page1\" "
@@ -146,11 +149,11 @@ public class WebCheckBoxRenderer_Test extends TestCase {
     checkbox.setSelected( true );
     checkbox.setTitle( "myTitle" );
     checkbox.setUpdatable( true );
-    Fixture.setWebComponentUniqueId( checkbox, "page1" );
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.setWebComponentUniqueId( checkbox, "page1" );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( checkbox );
+    W4TFixture.renderComponent( checkbox );
     String markup = getBodyMarkup( writer );
     String expected;
     expected 
@@ -176,7 +179,7 @@ public class WebCheckBoxRenderer_Test extends TestCase {
     checkbox.setSelected( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( checkbox );
+    W4TFixture.renderComponent( checkbox );
     markup = getBodyMarkup( writer );
     expected 
       =   "<span id=\"page1\"><input type=\"checkbox\" name=\"page1\" "
@@ -198,10 +201,10 @@ public class WebCheckBoxRenderer_Test extends TestCase {
     checkbox.setLabel( "ÜÄÖ\"?r" );
     checkbox.setTitle( "ÜÄÖ\"?" );
     checkbox.setUpdatable( true );
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( checkbox );
+    W4TFixture.renderComponent( checkbox );
     String markup = getBodyMarkup( writer );
     String expected 
       = "<span id=\"p1\">" 
@@ -214,7 +217,7 @@ public class WebCheckBoxRenderer_Test extends TestCase {
   }
   
   public void testAjaxStatusAfterReadData() {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     WebCheckBox checkBox = new WebCheckBox();
     checkBox.setValCheck( "checked" );
     checkBox.setValUnCheck( "unchecked" );
@@ -224,9 +227,9 @@ public class WebCheckBoxRenderer_Test extends TestCase {
     String checkBoxId = checkBox.getUniqueID();
     String name 
       = WebCheckBoxReadDataUtil.addCheckBoxControlPrefix( checkBoxId );
-    Fixture.fakeRequestParam( name, checkBox.getValue() );
-    Fixture.fakeRequestParam( checkBoxId, "checked" );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeRequestParam( name, checkBox.getValue() );
+    W4TFixture.fakeRequestParam( checkBoxId, "checked" );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     RendererCache rendererCache = RendererCache.getInstance();
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );
@@ -235,17 +238,17 @@ public class WebCheckBoxRenderer_Test extends TestCase {
     renderer.readData( checkBox );
     assertEquals( "checked", checkBox.getValue() );
     AjaxStatusUtil.preRender( form );
-    assertEquals( true, Fixture.getAjaxStatus( checkBox ).mustRender() );
+    assertEquals( true, W4TFixture.getAjaxStatus( checkBox ).mustRender() );
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   private void setResponseWriter( final HtmlResponseWriter responseWriter ) {

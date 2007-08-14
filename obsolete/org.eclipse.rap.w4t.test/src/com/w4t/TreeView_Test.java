@@ -19,7 +19,7 @@ public class TreeView_Test extends TestCase {
   
   public void testRemoveAll() throws Exception {
     // create form
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     // create tree 
     TreeView tree = new TreeView();
     form.add( tree, WebBorderLayout.CENTER );
@@ -32,13 +32,13 @@ public class TreeView_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
 }

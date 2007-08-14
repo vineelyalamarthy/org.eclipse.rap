@@ -10,12 +10,13 @@
  ******************************************************************************/
 package com.w4t.webcardlayoutkit;
 
+import org.eclipse.rwt.internal.browser.Mozilla1_6up;
+
 import com.w4t.Renderer;
 import com.w4t.WebCardLayout;
 import com.w4t.util.RendererCache;
-import com.w4t.util.browser.Mozilla1_6up;
 
-/** <p>Tests the rendering of com.w4t.WebCardLayout with script-enabled Ie5.</p>
+/** <p>Tests the rendering of org.eclipse.rap.WebCardLayout with script-enabled Ie5.</p>
   */
 public class WebCardLayoutRenderer_Mozilla1_6up_Script_Test
   extends WebCardLayoutRendererBase
@@ -407,10 +408,10 @@ class Render_71 {
 class Render_70_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -780,10 +781,10 @@ class Render_70 {
 class Render_62_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -794,10 +795,10 @@ class Render_62_css {
 class Render_67_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -808,10 +809,10 @@ class Render_67_css {
 class Render_64_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -822,10 +823,10 @@ class Render_64_css {
 class Render_69_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -1195,10 +1196,10 @@ class Render_69 {
 class Render_61_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -2651,10 +2652,10 @@ class Render_65 {
 class Render_66_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -3030,10 +3031,10 @@ class Render_64 {
 class Render_71_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -4504,10 +4505,10 @@ class Render_60 {
 class Render_63_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -4518,10 +4519,10 @@ class Render_63_css {
 class Render_68_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -4532,10 +4533,10 @@ class Render_68_css {
 class Render_60_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {
@@ -4546,10 +4547,10 @@ class Render_60_css {
 class Render_65_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
-    "com.w4t.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
-    "com.w4t.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
-    "com.w4t.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsscd1f6403, font-family:arial,verdana;font-size:8pt; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss1a931d40, font-family:arial,verdana;font-size:8pt;font-weight:bold;color:#000000;text-decoration:none;line-height:20px; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssfae83ad, font-family:arial,verdana;font-size:8pt;width:90; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss4b203ae7, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none; ]"
   };
 
   static String[] getRes() {

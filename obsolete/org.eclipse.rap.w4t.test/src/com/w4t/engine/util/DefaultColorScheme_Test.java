@@ -13,20 +13,20 @@ package com.w4t.engine.util;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import junit.framework.TestCase;
-import com.w4t.Fixture;
+import com.w4t.W4TFixture;
 import com.w4t.util.DefaultColorScheme;
 
 
 public class DefaultColorScheme_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext( false );
+    W4TFixture.setUp();
+    W4TFixture.createContext( false );
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testColorSchemeReadingFromResource() throws Exception {

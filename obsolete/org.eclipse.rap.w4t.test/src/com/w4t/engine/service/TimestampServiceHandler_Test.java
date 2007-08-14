@@ -11,11 +11,16 @@
 package com.w4t.engine.service;
 
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.RequestParams;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.service.ServiceManager;
+
 import com.w4t.*;
-import com.w4t.Fixture.TestResponse;
-import com.w4t.Fixture.TestServletOutputStream;
+import com.w4t.W4TFixture.TestResponse;
+import com.w4t.W4TFixture.TestServletOutputStream;
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
@@ -24,26 +29,26 @@ import com.w4t.internal.adaptable.IFormAdapter;
 public class TimestampServiceHandler_Test extends TestCase {
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testValidRequest1() throws Exception {
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     FormManager.setActive( form );
     IWindow window = WindowManager.getInstance().create( form );
     WindowManager.setActive( window );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     TestServletOutputStream outputStream = new TestServletOutputStream();
     response.setOutputStream( outputStream );
-    Fixture.fakeRequestParam( RequestParams.REQUEST_TIMESTAMP_NAME, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.REQUEST_TIMESTAMP_NAME, "true" );
     String uiRootId = LifeCycleHelper.createUIRootId();
-    Fixture.fakeRequestParam( RequestParams.UIROOT, uiRootId );
+    W4TFixture.fakeRequestParam( RequestParams.UIROOT, uiRootId );
     
     ServiceManager.getHandler().service();
     assertEquals( HTML.CONTENT_IMAGE_GIF, response.getContentType() );
@@ -53,17 +58,17 @@ public class TimestampServiceHandler_Test extends TestCase {
   }
   
   public void testValidRequest2() throws Exception {
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     FormManager.setActive( form );
     IWindow window = WindowManager.getInstance().create( form );
     WindowManager.setActive( window );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     TestServletOutputStream outputStream = new TestServletOutputStream();
     response.setOutputStream( outputStream );
-    Fixture.fakeRequestParam( RequestParams.REQUEST_TIMESTAMP_NAME, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.REQUEST_TIMESTAMP_NAME, "true" );
     String uiRootId = LifeCycleHelper.createUIRootId();
-    Fixture.fakeRequestParam( RequestParams.UIROOT, uiRootId);
-    Fixture.fakeRequestParam( "some-other-param", "random-value" );
+    W4TFixture.fakeRequestParam( RequestParams.UIROOT, uiRootId);
+    W4TFixture.fakeRequestParam( "some-other-param", "random-value" );
     
     ServiceManager.getHandler().service();
     assertEquals( HTML.CONTENT_IMAGE_GIF, response.getContentType() );
@@ -73,12 +78,12 @@ public class TimestampServiceHandler_Test extends TestCase {
   }
   
   public void testInvalidRequest1() throws Exception {
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     long oldTimestamp = getTimestamp( form );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     TestServletOutputStream outputStream = new TestServletOutputStream();
     response.setOutputStream( outputStream );
-    Fixture.fakeRequestParam( RequestParams.REQUEST_TIMESTAMP_NAME, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.REQUEST_TIMESTAMP_NAME, "true" );
 
     ServiceManager.getHandler().service();
     assertEquals( 0, outputStream.getContent().toByteArray().length );
@@ -86,13 +91,13 @@ public class TimestampServiceHandler_Test extends TestCase {
   }
   
   public void testInvalidRequest2() throws Exception {
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     long oldTimestamp = getTimestamp( form );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
     TestServletOutputStream outputStream = new TestServletOutputStream();
     response.setOutputStream( outputStream );
-    Fixture.fakeRequestParam( RequestParams.REQUEST_TIMESTAMP_NAME, "true" );
-    Fixture.fakeRequestParam( "invalid-param", "whatever" );
+    W4TFixture.fakeRequestParam( RequestParams.REQUEST_TIMESTAMP_NAME, "true" );
+    W4TFixture.fakeRequestParam( "invalid-param", "whatever" );
     
     ServiceManager.getHandler().service();
     assertEquals( 0, outputStream.getContent().toByteArray().length );

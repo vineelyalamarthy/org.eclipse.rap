@@ -10,17 +10,18 @@
  ******************************************************************************/
 package com.w4t.dhtml.treeviewkit;
 
+import org.eclipse.rwt.internal.IInitialization;
+import org.eclipse.rwt.internal.browser.Default;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.event.DragDropEvent;
 import com.w4t.dhtml.event.DragDropListener;
 import com.w4t.event.WebActionEvent;
 import com.w4t.event.WebActionListener;
-import com.w4t.util.IInitialization;
-import com.w4t.util.browser.Default;
 import com.w4t.util.image.ImageCache;
 
-/** <p>Tests the rendering for com.w4t.dhtml.TreeView (and thus for
+/** <p>Tests the rendering for org.eclipse.rap.dhtml.TreeView (and thus for
  * TreeNode and TreeLeaf as well) for Navigator 6up.</p>
  */
 public class TreeViewRenderer_Noscript_Test extends RenderingTestCase {
@@ -32,13 +33,13 @@ public class TreeViewRenderer_Noscript_Test extends RenderingTestCase {
   
   protected void setUp() throws Exception {
     super.setUp();
-    Fixture.setPrivateField( ImageCache.class, null, "_instance", null );
-    ImageCache.createInstance( Fixture.getWebAppBase().toString(), 
+    W4TFixture.setPrivateField( ImageCache.class, null, "_instance", null );
+    ImageCache.createInstance( W4TFixture.getWebAppBase().toString(), 
                                IInitialization.NOSCRIPT_SUBMITTERS_NONE );
   }
   public void tearDown() throws Exception {
     super.tearDown();
-    Fixture.setPrivateField( ImageCache.class, null, "_instance", null );
+    W4TFixture.setPrivateField( ImageCache.class, null, "_instance", null );
   }
    
    // testing methods
@@ -104,7 +105,7 @@ public class TreeViewRenderer_Noscript_Test extends RenderingTestCase {
      tn3.addItem( tl3_2 );
      
      // needed for renderer loading    
-     Fixture.fakeBrowser( new Default( false, false ) );
+     W4TFixture.fakeBrowser( new Default( false, false ) );
 
 
      // perform actual tests
@@ -142,9 +143,9 @@ public class TreeViewRenderer_Noscript_Test extends RenderingTestCase {
 class Render_14_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
-    "com.w4t.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
   };
 
   static String[] getRes() {
@@ -155,9 +156,9 @@ class Render_14_css {
 class Render_13_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
-    "com.w4t.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
   };
 
   static String[] getRes() {
@@ -168,9 +169,9 @@ class Render_13_css {
 class Render_12_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
-    "com.w4t.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
   };
 
   static String[] getRes() {
@@ -181,9 +182,9 @@ class Render_12_css {
 class Render_11_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
-    "com.w4t.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
   };
 
   static String[] getRes() {
@@ -830,9 +831,9 @@ class Render_15 {
 class Render_10_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
-    "com.w4t.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
   };
 
   static String[] getRes() {
@@ -3064,9 +3065,9 @@ class Render_10 {
 class Render_15_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
-    "com.w4t.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCsse06fabcd, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;vertical-align:top;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCssc1a24f01, font-size:0px;white-space:nowrap ]",
+    "org.eclipse.rap.types.CssClass [ .w4tCss30ca4964, display:block;font-size:0px; ]"
   };
 
   static String[] getRes() {

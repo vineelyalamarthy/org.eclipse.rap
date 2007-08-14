@@ -11,12 +11,16 @@
 package com.w4t.webbuttonkit;
 
 import junit.framework.TestCase;
-import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
+
+import org.eclipse.rwt.internal.IInitialization;
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie5up;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
+import com.w4t.W4TFixture;
+import com.w4t.WebButton;
 import com.w4t.event.*;
-import com.w4t.util.IInitialization;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie5up;
 import com.w4t.util.image.ImageCache;
 
 
@@ -33,12 +37,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
     button.setReset( true );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Default( true, true ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Default( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
           = "<span id=\"button1\" " 
@@ -56,7 +60,7 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setUseTrim( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
     = "&nbsp;<a id=\"button1\" "
@@ -82,12 +86,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setDir( "myDir" );
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Default( true, true ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Default( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
     = "<input id=\"button1\" " 
@@ -104,8 +108,8 @@ public class WebButtonRenderer_Test extends TestCase {
     });
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
     = "<input id=\"button1\" " 
@@ -130,12 +134,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setDir( "myDir" );
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Default( true, true ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Default( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.scheduleForRenderInAJAX( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
     = "<span id=\"button1\" class=\"w4tCsscd1f6403\""     
@@ -150,8 +154,8 @@ public class WebButtonRenderer_Test extends TestCase {
     });
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
     = "<a id=\"button1\" "
@@ -176,12 +180,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setDir( "myDir" );
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
         = "<span id=\"button1\" class=\"w4tCsscd1f6403\"" 
@@ -201,8 +205,8 @@ public class WebButtonRenderer_Test extends TestCase {
     });
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
       =   "<a id=\"button1\" " 
@@ -228,12 +232,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setDir( "myDir" );
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
       =   "<input id=\"button1\" type=\"button\" " 
@@ -250,7 +254,7 @@ public class WebButtonRenderer_Test extends TestCase {
     });
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
       =   "<input id=\"button1\" type=\"button\" " 
@@ -275,12 +279,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setDir( "myDir" );
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
         = "<span id=\"button1\" class=\"w4tCsscd1f6403\""
@@ -295,7 +299,7 @@ public class WebButtonRenderer_Test extends TestCase {
     });
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
         =  "<a id=\"button1\" "
@@ -318,12 +322,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setDir( "myDir" );
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
       = "<input id=\"button1\" type=\"button\" name=\"button1\" "
@@ -340,7 +344,7 @@ public class WebButtonRenderer_Test extends TestCase {
     });
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
       = "<input id=\"button1\" type=\"button\" "
@@ -360,12 +364,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setDir( "myDir" );
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
       =   "<span class=\"w4tCsscd1f6403\"" 
@@ -381,10 +385,10 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setUseTrim( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    ImageCache.createInstance( Fixture.getWebAppBase().toString(), 
+    ImageCache.createInstance( W4TFixture.getWebAppBase().toString(), 
                                IInitialization.NOSCRIPT_SUBMITTERS_NONE );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
       = "&nbsp;<span class=\"w4tCsscd1f6403\""
@@ -406,12 +410,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setDir( "myDir" );
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
       = "<input type=\"submit\" " 
@@ -427,7 +431,7 @@ public class WebButtonRenderer_Test extends TestCase {
     });
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
       = "<input type=\"submit\" name=\"waebutton1\" "
@@ -445,12 +449,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setDir( "myDir" );
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
     = "<input type=\"submit\" " 
@@ -466,7 +470,7 @@ public class WebButtonRenderer_Test extends TestCase {
     });
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
     = "<input type=\"submit\" name=\"waebutton1\" "
@@ -485,12 +489,12 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setDir( "myDir" );
     button.setLang( "myLang" );
     button.setTitle( "myTitle" );
-    Fixture.setWebComponentUniqueId( button, "button1" );
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.setWebComponentUniqueId( button, "button1" );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.scheduleForRenderInAJAX( button );
-    Fixture.renderComponent( button );
+    W4TFixture.scheduleForRenderInAJAX( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
         = "<span class=\"w4tCsscd1f6403\""
@@ -505,7 +509,7 @@ public class WebButtonRenderer_Test extends TestCase {
     });
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
       = "<input type=\"image\" src=\"myImage\" "
@@ -514,13 +518,13 @@ public class WebButtonRenderer_Test extends TestCase {
   }
   
   public void testEncoding() throws Exception {
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     WebButton button = new WebButton();
     button.setLabel( "Ümläute & \"ß\"" );
     button.setTitle( "This title contains \"Ümläute & ß\"" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     String markup = getBodyMarkup( writer );
     String expected 
       =  "<input id=\"p1\" type=\"button\" name=\"p1\" "
@@ -533,7 +537,7 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setLink( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
       =  "<span id=\"p1\" class=\"w4tCsscd1f6403\" "
@@ -544,7 +548,7 @@ public class WebButtonRenderer_Test extends TestCase {
     button.setPrint( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
+    W4TFixture.renderComponent( button );
     markup = getBodyMarkup( writer );
     expected 
       =  "<input id=\"p1\" type=\"button\" name=\"p1\" " 
@@ -559,30 +563,30 @@ public class WebButtonRenderer_Test extends TestCase {
   
   
   public void testDisabledLinkNoscript() throws Exception {
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     WebButton button = new WebButton();
     button.setLink( true );
     button.setUseTrim( false );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( button );
-    String markup = Fixture.getAllMarkup( writer );
+    W4TFixture.renderComponent( button );
+    String markup = W4TFixture.getAllMarkup( writer );
     assertEquals( "&nbsp;<span class=\"w4tCsscd1f6403\"></span>&nbsp;", 
                   markup );
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
+    W4TFixture.tearDown();
     ImageCache cache = ImageCache.getInstance();
     if( cache != null ) {
-      Fixture.setPrivateField( ImageCache.class, cache, "_instance", null );
+      W4TFixture.setPrivateField( ImageCache.class, cache, "_instance", null );
     }
-    Fixture.removeContext();
+    W4TFixture.removeContext();
   }
   
   private static void setResponseWriter( final HtmlResponseWriter writer ) {

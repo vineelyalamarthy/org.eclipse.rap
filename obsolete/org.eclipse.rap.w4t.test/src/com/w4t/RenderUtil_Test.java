@@ -11,16 +11,19 @@
 package com.w4t;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.browser.*;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.types.WebColor;
-import com.w4t.util.browser.*;
 
 /**
- * <p>Tests the static helping functionality in com.w4t.ReenderUtil.</p>
+ * <p>Tests the static helping functionality in org.eclipse.rap.ReenderUtil.</p>
  */
 public class RenderUtil_Test extends RenderingTestCase {
 
@@ -30,13 +33,13 @@ public class RenderUtil_Test extends RenderingTestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   public void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testSplitLinebreak() throws Exception {
@@ -86,20 +89,20 @@ public class RenderUtil_Test extends RenderingTestCase {
   public void testUniversalAttributeCreation() throws Exception {
     WebLabel label = new WebLabel();
     label.setValue( "xyz" );
-    Fixture.setWebComponentUniqueId( label, "p1" );
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.setWebComponentUniqueId( label, "p1" );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( label );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( label );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected = "<span id=\"p1\" class=\"w4tCsscd1f6403\">xyz</span>";
     assertEquals( expected, markup );
     label.setCssClass( "myClass" );
     label.setIgnoreLocalStyle( false );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( label );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( label );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected = "<span id=\"p1\" "
                + "style=\"font-family:arial,verdana;font-size:8pt;\" "
                + "class=\"myClass\">xyz</span>";
@@ -109,32 +112,32 @@ public class RenderUtil_Test extends RenderingTestCase {
     style.setFontSize( -1 );
     label.setStyle( style );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( label );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( label );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected = "<span id=\"p1\" class=\"myClass\">xyz</span>";
     assertEquals( expected, markup );
     label.setDir( "myDirectory" );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( label );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( label );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected = "<span id=\"p1\" class=\"myClass\" "
                + "dir=\"myDirectory\">xyz</span>";
     assertEquals( expected, markup );
     label.setLang( "myLang" );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( label );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( label );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected = "<span id=\"p1\" class=\"myClass\" dir=\"myDirectory\" "
                + "lang=\"myLang\">xyz</span>";
     assertEquals( expected, markup );
     label.setTitle( "myTitle" );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( label );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( label );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected = "<span id=\"p1\" class=\"myClass\" dir=\"myDirectory\" "
                + "lang=\"myLang\" title=\"myTitle\">xyz</span>";
     assertEquals( expected, markup );
@@ -253,8 +256,8 @@ public class RenderUtil_Test extends RenderingTestCase {
   public void testWriteJavaScriptInline() throws IOException {
     HtmlResponseWriter writer;
     String expected;
-    Fixture.fakeBrowser( new Ie6( true ) );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Ie6( true ) );
+    W4TFixture.fakeResponseWriter();
     writer = ContextProvider.getStateInfo().getResponseWriter();
     RenderUtil.writeJavaScriptInline( writer, "alert('ho ho');" );
     expected 
@@ -262,29 +265,29 @@ public class RenderUtil_Test extends RenderingTestCase {
       + "type=\"text/javascript\">"
       + "alert(\'ho ho\');"
       + "</script>";
-    assertEquals( expected, Fixture.getAllMarkup() );
-    Fixture.fakeResponseWriter();
+    assertEquals( expected, W4TFixture.getAllMarkup() );
+    W4TFixture.fakeResponseWriter();
     writer = ContextProvider.getStateInfo().getResponseWriter();
     RenderUtil.writeJavaScriptInline( writer, null );
     expected = "";
-    assertEquals( expected, Fixture.getAllMarkup() );
+    assertEquals( expected, W4TFixture.getAllMarkup() );
 
   
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     writer = ContextProvider.getStateInfo().getResponseWriter();
     RenderUtil.writeJavaScriptInline( writer, 
                                       "alert('Ho! Räuber Hotzenplötz');" );
     expected = "<script type=\"text/javascript\">"
                + "alert('Ho! Räuber Hotzenplötz');"
                + "</script>";
-    assertEquals( expected, Fixture.getAllMarkup() );
-    Fixture.fakeResponseWriter();
+    assertEquals( expected, W4TFixture.getAllMarkup() );
+    W4TFixture.fakeResponseWriter();
     writer = ContextProvider.getStateInfo().getResponseWriter();
     RenderUtil.writeJavaScriptInline( writer, "if( a && b ) ... &szlig;" );
     expected = "<script type=\"text/javascript\">"
                + "if( a && b ) ... &szlig;"
                + "</script>";
-    assertEquals( expected, Fixture.getAllMarkup() );
+    assertEquals( expected, W4TFixture.getAllMarkup() );
 }
 
   public void testCreateJavaScriptLink() {
@@ -309,20 +312,20 @@ public class RenderUtil_Test extends RenderingTestCase {
   }
 
   public void testAppendAjaxPlaceHolder_Mozilla() throws IOException {
-    Fixture.fakeBrowser( new Mozilla1_6up( true, false ) );
+    W4TFixture.fakeBrowser( new Mozilla1_6up( true, false ) );
     // without non-braking space
     HtmlResponseWriter out = new HtmlResponseWriter();
     WebComponent component = new WebLabel();
-    Fixture.setResponseWriter( out );
+    W4TFixture.setResponseWriter( out );
     RenderUtil.appendAjaxPlaceholder( out, component, false );
-    String actual = Fixture.getAllMarkup( out );
+    String actual = W4TFixture.getAllMarkup( out );
     String expected = "<span id=\"p1\"></span>";
     assertEquals( expected, actual );
     // with non-braking space
     out = new HtmlResponseWriter();
-    Fixture.setResponseWriter( out );
+    W4TFixture.setResponseWriter( out );
     RenderUtil.appendAjaxPlaceholder( out, component, true );
-    actual = Fixture.getAllMarkup( out );
+    actual = W4TFixture.getAllMarkup( out );
     expected 
       = "<span id=\"p1\" style=\"display:none;visibility:hidden\">" 
       + "&nbsp;" 
@@ -331,13 +334,13 @@ public class RenderUtil_Test extends RenderingTestCase {
   }
 
   public void testAppendAjaxPlaceHolder_Ie() throws IOException {
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     // without non-braking space
     HtmlResponseWriter out = new HtmlResponseWriter();
-    Fixture.setResponseWriter( out );
+    W4TFixture.setResponseWriter( out );
     WebComponent component = new WebLabel();
     RenderUtil.appendAjaxPlaceholder( out, component, false );
-    String actual = Fixture.getAllMarkup( out );
+    String actual = W4TFixture.getAllMarkup( out );
     String expected 
     =   "<span id=\"p1\">"
       + "<img width=\"0\" height=\"0\" "
@@ -346,9 +349,9 @@ public class RenderUtil_Test extends RenderingTestCase {
     assertEquals( expected, actual );
     // with non-braking space
     out = new HtmlResponseWriter();
-    Fixture.setResponseWriter( out );
+    W4TFixture.setResponseWriter( out );
     RenderUtil.appendAjaxPlaceholder( out, component, true );
-    actual = Fixture.getAllMarkup( out );
+    actual = W4TFixture.getAllMarkup( out );
     expected 
       = "<span id=\"p1\" style=\"display:none;visibility:hidden\">" 
       + "&nbsp;" 
@@ -357,21 +360,21 @@ public class RenderUtil_Test extends RenderingTestCase {
   }
 
   public void testWriteFontOpener() throws IOException {
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     String expected;
     String markup;
     WebColor color = new WebColor( "blue" );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     RenderUtil.writeFontOpener( "BoldFont", color, 12 );
     HtmlResponseWriter responseWriter = stateInfo.getResponseWriter();
-    markup = Fixture.getAllMarkup( responseWriter );
+    markup = W4TFixture.getAllMarkup( responseWriter );
     expected = "<font face=\"BoldFont\" color=\"#0000FF\" size=\"3\">";
     assertEquals( expected, markup );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     RenderUtil.writeFontOpener( null, color, 0 );
     responseWriter = stateInfo.getResponseWriter();
-    markup = Fixture.getAllMarkup( responseWriter );
+    markup = W4TFixture.getAllMarkup( responseWriter );
     expected = "<font color=\"#0000FF\" size=\"1\">";
     assertEquals( expected, markup );
   }
@@ -417,7 +420,7 @@ public class RenderUtil_Test extends RenderingTestCase {
   }
   
   public void testCreateFormGetURL() {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     FormManager.setActive( form );
     IWindow window = WindowManager.getInstance().create( form );
     WindowManager.setActive( window );

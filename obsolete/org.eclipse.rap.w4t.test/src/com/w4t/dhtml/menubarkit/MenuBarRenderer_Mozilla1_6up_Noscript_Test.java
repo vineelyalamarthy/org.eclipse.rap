@@ -10,15 +10,17 @@
  ******************************************************************************/
 package com.w4t.dhtml.menubarkit;
 
+import org.eclipse.rwt.internal.IInitialization;
+import org.eclipse.rwt.internal.browser.Mozilla1_6up;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.event.WebActionEvent;
 import com.w4t.event.WebActionListener;
 import com.w4t.mockup.TestForm;
-import com.w4t.util.IInitialization;
-import com.w4t.util.browser.Mozilla1_6up;
 import com.w4t.util.image.ImageCache;
 
 public class MenuBarRenderer_Mozilla1_6up_Noscript_Test extends RenderingTestCase {
@@ -30,18 +32,18 @@ public class MenuBarRenderer_Mozilla1_6up_Noscript_Test extends RenderingTestCas
 
   protected void setUp() throws Exception {
     super.setUp();
-    Fixture.setPrivateField( ImageCache.class, null, "_instance", null );
-    ImageCache.createInstance( Fixture.getWebAppBase().toString(), 
+    W4TFixture.setPrivateField( ImageCache.class, null, "_instance", null );
+    ImageCache.createInstance( W4TFixture.getWebAppBase().toString(), 
                                IInitialization.NOSCRIPT_SUBMITTERS_NONE );
   }
   public void tearDown() throws Exception {
     super.tearDown();
-    Fixture.setPrivateField( ImageCache.class, null, "_instance", null );
+    W4TFixture.setPrivateField( ImageCache.class, null, "_instance", null );
   }
   
   public void testMarkup() throws Exception {
     // Mozilla 1.6 - no script
-    Fixture.fakeBrowser( new Mozilla1_6up( false, false ) );
+    W4TFixture.fakeBrowser( new Mozilla1_6up( false, false ) );
     // reset the component counter, so that we have always the same IDs
     resetWebComponentCounter();
     WebForm form = new TestForm();
@@ -109,14 +111,14 @@ public class MenuBarRenderer_Mozilla1_6up_Noscript_Test extends RenderingTestCas
 class Render_43_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
-    "com.w4t.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
-    "com.w4t.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:visible;z-index:99999; ]",
-    "com.w4t.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
+    "org.eclipse.rap.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:visible;z-index:99999; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
   };
 
   static String[] getRes() {
@@ -127,14 +129,14 @@ class Render_43_css {
 class Render_42_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
-    "com.w4t.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
-    "com.w4t.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:visible;z-index:99999; ]",
-    "com.w4t.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
+    "org.eclipse.rap.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:visible;z-index:99999; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
   };
 
   static String[] getRes() {
@@ -145,14 +147,14 @@ class Render_42_css {
 class Render_41_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
-    "com.w4t.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
-    "com.w4t.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:hidden;z-index:99999; ]",
-    "com.w4t.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:hidden;z-index:99999; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
   };
 
   static String[] getRes() {
@@ -651,14 +653,14 @@ class Render_41 {
 class Render_46_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
-    "com.w4t.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
-    "com.w4t.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:visible;z-index:99999; ]",
-    "com.w4t.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
+    "org.eclipse.rap.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:visible;z-index:99999; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
   };
 
   static String[] getRes() {
@@ -669,14 +671,14 @@ class Render_46_css {
 class Render_45_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
-    "com.w4t.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
-    "com.w4t.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:visible;z-index:99999; ]",
-    "com.w4t.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
+    "org.eclipse.rap.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:visible;z-index:99999; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
   };
 
   static String[] getRes() {
@@ -687,14 +689,14 @@ class Render_45_css {
 class Render_44_css {
 
   private static String[] res = new String[] {
-    "com.w4t.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
-    "com.w4t.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
-    "com.w4t.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:visible;z-index:99999; ]",
-    "com.w4t.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
-    "com.w4t.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
-    "com.w4t.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
+    "org.eclipse.rap.types.CssClass [ .w4tCss6343a30b, background-color:#ffffff;font-family:arial,verdana;font-size:1pt;color:#000000;text-align:left;border:0px solid;padding:4px;width:100%; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem:hover, background-color:#ffffff;color:#ff9a00; ]",
+    "org.eclipse.rap.types.CssClass [ .menu, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;text-align:left;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;padding:0px;position:absolute;visibility:visible;z-index:99999; ]",
+    "org.eclipse.rap.types.CssClass [ .menuItem, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;margin:0px;padding:2px 12px 2px 12px;cursor:default;display:block;white-space:nowrap; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton, font-family:arial,verdana;font-size:8pt;color:#000000;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButtonActive, .menuButtonActive:hover, background-color:#ffffff;font-family:arial,verdana;font-size:8pt;color:#ff9a00;text-decoration:none;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .disabledMenuButton, font-family:arial,verdana;font-size:8pt;color:#808080;text-decoration:none;border:1px solid;border-color:#ffffff #ffffff #ffffff #ffffff;margin:1px;padding:2px 6px 2px 6px;position:relative;cursor:default; ]",
+    "org.eclipse.rap.types.CssClass [ .menuButton:hover, color:#000000;border:1px solid;border-color:#d6d3d6 #d6d3d6 #d6d3d6 #d6d3d6; ]"
   };
 
   static String[] getRes() {

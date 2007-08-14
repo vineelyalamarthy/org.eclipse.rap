@@ -11,9 +11,13 @@
 package com.w4t.webtablerowkit;
 
 import junit.framework.TestCase;
-import com.w4t.*;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie5up;
+
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie5up;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+
+import com.w4t.W4TFixture;
+import com.w4t.WebTableRow;
 
 /** <p>Unit tests for WebRadioButtonRenderer.</p> */
 public class WebTableRowRenderer_Test extends TestCase {
@@ -26,10 +30,10 @@ public class WebTableRowRenderer_Test extends TestCase {
     row.setLang( "myLang" );
     row.setTitle( "myTitle" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( true, true ) );
-    Fixture.setResponseWriter( writer );
+    W4TFixture.fakeBrowser( new Default( true, true ) );
+    W4TFixture.setResponseWriter( writer );
     row.render();
-    String markup = Fixture.getBodyMarkup( writer );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<tr class=\"myClass\" dir=\"myDir\" lang=\"myLang\" " 
       + "title=\"myTitle\"></tr>";
@@ -45,10 +49,10 @@ public class WebTableRowRenderer_Test extends TestCase {
     row.setTitle( "myTitle" );
     row.setStyle ( row.getStyle() );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
-    Fixture.setResponseWriter( writer );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.setResponseWriter( writer );
     row.render();
-    String markup = Fixture.getBodyMarkup( writer );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<tr class=\"myClass\" dir=\"myDir\" lang=\"myLang\" " 
       + "title=\"myTitle\"></tr>";
@@ -64,10 +68,10 @@ public class WebTableRowRenderer_Test extends TestCase {
     row.setTitle( "myTitle" );
     row.setStyle ( row.getStyle() );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
-    Fixture.setResponseWriter( writer );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.setResponseWriter( writer );
     row.render();
-    String markup = Fixture.getBodyMarkup( writer );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<tr class=\"myClass\" dir=\"myDir\" lang=\"myLang\" " 
       + "title=\"myTitle\"></tr>";
@@ -76,12 +80,12 @@ public class WebTableRowRenderer_Test extends TestCase {
   
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 }

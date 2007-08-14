@@ -13,8 +13,11 @@ package com.w4t;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Vector;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.util.CssClass;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.util.CssClass;
+
 import com.w4t.util.WebComponentCounter;
 
 /** <p>The superclass for all tests that concern the rendering 

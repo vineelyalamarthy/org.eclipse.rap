@@ -10,7 +10,11 @@
  ******************************************************************************/
 package com.w4t.util;
 
+import org.eclipse.rwt.internal.browser.Opera8;
+import org.eclipse.rwt.internal.browser.Opera9;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.administration.LinkButton;
 import com.w4t.administration.PoolLabel;
@@ -27,8 +31,6 @@ import com.w4t.dhtml.treeviewkit.*;
 import com.w4t.dhtml.webscrollpanekit.*;
 import com.w4t.mockup.*;
 import com.w4t.mockup.nonajaxcomponentkit.NonAjaxComponentRenderer_Default_Script;
-import com.w4t.util.browser.Opera8;
-import com.w4t.util.browser.Opera9;
 import com.w4t.webanchorkit.*;
 import com.w4t.webbordercomponentkit.*;
 import com.w4t.webbuttonkit.*;
@@ -48,20 +50,20 @@ import com.w4t.webtextkit.*;
 public class RendererCache_Opera8_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 
   public void testNoscript() {
     Renderer renderer;
     //
     // Opera 8 (no script)
-    Fixture.fakeBrowser( new Opera8( false ) );
+    W4TFixture.fakeBrowser( new Opera8( false ) );
     // WebAnchor
     RendererCache cache = RendererCache.getInstance();
     renderer = cache.retrieveRenderer( WebAnchor.class );
@@ -209,7 +211,7 @@ public class RendererCache_Opera8_Test extends TestCase {
     Renderer renderer;
     //
     // Opera8 (script)
-    Fixture.fakeBrowser( new Opera8( true ) );
+    W4TFixture.fakeBrowser( new Opera8( true ) );
     // WebAnchor
     RendererCache cache = RendererCache.getInstance();
     renderer = cache.retrieveRenderer( WebAnchor.class );
@@ -352,7 +354,7 @@ public class RendererCache_Opera8_Test extends TestCase {
   public void testAjax() {
     Renderer renderer;
     // Opera8 (Script)
-    Fixture.fakeBrowser( new Opera9( true, true ) );
+    W4TFixture.fakeBrowser( new Opera9( true, true ) );
     // WebAnchor
     RendererCache cache = RendererCache.getInstance();
     renderer = cache.retrieveRenderer( WebAnchor.class );

@@ -17,14 +17,16 @@ import java.text.MessageFormat;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.lifecycle.DisplayUtil;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.resources.ResourceManager;
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.internal.service.BrowserSurvey.IIndexTemplate;
+import org.eclipse.rwt.resources.IResourceManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.internal.graphics.FontSizeCalculator;
-import org.eclipse.swt.lifecycle.DisplayUtil;
-import org.eclipse.swt.resources.ResourceManager;
-import com.w4t.*;
-import com.w4t.engine.service.*;
-import com.w4t.engine.service.BrowserSurvey.IIndexTemplate;
-import com.w4t.util.browser.Default;
+
 
 class IndexTemplate implements IIndexTemplate {
 
@@ -64,7 +66,7 @@ class IndexTemplate implements IIndexTemplate {
     fakeWriter();
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     HtmlResponseWriter writer = stateInfo.getResponseWriter();
-    writer.startElement( HTML.SCRIPT, null );
+    writer.startElement( "script", null );
     writer.writeText( "safd", null );
     writer.clearBody();
     try {

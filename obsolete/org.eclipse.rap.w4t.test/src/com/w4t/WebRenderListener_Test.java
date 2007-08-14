@@ -10,29 +10,31 @@
  ******************************************************************************/
 package com.w4t;
 
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import junit.framework.TestCase;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.WebRenderEvent;
 import com.w4t.event.WebRenderListener;
-import com.w4t.util.browser.Default;
 
 
 public class WebRenderListener_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testEventTriggering() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeEngineForRender( form );
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeEngineForRender( form );
+    W4TFixture.fakeBrowser( new Default( true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     ContextProvider.getStateInfo().setResponseWriter( writer );
     final String[] log = new String[ 1 ];
@@ -46,7 +48,7 @@ public class WebRenderListener_Test extends TestCase {
         log[ 0 ] += "afterRender";
       }
     } );
-    Fixture.getLifeCycleAdapter( form ).render();
+    W4TFixture.getLifeCycleAdapter( form ).render();
     assertEquals( "beforeRender|afterRender", log[ 0 ] );
   }
 }

@@ -11,7 +11,7 @@
 
 package org.eclipse.ui.internal.progress;
 
-import org.eclipse.swt.lifecycle.UICallBackUtil;
+import org.eclipse.rwt.lifecycle.UICallBackUtil;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 

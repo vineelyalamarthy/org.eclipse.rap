@@ -11,6 +11,7 @@
 package com.w4t.custom;
 
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.event.WebActionEvent;
 
@@ -18,14 +19,14 @@ import com.w4t.event.WebActionEvent;
 public class CToolbar_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext( false );
+    W4TFixture.setUp();
+    W4TFixture.createContext( false );
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
-    Fixture.clearSingletons();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
+    W4TFixture.clearSingletons();
   }
   
   public void testActionInvokation() throws Exception {

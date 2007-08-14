@@ -11,15 +11,18 @@
 package com.w4t.webflowlayoutkit;
 
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie5up;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatus;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie5up;
 
 /**
  * <p>
- * Tests the rendering of com.w4t.WebFlowLayout.
+ * Tests the rendering of org.eclipse.rap.WebFlowLayout.
  * </p>
  */
 public class WebFlowLayout_Test extends TestCase {
@@ -44,13 +47,13 @@ public class WebFlowLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, true ) );
+    W4TFixture.fakeBrowser( new Default ( true, true ) );
     AjaxStatus ajaxStatus = ( AjaxStatus )panel.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<table width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\" id=\"p1\">"
@@ -85,11 +88,11 @@ public class WebFlowLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Ie5up ( true, false ) );
+    W4TFixture.fakeBrowser( new Ie5up ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\" id=\"p1\">"
@@ -124,11 +127,11 @@ public class WebFlowLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( false, false ) );
+    W4TFixture.fakeBrowser( new Default ( false, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\" id=\"p1\">"
@@ -143,13 +146,13 @@ public class WebFlowLayout_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.removeContext();
-    Fixture.tearDown();
+    W4TFixture.removeContext();
+    W4TFixture.tearDown();
   }
 
   private void setResponseWriter( final HtmlResponseWriter writer ) {

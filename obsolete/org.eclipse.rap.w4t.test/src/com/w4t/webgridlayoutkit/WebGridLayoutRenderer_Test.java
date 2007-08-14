@@ -10,12 +10,13 @@
  ******************************************************************************/
 package com.w4t.webgridlayoutkit;
 
+import org.eclipse.rwt.internal.browser.Default;
+
 import com.w4t.*;
-import com.w4t.util.browser.Default;
 
 /**
  * <p>
- * Tests the rendering of com.w4t.WebGridLayout.
+ * Tests the rendering of org.eclipse.rap.WebGridLayout.
  * </p>
  */
 public class WebGridLayoutRenderer_Test extends RenderingTestCase {
@@ -30,7 +31,7 @@ public class WebGridLayoutRenderer_Test extends RenderingTestCase {
     // reset the component counter, so that we have always the same IDs
     resetWebComponentCounter();
     // needed for renderer loading
-    Fixture.fakeBrowser( new Default( true ) );
+    W4TFixture.fakeBrowser( new Default( true ) );
   }
   
   public void tearDown() throws Exception {

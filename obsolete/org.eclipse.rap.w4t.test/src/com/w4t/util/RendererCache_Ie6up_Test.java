@@ -10,7 +10,11 @@
  ******************************************************************************/
 package com.w4t.util;
 
+import org.eclipse.rwt.internal.browser.Ie6;
+import org.eclipse.rwt.internal.browser.Ie6up;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.WebFormListener_Test.Form;
 import com.w4t.administration.LinkButton;
@@ -32,8 +36,6 @@ import com.w4t.engine.lifecycle.standard.LoginForm;
 import com.w4t.mockup.*;
 import com.w4t.mockup.nonajaxcomponentkit.NonAjaxComponentRenderer_Default_Script;
 import com.w4t.mockup.testcomponentkit.TestComponentRenderer_Default_Ajax;
-import com.w4t.util.browser.Ie6;
-import com.w4t.util.browser.Ie6up;
 import com.w4t.webanchorkit.*;
 import com.w4t.webbordercomponentkit.*;
 import com.w4t.webbuttonkit.*;
@@ -55,7 +57,7 @@ public class RendererCache_Ie6up_Test extends TestCase {
     Renderer renderer;
     //
     // Ie6up up (no script) 
-    Fixture.fakeBrowser( new Ie6up( false ) );
+    W4TFixture.fakeBrowser( new Ie6up( false ) );
 
     // WebAnchor
     renderer = RendererCache.getInstance()
@@ -283,7 +285,7 @@ public class RendererCache_Ie6up_Test extends TestCase {
     Renderer renderer;
     //
     // Ie6up up (no script) 
-    Fixture.fakeBrowser( new Ie6( true ) );
+    W4TFixture.fakeBrowser( new Ie6( true ) );
 
     // WebAnchor
     renderer = RendererCache.getInstance()
@@ -507,7 +509,7 @@ public class RendererCache_Ie6up_Test extends TestCase {
     Renderer renderer;
     //
     // Ie6up up (ajax) 
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     // WebAnchor
     RendererCache cache = RendererCache.getInstance();
     renderer = cache.retrieveRenderer( WebAnchor.class );
@@ -659,12 +661,12 @@ public class RendererCache_Ie6up_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 }

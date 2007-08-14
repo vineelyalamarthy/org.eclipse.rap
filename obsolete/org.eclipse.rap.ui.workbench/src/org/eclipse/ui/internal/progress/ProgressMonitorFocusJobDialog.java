@@ -14,6 +14,9 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.*;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.window.IWindowCallback;
+import org.eclipse.rwt.RWT;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.service.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -24,7 +27,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.ui.progress.WorkbenchJob;
 
-import com.w4t.engine.service.*;
 
 /**
  * The ProgressMonitorFocusJobDialog is a dialog that shows progress for a
@@ -408,7 +410,7 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 		  // Ensure that job changed listener is removed in case of
 		  // session timeout before the job ends. Note that this is
 		  // still under investigation
-		  final ISessionStore session = ContextProvider.getSession();		    
+		  final ISessionStore session = RWT.getSessionStore();		    
 		  final JobChangeAdapter doneListener[] = new JobChangeAdapter[ 1 ];
   		  final SessionStoreListener invalidateHandler
   		    = new SessionStoreListener()

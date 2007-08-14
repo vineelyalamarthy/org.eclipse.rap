@@ -10,10 +10,12 @@
  ******************************************************************************/
 package com.w4t.ajax;
 
+import org.eclipse.rwt.internal.browser.Mozilla1_7;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.mockup.TestForm;
-import com.w4t.util.browser.Mozilla1_7;
 
 
 public class PerformanceAndMemoryTest extends TestCase {
@@ -65,11 +67,11 @@ public class PerformanceAndMemoryTest extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.fakeBrowser( new Mozilla1_7( true, true ) );
+    W4TFixture.setUp();
+    W4TFixture.fakeBrowser( new Mozilla1_7( true, true ) );
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
+    W4TFixture.tearDown();
   }
 }

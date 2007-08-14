@@ -37,19 +37,19 @@ public class WebFormListener_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testFormListenerInvocation() throws Exception {
     String name = Form.class.getName();
     WebForm form = FormManager.load( name );
-    Fixture.fakeEngineForRender( form );
+    W4TFixture.fakeEngineForRender( form );
     IFormAdapter adapter 
       = ( IFormAdapter )form.getAdapter( IFormAdapter.class );
     adapter.setActive( true );

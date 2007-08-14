@@ -16,11 +16,11 @@ import junit.framework.TestCase;
 public class WebCheckBox_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
+    W4TFixture.setUp();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
+    W4TFixture.tearDown();
   }
   
   public void testValue() {

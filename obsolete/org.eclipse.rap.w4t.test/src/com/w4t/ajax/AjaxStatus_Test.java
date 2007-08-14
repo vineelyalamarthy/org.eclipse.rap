@@ -11,15 +11,18 @@
 package com.w4t.ajax;
 
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.Ie5up;
+import org.eclipse.rwt.internal.browser.Ie6;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.mockup.TestForm;
 import com.w4t.util.ComponentTreeVisitor;
 import com.w4t.util.RendererCache;
 import com.w4t.util.ComponentTreeVisitor.AllComponentVisitor;
-import com.w4t.util.browser.Ie5up;
-import com.w4t.util.browser.Ie6;
 
 
 public class AjaxStatus_Test extends TestCase {
@@ -35,13 +38,13 @@ public class AjaxStatus_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testSetMustRender() throws Exception {
@@ -53,7 +56,7 @@ public class AjaxStatus_Test extends TestCase {
     WebComponent text = new WebText();
     container.add( text );
     
-    AjaxStatus formAjaxStatus = Fixture.getAjaxStatus( form );
+    AjaxStatus formAjaxStatus = W4TFixture.getAjaxStatus( form );
     formAjaxStatus.updateStatus( true );
     assertTrue( getMustRender( form ) );
     assertTrue( getMustRender( container ) );
@@ -61,7 +64,7 @@ public class AjaxStatus_Test extends TestCase {
   }
   
   public void testAjaxEnvelope() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
 
     WebPanel panel = new WebPanel();
     form.add( panel, WebBorderLayout.NORTH );
@@ -81,7 +84,7 @@ public class AjaxStatus_Test extends TestCase {
     treeNode.addItem( treeLeaf );
     panel.add( treeView );
 
-    Fixture.getAjaxStatus( form ).updateStatus( true );
+    W4TFixture.getAjaxStatus( form ).updateStatus( true );
     ComponentTreeVisitor visitor = new AllComponentVisitor() {
       public boolean doVisit( final WebComponent component ) {
         assertTrue( getMustRender( component ) );
@@ -99,78 +102,78 @@ public class AjaxStatus_Test extends TestCase {
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( treeLeaf ) );
     
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( form ) );
-    Fixture.getAjaxStatus( form ).setMustRender( false );
+    W4TFixture.getAjaxStatus( form ).setMustRender( false );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( form ) );
     
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( panel ) );
-    Fixture.getAjaxStatus( panel ).setMustRender( false );
+    W4TFixture.getAjaxStatus( panel ).setMustRender( false );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( panel ) );
     
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( label ) );
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( scrollPane ) );
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( treeView ) );
-    Fixture.getAjaxStatus( label ).setMustRender( false );
+    W4TFixture.getAjaxStatus( label ).setMustRender( false );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( label ) );
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( scrollPane ) );
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( treeView ) );
-    Fixture.getAjaxStatus( scrollPane ).setMustRender( false );
+    W4TFixture.getAjaxStatus( scrollPane ).setMustRender( false );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( label ) );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( scrollPane ) );
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( treeView ) );
-    Fixture.getAjaxStatus( treeView ).setMustRender( false );
+    W4TFixture.getAjaxStatus( treeView ).setMustRender( false );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( label ) );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( scrollPane ) );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( treeView ) );
     
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( button ) );
-    Fixture.getAjaxStatus( button ).setMustRender( false );
+    W4TFixture.getAjaxStatus( button ).setMustRender( false );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( button ) );
     
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( treeNode ) );
-    Fixture.getAjaxStatus( treeNode ).setMustRender( false );
+    W4TFixture.getAjaxStatus( treeNode ).setMustRender( false );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( treeNode ) );
     
     assertTrue( AjaxStatusUtil.isRootOfSubTreeToRender( treeLeaf ) );
-    Fixture.getAjaxStatus( treeLeaf ).setMustRender( false );
+    W4TFixture.getAjaxStatus( treeLeaf ).setMustRender( false );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( treeLeaf ) );
     
     // check unparent components
     WebText text = new WebText();
-    Fixture.getAjaxStatus( text ).setMustRender( true );
+    W4TFixture.getAjaxStatus( text ).setMustRender( true );
     assertTrue( AjaxStatusUtil.mustRender( text ) );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( text ) );
     
     WebAnchor anchor = new WebAnchor();
-    Fixture.getAjaxStatus( anchor ).setMustRender( true );
+    W4TFixture.getAjaxStatus( anchor ).setMustRender( true );
     assertTrue( AjaxStatusUtil.mustRender( anchor ) );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( anchor ) );
     
     Menu menu = new Menu();
-    Fixture.getAjaxStatus( menu ).setMustRender( true );
+    W4TFixture.getAjaxStatus( menu ).setMustRender( true );
     assertTrue( AjaxStatusUtil.mustRender( menu ) );
     assertFalse( AjaxStatusUtil.isRootOfSubTreeToRender( menu ) );
     
     // check envelope markup
-    Fixture.getAjaxStatus( label ).updateStatus( true );
+    W4TFixture.getAjaxStatus( label ).updateStatus( true );
     
     HtmlResponseWriter writer = new HtmlResponseWriter();
     ContextProvider.getStateInfo().setResponseWriter( writer );
     String labelContent = "<labelContent />";
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     AjaxStatusUtil.startEnvelope( label );
     writer.append( labelContent );
     AjaxStatusUtil.endEnvelope( label );
-    String markup = Fixture.getBodyMarkup( writer );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected = labelContent;
     assertEquals( expected, markup );
 
     writer = new HtmlResponseWriter();
     ContextProvider.getStateInfo().setResponseWriter( writer );
-    Fixture.fakeBrowser( new Ie5up( true, true ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, true ) );
     AjaxStatusUtil.startEnvelope( label );
     writer.append( labelContent );
     AjaxStatusUtil.endEnvelope( label );
-    markup = Fixture.getBodyMarkup( writer );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected =   "<envelope id=\"" 
                + label.getUniqueID()
                + "\"><!--"
@@ -180,8 +183,8 @@ public class AjaxStatus_Test extends TestCase {
   }
   
   public void testNonAjaxComponent() {
-    Fixture.fakeBrowser( new Ie6( true, true ) );
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     NonAjaxContainer nonAjaxComponent = new NonAjaxContainer();
     form.add( nonAjaxComponent, WebBorderLayout.CENTER );
     assertFalse( hasAjaxRenderer( nonAjaxComponent) );
@@ -213,9 +216,9 @@ public class AjaxStatus_Test extends TestCase {
     panel.add( text );
     AjaxStatusUtil.updateHashCode( panel );
     assertEquals( true, 
-                  Fixture.getAjaxStatus( panel ).hasComponentHashCode() );
+                  W4TFixture.getAjaxStatus( panel ).hasComponentHashCode() );
     assertEquals( false, 
-                  Fixture.getAjaxStatus( text ).hasComponentHashCode() );
+                  W4TFixture.getAjaxStatus( text ).hasComponentHashCode() );
   }
 
   private static boolean hasAjaxRenderer( final WebComponent component ) {
@@ -227,6 +230,6 @@ public class AjaxStatus_Test extends TestCase {
   }
   
   private static boolean getMustRender( final WebComponent component ) {
-    return Fixture.getAjaxStatus( component ).mustRender();
+    return W4TFixture.getAjaxStatus( component ).mustRender();
   }
 }

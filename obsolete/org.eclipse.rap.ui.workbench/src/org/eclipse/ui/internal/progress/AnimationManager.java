@@ -14,14 +14,14 @@ import java.util.*;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.rwt.RWT;
+import org.eclipse.rwt.SessionSingletonBase;
+import org.eclipse.rwt.service.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.WorkbenchJob;
-
-import com.w4t.SessionSingletonBase;
-import com.w4t.engine.service.*;
 
 /**
  * The AnimationManager is the class that keeps track of the animation items to
@@ -119,7 +119,7 @@ public class AnimationManager extends SessionSingletonBase {
         // thread management.
         // Note that this is still under investigation.
         // see comment in JobManagerAdapter
-        ISessionStore session = ContextProvider.getSession();
+        ISessionStore session = RWT.getSessionStore();
         session.addSessionStoreListener( new SessionStoreListener() {
           public void beforeDestroy( final SessionStoreEvent event ) {
             if( animationUpdateJob != null ) {

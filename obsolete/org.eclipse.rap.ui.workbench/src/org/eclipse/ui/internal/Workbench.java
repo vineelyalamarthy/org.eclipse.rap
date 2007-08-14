@@ -26,9 +26,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.window.*;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.rwt.RWT;
+import org.eclipse.rwt.internal.lifecycle.UICallBackServiceHandler;
+import org.eclipse.rwt.service.*;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.internal.lifecycle.UICallBackServiceHandler;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
@@ -51,7 +53,6 @@ import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.services.IDisposable;
 import org.eclipse.ui.views.IViewRegistry;
 
-import com.w4t.engine.service.*;
 
 /**
  * The workbench class represents the top of the Eclipse user interface. Its
@@ -375,7 +376,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //				}
 				// run the workbench event loop
 					
-				ISessionStore session = ContextProvider.getSession();
+				ISessionStore session = RWT.getSessionStore();
 				ShutdownHandler shutdownHandler = new ShutdownHandler( display );
                 session.addSessionStoreListener( shutdownHandler );
 				returnCode[0] = workbench.runUI();

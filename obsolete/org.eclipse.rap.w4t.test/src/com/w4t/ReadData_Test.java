@@ -10,12 +10,13 @@
  ******************************************************************************/
 package com.w4t;
 
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie5_5up;
+
 import junit.framework.TestCase;
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.treenodekit.TreeNodeRenderer;
 import com.w4t.engine.lifecycle.standard.ILifeCycleAdapter;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie5_5up;
 import com.w4t.webcheckboxkit.WebCheckBoxRenderer;
 
 
@@ -24,13 +25,13 @@ public class ReadData_Test extends TestCase {
   private static final String DATA_BOUND_DATA = "testData1";
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testReadScrollPaneScript() throws Exception {
@@ -38,7 +39,7 @@ public class ReadData_Test extends TestCase {
       protected void setWebComponents() throws Exception {
       }
     };
-    Fixture.fakeBrowser( new Ie5_5up( true ) );
+    W4TFixture.fakeBrowser( new Ie5_5up( true ) );
     
     WebScrollPane scrollPane = new WebScrollPane();
     form.add( scrollPane, WebBorderLayout.NORTH );
@@ -46,8 +47,8 @@ public class ReadData_Test extends TestCase {
     assertEquals( 0, scrollPane.getScrollY() );
     String paramX = "scrollPaneX_" + scrollPane.getUniqueID() + "_scrollDiv";
     String paramY = "scrollPaneY_" + scrollPane.getUniqueID() + "_scrollDiv";
-    Fixture.fakeRequestParam( paramX, "10" );
-    Fixture.fakeRequestParam( paramY, "20" );
+    W4TFixture.fakeRequestParam( paramX, "10" );
+    W4TFixture.fakeRequestParam( paramY, "20" );
     ILifeCycleAdapter adapter = getLifeCycleAdapter( form );
     adapter.readData();
     assertEquals( 10, scrollPane.getScrollX() );
@@ -59,7 +60,7 @@ public class ReadData_Test extends TestCase {
       protected void setWebComponents() throws Exception {
       }
     };
-    Fixture.fakeBrowser( new Default( true ) );
+    W4TFixture.fakeBrowser( new Default( true ) );
     
     TreeView treeView = new TreeView();
     form.add( treeView, WebBorderLayout.NORTH );
@@ -67,14 +68,14 @@ public class ReadData_Test extends TestCase {
     treeView.addItem( treeNode );
     String id 
       = TreeNodeRenderer.TREE_NODE_TOGGLE_STATE_INFO +  treeNode.getUniqueID();
-    Fixture.fakeRequestParam( id, "vis_show" );
+    W4TFixture.fakeRequestParam( id, "vis_show" );
     
     assertFalse( treeNode.isExpanded() );
     ILifeCycleAdapter adapter = getLifeCycleAdapter( form );
     adapter.readData();
     assertTrue( treeNode.isExpanded() );
     
-    Fixture.fakeRequestParam( id, "vis_hide" );
+    W4TFixture.fakeRequestParam( id, "vis_hide" );
     adapter.readData();
     assertFalse( treeNode.isExpanded() );
   }
@@ -88,7 +89,7 @@ public class ReadData_Test extends TestCase {
       protected void setWebComponents() throws Exception {
       }
     };
-    Fixture.fakeBrowser( new Default( false ) );
+    W4TFixture.fakeBrowser( new Default( false ) );
     
     TreeView treeView = new TreeView();
     form.add( treeView, WebBorderLayout.NORTH );
@@ -98,7 +99,7 @@ public class ReadData_Test extends TestCase {
     
     String expandedName = NoscriptUtil.addExpandedPrefix( uniqueID );
     expandedName = NoscriptUtil.addSuffix( expandedName );
-    Fixture.fakeRequestParam( expandedName, "true" );
+    W4TFixture.fakeRequestParam( expandedName, "true" );
     assertFalse( treeNode.isExpanded() );
     ILifeCycleAdapter adapter = getLifeCycleAdapter( form );
     adapter.readData();
@@ -106,7 +107,7 @@ public class ReadData_Test extends TestCase {
     
     String collapsedName = NoscriptUtil.addCollapsedPrefix( uniqueID );
     collapsedName = NoscriptUtil.addSuffix( collapsedName );
-    Fixture.fakeRequestParam( collapsedName, "true" );
+    W4TFixture.fakeRequestParam( collapsedName, "true" );
     adapter.readData();
     assertFalse( treeNode.isExpanded() );
   }
@@ -116,21 +117,21 @@ public class ReadData_Test extends TestCase {
       protected void setWebComponents() throws Exception {
       }
     };
-    Fixture.fakeBrowser( new Default( false ) );
+    W4TFixture.fakeBrowser( new Default( false ) );
     
     WebText text = new WebText();
-    Fixture.fakeRequestParam( text.getUniqueID(), DATA_BOUND_DATA );
+    W4TFixture.fakeRequestParam( text.getUniqueID(), DATA_BOUND_DATA );
     form.add( text, WebBorderLayout.NORTH );
     assertEquals( "", text.getValue() );
     
     WebTextArea textArea = new WebTextArea();
-    Fixture.fakeRequestParam( textArea.getUniqueID(), DATA_BOUND_DATA );
+    W4TFixture.fakeRequestParam( textArea.getUniqueID(), DATA_BOUND_DATA );
     form.add( textArea, WebBorderLayout.NORTH );
     assertEquals( "", textArea.getValue() );
     
     WebSelect select = new WebSelect();
     select.setItem( new String[] { DATA_BOUND_DATA } );
-    Fixture.fakeRequestParam( select.getUniqueID(), DATA_BOUND_DATA );
+    W4TFixture.fakeRequestParam( select.getUniqueID(), DATA_BOUND_DATA );
     form.add( select, WebBorderLayout.NORTH );
     assertEquals( DATA_BOUND_DATA, select.getValue() );
     select.setUseEmptyItem( true );
@@ -140,14 +141,14 @@ public class ReadData_Test extends TestCase {
     WebRadioButton radioButton = new WebRadioButton();
     radioGroup.add( radioButton );
     radioButton.setValue( DATA_BOUND_DATA );
-    Fixture.fakeRequestParam( radioGroup.getUniqueID(), DATA_BOUND_DATA );
+    W4TFixture.fakeRequestParam( radioGroup.getUniqueID(), DATA_BOUND_DATA );
     form.add( radioGroup, WebBorderLayout.NORTH );
     assertFalse( radioButton.isSelected() );
     
     WebCheckBox checkBox = new WebCheckBox();
     String id = checkBox.getUniqueID();
-    Fixture.fakeRequestParam( id, checkBox.getValCheck() );
-    Fixture.fakeRequestParam( WebCheckBoxRenderer.PREFIX + id,
+    W4TFixture.fakeRequestParam( id, checkBox.getValCheck() );
+    W4TFixture.fakeRequestParam( WebCheckBoxRenderer.PREFIX + id,
                               checkBox.getValUnCheck() );
     form.add( checkBox, WebBorderLayout.NORTH );
     assertEquals( checkBox.getValUnCheck(), checkBox.getValue() );
@@ -166,21 +167,21 @@ public class ReadData_Test extends TestCase {
       protected void setWebComponents() throws Exception {
       }
     };
-    Fixture.fakeBrowser( new Default( true ) );
+    W4TFixture.fakeBrowser( new Default( true ) );
     
     WebText text = new WebText();
-    Fixture.fakeRequestParam( text.getUniqueID(), DATA_BOUND_DATA );
+    W4TFixture.fakeRequestParam( text.getUniqueID(), DATA_BOUND_DATA );
     form.add( text, WebBorderLayout.NORTH );
     assertEquals( "", text.getValue() );
     
     WebTextArea textArea = new WebTextArea();
-    Fixture.fakeRequestParam( textArea.getUniqueID(), DATA_BOUND_DATA );
+    W4TFixture.fakeRequestParam( textArea.getUniqueID(), DATA_BOUND_DATA );
     form.add( textArea, WebBorderLayout.NORTH );
     assertEquals( "", textArea.getValue() );
     
     WebSelect select = new WebSelect();
     select.setItem( new String[] { DATA_BOUND_DATA } );
-    Fixture.fakeRequestParam( select.getUniqueID(), DATA_BOUND_DATA );
+    W4TFixture.fakeRequestParam( select.getUniqueID(), DATA_BOUND_DATA );
     form.add( select, WebBorderLayout.NORTH );
     assertEquals( DATA_BOUND_DATA, select.getValue() );
     select.setUseEmptyItem( true );
@@ -190,15 +191,15 @@ public class ReadData_Test extends TestCase {
     WebRadioButton radioButton = new WebRadioButton();
     radioGroup.add( radioButton );
     radioButton.setValue( DATA_BOUND_DATA );
-    Fixture.fakeRequestParam( radioGroup.getUniqueID(), DATA_BOUND_DATA );
+    W4TFixture.fakeRequestParam( radioGroup.getUniqueID(), DATA_BOUND_DATA );
     form.add( radioGroup, WebBorderLayout.SOUTH );
     radioGroup.setValue( "other-value" );
     assertFalse( radioButton.isSelected() );
     
     WebCheckBox checkBox = new WebCheckBox();
     String id = checkBox.getUniqueID();
-    Fixture.fakeRequestParam( id, checkBox.getValCheck() );
-    Fixture.fakeRequestParam( WebCheckBoxRenderer.PREFIX + id,
+    W4TFixture.fakeRequestParam( id, checkBox.getValCheck() );
+    W4TFixture.fakeRequestParam( WebCheckBoxRenderer.PREFIX + id,
                               checkBox.getValUnCheck() );
     form.add( checkBox, WebBorderLayout.NORTH );
     assertEquals( checkBox.getValUnCheck(), checkBox.getValue() );

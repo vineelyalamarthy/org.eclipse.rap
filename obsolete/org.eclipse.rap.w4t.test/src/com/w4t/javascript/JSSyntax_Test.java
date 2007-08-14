@@ -13,11 +13,14 @@ package com.w4t.javascript;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.resources.IResourceManager;
 import org.mozilla.javascript.*;
-import com.w4t.HTML;
-import com.w4t.IResourceManager;
-import com.w4t.engine.util.ResourceManager;
+
 
 
 public class JSSyntax_Test extends TestCase {
@@ -96,10 +99,10 @@ public class JSSyntax_Test extends TestCase {
   private static InputStream openStream( final String name ) 
     throws IOException 
   {
-    ClassLoader loader = ResourceManager.class.getClassLoader();
+    ClassLoader loader = ResourceManagerImpl.class.getClassLoader();
     URL resource = loader.getResource( name );
     if( resource == null ) {
-      IResourceManager manager = ResourceManager.getInstance();
+      IResourceManager manager = ResourceManagerImpl.getInstance();
       resource = manager.getResource( name );
     }
     if( resource == null ) {

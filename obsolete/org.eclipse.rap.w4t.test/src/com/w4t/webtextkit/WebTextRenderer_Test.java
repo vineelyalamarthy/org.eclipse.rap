@@ -11,13 +11,16 @@
 package com.w4t.webtextkit;
 
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.*;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatus;
 import com.w4t.ajax.AjaxStatusUtil;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.*;
 import com.w4t.util.RendererCache;
-import com.w4t.util.browser.*;
 
 
 /** <p>Unit tests for WebTextRenderer.</p> */
@@ -26,14 +29,14 @@ public class WebTextRenderer_Test extends TestCase {
   public void testAjaxRenderer() throws Exception {
     WebText text = new WebText();
     text.setValue( "Hello World" );
-    Fixture.setWebComponentUniqueId( text, "text1" );
+    W4TFixture.setWebComponentUniqueId( text, "text1" );
     AjaxStatus ajaxStatus = ( AjaxStatus )text.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
-    Fixture.fakeBrowser( new Ie5up( true, true ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    String markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    String markup = W4TFixture.getBodyMarkup(writer);
     String expected;
     expected = "<input type=\"text\" "
              + "name=\"text1\" value=\"Hello World\" "
@@ -49,8 +52,8 @@ public class WebTextRenderer_Test extends TestCase {
     } );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected =   "<input type=\"text\" "
                + "name=\"text1\" value=\"Hello World\" "
                + "id=\"text1\" "
@@ -66,8 +69,8 @@ public class WebTextRenderer_Test extends TestCase {
     } );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected =  "<input type=\"text\" "
               + "name=\"text1\" value=\"Hello World\" "
               + "id=\"text1\" "
@@ -82,8 +85,8 @@ public class WebTextRenderer_Test extends TestCase {
     text.setSize( 100 );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected =   "<input type=\"text\" "
                + "name=\"text1\" value=\"Hello World\" "
                + "id=\"text1\" "
@@ -99,8 +102,8 @@ public class WebTextRenderer_Test extends TestCase {
     text.setUpdatable( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected =  "<input type=\"text\" "
               + "name=\"text1\" value=\"Hello World\" "
               + "id=\"text1\" "
@@ -117,8 +120,8 @@ public class WebTextRenderer_Test extends TestCase {
     text.setEnabled( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected =  "<input type=\"text\" "
       + "name=\"text1\" value=\"Hello World\" "
       + "id=\"text1\" "
@@ -135,8 +138,8 @@ public class WebTextRenderer_Test extends TestCase {
     text.setEnabled( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected =  "<input type=\"text\" "
       + "name=\"text1\" value=\"Hello World\" "
       + "id=\"text1\" "
@@ -150,13 +153,13 @@ public class WebTextRenderer_Test extends TestCase {
   
   public void testScriptRenderer() throws Exception {
     WebText text = new WebText();
-    Fixture.setWebComponentUniqueId( text, "text1" );
+    W4TFixture.setWebComponentUniqueId( text, "text1" );
     text.setValue( "Hello World" );
-    Fixture.fakeBrowser( new Ie5up( true, false ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    String markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    String markup = W4TFixture.getBodyMarkup(writer);
     String expected = "<input type=\"text\" "
                     + "name=\"text1\" "
                     + "value=\"Hello World\" " 
@@ -169,8 +172,8 @@ public class WebTextRenderer_Test extends TestCase {
     text.setValue( "" );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected = "<input type=\"text\" "
              + "name=\"text1\" "
              + "value=\"\" " 
@@ -186,8 +189,8 @@ public class WebTextRenderer_Test extends TestCase {
     } );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected =   "<input type=\"text\" " 
                + "name=\"text1\" " 
                + "value=\"\" " 
@@ -202,8 +205,8 @@ public class WebTextRenderer_Test extends TestCase {
     text.setMaxLength( 10 );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected  = "<input type=\"text\" "
               + "name=\"text1\" "
               + "value=\"\" "
@@ -222,8 +225,8 @@ public class WebTextRenderer_Test extends TestCase {
     } );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected  = "<input type=\"text\" "
               + "name=\"text1\" "
               + "value=\"\" "
@@ -240,8 +243,8 @@ public class WebTextRenderer_Test extends TestCase {
     setResponseWriter( writer );
     text.setEnabled( false );
     text.setUpdatable( false );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected =   "<input type=\"text\" "
                + "name=\"text1\" "
                + "value=\"\" "
@@ -258,13 +261,13 @@ public class WebTextRenderer_Test extends TestCase {
   
   public void testNoScriptRenderer() throws Exception {
     WebText text = new WebText();
-    Fixture.setWebComponentUniqueId( text, "text1" );
+    W4TFixture.setWebComponentUniqueId( text, "text1" );
     text.setValue( "Hello World" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Ie5up( false, false ) );
+    W4TFixture.fakeBrowser( new Ie5up( false, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    String markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    String markup = W4TFixture.getBodyMarkup(writer);
     String expected = "<input type=\"text\" "
                     + "name=\"text1\" "
                     + "value=\"Hello World\" " 
@@ -282,8 +285,8 @@ public class WebTextRenderer_Test extends TestCase {
     } );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( text );
-    markup = Fixture.getBodyMarkup(writer);
+    W4TFixture.renderComponent( text );
+    markup = W4TFixture.getBodyMarkup(writer);
     expected  = "<input type=\"text\" "
               + "name=\"text1\" "
               + "value=\"Hello World\" "
@@ -298,9 +301,9 @@ public class WebTextRenderer_Test extends TestCase {
   }
   
   public void testReadData_Default_Script() throws Exception {
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     WebText text = new WebText();
-    Fixture.fakeRequestParam( text.getUniqueID(), "newText" );
+    W4TFixture.fakeRequestParam( text.getUniqueID(), "newText" );
     RendererCache rendererCache = RendererCache.getInstance();
     Renderer renderer = rendererCache.retrieveRenderer( text.getClass() );
     renderer.readData( text );
@@ -308,9 +311,9 @@ public class WebTextRenderer_Test extends TestCase {
   }
   
   public void testReadData_Default_Ajax() throws Exception {
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     WebText text = new WebText();
-    Fixture.fakeRequestParam( text.getUniqueID(), "newText" );
+    W4TFixture.fakeRequestParam( text.getUniqueID(), "newText" );
     RendererCache rendererCache = RendererCache.getInstance();
     Renderer renderer = rendererCache.retrieveRenderer( text.getClass() );
     renderer.readData( text );
@@ -320,11 +323,11 @@ public class WebTextRenderer_Test extends TestCase {
   
   public void testAjaxStatusAfterReadData() throws Exception {
     // case 1: value changed on client-side -> don't render WebText
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     WebText text = new WebText();
     form.add( text, WebBorderLayout.CENTER );
-    Fixture.fakeRequestParam( text.getUniqueID(), "newText" );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeRequestParam( text.getUniqueID(), "newText" );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     RendererCache rendererCache = RendererCache.getInstance();
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );
@@ -333,14 +336,14 @@ public class WebTextRenderer_Test extends TestCase {
     renderer.readData( text );
     assertEquals( "newText", text.getValue() );
     AjaxStatusUtil.preRender( form );
-    assertEquals( false, Fixture.getAjaxStatus( text ).mustRender() );
+    assertEquals( false, W4TFixture.getAjaxStatus( text ).mustRender() );
     // case 2: value changed on client-side and programatically after readData
     //         -> must render WebText
-    form = Fixture.getEmptyWebFormInstance();
+    form = W4TFixture.getEmptyWebFormInstance();
     text = new WebText();
     form.add( text, WebBorderLayout.CENTER );
-    Fixture.fakeRequestParam( text.getUniqueID(), "newText" );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeRequestParam( text.getUniqueID(), "newText" );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     rendererCache = RendererCache.getInstance();
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );
@@ -349,17 +352,17 @@ public class WebTextRenderer_Test extends TestCase {
     renderer.readData( text );
     text.setValue( "anotherText" );
     AjaxStatusUtil.preRender( form );
-    assertEquals( true, Fixture.getAjaxStatus( text ).mustRender() );
+    assertEquals( true, W4TFixture.getAjaxStatus( text ).mustRender() );
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   private static void setResponseWriter( final HtmlResponseWriter writer ) {

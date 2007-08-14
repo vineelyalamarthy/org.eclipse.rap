@@ -12,6 +12,7 @@
 package org.eclipse.ui.application;
 
 import org.eclipse.core.runtime.*;
+import org.eclipse.rwt.internal.util.ParamCheck;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
@@ -19,7 +20,6 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.WorkbenchWindowConfigurer;
 import org.eclipse.ui.statushandlers.*;
 
-import com.w4t.ParamCheck;
 
 /**
  * Public base class for configuring the workbench.

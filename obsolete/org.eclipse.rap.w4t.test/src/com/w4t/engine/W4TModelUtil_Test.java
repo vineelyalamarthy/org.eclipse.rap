@@ -10,11 +10,12 @@
  ******************************************************************************/
 package com.w4t.engine;
 
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.service.ISessionStore;
+
 import junit.framework.TestCase;
 
-import com.w4t.Fixture;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.ISessionStore;
+import com.w4t.W4TFixture;
 import com.w4t.engine.util.W4TModelList;
 
 public class W4TModelUtil_Test extends TestCase {
@@ -28,7 +29,7 @@ public class W4TModelUtil_Test extends TestCase {
       // no request context available
     }
     
-    Fixture.setUp();
+    W4TFixture.setUp();
     W4TModel model1;
     try {
       W4TModelUtil.initModel();
@@ -41,17 +42,17 @@ public class W4TModelUtil_Test extends TestCase {
       storedModel = W4TModelList.getInstance().get( session.getId() );
       assertSame( model1, storedModel );
     } finally {
-      Fixture.tearDown();
+      W4TFixture.tearDown();
     }
     
-    Fixture.setUp();
+    W4TFixture.setUp();
     W4TModel model2;
     try {
       W4TModelUtil.initModel();
       model2 = W4TModel.getInstance();
       assertNotNull( model2 );
     } finally {
-      Fixture.tearDown();
+      W4TFixture.tearDown();
     }
     assertNotSame( model1, model2 );
     assertEquals( 0, W4TModelList.getInstance().getList().length );

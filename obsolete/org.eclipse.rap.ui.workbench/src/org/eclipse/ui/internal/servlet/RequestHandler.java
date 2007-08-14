@@ -12,19 +12,22 @@
 package org.eclipse.ui.internal.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
-import com.w4t.engine.W4TDelegate;
-import com.w4t.engine.util.IEngineConfig;
+
+import org.eclipse.rwt.internal.IEngineConfig;
+import org.eclipse.rwt.internal.engine.RWTDelegate;
+
 
 
 public class RequestHandler extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
-  private final W4TDelegate servlet;
+  private final RWTDelegate servlet;
 
   public RequestHandler() {
-    servlet = new W4TDelegate();
+    servlet = new RWTDelegate();
   }
   
   public void init( final ServletConfig config ) throws ServletException {

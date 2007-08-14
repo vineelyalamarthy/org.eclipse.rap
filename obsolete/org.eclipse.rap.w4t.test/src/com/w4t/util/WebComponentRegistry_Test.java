@@ -11,6 +11,7 @@
 package com.w4t.util;
 
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.engine.W4TModelUtil;
 import com.w4t.engine.util.FormManager;
@@ -21,18 +22,18 @@ import com.w4t.event.WebFormEvent;
 public class WebComponentRegistry_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 
   public void testRegistry() throws Exception {
     W4TModelUtil.initModel();
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     FormManager.add( form );
     form.add( new WebButton(), WebBorderLayout.NORTH );
     form.add( new WebText(), WebBorderLayout.NORTH );
@@ -56,7 +57,7 @@ public class WebComponentRegistry_Test extends TestCase {
       buffer.append( ";" );
     }
     String expected 
-      = "1 : com.w4t.Fixture$EmptyWebForm;" 
+      = "1 : com.w4t.W4TFixture$EmptyWebForm;" 
       + "1 : com.w4t.WebButton;" 
       + "1 : com.w4t.WebText;";
     assertEquals( expected, buffer.toString() );

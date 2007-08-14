@@ -11,9 +11,9 @@
 
 package org.eclipse.ui.internal.browser;
 
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
-import com.w4t.SessionSingletonBase;
 
 public class WorkbenchBrowserSupport extends SessionSingletonBase {
 

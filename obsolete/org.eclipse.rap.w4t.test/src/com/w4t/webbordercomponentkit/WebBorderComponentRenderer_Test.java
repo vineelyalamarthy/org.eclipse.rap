@@ -11,10 +11,13 @@
 package com.w4t.webbordercomponentkit;
 
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.*;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatus;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.util.browser.*;
 
 // TODO: [fappel] rewrite Tests with different borderType settings!
 public class WebBorderComponentRenderer_Test extends TestCase {
@@ -31,13 +34,13 @@ public class WebBorderComponentRenderer_Test extends TestCase {
     comp.setVAlign( "10" );
     comp.setVisible( true );
     panel.add( comp );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     AjaxStatus ajaxStatus = ( AjaxStatus )panel.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<div id=\"p1\">"
       + "<table width=\"7\" cellspacing=\"0\" cellpadding=\"0\""
@@ -81,13 +84,13 @@ public class WebBorderComponentRenderer_Test extends TestCase {
     comp.setVAlign( "10" );
     comp.setVisible( true );
     panel.add( comp );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     AjaxStatus ajaxStatus = ( AjaxStatus )panel.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<div id=\"p1\">"
       + "<table width=\"7\" height=\"15%\" cellspacing=\"0\" cellpadding=\"0\""
@@ -131,13 +134,13 @@ public class WebBorderComponentRenderer_Test extends TestCase {
     comp.setVAlign( "10" );
     comp.setVisible( true );
     panel.add( comp );
-    Fixture.fakeBrowser( new Ie5up ( true, false ) );
+    W4TFixture.fakeBrowser( new Ie5up ( true, false ) );
     AjaxStatus ajaxStatus = ( AjaxStatus )panel.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table width=\"7\" cellspacing=\"0\" cellpadding=\"0\""
       + " border=\"0\">"
@@ -180,13 +183,13 @@ public class WebBorderComponentRenderer_Test extends TestCase {
     comp.setVAlign( "10" );
     comp.setVisible( true );
     panel.add( comp );
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     AjaxStatus ajaxStatus = ( AjaxStatus )panel.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table width=\"7\" cellspacing=\"0\" cellpadding=\"0\""
         + " border=\"0\">"
@@ -218,13 +221,13 @@ public class WebBorderComponentRenderer_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.removeContext();
-    Fixture.tearDown();
+    W4TFixture.removeContext();
+    W4TFixture.tearDown();
   }
 
   private void setResponseWriter( final HtmlResponseWriter writer ) {

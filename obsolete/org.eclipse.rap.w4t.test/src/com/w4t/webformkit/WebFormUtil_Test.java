@@ -11,7 +11,7 @@
 package com.w4t.webformkit;
 
 import junit.framework.TestCase;
-import com.w4t.Fixture;
+import com.w4t.W4TFixture;
 
 public class WebFormUtil_Test extends TestCase {
   
@@ -86,10 +86,10 @@ public class WebFormUtil_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
+    W4TFixture.setUp();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
+    W4TFixture.tearDown();
   }
 }

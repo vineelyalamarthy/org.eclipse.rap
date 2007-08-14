@@ -11,9 +11,12 @@
 package com.w4t.engine.lifecycle.standard;
 
 import junit.framework.TestCase;
-import com.w4t.Fixture;
+
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.lifecycle.*;
+
+import com.w4t.W4TFixture;
 import com.w4t.WebForm;
-import com.w4t.engine.lifecycle.*;
 import com.w4t.engine.util.FormManager;
 
 
@@ -25,18 +28,18 @@ public class LifeCycle_Standard_Test extends TestCase {
   private String log = "";
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testLifeCycle() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeEngineForRequestLifeCycle( form );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeEngineForRequestLifeCycle( form );
     // reset active form which was set by the fake method call...
     FormManager.setActive( null ); 
     LifeCycle lifeCycle = new LifeCycle_Standard();

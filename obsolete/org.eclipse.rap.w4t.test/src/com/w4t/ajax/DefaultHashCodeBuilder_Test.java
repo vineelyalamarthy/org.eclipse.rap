@@ -10,7 +10,11 @@
  ******************************************************************************/
 package com.w4t.ajax;
 
+import org.eclipse.rwt.internal.browser.Ie6;
+import org.eclipse.rwt.internal.browser.Mozilla1_7;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.custom.CMenu;
 import com.w4t.dhtml.*;
@@ -18,8 +22,6 @@ import com.w4t.internal.adaptable.IFormAdapter;
 import com.w4t.mockup.NonAjaxComponent;
 import com.w4t.mockup.TestForm;
 import com.w4t.types.WebColor;
-import com.w4t.util.browser.Ie6;
-import com.w4t.util.browser.Mozilla1_7;
 
 
 public class DefaultHashCodeBuilder_Test extends TestCase {
@@ -177,7 +179,7 @@ public class DefaultHashCodeBuilder_Test extends TestCase {
   
   public void testMustRenderWithNonAjaxComponent() throws Exception {
     // set ajax-enabled browser
-    Fixture.fakeBrowser( new Mozilla1_7( true, true ) );
+    W4TFixture.fakeBrowser( new Mozilla1_7( true, true ) );
     // construct form with
     // - one panel containing 
     //   - one (ajax-enabled) label and 
@@ -219,7 +221,7 @@ public class DefaultHashCodeBuilder_Test extends TestCase {
   }
   
   public void testTreeView() throws Exception {
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     // containing form
     WebForm testForm = new TestForm();
     testForm.setName( "testForm" );
@@ -273,7 +275,7 @@ public class DefaultHashCodeBuilder_Test extends TestCase {
   }
   
   public void testMenuBar() throws Exception {
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     // containing form
     WebForm form = new TestForm();
     form.setName( "testForm" );
@@ -302,7 +304,7 @@ public class DefaultHashCodeBuilder_Test extends TestCase {
   }
   
   public void testCMenu() throws Exception {
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     // containing form
     WebForm form = new TestForm();
     form.setName( "testForm" );
@@ -318,7 +320,7 @@ public class DefaultHashCodeBuilder_Test extends TestCase {
   }
   
   public void testForm() throws Exception {
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     // containing form
     WebForm form = new TestForm();
     form.setName( "testForm" );
@@ -350,14 +352,14 @@ public class DefaultHashCodeBuilder_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
-    Fixture.fakeBrowser( new Mozilla1_7( true, true ) );
+    W4TFixture.setUp();
+    W4TFixture.createContext();
+    W4TFixture.fakeBrowser( new Mozilla1_7( true, true ) );
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
 }

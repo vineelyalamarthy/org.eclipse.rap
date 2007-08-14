@@ -16,10 +16,12 @@ import java.util.*;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.*;
-import org.eclipse.swt.lifecycle.UICallBackUtil;
+import org.eclipse.rwt.RWT;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.lifecycle.UICallBackUtil;
+import org.eclipse.rwt.service.*;
 import org.eclipse.swt.widgets.Display;
 
-import com.w4t.engine.service.*;
 
 class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
   
@@ -177,7 +179,7 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
   }
   
   private void bindToSession( final Object keyToRemove ) {
-    ISessionStore session = ContextProvider.getSession();
+    ISessionStore session = RWT.getSessionStore();
     SessionStoreListener listener = new SessionStoreListener() {
       public void beforeDestroy( SessionStoreEvent event ) {
         synchronized( lock ) {

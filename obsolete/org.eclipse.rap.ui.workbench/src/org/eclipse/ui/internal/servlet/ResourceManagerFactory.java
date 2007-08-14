@@ -19,14 +19,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.swt.resources.IResourceManagerFactory;
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.internal.resources.JsConcatenator;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.resources.IResourceManager;
+import org.eclipse.rwt.resources.IResourceManagerFactory;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.*;
 
-import com.w4t.*;
-import com.w4t.engine.util.JsConcatenator;
 
 
 final class ResourceManagerFactory implements IResourceManagerFactory {
@@ -144,7 +147,7 @@ final class ResourceManagerFactory implements IResourceManagerFactory {
     }
 
     private void registerAtHttpService( final String name ) {
-      String contextRoot = W4TContext.getWebAppBase();
+      String contextRoot = ContextProvider.getWebAppBase();
       IPath path = new Path( name ).removeLastSegments( 1 );
       IPath location = new Path( contextRoot ).append( path );
 //      BundleContext context = Activator.getDefault().getContext();
@@ -168,6 +171,6 @@ final class ResourceManagerFactory implements IResourceManagerFactory {
   }
 
   public IResourceManager create() {
-    return new ResourceManagerWrapper( W4TContext.getResourceManager() );
+    return new ResourceManagerWrapper( ResourceManagerImpl.getInstance() );
   }
 }

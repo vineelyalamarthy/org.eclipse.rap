@@ -11,7 +11,6 @@
 
 package org.eclipse.ui.internal.presentations;
 
-import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 

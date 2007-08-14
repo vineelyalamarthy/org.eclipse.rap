@@ -11,16 +11,21 @@
 package com.w4t.engine.util;
 
 import javax.servlet.http.HttpServletResponse;
+
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie6;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.lifecycle.*;
+
 import com.w4t.*;
-import com.w4t.Fixture.TestResponse;
+import com.w4t.W4TFixture.TestResponse;
 import com.w4t.engine.W4TModel;
 import com.w4t.engine.W4TModelUtil;
-import com.w4t.engine.lifecycle.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie6;
 
 /**
  * <p>Test case to ensure that the HttpSessionBindingListener used in W4T
@@ -62,20 +67,20 @@ public class SessionUnbound_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext( false );
+    W4TFixture.setUp();
+    W4TFixture.createContext( false );
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   // Tomcat does not allow to query the session id (HttpSession#getId()) after 
   // it was invalidated. Results in IllegalStateException
   // This test only ensures that the TestSession simulates this behaviour.
   public void testTomcatSessionInvalidate() {
-    Fixture.TestSession session = new Fixture.TestSession();
+    W4TFixture.TestSession session = new W4TFixture.TestSession();
     session.invalidate();
     try {
       session.getId();
@@ -88,7 +93,7 @@ public class SessionUnbound_Test extends TestCase {
   public void testW4TModelList() {
     W4TModel[] models = W4TModelList.getInstance().getList();
     assertEquals( "initial condition invalid", 0, models.length );
-    Fixture.TestSession session = new Fixture.TestSession();
+    W4TFixture.TestSession session = new W4TFixture.TestSession();
     W4TModelList.getInstance().add( session, W4TModel.getInstance() );
     session.invalidate();
     models = W4TModelList.getInstance().getList();
@@ -106,21 +111,21 @@ public class SessionUnbound_Test extends TestCase {
   
   public void testW4TContextInvalidate_Noscript() throws Exception {
     // prepare
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     W4TModelUtil.initModel();
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeEngineForRequestLifeCycle( form );
-    Fixture.fakeBrowser( new Default( false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeEngineForRequestLifeCycle( form );
+    W4TFixture.fakeBrowser( new Default( false ) );
     PhaseLogger phaseLogger = new PhaseLogger();
     // invalidate session during lifecycle execution
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.addPhaseListener( new InvalidatePhaseListener() );
     lifeCycle.addPhaseListener( phaseLogger );
     lifeCycle.execute();
-    String markup = Fixture.getAllMarkup();
+    String markup = W4TFixture.getAllMarkup();
     assertEquals( ALL_PHASES, phaseLogger.log );
     HttpServletResponse response = ContextProvider.getResponse();
-    Fixture.TestResponse testResponse = ( TestResponse )response;
+    W4TFixture.TestResponse testResponse = ( TestResponse )response;
     assertEquals( HTML.CONTENT_TEXT_HTML_UTF_8, testResponse.getContentType() );
     assertTrue( "The expected page (W4Toolit Exit Page) was not rendered",
                 markup.indexOf( "W4Toolkit Exit Page" ) != -1 );
@@ -130,21 +135,21 @@ public class SessionUnbound_Test extends TestCase {
   
   public void testW4TContextInvalidate_Script() throws Exception {
     // prepare
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     W4TModelUtil.initModel();
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeEngineForRequestLifeCycle( form );
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeEngineForRequestLifeCycle( form );
+    W4TFixture.fakeBrowser( new Default( true ) );
     PhaseLogger phaseLogger = new PhaseLogger();
     // invalidate session during lifecycle execution
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.addPhaseListener( new InvalidatePhaseListener() );
     lifeCycle.addPhaseListener( phaseLogger );
     lifeCycle.execute();
-    String markup = Fixture.getAllMarkup();
+    String markup = W4TFixture.getAllMarkup();
     assertEquals( ALL_PHASES, phaseLogger.log );
     HttpServletResponse response = ContextProvider.getResponse();
-    Fixture.TestResponse testResponse = ( TestResponse )response;
+    W4TFixture.TestResponse testResponse = ( TestResponse )response;
     assertEquals( HTML.CONTENT_TEXT_HTML_UTF_8, testResponse.getContentType() );
     assertTrue( markup.indexOf( "W4Toolkit Exit Page" ) != -1 );
     assertEquals( ExitForm.class, FormManager.getActive().getClass() );
@@ -154,10 +159,10 @@ public class SessionUnbound_Test extends TestCase {
   public void testW4TContextInvalidate_Ajax() throws Exception {
     // prepare
     W4TModelUtil.initModel();
-    Fixture.fakeResponseWriter();
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeEngineForRequestLifeCycle( form );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeResponseWriter();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeEngineForRequestLifeCycle( form );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     PhaseLogger phaseLogger = new PhaseLogger();
     // invalidate session during lifecycle execution
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -165,7 +170,7 @@ public class SessionUnbound_Test extends TestCase {
     lifeCycle.addPhaseListener( phaseLogger );
     lifeCycle.execute();
     assertEquals( ALL_PHASES, phaseLogger.log );
-    String markup = Fixture.getAllMarkup();
+    String markup = W4TFixture.getAllMarkup();
     String expected 
       = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" 
       + "<ajax-response>" 
@@ -175,7 +180,7 @@ public class SessionUnbound_Test extends TestCase {
       + "</ajax-response>";
     assertEquals( expected, markup );
     HttpServletResponse response = ContextProvider.getResponse();
-    Fixture.TestResponse testResponse = ( TestResponse )response;
+    W4TFixture.TestResponse testResponse = ( TestResponse )response;
     assertEquals( HTML.CONTENT_TEXT_XML, testResponse.getContentType()  );
     assertEquals( ExitForm.class, FormManager.getActive().getClass() );
     assertEquals( true, ContextProvider.getStateInfo().isInvalidated() );

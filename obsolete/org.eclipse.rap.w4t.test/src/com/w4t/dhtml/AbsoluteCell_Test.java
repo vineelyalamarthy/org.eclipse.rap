@@ -11,51 +11,54 @@
 package com.w4t.dhtml;
 
 import java.lang.reflect.Method;
+
 import junit.framework.TestCase;
-import com.w4t.Fixture;
-import com.w4t.HtmlResponseWriter;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
+
+import org.eclipse.rwt.internal.browser.Ie5_5;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
+import com.w4t.W4TFixture;
 import com.w4t.types.WebColor;
-import com.w4t.util.browser.Ie5_5;
 
 
 public class AbsoluteCell_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testRender() throws Exception {
-    Fixture.fakeBrowser( new Ie5_5( true ) );
+    W4TFixture.fakeBrowser( new Ie5_5( true ) );
     AbsoluteCell cell = new AbsoluteCell();
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     callCreateRenderContent( cell );
-    String allMarkup = Fixture.getAllMarkup();
+    String allMarkup = W4TFixture.getAllMarkup();
     String expected 
       = "<table cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"\">" 
       + "<tr><td><img src=\"resources/images/transparent.gif\" width=\"0\" " 
       + "height=\"0\" /></td></tr></table>";
     assertEquals( expected, allMarkup );
     cell.setColor( new WebColor( "green" ) );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     callCreateRenderContent( cell );
-    allMarkup = Fixture.getAllMarkup();
+    allMarkup = W4TFixture.getAllMarkup();
     expected 
       = "<table cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#008000\">" 
       + "<tr><td><img src=\"resources/images/transparent.gif\" width=\"0\" " 
       + "height=\"0\" /></td></tr></table>"; 
     assertEquals( expected, allMarkup );
     cell.setBorder( "3" );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     callCreateRenderContent( cell );
-    allMarkup = Fixture.getAllMarkup();
+    allMarkup = W4TFixture.getAllMarkup();
     expected 
       = "<table cellspacing=\"0\" cellpadding=\"0\" border=\"3\" " 
       + "bgcolor=\"#008000\">" 

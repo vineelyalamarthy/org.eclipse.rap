@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<servicehandler>
-  <handler class="com.w4t.engine.service.ServiceHandler_Test$CustomHandler" 
-           requestparameter="com.w4t.engine.service.ServiceHandler_Test.CustomHandler"/>
-</servicehandler>

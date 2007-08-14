@@ -11,8 +11,6 @@
 
 package org.eclipse.ui;
 
-import java.awt.Cursor;
-
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.IShellProvider;

@@ -11,7 +11,7 @@
 package com.w4t.util;
 
 import junit.framework.TestCase;
-import com.w4t.Fixture;
+import com.w4t.W4TFixture;
 
 
 public class RendererCache_Safari2_Test extends TestCase {
@@ -26,7 +26,7 @@ public class RendererCache_Safari2_Test extends TestCase {
     //    Renderer renderer;
 //    //
 //    // Safari (no script) 
-//    Fixture.fakeBrowser( new Safari2( false ) );
+//    W4TFixture.fakeBrowser( new Safari2( false ) );
 //
 //    // WebAnchor
 //    renderer = RendererCache.getInstance().retrieveRenderer( WebAnchor.class );
@@ -318,7 +318,7 @@ public class RendererCache_Safari2_Test extends TestCase {
 //    Renderer renderer;
 //    //
 //    // Safari (no script) 
-//    Fixture.fakeBrowser( new Safari2( true ) );
+//    W4TFixture.fakeBrowser( new Safari2( true ) );
 //
 //    // WebAnchor
 //    renderer = RendererCache.getInstance().retrieveRenderer( WebAnchor.class );
@@ -607,7 +607,7 @@ public class RendererCache_Safari2_Test extends TestCase {
 //    Renderer renderer;
 //    //
 //    // Safari (ajax) 
-//    Fixture.fakeBrowser( new Safari( true, true ) );
+//    W4TFixture.fakeBrowser( new Safari( true, true ) );
 //
 //    // WebAnchor
 //    renderer = RendererCache.getInstance().retrieveRenderer( WebAnchor.class );
@@ -896,10 +896,10 @@ public class RendererCache_Safari2_Test extends TestCase {
   
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
+    W4TFixture.setUp();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
+    W4TFixture.tearDown();
   }
 }

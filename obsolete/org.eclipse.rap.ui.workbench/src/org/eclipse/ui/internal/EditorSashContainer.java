@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.ui.internal;
 
-import java.awt.dnd.DropTarget;
 import java.util.ArrayList;
 import java.util.Iterator;
 

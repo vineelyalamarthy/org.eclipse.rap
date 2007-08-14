@@ -10,19 +10,21 @@
  ******************************************************************************/
 package com.w4t.engine.lifecycle;
 
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie6;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.lifecycle.*;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.engine.W4TModelUtil;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie6;
 
 
 public class FormCloseAndUnload_Test extends TestCase {
@@ -45,7 +47,7 @@ public class FormCloseAndUnload_Test extends TestCase {
         window.close();
       }
       oldActive.unload();
-      newForm = Fixture.loadStartupForm();
+      newForm = W4TFixture.loadStartupForm();
       W4TContext.showInNewWindow( newForm );
     }
     
@@ -56,19 +58,19 @@ public class FormCloseAndUnload_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testSimpleClose_Script() throws Exception {
     // prepare 'fake' environment
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     W4TModelUtil.initModel();
     final WebForm form = prepareFormAndRequestParms();
     //
@@ -91,17 +93,17 @@ public class FormCloseAndUnload_Test extends TestCase {
     lifeCycle.execute();
     // obtain generated markup
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     assertTrue( allMarkup.indexOf( "windowManager.closeWindow()" ) != -1 );
   }
   
   public void testCloseTwoWindows_Script() throws Exception {
     // prepare 'fake' environment
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     W4TModelUtil.initModel();
     final WebForm form1 = prepareFormAndRequestParms();
-    final WebForm form2 = Fixture.getEmptyWebFormInstance();
+    final WebForm form2 = W4TFixture.getEmptyWebFormInstance();
     FormManager.add( form2 );
     IWindow window1 = WindowManager.getInstance().findWindow( form1 );
     IWindow window2 = WindowManager.getInstance().create( form2 );
@@ -123,7 +125,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     lifeCycle.addPhaseListener( phaseListener );
     lifeCycle.execute();
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     assertTrue( allMarkup.indexOf( "windowManager.closeWindow()" ) != -1 );
     String expected 
       = "refreshWindow( 'http://fooserver:8080/fooapp/W4TDelegate?"
@@ -137,30 +139,30 @@ public class FormCloseAndUnload_Test extends TestCase {
     assertEquals( true, WindowManager.isClosing( window2 ) );
     assertEquals( false, WindowManager.isClosed( window2 ) );
     // simulate 'refresh'-request of form2
-    IFormAdapter adapter = Fixture.getFormAdapter( form2 );
+    IFormAdapter adapter = W4TFixture.getFormAdapter( form2 );
     String requestCounter = String.valueOf( adapter.getRequestCounter() - 1 );
-    Fixture.fakeFormRequestParams( requestCounter, 
+    W4TFixture.fakeFormRequestParams( requestCounter, 
                                    window2.getId(), 
                                    form2.getUniqueID() );
     FormManager.setActive( null );
     WindowManager.setActive( null );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     lifeCycle.removePhaseListener( phaseListener );
     lifeCycle.execute();
-    allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     assertTrue( allMarkup.indexOf( "windowManager.closeWindow()" ) != -1 );
     assertTrue( allMarkup.indexOf( "refreshWindow" ) == -1 );
   }
   
   public void testSimpleClose_Ajax() throws Exception {
     // prepare 'fake' environment
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     W4TModelUtil.initModel();
     final WebForm form = prepareFormAndRequestParms();
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );
-    Fixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
     //
     // run request -> closes the window of the current form
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -178,7 +180,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     lifeCycle.execute();
     // obtain generated markup
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     assertTrue( allMarkup.indexOf( "ajax-response" ) != -1 );
     String expected 
       = "<script type=\"text/javascript\">" 
@@ -189,16 +191,16 @@ public class FormCloseAndUnload_Test extends TestCase {
   
   public void testCloseTwoWindows_Ajax() throws Exception {
     // prepare 'fake' environment
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     W4TModelUtil.initModel();
     final WebForm form1 = prepareFormAndRequestParms();
-    final WebForm form2 = Fixture.getEmptyWebFormInstance();
+    final WebForm form2 = W4TFixture.getEmptyWebFormInstance();
     FormManager.add( form2 );
     IWindow window2 = WindowManager.getInstance().create( form2 );
     AjaxStatusUtil.preRender( form1 );
     AjaxStatusUtil.postRender( form1 );
-    Fixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
     //
     // run request -> closes the window of the current form
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
@@ -217,7 +219,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     lifeCycle.execute();
     // obtain generated markup
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     assertTrue( allMarkup.indexOf( "ajax-response" ) != -1 );
     String expected = "windowManager.closeWindow();"; 
     assertTrue( allMarkup.indexOf( expected ) != -1 );
@@ -232,8 +234,8 @@ public class FormCloseAndUnload_Test extends TestCase {
   
   public void testShowInNewWindowAndUnload_Noscript() throws Exception {
     // prepare 'fake' environment
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     W4TModelUtil.initModel();
     WebForm originatingForm = prepareFormAndRequestParms();
     IWindow originatingWindow 
@@ -245,7 +247,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     lifeCycle.execute();
     // obtain generated markup
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
 
      // new form must be marked as active
     assertEquals( FormManager.getActive(), originatingForm );
@@ -270,24 +272,24 @@ public class FormCloseAndUnload_Test extends TestCase {
     assertTrue( allMarkup.indexOf( expected ) != -1 );
     
     // simulate 'refresh'-request of newForm
-    IFormAdapter adapter = Fixture.getFormAdapter( dispatchHandler.newForm );
+    IFormAdapter adapter = W4TFixture.getFormAdapter( dispatchHandler.newForm );
     String requestCounter = String.valueOf( adapter.getRequestCounter() - 1 );
-    Fixture.fakeFormRequestParams( requestCounter, 
+    W4TFixture.fakeFormRequestParams( requestCounter, 
                                    "w2", 
                                    dispatchHandler.newForm.getUniqueID() );
     FormManager.setActive( null );
     WindowManager.setActive( null );
-    Fixture.fakeResponseWriter();
+    W4TFixture.fakeResponseWriter();
     lifeCycle.removePhaseListener( dispatchHandler );
     lifeCycle.execute();
-    allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     assertTrue( allMarkup.indexOf( "http-equiv=\"refresh\"" ) == -1 );
   }
   
   public void testShowInNewWindowAndUnload_Script() throws Exception {
     // prepare 'fake' environment
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     W4TModelUtil.initModel();
     WebForm originatingForm = prepareFormAndRequestParms();
     IWindow originatingWindow 
@@ -299,7 +301,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     lifeCycle.execute();
     // obtain generated markup
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
 
      // new form must be marked as active
     assertEquals( FormManager.getActive(), originatingForm );
@@ -328,13 +330,13 @@ public class FormCloseAndUnload_Test extends TestCase {
   
   public void testShowInNewWindowAndUnload_Ajax() throws Exception {
     // prepare 'fake' environment
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     W4TModelUtil.initModel();
     WebForm originatingForm = prepareFormAndRequestParms();
     AjaxStatusUtil.preRender( originatingForm );
     AjaxStatusUtil.postRender( originatingForm );
-    Fixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
+    W4TFixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
     IWindow originatingWindow 
       = WindowManager.getInstance().findWindow( originatingForm );
     // run request -> switches form with closing and unloading old one
@@ -344,7 +346,7 @@ public class FormCloseAndUnload_Test extends TestCase {
     lifeCycle.execute();
     // obtain generated markup
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
 
      // new form must be marked as active
     assertEquals( FormManager.getActive(), originatingForm );
@@ -375,8 +377,8 @@ public class FormCloseAndUnload_Test extends TestCase {
 //      
 //  public void testRequestUnloadedForm_Script() throws Exception {
 //    // 1. prepare 'fake' environment
-//    Fixture.fakeResponseWriter();
-//    Fixture.fakeBrowser( new Default( false, true ) );
+//    W4TFixture.fakeResponseWriter();
+//    W4TFixture.fakeBrowser( new Default( false, true ) );
 //    W4TModelUtil.getW4TModel();
 //    WebForm originatingForm = prepareFormAndRequestParms();
 //    // 2. run request -> switches form with closing and unloading old one
@@ -387,11 +389,11 @@ public class FormCloseAndUnload_Test extends TestCase {
 //    // 3. Fake request that asks for the just unloaded form
 //    FormManager.setActive( null );
 //    WindowManager.setActive( null );
-//    Fixture.fakeResponseWriter();
+//    W4TFixture.fakeResponseWriter();
 //    lifeCycle.removePhaseListener( dispatchHandler );
 //    lifeCycle.execute();
 //    IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-//    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+//    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
 //    String notExpected = "<form id=\"p5\"";
 //    // assertTrue( allMarkup.indexOf( notExpected ) == -1 );
 //    System.out.println( allMarkup );
@@ -399,13 +401,13 @@ public class FormCloseAndUnload_Test extends TestCase {
 //
 //  public void testRequestUnloadedForm_Ajax() throws Exception {
 //    // 1. prepare 'fake' environment
-//    Fixture.fakeResponseWriter();
-//    Fixture.fakeBrowser( new Default( true, true ) );
+//    W4TFixture.fakeResponseWriter();
+//    W4TFixture.fakeBrowser( new Default( true, true ) );
 //    W4TModelUtil.getW4TModel();
 //    WebForm originatingForm = prepareFormAndRequestParms();
 //    AjaxStatusUtil.update( originatingForm );
 //    AjaxStatusUtil.reset( originatingForm );
-//    Fixture.fakeRequestParam( RequestParams.AJAX_REQUEST, "true" );
+//    W4TFixture.fakeRequestParam( RequestParams.AJAX_REQUEST, "true" );
 //    // 2. run request -> switches form with closing and unloading old one
 //    LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
 //    DispatchHandler dispatchHandler = new DispatchHandler();
@@ -415,12 +417,12 @@ public class FormCloseAndUnload_Test extends TestCase {
 //    // 3. Fake request that asks for the just unloaded form
 //    FormManager.setActive( null );
 //    WindowManager.setActive( null );
-//    Fixture.fakeResponseWriter();
+//    W4TFixture.fakeResponseWriter();
 //    lifeCycle.removePhaseListener( dispatchHandler );
 //    lifeCycle.execute();
 //    
 //    IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-//    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+//    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
 //    
 //    String notExpected = "<form id=\"p5\"";
 ////    assertTrue( allMarkup.indexOf( notExpected ) == -1 );
@@ -428,13 +430,13 @@ public class FormCloseAndUnload_Test extends TestCase {
 //  }
   
   private WebForm prepareFormAndRequestParms() throws Exception {
-    WebForm result = Fixture.loadStartupForm();
+    WebForm result = W4TFixture.loadStartupForm();
     IWindow window = WindowManager.getInstance().create( result );
-    IFormAdapter adapter = Fixture.getFormAdapter( result );
+    IFormAdapter adapter = W4TFixture.getFormAdapter( result );
     adapter.increase();
     String formId = result.getUniqueID();
     String requestCounter = String.valueOf( adapter.getRequestCounter() - 1 );
-    Fixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
+    W4TFixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
     return result;
   }
   

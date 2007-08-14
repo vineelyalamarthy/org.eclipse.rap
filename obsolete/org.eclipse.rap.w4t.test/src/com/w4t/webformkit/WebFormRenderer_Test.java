@@ -12,20 +12,28 @@ package com.w4t.webformkit;
 
 import java.io.File;
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletResponse;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.ConfigurationReader;
+import org.eclipse.rwt.internal.browser.Ie6;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.RequestParams;
+import org.eclipse.rwt.internal.util.CssClass;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
-import com.w4t.Fixture.TestResponse;
+import com.w4t.W4TFixture.TestResponse;
 import com.w4t.engine.W4TModelUtil;
 import com.w4t.engine.adapter.TestEngineConfig;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.util.FormManager;
-import com.w4t.engine.util.ResourceManager;
 import com.w4t.mockup.TestForm;
-import com.w4t.util.*;
-import com.w4t.util.browser.Ie6;
+import com.w4t.util.RendererCache;
 
 
 /** <p>Unit tests for WebFormRenderer.</p>
@@ -33,7 +41,7 @@ import com.w4t.util.browser.Ie6;
 public class WebFormRenderer_Test extends TestCase {
   
   private final static File TEST_CONFIG 
-    = new File( Fixture.TEMP_DIR, "w4t.xml" );
+    = new File( W4TFixture.TEMP_DIR, "w4t.xml" );
 
   public void testGetBodyAttributes() {
     WebFormRenderer_Default_Script renderer 
@@ -51,13 +59,13 @@ public class WebFormRenderer_Test extends TestCase {
   
   public void testNoScript() throws Exception {
     WebForm form = new TestForm();
-    Fixture.fakeEngineForRender( form );
-    Fixture.fakeBrowser( new Ie6( false ) );
+    W4TFixture.fakeEngineForRender( form );
+    W4TFixture.fakeBrowser( new Ie6( false ) );
     setActiveForm( form );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( form );
-    String markup = Fixture.getAllMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( form );
+    String markup = W4TFixture.getAllMarkup( writer );
     String expected 
       =   "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">"
         + "<html>" 
@@ -99,12 +107,12 @@ public class WebFormRenderer_Test extends TestCase {
   }
   
   public void testCreatePageHeader_Script() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeEngineForRender( form );
-    Fixture.fakeBrowser( new Ie6( false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeEngineForRender( form );
+    W4TFixture.fakeBrowser( new Ie6( false ) );
     setActiveForm( form );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     WebFormRenderer renderer = new WebFormRenderer_Default_Script();
     String markup = renderer.createPageHeader().toString();
     String expected 
@@ -171,16 +179,16 @@ public class WebFormRenderer_Test extends TestCase {
     HtmlResponseWriter writer;
     WebFormRenderer_Default_Script renderer;
     String markup;
-    Fixture.fakeBrowser( new Ie6( true ) );
+    W4TFixture.fakeBrowser( new Ie6( true ) );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     renderer = new WebFormRenderer_Default_Script();
     markup = renderer.createCssClasses();
     expected 
       = "<style type=\"text/css\"></style>";
     assertEquals( expected, markup );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     writer.addNamedCssClass( new CssClass( "myStyle", "color:red" ) );
     renderer = new WebFormRenderer_Default_Script();
     markup = renderer.createCssClasses();
@@ -194,21 +202,21 @@ public class WebFormRenderer_Test extends TestCase {
     HtmlResponseWriter writer;
     WebFormRenderer_Default_Script renderer;
     String markup;
-    Fixture.fakeBrowser( new Ie6( true ) );
+    W4TFixture.fakeBrowser( new Ie6( true ) );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     renderer = new WebFormRenderer_Default_Script();
     renderer.writeCssClasses();
-    markup = Fixture.getAllMarkup();
+    markup = W4TFixture.getAllMarkup();
     expected 
       = "<style type=\"text/css\"></style>";
     assertEquals( expected, markup );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     writer.addNamedCssClass( new CssClass( "myStyle", "color:red" ) );
     renderer = new WebFormRenderer_Default_Script();
     renderer.writeCssClasses();
-    markup = Fixture.getAllMarkup();
+    markup = W4TFixture.getAllMarkup();
     expected 
       = "<style type=\"text/css\">.myStyle { color:red } </style>";
     assertEquals( expected, markup );
@@ -216,100 +224,100 @@ public class WebFormRenderer_Test extends TestCase {
   
   public void testDuplicateNamedCssClasses() throws Exception {
     // prepare
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeEngineForRender( form );
-    Fixture.fakeBrowser( new Ie6( false, false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeEngineForRender( form );
+    W4TFixture.fakeBrowser( new Ie6( false, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     // add named css class
     CssClass cssClass = new CssClass( "my-style", "appearance:extraordinary" );
     writer.addNamedCssClass( cssClass );
     // add another equal named css class
     cssClass = new CssClass( "my-style", "appearance:extraordinary" );
     writer.addNamedCssClass( cssClass );
-    Fixture.renderComponent( form );
-    String allMarkup = Fixture.getAllMarkup( writer );
+    W4TFixture.renderComponent( form );
+    String allMarkup = W4TFixture.getAllMarkup( writer );
     assertEquals( allMarkup.indexOf( ".my-style" ), 
                   allMarkup.lastIndexOf( ".my-style" ) ); 
   }
   
   public void testDuplicateRegisterCssClass() throws Exception {
     // prepare
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeEngineForRender( form );
-    Fixture.fakeBrowser( new Ie6( false, false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeEngineForRender( form );
+    W4TFixture.fakeBrowser( new Ie6( false, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     // register css style two times
     writer.registerCssClass( "appearance:extraordinary" );
     writer.registerCssClass( "appearance:extraordinary" );
-    Fixture.renderComponent( form );
-    String allMarkup = Fixture.getAllMarkup( writer );
+    W4TFixture.renderComponent( form );
+    String allMarkup = W4TFixture.getAllMarkup( writer );
     assertEquals( allMarkup.indexOf( ".w4tCss8bd7045c" ), 
                   allMarkup.lastIndexOf( ".w4tCss8bd7045c" ) ); 
   }
   
   public void testResponseContentType_Ajax() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.forceAjaxRendering( form );
-    Fixture.fakeEngineForRender( form );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.forceAjaxRendering( form );
+    W4TFixture.fakeEngineForRender( form );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     assertEquals( WebFormRenderer_Default_Ajax.class, 
                   RendererCache.getInstance().retrieveRenderer( WebForm.class ).getClass() );
     assertEquals( true, W4TContext.getBrowser().isAjaxEnabled() );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
-    Fixture.renderComponent( form );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
+    W4TFixture.renderComponent( form );
     HttpServletResponse response = ContextProvider.getResponse();
-    Fixture.TestResponse testResponse = ( TestResponse )response;
+    W4TFixture.TestResponse testResponse = ( TestResponse )response;
     assertEquals( HTML.CONTENT_TEXT_XML, testResponse.getContentType() );    
   }
   
   public void testResponseContentType_Script() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeEngineForRender( form );
-    Fixture.fakeBrowser( new Ie6( true, false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeEngineForRender( form );
+    W4TFixture.fakeBrowser( new Ie6( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( form );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( form );
     HttpServletResponse response = ContextProvider.getResponse();
-    Fixture.TestResponse testResponse = ( TestResponse )response;
+    W4TFixture.TestResponse testResponse = ( TestResponse )response;
     assertEquals( HTML.CONTENT_TEXT_HTML_UTF_8, testResponse.getContentType() );    
   }
   
   public void testResponseContentType_Noscript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeEngineForRender( form );
-    Fixture.fakeBrowser( new Ie6( false, false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeEngineForRender( form );
+    W4TFixture.fakeBrowser( new Ie6( false, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( form );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( form );
     HttpServletResponse response = ContextProvider.getResponse();
-    Fixture.TestResponse testResponse = ( TestResponse )response;
+    W4TFixture.TestResponse testResponse = ( TestResponse )response;
     assertEquals( HTML.CONTENT_TEXT_HTML_UTF_8, testResponse.getContentType() );    
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
+    W4TFixture.setUp();
     try {
       W4TModelUtil.initModel();
     } catch( Exception e ) {
       e.printStackTrace();
       Assert.fail( "Failed to create W4TModelCore. Reason: " + e );
     }
-    ResourceManager.createInstance( Fixture.getWebAppBase().toString(), 
-                                    ResourceManager.DELIVER_FROM_DISK );
-    Fixture.copyTestResource( "resources/w4t_default.xml", TEST_CONFIG );
+    ResourceManagerImpl.createInstance( W4TFixture.getWebAppBase().toString(), 
+                                    ResourceManagerImpl.DELIVER_FROM_DISK );
+    W4TFixture.copyTestResource( "resources/w4t_default.xml", TEST_CONFIG );
     TestEngineConfig engineConfig = new TestEngineConfig();
     engineConfig.setConfigFile( TEST_CONFIG );
     ConfigurationReader.setEngineConfig( engineConfig );
-    engineConfig.setServerContextDir( Fixture.getWebAppBase() );
+    engineConfig.setServerContextDir( W4TFixture.getWebAppBase() );
   }
   
   protected void tearDown() throws Exception {
-    Fixture.setPrivateField( ResourceManager.class, null, "_instance", null );
-    Fixture.tearDown();
+    W4TFixture.setPrivateField( ResourceManagerImpl.class, null, "_instance", null );
+    W4TFixture.tearDown();
     if( TEST_CONFIG.exists() ) {
       TEST_CONFIG.delete();
     }

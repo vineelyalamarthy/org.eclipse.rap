@@ -10,25 +10,27 @@
  ******************************************************************************/
 package com.w4t.markupembedderkit;
 
+import org.eclipse.rwt.internal.browser.*;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatus;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.types.WebColor;
-import com.w4t.util.browser.*;
 
 
 public class MarkupEmbedderRenderer_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 
   public void testSetContent() {
@@ -45,83 +47,83 @@ public class MarkupEmbedderRenderer_Test extends TestCase {
 
   public void testNoscript() throws Exception {
     // with default browser(noScript)
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     MarkupEmbedder passthrough = new MarkupEmbedder();
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( passthrough );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( passthrough );
     assertEquals( "<div id=\"p1\"></div>", getMarkup() );
     passthrough.setContent( "my markup дцья" );
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( passthrough );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( passthrough );
     assertEquals( "<div id=\"p1\">my markup дцья</div>", getMarkup() );
     // with Ie5(noScript)
-    Fixture.fakeBrowser( new Ie5( false, false ) );
+    W4TFixture.fakeBrowser( new Ie5( false, false ) );
     passthrough = new MarkupEmbedder();
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( passthrough );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( passthrough );
     assertEquals( "<div id=\"p2\"></div>", getMarkup() );
     passthrough.setContent( "my markup дцья" );
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( passthrough );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( passthrough );
     assertEquals( "<div id=\"p2\">my markup дцья</div>", getMarkup() );
   }
   
   public void testScript() throws Exception {
     // with default browser(noScript)
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     MarkupEmbedder markupEmbedder = new MarkupEmbedder();
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( markupEmbedder );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( markupEmbedder );
     assertEquals( "<div id=\"p1\"></div>", getMarkup() );
     markupEmbedder.setContent( "my markup дцья" );
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( markupEmbedder );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( markupEmbedder );
     assertEquals( "<div id=\"p1\">my markup дцья</div>", getMarkup() );
     // with Ie5(noScript)
-    Fixture.fakeBrowser( new Ie5( true, false ) );
+    W4TFixture.fakeBrowser( new Ie5( true, false ) );
     markupEmbedder = new MarkupEmbedder();
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( markupEmbedder );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( markupEmbedder );
     assertEquals( "<div id=\"p2\"></div>", getMarkup() );
     markupEmbedder.setContent( "my markup дцья" );
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( markupEmbedder );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( markupEmbedder );
     assertEquals( "<div id=\"p2\">my markup дцья</div>", getMarkup() );
   }
   
   public void testAjax() throws Exception {
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     MarkupEmbedder markupEmbedder1 = new MarkupEmbedder();
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( markupEmbedder1 );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( markupEmbedder1 );
     assertEquals( "", getMarkup() );
     markupEmbedder1.setContent( "my markup дцья" );
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( markupEmbedder1 );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( markupEmbedder1 );
     assertEquals( "", getMarkup() );
     setMustRender( markupEmbedder1 );
     markupEmbedder1.setContent( "my markup дцья" );
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( markupEmbedder1 );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( markupEmbedder1 );
     assertEquals( "<div id=\"p1\">my markup дцья</div>", getMarkup() );
     MarkupEmbedder markupEmbedder2 = new MarkupEmbedder();
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( markupEmbedder2 );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( markupEmbedder2 );
     assertEquals( "", getMarkup() );
     markupEmbedder2.setContent( "my markup дцья" );
     setMustRender( markupEmbedder2 );
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( markupEmbedder2 );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( markupEmbedder2 );
     assertEquals( "<div id=\"p2\">my markup дцья</div>", getMarkup() );
   }
   
   public void testWithStyle() throws Exception {
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     MarkupEmbedder markupEmbedder = new MarkupEmbedder();
     markupEmbedder.getStyle().setBgColor( new WebColor( "red" ) );
     markupEmbedder.setContent( "abc" );
-    Fixture.fakeResponseWriter();
-    Fixture.renderComponent( markupEmbedder );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.renderComponent( markupEmbedder );
     assertEquals( "<div id=\"p1\" class=\"w4tCsse5abb2ae\">abc</div>", 
                   getMarkup() );
   }
@@ -134,6 +136,6 @@ public class MarkupEmbedderRenderer_Test extends TestCase {
   
   private static String getMarkup() {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    return Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    return W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
   }
 }

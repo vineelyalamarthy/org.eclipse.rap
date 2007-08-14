@@ -11,9 +11,12 @@
 package com.w4t.webborderlayoutkit;
 
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.util.browser.Default;
 
 /** <p>Unit tests for WebBorderLayoutRenderer.</p>
  */
@@ -35,11 +38,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -61,11 +64,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -87,11 +90,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -113,11 +116,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -139,11 +142,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -169,11 +172,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -199,11 +202,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -228,11 +231,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -258,11 +261,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -288,11 +291,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -318,11 +321,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -348,11 +351,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -378,11 +381,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -408,11 +411,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -438,11 +441,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -470,11 +473,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -504,11 +507,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -538,11 +541,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -572,11 +575,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -606,11 +609,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -640,11 +643,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -674,11 +677,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -708,11 +711,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -742,11 +745,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
       + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -778,11 +781,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
     + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -814,11 +817,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
     + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -850,11 +853,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
     + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -886,11 +889,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
     + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -922,11 +925,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
     + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -961,11 +964,11 @@ public class WebBorderLayout_Test extends TestCase {
     layout.setCellspacing( "5" );
     layout.setHeight( "15" );
     layout.setWidth( "7" );
-    Fixture.fakeBrowser( new Default ( true, false ) );
+    W4TFixture.fakeBrowser( new Default ( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( panel );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( panel );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
     = "<table id=\"p1\" width=\"7\" height=\"15\" cellspacing=\"5\" "
     + "cellpadding=\"10\" border=\"1\" align=\"10\">"
@@ -983,13 +986,13 @@ public class WebBorderLayout_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.removeContext();
-    Fixture.tearDown();
+    W4TFixture.removeContext();
+    W4TFixture.tearDown();
   }
 
   private void setResponseWriter( final HtmlResponseWriter writer ) {

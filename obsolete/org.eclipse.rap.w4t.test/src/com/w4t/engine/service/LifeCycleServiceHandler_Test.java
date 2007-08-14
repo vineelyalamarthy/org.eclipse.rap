@@ -15,17 +15,19 @@ import java.util.Vector;
 
 import javax.servlet.http.HttpSession;
 
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie6;
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.lifecycle.*;
+import org.eclipse.rwt.service.*;
+
 import junit.framework.TestCase;
 
 import com.w4t.*;
-import com.w4t.Fixture.*;
+import com.w4t.W4TFixture.*;
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.lifecycle.*;
-import com.w4t.engine.requests.RequestParams;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie6;
 
 
 public class LifeCycleServiceHandler_Test extends TestCase {
@@ -95,37 +97,37 @@ public class LifeCycleServiceHandler_Test extends TestCase {
 
     private void prepareRequest() {
       ContextProvider.setContext( context );
-      Fixture.fakeRequestParam( RequestParams.STARTUP, null );
+      W4TFixture.fakeRequestParam( RequestParams.STARTUP, null );
 
       if( W4TContext.getBrowser().isAjaxEnabled() ) {
-        Fixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
+        W4TFixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "true" );
       } else {
-        Fixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "false" );
+        W4TFixture.fakeRequestParam( RequestParams.IS_AJAX_REQUEST, "false" );
       } 
       
       IWindow window = WindowManager.getInstance().findWindow( form );
       String formId = form.getUniqueID();
-      IFormAdapter adapter = Fixture.getFormAdapter( form );
+      IFormAdapter adapter = W4TFixture.getFormAdapter( form );
       int requestCounter = adapter.getRequestCounter();
       String reqCounterValue = String.valueOf( requestCounter - 1 );
-      Fixture.fakeFormRequestParams( reqCounterValue, window.getId(), formId );
+      W4TFixture.fakeFormRequestParams( reqCounterValue, window.getId(), formId );
     }
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext( false );
+    W4TFixture.setUp();
+    W4TFixture.createContext( false );
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
-  public void testSameFormSynchLock() throws Exception {
+  public void testSameFormSyncLock() throws Exception {
     WebForm form = newForm();
     HttpSession session = ContextProvider.getRequest().getSession();
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     
     Worker worker1 = new Worker( session, form );
     final Thread thread1 = newThread( worker1, "worker1" );
@@ -153,11 +155,11 @@ public class LifeCycleServiceHandler_Test extends TestCase {
     assertSame( executionOrder.get( 1 ), thread2 );
   }
   
-  public void testDifferentFormsSynchLock() throws Exception {
+  public void testDifferentFormsSyncLock() throws Exception {
     WebForm form1 = newForm();
     WebForm form2 = newForm();
     HttpSession session = ContextProvider.getRequest().getSession();
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     
     Worker worker1 = new Worker( session, form1 );
     final Thread thread1 = newThread( worker1, "worker1" );
@@ -201,13 +203,13 @@ public class LifeCycleServiceHandler_Test extends TestCase {
     HttpSession httpSession = ContextProvider.getRequest().getSession();
     httpSession.setAttribute( SessionStoreImpl.ID_SESSION_STORE, session );
     assertEquals( null, session.getAttribute( "test-attribute" ) );
-    String markup = Fixture.getAllMarkup();
+    String markup = W4TFixture.getAllMarkup();
     assertTrue( markup.indexOf( "Startup Page" ) > -1 );
   }
   
   public void testStartupRequestInExistingSession() throws Exception {
     newForm();
-    Fixture.fakeBrowser( new Default( true, true ) );
+    W4TFixture.fakeBrowser( new Default( true, true ) );
     ISessionStore session = ContextProvider.getSession();
     session.setAttribute( "test-attribute", "test-attribute-value" );
     TestResponse response = ( TestResponse )ContextProvider.getResponse();
@@ -217,7 +219,7 @@ public class LifeCycleServiceHandler_Test extends TestCase {
     HttpSession httpSession = ContextProvider.getRequest().getSession();
     httpSession.setAttribute( SessionStoreImpl.ID_SESSION_STORE, session );
     assertEquals( null, session.getAttribute( "test-attribute" ) );
-    String markup = Fixture.getAllMarkup();
+    String markup = W4TFixture.getAllMarkup();
     assertTrue( markup.indexOf( "Startup Page" ) > -1 );
   }
 
@@ -226,7 +228,7 @@ public class LifeCycleServiceHandler_Test extends TestCase {
   }
   
   private static WebForm newForm() {
-    WebForm result = Fixture.loadStartupForm();
+    WebForm result = W4TFixture.loadStartupForm();
     WindowManager.getInstance().create( result );
     return result;
   }

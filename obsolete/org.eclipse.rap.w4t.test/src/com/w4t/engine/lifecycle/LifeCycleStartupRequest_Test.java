@@ -10,39 +10,39 @@
  ******************************************************************************/
 package com.w4t.engine.lifecycle;
 
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie5_5up;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.*;
+
 import junit.framework.TestCase;
-import com.w4t.Fixture;
+import com.w4t.W4TFixture;
 import com.w4t.W4TContext;
 import com.w4t.engine.W4TModelUtil;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie5_5up;
 
 
 public class LifeCycleStartupRequest_Test extends TestCase {
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext( false );
+    W4TFixture.setUp();
+    W4TFixture.createContext( false );
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testStartupFormNoScript() throws Exception {
-    Fixture.fakeResponseWriter();
-    Fixture.fakeRequestParam( RequestParams.STARTUP, "true" );
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeRequestParam( RequestParams.STARTUP, "true" );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     W4TModelUtil.initModel();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();
     
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     String expected
       =   "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">"
         + "<html><head><title>W4 Toolkit</title><style type=\"text/css\">"
@@ -68,21 +68,21 @@ public class LifeCycleStartupRequest_Test extends TestCase {
         + "name=\"requestCounter\" value=\"0\" /><table id=\"p1\" "
         + "width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">"
         + "<tr><td align=\"center\" valign=\"middle\" colspan=\"3\">"
-        + "<span class=\"w4tCsscd1f6403\">This is the W4Toolkit Fixture Form!" 
+        + "<span class=\"w4tCsscd1f6403\">This is the W4Toolkit W4TFixture Form!" 
         + "</span></td></tr></table></form></body></html>";
     assertEquals( expected, allMarkup );
   }
   
   public void testStartupFormScript() throws Exception {
-    Fixture.fakeResponseWriter();
-    Fixture.fakeRequestParam( RequestParams.STARTUP, "true" );
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeRequestParam( RequestParams.STARTUP, "true" );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     W4TModelUtil.initModel();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();
     
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     String expected
       = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">" 
       + "<html><head><title>W4 Toolkit</title>" 
@@ -155,21 +155,21 @@ public class LifeCycleStartupRequest_Test extends TestCase {
       + "<table id=\"p1\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" " 
       + "border=\"0\"><tr><td align=\"center\" valign=\"middle\" colspan=\"3\">" 
       + "<span id=\"p2\" class=\"w4tCsscd1f6403\">" 
-      + "This is the W4Toolkit Fixture Form!</span></td></tr></table>" 
+      + "This is the W4Toolkit W4TFixture Form!</span></td></tr></table>" 
       + "</form></body></html>";
     assertEquals( expected, allMarkup );
   }
   
   public void testStartupFormAjax() throws Exception {
-    Fixture.fakeResponseWriter();
-    Fixture.fakeRequestParam( RequestParams.STARTUP, "true" );
-    Fixture.fakeBrowser( new Ie5_5up( true, true ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeRequestParam( RequestParams.STARTUP, "true" );
+    W4TFixture.fakeBrowser( new Ie5_5up( true, true ) );
     W4TModelUtil.initModel();
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();
     
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String allMarkup = Fixture.getAllMarkup( stateInfo.getResponseWriter() );
+    String allMarkup = W4TFixture.getAllMarkup( stateInfo.getResponseWriter() );
     String expected
       = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">"
       + "<html><head><title>W4 Toolkit</title><style type=\"text/css\">"
@@ -237,7 +237,7 @@ public class LifeCycleStartupRequest_Test extends TestCase {
       + "width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">"
       + "<tr><td align=\"center\" valign=\"middle\" colspan=\"3\"><span "
       + "id=\"p2\" class=\"w4tCsscd1f6403\">"
-      + "This is the W4Toolkit Fixture Form!</span></td></tr></table>"
+      + "This is the W4Toolkit W4TFixture Form!</span></td></tr></table>"
       + "</form>"
       + "<img src=\"resources/images/transparent.gif\" "
       + "name=\"w4tTriggerTimeStampImg\" "

@@ -12,16 +12,19 @@ package com.w4t.engine.util;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
-import com.w4t.Fixture.TestServletContext;
-import com.w4t.Fixture.TestSession;
+import com.w4t.W4TFixture.TestServletContext;
+import com.w4t.W4TFixture.TestSession;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.W4TModelUtil;
-import com.w4t.engine.lifecycle.LifeCycle;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.browser.Default;
 
 
 public class WindowManager_Test extends TestCase {
@@ -35,7 +38,7 @@ public class WindowManager_Test extends TestCase {
     } catch( NullPointerException e ) {
       // as expected
     }
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     IWindow window1 = windowManager.create( form );
     assertNotNull( window1 );
     
@@ -51,25 +54,25 @@ public class WindowManager_Test extends TestCase {
     IWindowManager windowManager = WindowManager.getInstance();
     IWindow window;
     setServletContextName( null );
-    window = windowManager.create( Fixture.getEmptyWebFormInstance() );
+    window = windowManager.create( W4TFixture.getEmptyWebFormInstance() );
     assertEquals( "w1", window.getId() );
     setServletContextName( "" );
-    window = windowManager.create( Fixture.getEmptyWebFormInstance() );
+    window = windowManager.create( W4TFixture.getEmptyWebFormInstance() );
     assertEquals( "w2", window.getId() );
     setServletContextName( "myWebApp" );
-    window = windowManager.create( Fixture.getEmptyWebFormInstance() );
+    window = windowManager.create( W4TFixture.getEmptyWebFormInstance() );
     assertEquals( "myWebAppw3", window.getId() );
     setServletContextName( "my Web App  " );
-    window = windowManager.create( Fixture.getEmptyWebFormInstance() );
+    window = windowManager.create( W4TFixture.getEmptyWebFormInstance() );
     assertEquals( "myWebAppw4", window.getId() );
     setServletContextName( "123App" );
-    window = windowManager.create( Fixture.getEmptyWebFormInstance() );
+    window = windowManager.create( W4TFixture.getEmptyWebFormInstance() );
     assertEquals( "_123Appw5", window.getId() );
     setServletContextName( " 1 23Ap p" );
-    window = windowManager.create( Fixture.getEmptyWebFormInstance() );
+    window = windowManager.create( W4TFixture.getEmptyWebFormInstance() );
     assertEquals( "_123Appw6", window.getId() );
     setServletContextName( "мпќп" );
-    window = windowManager.create( Fixture.getEmptyWebFormInstance() );
+    window = windowManager.create( W4TFixture.getEmptyWebFormInstance() );
     assertEquals( "w7", window.getId() );
   }
 
@@ -83,7 +86,7 @@ public class WindowManager_Test extends TestCase {
       // as expected
     }
     // find just created window
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     IWindow window = windowManager.create( form );
     IWindow foundWindow = windowManager.findWindow( form );
     assertSame( window, foundWindow );
@@ -109,10 +112,10 @@ public class WindowManager_Test extends TestCase {
   
   public void testDispatchTo() throws Exception {
     WindowManager windowManager = WindowManager.getInstance();
-    WebForm form1 = Fixture.loadStartupForm();
+    WebForm form1 = W4TFixture.loadStartupForm();
     IWindow window = windowManager.create( form1 );
     WindowManager.setActive( window );
-    WebForm form2 = Fixture.loadStartupForm();
+    WebForm form2 = W4TFixture.loadStartupForm();
     window.setFormToDispatch( form2 );
     WindowManager.doDispatch();
     WebForm foundForm = windowManager.findForm( window );
@@ -123,7 +126,7 @@ public class WindowManager_Test extends TestCase {
   
   public void testRemove() throws Exception {
     WindowManager windowManager = WindowManager.getInstance();
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     IWindow window = windowManager.create( form );
     
     windowManager.remove( window );
@@ -133,12 +136,12 @@ public class WindowManager_Test extends TestCase {
   
   public void testRemoveAssociatedWindow() throws Exception {
     IWindowManager windowManager = WindowManager.getInstance();
-    WebForm form1 = Fixture.loadStartupForm();
+    WebForm form1 = W4TFixture.loadStartupForm();
     IWindow window = windowManager.create( form1 );
     form1.unload();
     assertNull( windowManager.findWindow( form1 ) );
-    WebForm form2 = Fixture.loadStartupForm();
-    WebForm form3 = Fixture.loadStartupForm();
+    WebForm form2 = W4TFixture.loadStartupForm();
+    WebForm form3 = W4TFixture.loadStartupForm();
     window = windowManager.create( form2 );
     window.setFormToDispatch( form3 );
     WindowManager.setActive( window );
@@ -149,7 +152,7 @@ public class WindowManager_Test extends TestCase {
   
   public void testClose() {
     IWindowManager windowManager = WindowManager.getInstance();
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     IWindow window = windowManager.create( form );
     assertEquals( false, WindowManager.isClosing( window ) );
     window.close();
@@ -161,7 +164,7 @@ public class WindowManager_Test extends TestCase {
    * associated form was unloaded (which leads to the window being closed). */
   public void testUnloadActive() {
     IWindowManager windowManager = WindowManager.getInstance();
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     IWindow window = windowManager.create( form );
     WindowManager.setActive( window );
     assertEquals( false, WindowManager.isClosing( window ) );
@@ -178,7 +181,7 @@ public class WindowManager_Test extends TestCase {
   public void testRefreshWindow() {
     // prepare
     IWindowManager windowManager = WindowManager.getInstance();
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     IWindow window = windowManager.create( form );
     // 'basic' refreshWindow 
     form.refreshWindow();
@@ -201,39 +204,39 @@ public class WindowManager_Test extends TestCase {
   public void testCloseWindow() throws Exception {
     // prepare
     IWindowManager windowManager = WindowManager.getInstance();
-    WebForm form = Fixture.loadStartupForm();
+    WebForm form = W4TFixture.loadStartupForm();
     IWindow window = windowManager.create( form );
     form.closeWindow();
     assertEquals( true, WindowManager.isClosing( window ) );
     assertEquals( false, WindowManager.isClosed( window ) );
-    Fixture.fakeResponseWriter();
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeResponseWriter();
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     W4TModelUtil.initModel();
-    IFormAdapter adapter = Fixture.getFormAdapter( form );
+    IFormAdapter adapter = W4TFixture.getFormAdapter( form );
     adapter.increase();
     String formId = form.getUniqueID();
     String requestCounter = String.valueOf( adapter.getRequestCounter() - 1 );
-    Fixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
+    W4TFixture.fakeFormRequestParams( requestCounter, window.getId(), formId );
     LifeCycle lifeCycle = ( LifeCycle )W4TContext.getLifeCycle();
     lifeCycle.execute();
     assertEquals( true, WindowManager.isClosed( window ) );
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   private static void setServletContextName( final String name ) {
     HttpSession session = ContextProvider.getRequest().getSession();
-    Fixture.TestSession testSession = ( TestSession )session;
+    W4TFixture.TestSession testSession = ( TestSession )session;
     ServletContext servletContext = testSession.getServletContext();
-    Fixture.TestServletContext testServletContext;
+    W4TFixture.TestServletContext testServletContext;
     testServletContext = ( TestServletContext )servletContext;
     testServletContext.setServletContextName( name );
   }

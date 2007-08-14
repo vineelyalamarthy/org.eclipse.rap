@@ -12,7 +12,7 @@ package com.w4t.util;
 
 import junit.framework.TestCase;
 
-/** <p>Tests the parsing functionality of com.w4t.util.PropertyURI.</p>
+/** <p>Tests the parsing functionality of org.eclipse.rap.util.PropertyURI.</p>
   */
 public class PropertyURI_Test extends TestCase {
 

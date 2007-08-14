@@ -11,15 +11,24 @@
 package com.w4t.engine.service;
 
 import java.io.IOException;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+
 import junit.framework.TestCase;
-import com.w4t.*;
-import com.w4t.Fixture.TestResponse;
-import com.w4t.Fixture.TestServletOutputStream;
+
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.RequestParams;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.resources.IResourceManager;
+import org.eclipse.rwt.service.ServiceManager;
+
+import com.w4t.W4TFixture;
+import com.w4t.W4TContext;
+import com.w4t.W4TFixture.TestResponse;
+import com.w4t.W4TFixture.TestServletOutputStream;
 import com.w4t.engine.W4TModelUtil;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.util.ResourceManager;
 
 public class ResourceServiceHandler_Test extends TestCase {
   
@@ -31,27 +40,27 @@ public class ResourceServiceHandler_Test extends TestCase {
 
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext( false );
-    ResourceManager.setDeliveryMode( ResourceManager.DELIVER_BY_SERVLET );
+    W4TFixture.setUp();
+    W4TFixture.createContext( false );
+    ResourceManagerImpl.setDeliveryMode( ResourceManagerImpl.DELIVER_BY_SERVLET );
     // place output stream to 'see' what has been written
     HttpServletResponse response = ContextProvider.getResponse();
-    Fixture.TestResponse testResponse = ( TestResponse )response;
+    W4TFixture.TestResponse testResponse = ( TestResponse )response;
     ServletOutputStream outStream = new TestServletOutputStream();
     testResponse.setOutputStream( outStream );
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testUnknown() throws Exception {
     W4TModelUtil.initModel();
     IResourceManager resourceManager = W4TContext.getResourceManager();
     resourceManager.register( UNKNOWN_RESOURCE_XYZ );
-    Fixture.fakeRequestParam( RequestParams.RESOURCE, UNKNOWN_RESOURCE_XYZ );
-    Fixture.fakeRequestParam( RequestParams.RESOURCE_VERSION, null );
+    W4TFixture.fakeRequestParam( RequestParams.RESOURCE, UNKNOWN_RESOURCE_XYZ );
+    W4TFixture.fakeRequestParam( RequestParams.RESOURCE_VERSION, null );
     ServiceManager.getHandler().service();
     byte[] response = getResponseBytes();
     byte[] expected = "xyz".getBytes();
@@ -68,8 +77,8 @@ public class ResourceServiceHandler_Test extends TestCase {
     resourceManager.register( RESOURCETEST1_JS, 
                               HTML.CHARSET_NAME_ISO_8859_1, 
                               IResourceManager.RegisterOptions.NONE );
-    Fixture.fakeRequestParam( RequestParams.RESOURCE, RESOURCETEST1_JS );
-    Fixture.fakeRequestParam( RequestParams.RESOURCE_VERSION, null );
+    W4TFixture.fakeRequestParam( RequestParams.RESOURCE, RESOURCETEST1_JS );
+    W4TFixture.fakeRequestParam( RequestParams.RESOURCE_VERSION, null );
     ServiceManager.getHandler().service();
     byte[] response = getResponseBytes();
     assertTrue( response.length > 0 );
@@ -82,10 +91,10 @@ public class ResourceServiceHandler_Test extends TestCase {
     resourceManager.register( RESOURCETEST1_JS, 
                               HTML.CHARSET_NAME_ISO_8859_1, 
                               IResourceManager.RegisterOptions.VERSION );
-    Fixture.fakeRequestParam( RequestParams.RESOURCE, RESOURCETEST1_JS );
+    W4TFixture.fakeRequestParam( RequestParams.RESOURCE, RESOURCETEST1_JS );
     String version 
-      = String.valueOf( ResourceManager.findVersion( RESOURCETEST1_JS ) );
-    Fixture.fakeRequestParam( RequestParams.RESOURCE_VERSION, version );
+      = String.valueOf( ResourceManagerImpl.findVersion( RESOURCETEST1_JS ) );
+    W4TFixture.fakeRequestParam( RequestParams.RESOURCE_VERSION, version );
     ServiceManager.getHandler().service();
     byte[] response = getResponseBytes();
     assertTrue( response.length > 0 );
@@ -101,7 +110,7 @@ public class ResourceServiceHandler_Test extends TestCase {
   
   private String getResponseContentType() {
     HttpServletResponse response = ContextProvider.getResponse();
-    Fixture.TestResponse testResponse = ( TestResponse )response;
+    W4TFixture.TestResponse testResponse = ( TestResponse )response;
     return testResponse.getContentType();
   }
 }

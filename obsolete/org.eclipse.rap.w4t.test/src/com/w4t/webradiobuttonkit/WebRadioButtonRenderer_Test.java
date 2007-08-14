@@ -11,13 +11,18 @@
 package com.w4t.webradiobuttonkit;
 
 import java.io.IOException;
+
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Ie6;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.event.*;
 import com.w4t.util.RendererCache;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Ie6;
 import com.w4t.webradiobuttongroupkit.WebRadioButtonGroupRenderer_Default_Ajax;
 
 
@@ -26,19 +31,19 @@ public class WebRadioButtonRenderer_Test extends TestCase {
 
   public void testAjaxRenderer() throws Exception {
     WebRadioButton radioButton = new WebRadioButton();
-    Fixture.setWebComponentUniqueId( radioButton, "radio1" );
+    W4TFixture.setWebComponentUniqueId( radioButton, "radio1" );
     radioButton.setValue( "Push Me" );
     radioButton.setLabel( "The Label" );
     WebRadioButtonGroup group = new WebRadioButtonGroup();
-    Fixture.setWebComponentUniqueId( group, "group1" );
+    W4TFixture.setWebComponentUniqueId( group, "group1" );
     group.setValue( radioButton.getValue() );
     group.add( radioButton );
-    Fixture.forceAjaxRendering( radioButton );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.forceAjaxRendering( radioButton );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( radioButton );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( radioButton );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected
       = "<envelope id=\"radio1\"><!--" 
       + "<span id=\"radio1\">" 
@@ -56,9 +61,9 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     radioButton.setLang( "myLang" );
     radioButton.setTitle( "myTitle" );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( radioButton );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( radioButton );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<envelope id=\"radio1\"><!--" 
       + "<span id=\"radio1\">" 
@@ -71,9 +76,9 @@ public class WebRadioButtonRenderer_Test extends TestCase {
 
     radioButton.setEnabled( false );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( radioButton );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( radioButton );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<envelope id=\"radio1\"><!--" 
       + "<span id=\"radio1\"><input type=\"radio\" " 
@@ -86,9 +91,9 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     group.setUpdatable( false );
     radioButton.setEnabled( true );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( radioButton );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( radioButton );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<envelope id=\"radio1\"><!--" 
       + "<span id=\"radio1\">" 
@@ -102,17 +107,17 @@ public class WebRadioButtonRenderer_Test extends TestCase {
 
   public void testScriptRenderer() throws Exception {
     WebRadioButton radioButton = new WebRadioButton();
-    Fixture.setWebComponentUniqueId( radioButton, "radio1" );
+    W4TFixture.setWebComponentUniqueId( radioButton, "radio1" );
     WebRadioButtonGroup group = new WebRadioButtonGroup();
-    Fixture.setWebComponentUniqueId( group, "group1" );
+    W4TFixture.setWebComponentUniqueId( group, "group1" );
     group.add( radioButton );
     radioButton.setLabel( "The Label" );
     radioButton.setValue( "Push Me" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( true ) );
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( radioButton );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.fakeBrowser( new Default( true ) );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( radioButton );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected;
     expected 
       = "<span id=\"radio1\"><input type=\"radio\" "
@@ -130,10 +135,10 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     group.setValue( radioButton.getValue() );
     radioButton.setEnabled( true );
     writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( true, false ) );
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( radioButton );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( radioButton );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
             = "<span id=\"radio1\"><input type=\"radio\" "
             + "style=\"vertical-align:middle\" name=\"group1\" "
@@ -146,9 +151,9 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     group.setUpdatable( false );
     radioButton.setEnabled( true );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( radioButton );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( radioButton );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<span id=\"radio1\">" 
       + "<input type=\"radio\" style=\"vertical-align:middle\" name=\"group1\" " 
@@ -160,13 +165,13 @@ public class WebRadioButtonRenderer_Test extends TestCase {
   
   public void testNoScriptRenderer() throws Exception {
     WebRadioButton radioButton = new WebRadioButton();
-    Fixture.setWebComponentUniqueId( radioButton, "radio1" );
+    W4TFixture.setWebComponentUniqueId( radioButton, "radio1" );
     // render without group: must not be rendered, it is considered invisible
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false ) );
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( radioButton );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.fakeBrowser( new Default( false ) );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( radioButton );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<input type=\"radio\" style=\"vertical-align:middle\" " 
       + "name=\"radio1\" disabled value=\"p1\">" 
@@ -179,7 +184,7 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     radioButton.setLang( "myLang" );
     radioButton.setTitle( "myTitle" );
     WebRadioButtonGroup group = new WebRadioButtonGroup();
-    Fixture.setWebComponentUniqueId( group, "group1" );
+    W4TFixture.setWebComponentUniqueId( group, "group1" );
     group.setValue( "Push Me" );
     group.addWebItemListener( new WebItemListener() {
       public void webItemStateChanged( WebItemEvent e ) {
@@ -187,10 +192,10 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     } );
     group.add( radioButton );
     writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false ) );
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( radioButton );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.fakeBrowser( new Default( false ) );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( radioButton );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<input type=\"radio\" "
       + "style=\"vertical-align:middle\" "
@@ -204,11 +209,11 @@ public class WebRadioButtonRenderer_Test extends TestCase {
       + "name=\"wiegroup1\" border=\"0\">";
     assertEquals( expected, markup );
 
-    Fixture.fakeBrowser( new Default( false ) );
-    Fixture.setResponseWriter( writer );
+    W4TFixture.fakeBrowser( new Default( false ) );
+    W4TFixture.setResponseWriter( writer );
     radioButton.setEnabled( false );
-    Fixture.renderComponent( radioButton );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( radioButton );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<input type=\"radio\" "
       + "style=\"vertical-align:middle\" "
@@ -231,9 +236,9 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     group.setUpdatable( false );
     radioButton.setEnabled( true );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
-    Fixture.renderComponent( radioButton );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.setResponseWriter( writer );
+    W4TFixture.renderComponent( radioButton );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<input type=\"radio\" style=\"vertical-align:middle\" name=\"group1\" " 
       + "checked disabled value=\"Push Me\"><span class=\"w4tCsscd1f6403\" "
@@ -249,7 +254,7 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     WebRadioButton radioButton1 = new WebRadioButton();
     RadioButtonUtil.renderName( writer, radioButton1 );
     String expected = "<input name=\"" + radioButton1.getUniqueID() + "\"";
-    assertEquals( expected, Fixture.getAllMarkup( writer ) );
+    assertEquals( expected, W4TFixture.getAllMarkup( writer ) );
     // render id of group for the name attribute
     writer = new HtmlResponseWriter();
     writer.startElement( HTML.INPUT, null );
@@ -258,27 +263,27 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     group.add( radioButton2 );
     RadioButtonUtil.renderName( writer, radioButton2 );
     expected = "<input name=\"" + group.getUniqueID() + "\"";
-    assertEquals( expected, Fixture.getAllMarkup( writer ) );
+    assertEquals( expected, W4TFixture.getAllMarkup( writer ) );
   }
   
   public void testCreateEventHandler() throws IOException {
     // prepare
     HtmlResponseWriter writer;
     WebRadioButton radioButton1;
-    Fixture.fakeBrowser( new Default( true ) );
+    W4TFixture.fakeBrowser( new Default( true ) );
     WebRadioButtonGroup group = new WebRadioButtonGroup();
     // no event handler at all
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     radioButton1 = new WebRadioButton();
     group.add( radioButton1 );
     writer.startElement( HTML.INPUT, null );
     RadioButtonUtil.createEventHandler( radioButton1 );
     String expected = "<input";
-    assertEquals( expected, Fixture.getAllMarkup( writer ) );
+    assertEquals( expected, W4TFixture.getAllMarkup( writer ) );
     // focus listener only
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     radioButton1.addWebFocusGainedListener( new WebFocusGainedListener() {
       public void webFocusGained( WebFocusGainedEvent e ) {
       }
@@ -289,45 +294,45 @@ public class WebRadioButtonRenderer_Test extends TestCase {
       = "<input " 
       + "onfocus=\"eventHandler.setFocusID(this);" 
       + "eventHandler.webFocusGained(this)\"";
-    assertEquals( expected, Fixture.getAllMarkup( writer ) );
+    assertEquals( expected, W4TFixture.getAllMarkup( writer ) );
     // itemState- and focus-listener
     group.addWebItemListener( new WebItemListener() {
       public void webItemStateChanged( WebItemEvent e ) {
       }
     } );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     writer.startElement( HTML.INPUT, null );
     RadioButtonUtil.createEventHandler( radioButton1 );
     expected 
       = "<input onclick=\"eventHandler.webItemStateChanged(this)\" " 
       + "onfocus=\"eventHandler.setFocusID(this);" 
       + "eventHandler.webFocusGained(this)\"";
-    assertEquals( expected, Fixture.getAllMarkup( writer ) );
+    assertEquals( expected, W4TFixture.getAllMarkup( writer ) );
   }
   
   public void testRenderDisplay() throws IOException {
     WebRadioButton radioButton = new WebRadioButton();
     radioButton.setValue( "value1" );
-    Fixture.fakeBrowser( new Default( false ) );
+    W4TFixture.fakeBrowser( new Default( false ) );
     HtmlResponseWriter writer;
     // render radioButton display with empty label
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     RadioButtonUtil.renderDisplay( radioButton );
     String expected = "<span class=\"w4tCsscd1f6403\"></span>"; 
-    assertEquals( expected, Fixture.getAllMarkup( writer ) );
+    assertEquals( expected, W4TFixture.getAllMarkup( writer ) );
     // render radioButton display with some label
     radioButton.setLabel( "theLabel" );
     writer = new HtmlResponseWriter();
-    Fixture.setResponseWriter( writer );
+    W4TFixture.setResponseWriter( writer );
     RadioButtonUtil.renderDisplay( radioButton );
     expected = "<span class=\"w4tCsscd1f6403\">theLabel</span>"; 
-    assertEquals( expected, Fixture.getAllMarkup( writer ) );
+    assertEquals( expected, W4TFixture.getAllMarkup( writer ) );
   }
   
   public void testAjaxStatusAfterReadData() {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     WebRadioButtonGroup group = new WebRadioButtonGroup();
     form.add( group, WebBorderLayout.CENTER );
     WebRadioButton radio1 = new WebRadioButton();
@@ -337,8 +342,8 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     radio2.setValue( "2" );
     group.add( radio2 );
     group.setValue( "1" );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
-    Fixture.fakeRequestParam( group.getUniqueID(), "2" );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeRequestParam( group.getUniqueID(), "2" );
     RendererCache rendererCache = RendererCache.getInstance();
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );
@@ -350,18 +355,18 @@ public class WebRadioButtonRenderer_Test extends TestCase {
     renderer.readData( group );
     assertEquals( "2", group.getValue() );
     AjaxStatusUtil.preRender( form );
-    assertEquals( false, Fixture.getAjaxStatus( group ).mustRender() );
-    assertEquals( true, Fixture.getAjaxStatus( radio1 ).mustRender() );
+    assertEquals( false, W4TFixture.getAjaxStatus( group ).mustRender() );
+    assertEquals( true, W4TFixture.getAjaxStatus( radio1 ).mustRender() );
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
 }

@@ -11,7 +11,8 @@
 package com.w4t.engine.adapter;
 
 import java.io.File;
-import com.w4t.engine.util.IEngineConfig;
+
+import org.eclipse.rwt.internal.IEngineConfig;
 
 /** <p>A testing implementation for an engine configuration.</p>
   */

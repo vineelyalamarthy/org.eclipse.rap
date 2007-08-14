@@ -10,7 +10,10 @@
  ******************************************************************************/
 package com.w4t.util;
 
+import org.eclipse.rwt.internal.browser.Default;
+
 import junit.framework.TestCase;
+
 import com.w4t.*;
 import com.w4t.WebFormListener_Test.Form;
 import com.w4t.administration.LinkButton;
@@ -41,7 +44,6 @@ import com.w4t.engine.util.exitformkit.ExitFormRenderer_Default_Noscript;
 import com.w4t.engine.util.exitformkit.ExitFormRenderer_Default_Script;
 import com.w4t.mockup.*;
 import com.w4t.mockup.nonajaxcomponentkit.NonAjaxComponentRenderer_Default_Script;
-import com.w4t.util.browser.Default;
 import com.w4t.webanchorkit.WebAnchorRenderer_Default_Noscript;
 import com.w4t.webanchorkit.WebAnchorRenderer_Default_Script;
 import com.w4t.webbordercomponentkit.WebBorderComponentRenderer_Default_Noscript;
@@ -80,7 +82,7 @@ public class RendererCache_Default_Test extends TestCase {
     RendererCache cache = RendererCache.getInstance();
     //
     // Default up (no script)
-    Fixture.fakeBrowser( new Default( false ) );
+    W4TFixture.fakeBrowser( new Default( false ) );
     // WebAnchor
     renderer = cache.retrieveRenderer( WebAnchor.class );
     assertEquals( WebAnchorRenderer_Default_Noscript.class, 
@@ -230,7 +232,7 @@ public class RendererCache_Default_Test extends TestCase {
     RendererCache cache = RendererCache.getInstance();
     //
     // Default (script)
-    Fixture.fakeBrowser( new Default( true ) );
+    W4TFixture.fakeBrowser( new Default( true ) );
     // WebAnchor
     renderer = cache.retrieveRenderer( WebAnchor.class );
     assertEquals( WebAnchorRenderer_Default_Script.class,
@@ -375,7 +377,7 @@ public class RendererCache_Default_Test extends TestCase {
     Renderer renderer;
     //
     // Default up (ajax)
-    Fixture.fakeBrowser( new Default( true, true ) );
+    W4TFixture.fakeBrowser( new Default( true, true ) );
     // WebAnchor
     RendererCache cache = RendererCache.getInstance();
     renderer = cache.retrieveRenderer( WebAnchor.class );
@@ -540,12 +542,12 @@ public class RendererCache_Default_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
 
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
 }

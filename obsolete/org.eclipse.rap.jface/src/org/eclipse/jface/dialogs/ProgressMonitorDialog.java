@@ -16,11 +16,11 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.jface.operation.*;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.window.IWindowCallback;
+import org.eclipse.rwt.lifecycle.UICallBackUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.lifecycle.UICallBackUtil;
 import org.eclipse.swt.widgets.*;
 
 /**

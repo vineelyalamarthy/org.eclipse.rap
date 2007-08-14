@@ -14,7 +14,7 @@ package com.w4t;
 public class FixtureForm extends WebForm {
 
   protected void setWebComponents() throws Exception {
-    String title = "This is the W4Toolkit Fixture Form!";
+    String title = "This is the W4Toolkit W4TFixture Form!";
     add( new WebLabel( title ), WebBorderLayout.NORTH );
   }
 }

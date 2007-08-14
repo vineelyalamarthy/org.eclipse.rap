@@ -11,13 +11,16 @@
 package com.w4t.webselectkit;
 
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.*;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatus;
 import com.w4t.ajax.AjaxStatusUtil;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.*;
 import com.w4t.util.RendererCache;
-import com.w4t.util.browser.*;
 
 
 /** <p>Unit tests for WebSelectRenderer.</p> */
@@ -33,11 +36,11 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setTitle( "myTitle" );
     AjaxStatus ajaxStatus = ( AjaxStatus )select.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
-    Fixture.fakeBrowser( new Opera9( true, true ) );
+    W4TFixture.fakeBrowser( new Opera9( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected;
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
@@ -66,8 +69,8 @@ public class WebSelectRenderer_Test extends TestCase {
     ajaxStatus.updateStatus( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
       + "onchange=\"eventHandler.webItemStateChanged(this)\" "
@@ -86,8 +89,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
       + "onfocus=\"eventHandler.setFocusID(this);"
@@ -105,8 +108,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
       + "disabled=\"disabled\" "
@@ -121,8 +124,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
       + "disabled=\"disabled\" "
@@ -144,11 +147,11 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setTitle( "myTitle" );
     AjaxStatus ajaxStatus = ( AjaxStatus )select.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
-    Fixture.fakeBrowser( new Mozilla1_6( true, true ) );
+    W4TFixture.fakeBrowser( new Mozilla1_6( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected;
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
@@ -177,8 +180,8 @@ public class WebSelectRenderer_Test extends TestCase {
     ajaxStatus.updateStatus( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" " 
       + "onchange=\"eventHandler.webItemStateChanged(this)\" "
@@ -197,8 +200,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
       + "onfocus=\"eventHandler.setFocusID(this);"
@@ -216,8 +219,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
       + "disabled=\"disabled\" "
@@ -232,8 +235,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
       + "disabled=\"disabled\" "
@@ -257,11 +260,11 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setValue( "ü" );
     AjaxStatus ajaxStatus = ( AjaxStatus )select.getAdapter( AjaxStatus.class );
     ajaxStatus.updateStatus( true );
-    Fixture.fakeBrowser( new Ie5up( true, true ) );
+    W4TFixture.fakeBrowser( new Ie5up( true, true ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected;
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
@@ -291,8 +294,8 @@ public class WebSelectRenderer_Test extends TestCase {
     ajaxStatus.updateStatus( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
       + "onchange=\"eventHandler.webItemStateChanged(this)\" "
@@ -311,8 +314,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
 //      + "onchange=\"eventHandler.webItemStateChanged(this)\" "
@@ -331,8 +334,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
       + "disabled=\"disabled\" "
@@ -347,8 +350,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select id=\"sel1\" name=\"sel1\" "
       + "disabled=\"disabled\" "
@@ -368,11 +371,11 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setName( "myName" );
     select.setSize( 10 );
     select.setTitle( "myTitle" );
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     HtmlResponseWriter writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected;
     expected   = "<select name=\"sel1\" "
                + "onfocus=\"eventHandler.setFocusID(this)\" size=\"10\" "
@@ -389,8 +392,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUseEmptyItem( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected   = "<select name=\"sel1\" "
                + "onfocus=\"eventHandler.setFocusID(this)\" size=\"10\" "
                + "class=\"w4tCsscd1f6403\" " 
@@ -408,8 +411,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setValue( "a" );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected
       = "<select name=\"sel1\" "
       + "onfocus=\"eventHandler.setFocusID(this)\" size=\"10\" "
@@ -428,8 +431,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setValue( "ü");
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected
       = "<select name=\"sel1\" "
       + "onfocus=\"eventHandler.setFocusID(this)\" size=\"10\" "
@@ -448,8 +451,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select name=\"sel1\" "
       + "onfocus=\"eventHandler.setFocusID(this)\" size=\"10\" "
@@ -468,8 +471,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( true );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select name=\"sel1\" "
       + "disabled " + "size=\"10\" "
@@ -488,8 +491,8 @@ public class WebSelectRenderer_Test extends TestCase {
     select.setUpdatable( false );
     writer = new HtmlResponseWriter();
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    markup = W4TFixture.getBodyMarkup( writer );
     expected 
       = "<select name=\"sel1\" "
       + "disabled size=\"10\" "
@@ -521,10 +524,10 @@ public class WebSelectRenderer_Test extends TestCase {
       } 
     } ); 
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( false, false ) );
+    W4TFixture.fakeBrowser( new Default( false, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<select name=\"sel1\" size=\"10\" class=\"w4tCsscd1f6403\" "
       + "dir=\"myDir\" "
@@ -540,10 +543,10 @@ public class WebSelectRenderer_Test extends TestCase {
   }
 
   public void testReadData_Default_Ajax() throws Exception {
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     WebText text = new WebText();
-    Fixture.setWebComponentUniqueId( text, "select1" );
-    Fixture.fakeRequestParam( text.getUniqueID(), "selection1" );
+    W4TFixture.setWebComponentUniqueId( text, "select1" );
+    W4TFixture.fakeRequestParam( text.getUniqueID(), "selection1" );
     RendererCache rendererCache = RendererCache.getInstance();
     Renderer renderer = rendererCache.retrieveRenderer( text.getClass() );
     renderer.readData( text );
@@ -555,10 +558,10 @@ public class WebSelectRenderer_Test extends TestCase {
     select.addItem( "Lüßter \"&\" Möller" );
     select.setTitle( "Lüßter \"&\" Möller" );
     HtmlResponseWriter writer = new HtmlResponseWriter();
-    Fixture.fakeBrowser( new Default( true, false ) );
+    W4TFixture.fakeBrowser( new Default( true, false ) );
     setResponseWriter( writer );
-    Fixture.renderComponent( select );
-    String markup = Fixture.getBodyMarkup( writer );
+    W4TFixture.renderComponent( select );
+    String markup = W4TFixture.getBodyMarkup( writer );
     String expected 
       = "<select name=\"sel1\" onfocus=\"eventHandler.setFocusID(this)\" " 
       + "size=\"1\" class=\"w4tCsscd1f6403\" " 
@@ -573,14 +576,14 @@ public class WebSelectRenderer_Test extends TestCase {
   }
   
   public void testAjaxStatusAfterReadData_Ie() {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     WebSelect select = new WebSelect();
     select.addItem( "1" );
     select.addItem( "2" );
     form.add( select, WebBorderLayout.CENTER );
     select.setValue( "1" );
-    Fixture.fakeRequestParam( select.getUniqueID(), "2" );
-    Fixture.fakeBrowser( new Ie6( true, true ) );
+    W4TFixture.fakeRequestParam( select.getUniqueID(), "2" );
+    W4TFixture.fakeBrowser( new Ie6( true, true ) );
     RendererCache rendererCache = RendererCache.getInstance();
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );
@@ -589,18 +592,18 @@ public class WebSelectRenderer_Test extends TestCase {
     renderer.readData( select );
     assertEquals( "2", select.getValue() );
     AjaxStatusUtil.preRender( form );
-    assertEquals( false, Fixture.getAjaxStatus( select ).mustRender() );
+    assertEquals( false, W4TFixture.getAjaxStatus( select ).mustRender() );
   }
   
   public void testAjaxStatusAfterReadData_Mozilla() {
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     WebSelect select = new WebSelect();
     select.addItem( "1" );
     select.addItem( "2" );
     form.add( select, WebBorderLayout.CENTER );
     select.setValue( "1" );
-    Fixture.fakeRequestParam( select.getUniqueID(), "2" );
-    Fixture.fakeBrowser( new Mozilla1_6( true, true ) );
+    W4TFixture.fakeRequestParam( select.getUniqueID(), "2" );
+    W4TFixture.fakeBrowser( new Mozilla1_6( true, true ) );
     RendererCache rendererCache = RendererCache.getInstance();
     AjaxStatusUtil.preRender( form );
     AjaxStatusUtil.postRender( form );
@@ -609,7 +612,7 @@ public class WebSelectRenderer_Test extends TestCase {
     renderer.readData( select );
     assertEquals( "2", select.getValue() );
     AjaxStatusUtil.preRender( form );
-    assertEquals( false, Fixture.getAjaxStatus( select ).mustRender() );
+    assertEquals( false, W4TFixture.getAjaxStatus( select ).mustRender() );
   }
   
   private static WebSelect createSelect() throws Exception {
@@ -618,18 +621,18 @@ public class WebSelectRenderer_Test extends TestCase {
     select.addItem( "b" );
     select.addItem( "c" );
     select.setValue( "Hello World" );
-    Fixture.setWebComponentUniqueId( select, "sel1" );
+    W4TFixture.setWebComponentUniqueId( select, "sel1" );
     return select;
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   private void setResponseWriter( final HtmlResponseWriter writer ) {

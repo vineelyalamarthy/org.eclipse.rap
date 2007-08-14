@@ -10,13 +10,14 @@
  ******************************************************************************/
 package com.w4t.engine.lifecycle.standard;
 
+import org.eclipse.rwt.internal.browser.Default;
+
 import junit.framework.TestCase;
-import com.w4t.Fixture;
+import com.w4t.W4TFixture;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.lifecycle.standard.lifecycletestformkit.LifeCycleTestFormRenderer;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
-import com.w4t.util.browser.Default;
 
 
 public class LifeCycleAdapter_Test extends TestCase {
@@ -24,15 +25,15 @@ public class LifeCycleAdapter_Test extends TestCase {
   private String log;
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
-    Fixture.fakeBrowser( new Default( false ) );
+    W4TFixture.setUp();
+    W4TFixture.createContext();
+    W4TFixture.fakeBrowser( new Default( false ) );
     log = "";
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
     log = "";
   }
 

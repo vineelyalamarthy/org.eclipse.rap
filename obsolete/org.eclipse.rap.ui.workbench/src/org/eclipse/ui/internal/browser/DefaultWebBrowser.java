@@ -13,7 +13,7 @@ package org.eclipse.ui.internal.browser;
 
 import java.net.URL;
 
-import org.eclipse.swt.externalbrowser.ExternalBrowser;
+import org.eclipse.rwt.widgets.ExternalBrowser;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.browser.AbstractWebBrowser;
 

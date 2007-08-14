@@ -15,13 +15,13 @@ import java.util.*;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.dynamichelpers.*;
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.ui.IPluginContribution;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.util.Util;
 import org.eclipse.ui.views.*;
 
-import com.w4t.SessionSingletonBase;
 
 /**
  * The central manager for view descriptors.

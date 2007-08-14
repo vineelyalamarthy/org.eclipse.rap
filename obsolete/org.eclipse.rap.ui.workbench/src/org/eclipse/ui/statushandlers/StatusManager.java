@@ -16,12 +16,12 @@ import java.util.List;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchErrorHandlerProxy;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.misc.StatusUtil;
 
-import com.w4t.SessionSingletonBase;
 
 /**
  * <p>

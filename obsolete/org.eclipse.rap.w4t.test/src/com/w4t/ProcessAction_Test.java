@@ -14,37 +14,41 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
 import junit.framework.TestCase;
+
+import org.eclipse.rwt.internal.browser.Default;
+import org.eclipse.rwt.internal.browser.Opera8;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.event.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.event.*;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
 import com.w4t.util.RendererCache;
-import com.w4t.util.browser.Default;
-import com.w4t.util.browser.Opera8;
 import com.w4t.util.image.ImageCache;
 
 
 public class ProcessAction_Test extends TestCase {
   
-//  private final static String webAppRoot = Fixture.getWebAppBase().toString();
+//  private final static String webAppRoot = W4TFixture.getWebAppBase().toString();
   private final static String SUFFIX = ".x";
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   public void testDragDropScript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( true ) );
     final Object[] dragSource = new Object[ 1 ];
     final Object[] dragDestination = new Object[ 1 ];
 
@@ -62,9 +66,9 @@ public class ProcessAction_Test extends TestCase {
         dragDestination[ 0 ] = evt.getDragDestination();
       }
     } );
-    Fixture.fakeRequestParam( "dragSource", leaf1.getUniqueID() );
-    Fixture.fakeRequestParam( "dragDestination", node2.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( "dragSource", leaf1.getUniqueID() );
+    W4TFixture.fakeRequestParam( "dragDestination", node2.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertNotNull( dragSource[ 0 ] );
     assertNotNull( dragDestination[ 0 ] );
     assertSame( leaf1, dragSource[ 0 ] );
@@ -72,8 +76,8 @@ public class ProcessAction_Test extends TestCase {
   }
   
   public void testDragDropNoScript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( false ) );
     final Object[] dragSource = new Object[ 1 ];
     final Object[] dragDestination = new Object[ 1 ];
 
@@ -92,15 +96,15 @@ public class ProcessAction_Test extends TestCase {
       }
     } );
     String id = DragDropEvent.PREFIX + leaf1.getUniqueID() + SUFFIX;
-    Fixture.fakeRequestParam( id, id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
-    Fixture.fakeRequestParam( id, null );
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, null );
     assertNull( dragSource[ 0 ] );
     assertNull( dragDestination[ 0 ] );
     id = DragDropEvent.PREFIX + node2.getUniqueID() + SUFFIX;
-    Fixture.fakeRequestParam( id, id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
-    Fixture.fakeRequestParam( id, null );
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, null );
     assertNotNull( dragSource[ 0 ] );
     assertNotNull( dragDestination[ 0 ] );
     assertSame( leaf1, dragSource[ 0 ] );
@@ -108,8 +112,8 @@ public class ProcessAction_Test extends TestCase {
   }
   
   public void testTreeNodeExpandedScript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( true ) );
     final Object[] evtSource = new Object[ 1 ];
     
     TreeView treeView = new TreeView();
@@ -124,8 +128,8 @@ public class ProcessAction_Test extends TestCase {
   }
   
   public void testTreeNodeExpandedNoScript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( false ) );
     final Object[] evtSource = new Object[ 1 ];
     
     TreeView treeView = new TreeView();
@@ -140,8 +144,8 @@ public class ProcessAction_Test extends TestCase {
   }
   
   public void testTreeNodeCollapsedScript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( true ) );
     final Object[] evtSource = new Object[ 1 ];
     
     TreeView treeView = new TreeView();
@@ -156,8 +160,8 @@ public class ProcessAction_Test extends TestCase {
   }
 
   public void testTreeNodeCollapsedNoScript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( false ) );
     final Object[] evtSource = new Object[ 1 ];
     
     TreeView treeView = new TreeView();
@@ -172,8 +176,8 @@ public class ProcessAction_Test extends TestCase {
   }
 
   public void testFocusGained() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( true ) );
     final Object[] evtSource = new Object[ 1 ];
 
     WebText text = new WebText();
@@ -208,8 +212,8 @@ public class ProcessAction_Test extends TestCase {
   }
   
   public void testItemStateChangedScript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( true ) );
     final Object[] evtSource = new Object[ 1 ];
     
     WebText text = new WebText();
@@ -239,8 +243,8 @@ public class ProcessAction_Test extends TestCase {
   }
   
   public void testItemStateChangedRadioScript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( true ) );
     final List events = new ArrayList();
 
     WebRadioButton radio1 = new WebRadioButton();
@@ -257,10 +261,10 @@ public class ProcessAction_Test extends TestCase {
     group.addWebItemListener( radioListener );
     
     String id = group.getUniqueID();
-    Fixture.fakeRequestParam( "webItemEvent", id );
-    Fixture.fakeRequestParam( id, radio2.getValue() );
-    Fixture.getLifeCycleAdapter( form ).readData();
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( "webItemEvent", id );
+    W4TFixture.fakeRequestParam( id, radio2.getValue() );
+    W4TFixture.getLifeCycleAdapter( form ).readData();
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
 
     assertEquals( 1, events.size() );
     WebItemEvent evt = ( WebItemEvent )events.get( 0 );
@@ -270,8 +274,8 @@ public class ProcessAction_Test extends TestCase {
   }
   
   public void testItemStateChangedRadioNoScript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( false ) );
     final List events = new ArrayList();
     
     WebRadioButton radio1 = new WebRadioButton();
@@ -289,10 +293,10 @@ public class ProcessAction_Test extends TestCase {
     
     String uniqueID = group.getUniqueID();
     String id = WebItemEvent.PREFIX + uniqueID + SUFFIX;
-    Fixture.fakeRequestParam( id, id );
-    Fixture.fakeRequestParam( uniqueID, radio2.getValue() );
-    Fixture.getLifeCycleAdapter( form ).readData();
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.fakeRequestParam( uniqueID, radio2.getValue() );
+    W4TFixture.getLifeCycleAdapter( form ).readData();
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     
     assertEquals( 1, events.size() );
     WebItemEvent evt = ( WebItemEvent )events.get( 0 );
@@ -302,8 +306,8 @@ public class ProcessAction_Test extends TestCase {
   }
   
   public void testItemStateChangedNoScript() throws Exception {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( false ) );
     final Object[] evtSource = new Object[ 1 ];
 
     WebText text = new WebText();
@@ -333,8 +337,8 @@ public class ProcessAction_Test extends TestCase {
   }
   
   public void testActionPerformedScript() throws Exception  {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( true ) );
     final Object[] evtSource = new Object[ 1 ];
     
     WebButton button = new WebButton();
@@ -390,15 +394,15 @@ public class ProcessAction_Test extends TestCase {
     Renderer renderer = instance.retrieveRenderer( WebCardLayout.class );
     renderer.render( form );
     WebButton[] cards = ( WebButton[] )adapter.getRenderState( "cardList" );
-    Fixture.fakeRequestParam( "webActionEvent", cards[ 0 ].getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( "webActionEvent", cards[ 0 ].getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertNotNull( evtSource[ 0 ] );
     assertSame( cardContent, evtSource[ 0 ] );    
   }
 
   public void testActionPerformedNoScript() throws Exception  {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( false ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( false ) );
     final Object[] evtSource = new Object[ 1 ];
     
     WebButton button = new WebButton();
@@ -451,20 +455,20 @@ public class ProcessAction_Test extends TestCase {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     stateInfo.setResponseWriter( new HtmlResponseWriter() );
     RendererCache instance = RendererCache.getInstance();
-    ImageCache.createInstance( Fixture.getWebAppBase().toString(), "" );
+    ImageCache.createInstance( W4TFixture.getWebAppBase().toString(), "" );
     Renderer renderer = instance.retrieveRenderer( WebCardLayout.class );
     renderer.render( form );
     WebButton[] cards = ( WebButton[] )adapter.getRenderState( "cardList" );
     String id = WebActionEvent.PREFIX + cards[ 0 ].getUniqueID() + SUFFIX;
-    Fixture.fakeRequestParam( id, id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertNotNull( evtSource[ 0 ] );
     assertSame( cardContent, evtSource[ 0 ] );    
   }
   
   public void testDoubleClickScript() {
-    WebForm form = Fixture.getEmptyWebFormInstance();
-    Fixture.fakeBrowser( new Default( true ) );
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
+    W4TFixture.fakeBrowser( new Default( true ) );
     // Create test listener
     final StringBuffer eventLog = new StringBuffer();
     DoubleClickListener listener = new DoubleClickListener() {
@@ -512,35 +516,35 @@ public class ProcessAction_Test extends TestCase {
     // Test event processing - default browser
     eventLog.setLength( 0 );
     String fieldName = DoubleClickEvent.FIELD_NAME;
-    Fixture.fakeRequestParam( fieldName, treeView.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( fieldName, treeView.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertEquals( "", eventLog.toString() );
     eventLog.setLength( 0 );
-    Fixture.fakeRequestParam( fieldName, node1.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( fieldName, node1.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertEquals( node1.getUniqueID(), eventLog.toString() );
     eventLog.setLength( 0 );
-    Fixture.fakeRequestParam( fieldName, leaf1.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( fieldName, leaf1.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertEquals( leaf1.getUniqueID(), eventLog.toString() );
     // Test event processing - Opera 8
-    Fixture.fakeBrowser( new Opera8( true ) );
+    W4TFixture.fakeBrowser( new Opera8( true ) );
     eventLog.setLength( 0 );
-    Fixture.fakeRequestParam( fieldName, treeView.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( fieldName, treeView.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertEquals( "", eventLog.toString() );
     eventLog.setLength( 0 );
-    Fixture.fakeRequestParam( fieldName, node1.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( fieldName, node1.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertEquals( node1.getUniqueID(), eventLog.toString() );
     eventLog.setLength( 0 );
-    Fixture.fakeRequestParam( fieldName, leaf1.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( fieldName, leaf1.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertEquals( leaf1.getUniqueID(), eventLog.toString() );
   }
 
   public void testDoubleClickNoscript() {
-    Fixture.fakeBrowser( new Default( false ) );
+    W4TFixture.fakeBrowser( new Default( false ) );
     // Create test listener
     final StringBuffer eventLog = new StringBuffer();
     DoubleClickListener listener = new DoubleClickListener() {
@@ -549,7 +553,7 @@ public class ProcessAction_Test extends TestCase {
       }
     };
     // Construct treeView with node and leaf
-    WebForm form = Fixture.getEmptyWebFormInstance();
+    WebForm form = W4TFixture.getEmptyWebFormInstance();
     TreeView treeView = new TreeView();
     TreeNode node1 = new TreeNode();
     treeView.addItem( node1 );
@@ -560,19 +564,19 @@ public class ProcessAction_Test extends TestCase {
     // Test event processing
     eventLog.setLength( 0 );
     String id = DoubleClickEvent.PREFIX + treeView.getUniqueID();
-    Fixture.fakeRequestParam( id, id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertEquals( "", eventLog.toString() );
     eventLog.setLength( 0 );
     id = DoubleClickEvent.PREFIX + node1.getUniqueID();
-    Fixture.fakeRequestParam( id, id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertEquals( node1.getUniqueID(), eventLog.toString() );
     eventLog.setLength( 0 );
     ContextProvider.getRequest().getParameterMap().clear();
     id = DoubleClickEvent.PREFIX + leaf1.getUniqueID();
-    Fixture.fakeRequestParam( id, id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
     assertEquals( leaf1.getUniqueID(), eventLog.toString() );
   }
 
@@ -583,8 +587,8 @@ public class ProcessAction_Test extends TestCase {
   {
     form.add( actionCmp, WebBorderLayout.NORTH );
     addActionListener( evtSource, actionCmp );
-    Fixture.fakeRequestParam( "webActionEvent", actionCmp.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( "webActionEvent", actionCmp.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
   }
 
   private void handleActionListenerNoScript( final WebForm form, 
@@ -595,9 +599,9 @@ public class ProcessAction_Test extends TestCase {
     form.add( actionCmp, WebBorderLayout.NORTH );
     addActionListener( evtSource, actionCmp );
     String id = WebActionEvent.PREFIX + actionCmp.getUniqueID()+ SUFFIX;
-    Fixture.fakeRequestParam( id, id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
-    Fixture.fakeRequestParam( id, null );
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, null );
   }
 
   private void addActionListener( final Object[] evtSource, 
@@ -632,8 +636,8 @@ public class ProcessAction_Test extends TestCase {
       WebRadioButtonGroup group = WebRadioButtonUtil.findGroup( radioButton  );
       id = group.getUniqueID();
     }
-    Fixture.fakeRequestParam( "webItemEvent", id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( "webItemEvent", id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
   }
   
   private void handleItemListenerNoScript( final WebForm form, 
@@ -650,9 +654,9 @@ public class ProcessAction_Test extends TestCase {
       uniqueID = group.getUniqueID();
     }
     String id = WebItemEvent.PREFIX + uniqueID + SUFFIX;
-    Fixture.fakeRequestParam( id, id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
-    Fixture.fakeRequestParam( id, null );
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, null );
   }
 
   private void addItemListener( final Object[] evtSource, 
@@ -681,8 +685,8 @@ public class ProcessAction_Test extends TestCase {
   {
     form.add( component, WebBorderLayout.NORTH );
     addFocusGainedListener( evtSource, component );
-    Fixture.fakeRequestParam( "webFocusGainedEvent", component.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( "webFocusGainedEvent", component.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
   }
 
   private void addFocusGainedListener( final Object[] evtSource, 
@@ -715,8 +719,8 @@ public class ProcessAction_Test extends TestCase {
         evtSource[ 0 ] = evt.getSource();
       }
     } );
-    Fixture.fakeRequestParam( "webTreeNodeCollapsedEvent", node.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();    
+    W4TFixture.fakeRequestParam( "webTreeNodeCollapsedEvent", node.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();    
   }
 
   private void handleTreeNodeCollapsedNoScript( final WebForm form, 
@@ -731,9 +735,9 @@ public class ProcessAction_Test extends TestCase {
       }
     } );
     String id = WebTreeNodeCollapsedEvent.PREFIX + node.getUniqueID() + SUFFIX;
-    Fixture.fakeRequestParam( id, id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
-    Fixture.fakeRequestParam( id, null );
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, null );
   }
   
   private void handleTreeNodeExpandedScript( final WebForm form, 
@@ -747,8 +751,8 @@ public class ProcessAction_Test extends TestCase {
         evtSource[ 0 ] = evt.getSource();
       }
     } );
-    Fixture.fakeRequestParam( "webTreeNodeExpandedEvent", node.getUniqueID() );
-    Fixture.getLifeCycleAdapter( form ).processAction();    
+    W4TFixture.fakeRequestParam( "webTreeNodeExpandedEvent", node.getUniqueID() );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();    
   }
   
   private void handleTreeNodeExpandedNoScript( final WebForm form, 
@@ -763,9 +767,9 @@ public class ProcessAction_Test extends TestCase {
       }
     } );
     String id = WebTreeNodeExpandedEvent.PREFIX + node.getUniqueID() + SUFFIX;
-    Fixture.fakeRequestParam( id, id );
-    Fixture.getLifeCycleAdapter( form ).processAction();
-    Fixture.fakeRequestParam( id, null );
+    W4TFixture.fakeRequestParam( id, id );
+    W4TFixture.getLifeCycleAdapter( form ).processAction();
+    W4TFixture.fakeRequestParam( id, null );
   }
   
   private IRenderInfoAdapter getRenderInfoAdapter( final WebCardLayout wcl ) {

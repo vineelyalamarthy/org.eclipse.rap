@@ -11,9 +11,9 @@
 package com.w4t.dhtml;
 
 import junit.framework.TestCase;
-import com.w4t.Fixture;
+import com.w4t.W4TFixture;
 
-/** <p>Unit tests for {@link com.w4t.custom.CMenu CMenu}.</p>
+/** <p>Unit tests for {@link org.eclipse.rwt.custom.CMenu CMenu}.</p>
   */
 public class Menu_Test extends TestCase {
   
@@ -22,13 +22,13 @@ public class Menu_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    Fixture.setUp();
-    Fixture.createContext();
+    W4TFixture.setUp();
+    W4TFixture.createContext();
   }
   
   protected void tearDown() throws Exception {
-    Fixture.tearDown();
-    Fixture.removeContext();
+    W4TFixture.tearDown();
+    W4TFixture.removeContext();
   }
   
   // actual test code

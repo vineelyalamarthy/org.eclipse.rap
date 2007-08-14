@@ -17,6 +17,7 @@ import org.eclipse.jface.dialogs.IconAndMessageDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -25,7 +26,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchMessages;
 import org.eclipse.ui.progress.WorkbenchJob;
 
-import com.w4t.SessionSingletonBase;
 
 /**
  * The BlockedJobsDialog class displays a dialog that provides information on
