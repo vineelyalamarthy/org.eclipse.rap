@@ -11,9 +11,9 @@
 
 package org.eclipse.ui.forms.internal.widgets.hyperlinkkit;
 
-import org.eclipse.swt.resources.IResource;
+import org.eclipse.rwt.resources.IResource;
+import org.eclipse.rwt.resources.IResourceManager.RegisterOptions;
 
-import com.w4t.IResourceManager.RegisterOptions;
 
 
 public final class HyperlinkResource implements IResource {

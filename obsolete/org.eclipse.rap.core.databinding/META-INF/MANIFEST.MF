@@ -24,6 +24,6 @@ Export-Package: org.eclipse.core.databinding,
  org.eclipse.core.internal.databinding.validation;x-friends:="org.eclipse.jface.tests.databinding"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.1.0,4.0.0)";resolution:=optional,
  org.eclipse.equinox.common;bundle-version="[3.2.0,4.0.0)";resolution:=optional,
- org.eclipse.rap.w4t
+ org.eclipse.rap.rwt
 Bundle-RequiredExecutionEnvironment: J2SE-1.4,
  CDC-1.0/Foundation-1.0

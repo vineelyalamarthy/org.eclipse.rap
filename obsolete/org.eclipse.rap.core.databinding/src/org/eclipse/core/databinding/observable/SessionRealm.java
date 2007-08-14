@@ -11,7 +11,7 @@
 
 package org.eclipse.core.databinding.observable;
 
-import com.w4t.SessionSingletonBase;
+import org.eclipse.rwt.SessionSingletonBase;
 
 /**
  * Session Singleton used to link a Realm to one session.

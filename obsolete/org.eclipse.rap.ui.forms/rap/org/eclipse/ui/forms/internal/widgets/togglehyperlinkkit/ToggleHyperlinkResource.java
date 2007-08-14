@@ -11,9 +11,9 @@
 
 package org.eclipse.ui.forms.internal.widgets.togglehyperlinkkit;
 
-import org.eclipse.swt.resources.IResource;
+import org.eclipse.rwt.resources.IResource;
+import org.eclipse.rwt.resources.IResourceManager.RegisterOptions;
 
-import com.w4t.IResourceManager.RegisterOptions;
 
 
 public final class ToggleHyperlinkResource implements IResource {

@@ -13,15 +13,9 @@ package org.eclipse.ui.forms.internal.widgets.togglehyperlinkkit;
 
 import java.io.IOException;
 
+import org.eclipse.rwt.lifecycle.*;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.lifecycle.AbstractWidgetLCA;
-import org.eclipse.swt.lifecycle.ControlLCAUtil;
-import org.eclipse.swt.lifecycle.IWidgetAdapter;
-import org.eclipse.swt.lifecycle.JSListenerInfo;
-import org.eclipse.swt.lifecycle.JSListenerType;
-import org.eclipse.swt.lifecycle.JSWriter;
-import org.eclipse.swt.lifecycle.WidgetUtil;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.forms.widgets.ToggleHyperlink;
 import org.eclipse.ui.forms.widgets.TreeNode;
