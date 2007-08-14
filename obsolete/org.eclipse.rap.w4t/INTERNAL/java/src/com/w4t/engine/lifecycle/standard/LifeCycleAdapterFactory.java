@@ -10,7 +10,8 @@
  ******************************************************************************/
 package com.w4t.engine.lifecycle.standard;
 
-import com.w4t.AdapterFactory;
+import org.eclipse.rwt.AdapterFactory;
+
 import com.w4t.WebForm;
 
 

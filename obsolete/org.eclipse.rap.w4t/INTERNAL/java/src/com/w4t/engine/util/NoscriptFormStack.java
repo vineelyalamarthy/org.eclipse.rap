@@ -13,7 +13,9 @@ package com.w4t.engine.util;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Stack;
-import com.w4t.SessionSingletonBase;
+
+import org.eclipse.rwt.SessionSingletonBase;
+
 import com.w4t.WebForm;
 
 

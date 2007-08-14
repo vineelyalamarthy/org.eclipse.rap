@@ -15,7 +15,7 @@ import java.util.EventListener;
 /** 
  * <p>An action listener is informed about action events such as a 
  * <code>WebButton</code> that was pressed/clicked.</p>
- * @see com.w4t.event.WebActionEvent
+ * @see org.eclipse.rwt.event.WebActionEvent
  */
 public interface WebActionListener extends EventListener {
 

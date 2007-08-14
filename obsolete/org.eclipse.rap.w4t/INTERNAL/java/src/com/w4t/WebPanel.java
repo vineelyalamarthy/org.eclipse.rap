@@ -10,7 +10,7 @@
  ******************************************************************************/
 package com.w4t;
 
-import com.w4t.engine.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
 
 /** <p>This is the simplest container class.</p>
   * <p>A WebPanel provides space in which an application can attach any other

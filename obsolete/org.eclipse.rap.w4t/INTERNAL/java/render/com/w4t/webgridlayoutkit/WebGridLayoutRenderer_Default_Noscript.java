@@ -12,7 +12,7 @@ package com.w4t.webgridlayoutkit;
 
 
 /** <p>The default noscript renderer for 
-  * {@link com.w4t.WebGridLayout WebGridLayout}.</p>
+  * {@link org.eclipse.rwt.WebGridLayout WebGridLayout}.</p>
   *
   * <p>The default noscript renderer is non-browser-specific and implements 
   * functionality in a way that runs on browsers that do not implement or 

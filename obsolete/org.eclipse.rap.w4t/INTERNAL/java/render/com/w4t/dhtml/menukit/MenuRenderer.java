@@ -16,7 +16,7 @@ import com.w4t.dhtml.Menu;
 
 
 /** <p>the superclass of all Renderers that render 
-  * {@link com.w4t.dhtml.Menu com.w4t.dhtml.Menu}.</p>
+  * {@link org.eclipse.rwt.dhtml.Menu org.eclipse.rap.dhtml.Menu}.</p>
   */
 public abstract class MenuRenderer extends Renderer {
 

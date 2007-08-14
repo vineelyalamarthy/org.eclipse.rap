@@ -12,7 +12,7 @@ package com.w4t.dhtml.webscrollpanekit;
 
 
 /**
- * <p>The default JavaScript renderer for com.w4t.WebScrollPane.</p>
+ * <p>The default JavaScript renderer for org.eclipse.rap.WebScrollPane.</p>
  * <p>The default Script renderer is non-browser-specific and implements
  * functionality in a way that runs commonly used browsers.</p>
  */

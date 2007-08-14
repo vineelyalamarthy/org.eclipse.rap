@@ -15,9 +15,9 @@ import java.text.Format;
 /**
  * <p>
  * Classes implementing this interface represent a user-readable text, like
- * {@link com.w4t.WebLabel <code>WebLabel</code>}. 
+ * {@link org.eclipse.rwt.WebLabel <code>WebLabel</code>}. 
  * </p> 
- * @see com.w4t.IInputValueHolder
+ * @see org.eclipse.rwt.IInputValueHolder
  */
 public interface IValueHolder {
   

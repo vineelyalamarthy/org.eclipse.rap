@@ -18,7 +18,7 @@ import com.w4t.dhtml.MenuBar;
 import com.w4t.dhtml.menustyle.MenuBarStyle;
 
 /** 
- * <p>The renderer for com.w4t.dhtml.MenuBar on Mozilla 1.6 
+ * <p>The renderer for org.eclipse.rap.dhtml.MenuBar on Mozilla 1.6 
  * and higher with javascript support.</p>
  */
 public class MenuBarRenderer_Mozilla1_6up_Script extends MenuBarRenderer {  

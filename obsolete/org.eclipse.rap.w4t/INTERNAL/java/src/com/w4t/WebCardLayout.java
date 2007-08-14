@@ -11,7 +11,12 @@
 package com.w4t;
 
 import java.io.IOException;
-import com.w4t.event.*;
+
+import org.eclipse.rwt.internal.event.EventAdapter;
+import org.eclipse.rwt.internal.event.IEventAdapter;
+
+import com.w4t.event.WebActionEvent;
+import com.w4t.event.WebActionListener;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
 import com.w4t.internal.adaptable.RenderInfoAdapter;
 import com.w4t.renderinfo.CardLayoutRenderInfo;
@@ -132,7 +137,7 @@ public class WebCardLayout extends WebTable implements WebLayout {
   }
 
   /** <p>checks if the constraint parameter in which was use in the
-    * {@link com.w4t.WebContainer#add(WebComponent,Object) 
+    * {@link org.eclipse.rwt.WebContainer#add(WebComponent,Object) 
     * add(WebComponent,Object)} method of a WebContainer has 
     * the correct type.</p>
     */

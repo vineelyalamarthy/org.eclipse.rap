@@ -10,9 +10,8 @@
  ******************************************************************************/
 package com.w4t.util;
 
-import com.w4t.Browser;
-import com.w4t.util.browser.BrowserLoader;
-import com.w4t.util.browser.Default;
+import org.eclipse.rwt.internal.browser.*;
+
 
 /**
  * <p>Helping structure used by browser specific Renderer loading. This class

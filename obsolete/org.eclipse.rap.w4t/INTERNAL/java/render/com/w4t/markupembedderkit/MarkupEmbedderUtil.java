@@ -11,8 +11,13 @@
 package com.w4t.markupembedderkit;
 
 import java.io.IOException;
-import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.MarkupEmbedder;
+import com.w4t.RenderUtil;
 
 /**
  * <p>Utility class to assist the <code>MarkupEmbedderRenderer_XXX</code>

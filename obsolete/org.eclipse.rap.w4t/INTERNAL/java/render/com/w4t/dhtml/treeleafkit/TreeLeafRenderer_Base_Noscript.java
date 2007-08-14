@@ -11,13 +11,17 @@
 package com.w4t.dhtml.treeleafkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 import com.w4t.util.image.*;
 
 
 /** 
- * <p>The base renderer for <code>com.w4t.dhtml.TreeLeaf</code> on browsers 
+ * <p>The base renderer for <code>org.eclipse.rap.dhtml.TreeLeaf</code> on browsers 
  * without javascript support.</p>
  */
 public class TreeLeafRenderer_Base_Noscript extends TreeLeafRenderer {

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package com.w4t.webbordercomponentkit;
 
-/** <p>The default noscript renderer for com.w4t.WebBorderComponent.</p>
+/** <p>The default noscript renderer for org.eclipse.rap.WebBorderComponent.</p>
   *
   * <p>The default noscript renderer is non-browser-specific and implements 
   * functionality in a way that runs on browsers that do not implement or 

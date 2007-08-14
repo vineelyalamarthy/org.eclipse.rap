@@ -13,9 +13,9 @@ package com.w4t;
 import com.w4t.types.WebColor;
 
 
-/** <p>Defines the interface for parts of a {@link com.w4t.WebContainer 
+/** <p>Defines the interface for parts of a {@link org.eclipse.rwt.WebContainer 
   * WebContainer}, when it is divided and layouted by a 
-  * {@link com.w4t.WebLayout WebLayout}.</p>
+  * {@link org.eclipse.rwt.WebLayout WebLayout}.</p>
   */
 public interface Area {
 

@@ -11,7 +11,9 @@
 package com.w4t.dhtml.renderinfo;
 
 import java.util.List;
-import com.w4t.HtmlResponseWriter;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+
 import com.w4t.dhtml.*;
 
 
@@ -21,8 +23,8 @@ import com.w4t.dhtml.*;
   * <p>Note that render info objects should <b>always</b> be 
   * <b>readonly</b>.</p>
   *
-  * see com.w4t.dhtml.treeviewkit.TreeViewRenderer, TreeView.createRenderInfo()
-  * see com.w4t.dhtml.treenodekit.TreeNodeRenderer, TreeNode.createRenderInfo()
+  * see org.eclipse.rap.dhtml.treeviewkit.TreeViewRenderer, TreeView.createRenderInfo()
+  * see org.eclipse.rap.dhtml.treenodekit.TreeNodeRenderer, TreeNode.createRenderInfo()
   */
 public class TreeInfo {
 

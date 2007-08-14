@@ -11,13 +11,15 @@
 package com.w4t.dhtml.menubuttonkit;
 
 import java.io.IOException;
-import com.w4t.HTML;
-import com.w4t.HtmlResponseWriter;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.dhtml.MenuButton;
 
 
 
-/** <p>The renderer for com.w4t.dhtml.MenuButton on browsers with
+/** <p>The renderer for org.eclipse.rap.dhtml.MenuButton on browsers with
   * javascript support.</p>
   */
 public class MenuButtonRenderer_Default_Script extends MenuButtonRenderer {

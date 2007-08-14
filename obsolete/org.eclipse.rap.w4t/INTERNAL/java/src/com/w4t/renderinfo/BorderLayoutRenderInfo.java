@@ -14,8 +14,8 @@ import com.w4t.*;
 
 
 /** <p>The BorderLayoutRenderInfo contains information for layouting a 
-  * {@link com.w4t.WebContainer WebContainer} using the 
-  * {@link com.w4t.WebBorderLayout WebBorderLayout}.</p>
+  * {@link org.eclipse.rwt.WebContainer WebContainer} using the 
+  * {@link org.eclipse.rwt.WebBorderLayout WebBorderLayout}.</p>
   */
 public class BorderLayoutRenderInfo extends LayoutRenderInfo {
 

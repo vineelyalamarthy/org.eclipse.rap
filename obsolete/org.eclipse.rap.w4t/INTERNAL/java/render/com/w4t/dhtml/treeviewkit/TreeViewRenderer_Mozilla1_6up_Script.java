@@ -11,13 +11,15 @@
 package com.w4t.dhtml.treeviewkit;
 
 import java.io.IOException;
-import com.w4t.HTML;
-import com.w4t.HtmlResponseWriter;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.dhtml.TreeView;
 
 /**
  * <p>
- * The renderer for com.w4t.dhtml.TreeView on Mozilla 1.6 and later.
+ * The renderer for org.eclipse.rap.dhtml.TreeView on Mozilla 1.6 and later.
  * </p>
  */
 public class TreeViewRenderer_Mozilla1_6up_Script

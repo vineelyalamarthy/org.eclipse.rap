@@ -11,11 +11,15 @@
 package com.w4t.dhtml.treeleafkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 
 
-/** <p>The default renderer for com.w4t.dhtml.TreeLeaf.</p>
+/** <p>The default renderer for org.eclipse.rap.dhtml.TreeLeaf.</p>
   *
   * <p>The default renderer is non-browser-specific and implements 
   * functionality in a way that runs on the most commonly used browsers.</p>

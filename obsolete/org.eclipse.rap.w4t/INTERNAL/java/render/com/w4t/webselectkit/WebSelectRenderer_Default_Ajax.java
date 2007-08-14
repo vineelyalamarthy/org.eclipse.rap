@@ -11,12 +11,16 @@
 package com.w4t.webselectkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.event.WebItemEvent;
 
 
-/** <p>The default renderer for com.w4t.WebSelect.</p>
+/** <p>The default renderer for org.eclipse.rap.WebSelect.</p>
   *
   * <p>The default renderer is non-browser-specific and implements 
   * functionality in a way that runs on the most commonly used browsers.</p>

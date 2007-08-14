@@ -19,7 +19,7 @@ import com.w4t.internal.simplecomponent.UniversalAttributes;
   * <p>WebAnchor encapsulates the HTML &lt;a&gt; tag.</p>
   *
   * <p>To create links to pages within the W4 Toolkit application (i.e.
-  * other WebForms), you normally use {@link com.w4t.WebButton WebButton} 
+  * other WebForms), you normally use {@link org.eclipse.rwt.WebButton WebButton} 
   * instead of WebAnchor. But for some reasons it may be nessecary having
   * an &lt;a&gt;tag referring to a WebForm within an application. This is
   * realized with the targetForm attribute of the WebAnchor.</p>
@@ -151,7 +151,7 @@ public class WebAnchor extends Decorator implements SimpleComponent {
   }
   
   
-  // interface methods of com.w4t.SimpleComponent
+  // interface methods of org.eclipse.rap.SimpleComponent
   // (no javadoc comments, so they are copied from the interface)
   ///////////////////////////////////////////////////////////////
   

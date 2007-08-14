@@ -11,12 +11,17 @@
 package com.w4t.webfileuploadkit;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload.FileItem;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.engine.lifecycle.standard.EventQueue;
 import com.w4t.engine.requests.IFileUploadRequest;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.WebFileUploadEvent;
 import com.w4t.internal.adaptable.IFileUploadAdapter;
 

@@ -12,9 +12,17 @@ package com.w4t;
 
 import java.util.Locale;
 
+import org.eclipse.rwt.internal.*;
+import org.eclipse.rwt.internal.browser.Browser;
+import org.eclipse.rwt.internal.lifecycle.ILifeCycle;
+import org.eclipse.rwt.internal.lifecycle.LifeCycleFactory;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.ParamCheck;
+import org.eclipse.rwt.resources.IResourceManager;
+
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.lifecycle.*;
-import com.w4t.engine.service.*;
 import com.w4t.engine.util.*;
 import com.w4t.internal.adaptable.IFormAdapter;
 import com.w4t.util.*;
@@ -75,8 +83,7 @@ public final class W4TContext {
    * @see Browser
    */  
   public static Browser getBrowser() {
-    String id = ServiceContext.DETECTED_SESSION_BROWSER;
-    return ( Browser )ContextProvider.getSession().getAttribute( id );
+    return ContextProvider.getBrowser();
   }
   
   /** <p> loads a WebForm instance into the sessions scope.</p>
@@ -174,7 +181,7 @@ public final class W4TContext {
   
   /** <p>Localizes the session with the specified Locale. The 
     * internationalization functionality of the library will use this Locale
-    * then instead of the {@link com.w4t.Browser#getLocale() Locale of the 
+    * then instead of the {@link org.eclipse.rwt.internal.browser.Browser#getLocale() Locale of the 
     * Browser}.</p> */
   public static void setLocale( final Locale locale ) {
     SessionLocale.set( locale );
@@ -186,7 +193,7 @@ public final class W4TContext {
    * Usually libraries are stored in the WEB-INF/lib directory of 
    * a webapplication</p> */ 
   public static IResourceManager getResourceManager() {
-    return ResourceManager.getInstance();
+    return ResourceManagerImpl.getInstance();
   }
   
   /** <p>returns the request instance of the underlying 
@@ -218,14 +225,7 @@ public final class W4TContext {
   
   /** <p>Returns the <code>ILifeCycle</code> for the current session.</p> */
   public static ILifeCycle getLifeCycle() {
-    ISessionStore session = ContextProvider.getSession();
-    String id = LifeCycle.class.getName();
-    ILifeCycle lifeCycle = ( ILifeCycle )session.getAttribute( id );
-    if( lifeCycle == null ) {
-      lifeCycle = LifeCycleFactory.loadLifeCycle();
-      session.setAttribute( id, lifeCycle );
-    }
-    return lifeCycle;
+    return LifeCycleFactory.getLifeCycle();
   }
   
   /** 

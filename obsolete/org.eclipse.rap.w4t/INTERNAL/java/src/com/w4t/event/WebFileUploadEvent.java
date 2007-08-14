@@ -10,12 +10,12 @@
  ******************************************************************************/
 package com.w4t.event;
 
-import com.w4t.Adaptable;
+import org.eclipse.rwt.Adaptable;
 
 /** 
  * <p>An instance of this class is sent as a result of a file upload.</p>
  * <p>This class is not intended to be instantiated or extended by clients.</p>
- * @see com.w4t.event.WebFileUploadListener
+ * @see org.eclipse.rwt.event.WebFileUploadListener
  */
 public class WebFileUploadEvent extends WebEvent {
 

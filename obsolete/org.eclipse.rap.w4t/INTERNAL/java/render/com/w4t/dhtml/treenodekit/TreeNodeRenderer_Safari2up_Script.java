@@ -12,7 +12,7 @@ package com.w4t.dhtml.treenodekit;
 
 /**
  * <p>
- * The renderer for com.w4t.dhtml.TreeNode on Safari 2.0 and later.
+ * The renderer for org.eclipse.rap.dhtml.TreeNode on Safari 2.0 and later.
  * </p>
  */
 public class TreeNodeRenderer_Safari2up_Script

@@ -11,13 +11,17 @@
 package com.w4t.dhtml.menukit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.menustyle.MenuBarStyle;
 import com.w4t.dhtml.menustyle.MenuButtonActiveStyle;
 
 
-/** <p>The renderer for com.w4t.dhtml.CMenu on browsers without
+/** <p>The renderer for org.eclipse.rap.dhtml.CMenu on browsers without
   * javascript support.</p>
   */
 public class MenuRenderer_Default_Noscript extends MenuRenderer {

@@ -19,7 +19,7 @@ package com.w4t.types;
   * evaluation of the attribute, the default can then be one of 'yes' or 'no'.
   * </p>
   * 
-  * <p>For example, some {@link com.w4t.WindowProperties window properties} 
+  * <p>For example, some {@link org.eclipse.rwt.WindowProperties window properties} 
   * use a WebTriState when the browser may recognize 'yes' or 'no' but will
   * also accept an empty value, which it then interprets as one of 'yes' or 
   * 'no'.</p>

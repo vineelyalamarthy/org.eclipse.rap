@@ -13,14 +13,17 @@ package com.w4t.custom;
 import java.text.MessageFormat;
 import java.util.Hashtable;
 import java.util.Map;
+
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.util.Assert;
+import org.eclipse.rwt.resources.IResourceManager;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.menustyle.*;
-import com.w4t.engine.util.ResourceManager;
 import com.w4t.event.WebActionEvent;
 import com.w4t.event.WebActionListener;
 import com.w4t.types.LocalPath;
-import com.w4t.util.Assert;
 
 
 /** <p>A convenience component that consists of a menu which can be configured
@@ -80,7 +83,7 @@ import com.w4t.util.Assert;
   * 
   * <p>Specifying a <strong>&lt;command&gt;</strong> is optional. If none is
   * specified, clicking the menu will do nothing.</p> 
-  * @see com.w4t.custom.ICustomAction
+  * @see org.eclipse.rwt.custom.ICustomAction
   */
 public class CMenu extends WebPanel implements Concealer {
 
@@ -174,7 +177,7 @@ public class CMenu extends WebPanel implements Concealer {
     final MenuItem result = new MenuItem( entry.getLabel() );    
     if( !entry.getId().equals( "" ) ) {
       final String className = entry.getCommand().trim();
-      IResourceManager manager = ResourceManager.getInstance();
+      IResourceManager manager = ResourceManagerImpl.getInstance();
       final ClassLoader contextLoader = manager.getContextLoader();
       result.addWebActionListener( new WebActionListener() {
         public void webActionPerformed( final WebActionEvent evt ) {

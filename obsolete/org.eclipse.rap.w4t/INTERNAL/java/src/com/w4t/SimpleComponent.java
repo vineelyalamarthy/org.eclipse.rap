@@ -78,9 +78,9 @@ public interface SimpleComponent {
   String getTitle();
   
   /** <p>sets whether attributes in the style descriptor (see 
-    * {@link com.w4t.SimpleComponent#setStyle( com.w4t.Style ) 
+    * {@link org.eclipse.rwt.SimpleComponent#setStyle( org.eclipse.rwt.Style ) 
     * setStyle( Style )} that would override settings in a css class (see
-    * {@link com.w4t.SimpleComponent#setCssClass( String ) 
+    * {@link org.eclipse.rwt.SimpleComponent#setCssClass( String ) 
     * setCssClass( String ) } are ignored when rendering this 
     * SimpleComponent.</p>
     * 
@@ -97,9 +97,9 @@ public interface SimpleComponent {
   void setIgnoreLocalStyle( boolean ignoreLocalStyle );
 
   /** <p>returns whether attributes in the style descriptor (see 
-    * {@link com.w4t.SimpleComponent#setStyle( com.w4t.Style ) 
+    * {@link org.eclipse.rwt.SimpleComponent#setStyle( org.eclipse.rwt.Style ) 
     * setStyle( Style )} that would override settings in a css class (see
-    * {@link com.w4t.SimpleComponent#setCssClass( String ) 
+    * {@link org.eclipse.rwt.SimpleComponent#setCssClass( String ) 
     * setCssClass( String ) } are ignored when rendering this 
     * SimpleComponent.</p>
     * 

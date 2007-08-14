@@ -10,14 +10,14 @@
  ******************************************************************************/
 package com.w4t.webformkit;
 
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.internal.util.HTMLUtil;
+
 import com.w4t.*;
 import com.w4t.engine.lifecycle.standard.EventQueueFilter;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
-import com.w4t.util.HTMLUtil;
 
 
 public class WebFormRenderer_Default_Script extends WebFormRenderer {

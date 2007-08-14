@@ -11,13 +11,17 @@
 package com.w4t.dhtml.treenodekit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.event.*;
 import com.w4t.dhtml.renderinfo.TreeNodeInfo;
 
 
-/** <p>The default renderer for com.w4t.dhtml.TreeNode.</p> */
+/** <p>The default renderer for org.eclipse.rap.dhtml.TreeNode.</p> */
 // TODO [rh] missing test case for this renderer
 public class TreeNodeRenderer_Default_Script extends TreeNodeRenderer {
   

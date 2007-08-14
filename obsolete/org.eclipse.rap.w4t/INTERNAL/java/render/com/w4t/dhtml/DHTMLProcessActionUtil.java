@@ -12,9 +12,12 @@ package com.w4t.dhtml;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.service.ISessionStore;
+
 import com.w4t.NoscriptUtil;
 import com.w4t.dhtml.event.*;
-import com.w4t.engine.service.*;
 import com.w4t.event.WebActionEvent;
 
 

@@ -10,13 +10,13 @@
  ******************************************************************************/
 package com.w4t.event;
 
-import com.w4t.Adaptable;
+import org.eclipse.rwt.Adaptable;
 
 /** 
  * <p>Instance of this class are sent as a result of an item state change such
  * as a <code>WebCheckBox</code> that was checked or unchecked.</p>
  * <p>This class is not intended to be instantiated or extended by clients.</p>
- * @see com.w4t.event.WebItemListener
+ * @see org.eclipse.rwt.event.WebItemListener
  */
 public class WebItemEvent extends WebEvent {
 

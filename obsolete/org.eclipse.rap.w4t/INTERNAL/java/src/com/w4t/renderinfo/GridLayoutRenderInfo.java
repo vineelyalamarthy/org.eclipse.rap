@@ -15,8 +15,8 @@ import com.w4t.WebContainer;
 import com.w4t.WebTableCell;
 
 /** <p>The GridLayoutRenderInfo contains information for layouting a 
-  * {@link com.w4t.WebContainer WebContainer} using the 
-  * {@link com.w4t.WebGridLayout WebGridLayout}.</p>
+  * {@link org.eclipse.rwt.WebContainer WebContainer} using the 
+  * {@link org.eclipse.rwt.WebGridLayout WebGridLayout}.</p>
   */
 public class GridLayoutRenderInfo extends LayoutRenderInfo {
 

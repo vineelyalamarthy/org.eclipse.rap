@@ -15,7 +15,7 @@ import com.w4t.util.ImageRegistry;
 
 
 /** <p>An ImageSet represents the various icon and other images for a
-  * {@link com.w4t.dhtml.TreeNode TreeNode}.</p>
+  * {@link org.eclipse.rwt.dhtml.TreeNode TreeNode}.</p>
   */
 public class ImageSet {
 

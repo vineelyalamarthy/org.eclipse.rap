@@ -11,6 +11,10 @@
 package com.w4t.dhtml.treenodekit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.event.WebTreeNodeCollapsedEvent;
@@ -20,7 +24,7 @@ import com.w4t.util.image.*;
 
 
 /** 
- * <p>The base renderer for <code>com.w4t.dhtml.TreeNode</code> on 
+ * <p>The base renderer for <code>org.eclipse.rap.dhtml.TreeNode</code> on 
  * browsers without javascript support.</p>
  */
 public class TreeNodeRenderer_Base_Noscript extends TreeNodeRenderer {

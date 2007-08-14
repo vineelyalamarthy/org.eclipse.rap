@@ -11,13 +11,17 @@
 package com.w4t.webtextkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 
 /**
  * <p>
- * the superclass of all Renderers that render com.w4t.WebText.
+ * the superclass of all Renderers that render org.eclipse.rap.WebText.
  * </p>
  */
 final class WebTextUtil {

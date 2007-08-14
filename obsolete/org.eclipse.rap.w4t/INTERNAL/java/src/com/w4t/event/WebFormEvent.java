@@ -10,14 +10,14 @@
  ******************************************************************************/
 package com.w4t.event;
 
-import com.w4t.Adaptable;
+import org.eclipse.rwt.Adaptable;
 
 /** 
  * <p>Instances of this class are sent as a result of a <code>WebForm</code>
  * being initialized or closed.</p>
  * <p>This class is not intended to be instantiated or extended by clients.</p>
- * @see com.w4t.event.WebFormListener
- * @see com.w4t.event.WebFormAdapter
+ * @see org.eclipse.rwt.event.WebFormListener
+ * @see org.eclipse.rwt.event.WebFormAdapter
  */
 public class WebFormEvent extends WebEvent {
 

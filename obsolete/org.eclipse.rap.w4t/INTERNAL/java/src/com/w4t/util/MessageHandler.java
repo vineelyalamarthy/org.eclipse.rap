@@ -11,8 +11,10 @@
 package com.w4t.util;
 
 import java.util.Vector;
+
+import org.eclipse.rwt.SessionSingletonBase;
+
 import com.w4t.Message;
-import com.w4t.SessionSingletonBase;
 
 
 /** <p>This controls a queue of messages, which could be added during 

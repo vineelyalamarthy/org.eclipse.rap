@@ -324,7 +324,7 @@ public class TreeView extends TreeNode {
     * <p>Note: You may also set the minimal child node number for
     * dynamic loading on a single TreeNode, which overrides this setting
     * for that TreeNode, if is set later. Get this with getMinChildsDynLoad()
-    * in com.w4t.dhtml.TreeNode .</p> */
+    * in org.eclipse.rap.dhtml.TreeNode .</p> */
   public int getMinChildsDynLoad(  ) {
     return this.minChildsDynLoad;
   }
@@ -350,7 +350,7 @@ public class TreeView extends TreeNode {
     * TreeNode.DYNLOAD_DYNAMIC.</p>
     * <p>Note: You may also set the dynamic loading mode on a single TreeNode,
     * which overrides this setting for that TreeNode, if is set later. Get
-    * this with getDynLoading() in com.w4t.dhtml.TreeNode .</p> */
+    * this with getDynLoading() in org.eclipse.rap.dhtml.TreeNode .</p> */
   public String getDynLoading(  ) {
     return this.dynLoading;
   }

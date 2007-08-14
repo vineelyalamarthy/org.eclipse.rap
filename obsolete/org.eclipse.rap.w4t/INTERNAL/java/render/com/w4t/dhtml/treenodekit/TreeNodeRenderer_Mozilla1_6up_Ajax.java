@@ -19,7 +19,7 @@ import com.w4t.dhtml.renderinfo.TreeNodeInfo;
 
 
 /**
- * <p>The renderer for <code>com.w4t.dhtml.TreeNode</code> on Mozilla 1.6 and 
+ * <p>The renderer for <code>org.eclipse.rap.dhtml.TreeNode</code> on Mozilla 1.6 and 
  * later with AJaX support enabled.</p>
  */
 //TODO [rh] unite! copied from corresponding Ie5 renderer

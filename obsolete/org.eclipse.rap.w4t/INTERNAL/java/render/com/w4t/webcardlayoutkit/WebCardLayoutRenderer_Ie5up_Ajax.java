@@ -11,12 +11,13 @@
 package com.w4t.webcardlayoutkit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatus;
 import com.w4t.ajax.AjaxStatusUtil;
 
 
-/** <p>The default renderer for {@link com.w4t.WebCardLayout
+/** <p>The default renderer for {@link org.eclipse.rwt.WebCardLayout
  * <code>WebCardLayout</code>} on AJaX-enabled browsers.</p>
  */
 public class WebCardLayoutRenderer_Ie5up_Ajax 

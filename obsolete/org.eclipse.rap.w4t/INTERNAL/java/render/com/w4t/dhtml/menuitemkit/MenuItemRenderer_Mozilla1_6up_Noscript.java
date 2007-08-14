@@ -11,13 +11,17 @@
 package com.w4t.dhtml.menuitemkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.MenuItem;
 import com.w4t.dhtml.menustyle.MenuItemEnabledStyle;
 import com.w4t.util.image.*;
 
 
-/** <p>The renderer for com.w4t.dhtml.MenuItem on Netscape Navigator 6 
+/** <p>The renderer for org.eclipse.rap.dhtml.MenuItem on Netscape Navigator 6 
   * and higher without javascript support.</p>
   */
 public class MenuItemRenderer_Mozilla1_6up_Noscript extends MenuItemRenderer {

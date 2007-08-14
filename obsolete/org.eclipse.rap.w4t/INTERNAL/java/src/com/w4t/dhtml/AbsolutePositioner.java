@@ -11,6 +11,10 @@
 package com.w4t.dhtml;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.types.WebColor;
 import com.w4t.util.DefaultColorScheme;
@@ -30,7 +34,7 @@ public class AbsolutePositioner extends WebObject implements Area {
   private String id = "";
   private WebComponent contentComponent;
 
-  // attributes for inherited getters and setters from com.w4t.Area
+  // attributes for inherited getters and setters from org.eclipse.rap.Area
   /////////////////////////////////////////////////////////////////
 
   /** <p>the horizontal alignment of this Positioner, specified by a string,
@@ -172,7 +176,7 @@ public class AbsolutePositioner extends WebObject implements Area {
   }
 
 
-  // inherited attribute setters and getters from com.w4t.Area
+  // inherited attribute setters and getters from org.eclipse.rap.Area
   ////////////////////////////////////////////////////////////
 
   /** <p>sets the horizontal alignment of this Area.</p>

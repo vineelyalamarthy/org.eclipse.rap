@@ -10,8 +10,9 @@
  ******************************************************************************/
 package com.w4t.engine;
 
+import org.eclipse.rwt.internal.*;
+
 import com.w4t.engine.util.W4TModelList;
-import com.w4t.util.*;
 
 
 /** <p>This frees the registry from WebComponents, which are not needed 

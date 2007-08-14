@@ -252,7 +252,7 @@ public class WebFileUpload
   }
 
   
-  // interface methods of com.w4t.SimpleComponent
+  // interface methods of org.eclipse.rap.SimpleComponent
   ///////////////////////////////////////////////////////////////
 
 

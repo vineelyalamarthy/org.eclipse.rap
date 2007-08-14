@@ -12,7 +12,7 @@ package com.w4t.dhtml.treeleafkit;
 
 /**
  * <p>
- * The renderer for com.w4t.dhtml.TreeLeaf on Konqueror 3.2 and later.
+ * The renderer for org.eclipse.rap.dhtml.TreeLeaf on Konqueror 3.2 and later.
  * </p>
  */
 public class TreeLeafRenderer_Konqueror3_2up_Script

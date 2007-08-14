@@ -18,7 +18,7 @@ import com.w4t.dhtml.*;
 import com.w4t.dhtml.renderinfo.TreeViewInfo;
 
 /**
- * <p>The renderer for {@link com.w4t.dhtml.TreeView <code>TreeView</code>} on 
+ * <p>The renderer for {@link org.eclipse.rwt.dhtml.TreeView <code>TreeView</code>} on 
   * Mozilla 1.6 and later with AJaX support enabled.</p>
  */
 // TODO [rh] unite! copied from corresponding default renderer

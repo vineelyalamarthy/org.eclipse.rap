@@ -31,20 +31,6 @@ public class Style extends WebComponentProperties {
    * that the attribute in question should not be rendered.</p> */
   public static final int NOT_USED = -1;
   
-  /** <p>used for rendering internally.</p>
-   * 
-   * <p>Styles with exactly the same settings are collected while rendering
-   * and a css class with these settings and prefixed CLASS_PREFIX is
-   * rendered and assigned instead of rendering the same style settings
-   * inline multiple times. This happens only if no class attribute
-   * (see {@link SimpleComponent#getCssClass() SimpleComponent.getCssClass()})
-   * is set; else style settings are inlined into the HTML. Note that in the
-   * latter case the rendering and style interprettion behaviour of the
-   * browser may cause some or all of either the style or the class settings
-   * to take no effect.</p> 
-   */
-  public static final String CLASS_PREFIX = "w4tCss";
-
   private static final WebTriState EMPTY_TRI_STATE = new WebTriState( "" );
   private static final WebColor DEFAULT_BORDER_RIGHT_COLOR 
     = new WebColor( getColor( DefaultColorScheme.STYLE_BORDER_RIGHT ) );

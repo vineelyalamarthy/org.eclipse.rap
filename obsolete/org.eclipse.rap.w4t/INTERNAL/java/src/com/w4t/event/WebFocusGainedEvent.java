@@ -10,13 +10,13 @@
  ******************************************************************************/
 package com.w4t.event;
 
-import com.w4t.Adaptable;
-import com.w4t.HTML;
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.internal.util.HTML;
 
 /** 
- * <p>This event occurs if a focusable (see {@link com.w4t.IFocusable
+ * <p>This event occurs if a focusable (see {@link org.eclipse.rwt.IFocusable
  * <code>IFocusable</code>}) component gained focus.</p> 
- * @see com.w4t.event.WebFocusGainedListener
+ * @see org.eclipse.rwt.event.WebFocusGainedListener
  */
 public class WebFocusGainedEvent extends WebEvent {
 

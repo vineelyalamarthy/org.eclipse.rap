@@ -11,14 +11,22 @@
 package com.w4t.dhtml.menubarkit;
 
 import java.io.IOException;
-import com.w4t.*;
-import com.w4t.IResourceManager.RegisterOptions;
+
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.internal.browser.Browser;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.resources.IResourceManager;
+import org.eclipse.rwt.resources.IResourceManager.RegisterOptions;
+
+import com.w4t.LifeCycleHelper;
+import com.w4t.W4TContext;
 import com.w4t.dhtml.MenuBar;
 import com.w4t.dhtml.Node;
 import com.w4t.dhtml.renderinfo.MenuBarInfo;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
-import com.w4t.engine.util.ResourceManager;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
 
 
@@ -33,7 +41,7 @@ final class MenuBarUtil {
   }
 
   static void useJSLibrary( final String name ) {
-    IResourceManager manager = ResourceManager.getInstance();
+    IResourceManager manager = ResourceManagerImpl.getInstance();
     manager.register( name, 
                       HTML.CHARSET_NAME_ISO_8859_1, 
                       RegisterOptions.VERSION_AND_COMPRESS );

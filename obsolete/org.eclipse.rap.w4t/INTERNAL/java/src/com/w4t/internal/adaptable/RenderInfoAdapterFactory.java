@@ -12,7 +12,8 @@ package com.w4t.internal.adaptable;
 
 import java.util.Map;
 import java.util.WeakHashMap;
-import com.w4t.AdapterFactory;
+
+import org.eclipse.rwt.AdapterFactory;
 
 //TODO [rh] JavaDoc necessary?
 public class RenderInfoAdapterFactory implements AdapterFactory {

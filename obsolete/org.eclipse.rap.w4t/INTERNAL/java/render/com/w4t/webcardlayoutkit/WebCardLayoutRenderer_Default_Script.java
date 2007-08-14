@@ -14,7 +14,7 @@ import com.w4t.*;
 
 
 /** <p>The default renderer for 
-  * {@link com.w4t.WebCardLayout WebCardLayout}.</p>
+  * {@link org.eclipse.rwt.WebCardLayout WebCardLayout}.</p>
   *
   * <p>The default renderer is non-browser-specific and implements 
   * functionality in a way that runs on the most commonly used browsers.</p>

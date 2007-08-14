@@ -11,7 +11,7 @@
 package com.w4t.dhtml.treeleafkit;
 
 /**
- * <p>The renderer for com.w4t.dhtml.TreeLeaf on Opera 8 and later.</p>
+ * <p>The renderer for org.eclipse.rap.dhtml.TreeLeaf on Opera 8 and later.</p>
  */
 public class TreeLeafRenderer_Opera8up_Script
   extends TreeLeafRenderer_Ie5up_Script

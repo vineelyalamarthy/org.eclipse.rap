@@ -11,7 +11,11 @@
 package com.w4t.dhtml;
 
 import java.io.IOException;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.WebComponent;
 import com.w4t.types.WebColor;
 import com.w4t.util.DefaultColorScheme;
 

@@ -11,12 +11,14 @@
 package com.w4t.dhtml.menuitemseparatorkit;
 
 import java.io.IOException;
-import com.w4t.HtmlResponseWriter;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+
 import com.w4t.Renderer;
 
 
 /** <p>the superclass of all Renderers that render 
-  * {@link com.w4t.dhtml.MenuItemSeparator com.w4t.dhtml.MenuItemSeparator}.
+  * {@link org.eclipse.rwt.dhtml.MenuItemSeparator org.eclipse.rap.dhtml.MenuItemSeparator}.
   * </p>
   */
 public abstract class MenuItemSeparatorRenderer extends Renderer {

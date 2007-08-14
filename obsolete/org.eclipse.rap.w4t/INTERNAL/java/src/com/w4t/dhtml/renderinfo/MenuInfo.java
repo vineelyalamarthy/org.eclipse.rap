@@ -16,7 +16,7 @@ package com.w4t.dhtml.renderinfo;
   * Menus.</p>
   * <p>Note that render info objects should <strong>always</strong> be 
   * <strong>readonly</strong>.</p>
-  * @see com.w4t.dhtml.menukit.MenuRenderer
+  * @see org.eclipse.rwt.dhtml.menukit.MenuRenderer
   */
 public class MenuInfo {
 }

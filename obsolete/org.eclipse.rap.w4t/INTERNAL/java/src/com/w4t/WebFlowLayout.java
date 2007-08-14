@@ -34,8 +34,8 @@ import com.w4t.renderinfo.FlowLayoutRenderInfo;
   * <pre>
   * package test;
   *
-  * import com.w4t.*;
-  * import com.w4t.event.*;
+  * import org.eclipse.rap.*;
+  * import org.eclipse.rap.event.*;
   *
   * public class Test extends WebForm {
   *

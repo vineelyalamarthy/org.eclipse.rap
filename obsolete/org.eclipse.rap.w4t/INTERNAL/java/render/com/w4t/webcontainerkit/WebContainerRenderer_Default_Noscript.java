@@ -11,7 +11,7 @@
 package com.w4t.webcontainerkit;
 
 
-/** <p>The default noscript renderer for com.w4t.WebContainer.</p>
+/** <p>The default noscript renderer for org.eclipse.rap.WebContainer.</p>
   *
   * <p>The default noscript renderer is non-browser-specific and implements 
   * functionality in a way that runs on browsers that do not implement or 

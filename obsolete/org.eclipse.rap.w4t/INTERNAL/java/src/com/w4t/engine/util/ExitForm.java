@@ -16,7 +16,7 @@ import com.w4t.WebForm;
  * <p>This form is used to render the (last) reponse for an invalidated 
  * session.</p> 
  * <p>This class is not intended to be used by clients.</p>
- * @see com.w4t.W4TContext#invalidate()
+ * @see org.eclipse.rwt.W4TContext#invalidate()
  */
 public final class ExitForm extends WebForm {
 

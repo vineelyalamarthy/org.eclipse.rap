@@ -11,6 +11,10 @@
 package com.w4t.dhtml.treenodekit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.TreeNode;
 import com.w4t.dhtml.TreeNodeShift;
@@ -20,7 +24,7 @@ import com.w4t.types.WebColor;
 import com.w4t.util.DefaultColorScheme;
 
 
-/** <p>the superclass of all Renderers that render com.w4t.dhtml.TreeNode.</p>
+/** <p>the superclass of all Renderers that render org.eclipse.rap.dhtml.TreeNode.</p>
   */
 public abstract class TreeNodeRenderer extends Renderer {
 

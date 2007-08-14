@@ -11,11 +11,12 @@
 package com.w4t.webanchorkit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
 
 /** 
- * <p>The default renderer for <code>com.w4t.WebAnchor</code> on AJaX-enabled
+ * <p>The default renderer for <code>org.eclipse.rap.WebAnchor</code> on AJaX-enabled
  * browsers.</p>
  */
 public class WebAnchorRenderer_Default_Ajax extends WebAnchorRenderer {

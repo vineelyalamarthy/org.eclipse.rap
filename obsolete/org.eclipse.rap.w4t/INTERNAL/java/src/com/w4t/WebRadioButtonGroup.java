@@ -11,11 +11,12 @@
 package com.w4t;
 
 import java.text.Format;
+
 import com.w4t.event.*;
 
 /** 
  * <p>A WebRadioButtonGroup is a logical grouping of WebRadioButtons.</p>
- * <p>From all {@link com.w4t.WebRadioButton <code>WebRadioButton</code>s}
+ * <p>From all {@link org.eclipse.rwt.WebRadioButton <code>WebRadioButton</code>s}
  * contained in a group only one can be selected at a time. A click on one of 
  * the WebRadioButtons in the group causes a WebItemChangedEvent. The clicked 
  * WebRadioButton appears selected, all other WebRadioButtons belonging to the 

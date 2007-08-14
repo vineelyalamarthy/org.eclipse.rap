@@ -11,12 +11,16 @@
 package com.w4t.webbuttonkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.event.WebActionEvent;
 import com.w4t.util.image.*;
 
 
-/** <p>The default noscript renderer for com.w4t.WebButton.</p>
+/** <p>The default noscript renderer for org.eclipse.rap.WebButton.</p>
   *
   * <p>The default noscript renderer is non-browser-specific and implements 
   * functionality in a way that runs on browsers that do not implement or 

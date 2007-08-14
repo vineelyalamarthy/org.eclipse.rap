@@ -11,8 +11,14 @@
 package com.w4t;
 
 import java.beans.DesignMode;
+
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.internal.event.EventAdapter;
+import org.eclipse.rwt.internal.event.IEventAdapter;
+
 import com.w4t.developer.PanelCreator;
-import com.w4t.event.*;
+import com.w4t.event.WebRenderEvent;
+import com.w4t.event.WebRenderListener;
 import com.w4t.util.WebComponentCounter;
 import com.w4t.util.WebComponentRegistry;
 
@@ -124,10 +130,10 @@ public abstract class WebComponent
     WebRenderEvent.removeListener( this, listener );
   }
   
-  /** <p>returns a reference to the {@link com.w4t.WebContainer WebContainer}
+  /** <p>returns a reference to the {@link org.eclipse.rwt.WebContainer WebContainer}
     * that contains this WebComponent.</p>
     * 
-    * @return the parent {@link com.w4t.WebContainer WebContainer} 
+    * @return the parent {@link org.eclipse.rwt.WebContainer WebContainer} 
     *         of this component
     */
   public WebContainer getParent() {

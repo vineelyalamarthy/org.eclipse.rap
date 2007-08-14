@@ -13,7 +13,7 @@ package com.w4t.dhtml.menubuttonkit;
 
 
 /** 
- * <p>The renderer for <code>com.w4t.dhtml.MenuButton</code> on browsers with
+ * <p>The renderer for <code>org.eclipse.rap.dhtml.MenuButton</code> on browsers with
  * javascript support.</p>
  */
 public class MenuButtonRenderer_Default_Ajax

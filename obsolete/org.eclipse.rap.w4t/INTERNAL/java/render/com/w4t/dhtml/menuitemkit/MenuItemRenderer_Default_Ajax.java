@@ -18,7 +18,7 @@ import com.w4t.dhtml.MenuItem;
 
 
 /** 
- * <p>The renderer for <code>com.w4t.dhtml.MenuItem</code> on browsers with 
+ * <p>The renderer for <code>org.eclipse.rap.dhtml.MenuItem</code> on browsers with 
  * ajax support.</p>
  */
 public class MenuItemRenderer_Default_Ajax

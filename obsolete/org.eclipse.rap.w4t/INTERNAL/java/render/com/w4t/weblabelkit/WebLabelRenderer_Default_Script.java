@@ -11,11 +11,12 @@
 package com.w4t.weblabelkit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 
 
 
-/** <p>The default renderer for com.w4t.WebLabel.</p>
+/** <p>The default renderer for org.eclipse.rap.WebLabel.</p>
   *
   * <p>The default renderer is non-browser-specific and implements 
   * functionality in a way that runs on the most commonly used browsers.</p>

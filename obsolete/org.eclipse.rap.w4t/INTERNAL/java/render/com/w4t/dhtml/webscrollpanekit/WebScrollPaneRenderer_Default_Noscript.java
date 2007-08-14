@@ -11,13 +11,18 @@
 package com.w4t.dhtml.webscrollpanekit;
 
 import java.io.IOException;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.Decorator;
+import com.w4t.DecoratorRenderer;
 import com.w4t.dhtml.WebScrollPane;
 
 
 /**
  * <p>
- * The default noscript renderer for com.w4t.WebScrollPane.
+ * The default noscript renderer for org.eclipse.rap.WebScrollPane.
  * </p>
  * <p>
  * The default noscript renderer is non-browser-specific and implements

@@ -12,7 +12,7 @@ package com.w4t.webcontainerkit;
 
 
 
-/** <p>The default renderer for com.w4t.WebContainer.</p>
+/** <p>The default renderer for org.eclipse.rap.WebContainer.</p>
   *
   * <p>The default renderer is non-browser-specific and implements 
   * functionality in a way that runs on the most commonly used browsers.</p>

@@ -18,8 +18,8 @@ import org.apache.commons.fileupload.FileItem;
  * the FileUpload machanism.</p>
  * <p>
  * Classes which are involved in this machanism should provide their 
- * implementation via the {@link com.w4t.Adaptable#getAdapter(Class) getAdapter} 
- * method of {@link com.w4t.Adaptable Adaptable}.
+ * implementation via the {@link org.eclipse.rwt.Adaptable#getAdapter(Class) getAdapter} 
+ * method of {@link org.eclipse.rwt.Adaptable Adaptable}.
  * </p>
  */
 public interface IFileUploadAdapter {

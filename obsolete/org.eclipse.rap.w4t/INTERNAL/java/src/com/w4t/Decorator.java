@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.w4t;
 
+import org.eclipse.rwt.internal.util.ParamCheck;
+
 
 /**
  * <p>A <code>Decorator</code> is a <code>WebComponent</code> that wraps other

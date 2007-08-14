@@ -14,8 +14,8 @@ import com.w4t.WebContainer;
 
 
 /** <p>The CardLayoutRenderInfo contains information for layouting a 
-  * {@link com.w4t.WebContainer WebContainer} using the 
-  * {@link com.w4t.WebCardLayout WebCardLayout}.</p>
+  * {@link org.eclipse.rwt.WebContainer WebContainer} using the 
+  * {@link org.eclipse.rwt.WebCardLayout WebCardLayout}.</p>
   */
 public class CardLayoutRenderInfo extends LayoutRenderInfo {
 

@@ -13,7 +13,7 @@ package com.w4t.dhtml.treeviewkit;
 
 /**
  * <p>
- * The renderer for com.w4t.dhtml.TreeView on Safari 2 and later.
+ * The renderer for org.eclipse.rap.dhtml.TreeView on Safari 2 and later.
  * </p>
  */
 public class TreeViewRenderer_Safari2up_Script

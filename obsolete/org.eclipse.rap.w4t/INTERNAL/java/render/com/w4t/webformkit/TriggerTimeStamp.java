@@ -10,10 +10,14 @@
  ******************************************************************************/
 package com.w4t.webformkit;
 
-import com.w4t.*;
+import org.eclipse.rwt.internal.*;
+import org.eclipse.rwt.internal.browser.*;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.internal.util.HTMLUtil;
+
+import com.w4t.W4TContext;
+import com.w4t.WebForm;
 import com.w4t.engine.util.FormManager;
-import com.w4t.util.*;
-import com.w4t.util.browser.*;
 
 
 /**

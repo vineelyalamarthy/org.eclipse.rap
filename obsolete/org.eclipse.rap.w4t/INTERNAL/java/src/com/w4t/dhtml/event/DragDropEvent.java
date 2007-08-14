@@ -10,7 +10,8 @@
  ******************************************************************************/
 package com.w4t.dhtml.event;
 
-import com.w4t.Adaptable;
+import org.eclipse.rwt.Adaptable;
+
 import com.w4t.dhtml.Item;
 import com.w4t.dhtml.Node;
 import com.w4t.event.WebEvent;

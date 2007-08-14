@@ -11,8 +11,12 @@
 package com.w4t.webcheckboxkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.internal.util.HTMLUtil;
+
 import com.w4t.*;
-import com.w4t.util.HTMLUtil;
 
 
 public abstract class WebCheckBoxRenderer extends Renderer {

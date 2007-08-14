@@ -14,7 +14,7 @@ package com.w4t;
   * W4TContext and  displayed in a message box (a special pop up 
   * window).</p>
   *
-  * @see com.w4t.W4TContext#addMessage(Message) W4TContext.addMessage(Message)
+  * @see org.eclipse.rwt.W4TContext#addMessage(Message) W4TContext.addMessage(Message)
   */
 public class Message {
 

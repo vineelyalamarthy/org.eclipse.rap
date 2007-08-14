@@ -18,7 +18,7 @@ import com.w4t.dhtml.ItemUtil;
 
 
 /**
- * <p>The renderer for <code>com.w4t.dhtml.TreeLeaf</code> on Mozilla 1.6 and 
+ * <p>The renderer for <code>org.eclipse.rap.dhtml.TreeLeaf</code> on Mozilla 1.6 and 
  * later with AJaX support enabled</p>
  */
 //TODO [rh] unite! copied from corresponding Ie5 renderer

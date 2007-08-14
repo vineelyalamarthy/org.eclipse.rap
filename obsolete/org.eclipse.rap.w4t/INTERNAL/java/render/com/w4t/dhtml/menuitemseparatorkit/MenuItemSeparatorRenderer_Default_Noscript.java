@@ -14,7 +14,7 @@ import java.io.IOException;
 import com.w4t.WebComponent;
 
 
-/** <p>The renderer for com.w4t.dhtml.MenuItemSeparator on browsers without
+/** <p>The renderer for org.eclipse.rap.dhtml.MenuItemSeparator on browsers without
   * javascript support.</p>
   */
 public class MenuItemSeparatorRenderer_Default_Noscript 

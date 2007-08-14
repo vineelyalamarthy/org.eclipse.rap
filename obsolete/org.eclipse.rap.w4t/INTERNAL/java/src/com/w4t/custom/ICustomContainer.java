@@ -12,10 +12,10 @@ package com.w4t.custom;
 
 /** <p>The ICustomContainer is a marker interface for custom components
  *  that are based on WebContainer and should not be able to change the 
- *  {@link com.w4t.WebLayout <code>WebLayout</code>} used for positioning 
+ *  {@link org.eclipse.rwt.WebLayout <code>WebLayout</code>} used for positioning 
  *  content components.</p>
  * 
- *  <p>The {@link com.w4t.WebContainer#setWebLayout <code>setWebLayout()</code>} 
+ *  <p>The {@link org.eclipse.rwt.WebContainer#setWebLayout <code>setWebLayout()</code>} 
  *  method of the WebContainer class from which the implementing class is 
  *  extended, allows to set the layout for initialisation purposes once, 
  *  but after this the layout cannot be changed anymore.</p>

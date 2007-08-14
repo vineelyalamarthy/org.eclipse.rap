@@ -10,8 +10,8 @@
  ******************************************************************************/
 package com.w4t.webformkit;
 
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
 
 /**
  * <p>Helper class to store and retrieve selection of currently focused

@@ -16,7 +16,7 @@ import com.w4t.types.LocalPath;
 /** <p>A utility class to check the existence of files.</p>
   * <p>This class is not intended to be used by clients.</p> 
   */
-// TODO [rh] move to com.w4t.dhtml.renderinfo and make it package-private?
+// TODO [rh] move to org.eclipse.rap.dhtml.renderinfo and make it package-private?
 public class ImageRegistry {
 
   /** the singleton instance of ImageRegistry. */ 

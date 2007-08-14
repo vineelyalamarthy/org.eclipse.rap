@@ -17,7 +17,7 @@ import com.w4t.types.WebColor;
 import com.w4t.util.DefaultColorScheme;
 
 
-/** <p>This implementation of the com.w4t.MessageForm is used as default 
+/** <p>This implementation of the org.eclipse.rap.MessageForm is used as default 
   * by the w4t framework if no userdefined message form is set.</p>
   */
 public class DefaultMessageForm extends    AdminBase 

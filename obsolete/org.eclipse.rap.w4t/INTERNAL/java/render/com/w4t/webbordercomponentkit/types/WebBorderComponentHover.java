@@ -11,7 +11,9 @@
 package com.w4t.webbordercomponentkit.types;
 
 import java.io.IOException;
-import com.w4t.HtmlResponseWriter;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+
 import com.w4t.WebBorderComponent;
 
 /** border which hovers up on mouse over.

@@ -12,14 +12,18 @@ package com.w4t.dhtml.treenodekit;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.LifeCycleHelper;
+import com.w4t.W4TContext;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.dhtml.TreeNode;
 import com.w4t.dhtml.event.DoubleClickEvent;
 import com.w4t.dhtml.event.DragDropEvent;
 import com.w4t.dhtml.renderinfo.TreeNodeInfo;
 import com.w4t.engine.lifecycle.standard.IRenderingSchedule;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.WebActionEvent;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
 
@@ -122,6 +126,6 @@ final class TreeNodeRendererUtil {
   }
 
   private static IRenderingSchedule getRenderingSchedule() {
-    return ContextProvider.getStateInfo().getRenderingSchedule();
+    return LifeCycleHelper.getSchedule();
   }
 }

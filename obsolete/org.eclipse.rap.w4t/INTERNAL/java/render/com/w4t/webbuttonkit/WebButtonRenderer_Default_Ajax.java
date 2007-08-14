@@ -15,7 +15,7 @@ import com.w4t.WebComponent;
 import com.w4t.ajax.AjaxStatusUtil;
 
 
-/** <p>The default AJAx-enabled renderer for com.w4t.WebButton.</p>
+/** <p>The default AJAx-enabled renderer for org.eclipse.rap.WebButton.</p>
   */
 public class WebButtonRenderer_Default_Ajax 
   extends WebButtonRenderer_Default_Script 

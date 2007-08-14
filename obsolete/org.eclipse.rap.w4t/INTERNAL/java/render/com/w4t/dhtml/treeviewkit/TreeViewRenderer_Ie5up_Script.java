@@ -11,6 +11,10 @@
 package com.w4t.dhtml.treeviewkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.TreeView;
 import com.w4t.dhtml.event.DragDropEvent;
@@ -19,7 +23,7 @@ import com.w4t.event.WebRenderEvent;
 
 
 /** 
- * <p>The renderer for {@link com.w4t.dhtml.TreeView TreeView} on 
+ * <p>The renderer for {@link org.eclipse.rwt.dhtml.TreeView TreeView} on 
  * Microsoft Internet Explorer 6 and later.</p>
  */
 public class TreeViewRenderer_Ie5up_Script extends TreeViewRenderer_DOM_Script {

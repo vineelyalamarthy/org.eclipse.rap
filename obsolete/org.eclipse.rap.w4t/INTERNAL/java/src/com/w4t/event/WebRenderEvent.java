@@ -10,14 +10,14 @@
  ******************************************************************************/
 package com.w4t.event;
 
-import com.w4t.Adaptable;
+import org.eclipse.rwt.Adaptable;
 
 /**
  * <p>Instances of this class are sent as a result of a
  * <code>WebComponent</code> being rendered.</p>
  * <p>This class is not intended to be instantiated or extended by clients.</p>
- * @see com.w4t.event.WebRenderListener
- * @see com.w4t.event.WebRenderAdapter
+ * @see org.eclipse.rwt.event.WebRenderListener
+ * @see org.eclipse.rwt.event.WebRenderAdapter
  */
 public class WebRenderEvent extends WebEvent {
 

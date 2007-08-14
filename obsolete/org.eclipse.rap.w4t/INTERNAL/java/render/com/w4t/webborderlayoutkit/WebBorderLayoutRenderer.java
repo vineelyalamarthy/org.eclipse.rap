@@ -11,6 +11,11 @@
 package com.w4t.webborderlayoutkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.developer.AreaSelector;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
@@ -19,7 +24,7 @@ import com.w4t.weblayoutkit.LayoutRenderer;
 
 
 /** <p>the superclass for all renderers that render 
-  * {@link com.w4t.WebBorderLayout WebBorderLayout}.</p>
+  * {@link org.eclipse.rwt.WebBorderLayout WebBorderLayout}.</p>
   */
 public abstract class WebBorderLayoutRenderer extends LayoutRenderer {
   

@@ -15,17 +15,22 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
+
+import org.eclipse.rwt.internal.service.AbstractServiceHandler;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.internal.adaptable.IFormAdapter;
 
-
-final class TimestampRequestServiceHandler extends AbstractServiceHandler {
+// TODO [rh] needs testing: made this class a real IServiceHandler
+public final class TimestampRequestServiceHandler extends AbstractServiceHandler {
 
   // TODO [rh] Should we have a separate class that contains all logger names?
-  //      e.g. com.w4t.util.LogerNames?
+  //      e.g. org.eclipse.rap.util.LogerNames?
   public static final String LOG 
     = TimestampRequestServiceHandler.class.getName();
   
@@ -38,8 +43,7 @@ final class TimestampRequestServiceHandler extends AbstractServiceHandler {
   };
 
   public void service() throws IOException, ServletException {
-    HttpSession session = getRequest().getSession( true );
-    synchronized( session ) {
+    synchronized( ContextProvider.getSession() ) {
       log();
       WebForm form = getForm();
       if( form != null ) {

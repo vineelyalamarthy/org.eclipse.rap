@@ -10,13 +10,13 @@
  ******************************************************************************/
 package com.w4t.event;
 
-import com.w4t.Adaptable;
+import org.eclipse.rwt.Adaptable;
 
 
 /** 
  * <p>An instance of this class is sent as a result of a user action such as
  * a <code>WebButton</code> that was clicked.</p>
- * @see com.w4t.event.WebActionListener
+ * @see org.eclipse.rwt.event.WebActionListener
  */
 public class WebActionEvent extends WebEvent {
 
@@ -56,7 +56,7 @@ public class WebActionEvent extends WebEvent {
   /**
    * <p>Returns whether the given <code>adaptable</code> has registered any 
    * listeners of type <code>WebActionListener</code>.</p>
-   * @see com.w4t.event.WebEvent#hasListener(Adaptable, Class)
+   * @see org.eclipse.rwt.event.WebEvent#hasListener(Adaptable, Class)
    */
   public static boolean hasListener( final Adaptable adaptable ) {
     return hasListener( adaptable, LISTENER );
@@ -68,7 +68,7 @@ public class WebActionEvent extends WebEvent {
    * </p>
    * <p>This method is only intended to be called by the components' event 
    * registration code.</p>
-   * @see com.w4t.event.WebEvent#addListener(Adaptable, Class, Object)
+   * @see org.eclipse.rwt.event.WebEvent#addListener(Adaptable, Class, Object)
    */
   public static void addListener( final Adaptable adaptable,
                                   final WebActionListener listener )
@@ -86,7 +86,7 @@ public class WebActionEvent extends WebEvent {
    * @param listener the listener to be removed, must not be <code>null</code>.
    * @throws NullPointerException when <code>listener</code> or 
    * <code>adaptable</code> is <code>null</code> 
-   * @see com.w4t.event.WebEvent#removeListener(Adaptable, Class, Object)
+   * @see org.eclipse.rwt.event.WebEvent#removeListener(Adaptable, Class, Object)
    */
   public static void removeListener( final Adaptable adaptable,
                                      final WebActionListener listener )

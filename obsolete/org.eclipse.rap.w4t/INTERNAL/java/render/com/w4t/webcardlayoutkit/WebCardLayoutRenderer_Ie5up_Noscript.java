@@ -14,7 +14,7 @@ import com.w4t.*;
 
 
 
-/** <p>The renderer for {@link com.w4t.WebCardLayout WebCardLayout} on
+/** <p>The renderer for {@link org.eclipse.rwt.WebCardLayout WebCardLayout} on
   * Internet Explorer 5 and higher.</p>
   */
 public class WebCardLayoutRenderer_Ie5up_Noscript 

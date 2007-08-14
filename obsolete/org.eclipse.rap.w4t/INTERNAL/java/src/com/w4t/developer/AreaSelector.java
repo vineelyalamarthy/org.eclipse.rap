@@ -19,7 +19,7 @@ import com.w4t.*;
 public class AreaSelector extends WebButton {
 
   private static final String AREASELECTORCONTROLFACTORYIMPL
-    = "com.w4t.factory.AreaSelectorControlFactoryImpl";
+    = "org.eclipse.rap.factory.AreaSelectorControlFactoryImpl";
 
   /** 
     * manages the mechanism for inserting and copying WebComponents 

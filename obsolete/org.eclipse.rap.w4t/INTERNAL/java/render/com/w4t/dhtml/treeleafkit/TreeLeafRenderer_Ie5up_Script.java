@@ -11,7 +11,7 @@
 package com.w4t.dhtml.treeleafkit;
 
 
-/** <p>The renderer for com.w4t.dhtml.TreeLeaf on Microsoft Internet 
+/** <p>The renderer for org.eclipse.rap.dhtml.TreeLeaf on Microsoft Internet 
   * Explorer 5 and later.</p>
   */
 public class TreeLeafRenderer_Ie5up_Script extends TreeLeafRenderer_DOM_Script {

@@ -11,6 +11,11 @@
 package com.w4t.dhtml.treeleafkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.TreeLeaf;
 import com.w4t.dhtml.TreeNodeShift;
@@ -20,7 +25,7 @@ import com.w4t.types.WebColor;
 import com.w4t.util.DefaultColorScheme;
 
 
-/** <p>the superclass of all Renderers that render com.w4t.dhtml.TreeLeaf.</p>
+/** <p>the superclass of all Renderers that render org.eclipse.rap.dhtml.TreeLeaf.</p>
   */
 public abstract class TreeLeafRenderer extends Renderer {
   

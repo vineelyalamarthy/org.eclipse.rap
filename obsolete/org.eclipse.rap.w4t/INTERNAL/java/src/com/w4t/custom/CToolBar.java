@@ -11,13 +11,15 @@
 package com.w4t.custom;
 
 import java.text.MessageFormat;
+
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.util.Assert;
+
 import com.w4t.*;
-import com.w4t.engine.util.ResourceManager;
 import com.w4t.event.WebActionEvent;
 import com.w4t.event.WebActionListener;
 import com.w4t.types.LocalPath;
 import com.w4t.types.WebColor;
-import com.w4t.util.Assert;
 import com.w4t.util.DefaultColorScheme;
 
 
@@ -77,7 +79,7 @@ import com.w4t.util.DefaultColorScheme;
   * 
   * <p>Specifying a <strong>&lt;command&gt;</strong> is optional. If none is
   * specified, clicking the menu will do nothing.</p> 
-  * @see com.w4t.custom.ICustomAction
+  * @see org.eclipse.rwt.custom.ICustomAction
   */
 public class CToolBar extends WebPanel implements Concealer {
 
@@ -248,7 +250,7 @@ public class CToolBar extends WebPanel implements Concealer {
     if( !desc.getId().equals( "" ) ) {
       final String className = desc.getCommand().trim();
       final ClassLoader contextLoader
-        = ResourceManager.getInstance().getContextLoader();
+        = ResourceManagerImpl.getInstance().getContextLoader();
       result.addWebActionListener( new WebActionListener() {
         public void webActionPerformed( final WebActionEvent evt ) {
           ICustomAction command;

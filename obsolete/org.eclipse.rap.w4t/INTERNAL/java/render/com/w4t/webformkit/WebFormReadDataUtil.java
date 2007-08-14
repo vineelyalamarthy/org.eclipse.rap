@@ -11,10 +11,13 @@
 package com.w4t.webformkit;
 
 import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.RequestParams;
+
 import com.w4t.*;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.util.ComponentTreeVisitor;
 import com.w4t.util.ComponentTreeVisitor.AllComponentVisitor;
 

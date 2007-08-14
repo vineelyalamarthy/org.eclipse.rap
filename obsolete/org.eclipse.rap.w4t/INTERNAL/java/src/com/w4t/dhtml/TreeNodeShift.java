@@ -12,8 +12,10 @@ package com.w4t.dhtml;
 
 import java.util.Hashtable;
 import java.util.Vector;
+
+import org.eclipse.rwt.internal.util.Assert;
+
 import com.w4t.dhtml.renderinfo.ImageSet;
-import com.w4t.util.Assert;
 
 
 /** <p>A helping data structure for rendering TreeViews. A TreeNodeShift 

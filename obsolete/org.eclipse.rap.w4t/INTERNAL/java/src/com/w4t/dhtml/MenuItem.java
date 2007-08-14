@@ -13,7 +13,7 @@ package com.w4t.dhtml;
 
 
 /** <p>A MenuItem is an entry in a dropdown menu that is visible when the
-  * user selects a {@link com.w4t.dhtml.Menu Menu} and can be clicked in 
+  * user selects a {@link org.eclipse.rwt.dhtml.Menu Menu} and can be clicked in 
   * order to trigger some action.</p>
   */
 public class MenuItem extends Leaf {

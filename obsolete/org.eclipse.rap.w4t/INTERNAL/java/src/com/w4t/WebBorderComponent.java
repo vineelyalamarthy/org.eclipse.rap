@@ -17,7 +17,7 @@ import com.w4t.util.DefaultColorScheme;
   * displayed with borders around it.</p>
   * <p>The WebBorderComponent employs the <i>Decorator</i> design pattern.
   * </p>
-  * @see com.w4t.Decorator Decorator
+  * @see org.eclipse.rwt.Decorator Decorator
   */
 public class WebBorderComponent extends Decorator {
   

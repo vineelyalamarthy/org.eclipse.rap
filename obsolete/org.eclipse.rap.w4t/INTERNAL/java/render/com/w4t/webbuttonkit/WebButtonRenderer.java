@@ -11,15 +11,19 @@
 package com.w4t.webbuttonkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.WebActionEvent;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
 import com.w4t.types.WebColor;
 
 
 /** 
- * <p>The superclass of all Renderers that render com.w4t.WebButton.</p>
+ * <p>The superclass of all Renderers that render org.eclipse.rap.WebButton.</p>
  */
 public abstract class WebButtonRenderer extends Renderer {
   

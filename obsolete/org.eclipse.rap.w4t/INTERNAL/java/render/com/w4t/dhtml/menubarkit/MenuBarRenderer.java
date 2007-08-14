@@ -11,15 +11,19 @@
 package com.w4t.dhtml.menubarkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.CssClass;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.MenuBar;
 import com.w4t.dhtml.MenuButton;
 import com.w4t.dhtml.menustyle.MenuBarStyle;
 import com.w4t.types.WebTriState;
-import com.w4t.util.CssClass;
 
 
-/** <p>The common superclass renderer for com.w4t.dhtml.MenuBar 
+/** <p>The common superclass renderer for org.eclipse.rap.dhtml.MenuBar 
   * on browsers with DOM support.</p>
   */
 abstract class MenuBarRenderer extends Renderer {

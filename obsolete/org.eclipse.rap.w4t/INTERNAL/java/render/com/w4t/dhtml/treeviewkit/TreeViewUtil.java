@@ -10,10 +10,14 @@
  ******************************************************************************/
 package com.w4t.dhtml.treeviewkit;
 
-import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
-import com.w4t.engine.util.ResourceManager;
+import org.eclipse.rwt.internal.browser.Browser;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.resources.IResourceManager;
+
 
 
 final class TreeViewUtil {
@@ -41,7 +45,7 @@ final class TreeViewUtil {
   }
   
   static void useJSLibrary( final String name ) {
-    IResourceManager manager = ResourceManager.getInstance();
+    IResourceManager manager = ResourceManagerImpl.getInstance();
     manager.register( name, 
                       HTML.CHARSET_NAME_ISO_8859_1, 
                       IResourceManager.RegisterOptions.VERSION_AND_COMPRESS );

@@ -11,12 +11,13 @@
 package com.w4t.markupembedderkit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
 
 
 /**
- * <p>The default renderer for <code>com.w4t.MarkupEmbedder</code> in AJaX
+ * <p>The default renderer for <code>org.eclipse.rap.MarkupEmbedder</code> in AJaX
  * mode.</p> 
  */
 public class MarkupEmbedderRenderer_Default_Ajax extends Renderer {

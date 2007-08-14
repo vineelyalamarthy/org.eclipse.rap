@@ -15,8 +15,11 @@ import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
+import org.eclipse.rwt.SessionSingletonBase;
+import org.eclipse.rwt.internal.*;
+import org.eclipse.rwt.internal.service.*;
+
 import com.w4t.*;
-import com.w4t.engine.service.*;
 import com.w4t.event.WebFormEvent;
 import com.w4t.internal.adaptable.IFormAdapter;
 

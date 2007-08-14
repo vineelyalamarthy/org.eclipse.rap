@@ -11,7 +11,7 @@
 package com.w4t.webcardlayoutkit;
 
 
-/** <p>The renderer for {@link com.w4t.WebCardLayout <code>WebCardLayout</code>}
+/** <p>The renderer for {@link org.eclipse.rwt.WebCardLayout <code>WebCardLayout</code>}
  * on AJaX-enabled Mozilla browsers.</p>
  */
 public class WebCardLayoutRenderer_Mozilla1_6up_Ajax

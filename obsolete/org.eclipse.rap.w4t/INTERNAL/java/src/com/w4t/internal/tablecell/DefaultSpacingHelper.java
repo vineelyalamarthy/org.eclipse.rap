@@ -11,14 +11,18 @@
 package com.w4t.internal.tablecell;
 
 import java.io.IOException;
-import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.WebTableCell;
 
 /** <p>Additional spacing rendering (creates a TABLE within the cell, which has
   * padding and spacing).</p>
   * 
-  * <p>This is the default spacing helper used in {@link com.w4t.WebTableCell 
+  * <p>This is the default spacing helper used in {@link org.eclipse.rwt.WebTableCell 
   * WebTableCell}.</p>
   */
 public class DefaultSpacingHelper extends SpacingHelper {

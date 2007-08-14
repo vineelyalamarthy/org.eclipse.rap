@@ -11,10 +11,11 @@
 package com.w4t.markupembedderkit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 
 /**
- * <p>The default renderer for <code>com.w4t.MarkupEmbedder</code> in Noscript
+ * <p>The default renderer for <code>org.eclipse.rap.MarkupEmbedder</code> in Noscript
  * mode.</p> 
  */
 public class MarkupEmbedderRenderer_Default_Noscript extends Renderer {

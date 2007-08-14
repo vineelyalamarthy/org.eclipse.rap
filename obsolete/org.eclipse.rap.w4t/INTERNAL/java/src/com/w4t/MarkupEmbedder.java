@@ -80,7 +80,7 @@ public class MarkupEmbedder extends WebComponent implements SimpleComponent {
     return content;
   }
 
-  // interface methods of com.w4t.SimpleComponent
+  // interface methods of org.eclipse.rap.SimpleComponent
   ///////////////////////////////////////////////
   
   public String getCssClass() {

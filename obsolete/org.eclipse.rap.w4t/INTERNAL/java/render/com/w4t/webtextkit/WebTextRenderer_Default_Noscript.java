@@ -11,11 +11,12 @@
 package com.w4t.webtextkit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 import com.w4t.event.WebItemEvent;
 
 
-/** <p>The default noscript renderer for com.w4t.WebText.</p>
+/** <p>The default noscript renderer for org.eclipse.rap.WebText.</p>
   *
   * <p>The default noscript renderer is non-browser-specific and implements 
   * functionality in a way that runs on browsers that do not implement or 

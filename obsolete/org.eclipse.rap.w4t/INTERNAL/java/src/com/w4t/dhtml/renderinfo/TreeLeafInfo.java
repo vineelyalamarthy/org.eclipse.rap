@@ -19,7 +19,7 @@ import com.w4t.dhtml.TreeNodeShift;
   * <p>Note that render info objects should <b>always</b> be 
   * <b>readonly</b>.</p>
   *
-  * see com.w4t.dhtml.treeleafkit.TreeLeafRenderer, TreeLeaf.createRenderInfo()
+  * see org.eclipse.rap.dhtml.treeleafkit.TreeLeafRenderer, TreeLeaf.createRenderInfo()
   */
 public class TreeLeafInfo {
 

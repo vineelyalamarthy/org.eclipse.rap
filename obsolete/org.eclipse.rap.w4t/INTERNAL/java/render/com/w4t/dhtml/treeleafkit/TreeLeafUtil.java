@@ -12,8 +12,10 @@ package com.w4t.dhtml.treeleafkit;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import com.w4t.HTML;
-import com.w4t.HtmlResponseWriter;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.dhtml.TreeLeaf;
 import com.w4t.dhtml.event.DoubleClickEvent;
 import com.w4t.dhtml.event.DragDropEvent;

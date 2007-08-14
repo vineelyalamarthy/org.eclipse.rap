@@ -11,6 +11,9 @@
 package com.w4t;
 
 import java.text.Format;
+
+import org.eclipse.rwt.internal.util.ParamCheck;
+
 import com.w4t.event.*;
 import com.w4t.internal.simplecomponent.UniversalAttributes;
 
@@ -300,7 +303,7 @@ public class WebSelect
   }
 
 
-  // interface methods of com.w4t.SimpleComponent
+  // interface methods of org.eclipse.rap.SimpleComponent
   ///////////////////////////////////////////////////////////////
   
   public String getCssClass() {

@@ -15,7 +15,7 @@ import com.w4t.WebComponent;
 import com.w4t.dhtml.DHTMLProcessActionUtil;
 import com.w4t.dhtml.TreeNode;
 
-/** <p>The superclass for all renderers for com.w4t.dhtml.TreeNode on 
+/** <p>The superclass for all renderers for org.eclipse.rap.dhtml.TreeNode on 
   * more recent browsers that support javascript.</p>
   * 
   * <p>Note that this is not an actual renderer but encapsulates common 

@@ -10,9 +10,10 @@
  ******************************************************************************/
 package com.w4t.engine.lifecycle.standard;
 
+import org.eclipse.rwt.internal.lifecycle.LifeCyclePhase;
+import org.eclipse.rwt.lifecycle.PhaseId;
+
 import com.w4t.WebComponent;
-import com.w4t.engine.lifecycle.LifeCyclePhase;
-import com.w4t.engine.lifecycle.PhaseId;
 
 
 /** <p>The abstract superclass for the phases in the 'Standard' lifecycle.</p>

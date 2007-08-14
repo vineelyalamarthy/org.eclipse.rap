@@ -16,8 +16,8 @@ import java.util.EventListener;
   * <p>A container listener is notified about added and removed 
   * child-components and layout-changes of the respective
   * <code>WebContainer</code>.</p>
-  * @see com.w4t.event.WebContainerAdapter
-  * @see com.w4t.event.WebContainerEvent
+  * @see org.eclipse.rwt.event.WebContainerAdapter
+  * @see org.eclipse.rwt.event.WebContainerEvent
   */
 public interface WebContainerListener extends EventListener {
 

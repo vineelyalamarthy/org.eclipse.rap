@@ -13,7 +13,7 @@ package com.w4t.internal.tablecell;
 import java.io.IOException;
 import com.w4t.WebTableCell;
 
-/** <p>A utility class for rendering in {@link com.w4t.WebTableCell 
+/** <p>A utility class for rendering in {@link org.eclipse.rwt.WebTableCell 
   * WebTableCell}s. Implementation of the abstract methods declared 
   * here provide additional rendering around the actual content of the 
   * cell. This can be used for cell-wise spacing, or border styles etc.</p>

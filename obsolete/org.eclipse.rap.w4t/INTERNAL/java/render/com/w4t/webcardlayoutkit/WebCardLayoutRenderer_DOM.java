@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.w4t.webcardlayoutkit;
 
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.internal.tablecell.BorderedSpacingHelper;
 import com.w4t.internal.tablecell.SpacingHelper;

@@ -13,7 +13,7 @@ package com.w4t.weblayoutkit;
 import com.w4t.*;
 
 /** <p>the superclass for all renderers that render implementations of 
-  * com.w4t.WebLayout.</p>
+  * org.eclipse.rap.WebLayout.</p>
   */
 public abstract class LayoutRenderer extends Renderer {
   

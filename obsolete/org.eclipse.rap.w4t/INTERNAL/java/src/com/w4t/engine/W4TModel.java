@@ -14,9 +14,13 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
-import com.w4t.*;
-import com.w4t.engine.lifecycle.LifeCycle;
-import com.w4t.internal.adaptable.IServiceAdapter;
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.SessionSingletonBase;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.IServiceAdapter;
+
+import com.w4t.W4TContext;
+import com.w4t.WebComponentStatistics;
 import com.w4t.util.WebComponentRegistry;
 
 

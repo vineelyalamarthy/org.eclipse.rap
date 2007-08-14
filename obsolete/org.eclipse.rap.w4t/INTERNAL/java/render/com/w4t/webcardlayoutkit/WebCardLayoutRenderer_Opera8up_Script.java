@@ -11,7 +11,7 @@
 package com.w4t.webcardlayoutkit;
 
 
-/** <p>The renderer for {@link com.w4t.WebCardLayout WebCardLayout} on
+/** <p>The renderer for {@link org.eclipse.rwt.WebCardLayout WebCardLayout} on
  * Opera 8 and higher in JavaScript mode.</p>
  */
 public class WebCardLayoutRenderer_Opera8up_Script 

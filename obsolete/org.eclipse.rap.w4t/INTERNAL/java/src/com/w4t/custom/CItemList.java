@@ -12,11 +12,15 @@ package com.w4t.custom;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.developer.AreaSelector;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.event.*;
 
 /** <p>The CItemList creates unordered or numbered lists. It complies with the 

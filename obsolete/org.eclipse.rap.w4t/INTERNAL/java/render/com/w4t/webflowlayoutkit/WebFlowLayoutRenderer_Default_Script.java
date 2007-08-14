@@ -11,12 +11,16 @@
 package com.w4t.webflowlayoutkit;
 
 import java.io.IOException;
-import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.WebContainer;
 
 
-/** <p>The default renderer for com.w4t.WebFlowLayout.</p>
+/** <p>The default renderer for org.eclipse.rap.WebFlowLayout.</p>
   *
   * <p>The default renderer is non-browser-specific and implements 
   * functionality in a way that runs on the most commonly used browsers.</p>

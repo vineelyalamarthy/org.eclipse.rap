@@ -13,15 +13,20 @@ package com.w4t.webformkit;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.rwt.internal.browser.Browser;
+import org.eclipse.rwt.internal.browser.BrowserLoader;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.internal.util.*;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.*;
-import com.w4t.engine.util.ResourceManager;
 import com.w4t.engine.util.WindowManager;
-import com.w4t.util.*;
-import com.w4t.util.browser.BrowserLoader;
+import com.w4t.util.RendererCache;
 
 
 public class WebFormRenderer_Default_Ajax 
@@ -215,7 +220,7 @@ public class WebFormRenderer_Default_Ajax
       out.startElement( HTML.LINK, null );
       out.writeAttribute( HTML.REL, HTML.STYLESHEET, null );
       out.writeAttribute( HTML.TYPE, HTML.CONTENT_TEXT_CSS, null );
-      String url = ResourceManager.load( toAppend[ i ] );
+      String url = ResourceManagerImpl.load( toAppend[ i ] );
       out.writeAttribute( HTML.HREF, url, null );
       out.closeElementIfStarted();
     }

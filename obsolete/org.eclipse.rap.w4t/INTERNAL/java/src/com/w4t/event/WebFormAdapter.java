@@ -15,8 +15,8 @@ package com.w4t.event;
  * described by the <code>WebFormListener</code> interface.</p>
  * <p>Classes that wish to deal with <code>WebFormEvent</code>s can extend 
  * this class and override only the methods which they are interested in.</p> 
- * @see com.w4t.event.WebFormListener
- * @see com.w4t.event.WebFormEvent
+ * @see org.eclipse.rwt.event.WebFormListener
+ * @see org.eclipse.rwt.event.WebFormEvent
  */
 public class WebFormAdapter implements WebFormListener {
     

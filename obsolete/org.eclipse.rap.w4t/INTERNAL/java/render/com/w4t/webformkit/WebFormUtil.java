@@ -10,18 +10,20 @@
  ******************************************************************************/
 package com.w4t.webformkit;
 
+import org.eclipse.rwt.internal.browser.Browser;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.internal.util.*;
+
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.dhtml.event.*;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.requests.URLHelper;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
-import com.w4t.engine.util.*;
+import com.w4t.engine.util.FormManager;
+import com.w4t.engine.util.WindowManager;
 import com.w4t.event.*;
 import com.w4t.internal.adaptable.IFileUploadAdapter;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.HTMLUtil;
 
 
 public final class WebFormUtil {
@@ -327,7 +329,7 @@ public final class WebFormUtil {
     String[] libraries = writer.getJSLibraries();
     for( int i = 0; i < libraries.length; i++ ) {
       String location;
-      location = ResourceManager.getInstance().getLocation( libraries[ i ] );
+      location = ResourceManagerImpl.getInstance().getLocation( libraries[ i ] );
       result.append( RenderUtil.createJavaScriptLink( location ) );
     }
     return result.toString();

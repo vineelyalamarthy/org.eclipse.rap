@@ -14,15 +14,16 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.*;
+
 import com.w4t.*;
 import com.w4t.engine.lifecycle.standard.IFormRenderer;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
-import com.w4t.engine.util.ResourceManager;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.CssClass;
-import com.w4t.util.HTMLUtil;
 import com.w4t.webcontainerkit.WebContainerRenderer;
 
 
@@ -148,7 +149,7 @@ abstract class WebFormRenderer
     String[] cssFiles = wf.getCssFile();
     for( int i = 0; i < cssFiles.length; i++ ) {
       html.append( "<link rel=\"stylesheet\" type=\"text/css\"" );
-      HTMLUtil.attribute( html, "href", ResourceManager.load( cssFiles[ i ] ) );
+      HTMLUtil.attribute( html, "href", ResourceManagerImpl.load( cssFiles[ i ] ) );
       html.append( " />" );      
     }
   }

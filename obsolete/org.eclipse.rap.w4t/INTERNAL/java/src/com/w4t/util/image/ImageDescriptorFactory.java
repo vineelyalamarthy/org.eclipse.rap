@@ -13,7 +13,7 @@ package com.w4t.util.image;
 import com.w4t.types.WebColor;
 
 
-/** <p>Factory for {@link com.w4t.util.image.ImageDescriptor 
+/** <p>Factory for {@link org.eclipse.rwt.internal.util.image.ImageDescriptor 
   * <code>ImageDescriptor</code>} objects.</p>
   */
 public class ImageDescriptorFactory {

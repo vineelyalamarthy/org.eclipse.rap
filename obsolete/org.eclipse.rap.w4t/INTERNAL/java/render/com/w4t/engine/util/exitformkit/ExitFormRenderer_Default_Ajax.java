@@ -12,9 +12,13 @@ package com.w4t.engine.util.exitformkit;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.engine.lifecycle.standard.IFormRenderer;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.engine.util.WindowManager;
 
 

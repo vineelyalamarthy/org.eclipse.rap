@@ -10,15 +10,17 @@
  ******************************************************************************/
 package com.w4t.webformkit;
 
+import org.eclipse.rwt.internal.browser.Ie;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.internal.util.HTMLUtil;
+
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.engine.lifecycle.standard.EventQueueFilter;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.*;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.HTMLUtil;
-import com.w4t.util.browser.Ie;
 
 
 public class WebFormRenderer_Default_Noscript extends WebFormRenderer {

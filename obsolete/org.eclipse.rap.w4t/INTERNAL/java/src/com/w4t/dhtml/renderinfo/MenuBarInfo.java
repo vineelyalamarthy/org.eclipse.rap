@@ -17,7 +17,7 @@ import com.w4t.dhtml.MenuButton;
   * MenuBars.</p>
   * <p>Note that render info objects should <strong>always</strong> be 
   * <strong>readonly</strong>.</p>
-  * @see com.w4t.dhtml.menubarkit.MenuBarRenderer MenuBarRenderer 
+  * @see org.eclipse.rwt.dhtml.menubarkit.MenuBarRenderer MenuBarRenderer 
   */
 public class MenuBarInfo {
 

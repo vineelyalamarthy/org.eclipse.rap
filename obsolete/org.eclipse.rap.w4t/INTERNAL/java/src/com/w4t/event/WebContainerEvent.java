@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.w4t.event;
 
+import org.eclipse.rwt.Adaptable;
+
 import com.w4t.*;
 
 /** 
@@ -17,8 +19,8 @@ import com.w4t.*;
  * from a <code>WebContainer</code> or if the <code>WebLayout</code> of a 
  * <code>WebContainer</code> is changed.</p>
  * <p>This class is not intended to be instantiated or extended by clients.</p>
- * @see com.w4t.event.WebContainerListener
- * @see com.w4t.event.WebContainerAdapter
+ * @see org.eclipse.rwt.event.WebContainerListener
+ * @see org.eclipse.rwt.event.WebContainerAdapter
  */
 public class WebContainerEvent extends WebEvent {
 

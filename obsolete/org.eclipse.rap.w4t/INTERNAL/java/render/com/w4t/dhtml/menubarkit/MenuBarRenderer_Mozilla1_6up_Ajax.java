@@ -17,7 +17,7 @@ import com.w4t.dhtml.MenuBar;
 
 
 
-/** <p>The renderer for com.w4t.dhtml.MenuBar on browsers with
+/** <p>The renderer for org.eclipse.rap.dhtml.MenuBar on browsers with
   * Ajax support.</p>
   */
 public class MenuBarRenderer_Mozilla1_6up_Ajax

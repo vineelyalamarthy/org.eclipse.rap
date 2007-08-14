@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.w4t.administration;
 
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.types.WebColor;
 import com.w4t.util.DefaultColorScheme;

@@ -11,7 +11,9 @@
 package com.w4t;
 
 import javax.servlet.http.HttpServletRequest;
-import com.w4t.engine.service.ContextProvider;
+
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.event.*;
 
 

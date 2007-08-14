@@ -9,6 +9,8 @@
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
 package com.w4t;
+import org.eclipse.rwt.Adaptable;
+
 import com.w4t.types.WebColor;
 import com.w4t.util.DefaultColorScheme;
 

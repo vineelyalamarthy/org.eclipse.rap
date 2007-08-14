@@ -11,6 +11,7 @@
 package com.w4t.dhtml.menubuttonkit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.renderinfo.MenuButtonInfo;
@@ -18,7 +19,7 @@ import com.w4t.internal.adaptable.IRenderInfoAdapter;
 
 
 /** <p>the superclass of all Renderers that render 
-  * {@link com.w4t.dhtml.MenuButton com.w4t.dhtml.MenuButton}.</p>
+  * {@link org.eclipse.rwt.dhtml.MenuButton org.eclipse.rap.dhtml.MenuButton}.</p>
   */
 public abstract class MenuButtonRenderer extends Renderer {
 

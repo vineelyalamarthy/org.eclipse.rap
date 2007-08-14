@@ -38,7 +38,7 @@ class MenuPopupPosition {
     *
     * @param   browserName   the name of the browser for which the absolute
     *                        position is to be set. Must be one of the 
-    *                        browser name constants of com.w4t.Browser.
+    *                        browser name constants of org.eclipse.rap.Browser.
     * @param   position      the absolute position to be set for the 
     *                        specified browser.
     */
@@ -51,7 +51,7 @@ class MenuPopupPosition {
     *
     * @param   browserName   the name of the browser for which the absolute
     *                        position is removed. Must be one of the 
-    *                        browser name constants of com.w4t.Browser.
+    *                        browser name constants of org.eclipse.rap.Browser.
     */
   void remove( final String browserName ) {
     positionList.remove( browserName );
@@ -62,7 +62,7 @@ class MenuPopupPosition {
     *
     * @param   browserName   the name of the browser for which the absolute
     *                        position is retrieved. Must be one of the 
-    *                        browser name constants of com.w4t.Browser.
+    *                        browser name constants of org.eclipse.rap.Browser.
     * @return                a Point object which contains the absolute 
     *                        position for the specified browser, or null if
     *                        no position for that browser was set.

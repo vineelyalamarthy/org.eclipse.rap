@@ -12,20 +12,21 @@ package com.w4t.engine.lifecycle.standard;
 
 import java.security.AccessControlException;
 import java.text.MessageFormat;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.rwt.internal.ConfigurationReader;
+import org.eclipse.rwt.internal.IInitialization;
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.lifecycle.PhaseId;
+
 import com.w4t.LifeCycleHelper;
 import com.w4t.WebForm;
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.lifecycle.PhaseId;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.ConfigurationReader;
-import com.w4t.util.IInitialization;
 
 
 /** <p>the implementation of the 'AccessForm' phase 
@@ -38,7 +39,7 @@ import com.w4t.util.IInitialization;
 final class AccessForm extends Phase {
   
   private final static String DEFAULT_ADMIN_FORM
-    = "com.w4t.administration.Startup";
+    = "org.eclipse.rap.administration.Startup";
 
   /** 
    * <p>takes the necessary preparations for the processing of the 

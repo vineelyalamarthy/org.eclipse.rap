@@ -10,13 +10,13 @@
  ******************************************************************************/
 package com.w4t.event;
 
-import com.w4t.Adaptable;
+import org.eclipse.rwt.Adaptable;
 
 /** 
  * <p>An instance of this class is sent if the value of an
  * <code>IInputValueHolder</code> was changed by user input.</p>
  * <p>This class is not intended to be instantiated or extended by clients.</p>
- * @see com.w4t.event.WebDataListener
+ * @see org.eclipse.rwt.event.WebDataListener
  */
 public class WebDataEvent extends WebEvent {
 

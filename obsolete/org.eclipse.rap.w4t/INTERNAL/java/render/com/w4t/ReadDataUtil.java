@@ -10,8 +10,9 @@
  ******************************************************************************/
 package com.w4t;
 
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.ajax.AjaxStatusUtil;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.WebItemEvent;
 
 

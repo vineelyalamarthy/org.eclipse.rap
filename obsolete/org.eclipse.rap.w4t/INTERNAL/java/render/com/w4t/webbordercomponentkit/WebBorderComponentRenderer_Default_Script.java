@@ -11,7 +11,7 @@
 package com.w4t.webbordercomponentkit;
 
 
-/** <p>The default renderer for com.w4t.WebBorderComponent.</p>
+/** <p>The default renderer for org.eclipse.rap.WebBorderComponent.</p>
   *
   * <p>The default renderer is non-browser-specific and implements 
   * functionality in a way that runs on the most commonly used browsers.</p>

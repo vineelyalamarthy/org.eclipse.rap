@@ -11,13 +11,17 @@
 package com.w4t.webtextareakit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
-import com.w4t.engine.service.ContextProvider;
 
 
 /**
-  * <p>The default AJAX-enabled renderer for com.w4t.WebTextArea.</p>
+  * <p>The default AJAX-enabled renderer for org.eclipse.rap.WebTextArea.</p>
   */
 public class WebTextAreaRenderer_Default_Ajax extends Renderer {
 

@@ -12,7 +12,7 @@ package com.w4t.dhtml.treenodekit;
 
 
 
-/** <p>The renderer for com.w4t.dhtml.TreeNode on Microsoft Internet 
+/** <p>The renderer for org.eclipse.rap.dhtml.TreeNode on Microsoft Internet 
   * Explorer 6 and later without javascript support.</p>
   */
 public class TreeNodeRenderer_Default_Noscript 

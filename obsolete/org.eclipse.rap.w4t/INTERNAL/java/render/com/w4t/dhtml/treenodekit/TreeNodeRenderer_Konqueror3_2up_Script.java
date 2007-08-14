@@ -12,7 +12,7 @@ package com.w4t.dhtml.treenodekit;
 
 /**
  * <p>
- * The renderer for com.w4t.dhtml.TreeNode on Konqueror 3.2 and later.
+ * The renderer for org.eclipse.rap.dhtml.TreeNode on Konqueror 3.2 and later.
  * </p>
  */
 public class TreeNodeRenderer_Konqueror3_2up_Script

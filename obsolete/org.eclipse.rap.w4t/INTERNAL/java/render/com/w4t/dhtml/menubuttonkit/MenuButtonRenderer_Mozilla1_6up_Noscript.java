@@ -11,14 +11,18 @@
 package com.w4t.dhtml.menubuttonkit;
 
 import java.io.IOException;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.RenderUtil;
 import com.w4t.dhtml.Menu;
 import com.w4t.dhtml.MenuButton;
 import com.w4t.dhtml.menustyle.*;
 import com.w4t.util.image.*;
 
 /** 
- * <p>The renderer for com.w4t.dhtml.MenuButton on Mozilla 1.6 
+ * <p>The renderer for org.eclipse.rap.dhtml.MenuButton on Mozilla 1.6 
  * and higher without javascript support.</p>
  */
 public class MenuButtonRenderer_Mozilla1_6up_Noscript extends MenuButtonRenderer {

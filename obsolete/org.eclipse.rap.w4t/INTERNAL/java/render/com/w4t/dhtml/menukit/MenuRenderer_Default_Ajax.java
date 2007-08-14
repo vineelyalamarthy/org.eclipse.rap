@@ -17,7 +17,7 @@ import com.w4t.dhtml.Menu;
 
 
 /** 
- * <p>The renderer for <code>com.w4t.dhtml.CMenu on browsers</code> with
+ * <p>The renderer for <code>org.eclipse.rap.dhtml.CMenu on browsers</code> with
  * ajax support.</p>
  */
 public class MenuRenderer_Default_Ajax extends MenuRenderer_Default_Script {

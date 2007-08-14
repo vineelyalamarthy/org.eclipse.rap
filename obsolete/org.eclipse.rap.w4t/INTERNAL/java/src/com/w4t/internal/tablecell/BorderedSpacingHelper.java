@@ -11,15 +11,17 @@
 package com.w4t.internal.tablecell;
 
 import java.io.IOException;
-import com.w4t.HTML;
-import com.w4t.HtmlResponseWriter;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.types.WebColor;
 
 /** <p>additional spacing rendering (creates a TABLE within the cell, which has
   * padding and spacing, and border styling).</p>
   * 
   * <p>This is the spacing helper used in the renderer for 
-  * {@link com.w4t.WebCardLayout WebCardLayout}.</p>
+  * {@link org.eclipse.rwt.WebCardLayout WebCardLayout}.</p>
   */
 public class BorderedSpacingHelper extends DefaultSpacingHelper {
 

@@ -15,9 +15,9 @@ import com.w4t.IAction;
 /**
  * <p>This interface defines what will be executed as a reaction to a 
  * menu item or a toolbar item being triggered.</p>
- * @see com.w4t.IAction
- * @see com.w4t.custom.CToolBar
- * @see com.w4t.custom.CMenu
+ * @see org.eclipse.rwt.IAction
+ * @see org.eclipse.rwt.custom.CToolBar
+ * @see org.eclipse.rwt.custom.CMenu
  */
 public interface ICustomAction extends IAction {
   

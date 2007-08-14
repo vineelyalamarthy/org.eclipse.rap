@@ -11,7 +11,9 @@
 package com.w4t.engine;
 
 import javax.servlet.http.HttpSession;
-import com.w4t.engine.service.ContextProvider;
+
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.engine.util.W4TModelList;
 
 /**

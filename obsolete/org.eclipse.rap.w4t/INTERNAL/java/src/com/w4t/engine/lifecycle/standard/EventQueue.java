@@ -11,9 +11,11 @@
 package com.w4t.engine.lifecycle.standard;
 
 import java.util.ArrayList;
+
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
 import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.event.WebDataEvent;
 import com.w4t.event.WebFileUploadEvent;
 

@@ -14,7 +14,7 @@ package com.w4t;
 /** <p>Classes that implement this interface know how to validate a given input 
  * string.</p>
  * <p>Validators are used by classes that implement {@link 
- * com.w4t.ValidatableComponent ValidatableComponent} to validate their 
+ * org.eclipse.rwt.ValidatableComponent ValidatableComponent} to validate their 
  * values.</p>
  */
 public interface Validator {

@@ -10,12 +10,13 @@
  ******************************************************************************/
 package com.w4t.dhtml.menukit;
 
-import com.w4t.Browser;
+import org.eclipse.rwt.internal.browser.Browser;
+
 import com.w4t.dhtml.Menu;
 import com.w4t.dhtml.Point;
 
 
-/** <p>The renderer for {@link com.w4t.custom.CMenu CMenu} on Microsoft
+/** <p>The renderer for {@link org.eclipse.rwt.custom.CMenu CMenu} on Microsoft
   * Internet Explorer 5 and higher without javascript support.</p>
   */
 public class MenuRenderer_Ie5up_Noscript 

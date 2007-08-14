@@ -13,6 +13,8 @@ package com.w4t;
 import java.text.*;
 import java.util.Date;
 
+import org.eclipse.rwt.internal.util.ParamCheck;
+
 /**
  * <p>This exists only for compatibility reasons and may be removed in the
  * future.</ü>

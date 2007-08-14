@@ -12,7 +12,9 @@ package com.w4t.ajax;
 
 import java.util.Map;
 import java.util.WeakHashMap;
-import com.w4t.AdapterFactory;
+
+import org.eclipse.rwt.AdapterFactory;
+
 import com.w4t.WebComponent;
 
 /**

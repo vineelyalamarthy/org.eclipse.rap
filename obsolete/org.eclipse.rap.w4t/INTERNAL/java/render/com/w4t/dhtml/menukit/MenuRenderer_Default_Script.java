@@ -13,7 +13,7 @@ package com.w4t.dhtml.menukit;
 import com.w4t.ProcessActionUtil;
 import com.w4t.WebComponent;
 
-/** <p>The renderer for com.w4t.dhtml.CMenu on browsers with
+/** <p>The renderer for org.eclipse.rap.dhtml.CMenu on browsers with
   * javascript support.</p>
   */
 public class MenuRenderer_Default_Script extends MenuRenderer_DOM {

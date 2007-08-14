@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.w4t.event;
 
+import org.eclipse.rwt.internal.event.Event;
+
 import com.w4t.WebComponent;
 
 

@@ -10,13 +10,14 @@
  ******************************************************************************/
 package com.w4t.event;
 
-import com.w4t.Adaptable;
+import org.eclipse.rwt.Adaptable;
+
 import com.w4t.Validator;
 
 /** 
  * <p>An instance of this class describes a validation that occured.</p>
  * <p>This class is not intended to be instantiated or extended by clients.</p>
- * @see com.w4t.event.ValidationListener
+ * @see org.eclipse.rwt.event.ValidationListener
  */
 public class ValidationEvent extends WebEvent {
 

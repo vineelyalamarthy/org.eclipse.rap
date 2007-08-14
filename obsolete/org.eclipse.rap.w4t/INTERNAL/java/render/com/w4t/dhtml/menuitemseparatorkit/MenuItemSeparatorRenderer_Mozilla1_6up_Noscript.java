@@ -11,14 +11,16 @@
 package com.w4t.dhtml.menuitemseparatorkit;
 
 import java.io.IOException;
-import com.w4t.Browser;
+
+import org.eclipse.rwt.internal.browser.Browser;
+
 import com.w4t.WebComponent;
 import com.w4t.dhtml.Menu;
 import com.w4t.dhtml.MenuItemSeparator;
 
 
 /** <p>The renderer for 
-  * {@link com.w4t.dhtml.MenuItemSeparator MenuItemSeparator} on Netscape 
+  * {@link org.eclipse.rwt.dhtml.MenuItemSeparator MenuItemSeparator} on Netscape 
   * Navigator 6 and higher without javascript support.</p>
   */
 public class MenuItemSeparatorRenderer_Mozilla1_6up_Noscript 

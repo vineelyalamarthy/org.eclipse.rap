@@ -11,11 +11,15 @@
 package com.w4t.dhtml.treeleafkit;
 
 import java.io.IOException;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.WebComponent;
 import com.w4t.dhtml.*;
 
 
-/** <p>The superclass for all renderers for com.w4t.dhtml.TreeLeaf on 
+/** <p>The superclass for all renderers for org.eclipse.rap.dhtml.TreeLeaf on 
   * more recent browsers that support javascript and restructuring of html 
   * documents via DOM.</p>
   * 

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package com.w4t.internal.adaptable;
 
-import com.w4t.HtmlResponseWriter;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
 
 public interface IFormAdapter {
   

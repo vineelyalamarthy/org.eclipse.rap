@@ -10,7 +10,8 @@
  ******************************************************************************/
 package com.w4t.administration.core.impl;
 
-import com.w4t.Adaptable;
+import org.eclipse.rwt.Adaptable;
+
 import com.w4t.W4TContext;
 import com.w4t.administration.core.IModelElement;
 

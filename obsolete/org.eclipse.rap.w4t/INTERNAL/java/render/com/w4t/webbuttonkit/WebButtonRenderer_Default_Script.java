@@ -11,10 +11,11 @@
 package com.w4t.webbuttonkit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 
 
-/** <p>The default renderer for com.w4t.WebButton.</p>
+/** <p>The default renderer for org.eclipse.rap.WebButton.</p>
   *
   * <p>The default renderer is non-browser-specific and implements 
   * functionality in a way that runs on the most commonly used browsers.</p>

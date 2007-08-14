@@ -17,8 +17,8 @@ package com.w4t.event;
  * <p>Classes that wish to deal with <code>WebContainerEvent</code>s which 
  * can extend this class and override only the methods which they are 
  * interested in.</p>
- * @see com.w4t.event.WebContainerListener
- * @see com.w4t.event.WebContainerEvent
+ * @see org.eclipse.rwt.event.WebContainerListener
+ * @see org.eclipse.rwt.event.WebContainerEvent
   */
 public class WebContainerAdapter implements WebContainerListener {
 

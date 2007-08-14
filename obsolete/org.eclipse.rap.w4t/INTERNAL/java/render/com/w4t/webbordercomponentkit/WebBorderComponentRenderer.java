@@ -11,11 +11,12 @@
 package com.w4t.webbordercomponentkit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 import com.w4t.webbordercomponentkit.types.WebBorderComponentType;
 
 /** <p>the superclass of all Renderers that render 
- *  com.w4t.WebBorderComponent.</p>
+ *  org.eclipse.rap.WebBorderComponent.</p>
  */
 public abstract class WebBorderComponentRenderer extends DecoratorRenderer {
   

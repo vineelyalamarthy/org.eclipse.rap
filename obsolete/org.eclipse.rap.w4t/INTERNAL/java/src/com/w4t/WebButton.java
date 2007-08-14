@@ -26,9 +26,9 @@ import com.w4t.util.DefaultColorScheme;
   * <pre>
   * package test;
   *
-  * import com.w4t.*;
-  * import com.w4t.event.*;
-  * import com.w4t.types.*;
+  * import org.eclipse.rap.*;
+  * import org.eclipse.rap.event.*;
+  * import org.eclipse.rap.types.*;
   *
   * public class Test extends WebForm {
   *
@@ -337,7 +337,7 @@ public class WebButton
   }
   
 
-  // interface methods of com.w4t.SimpleComponent
+  // interface methods of org.eclipse.rap.SimpleComponent
   // (no javadoc comments, so they are copied from the interface)
   ///////////////////////////////////////////////////////////////
   

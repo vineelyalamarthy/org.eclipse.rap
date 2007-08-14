@@ -13,12 +13,17 @@ package com.w4t.engine.service;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.util.ResourceManager;
+
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.AbstractServiceHandler;
+import org.eclipse.rwt.internal.service.RequestParams;
 
 
+
+// TODO [w4t] move back to org.eclipse.rap.w4t
 class ResourceRequestServiceHandler extends AbstractServiceHandler {
 
   /** <p>Map file extensions to MIME types.</p>*/
@@ -35,7 +40,7 @@ class ResourceRequestServiceHandler extends AbstractServiceHandler {
     setExpirationHeader();
     String name = getRequest().getParameter( RequestParams.RESOURCE );
     Integer version = getResourceVersion();
-    int[] resource = ResourceManager.findResource( name, version );
+    int[] resource = ResourceManagerImpl.findResource( name, version );
     if( resource != null ) {
       getResponse().setContentType( getMIMEType( name ) );
       ServletOutputStream out = getResponse().getOutputStream();

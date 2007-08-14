@@ -11,7 +11,12 @@
 package com.w4t.dhtml.treenodekit;
 
 import java.io.IOException;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.LifeCycleHelper;
+import com.w4t.WebComponent;
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.event.WebTreeNodeCollapsedEvent;
 import com.w4t.dhtml.event.WebTreeNodeExpandedEvent;
@@ -19,7 +24,7 @@ import com.w4t.dhtml.renderinfo.TreeNodeInfo;
 
 
 /**
- * <p> The superclass for all renderers for com.w4t.dhtml.TreeNode on more
+ * <p> The superclass for all renderers for org.eclipse.rap.dhtml.TreeNode on more
  * recent browsers that support javascript and restructuring of html documents
  * via DOM. </p>
  * <p> Note that this is not an actual renderer but encapsulates common

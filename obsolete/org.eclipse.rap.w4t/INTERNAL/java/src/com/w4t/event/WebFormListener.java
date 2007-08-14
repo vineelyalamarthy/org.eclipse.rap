@@ -15,8 +15,8 @@ import java.util.EventListener;
 /** 
  * <p>Classes which implement this interface are provide methods that deal with 
  * the initialization or closing of WebForms.</p>
- * @see com.w4t.event.WebFormEvent
- * @see com.w4t.event.WebFormAdapter      
+ * @see org.eclipse.rwt.event.WebFormEvent
+ * @see org.eclipse.rwt.event.WebFormAdapter      
  */
 public interface WebFormListener extends EventListener {
 
@@ -27,7 +27,7 @@ public interface WebFormListener extends EventListener {
   
   /** 
    * <p>Invoked after the <code>WebForm</code>s initialisations take place 
-   * ({@link com.w4t.WebForm#setWebComponents() WebForm.setWebComponents()}).
+   * ({@link org.eclipse.rwt.WebForm#setWebComponents() WebForm.setWebComponents()}).
    * </p>
    */
   void afterInit( WebFormEvent e );  

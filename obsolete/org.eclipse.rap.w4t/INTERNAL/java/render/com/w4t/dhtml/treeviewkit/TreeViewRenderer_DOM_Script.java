@@ -11,7 +11,7 @@
 package com.w4t.dhtml.treeviewkit;
 
 
-/** <p>The superclass for all renderers for com.w4t.dhtml.TreeView on 
+/** <p>The superclass for all renderers for org.eclipse.rap.dhtml.TreeView on 
   * more recent browsers that support javascript and restructuring of html 
   * documents via DOM.</p>
   * 

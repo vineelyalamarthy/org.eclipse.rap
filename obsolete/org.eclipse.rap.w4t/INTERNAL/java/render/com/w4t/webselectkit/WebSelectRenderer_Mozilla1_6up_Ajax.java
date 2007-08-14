@@ -11,12 +11,16 @@
 package com.w4t.webselectkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.event.WebItemEvent;
 
 
-/** <p>The default Ajax renderer for com.w4t.WebSelect on Mozilla browsers.</p>
+/** <p>The default Ajax renderer for org.eclipse.rap.WebSelect on Mozilla browsers.</p>
   */
 public class WebSelectRenderer_Mozilla1_6up_Ajax extends Renderer {
 

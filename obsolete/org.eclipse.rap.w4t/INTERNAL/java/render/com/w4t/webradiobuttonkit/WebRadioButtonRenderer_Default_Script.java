@@ -11,10 +11,14 @@
 package com.w4t.webradiobuttonkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 
 
-/** <p>The default renderer for com.w4t.WebRadioButton.</p>
+/** <p>The default renderer for org.eclipse.rap.WebRadioButton.</p>
   *
   * <p>The default renderer is non-browser-specific and implements 
   * functionality in a way that runs on the most commonly used browsers.</p>

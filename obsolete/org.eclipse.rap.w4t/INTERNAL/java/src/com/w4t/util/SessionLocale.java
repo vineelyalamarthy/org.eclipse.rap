@@ -11,10 +11,11 @@
 package com.w4t.util;
 
 import java.util.Locale;
-import com.w4t.SessionSingletonBase;
+
+import org.eclipse.rwt.SessionSingletonBase;
 
 /** <p>Stores a Locale object that can be set via {@link 
-  * com.w4t.W4TContext#setLocale(Locale) W4TContext.setLocale(Locale)}.</p>
+  * org.eclipse.rwt.W4TContext#setLocale(Locale) W4TContext.setLocale(Locale)}.</p>
   */
 public class SessionLocale extends SessionSingletonBase {
 

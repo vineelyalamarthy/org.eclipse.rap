@@ -13,8 +13,8 @@ package com.w4t.renderinfo;
 import com.w4t.WebContainer;
 
 /** <p>The FlowLayoutRenderInfo contains information for layouting a 
-  * {@link com.w4t.WebContainer WebContainer} using the 
-  * {@link com.w4t.WebFlowLayout WebFlowLayout}.</p>
+  * {@link org.eclipse.rwt.WebContainer WebContainer} using the 
+  * {@link org.eclipse.rwt.WebFlowLayout WebFlowLayout}.</p>
   */
 public class FlowLayoutRenderInfo extends LayoutRenderInfo {
 

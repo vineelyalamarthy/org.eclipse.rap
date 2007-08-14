@@ -15,7 +15,7 @@ import com.w4t.WebComponent;
 import com.w4t.ajax.AjaxStatusUtil;
 
 /**
- * <p>The renderer for <code>com.w4t.dhtml.MenuItemSeparator</code> on browsers
+ * <p>The renderer for <code>org.eclipse.rap.dhtml.MenuItemSeparator</code> on browsers
  * with ajax support.</p>
  */
 public class MenuItemSeparatorRenderer_Default_Ajax

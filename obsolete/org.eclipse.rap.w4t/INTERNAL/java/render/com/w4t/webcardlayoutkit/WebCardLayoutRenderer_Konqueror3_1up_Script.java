@@ -11,7 +11,7 @@
 package com.w4t.webcardlayoutkit;
 
 
-/** <p>The renderer for {@link com.w4t.WebCardLayout WebCardLayout} on
+/** <p>The renderer for {@link org.eclipse.rwt.WebCardLayout WebCardLayout} on
   * Konqueror 3.1 and higher.</p>
   */
 public class WebCardLayoutRenderer_Konqueror3_1up_Script 

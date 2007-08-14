@@ -17,7 +17,7 @@ import com.w4t.dhtml.MenuItem;
 
 
 
-/** <p>The renderer for com.w4t.dhtml.MenuItem on browsers with
+/** <p>The renderer for org.eclipse.rap.dhtml.MenuItem on browsers with
   * DOM support.</p>
   */
 public abstract class MenuItemRenderer extends Renderer {

@@ -15,7 +15,7 @@ import java.util.EventListener;
 /** 
   * <p>A file-upload listener is notified of an upload issued by a
   * <code>WebFileUpload</code> component.</p>
-  * @see com.w4t.event.WebFileUploadEvent
+  * @see org.eclipse.rwt.event.WebFileUploadEvent
   */
 public interface WebFileUploadListener extends EventListener {
 

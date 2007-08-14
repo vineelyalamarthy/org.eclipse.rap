@@ -18,7 +18,7 @@ import com.w4t.internal.simplecomponent.UniversalAttributes;
  * <p>A WebImage encapsulates the HTML &lt;img&gt; element.</p>
  * <p><strong>Note:</strong> The recommended way to use images is to deploy 
  * them within the applications' JAR file and register them using the 
- * {@link com.w4t.IResourceManager#register(String) 
+ * {@link org.eclipse.rwt.resources.IResourceManager#register(String) 
  * <code>IResourceManager</code>s register} method. From thereon they can be
  * referenced by the same name as inside the JAR. 
  * <strong>Example:</strong>
@@ -141,7 +141,7 @@ public class WebImage
   }
   
   
-  // interface methods of com.w4t.SimpleComponent
+  // interface methods of org.eclipse.rap.SimpleComponent
   ///////////////////////////////////////////////////////////////
   
   public String getCssClass() {

@@ -11,13 +11,17 @@
 package com.w4t.webcontainerkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.browser.*;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.resources.IResourceManager;
+
 import com.w4t.*;
-import com.w4t.engine.util.ResourceManager;
 import com.w4t.util.RendererCache;
-import com.w4t.util.browser.*;
 
 
-/** <p>the superclass of all Renderers that render com.w4t.WebContainer.</p>
+/** <p>the superclass of all Renderers that render org.eclipse.rap.WebContainer.</p>
   */
 public abstract class WebContainerRenderer extends Renderer {
 
@@ -159,7 +163,7 @@ public abstract class WebContainerRenderer extends Renderer {
   
   // TODO [rh] Find a better solution than hardwired browser to js mapping
   private void setJSLibraries() {
-    IResourceManager manager = ResourceManager.getInstance();
+    IResourceManager manager = ResourceManagerImpl.getInstance();
     // EventHandler
     Browser browser = W4TContext.getBrowser();
     String eventHandler;

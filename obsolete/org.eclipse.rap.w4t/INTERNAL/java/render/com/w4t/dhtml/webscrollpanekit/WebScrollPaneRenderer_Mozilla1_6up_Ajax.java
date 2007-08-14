@@ -11,12 +11,13 @@
 package com.w4t.dhtml.webscrollpanekit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.dhtml.WebScrollPane;
 
 /**
- * <p>The renderer for {@link com.w4t.dhtml.WebScrollPane WebScrollPane} on 
+ * <p>The renderer for {@link org.eclipse.rwt.dhtml.WebScrollPane WebScrollPane} on 
  * Mozilla 1.6 and higher in AJaX mode.</p>
  */
 public class WebScrollPaneRenderer_Mozilla1_6up_Ajax

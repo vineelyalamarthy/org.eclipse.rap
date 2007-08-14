@@ -13,15 +13,19 @@ package com.w4t;
 import java.io.IOException;
 import java.text.Format;
 import java.text.MessageFormat;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.internal.browser.Browser;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.*;
+
 import com.w4t.IWindowManager.IWindow;
 import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.dhtml.Item;
 import com.w4t.engine.lifecycle.standard.EventQueue;
 import com.w4t.engine.lifecycle.standard.IRenderingSchedule;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.event.WebDataEvent;
@@ -36,6 +40,9 @@ import com.w4t.util.RendererCache;
 // TODO [rh] JavaDoc necessary?
 public class LifeCycleHelper {
   
+  private static final String ATTR_RENDERING_SCHEDULE 
+    = IRenderingSchedule.class.getName();
+
   private LifeCycleHelper() {
   }
   
@@ -111,8 +118,13 @@ public class LifeCycleHelper {
     return result;
   }
 
-  private static IRenderingSchedule getSchedule() {
-    return getStateInfo().getRenderingSchedule();
+  public static void setSchedule( final IRenderingSchedule schedule ) {
+    getStateInfo().setAttribute( ATTR_RENDERING_SCHEDULE, schedule );
+  }
+  
+  public static IRenderingSchedule getSchedule() {
+    Object attribute = getStateInfo().getAttribute( ATTR_RENDERING_SCHEDULE );
+    return ( IRenderingSchedule )attribute;
   }
   
   private static IServiceStateInfo getStateInfo() {

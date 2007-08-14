@@ -15,7 +15,7 @@ import com.w4t.WebComponent;
 import com.w4t.ajax.AjaxStatusUtil;
 
 /**
- * <p> The default renderer for com.w4t.WebBorderComponent on AJaX-enabled 
+ * <p> The default renderer for org.eclipse.rap.WebBorderComponent on AJaX-enabled 
  * browsers.</p>
  */
 public class WebBorderComponentRenderer_Default_Ajax

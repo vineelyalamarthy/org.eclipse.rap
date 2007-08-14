@@ -16,7 +16,7 @@ import com.w4t.ajax.AjaxStatusUtil;
 import com.w4t.dhtml.MenuBar;
 
 
-/** <p>The renderer for com.w4t.dhtml.MenuBar on Opera 8 
+/** <p>The renderer for org.eclipse.rap.dhtml.MenuBar on Opera 8 
  * and higher with AJaX support.</p>
  */
 public class MenuBarRenderer_Opera8up_Ajax 

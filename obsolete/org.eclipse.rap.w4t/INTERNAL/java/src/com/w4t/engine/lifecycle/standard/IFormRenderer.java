@@ -23,7 +23,7 @@ import com.w4t.WebComponent;
 public interface IFormRenderer {
 
   /** 
-   * <p>Returns whether the {@link com.w4t.event.WebRenderEvent render events}
+   * <p>Returns whether the {@link org.eclipse.rwt.event.WebRenderEvent render events}
    * should be fired.</p>
    */
   boolean fireRenderEvents();
@@ -31,7 +31,7 @@ public interface IFormRenderer {
   /**
    * <p>Render the markup for the form. The name-match with 
    * <code>Renderer.render(WebComponent)</code> is intentional.</p>
-   * @see com.w4t.Renderer#render(WebComponent)
+   * @see org.eclipse.rwt.Renderer#render(WebComponent)
    */
   void render( WebComponent component ) throws IOException;
 

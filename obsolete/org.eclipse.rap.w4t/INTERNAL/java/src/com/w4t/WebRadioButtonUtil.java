@@ -12,12 +12,15 @@ package com.w4t;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.eclipse.rwt.internal.util.ParamCheck;
+
 import com.w4t.util.ComponentTreeVisitor;
 
 /**
  * <p>
- * Utility class that helps working with {@link com.w4t.WebRadioButton 
- * <code>WebRadioButton</code>} and {@link com.w4t.WebRadioButtonGroup 
+ * Utility class that helps working with {@link org.eclipse.rwt.WebRadioButton 
+ * <code>WebRadioButton</code>} and {@link org.eclipse.rwt.WebRadioButtonGroup 
  * <code>WebRadioButtonGroup</code>}.
  * </p> 
  */

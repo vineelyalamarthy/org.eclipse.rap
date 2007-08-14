@@ -11,10 +11,12 @@
 package com.w4t.webformkit;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
 import com.w4t.engine.lifecycle.standard.EventQueue;
 import com.w4t.engine.lifecycle.standard.EventQueueFilter;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.WebDataEvent;
 import com.w4t.event.WebItemEvent;
 

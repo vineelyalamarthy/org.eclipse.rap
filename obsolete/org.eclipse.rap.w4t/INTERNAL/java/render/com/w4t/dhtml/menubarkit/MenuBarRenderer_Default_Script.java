@@ -14,7 +14,7 @@ import java.io.IOException;
 import com.w4t.ProcessActionUtil;
 import com.w4t.WebComponent;
 
-/** <p>The renderer for com.w4t.dhtml.MenuBar on browsers with
+/** <p>The renderer for org.eclipse.rap.dhtml.MenuBar on browsers with
   * javascript support.</p>
   */
 public class MenuBarRenderer_Default_Script extends MenuBarRenderer {

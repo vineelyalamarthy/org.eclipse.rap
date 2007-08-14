@@ -12,6 +12,9 @@ package com.w4t;
 
 import java.lang.reflect.Field;
 import java.util.Vector;
+
+import org.eclipse.rwt.internal.util.ParamCheck;
+
 import com.w4t.custom.ICustomContainer;
 import com.w4t.dhtml.Node;
 import com.w4t.event.*;

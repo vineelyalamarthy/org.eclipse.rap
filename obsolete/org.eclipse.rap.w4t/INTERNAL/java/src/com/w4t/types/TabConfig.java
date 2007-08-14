@@ -14,7 +14,7 @@ import com.w4t.WebComponentProperties;
 
 
 /** <p>Encapsulates configuration settings for the 
- * {@link com.w4t.WebCardLayout WebCardLayout}, such as the position of 
+ * {@link org.eclipse.rwt.WebCardLayout WebCardLayout}, such as the position of 
  * the tabs (top, left, right, bottom), their alignment, and the general 
  * style of the default settings.</p>
  */

@@ -10,15 +10,16 @@
  ******************************************************************************/
 package com.w4t.engine.lifecycle.standard;
 
+import org.eclipse.rwt.internal.*;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
 import com.w4t.*;
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.lifecycle.LifeCycle;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
-import com.w4t.util.*;
 
 
 /** <p>A utility class that creates error pages for specific requests.</p>

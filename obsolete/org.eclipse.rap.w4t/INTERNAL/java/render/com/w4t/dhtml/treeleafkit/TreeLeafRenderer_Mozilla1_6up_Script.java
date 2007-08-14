@@ -12,7 +12,7 @@ package com.w4t.dhtml.treeleafkit;
 
 /**
  * <p>
- * The renderer for com.w4t.dhtml.TreeLeaf on Mozilla 1.6 and later.
+ * The renderer for org.eclipse.rap.dhtml.TreeLeaf on Mozilla 1.6 and later.
  * </p>
  */
 public class TreeLeafRenderer_Mozilla1_6up_Script

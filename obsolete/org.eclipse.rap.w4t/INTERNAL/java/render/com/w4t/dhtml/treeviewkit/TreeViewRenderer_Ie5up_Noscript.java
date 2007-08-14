@@ -12,7 +12,7 @@ package com.w4t.dhtml.treeviewkit;
 
 
 
-/** <p>The renderer for com.w4t.dhtml.TreeView on Microsoft Internet 
+/** <p>The renderer for org.eclipse.rap.dhtml.TreeView on Microsoft Internet 
   * Explorer 6 and later without javascript support.</p>
   */
 public class TreeViewRenderer_Ie5up_Noscript 

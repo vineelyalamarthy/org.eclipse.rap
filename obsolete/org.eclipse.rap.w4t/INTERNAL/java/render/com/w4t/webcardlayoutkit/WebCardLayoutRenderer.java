@@ -13,9 +13,14 @@ package com.w4t.webcardlayoutkit;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
+
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.developer.AreaSelector;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.WebActionEvent;
 import com.w4t.event.WebActionListener;
 import com.w4t.internal.adaptable.IRenderInfoAdapter;
@@ -25,7 +30,7 @@ import com.w4t.weblayoutkit.LayoutRenderer;
 
 
 /** <p>the superclass for all renderers that render 
-  * {@link com.w4t.WebCardLayout WebCardLayout}.</p>
+  * {@link org.eclipse.rwt.WebCardLayout WebCardLayout}.</p>
   */
 public abstract class WebCardLayoutRenderer extends LayoutRenderer {
   

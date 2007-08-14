@@ -11,9 +11,11 @@
 package com.w4t.webbuttonkit;
 
 import java.io.IOException;
-import com.w4t.HtmlResponseWriter;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.WebButton;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.WebActionEvent;
 
 

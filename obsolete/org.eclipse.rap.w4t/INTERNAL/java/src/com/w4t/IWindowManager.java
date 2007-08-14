@@ -15,7 +15,7 @@ package com.w4t;
  * <p>The <code>IWindowManager</code> keeps track of all <code>IWindow</code>s
  * for a given session and allows to create and remove them.</p>
  * <p>An instance of the <code>IWindowManager</code> for the current session
- * can be obtained by {@link com.w4t.W4TContext#getWindowManager() 
+ * can be obtained by {@link org.eclipse.rwt.W4TContext#getWindowManager() 
  * <code>W4TContext#getWindowManager()</code>}</p>
  * <p>This interface is not intended to be implemented by clients.</p> 
  */
@@ -45,7 +45,7 @@ public interface IWindowManager {
     void setFormToDispatch( WebForm form );
     
     /** 
-     * <p>Returns the {@link com.w4t.WebForm WebForm} to which will be 
+     * <p>Returns the {@link org.eclipse.rwt.WebForm WebForm} to which will be 
      * dispatched. This is the last <code>WebForm</code> which was successfully 
      * set by {@link #setFormToDispatch(WebForm) setFormToDispatch(WebForm)}.
      * </p>

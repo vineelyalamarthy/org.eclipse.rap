@@ -11,8 +11,12 @@
 package com.w4t.internal.simplecomponent;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
 
 /** <p>Basic implementation of SimpleComponent. WebComponents which are 
  *  a representation of simple HTML tags, will use this class to delegate
@@ -109,7 +113,7 @@ public class UniversalAttributes
     }
   }
 
-  // interface methods of com.w4t.SimpleComponent
+  // interface methods of org.eclipse.rap.SimpleComponent
   // (no javadoc comments, so they are copied from the interface)
   ///////////////////////////////////////////////////////////////
   

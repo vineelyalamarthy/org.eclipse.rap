@@ -11,12 +11,15 @@
 package com.w4t.engine.requests;
 
 import java.util.*;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
 import org.apache.commons.fileupload.*;
+import org.eclipse.rwt.internal.*;
+
 import com.w4t.engine.util.ServletExceptionAdapter;
-import com.w4t.util.*;
 
 /** <p>Special HttpServletRequest wrapper for handling file 
  *  upload requests.</p> */

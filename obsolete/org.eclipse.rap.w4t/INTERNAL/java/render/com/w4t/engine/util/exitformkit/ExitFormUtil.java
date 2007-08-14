@@ -12,9 +12,11 @@ package com.w4t.engine.util.exitformkit;
 
 import java.io.*;
 import java.text.MessageFormat;
-import com.w4t.HTML;
-import com.w4t.IResourceManager;
-import com.w4t.engine.util.ResourceManager;
+
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.resources.IResourceManager;
+
 import com.w4t.types.LocalPath;
 
 
@@ -24,7 +26,7 @@ final class ExitFormUtil {
   static final String INTERNAL_FILE = "resources/html/exit.html";
   
   static void registerInternalFile() {
-    IResourceManager manager = ResourceManager.getInstance();
+    IResourceManager manager = ResourceManagerImpl.getInstance();
     manager.register( INTERNAL_FILE, HTML.CHARSET_NAME_ISO_8859_1 );
   }
   
@@ -40,7 +42,7 @@ final class ExitFormUtil {
       result = new FileInputStream( file );
     } else {
       result 
-        = ResourceManager.getInstance().getResourceAsStream( INTERNAL_FILE );
+        = ResourceManagerImpl.getInstance().getResourceAsStream( INTERNAL_FILE );
     }
     return result;
   }

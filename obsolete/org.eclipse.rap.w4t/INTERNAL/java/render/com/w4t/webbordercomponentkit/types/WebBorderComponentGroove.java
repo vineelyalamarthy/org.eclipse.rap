@@ -10,7 +10,8 @@
  ******************************************************************************/
 package com.w4t.webbordercomponentkit.types;
 
-import com.w4t.HtmlResponseWriter;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+
 import com.w4t.WebBorderComponent;
 
 /** implementation of the GROOVE state of the WebBorderComponent.

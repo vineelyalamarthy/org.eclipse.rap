@@ -24,7 +24,7 @@ import com.w4t.internal.simplecomponent.UniversalAttributes;
  * <code>WebRadioButtonGroup</code>} in order to work properly; that is, one of 
  * its parents (see {@link WebRadioButton#getParent() <code>getParent()</code>})
  * must be a WebRadioButtonGroup. To obtain the group to which a WebRadioButton
- * belongs to use {@link com.w4t.WebRadioButtonUtil#findGroup(WebRadioButton)
+ * belongs to use {@link org.eclipse.rwt.WebRadioButtonUtil#findGroup(WebRadioButton)
  * <code>WebRadioButtonUtil.findGroup(WebRadioButton)</code>}</p>
  * <p>
  * WebRadioButtons which do not belong to a group appear disabled and thus 
@@ -32,7 +32,7 @@ import com.w4t.internal.simplecomponent.UniversalAttributes;
  * </p>
  * <p>The WebRadioButton appears unchecked by default, the
  * {@link #setValue(String) <code>value</code>} is set to its 
- * {@link com.w4t.WebComponent#getUniqueID()
+ * {@link org.eclipse.rwt.WebComponent#getUniqueID()
  * <code>unique component id</code>}.</p>
  */
 public class WebRadioButton extends WebComponent implements SimpleComponent {
@@ -173,7 +173,7 @@ public class WebRadioButton extends WebComponent implements SimpleComponent {
   }
   
   
-  // interface methods of com.w4t.SimpleComponent
+  // interface methods of org.eclipse.rap.SimpleComponent
   ///////////////////////////////////////////////////////////////
 
   public String getCssClass() {

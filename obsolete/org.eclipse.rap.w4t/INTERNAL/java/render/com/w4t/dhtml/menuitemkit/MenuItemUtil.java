@@ -11,7 +11,11 @@
 package com.w4t.dhtml.menuitemkit;
 
 import java.io.IOException;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.RenderUtil;
 import com.w4t.dhtml.MenuBar;
 import com.w4t.dhtml.MenuItem;
 import com.w4t.dhtml.menustyle.MenuItemDisabledStyle;

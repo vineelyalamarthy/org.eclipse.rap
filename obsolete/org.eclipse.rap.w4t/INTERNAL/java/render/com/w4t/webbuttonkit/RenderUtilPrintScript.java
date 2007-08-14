@@ -11,8 +11,12 @@
 package com.w4t.webbuttonkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
 
 
 final class RenderUtilPrintScript {

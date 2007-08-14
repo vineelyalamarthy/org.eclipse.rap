@@ -13,10 +13,14 @@ package com.w4t.ajax;
 import java.beans.*;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.internal.event.IEventAdapter;
+import org.eclipse.rwt.internal.util.ParamCheck;
+
 import com.w4t.*;
 import com.w4t.dhtml.Node;
 import com.w4t.dhtml.menustyle.MenuProperties;
-import com.w4t.event.IEventAdapter;
 import com.w4t.types.WebPropertyBase;
 
 /**

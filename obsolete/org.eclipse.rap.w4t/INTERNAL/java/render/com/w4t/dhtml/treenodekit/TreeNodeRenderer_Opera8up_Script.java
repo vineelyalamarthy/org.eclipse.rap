@@ -12,7 +12,7 @@ package com.w4t.dhtml.treenodekit;
 
 
 
-/** <p>The renderer for com.w4t.dhtml.TreeNode on Opera 8 
+/** <p>The renderer for org.eclipse.rap.dhtml.TreeNode on Opera 8 
   * and later.</p>
   * <p>This renderer just uses the implementation for Mozilla 1.6 and up.</p>
   */

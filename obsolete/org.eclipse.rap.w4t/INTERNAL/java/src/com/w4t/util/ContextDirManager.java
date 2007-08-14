@@ -11,10 +11,13 @@
 package com.w4t.util;
 
 import java.io.File;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import com.w4t.engine.service.ContextProvider;
+import org.eclipse.rwt.internal.ConfigurationReader;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 
 /** <p>Manages the server context directories. This is especially important
  * when run in modes where resources from different context directories must

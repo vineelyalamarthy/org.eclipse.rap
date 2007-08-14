@@ -12,11 +12,14 @@ package com.w4t;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.fileupload.FileItem;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.lifecycle.*;
+
 import com.w4t.IWindowManager.IWindow;
-import com.w4t.engine.lifecycle.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.FormManager;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.event.WebFormEvent;
@@ -58,7 +61,7 @@ import com.w4t.util.DefaultColorScheme;
   *
   * <p>For more information on how to place components on a WebForm 
   * and how to arrange them using layout managers, see {@link 
-  * com.w4t.WebContainer WebContainer}.</p>
+  * org.eclipse.rwt.WebContainer WebContainer}.</p>
   *
   * <p>WebForm instances are not created with the new-Operator, 
   * but must be loaded with the factory method {@link 
@@ -159,7 +162,7 @@ public abstract class WebForm extends WebContainer {
   /** <p>Used by the W4 Toolkit library to create a new instance of 
     * this WebForm - in order to obtain an instance that is properly 
     * initialised and registered with the system, use the factory method 
-    * {@link com.w4t.W4TContext#loadForm(String) loadForm(String)} 
+    * {@link org.eclipse.rwt.W4TContext#loadForm(String) loadForm(String)} 
     * instead.</p> */
   public WebForm() {
     refreshTimeStamp();
@@ -222,7 +225,7 @@ public abstract class WebForm extends WebContainer {
 
   /** <p>the main entry point for initialisation code. This method is executed
     * when an instance of this WebForm is created. It will usually be
-    * used to add and initialise widgets (see {@link com.w4t.WebContainer
+    * used to add and initialise widgets (see {@link org.eclipse.rwt.WebContainer
     * WebContainer} for more information about how to add WebComponents and
     * arrange them using layout managers.</p>
     *

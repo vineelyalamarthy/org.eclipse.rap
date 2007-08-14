@@ -12,10 +12,18 @@ package com.w4t.engine.lifecycle.standard;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.servlet.ServletException;
+
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.rwt.internal.AdapterManager;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.lifecycle.Scope;
+import org.eclipse.rwt.internal.util.ParamCheck;
+import org.eclipse.rwt.lifecycle.*;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusAdapterFactory;
-import com.w4t.engine.lifecycle.*;
 import com.w4t.internal.adaptable.RenderInfoAdapterFactory;
 
 
@@ -24,7 +32,7 @@ import com.w4t.internal.adaptable.RenderInfoAdapterFactory;
   */
 public class LifeCycle_Standard extends LifeCycle {
 
-  static final String PACKAGE = "com.w4t.engine.lifecycle.standard.";  
+  static final String PACKAGE = "org.eclipse.rap.engine.lifecycle.standard.";  
   
   private final Phase[] phases;
   private final Set listeners;

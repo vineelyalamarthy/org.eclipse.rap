@@ -15,7 +15,7 @@ import com.w4t.ProcessActionUtil;
 import com.w4t.WebComponent;
 import com.w4t.dhtml.MenuItem;
 
-/** <p>The common superclass renderer for com.w4t.dhtml.MenuItem
+/** <p>The common superclass renderer for org.eclipse.rap.dhtml.MenuItem
   * on browsers with DOM support.</p>
   */
 public class MenuItemRenderer_Default_Script extends MenuItemRenderer {

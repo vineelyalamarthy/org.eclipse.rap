@@ -11,7 +11,9 @@
 package com.w4t.webbordercomponentkit.types;
 
 import java.io.IOException;
-import com.w4t.HtmlResponseWriter;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+
 import com.w4t.WebBorderComponent;
 
 /** the abstract super class for the different types of borders used

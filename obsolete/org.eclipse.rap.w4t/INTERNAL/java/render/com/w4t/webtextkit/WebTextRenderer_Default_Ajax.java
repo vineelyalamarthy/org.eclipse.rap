@@ -11,11 +11,12 @@
 package com.w4t.webtextkit;
 
 import java.io.IOException;
+
 import com.w4t.*;
 import com.w4t.ajax.AjaxStatusUtil;
 
 
-/** <p>Renders <code>com.w4t.WebText</code> when used in AJAX-enabled browsers
+/** <p>Renders <code>org.eclipse.rap.WebText</code> when used in AJAX-enabled browsers
  * </p>
   */
 public class WebTextRenderer_Default_Ajax extends Renderer {

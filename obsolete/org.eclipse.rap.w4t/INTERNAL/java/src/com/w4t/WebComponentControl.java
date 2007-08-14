@@ -11,10 +11,13 @@
 package com.w4t;
 
 import java.lang.reflect.Field;
+
+import org.eclipse.rwt.resources.IResourceManager;
+
 import com.w4t.internal.adaptable.IFormAdapter;
 
 /** <p>A helping class to get access to hidden methods and properties from
-  * outside of the com.w4t package.</p>
+  * outside of the org.eclipse.rap package.</p>
   * <p>It provides some static methods to get access to hidden properties
   * and methods of WebComponents from outside the package, e.g. for the
   * WebComponentRegistry.</p>

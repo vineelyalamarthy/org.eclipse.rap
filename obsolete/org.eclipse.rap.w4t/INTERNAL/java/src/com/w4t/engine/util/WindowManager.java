@@ -17,9 +17,13 @@ import java.util.Hashtable;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
+import org.eclipse.rwt.SessionSingletonBase;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.ParamCheck;
+
+import com.w4t.IWindowManager;
+import com.w4t.WebForm;
 
 /**
  * <p>This class maintains a list of (browser) windows and their associated 

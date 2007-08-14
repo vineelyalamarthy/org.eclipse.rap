@@ -11,7 +11,11 @@
 package com.w4t.webfileuploadkit;
 
 import java.io.IOException;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.WebFileUpload;
 import com.w4t.event.WebFocusGainedEvent;
 
 public class WebFileUploadRenderer_Default_Script extends WebFileUploadRenderer

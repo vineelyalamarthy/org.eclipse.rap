@@ -12,6 +12,9 @@ package com.w4t.util;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.eclipse.rwt.internal.browser.Browser;
+
 import com.w4t.*;
 
 
@@ -75,7 +78,7 @@ public class RendererCache {
   /**
    * <p>Returns a <code>Renderer</code> object for the given 
    * <code>componentClass</code> and the <em>current</em> (obtained by 
-   * {@link com.w4t.W4TContext#getBrowser()
+   * {@link org.eclipse.rwt.W4TContext#getBrowser()
    * <code>W4TContext.getBrowser()</code>}) browser.</p>
    * <p>Invoking this method is equivalent to 
    * {@link #retrieveRenderer(Class, Browser) 

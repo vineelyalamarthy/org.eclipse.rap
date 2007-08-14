@@ -11,11 +11,15 @@
 package com.w4t.dhtml.menubarkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 
 
-/** <p>The renderer for com.w4t.dhtml.MenuBar on browsers without
+/** <p>The renderer for org.eclipse.rap.dhtml.MenuBar on browsers without
   * javascript support.</p>
   */
 public class MenuBarRenderer_Default_Noscript extends MenuBarRenderer {

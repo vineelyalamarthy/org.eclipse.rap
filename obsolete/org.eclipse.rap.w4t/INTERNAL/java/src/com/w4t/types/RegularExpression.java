@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  *  representing regular expressions.</p>
  * 
  *  <p>Regular expressions can be used e.g. for input validation in
- *  {@link com.w4t.Validator Validator} implementations.</p>
+ *  {@link org.eclipse.rwt.Validator Validator} implementations.</p>
  */ 
 public class RegularExpression extends WebPropertyBase {
 

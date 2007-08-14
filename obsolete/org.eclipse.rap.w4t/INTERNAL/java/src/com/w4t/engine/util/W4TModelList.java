@@ -12,10 +12,13 @@ package com.w4t.engine.util;
 
 import java.lang.ref.WeakReference;
 import java.util.*;
+
 import javax.servlet.http.*;
+
+import org.eclipse.rwt.internal.*;
+
 import com.w4t.WebComponentStatistics;
 import com.w4t.engine.W4TModel;
-import com.w4t.util.*;
 
 /** <p>encapsulates a list of W4TModel objects. List entries are stored 
   * with weak references, so the references to the list members that are

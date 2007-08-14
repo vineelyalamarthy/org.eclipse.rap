@@ -12,9 +12,10 @@ package com.w4t.engine.lifecycle.standard;
 
 import java.io.IOException;
 
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+
 import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
 import com.w4t.engine.util.ExitForm;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.event.WebRenderAdapter;
@@ -30,7 +31,7 @@ class LifeCycleAdapter implements ILifeCycleAdapter {
   private final class RenderRunnable implements ILifecycleRunnable {
     public void run() {
       IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-      stateInfo.setRendereringSchedule( new RenderingSchedule() );
+      LifeCycleHelper.setSchedule( new RenderingSchedule() );
       // dispatch to 'static' invalidated-form if needed 
       dispatchToInvalidated();
       // Obtain form to be rendered
@@ -56,7 +57,7 @@ class LifeCycleAdapter implements ILifeCycleAdapter {
         if( isExceptionOccured ) {
           stateInfo.setExceptionOccured( true );
         }
-        stateInfo.setRendereringSchedule( null );
+        LifeCycleHelper.setSchedule( null );
         WindowManager.afterRender();
       }
     }

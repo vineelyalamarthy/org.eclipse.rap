@@ -16,9 +16,9 @@ import com.w4t.internal.adaptable.IRenderInfoAdapter;
 import com.w4t.internal.adaptable.RenderInfoAdapter;
 
 
-/** <p>This is used internally only. Use {@link com.w4t.dhtml.MenuBar MenuBar}, 
-  * {@link com.w4t.custom.CMenu CMenu} 
-  * and {@link com.w4t.dhtml.MenuItem MenuItem}
+/** <p>This is used internally only. Use {@link org.eclipse.rwt.dhtml.MenuBar MenuBar}, 
+  * {@link org.eclipse.rwt.custom.CMenu CMenu} 
+  * and {@link org.eclipse.rwt.dhtml.MenuItem MenuItem}
   * to build menus.</p>
   * 
   * <p>encapsulates the part of a menu which is displayed on the MenuBar

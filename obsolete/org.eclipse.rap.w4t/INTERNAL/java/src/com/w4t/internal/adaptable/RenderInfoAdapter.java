@@ -12,7 +12,8 @@ package com.w4t.internal.adaptable;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.w4t.ParamCheck;
+
+import org.eclipse.rwt.internal.util.ParamCheck;
 
 
 //TODO [rh] JavaDoc necessary?

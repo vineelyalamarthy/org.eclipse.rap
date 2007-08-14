@@ -13,7 +13,11 @@ package com.w4t.ajax;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.util.ParamCheck;
+
+import com.w4t.WebCardLayout;
+import com.w4t.WebObject;
 import com.w4t.types.TabConfig;
 
 public final class HashCodeBuilderFactory {

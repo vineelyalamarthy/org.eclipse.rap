@@ -11,11 +11,16 @@
 package com.w4t.dhtml.menukit;
 
 import java.io.IOException;
-import com.w4t.*;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
+import com.w4t.LifeCycleHelper;
+import com.w4t.WebComponent;
 import com.w4t.dhtml.Item;
 import com.w4t.dhtml.Menu;
 
-/** <p>The renderer for com.w4t.dhtml.CMenu on browsers with
+/** <p>The renderer for org.eclipse.rap.dhtml.CMenu on browsers with
   * DOM support.</p>
   */
 public abstract class MenuRenderer_DOM extends MenuRenderer {

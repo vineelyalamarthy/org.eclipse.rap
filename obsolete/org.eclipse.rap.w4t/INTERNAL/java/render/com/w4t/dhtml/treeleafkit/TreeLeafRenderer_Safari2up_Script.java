@@ -11,7 +11,7 @@
 package com.w4t.dhtml.treeleafkit;
 
 /**
- * <p>The renderer for com.w4t.dhtml.TreeLeaf on Safari 2 and later.</p>
+ * <p>The renderer for org.eclipse.rap.dhtml.TreeLeaf on Safari 2 and later.</p>
  */
 public class TreeLeafRenderer_Safari2up_Script
   extends TreeLeafRenderer_Mozilla1_6up_Script

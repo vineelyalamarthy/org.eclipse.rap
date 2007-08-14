@@ -10,7 +10,7 @@
  ******************************************************************************/
 package com.w4t.util;
 
-import com.w4t.SessionSingletonBase;
+import org.eclipse.rwt.SessionSingletonBase;
 
 /**
   * <p>This is a helping class for the WebComponentApplication to create unique

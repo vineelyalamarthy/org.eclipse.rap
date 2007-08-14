@@ -15,7 +15,7 @@ import com.w4t.ProcessActionUtil;
 import com.w4t.WebComponent;
 
 
-/** <p>The renderer for {@link com.w4t.dhtml.MenuBar MenuBar} on Microsoft 
+/** <p>The renderer for {@link org.eclipse.rwt.dhtml.MenuBar MenuBar} on Microsoft 
   * Internet Explorer 5 and higher without javascript support.</p>
   */
 public class MenuBarRenderer_Ie5up_Noscript extends MenuBarRenderer {

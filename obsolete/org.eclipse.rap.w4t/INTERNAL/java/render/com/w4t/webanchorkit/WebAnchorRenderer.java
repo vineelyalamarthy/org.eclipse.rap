@@ -11,9 +11,13 @@
 package com.w4t.webanchorkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 
-/** <p>the superclass of all Renderers that render com.w4t.WebAnchor.</p>
+/** <p>the superclass of all Renderers that render org.eclipse.rap.WebAnchor.</p>
   */
 public abstract class WebAnchorRenderer extends DecoratorRenderer {
   

@@ -11,7 +11,6 @@
 package com.w4t.engine.lifecycle.standard;
 
 import com.w4t.*;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.WebRenderEvent;
 import com.w4t.util.ComponentTreeVisitor;
 import com.w4t.util.RendererCache;
@@ -94,6 +93,6 @@ final class Visitor extends AllComponentVisitor {
   }
   
   private static IRenderingSchedule getRenderingSchedule() {
-    return ContextProvider.getStateInfo().getRenderingSchedule();
+    return LifeCycleHelper.getSchedule();
   }
 }

@@ -11,13 +11,16 @@
 package com.w4t.dhtml.menuitemkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+
 import com.w4t.*;
 import com.w4t.dhtml.MenuItem;
 import com.w4t.dhtml.menustyle.MenuItemDisabledStyle;
 import com.w4t.dhtml.menustyle.MenuItemEnabledStyle;
 import com.w4t.util.image.*;
 
-/** <p>The renderer for com.w4t.dhtml.MenuItem on browsers without
+/** <p>The renderer for org.eclipse.rap.dhtml.MenuItem on browsers without
   * javascript support.</p>
   */
 public class MenuItemRenderer_Default_Noscript extends Renderer {

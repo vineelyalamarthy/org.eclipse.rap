@@ -16,7 +16,7 @@ import java.util.EventListener;
  * <p>Classes which implement this interface provide methods that deal with 
  * changes in item state; e.g. a <code>WebCheckBox</code> informs about being
  * checked or unchecked via this event type.</p>
- * @see com.w4t.event.WebItemEvent
+ * @see org.eclipse.rwt.event.WebItemEvent
  */
 public interface WebItemListener extends EventListener {
 

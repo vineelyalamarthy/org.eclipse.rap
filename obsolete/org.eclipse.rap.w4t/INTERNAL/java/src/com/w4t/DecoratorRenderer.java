@@ -13,7 +13,7 @@ package com.w4t;
 import java.io.IOException;
 
 /** <p>the superclass of all Renderers that render components which extend
- *  com.w4t.Decorator.</p>
+ *  org.eclipse.rap.Decorator.</p>
   */
 public abstract class DecoratorRenderer extends Renderer {
   

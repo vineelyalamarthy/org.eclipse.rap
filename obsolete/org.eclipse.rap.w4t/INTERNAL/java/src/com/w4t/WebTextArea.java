@@ -11,6 +11,7 @@
 package com.w4t;
 
 import java.text.Format;
+
 import com.w4t.event.*;
 import com.w4t.internal.simplecomponent.UniversalAttributes;
 
@@ -188,7 +189,7 @@ public class WebTextArea
   }  
 
   
-  // interface methods of com.w4t.ValidatableComponent
+  // interface methods of org.eclipse.rap.ValidatableComponent
   ///////////////////////////////////////////////////////////////
   
   public void setValidator( final Validator validator ) {
@@ -230,7 +231,7 @@ public class WebTextArea
   }
 
   
-  // interface methods of com.w4t.SimpleComponent
+  // interface methods of org.eclipse.rap.SimpleComponent
   ///////////////////////////////////////////////////////////////
   
   public String getCssClass() {

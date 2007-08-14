@@ -11,14 +11,16 @@
 package com.w4t.dhtml.treenodekit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.util.HTMLUtil;
+
 import com.w4t.dhtml.TreeNode;
 import com.w4t.dhtml.renderinfo.TreeNodeInfo;
-import com.w4t.util.HTMLUtil;
 
 
 
 
-/** <p>The renderer for com.w4t.dhtml.TreeNode on Microsoft Internet 
+/** <p>The renderer for org.eclipse.rap.dhtml.TreeNode on Microsoft Internet 
   * Explorer 6 and later.</p>
   */
 public class TreeNodeRenderer_Ie5up_Script extends TreeNodeRenderer_DOM_Script {

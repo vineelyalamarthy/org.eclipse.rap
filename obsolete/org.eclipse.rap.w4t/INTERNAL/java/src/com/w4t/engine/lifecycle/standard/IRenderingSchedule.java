@@ -15,7 +15,7 @@ package com.w4t.engine.lifecycle.standard;
  * <p>The rendering schedule is used to decide and determine whether a 
  * particular component has to be rendered.</p>
  * <p>This interface is not inteded to be implemented by clients.</p>
- * @see com.w4t.Renderer#scheduleRendering(com.w4t.WebComponent)
+ * @see org.eclipse.rwt.Renderer#scheduleRendering(org.eclipse.rwt.WebComponent)
  */
 public interface IRenderingSchedule {
 

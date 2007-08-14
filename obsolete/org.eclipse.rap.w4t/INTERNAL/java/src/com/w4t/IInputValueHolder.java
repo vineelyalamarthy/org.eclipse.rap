@@ -10,12 +10,14 @@
  ******************************************************************************/
 package com.w4t;
 
+import org.eclipse.rwt.Adaptable;
+
 import com.w4t.event.WebDataListener;
 
 /**
  * <p>
  * Classes implementing this interface provide a user-editable value like a
- * {@link com.w4t.WebText <code>WebText</code>} in which a user can enter
+ * {@link org.eclipse.rwt.WebText <code>WebText</code>} in which a user can enter
  * text.
  * </p> 
  */

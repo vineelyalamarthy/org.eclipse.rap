@@ -12,11 +12,17 @@ package com.w4t.engine.util;
 
 import java.text.MessageFormat;
 import java.util.*;
+
 import javax.servlet.http.HttpServletRequest;
-import com.w4t.*;
-import com.w4t.engine.lifecycle.LifeCycle;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
+
+import org.eclipse.rwt.SessionSingletonBase;
+import org.eclipse.rwt.internal.lifecycle.LifeCycle;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.IServiceStateInfo;
+import org.eclipse.rwt.internal.util.ParamCheck;
+
+import com.w4t.WebComponentControl;
+import com.w4t.WebForm;
 import com.w4t.event.WebFormEvent;
 
 /**

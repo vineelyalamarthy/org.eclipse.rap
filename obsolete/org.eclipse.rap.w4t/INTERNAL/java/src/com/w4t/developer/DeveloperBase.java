@@ -12,6 +12,7 @@ package com.w4t.developer;
 
 import java.beans.BeanInfo;
 import java.util.*;
+
 import com.w4t.*;
 
 /** <p>contains the base data structures for the introspection- and
@@ -30,7 +31,7 @@ public abstract class DeveloperBase {
   public static synchronized DeveloperBase getInstance() {
     if( _instance == null ) {
       try {
-        String name = "com.w4t.developer.core.DeveloperBaseImpl";
+        String name = "org.eclipse.rap.developer.core.DeveloperBaseImpl";
         _instance = ( DeveloperBase )Class.forName( name ).newInstance();
       } catch( Exception ex ) {
         System.out.println( "PANIC: DeveloperBase imlementation not found." );

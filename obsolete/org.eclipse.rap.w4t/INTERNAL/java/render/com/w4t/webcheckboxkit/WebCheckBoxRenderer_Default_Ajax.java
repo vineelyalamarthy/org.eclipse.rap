@@ -17,7 +17,7 @@ import com.w4t.ajax.AjaxStatus;
 import com.w4t.ajax.AjaxStatusUtil;
 
 
-/** <p>The default AJAX-enabled renderer for com.w4t.WebCheckBox.</p>
+/** <p>The default AJAX-enabled renderer for org.eclipse.rap.WebCheckBox.</p>
   */
 public class WebCheckBoxRenderer_Default_Ajax
   extends WebCheckBoxRenderer_Default_Script 

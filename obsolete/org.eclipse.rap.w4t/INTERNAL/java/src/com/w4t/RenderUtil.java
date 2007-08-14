@@ -15,19 +15,22 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.eclipse.rwt.internal.*;
+import org.eclipse.rwt.internal.browser.Mozilla1_6up;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.service.*;
+import org.eclipse.rwt.internal.util.*;
+import org.eclipse.rwt.resources.IResourceManager;
+
 import com.w4t.dhtml.event.DoubleClickEvent;
 import com.w4t.dhtml.event.DragDropEvent;
-import com.w4t.engine.requests.RequestParams;
-import com.w4t.engine.requests.URLHelper;
-import com.w4t.engine.service.ContextProvider;
-import com.w4t.engine.service.IServiceStateInfo;
-import com.w4t.engine.util.ResourceManager;
 import com.w4t.event.WebActionEvent;
 import com.w4t.event.WebItemEvent;
 import com.w4t.internal.adaptable.IFormAdapter;
 import com.w4t.types.WebColor;
 import com.w4t.util.*;
-import com.w4t.util.browser.Mozilla1_6up;
 
 /**
  * <p>Contains helping methods commonly needed in rendering components and
@@ -35,8 +38,6 @@ import com.w4t.util.browser.Mozilla1_6up;
  */
 public final class RenderUtil {
 
-  private static final Pattern DOUBLE_HYPHEN_PATTERN = Pattern.compile( "--" );
-  
   public final static String SUBMITTER_IMAGE
     = com.w4t.util.image.ImageCache.STANDARD_SUBMITTER_IMAGE;
   public final static String DRAG_DROP_IMAGE = "resources/images/dragDrop.gif";
@@ -47,7 +48,8 @@ public final class RenderUtil {
   private static final String INVISIBLE_STYLE 
     = "display:none;visibility:hidden";
 
-
+  private static final Pattern DOUBLE_HYPHEN_PATTERN = Pattern.compile( "--" );
+  
   /**
    * <p>Creates the html code for an additional image button that triggers the
    * itemStateChanged on components when rendered for noscript.</p>
@@ -88,7 +90,7 @@ public final class RenderUtil {
    * @param alt the alternate text used for the image button
    * @param styleClass the css class name for the image button
    * @throws IOException if an I/O error occurs
-   * @see com.w4t.event.WebActionEvent
+   * @see org.eclipse.rwt.event.WebActionEvent
    */
   public static void writeActionSubmitter( final String imageName,
                                            final String componentId,
@@ -123,7 +125,7 @@ public final class RenderUtil {
    * @param alt the alternate text used for the image button
    * @param styleClass the css class name for the image button
    * @throws IOException if an I/O error occurs
-   * @see com.w4t.event.WebEvent
+   * @see org.eclipse.rwt.event.WebEvent
    */
   public static void writeSubmitter( final String imageName,
                                      final String prefixedId,
@@ -157,15 +159,7 @@ public final class RenderUtil {
    * </p>
    */
   public static String createJavaScriptInline( final String javaScriptCode ) {
-    StringBuffer result = new StringBuffer();
-    if( javaScriptCode != null && !"".equals( javaScriptCode ) ) {
-      result.append( "<script" );
-      HTMLUtil.attribute( result, HTML.TYPE, HTML.CONTENT_TEXT_JAVASCRIPT );
-      result.append( ">" );
-      result.append( encodeHTMLEntities( javaScriptCode ) );
-      result.append( "</script>" );
-    }
-    return result.toString();
+    return HTMLUtil.createJavaScriptInline( javaScriptCode );
   }
 
   /**
@@ -375,13 +369,7 @@ public final class RenderUtil {
    * @param text the text to be encoded, must not be <code>null</code>
    */
   public static String encodeHTMLEntities( final String text ) {
-    String result = Entities.HTML40.escape( text );
-    // Encode double-hyphens because they are not allowed inside comments. This
-    // is necessary since in AJaX mode most markup is placed inside comment
-    // tags. (see [WFT-36]) 
-    Matcher matcher = DOUBLE_HYPHEN_PATTERN.matcher( result );
-    result = matcher.replaceAll( "&#045;&#045;" );
-    return result;
+    return EntitiesUtil.encodeHTMLEntities( text );
   }
 
   /**
@@ -390,7 +378,6 @@ public final class RenderUtil {
    * &quot;, &lt;, &gt;</p>
    * @param text the text to be encoded
    */
-  // TODO [rh] revise this: how to generally approach encoding of ajax-response
   public static String encodeXMLEntities( final String text ) {
     String result = text.replaceAll( HTML.NBSP, "&#160;" );
     result = result.replaceAll( "\"", "&#034;" );
@@ -402,7 +389,7 @@ public final class RenderUtil {
     // tags. (see [WFT-36]) 
     Matcher matcher = DOUBLE_HYPHEN_PATTERN.matcher( result );
     result = matcher.replaceAll( "&#045;&#045;" );
-    return result;
+    return result; 
   }
 
   /**
@@ -432,20 +419,6 @@ public final class RenderUtil {
       }
     }
     return result.toString();
-  }
-
-  private static char getChar( final String text, final int currentPos ) {
-    char result;
-    if( currentPos < text.length() ) {
-      result = text.charAt( currentPos );
-    } else {
-      result = 'X';
-    }
-    return result;
-  }
-
-  private static boolean isDigit( final char character ) {
-    return character >= '0' && character <= '9';
   }
 
   /**
@@ -666,12 +639,7 @@ public final class RenderUtil {
   /** <p>Returns the xml processing instruction as needed for an AJaX 
    * response.</p> */
   public static String createXmlProcessingInstruction() {
-    StringBuffer result = new StringBuffer();
-    result.append( "<?xml" );
-    HTMLUtil.attribute( result, "version", "1.0" );
-    HTMLUtil.attribute( result, "encoding", HTML.CHARSET_NAME_UTF_8 );
-    result.append( " ?>" );
-    return result.toString();
+    return HTMLUtil.createXmlProcessingInstruction();
   }
   
   /**
@@ -736,7 +704,7 @@ public final class RenderUtil {
 
   public static String resolveLocation( final String resource ) {
     String result = resource;
-    IResourceManager manager = ResourceManager.getInstance();
+    IResourceManager manager = ResourceManagerImpl.getInstance();
     if( manager != null && manager.isRegistered( resource ) ) {
       result = manager.getLocation( resource );
     }
@@ -750,7 +718,7 @@ public final class RenderUtil {
                   ? SessionLocale.get()
                   : W4TContext.getBrowser().getLocale();
     ClassLoader loader = RenderUtil.class.getClassLoader();
-    IResourceManager manager = ResourceManager.getInstance();
+    IResourceManager manager = ResourceManagerImpl.getInstance();
     ClassLoader ctxLoader = manager.getContextLoader();
     ResourceBundle result;
     if( ctxLoader == null ) {
@@ -768,6 +736,20 @@ public final class RenderUtil {
       result[ i ] = tokenizer.nextToken();
     }
     return result;
+  }
+
+  private static char getChar( final String text, final int currentPos ) {
+    char result;
+    if( currentPos < text.length() ) {
+      result = text.charAt( currentPos );
+    } else {
+      result = 'X';
+    }
+    return result;
+  }
+
+  private static boolean isDigit( final char character ) {
+    return character >= '0' && character <= '9';
   }
 
   private static boolean hasUniversalAttributesWithoutStyle( 

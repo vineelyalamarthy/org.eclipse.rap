@@ -12,8 +12,12 @@ package com.w4t.webformkit;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.eclipse.rwt.internal.ConfigurationReader;
+import org.eclipse.rwt.internal.IConfiguration;
+
 import com.w4t.*;
-import com.w4t.util.*;
+import com.w4t.util.MessageHandler;
 
 
 /** <p>a utility class that creates message pages.</p>

@@ -14,7 +14,7 @@ import com.w4t.*;
 
 
 /** <p>The default noscript renderer for 
-  * {@link com.w4t.WebCardLayout WebCardLayout}.</p>
+  * {@link org.eclipse.rwt.WebCardLayout WebCardLayout}.</p>
   *
   * <p>The default noscript renderer is non-browser-specific and implements 
   * functionality in a way that runs on browsers that do not implement or 

@@ -52,7 +52,7 @@ public class WebLabel
   }  
 
   
-  // interface methods of com.w4t.SimpleComponent
+  // interface methods of org.eclipse.rap.SimpleComponent
   ///////////////////////////////////////////////////////////////
   
   public String getCssClass() {

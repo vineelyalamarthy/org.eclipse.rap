@@ -10,7 +10,8 @@
  ******************************************************************************/
 package com.w4t.dhtml;
 
-import com.w4t.HtmlResponseWriter;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+
 import com.w4t.Style;
 import com.w4t.dhtml.event.*;
 import com.w4t.dhtml.renderinfo.TreeNodeInfo;
@@ -476,7 +477,7 @@ public class TreeNode extends Node {
   /** 
    * <p>Adds the specified item as child to this TreeNode.</p>
    * <p>Note that all event listeners which are set to the root node of this 
-   * TreeNode (which is either a {@link com.w4t.dhtml.TreeView TreeView} or the
+   * TreeNode (which is either a {@link org.eclipse.rwt.dhtml.TreeView TreeView} or the
    * root node of a branch of TreeNodes) are added to item. This applies 
    * also to dynloading settings (see {@link #setMinChildsDynLoad(int) 
    * setMinChildsDynLoad(int)} and {@link #setDynLoading(String) 

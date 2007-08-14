@@ -12,10 +12,15 @@ package com.w4t.dhtml.menukit;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+
+import org.eclipse.rwt.internal.browser.Browser;
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.util.HTML;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 
-/** <p>The renderer for com.w4t.dhtml.Menu on Mozilla 1.6 and later
+/** <p>The renderer for org.eclipse.rap.dhtml.Menu on Mozilla 1.6 and later
   * without JavaScript support.</p>
   */
 public class MenuRenderer_Mozilla1_6up_Noscript extends MenuRenderer_DOM {

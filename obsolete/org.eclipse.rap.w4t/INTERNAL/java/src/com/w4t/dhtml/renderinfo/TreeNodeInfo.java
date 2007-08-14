@@ -11,7 +11,9 @@
 package com.w4t.dhtml.renderinfo;
 
 import java.util.List;
-import com.w4t.HtmlResponseWriter;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+
 import com.w4t.dhtml.TreeNode;
 import com.w4t.dhtml.TreeNodeShift;
 import com.w4t.dhtml.event.WebTreeNodeExpandedListener;

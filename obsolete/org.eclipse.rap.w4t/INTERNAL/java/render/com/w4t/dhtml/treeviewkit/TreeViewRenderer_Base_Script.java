@@ -11,13 +11,16 @@
 package com.w4t.dhtml.treeviewkit;
 
 import java.io.IOException;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.*;
 import com.w4t.dhtml.*;
 import com.w4t.dhtml.renderinfo.TreeViewInfo;
-import com.w4t.engine.service.ContextProvider;
 
 
-/** <p>The superclass for all renderers for com.w4t.dhtml.TreeView on 
+/** <p>The superclass for all renderers for org.eclipse.rap.dhtml.TreeView on 
   * more recent browsers that support javascript.</p>
   * 
   * <p>Note that this is not an actual renderer but encapsulates common 

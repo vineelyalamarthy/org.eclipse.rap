@@ -12,7 +12,7 @@ package com.w4t.dhtml.treeleafkit;
 
 
 
-/** <p>The renderer for com.w4t.dhtml.TreeLeaf on Microsoft Internet 
+/** <p>The renderer for org.eclipse.rap.dhtml.TreeLeaf on Microsoft Internet 
   * Explorer 6 and later without javascript support.</p>
   */
 public class TreeLeafRenderer_Default_Noscript 

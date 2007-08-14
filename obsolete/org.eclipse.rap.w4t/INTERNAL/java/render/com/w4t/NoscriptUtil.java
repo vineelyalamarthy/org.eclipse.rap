@@ -11,9 +11,11 @@
 package com.w4t;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.rwt.internal.service.ContextProvider;
+
 import com.w4t.dhtml.event.WebTreeNodeCollapsedEvent;
 import com.w4t.dhtml.event.WebTreeNodeExpandedEvent;
-import com.w4t.engine.service.ContextProvider;
 import com.w4t.event.WebItemEvent;
 
 

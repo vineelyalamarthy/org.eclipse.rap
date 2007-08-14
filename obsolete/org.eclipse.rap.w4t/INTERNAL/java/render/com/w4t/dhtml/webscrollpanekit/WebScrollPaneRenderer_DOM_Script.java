@@ -12,11 +12,16 @@ package com.w4t.dhtml.webscrollpanekit;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+
+import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
+import org.eclipse.rwt.internal.util.HTML;
+import org.eclipse.rwt.internal.util.HTMLUtil;
+import org.eclipse.rwt.resources.IResourceManager;
+
 import com.w4t.*;
 import com.w4t.dhtml.WebScrollPane;
-import com.w4t.engine.util.ResourceManager;
 import com.w4t.event.WebRenderEvent;
-import com.w4t.util.HTMLUtil;
 
 /**
  * <p>The renderer for all DOM enabled Browser types.</p>
@@ -47,7 +52,7 @@ public class WebScrollPaneRenderer_DOM_Script extends DecoratorRenderer {
   }
 
   public void render( final WebComponent component ) throws IOException {
-    IResourceManager manager = ResourceManager.getInstance();
+    IResourceManager manager = ResourceManagerImpl.getInstance();
     manager.register( WebScrollPaneUtil.JS,
                       HTML.CHARSET_NAME_ISO_8859_1,
                       IResourceManager.RegisterOptions.VERSION_AND_COMPRESS );

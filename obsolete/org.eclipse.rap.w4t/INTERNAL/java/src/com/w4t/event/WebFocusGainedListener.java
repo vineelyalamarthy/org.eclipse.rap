@@ -14,7 +14,7 @@ import java.util.EventListener;
 
 /** 
  * <p>The listener interface for receiving focus gained events.</p>
- * @see com.w4t.event.WebFocusGainedEvent
+ * @see org.eclipse.rwt.event.WebFocusGainedEvent
  */
 public interface WebFocusGainedListener extends EventListener {
 

@@ -23,7 +23,7 @@ package com.w4t;
   * w4t configuration file W4T.xml in the WEB-INF/conf/ directory of the 
   * web application. When rendering the main page, the w4t system will pass
   * all messages which have been added recently via the {@link
-  * com.w4t.W4TContext#addMessage(Message) W4TContext.addMessage(Message)} 
+  * org.eclipse.rwt.W4TContext#addMessage(Message) W4TContext.addMessage(Message)} 
   * method to the {@link #setMessages(String) setMessages(String)} method 
   * of this MessageForm and it is displayed to the the user.</p>
   */
@@ -33,7 +33,7 @@ public interface MessageForm {
     * to display.</p>
     * 
     * @param messages the messages which had been added within the w4t system 
-    *                 via the W4TContext.setMessage( com.w4t.Message ) method.
+    *                 via the W4TContext.setMessage( org.eclipse.rap.Message ) method.
     */
   void setMessages( Message[] messages );
 }

@@ -14,7 +14,7 @@ import java.util.EventListener;
 
 /** 
  * <p>A validation listener is notified after a validation occured.</p>
- * @see com.w4t.event.ValidationEvent
+ * @see org.eclipse.rwt.event.ValidationEvent
  */
 public interface ValidationListener extends EventListener {
 

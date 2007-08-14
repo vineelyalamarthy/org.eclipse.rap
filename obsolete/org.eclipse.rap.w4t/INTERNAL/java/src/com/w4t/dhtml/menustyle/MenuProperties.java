@@ -17,7 +17,7 @@ import com.w4t.util.DefaultColorScheme;
 
 
 /** <p>the superclass of all style objects for menu components. Styles 
-  * for menu components are like com.w4t.Styles but reduced in functionality
+  * for menu components are like org.eclipse.rap.Styles but reduced in functionality
   * extend (not all style settings are safe for menus).</p>
   */
 public abstract class MenuProperties extends WebComponentProperties {
