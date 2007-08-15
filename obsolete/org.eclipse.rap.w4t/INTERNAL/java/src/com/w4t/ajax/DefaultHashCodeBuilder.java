@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
 import org.eclipse.rwt.Adaptable;
-import org.eclipse.rwt.internal.event.IEventAdapter;
+import org.eclipse.rwt.internal.events.IEventAdapter;
 import org.eclipse.rwt.internal.util.ParamCheck;
 
 import com.w4t.*;

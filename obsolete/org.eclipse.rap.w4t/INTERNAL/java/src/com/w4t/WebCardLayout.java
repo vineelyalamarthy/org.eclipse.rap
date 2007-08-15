@@ -12,8 +12,8 @@ package com.w4t;
 
 import java.io.IOException;
 
-import org.eclipse.rwt.internal.event.EventAdapter;
-import org.eclipse.rwt.internal.event.IEventAdapter;
+import org.eclipse.rwt.internal.events.EventAdapter;
+import org.eclipse.rwt.internal.events.IEventAdapter;
 
 import com.w4t.event.WebActionEvent;
 import com.w4t.event.WebActionListener;

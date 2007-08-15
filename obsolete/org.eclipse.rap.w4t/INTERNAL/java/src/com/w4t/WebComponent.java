@@ -13,8 +13,8 @@ package com.w4t;
 import java.beans.DesignMode;
 
 import org.eclipse.rwt.Adaptable;
-import org.eclipse.rwt.internal.event.EventAdapter;
-import org.eclipse.rwt.internal.event.IEventAdapter;
+import org.eclipse.rwt.internal.events.EventAdapter;
+import org.eclipse.rwt.internal.events.IEventAdapter;
 
 import com.w4t.developer.PanelCreator;
 import com.w4t.event.WebRenderEvent;
