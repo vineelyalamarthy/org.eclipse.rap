@@ -293,7 +293,7 @@ public class EditorSashContainer extends PartSashContainer {
     /**
      * @see IPersistablePart
      */
-    public IStatus restoreState(IMemento memento) {
+//    public IStatus restoreState(IMemento memento) {
 //        MultiStatus result = new MultiStatus(
 //                PlatformUI.PLUGIN_ID,
 //                IStatus.OK,
@@ -398,13 +398,13 @@ public class EditorSashContainer extends PartSashContainer {
 //        }
 //
 //    	return result;
-    	throw new UnsupportedOperationException();
-    }
+//    	throw new UnsupportedOperationException();
+//    }
 
     /**
      * @see IPersistablePart
      */
-    public IStatus saveState(IMemento memento) {
+//    public IStatus saveState(IMemento memento) {
 //        RelationshipInfo[] relationships = computeRelation();
 //        MultiStatus result = new MultiStatus(
 //                PlatformUI.PLUGIN_ID,
@@ -446,8 +446,8 @@ public class EditorSashContainer extends PartSashContainer {
 //        }
 //        
 //        return result;
-      throw new UnsupportedOperationException();
-    }
+//      throw new UnsupportedOperationException();
+//    }
 
     /**
      * Set the editor workbook which is active.

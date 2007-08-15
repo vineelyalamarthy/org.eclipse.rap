@@ -97,6 +97,7 @@ public class ListViewer extends AbstractListViewer {
      * Method defined on StructuredViewer.
      */
     public void reveal(Object element) {
+      // TODO [rh] IMPLEMENTATION MISSING
 //        Assert.isNotNull(element);
 //        int index = getElementIndex(element);
 //        if (index == -1) {
@@ -118,7 +119,6 @@ public class ListViewer extends AbstractListViewer {
 //        int newTop = Math.min(Math.max(index - (visibleCount / 2), 0),
 //                count - 1);
 //        list.setTopIndex(newTop);
-    	throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -189,7 +189,9 @@ public class ListViewer extends AbstractListViewer {
      */
     protected void listShowSelection() {
 //        list.showSelection();
-    	throw new UnsupportedOperationException();
+      // TODO [rh] IMPLEMENTATION MISSING: as a consequence revealing or 
+      //      preserving the selection is not yet possible (and not planned for 
+      //      RAP 1.0)
     }
     
     /* (non-Javadoc)
@@ -197,7 +199,9 @@ public class ListViewer extends AbstractListViewer {
      */
     protected int listGetTopIndex() {
 //    	return list.getTopIndex();
-//    	throw new UnsupportedOperationException();
+      // TODO [rh] IMPLEMENTATION MISSING: as a consequence revealing or 
+      //      preserving the topIndex is not yet possible (and not planned for 
+      //      RAP 1.0)
     	return 0;
     }
     

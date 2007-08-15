@@ -264,7 +264,7 @@ public abstract class ImageDescriptor extends DeviceResourceDescriptor  {
 	 * @since 2.0
 	 */
     public Image createImage(boolean returnMissingImageOnError, Device device) {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException( "Must be overriden in derived classes." );
       
 //        ImageData data = getImageData();
 //        if (data == null) {

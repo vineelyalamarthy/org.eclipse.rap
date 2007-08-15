@@ -216,10 +216,10 @@ public class EditorAreaHelper {
     /**
      * @see IPersistablePart
      */
-    public IStatus restoreState(IMemento memento) {
-        // Restore the editor area workbooks layout/relationship
-        return editorArea.restoreState(memento);
-    }
+//    public IStatus restoreState(IMemento memento) {
+//        // Restore the editor area workbooks layout/relationship
+//        return editorArea.restoreState(memento);
+//    }
 
     /**
      * Restore the presentation
@@ -233,10 +233,10 @@ public class EditorAreaHelper {
     /**
      * @see IPersistablePart
      */
-    public IStatus saveState(IMemento memento) {
-        // Save the editor area workbooks layout/relationship
-        return editorArea.saveState(memento);
-    }
+//    public IStatus saveState(IMemento memento) {
+//        // Save the editor area workbooks layout/relationship
+//        return editorArea.saveState(memento);
+//    }
 
     /**
      * @see IEditorPresentation
