@@ -17,10 +17,11 @@ import java.net.URL;
 import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.*;
-import org.eclipse.rwt.internal.IEngineConfig;
+import org.eclipse.rwt.internal.*;
 import org.eclipse.rwt.internal.engine.*;
 import org.eclipse.rwt.internal.lifecycle.*;
 import org.eclipse.rwt.internal.resources.ResourceManager;
+import org.eclipse.rwt.internal.resources.ResourceRegistry;
 import org.eclipse.rwt.internal.service.BrowserSurvey;
 import org.eclipse.rwt.internal.service.ServiceManager;
 import org.eclipse.rwt.internal.theme.ThemeManager;

@@ -28,7 +28,6 @@ import org.eclipse.rwt.Adaptable;
 import org.eclipse.rwt.internal.*;
 import org.eclipse.rwt.internal.browser.Browser;
 import org.eclipse.rwt.internal.browser.Default;
-import org.eclipse.rwt.internal.engine.EngineConfig;
 import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
 import org.eclipse.rwt.internal.lifecycle.LifeCycleFactory;
 import org.eclipse.rwt.internal.resources.*;
