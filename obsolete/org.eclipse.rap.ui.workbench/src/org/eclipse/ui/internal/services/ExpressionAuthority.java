@@ -11,20 +11,12 @@
 
 package org.eclipse.ui.internal.services;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
-import org.eclipse.core.expressions.EvaluationContext;
-import org.eclipse.core.expressions.Expression;
-import org.eclipse.core.expressions.IEvaluationContext;
+import org.eclipse.core.expressions.*;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.ISourceProvider;
-import org.eclipse.ui.ISourceProviderListener;
-import org.eclipse.ui.ISources;
+import org.eclipse.ui.*;
 
 /**
  * <p>

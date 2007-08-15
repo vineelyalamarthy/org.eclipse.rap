@@ -11,11 +11,7 @@
 package org.eclipse.ui.internal;
 
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.INullSelectionListener;
-import org.eclipse.ui.IPageListener;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.*;
 
 /**
  * Provides part selection tracking for a part with a specific id

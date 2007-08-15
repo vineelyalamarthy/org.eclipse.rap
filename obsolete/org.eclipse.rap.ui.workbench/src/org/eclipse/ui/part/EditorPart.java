@@ -10,16 +10,8 @@
  *******************************************************************************/
 package org.eclipse.ui.part;
 
-import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IPropertyListener;
-import org.eclipse.ui.IWorkbenchPartConstants;
-import org.eclipse.ui.IWorkbenchPartSite;
-import org.eclipse.ui.PartInitException;
+import org.eclipse.core.runtime.*;
+import org.eclipse.ui.*;
 
 /**
  * Abstract base implementation of all workbench editors.

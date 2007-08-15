@@ -13,24 +13,13 @@ package org.eclipse.ui.internal.forms;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.*;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
-//import org.eclipse.jface.fieldassist.ControlDecoration;
-//import org.eclipse.jface.fieldassist.FieldDecoration;
-//import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.forms.IMessage;
-import org.eclipse.ui.forms.IMessageManager;
-import org.eclipse.ui.forms.IMessagePrefixProvider;
-//import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.ui.forms.*;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 

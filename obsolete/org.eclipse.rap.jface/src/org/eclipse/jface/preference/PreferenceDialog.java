@@ -13,6 +13,7 @@ package org.eclipse.jface.preference;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.ListenerList;
@@ -790,7 +791,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 										JFaceResources.getString("PreferenceDialog.saveErrorTitle"), //$NON-NLS-1$
 										JFaceResources
 												.format(
-														"PreferenceDialog.saveErrorMessage", new Object[] { page.getTitle(), e.getMessage() }), null ); //$NON-NLS-1$
+														"PreferenceDialog.saveErrorMessage", new Object[] { page.getTitle(), e.getMessage() }) ); //$NON-NLS-1$
 					}
 				}
 			}
@@ -915,7 +916,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 
 				clearSelectedNode();
 				String message = JFaceResources.getString("SafeRunnable.errorMessage"); //$NON-NLS-1$
-				MessageDialog.openError(getShell(), JFaceResources.getString("Error"), message, null); //$NON-NLS-1$
+				MessageDialog.openError(getShell(), JFaceResources.getString("Error"), message); //$NON-NLS-1$
 
 			}
 		});
@@ -1251,7 +1252,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	void showPageFlippingAbortDialog() {
 		MessageDialog.openError(getShell(), JFaceResources
 				.getString("AbortPageFlippingDialog.title"), //$NON-NLS-1$
-				JFaceResources.getString("AbortPageFlippingDialog.message"), null); //$NON-NLS-1$
+				JFaceResources.getString("AbortPageFlippingDialog.message")); //$NON-NLS-1$
 	}
 
 	/**

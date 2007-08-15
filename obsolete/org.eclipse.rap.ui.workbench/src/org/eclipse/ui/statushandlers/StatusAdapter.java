@@ -13,9 +13,7 @@ package org.eclipse.ui.statushandlers;
 
 import java.util.HashMap;
 
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.core.runtime.*;
 import org.eclipse.ui.PlatformUI;
 
 /**

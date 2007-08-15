@@ -29,7 +29,6 @@ import org.eclipse.ui.commands.IElementReference;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.commands.ICommandImageService;
-import org.eclipse.ui.menus.*;
 import org.eclipse.ui.services.IServiceLocator;
 
 /**

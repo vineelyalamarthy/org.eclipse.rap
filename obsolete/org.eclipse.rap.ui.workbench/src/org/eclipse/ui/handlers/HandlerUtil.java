@@ -19,7 +19,6 @@ import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
-import org.eclipse.ui.internal.WorkbenchPlugin;
 
 /**
  * Some common utilities for working with handlers in Platform UI.

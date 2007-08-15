@@ -217,13 +217,12 @@ public abstract class PluginAction extends Action implements
                         .openInformation(
                                 Util.getShellToParentOn(),
                                 WorkbenchMessages.Information, 
-                                WorkbenchMessages.PluginAction_operationNotAvailableMessage,
-                                null); 
+                                WorkbenchMessages.PluginAction_operationNotAvailableMessage); 
                 return;
             }
             if (!isEnabled()) {
                 MessageDialog.openInformation(Util.getShellToParentOn(), WorkbenchMessages.Information, 
-                        WorkbenchMessages.PluginAction_disabledMessage, null); 
+                        WorkbenchMessages.PluginAction_disabledMessage); 
                 return;
             }
         }

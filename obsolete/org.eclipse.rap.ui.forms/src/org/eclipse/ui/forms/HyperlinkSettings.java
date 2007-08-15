@@ -11,7 +11,7 @@
 package org.eclipse.ui.forms;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 //import org.eclipse.ui.internal.forms.widgets.*;
 /**

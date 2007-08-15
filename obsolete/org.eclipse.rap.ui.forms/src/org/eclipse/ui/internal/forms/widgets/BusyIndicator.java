@@ -21,13 +21,9 @@ package org.eclipse.ui.internal.forms.widgets;
 //import org.eclipse.swt.events.PaintEvent;
 //import org.eclipse.swt.events.PaintListener;
 //import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
-//import org.eclipse.swt.graphics.ImageData;
-//import org.eclipse.swt.graphics.ImageLoader;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.*;
-//import org.osgi.framework.Bundle;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
 //XXX RAP specific
 //public class BusyIndicator extends Canvas {

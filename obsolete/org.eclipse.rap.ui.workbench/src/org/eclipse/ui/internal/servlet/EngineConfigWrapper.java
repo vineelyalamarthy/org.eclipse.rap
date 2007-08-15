@@ -21,7 +21,7 @@ import org.eclipse.rwt.internal.*;
 import org.eclipse.rwt.internal.lifecycle.*;
 import org.eclipse.rwt.internal.resources.ResourceManager;
 import org.eclipse.rwt.internal.resources.ResourceRegistry;
-import org.eclipse.rwt.internal.service.BrowserSurvey;
+import org.eclipse.rwt.internal.service.LifeCycleServiceHandler;
 import org.eclipse.rwt.internal.service.ServiceManager;
 import org.eclipse.rwt.internal.theme.ThemeManager;
 import org.eclipse.rwt.internal.theme.ThemeManager.ResourceLoader;
@@ -30,8 +30,6 @@ import org.eclipse.rwt.resources.IResource;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.osgi.framework.Bundle;
-
-
 
 /**
  * The underlying W4Toolkit runtime engine expects some configuration
@@ -78,7 +76,7 @@ final class EngineConfigWrapper implements IEngineConfig {
     registerSWTThemes();
     registerFactories();
     registerResources();
-    registerIndexTemplate();
+    registerLifeCycleServiceHandlerConfigurer();
     registerUICallBackServiceHandler();
   }
 
@@ -319,8 +317,9 @@ final class EngineConfigWrapper implements IEngineConfig {
     }
   }
 
-  private void registerIndexTemplate() {
-    BrowserSurvey.indexTemplate = new IndexTemplate();
+  private void registerLifeCycleServiceHandlerConfigurer() {
+    LifeCycleServiceHandler.configurer
+      = new LifeCycleServiceHandlerConfigurer();
   }
 
   private static void registerResources() {

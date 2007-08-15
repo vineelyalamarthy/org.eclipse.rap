@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.jface.dialogs;
 
-import org.eclipse.jface.window.IWindowCallback;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -170,11 +170,11 @@ public class MessageDialog extends IconAndMessageDialog {
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
         if (title != null) {
-			shell.setText(title);
-		}
+            shell.setText(title);
+        }
         if (titleImage != null) {
-			shell.setImage(titleImage);
-		}
+            shell.setImage(titleImage);
+        }
     }
 
     /*
@@ -229,8 +229,8 @@ public class MessageDialog extends IconAndMessageDialog {
         customArea = createCustomArea(composite);
         //If it is null create a dummy label for spacing purposes
         if (customArea == null) {
-			customArea = new Label(composite, SWT.NULL);
-		}
+            customArea = new Label(composite, SWT.NULL);
+        }
         return composite;
     }
 
@@ -280,62 +280,57 @@ public class MessageDialog extends IconAndMessageDialog {
      *            the dialog's title, or <code>null</code> if none
      * @param message
      *            the message
-     * @param callback 
-     * 			  The callback to be called when the shell is closed.
+     * @return <code>true</code> if the user presses the OK button,
+     *         <code>false</code> otherwise
      */
-    public static void openConfirm(Shell parent, String title,
-			String message, IWindowCallback callback) {
-		MessageDialog dialog = new MessageDialog(parent, title, null, // accept
-				// the
-				// default
-				// window
-				// icon
-				message, QUESTION, new String[] { IDialogConstants.OK_LABEL,
-						IDialogConstants.CANCEL_LABEL }, 0); // OK is the
-		// default
-		dialog.open(callback);
-	}
-
-    /**
-	 * Convenience method to open a standard error dialog.
-	 * 
-	 * @param parent
-	 *            the parent shell of the dialog, or <code>null</code> if none
-	 * @param title
-	 *            the dialog's title, or <code>null</code> if none
-	 * @param message
-	 *            the message
-     * @param callback 
-     * 			  The callback to be called when the shell is closed
-	 */
-    public static void openError(Shell parent, String title, String message,
-    		IWindowCallback callback) {
-    	MessageDialog dialog = new MessageDialog(parent, title, null, // accept
-    			// the
-    			// default
-    			// window
-    			// icon
-    			message, ERROR, new String[] { IDialogConstants.OK_LABEL }, 0); // ok
-    	// is
-    	// the
-    	// default
-    	dialog.open( callback );
+    public static boolean openConfirm(Shell parent, String title, String message) {
+        MessageDialog dialog = new MessageDialog(parent, title, null, // accept
+                // the
+                // default
+                // window
+                // icon
+                message, QUESTION, new String[] { IDialogConstants.OK_LABEL,
+                        IDialogConstants.CANCEL_LABEL }, 0); // OK is the
+        // default
+        return dialog.open() == 0;
     }
 
     /**
-	 * Convenience method to open a standard information dialog.
-	 * 
-	 * @param parent
-	 *            the parent shell of the dialog, or <code>null</code> if none
-	 * @param title
-	 *            the dialog's title, or <code>null</code> if none
-	 * @param message
-	 *            the message
-     * @param callback 
-     * 			  The callback to be called when the shell is closed
-	 */
+     * Convenience method to open a standard error dialog.
+     * 
+     * @param parent
+     *            the parent shell of the dialog, or <code>null</code> if none
+     * @param title
+     *            the dialog's title, or <code>null</code> if none
+     * @param message
+     *            the message
+     */
+    public static void openError(Shell parent, String title, String message) {
+        MessageDialog dialog = new MessageDialog(parent, title, null, // accept
+                // the
+                // default
+                // window
+                // icon
+                message, ERROR, new String[] { IDialogConstants.OK_LABEL }, 0); // ok
+        // is
+        // the
+        // default
+        dialog.open();
+        return;
+    }
+
+    /**
+     * Convenience method to open a standard information dialog.
+     * 
+     * @param parent
+     *            the parent shell of the dialog, or <code>null</code> if none
+     * @param title
+     *            the dialog's title, or <code>null</code> if none
+     * @param message
+     *            the message
+     */
     public static void openInformation(Shell parent, String title,
-            String message, IWindowCallback callback) {
+            String message) {
         MessageDialog dialog = new MessageDialog(parent, title, null, // accept
                 // the
                 // default
@@ -344,7 +339,8 @@ public class MessageDialog extends IconAndMessageDialog {
                 message, INFORMATION,
                 new String[] { IDialogConstants.OK_LABEL }, 0);
         // ok is the default
-        dialog.open( callback );
+        dialog.open();
+        return;
     }
 
     /**
@@ -356,10 +352,11 @@ public class MessageDialog extends IconAndMessageDialog {
      *            the dialog's title, or <code>null</code> if none
      * @param message
      *            the message
-     * @param callback 
+     * @return <code>true</code> if the user presses the OK button,
+     *         <code>false</code> otherwise
      */
-    public static void openQuestion(Shell parent, String title,
-            String message, IWindowCallback callback) {
+    public static boolean openQuestion(Shell parent, String title,
+            String message) {
         MessageDialog dialog = new MessageDialog(parent, title, null, // accept
                 // the
                 // default
@@ -367,7 +364,7 @@ public class MessageDialog extends IconAndMessageDialog {
                 // icon
                 message, QUESTION, new String[] { IDialogConstants.YES_LABEL,
                         IDialogConstants.NO_LABEL }, 0); // yes is the default
-        dialog.open( callback );
+        return dialog.open() == 0;
     }
 
     /**
@@ -379,34 +376,33 @@ public class MessageDialog extends IconAndMessageDialog {
      *            the dialog's title, or <code>null</code> if none
      * @param message
      *            the message
-     * @param callback 
      */
-    public static void openWarning(Shell parent, String title, String message,
-			IWindowCallback callback) {
-		MessageDialog dialog = new MessageDialog(parent, title, null, // accept
-				// the
-				// default
-				// window
-				// icon
-				message, WARNING, new String[] { IDialogConstants.OK_LABEL }, 0); // ok
-		// is
-		// the
-		// default
-		dialog.open(callback);
-	}
+    public static void openWarning(Shell parent, String title, String message) {
+        MessageDialog dialog = new MessageDialog(parent, title, null, // accept
+                // the
+                // default
+                // window
+                // icon
+                message, WARNING, new String[] { IDialogConstants.OK_LABEL }, 0); // ok
+        // is
+        // the
+        // default
+        dialog.open();
+        return;
+    }
 
     /*
-	 * @see org.eclipse.jface.dialogs.Dialog#createButton(org.eclipse.swt.widgets.Composite,
-	 *      int, java.lang.String, boolean)
-	 */
+     * @see org.eclipse.jface.dialogs.Dialog#createButton(org.eclipse.swt.widgets.Composite,
+     *      int, java.lang.String, boolean)
+     */
     protected Button createButton(Composite parent, int id, String label,
             boolean defaultButton) {
         Button button = super.createButton(parent, id, label, defaultButton);
         //Be sure to set the focus if the custom area cannot so as not
         //to lose the defaultButton.
         if (defaultButton && !customShouldTakeFocus()) {
-			button.setFocus();
-		}
+            button.setFocus();
+        }
         return button;
     }
 
@@ -420,12 +416,11 @@ public class MessageDialog extends IconAndMessageDialog {
      */
     protected boolean customShouldTakeFocus() {
         if (customArea instanceof Label) {
-			return false;
-		}
-        // TODO [bm] uncomment if CLabel is available
-//        if (customArea instanceof CLabel) {
-//			return (customArea.getStyle() & SWT.NO_FOCUS) > 0;
-//		}
+            return false;
+        }
+        if (customArea instanceof CLabel) {
+            return (customArea.getStyle() & SWT.NO_FOCUS) > 0;
+        }
         return true;
     }
 

@@ -10,15 +10,11 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.registry;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.TextProcessor;
-import org.eclipse.ui.IEditorDescriptor;
-import org.eclipse.ui.IFileEditorMapping;
-import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.WorkbenchImages;
 
 /**

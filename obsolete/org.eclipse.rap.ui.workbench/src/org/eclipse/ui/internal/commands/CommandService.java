@@ -13,11 +13,11 @@ package org.eclipse.ui.internal.commands;
 import java.util.*;
 
 import org.eclipse.core.commands.*;
-import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.SafeRunner;
-import org.eclipse.ui.commands.*;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.commands.IElementReference;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.menus.UIElement;
 

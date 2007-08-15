@@ -12,9 +12,7 @@ package org.eclipse.ui.internal;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.ui.presentations.IPresentablePart;
-import org.eclipse.ui.presentations.IStackPresentationSite;
-import org.eclipse.ui.presentations.StackPresentation;
+import org.eclipse.ui.presentations.*;
 
 /**
  * @since 3.0

@@ -11,10 +11,7 @@
 package org.eclipse.ui.internal.commands;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.eclipse.core.commands.common.EventManager;
 import org.eclipse.jface.resource.ImageDescriptor;

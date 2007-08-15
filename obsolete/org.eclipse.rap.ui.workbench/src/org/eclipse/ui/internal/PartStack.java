@@ -16,7 +16,6 @@ import java.util.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.Geometry;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Point;

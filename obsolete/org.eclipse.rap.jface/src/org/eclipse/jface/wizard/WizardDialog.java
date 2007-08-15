@@ -827,7 +827,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 			synchronized (this) {
 				windowClosingDialog = createWizardClosingDialog();
 			}
-			windowClosingDialog.open( null );
+			windowClosingDialog.open();
 			synchronized (this) {
 				windowClosingDialog = null;
 			}

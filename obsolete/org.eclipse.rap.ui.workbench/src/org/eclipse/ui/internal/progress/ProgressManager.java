@@ -944,9 +944,7 @@ public class ProgressManager extends ProgressProvider implements
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				setUserInterfaceActive(true);
 				if (ProgressManagerUtil.safeToOpen(dialog, null)) {
-				    // TODO [fappel]: check callback mechanism
-					dialog.open( null );
-//					dialog.open();
+					dialog.open();
 				}
 				return Status.OK_STATUS;
 			}

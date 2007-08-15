@@ -1786,7 +1786,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 				public void runWithException() throws Throwable {
 					ErrorDialog.openError(null,
 							WorkbenchMessages.Problems_Opening_Page, e.getMessage(), e
-									.getStatus(), null);
+									.getStatus());
 				}});
 		}
 	}

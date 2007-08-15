@@ -18,28 +18,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.rwt.internal.browser.Default;
-import org.eclipse.rwt.internal.lifecycle.DisplayUtil;
-import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
+import org.eclipse.rwt.internal.lifecycle.*;
 import org.eclipse.rwt.internal.resources.ResourceManager;
 import org.eclipse.rwt.internal.service.*;
-import org.eclipse.rwt.internal.service.BrowserSurvey.IIndexTemplate;
+import org.eclipse.rwt.internal.service.LifeCycleServiceHandler.ILifeCycleServiceHandlerConfigurer;
+import org.eclipse.rwt.internal.service.LifeCycleServiceHandler.LifeCycleSerivceHandlerSync;
+import org.eclipse.rwt.internal.util.HTML;
 import org.eclipse.rwt.resources.IResourceManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 
+class LifeCycleServiceHandlerConfigurer
+  implements ILifeCycleServiceHandlerConfigurer
+{
 
-class IndexTemplate implements IIndexTemplate {
-
-  private final static String FOLDER
-    = IndexTemplate.class.getPackage().getName().replace( '.', '/' );
+  private static final String PACKAGE_NAME 
+    = LifeCycleServiceHandlerConfigurer.class.getPackage().getName();
+  private final static String FOLDER = PACKAGE_NAME.replace( '.', '/' );
   private final static String INDEX_TEMPLATE = FOLDER + "/index.html";
   
   // TODO [fappel]: think about clusters
   // cache control variables
   private static int probeCount;
   private static long lastModified = System.currentTimeMillis();
+
+  private final static LifeCycleSerivceHandlerSync syncHandler
+    = new RWTLifeCycleSerivceHandlerSync();
   
-  public InputStream getTemplateStream() throws IOException {
+  public InputStream getTemplateOfStartupPage() throws IOException {
     InputStream result = loadTemplateFile();
     InputStreamReader isr = new InputStreamReader( result );
     BufferedReader reader = new BufferedReader( isr );
@@ -66,7 +72,7 @@ class IndexTemplate implements IIndexTemplate {
     fakeWriter();
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     HtmlResponseWriter writer = stateInfo.getResponseWriter();
-    writer.startElement( "script", null );
+    writer.startElement( HTML.SCRIPT, null );
     writer.writeText( "safd", null );
     writer.clearBody();
     try {
@@ -81,7 +87,7 @@ class IndexTemplate implements IIndexTemplate {
   
   private void restoreWriter() {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
-    String key = IndexTemplate.class.getName();
+    String key = LifeCycleServiceHandlerConfigurer.class.getName();
     HtmlResponseWriter writer
       = ( HtmlResponseWriter )stateInfo.getAttribute( key );
     stateInfo.setResponseWriter( writer );
@@ -90,7 +96,7 @@ class IndexTemplate implements IIndexTemplate {
   private void fakeWriter() {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     HtmlResponseWriter original = stateInfo.getResponseWriter();
-    stateInfo.setAttribute( IndexTemplate.class.getName(), original );
+    stateInfo.setAttribute( LifeCycleServiceHandlerConfigurer.class.getName(), original );
     HtmlResponseWriter fake = new HtmlResponseWriter();
     stateInfo.setResponseWriter( fake );
   }
@@ -154,7 +160,7 @@ class IndexTemplate implements IIndexTemplate {
     }
   }
 
-  public synchronized boolean modifiedSince() {
+  public synchronized boolean isStartupPageModifiedSince() {
     boolean result;
 
     int currentProbeCount = FontSizeCalculator.getProbeCount();
@@ -178,5 +184,9 @@ class IndexTemplate implements IIndexTemplate {
       response.setStatus( HttpServletResponse.SC_NOT_MODIFIED );
     }
     return result;
+  }
+
+  public LifeCycleSerivceHandlerSync getSynchronizationHandler() {
+    return syncHandler;
   }
 }

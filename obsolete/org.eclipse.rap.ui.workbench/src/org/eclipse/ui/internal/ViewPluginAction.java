@@ -11,10 +11,7 @@
 package org.eclipse.ui.internal;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.ui.IActionDelegate;
-import org.eclipse.ui.IViewActionDelegate;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.WorkbenchException;
+import org.eclipse.ui.*;
 
 /**
  * This class extends regular plugin action with the

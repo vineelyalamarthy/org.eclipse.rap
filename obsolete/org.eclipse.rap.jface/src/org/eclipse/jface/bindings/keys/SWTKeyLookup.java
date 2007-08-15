@@ -364,8 +364,7 @@ public final class SWTKeyLookup implements IKeyLookup {
  	 * @see org.eclipse.jface.bindings.keys.IKeyLookup#isModifierKey(int)
  	 * 
 	 */	
-	public final boolean isModifierKey(final int key) {
+//	public final boolean isModifierKey(final int key) {
 //		return ((key & SWT.MODIFIER_MASK) != 0);
-		throw new UnsupportedOperationException();
-	}
+//	}
 }

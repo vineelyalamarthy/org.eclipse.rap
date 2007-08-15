@@ -11,11 +11,7 @@
 
 package org.eclipse.ui.internal.commands;
 
-import org.eclipse.core.commands.IParameter;
-import org.eclipse.core.commands.IParameterValues;
-import org.eclipse.core.commands.ITypedParameter;
-import org.eclipse.core.commands.ParameterType;
-import org.eclipse.core.commands.ParameterValuesException;
+import org.eclipse.core.commands.*;
 import org.eclipse.core.commands.common.HandleObject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;

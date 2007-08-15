@@ -11,10 +11,7 @@
 package org.eclipse.ui.views.properties;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellEditorValidator;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.widgets.Composite;
 
 /**

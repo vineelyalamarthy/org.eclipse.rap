@@ -10,10 +10,7 @@
  *******************************************************************************/
 package org.eclipse.ui.internal;
 
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.SubContributionItem;
-import org.eclipse.jface.action.SubMenuManager;
+import org.eclipse.jface.action.*;
 
 /**
  * An <code>EditorMenuManager</code> is used to sort the contributions

@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.ui;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.*;
 
 /**
  * A checked exception indicating a recoverable error occured internal to the

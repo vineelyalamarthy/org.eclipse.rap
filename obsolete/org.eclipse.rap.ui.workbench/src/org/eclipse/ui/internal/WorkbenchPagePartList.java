@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.ui.internal;
 
-import org.eclipse.ui.IPartService;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.misc.UIListenerLogging;
 
 public class WorkbenchPagePartList extends PartList {

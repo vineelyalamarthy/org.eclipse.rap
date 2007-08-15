@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.presentations.util;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.internal.IWorkbenchConstants;

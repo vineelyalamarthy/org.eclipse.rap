@@ -12,10 +12,7 @@ package org.eclipse.ui.internal.presentations;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IMemento;
-import org.eclipse.ui.presentations.AbstractPresentationFactory;
-import org.eclipse.ui.presentations.IPresentationSerializer;
-import org.eclipse.ui.presentations.IStackPresentationSite;
-import org.eclipse.ui.presentations.StackPresentation;
+import org.eclipse.ui.presentations.*;
 
 /**
  * 

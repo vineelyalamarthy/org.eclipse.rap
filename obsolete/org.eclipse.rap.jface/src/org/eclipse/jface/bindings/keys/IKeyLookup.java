@@ -453,5 +453,5 @@ public interface IKeyLookup {
 	 * @return <code>true</code> if the key is one of the modifier keys;
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean isModifierKey(int key);
+//	public boolean isModifierKey(int key);
 }

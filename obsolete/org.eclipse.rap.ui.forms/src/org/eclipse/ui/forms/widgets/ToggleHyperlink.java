@@ -11,9 +11,11 @@
 package org.eclipse.ui.forms.widgets;
 //import org.eclipse.swt.SWT;
 //import org.eclipse.swt.accessibility.*;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.widgets.*;
-import org.eclipse.ui.forms.events.*;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
 //import org.eclipse.ui.internal.forms.Messages;
 /**
  * A custom selectable control that can be used to control areas that can be

@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.jface.fieldassist;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
 
 /**
  * An {@link IControlCreator} for SWT Text controls. This is a convenience class

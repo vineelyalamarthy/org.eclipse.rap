@@ -17,9 +17,7 @@ import org.eclipse.rwt.lifecycle.*;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.forms.widgets.ToggleHyperlink;
-import org.eclipse.ui.forms.widgets.TreeNode;
-import org.eclipse.ui.forms.widgets.Twistie;
+import org.eclipse.ui.forms.widgets.*;
 
 /* (intentionally non-JavaDoc'ed)
  * This class serves as the LCA for org.eclipse.ui.forms.widgets.TreeNode and  

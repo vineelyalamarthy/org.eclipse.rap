@@ -14,7 +14,8 @@ import java.text.MessageFormat;
 import java.util.*;
 
 import org.eclipse.core.runtime.*;
-import org.eclipse.core.runtime.dynamichelpers.*;
+import org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler;
+import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
 import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.ui.IPluginContribution;
 import org.eclipse.ui.PlatformUI;

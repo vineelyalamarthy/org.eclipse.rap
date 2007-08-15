@@ -103,6 +103,6 @@ public class ChangeToPerspectiveMenu extends PerspectiveMenu {
      */
     private void handleWorkbenchException(WorkbenchException e) {
         ErrorDialog.openError(getWindow().getShell(), WorkbenchMessages.ChangeToPerspectiveMenu_errorTitle, 
-                e.getMessage(), e.getStatus(), null);
+                e.getMessage(), e.getStatus());
     }
 }

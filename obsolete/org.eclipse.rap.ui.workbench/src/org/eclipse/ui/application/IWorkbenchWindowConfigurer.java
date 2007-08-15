@@ -10,10 +10,8 @@
  *******************************************************************************/
 package org.eclipse.ui.application;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.*;
-import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.presentations.AbstractPresentationFactory;
 

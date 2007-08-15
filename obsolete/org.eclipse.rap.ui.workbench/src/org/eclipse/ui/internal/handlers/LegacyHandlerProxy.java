@@ -14,13 +14,8 @@ package org.eclipse.ui.internal.handlers;
 import java.util.Collections;
 import java.util.Map;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.ui.commands.AbstractHandler;
-import org.eclipse.ui.commands.ExecutionException;
-import org.eclipse.ui.commands.IHandler;
+import org.eclipse.core.runtime.*;
+import org.eclipse.ui.commands.*;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 
 /**

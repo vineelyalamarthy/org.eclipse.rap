@@ -13,7 +13,6 @@ package org.eclipse.ui.internal.progress;
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.*;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.window.IWindowCallback;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.internal.service.ContextProvider;
 import org.eclipse.rwt.service.*;
@@ -392,10 +391,8 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 	 * 
 	 * @see org.eclipse.jface.window.Window#open()
 	 */
-	// TODO [fappel]: check callback mechanimsm
-//	public int open() {
-    public void open( final IWindowCallback callBack ) {
-		super.open( callBack );
+	public int open() {
+		int result = super.open();
 
 		// add a listener that will close the dialog when the job completes.
 		final IJobChangeListener listener = createCloseListener();
@@ -434,7 +431,7 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
           job.addJobChangeListener( doneListener[ 0 ] );
 		}
 
-//		return result;
+		return result;
 	}
 
 	/**
@@ -497,10 +494,7 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 					return Status.CANCEL_STATUS;
 				}
 
-				// TODO [fappel]: check callback mechanism
-				open( null );
-//				open();
-
+				open();
 				return Status.OK_STATUS;
 			}
 		};

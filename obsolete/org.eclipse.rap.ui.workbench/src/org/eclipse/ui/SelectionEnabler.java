@@ -12,16 +12,10 @@ package org.eclipse.ui;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.core.runtime.*;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.ui.actions.SimpleWildcardTester;
 import org.eclipse.ui.internal.ActionExpression;
 import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;

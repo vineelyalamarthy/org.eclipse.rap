@@ -11,11 +11,7 @@
 package org.eclipse.ui.internal;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.ICoolBarManager;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IStatusLineManager;
-import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.*;
 import org.eclipse.ui.IActionBars2;
 import org.eclipse.ui.services.IServiceLocator;
 

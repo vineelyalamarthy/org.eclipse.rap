@@ -15,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.operation.*;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.window.IWindowCallback;
 import org.eclipse.rwt.lifecycle.UICallBack;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -292,7 +291,7 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
 				| SWT.APPLICATION_MODAL); // no
 		// close
 		// button
-//		setBlockOnOpen(false);
+		setBlockOnOpen(false);
 	}
 
 	/**
@@ -529,8 +528,7 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
         ErrorDialog.openError( getParentShell(),
                                "Problem occured.",
                                thr.getMessage(),
-                               status,
-                               null );
+                               status );
       }
     };
     runnableId[ 0 ] = String.valueOf( wrapper.hashCode() );
@@ -606,7 +604,7 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
 	 */
 	protected void aboutToRun() {
 		if (getOpenOnRun()) {
-			open( null );
+			open();
 		} else {
 			create();
 		}
@@ -696,23 +694,19 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
 	 * 
 	 * @see org.eclipse.jface.window.Window#open()
 	 */
-		// TODO [fappel]: check this
-	public void open( final IWindowCallback callBack ) {
-//	  public int open() {
+    public int open() {
 		// Check to be sure it is not already done. If it is just return OK.
 		if (!getOpenOnRun()) {
 			if (getNestingDepth() == 0) {
-			  return;
-//				return OK;
+				return OK;
 			}
 		}
-		super.open( callBack );
-//		int result = super.open();
+		int result = super.open();
 		// update message label just in case beginTask() has been invoked already
 		if (task == null || task.length() == 0)
 			setMessage(DEFAULT_TASKNAME, true);
 		else
 			setMessage(task, true);
-//		return result;
+		return result;
 	}
 }

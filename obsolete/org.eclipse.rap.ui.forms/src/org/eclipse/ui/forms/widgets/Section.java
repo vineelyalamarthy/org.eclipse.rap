@@ -16,18 +16,9 @@ import java.util.Hashtable;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
-//import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
-//import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-//import org.eclipse.swt.graphics.Point;
-//import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
-//import org.eclipse.ui.internal.forms.widgets.FormUtil;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A variation of the expandable composite that adds optional description below

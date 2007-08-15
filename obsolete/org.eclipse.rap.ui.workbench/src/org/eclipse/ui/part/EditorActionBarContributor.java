@@ -10,15 +10,8 @@
  *******************************************************************************/
 package org.eclipse.ui.part;
 
-import org.eclipse.jface.action.ICoolBarManager;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IStatusLineManager;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IActionBars2;
-import org.eclipse.ui.IEditorActionBarContributor;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.jface.action.*;
+import org.eclipse.ui.*;
 
 /**
  * Standard implementation of <code>IEditorActionBarContributor</code>.

@@ -33,7 +33,7 @@ public final class KeyFormatterFactory {
     /**
      * The formatter that renders key bindings in a form similar to XEmacs
      */
-    private static final IKeyFormatter EMACS_KEY_FORMATTER = new EmacsKeyFormatter();
+//    private static final IKeyFormatter EMACS_KEY_FORMATTER = new EmacsKeyFormatter();
 
     /**
      * The default formatter. This is normally the formal key formatter, but can
@@ -55,9 +55,9 @@ public final class KeyFormatterFactory {
      * 
      * @return The Xemacs formatter; never <code>null</code>.
      */
-    public static final IKeyFormatter getEmacsKeyFormatter() {
-        return EMACS_KEY_FORMATTER;
-    }
+//    public static final IKeyFormatter getEmacsKeyFormatter() {
+//        return EMACS_KEY_FORMATTER;
+//    }
 
     /**
      * Provides an instance of <code>FormalKeyFormatter</code>.

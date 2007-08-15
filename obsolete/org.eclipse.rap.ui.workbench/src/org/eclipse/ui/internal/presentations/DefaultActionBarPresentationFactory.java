@@ -11,12 +11,7 @@
 package org.eclipse.ui.internal.presentations;
 
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.internal.provisional.action.CoolBarManager2;
-import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
-import org.eclipse.jface.internal.provisional.action.IToolBarContributionItem;
-import org.eclipse.jface.internal.provisional.action.IToolBarManager2;
-import org.eclipse.jface.internal.provisional.action.ToolBarContributionItem2;
-import org.eclipse.jface.internal.provisional.action.ToolBarManager2;
+import org.eclipse.jface.internal.provisional.action.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.internal.provisional.presentations.IActionBarPresentationFactory;
 

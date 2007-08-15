@@ -20,7 +20,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.IShellProvider;
-import org.eclipse.jface.window.IWindowCallback;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.dialogs.EventLoopProgressMonitor;
@@ -75,106 +74,79 @@ public class SaveableHelper {
 	 * @return <code>true</code> for continue, <code>false</code> if the operation
 	 * was canceled.
 	 */
-	static boolean savePart(final ISaveablePart saveable, IWorkbenchPart part, 
-			final IWorkbenchWindow window, final boolean confirm) {
-		// Short circuit.
-		if (!saveable.isDirty()) {
-			return true;
-		}
+    static boolean savePart( final ISaveablePart saveable,
+                           IWorkbenchPart part,
+                           IWorkbenchWindow window,
+                           boolean confirm )
+  {
+    // Short circuit.
+    if( !saveable.isDirty() ) {
+      return true;
+    }
+    // If confirmation is required ..
+    if( confirm ) {
+      int choice = AutomatedResponse;
+      if( choice == USER_RESPONSE ) {
+        if( saveable instanceof ISaveablePart2 ) {
+          choice = ( ( ISaveablePart2 )saveable ).promptToSaveOnClose();
+        }
+        if( choice == USER_RESPONSE || choice == ISaveablePart2.DEFAULT ) {
+          String message = NLS.bind( WorkbenchMessages.EditorManager_saveChangesQuestion,
+                                     part.getTitle() );
+          // Show a dialog.
+          String[] buttons = new String[]{
+            IDialogConstants.YES_LABEL,
+            IDialogConstants.NO_LABEL,
+            IDialogConstants.CANCEL_LABEL
+          };
+          MessageDialog d = new MessageDialog( window.getShell(),
+                                               WorkbenchMessages.Save_Resource,
+                                               null,
+                                               message,
+                                               MessageDialog.QUESTION,
+                                               buttons,
+                                               0 );
+          choice = d.open();
+        }
+      }
+      // Branch on the user choice.
+      // The choice id is based on the order of button labels above.
+      switch( choice ) {
+        case ISaveablePart2.YES: // yes
+        break;
+        case ISaveablePart2.NO: // no
+          return true;
+        default:
+        case ISaveablePart2.CANCEL: // cancel
+          return false;
+      }
+    }
+    if( saveable instanceof ISaveablesSource ) {
+      return saveModels( ( ISaveablesSource )saveable, window, confirm );
+    }
+    // Create save block.
+    IRunnableWithProgress progressOp = new IRunnableWithProgress() {
 
-		// If confirmation is required ..
-		if (confirm) {
-			int choice = AutomatedResponse;
-			if (choice == USER_RESPONSE) {				
-				if (saveable instanceof ISaveablePart2) {
-					choice = ((ISaveablePart2)saveable).promptToSaveOnClose();
-				}
-				if (choice == USER_RESPONSE || choice == ISaveablePart2.DEFAULT) {
-					String message = NLS.bind(WorkbenchMessages.EditorManager_saveChangesQuestion, part.getTitle()); 
-					// Show a dialog.
-					String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL };
-						MessageDialog d = new MessageDialog(
-							window.getShell(), WorkbenchMessages.Save_Resource,
-							null, message, MessageDialog.QUESTION, buttons, 0);
-					// TODO: [bm] remove callback hack
-					// savePart always returns true because nobody cares
-						d.open(new IWindowCallback() {
-
-							public void windowClosed( int choice ) {
-								// Branch on the user choice.
-								// The choice id is based on the order of button labels
-								// above.
-								switch (choice) {
-								case ISaveablePart2.YES : // yes
-									break;
-								case ISaveablePart2.NO : // no
-									return;
-								default :
-								case ISaveablePart2.CANCEL : // cancel
-									return;
-								}
-
-								if (saveable instanceof ISaveablesSource) {
-									saveModels((ISaveablesSource) saveable, window, confirm);
-									return;
-								}
-
-								// Create save block.
-								IRunnableWithProgress progressOp = new IRunnableWithProgress() {
-									public void run(IProgressMonitor monitor) {
-										IProgressMonitor monitorWrap = new EventLoopProgressMonitor(monitor);
-										saveable.doSave(monitorWrap);
-									}
-								};
-
-								// Do the save.
-								runProgressMonitorOperation(WorkbenchMessages.Save, progressOp, window);                        
-							}  
-						});
-				}
-			}
-		}
-		// TODO: end hack
-//			// Branch on the user choice.
-//			// The choice id is based on the order of button labels above.
-//			switch (choice) {
-//				case ISaveablePart2.YES : //yes
-//					break;
-//				case ISaveablePart2.NO : //no
-//					return true;
-//				default :
-//				case ISaveablePart2.CANCEL : //cancel
-//					return false;
-//			}
-//		}
-//
-		// TODO [bm] this dup code is needed when we don't need a confirmation
-		if (saveable instanceof ISaveablesSource) {
-			return saveModels((ISaveablesSource) saveable, window, confirm);
-		}
-
-		// Create save block.
-		IRunnableWithProgress progressOp = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) {
-				IProgressMonitor monitorWrap = new EventLoopProgressMonitor(monitor);
-				saveable.doSave(monitorWrap);
-			}
-		};
-
-		// Do the save.
-		return runProgressMonitorOperation(WorkbenchMessages.Save, progressOp, window);
-		
-	}
+      public void run( IProgressMonitor monitor ) {
+        IProgressMonitor monitorWrap = new EventLoopProgressMonitor( monitor );
+        saveable.doSave( monitorWrap );
+      }
+    };
+    // Do the save.
+    return runProgressMonitorOperation( WorkbenchMessages.Save,
+                                        progressOp,
+                                        window );
+  }
 	
 	/**
-	 * Saves the selected dirty models from the given model source.
-	 * 
-	 * @param modelSource the model source
-	 * @param window the workbench window
-	 * @param confirm 
-	 * @return <code>true</code> for continue, <code>false</code> if the operation
-	 *   was canceled or an error occurred while saving.
-	 */
+     * Saves the selected dirty models from the given model source.
+     * 
+     * @param modelSource the model source
+     * @param window the workbench window
+     * @param confirm
+     * @return <code>true</code> for continue, <code>false</code> if the
+     *         operation was canceled or an error occurred while saving.
+     */
 	private static boolean saveModels(ISaveablesSource modelSource, final IWorkbenchWindow window, final boolean confirm) {
 		Saveable[] selectedModels = modelSource.getActiveSaveables();
 		final ArrayList dirtyModels = new ArrayList();

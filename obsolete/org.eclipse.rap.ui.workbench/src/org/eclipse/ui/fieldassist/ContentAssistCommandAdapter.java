@@ -13,7 +13,6 @@ package org.eclipse.ui.fieldassist;
 
 import org.eclipse.core.commands.*;
 import org.eclipse.jface.fieldassist.*;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;

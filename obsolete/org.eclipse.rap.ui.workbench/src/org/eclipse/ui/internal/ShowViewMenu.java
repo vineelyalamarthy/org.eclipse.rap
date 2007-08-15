@@ -14,8 +14,6 @@ package org.eclipse.ui.internal;
 import java.text.Collator;
 import java.util.*;
 
-import org.eclipse.core.commands.*;
-import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.action.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Menu;

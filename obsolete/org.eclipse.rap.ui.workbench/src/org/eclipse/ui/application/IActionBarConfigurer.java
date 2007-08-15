@@ -10,10 +10,7 @@
  *******************************************************************************/
 package org.eclipse.ui.application;
 
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.ICoolBarManager;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IStatusLineManager;
+import org.eclipse.jface.action.*;
 
 /**
  * Interface providing special access for configuring the action bars

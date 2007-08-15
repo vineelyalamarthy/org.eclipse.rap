@@ -10,12 +10,8 @@
  *******************************************************************************/
 package org.eclipse.jface.operation;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IProgressMonitorWithBlocking;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.ProgressMonitorWrapper;
+import org.eclipse.core.runtime.*;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.widgets.Display;
 
 /**

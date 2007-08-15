@@ -16,7 +16,6 @@ import java.util.*;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.util.Tracing;
 import org.eclipse.core.expressions.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.swt.widgets.Shell;

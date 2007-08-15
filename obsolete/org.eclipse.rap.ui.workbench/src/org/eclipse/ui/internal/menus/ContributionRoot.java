@@ -11,10 +11,7 @@
 
 package org.eclipse.ui.internal.menus;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.jface.action.IContributionItem;

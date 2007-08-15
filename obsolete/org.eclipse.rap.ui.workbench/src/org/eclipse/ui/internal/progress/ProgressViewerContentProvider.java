@@ -10,13 +10,9 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.progress;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.internal.progress.FinishedJobs.KeptJobsListener;
 import org.eclipse.ui.progress.WorkbenchJob;

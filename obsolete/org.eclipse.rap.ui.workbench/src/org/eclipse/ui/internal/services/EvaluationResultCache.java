@@ -11,9 +11,7 @@
 
 package org.eclipse.ui.internal.services;
 
-import org.eclipse.core.expressions.EvaluationResult;
-import org.eclipse.core.expressions.Expression;
-import org.eclipse.core.expressions.IEvaluationContext;
+import org.eclipse.core.expressions.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.ISources;
 

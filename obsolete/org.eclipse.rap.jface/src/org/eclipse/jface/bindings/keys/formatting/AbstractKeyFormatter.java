@@ -11,15 +11,9 @@
 
 package org.eclipse.jface.bindings.keys.formatting;
 
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
-import org.eclipse.jface.bindings.keys.IKeyLookup;
-import org.eclipse.jface.bindings.keys.KeyLookupFactory;
-import org.eclipse.jface.bindings.keys.KeySequence;
-import org.eclipse.jface.bindings.keys.KeyStroke;
+import org.eclipse.jface.bindings.keys.*;
 import org.eclipse.jface.util.Util;
 
 /**

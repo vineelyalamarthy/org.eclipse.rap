@@ -11,9 +11,7 @@
 package org.eclipse.ui.internal;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.util.Util;
 import org.eclipse.ui.views.IViewDescriptor;
 

@@ -10,14 +10,12 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.statushandlers;
 
-import java.net.URL;
 import java.util.*;
 
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.*;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -25,7 +23,6 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.internal.WorkbenchMessages;
-import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.statushandlers.StatusNotificationManager.StatusInfo;
 import org.eclipse.ui.statushandlers.StatusAdapter;
 
@@ -494,11 +491,10 @@ public class StatusDialog extends ErrorDialog {
 		return result;
 	}
 
-	public void open() {
-//		int result = super.open();
-		setStatus(selectedStatus.getStatus().getStatus());
-		super.open(null);
-//		return result;
+	public int open() {
+      int result = super.open();
+      setStatus(selectedStatus.getStatus().getStatus());
+      return result;
 	}
 
 	/*

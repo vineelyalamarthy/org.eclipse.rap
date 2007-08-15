@@ -11,9 +11,11 @@
 package org.eclipse.ui.forms;
 
 import java.util.Vector;
+
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.forms.widgets.*;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.internal.forms.MessageManager;
 
 /**

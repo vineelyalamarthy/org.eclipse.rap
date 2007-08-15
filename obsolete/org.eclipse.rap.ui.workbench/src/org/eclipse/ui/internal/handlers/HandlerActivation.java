@@ -11,9 +11,7 @@
 
 package org.eclipse.ui.internal.handlers;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.expressions.Expression;

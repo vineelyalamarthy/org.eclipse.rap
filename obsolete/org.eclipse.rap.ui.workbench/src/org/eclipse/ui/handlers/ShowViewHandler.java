@@ -12,20 +12,10 @@ package org.eclipse.ui.handlers;
 
 import java.util.Map;
 
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.window.IWindowCallback;
+import org.eclipse.core.commands.*;
 import org.eclipse.jface.window.Window;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.internal.WorkbenchMessages;
-import org.eclipse.ui.internal.WorkbenchPage;
-import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.*;
+import org.eclipse.ui.internal.*;
 import org.eclipse.ui.internal.dialogs.ShowViewDialog;
 import org.eclipse.ui.internal.misc.StatusUtil;
 import org.eclipse.ui.statushandlers.StatusManager;
@@ -86,35 +76,32 @@ public final class ShowViewHandler extends AbstractHandler {
 	/**
 	 * Opens a view selection dialog, allowing the user to chose a view.
 	 */
-	private final void openOther(final IWorkbenchWindow window) {
-		final IWorkbenchPage page = window.getActivePage();
-		if (page == null) {
-			return;
-		}
-		
-		final ShowViewDialog dialog = new ShowViewDialog(window,
-				WorkbenchPlugin.getDefault().getViewRegistry());
-		dialog.open(new IWindowCallback() {
-
-			public void windowClosed(int returnCode) {
-				if (returnCode == Window.CANCEL) {
-					return;
-				}
-				
-				final IViewDescriptor[] descriptors = dialog.getSelection();
-				for (int i = 0; i < descriptors.length; ++i) {
-					try {
-						openView(descriptors[i].getId(), window);
-					} catch (PartInitException e) {
-						ErrorDialog.openError(window.getShell(),
-								// WorkbenchMessages.ShowView_errorTitle,
-								// e.getMessage(),
-								"Problems Showing View", e.getMessage(), e
-								.getStatus(), null);
-					}
-				}
-			}});
-	}
+    private final void openOther(final IWorkbenchWindow window) {
+      final IWorkbenchPage page = window.getActivePage();
+      if (page == null) {
+          return;
+      }
+      
+      final ShowViewDialog dialog = new ShowViewDialog(window,
+              WorkbenchPlugin.getDefault().getViewRegistry());
+      dialog.open();
+      
+      if (dialog.getReturnCode() == Window.CANCEL) {
+          return;
+      }
+      
+      final IViewDescriptor[] descriptors = dialog.getSelection();
+      for (int i = 0; i < descriptors.length; ++i) {
+          try {
+              openView(descriptors[i].getId(), window);
+          } catch (PartInitException e) {
+              StatusUtil.handleStatus(e.getStatus(),
+                      WorkbenchMessages.ShowView_errorTitle
+                              + ": " + e.getMessage(), //$NON-NLS-1$
+                      StatusManager.SHOW);
+          }
+      }
+  }
 
 	/**
 	 * Opens the view with the given identifier.

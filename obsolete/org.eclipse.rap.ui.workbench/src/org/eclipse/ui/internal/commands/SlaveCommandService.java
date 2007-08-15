@@ -11,22 +11,12 @@
 
 package org.eclipse.ui.internal.commands;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.eclipse.core.commands.Category;
-import org.eclipse.core.commands.Command;
-import org.eclipse.core.commands.IExecutionListener;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.ParameterType;
-import org.eclipse.core.commands.ParameterizedCommand;
-import org.eclipse.core.commands.SerializationException;
+import org.eclipse.core.commands.*;
 import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.ui.commands.IElementReference;
 import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.commands.IElementReference;
 import org.eclipse.ui.menus.UIElement;
 
 /**

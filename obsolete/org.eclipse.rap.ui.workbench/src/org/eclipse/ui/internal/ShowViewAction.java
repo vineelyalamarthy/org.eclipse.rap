@@ -12,12 +12,7 @@ package org.eclipse.ui.internal;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.ui.IPluginContribution;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.registry.ViewDescriptor;
 import org.eclipse.ui.views.IViewDescriptor;
 
@@ -82,7 +77,7 @@ public class ShowViewAction extends Action implements IPluginContribution {
                 }
             } catch (PartInitException e) {
                 ErrorDialog.openError(window.getShell(), WorkbenchMessages.ShowView_errorTitle,
-                        e.getMessage(), e.getStatus(), null);
+                        e.getMessage(), e.getStatus());
             }
         }
     }

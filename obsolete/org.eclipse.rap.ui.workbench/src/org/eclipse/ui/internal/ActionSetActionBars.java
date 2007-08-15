@@ -13,18 +13,9 @@ package org.eclipse.ui.internal;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.eclipse.jface.action.ContributionItem;
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IContributionManager;
-import org.eclipse.jface.action.ICoolBarManager;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.action.SubMenuManager;
-import org.eclipse.jface.action.SubToolBarManager;
+import org.eclipse.jface.action.*;
 import org.eclipse.jface.internal.provisional.action.IToolBarContributionItem;
-import org.eclipse.ui.IActionBars2;
-import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.SubActionBars2;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.provisional.application.IActionBarConfigurer2;
 import org.eclipse.ui.services.IServiceLocator;
 

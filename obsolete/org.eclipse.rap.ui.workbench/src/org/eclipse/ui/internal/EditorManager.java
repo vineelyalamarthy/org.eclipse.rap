@@ -21,18 +21,19 @@ import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.*;
-import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
-import org.eclipse.ui.handlers.IHandlerActivation;
+import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.internal.dialogs.EventLoopProgressMonitor;
 import org.eclipse.ui.internal.misc.StatusUtil;
 import org.eclipse.ui.internal.misc.UIStats;
 import org.eclipse.ui.internal.registry.EditorDescriptor;
 import org.eclipse.ui.internal.util.Util;
+import org.eclipse.ui.model.WorkbenchPartLabelProvider;
 import org.eclipse.ui.part.MultiEditor;
 import org.eclipse.ui.part.MultiEditorInput;
 
@@ -972,214 +973,211 @@ public class EditorManager implements IExtensionChangeHandler {
 	 * @return <code>true</code> on success, <code>false</code> if the user
 	 *         canceled the save
 	 */
-	public static boolean saveAll(List dirtyParts, final boolean confirm, final boolean closing,
-				boolean addNonPartSources, final IRunnableContext runnableContext, final IShellProvider shellProvider) {
-		// clone the input list
-		dirtyParts = new ArrayList(dirtyParts);
-    	List modelsToSave;
-		if (confirm) {
-			boolean saveable2Processed = false;
-			// Process all parts that implement ISaveablePart2.
-			// These parts are removed from the list after saving
-			// them. We then need to restore the workbench to
-			// its previous state, for now this is just last
-			// active perspective.
-			// Note that the given parts may come from multiple
-			// windows, pages and perspectives.
-			ListIterator listIterator = dirtyParts.listIterator();
-
-			WorkbenchPage currentPage = null;
-			Perspective currentPageOriginalPerspective = null;
-			while (listIterator.hasNext()) {
-				IWorkbenchPart part = (IWorkbenchPart) listIterator.next();
-				if (part instanceof ISaveablePart2) {
-					WorkbenchPage page = (WorkbenchPage) part.getSite()
-							.getPage();
-					if (!Util.equals(currentPage, page)) {
-						if (currentPage != null
-								&& currentPageOriginalPerspective != null) {
-							if (!currentPageOriginalPerspective
-									.equals(currentPage.getActivePerspective())) {
-								currentPage
-										.setPerspective(currentPageOriginalPerspective
-												.getDesc());
-							}
-						}
-						currentPage = page;
-						currentPageOriginalPerspective = page
-								.getActivePerspective();
-					}
-					if (confirm) {
-						if (part instanceof IViewPart) {
-							Perspective perspective = page
-									.getFirstPerspectiveWithView((IViewPart) part);
-							if (perspective != null) {
-								page.setPerspective(perspective.getDesc());
-							}
-						}
-						// show the window containing the page?
-						IWorkbenchWindow partsWindow = page
-								.getWorkbenchWindow();
-						if (partsWindow != partsWindow.getWorkbench()
-								.getActiveWorkbenchWindow()) {
-							Shell shell = partsWindow.getShell();
-							if (shell.getMinimized()) {
-								shell.setMinimized(false);
-							}
-							shell.setActive();
-						}
-						page.bringToTop(part);
-					}
-					// try to save the part
-					int choice = SaveableHelper.savePart((ISaveablePart2) part,
-							page.getWorkbenchWindow(), confirm);
-					if (choice == ISaveablePart2.CANCEL) {
-						// If the user cancels, don't restore the previous
-						// workbench state, as that will
-						// be an unexpected switch from the current state.
-						return false;
-					} else if (choice != ISaveablePart2.DEFAULT) {
-						saveable2Processed = true;
-						listIterator.remove();
-					}
-				}
-			}
-
-			// try to restore the workbench to its previous state
-			if (currentPage != null && currentPageOriginalPerspective != null) {
-				if (!currentPageOriginalPerspective.equals(currentPage
-						.getActivePerspective())) {
-					currentPage.setPerspective(currentPageOriginalPerspective
-							.getDesc());
-				}
-			}
-
-			// if processing a ISaveablePart2 caused other parts to be
-			// saved, remove them from the list presented to the user.
-			if (saveable2Processed) {
-				listIterator = dirtyParts.listIterator();
-				while (listIterator.hasNext()) {
-					ISaveablePart part = (ISaveablePart) listIterator.next();
-					if (!part.isDirty()) {
-						listIterator.remove();
-					}
-				}
-			}
-
-            modelsToSave = convertToSaveables(dirtyParts, closing, addNonPartSources);
-            
-            // If nothing to save, return.
-            if (modelsToSave.isEmpty()) {
-				return true;
-			}
-			boolean canceled = SaveableHelper.waitForBackgroundSaveJobs(modelsToSave);
-			if (canceled) {
-				return false;
-			}
-            // Use a simpler dialog if there's only one
-            if (modelsToSave.size() == 1) {
-            	Saveable model = (Saveable) modelsToSave.get(0);
-				String message = NLS.bind(WorkbenchMessages.EditorManager_saveChangesQuestion, model.getName()); 
-				// Show a dialog.
-				String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL };
-				MessageDialog d = new MessageDialog(
-					shellProvider.getShell(), WorkbenchMessages.Save_Resource,
-					null, message, MessageDialog.QUESTION, buttons, 0);
-				
-				int choice = SaveableHelper.testGetAutomatedResponse();
-				if (SaveableHelper.testGetAutomatedResponse() == SaveableHelper.USER_RESPONSE) {
-					// TODO: remove callback hack
-					// returns always true
-//					choice = d.open();
-					d.open(null);
-				}
-
-				// Branch on the user choice.
-				// The choice id is based on the order of button labels
-				// above.
-				switch (choice) {
-				case ISaveablePart2.YES: // yes
-					break;
-				case ISaveablePart2.NO: // no
-					return true;
-				default:
-				case ISaveablePart2.CANCEL: // cancel
-					return false;
-				}
+    public static boolean saveAll( List dirtyParts,
+                                 final boolean confirm,
+                                 final boolean closing,
+                                 boolean addNonPartSources,
+                                 final IRunnableContext runnableContext,
+                                 final IShellProvider shellProvider )
+  {
+    // clone the input list
+    dirtyParts = new ArrayList( dirtyParts );
+    List modelsToSave;
+    if( confirm ) {
+      boolean saveable2Processed = false;
+      // Process all parts that implement ISaveablePart2.
+      // These parts are removed from the list after saving
+      // them. We then need to restore the workbench to
+      // its previous state, for now this is just last
+      // active perspective.
+      // Note that the given parts may come from multiple
+      // windows, pages and perspectives.
+      ListIterator listIterator = dirtyParts.listIterator();
+      WorkbenchPage currentPage = null;
+      Perspective currentPageOriginalPerspective = null;
+      while( listIterator.hasNext() ) {
+        IWorkbenchPart part = ( IWorkbenchPart )listIterator.next();
+        if( part instanceof ISaveablePart2 ) {
+          WorkbenchPage page = ( WorkbenchPage )part.getSite().getPage();
+          if( !Util.equals( currentPage, page ) ) {
+            if( currentPage != null && currentPageOriginalPerspective != null )
+            {
+              if( !currentPageOriginalPerspective.equals( currentPage.getActivePerspective() ) )
+              {
+                currentPage.setPerspective( currentPageOriginalPerspective.getDesc() );
+              }
             }
-            else {
-//	            ListSelectionDialog dlg = new ListSelectionDialog(
-//	                    shellProvider.getShell(), modelsToSave,
-//	                    new ArrayContentProvider(),
-//	                    new WorkbenchPartLabelProvider(), RESOURCES_TO_SAVE_MESSAGE);
-//	            dlg.setInitialSelections(modelsToSave.toArray());
-//	            dlg.setTitle(SAVE_RESOURCES_TITLE);
-//	
-//	            // this "if" statement aids in testing.
-//	            if (SaveableHelper.testGetAutomatedResponse()==SaveableHelper.USER_RESPONSE) {
-//	            	int result = dlg.open();
-//	                //Just return false to prevent the operation continuing
-//	                if (result == IDialogConstants.CANCEL_ID) {
-//						return false;
-//					}
-//	
-//	                modelsToSave = Arrays.asList(dlg.getResult());
-//	            }
-              throw new UnsupportedOperationException();
+            currentPage = page;
+            currentPageOriginalPerspective = page.getActivePerspective();
+          }
+          if( confirm ) {
+            if( part instanceof IViewPart ) {
+              Perspective perspective = page.getFirstPerspectiveWithView( ( IViewPart )part );
+              if( perspective != null ) {
+                page.setPerspective( perspective.getDesc() );
+              }
             }
+            // show the window containing the page?
+            IWorkbenchWindow partsWindow = page.getWorkbenchWindow();
+            if( partsWindow != partsWindow.getWorkbench()
+              .getActiveWorkbenchWindow() )
+            {
+              Shell shell = partsWindow.getShell();
+              if( shell.getMinimized() ) {
+                shell.setMinimized( false );
+              }
+              shell.setActive();
+            }
+            page.bringToTop( part );
+          }
+          // try to save the part
+          int choice = SaveableHelper.savePart( ( ISaveablePart2 )part,
+                                                page.getWorkbenchWindow(),
+                                                confirm );
+          if( choice == ISaveablePart2.CANCEL ) {
+            // If the user cancels, don't restore the previous
+            // workbench state, as that will
+            // be an unexpected switch from the current state.
+            return false;
+          } else if( choice != ISaveablePart2.DEFAULT ) {
+            saveable2Processed = true;
+            listIterator.remove();
+          }
         }
-        else {
-        	modelsToSave = convertToSaveables(dirtyParts, closing, addNonPartSources);
-		}
+      }
+      // try to restore the workbench to its previous state
+      if( currentPage != null && currentPageOriginalPerspective != null ) {
+        if( !currentPageOriginalPerspective.equals( currentPage.getActivePerspective() ) )
+        {
+          currentPage.setPerspective( currentPageOriginalPerspective.getDesc() );
+        }
+      }
+      // if processing a ISaveablePart2 caused other parts to be
+      // saved, remove them from the list presented to the user.
+      if( saveable2Processed ) {
+        listIterator = dirtyParts.listIterator();
+        while( listIterator.hasNext() ) {
+          ISaveablePart part = ( ISaveablePart )listIterator.next();
+          if( !part.isDirty() ) {
+            listIterator.remove();
+          }
+        }
+      }
+      modelsToSave = convertToSaveables( dirtyParts, closing, addNonPartSources );
+      // If nothing to save, return.
+      if( modelsToSave.isEmpty() ) {
+        return true;
+      }
+      boolean canceled = SaveableHelper.waitForBackgroundSaveJobs( modelsToSave );
+      if( canceled ) {
+        return false;
+      }
+      // Use a simpler dialog if there's only one
+      if( modelsToSave.size() == 1 ) {
+        Saveable model = ( Saveable )modelsToSave.get( 0 );
+        String message = NLS.bind( WorkbenchMessages.EditorManager_saveChangesQuestion,
+                                   model.getName() );
+        // Show a dialog.
+        String[] buttons = new String[]{
+          IDialogConstants.YES_LABEL,
+          IDialogConstants.NO_LABEL,
+          IDialogConstants.CANCEL_LABEL
+        };
+        MessageDialog d = new MessageDialog( shellProvider.getShell(),
+                                             WorkbenchMessages.Save_Resource,
+                                             null,
+                                             message,
+                                             MessageDialog.QUESTION,
+                                             buttons,
+                                             0 );
+        int choice = SaveableHelper.testGetAutomatedResponse();
+        if( SaveableHelper.testGetAutomatedResponse() == SaveableHelper.USER_RESPONSE )
+        {
+          choice = d.open();
+        }
+        // Branch on the user choice.
+        // The choice id is based on the order of button labels
+        // above.
+        switch( choice ) {
+          case ISaveablePart2.YES: // yes
+          break;
+          case ISaveablePart2.NO: // no
+            return true;
+          default:
+          case ISaveablePart2.CANCEL: // cancel
+            return false;
+        }
+      } else {
+        ListSelectionDialog dlg = new ListSelectionDialog( shellProvider.getShell(),
+                                                           modelsToSave,
+                                                           new ArrayContentProvider(),
+                                                           new WorkbenchPartLabelProvider(),
+                                                           RESOURCES_TO_SAVE_MESSAGE );
+        dlg.setInitialSelections( modelsToSave.toArray() );
+        dlg.setTitle( SAVE_RESOURCES_TITLE );
+        // this "if" statement aids in testing.
+        if( SaveableHelper.testGetAutomatedResponse() == SaveableHelper.USER_RESPONSE )
+        {
+          int result = dlg.open();
+          // Just return false to prevent the operation continuing
+          if( result == IDialogConstants.CANCEL_ID ) {
+            return false;
+          }
+          modelsToSave = Arrays.asList( dlg.getResult() );
+        }
+      }
+    } else {
+      modelsToSave = convertToSaveables( dirtyParts, closing, addNonPartSources );
+    }
+    // If the editor list is empty return.
+    if( modelsToSave.isEmpty() ) {
+      return true;
+    }
+    // Create save block.
+    final List finalModels = modelsToSave;
+    IRunnableWithProgress progressOp = new IRunnableWithProgress() {
 
-        // If the editor list is empty return.
-        if (modelsToSave.isEmpty()) {
-			return true;
-		}
-		
-		// Create save block.
-        final List finalModels = modelsToSave;
-		IRunnableWithProgress progressOp = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) {
-				IProgressMonitor monitorWrap = new EventLoopProgressMonitor(
-						monitor);
-				monitorWrap.beginTask("", finalModels.size()); //$NON-NLS-1$
-				for (Iterator i = finalModels.iterator(); i.hasNext();) {
-					Saveable model = (Saveable) i.next();
-					// handle case where this model got saved as a result of saving another
-					if (!model.isDirty()) {
-						monitor.worked(1);
-						continue;
-					}
-					SaveableHelper.doSaveModel(model, new SubProgressMonitor(monitorWrap, 1), shellProvider, closing || confirm);
-					if (monitorWrap.isCanceled()) {
-						break;
-					}
-				}
-				monitorWrap.done();
-			}
-		};
-
-		// Do the save.
-		return SaveableHelper.runProgressMonitorOperation(
-				WorkbenchMessages.Save_All, progressOp, runnableContext, shellProvider);
-	}
+      public void run( IProgressMonitor monitor ) {
+        IProgressMonitor monitorWrap = new EventLoopProgressMonitor( monitor );
+        monitorWrap.beginTask( "", finalModels.size() ); //$NON-NLS-1$
+        for( Iterator i = finalModels.iterator(); i.hasNext(); ) {
+          Saveable model = ( Saveable )i.next();
+          // handle case where this model got saved as a result of saving
+          // another
+          if( !model.isDirty() ) {
+            monitor.worked( 1 );
+            continue;
+          }
+          SaveableHelper.doSaveModel( model,
+                                      new SubProgressMonitor( monitorWrap, 1 ),
+                                      shellProvider,
+                                      closing || confirm );
+          if( monitorWrap.isCanceled() ) {
+            break;
+          }
+        }
+        monitorWrap.done();
+      }
+    };
+    // Do the save.
+    return SaveableHelper.runProgressMonitorOperation( WorkbenchMessages.Save_All,
+                                                       progressOp,
+                                                       runnableContext,
+                                                       shellProvider );
+  }
 
 	/**
-	 * For each part (view or editor) in the given list, attempts to convert it
-	 * to one or more saveable models. Duplicate models are removed. If closing
-	 * is true, then models that will remain open in parts other than the given
-	 * parts are removed.
-	 * 
-	 * @param parts
-	 *            the parts (list of IViewPart or IEditorPart)
-	 * @param closing
-	 *            whether the parts are being closed
-	 * @param addNonPartSources
-	 *            whether non-part sources should be added (true for the Save
-	 *            All action, see bug 139004)
-	 * @return the dirty models
-	 */
+     * For each part (view or editor) in the given list, attempts to convert it
+     * to one or more saveable models. Duplicate models are removed. If closing
+     * is true, then models that will remain open in parts other than the given
+     * parts are removed.
+     * 
+     * @param parts the parts (list of IViewPart or IEditorPart)
+     * @param closing whether the parts are being closed
+     * @param addNonPartSources whether non-part sources should be added (true
+     *            for the Save All action, see bug 139004)
+     * @return the dirty models
+     */
 	private static List convertToSaveables(List parts, boolean closing, boolean addNonPartSources) {
 		ArrayList result = new ArrayList();
 		HashSet seen = new HashSet();
@@ -1219,13 +1217,13 @@ public class EditorManager implements IExtensionChangeHandler {
 	}
 
 	/**
-	 * Returns the saveable models provided by the given part.
-	 * If the part does not provide any models, a default model
-	 * is returned representing the part.
-	 * 
-	 * @param part the workbench part
-	 * @return the saveable models
-	 */
+     * Returns the saveable models provided by the given part. If the part does
+     * not provide any models, a default model is returned representing the
+     * part.
+     * 
+     * @param part the workbench part
+     * @return the saveable models
+     */
 	private static Saveable[] getSaveables(IWorkbenchPart part) {
 		if (part instanceof ISaveablesSource) {
 			ISaveablesSource source = (ISaveablesSource) part;
@@ -1235,18 +1233,16 @@ public class EditorManager implements IExtensionChangeHandler {
 	}
 
 	/**
-	 * Returns true if, in the given page, no more parts will reference the
-	 * given model if the given parts are closed.
-	 * 
-	 * @param model
-	 *            the model
-	 * @param closingParts
-	 *            the parts being closed (list of IViewPart or IEditorPart)
-	 * @param page
-	 *            the page
-	 * @return <code>true</code> if no more parts in the page will reference
-	 *         the given model, <code>false</code> otherwise
-	 */
+     * Returns true if, in the given page, no more parts will reference the
+     * given model if the given parts are closed.
+     * 
+     * @param model the model
+     * @param closingParts the parts being closed (list of IViewPart or
+     *            IEditorPart)
+     * @param page the page
+     * @return <code>true</code> if no more parts in the page will reference
+     *         the given model, <code>false</code> otherwise
+     */
 	private static boolean closingLastPartShowingModel(Saveable model,
 			List closingParts, IWorkbenchPage page) {
 		HashSet closingPartsWithSameModel = new HashSet();

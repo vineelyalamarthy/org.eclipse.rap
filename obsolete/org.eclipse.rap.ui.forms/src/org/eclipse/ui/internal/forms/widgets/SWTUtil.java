@@ -10,12 +10,7 @@ package org.eclipse.ui.internal.forms.widgets;
 // import org.eclipse.swt.dnd.DragSource;
 // import org.eclipse.swt.dnd.DropTarget;
 // import org.eclipse.swt.widgets.Caret;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.ScrollBar;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.widgets.*;
 
 /**
  * Utility class to simplify access to some SWT resources.

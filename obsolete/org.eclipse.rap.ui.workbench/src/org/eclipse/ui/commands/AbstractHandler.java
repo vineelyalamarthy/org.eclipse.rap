@@ -10,16 +10,11 @@
  *******************************************************************************/
 package org.eclipse.ui.commands;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.*;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.HandlerEvent;
-import org.eclipse.core.commands.IHandlerAttributes;
 import org.eclipse.core.commands.IHandlerListener;
 
 /**

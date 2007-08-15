@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.dynamichelpers.*;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.commands.ActionHandler;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
 import org.eclipse.jface.internal.provisional.action.IToolBarContributionItem;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -663,8 +662,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 		}
 		fireWindowCreated();
 		getWindowAdvisor().openIntro();
-//		int result = super.open();
-		open(null);
+		int result = super.open();
 
 		// It's time for a layout ... to insure that if TrimLayout
 		// is in play, it updates all of the trim it's responsible
@@ -678,8 +676,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			perspectiveSwitcher.updateBarParent();
 		}
 		
-//		return result;
-		return Dialog.OK;
+		return result;
 	}
 
 	/*

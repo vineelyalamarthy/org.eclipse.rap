@@ -229,8 +229,7 @@ public class BlockedJobsDialog extends IconAndMessageDialog {
 					if (ProgressManagerUtil.rescheduleIfModalShellOpen(this)) {
 						return Status.CANCEL_STATUS;
 					}
-					getSingleton().open( null );
-//					singleton.open();
+					getSingleton().open();
 					return Status.OK_STATUS;
 				}
 			};
@@ -240,8 +239,7 @@ public class BlockedJobsDialog extends IconAndMessageDialog {
 			dialogJob.schedule(PlatformUI.getWorkbench().getProgressService()
 					.getLongOperationTime());
 		} else {
-		  getSingleton().open( null );
-//			singleton.open();
+		  getSingleton().open();
 		}
 
 		return getSingleton();

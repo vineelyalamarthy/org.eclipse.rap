@@ -12,9 +12,7 @@
 package org.eclipse.ui.internal.provisional.presentations;
 
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
-import org.eclipse.jface.internal.provisional.action.IToolBarContributionItem;
-import org.eclipse.jface.internal.provisional.action.IToolBarManager2;
+import org.eclipse.jface.internal.provisional.action.*;
 
 /**
  * The intention of this class is to allow for replacing the implementation of

@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.jface.resource;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 

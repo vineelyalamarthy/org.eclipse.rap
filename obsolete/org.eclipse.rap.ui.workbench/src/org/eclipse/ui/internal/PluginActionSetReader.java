@@ -15,9 +15,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.ui.internal.decorators.LightweightActionDescriptor;
-import org.eclipse.ui.internal.registry.ActionSetDescriptor;
-import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
-import org.eclipse.ui.internal.registry.RegistryReader;
+import org.eclipse.ui.internal.registry.*;
 
 /**
  * Read the actions for an plugin action set.

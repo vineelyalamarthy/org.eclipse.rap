@@ -12,11 +12,7 @@ package org.eclipse.ui.internal;
 
 import java.util.*;
 
-import org.eclipse.core.expressions.EvaluationContext;
-import org.eclipse.core.expressions.EvaluationResult;
-import org.eclipse.core.expressions.Expression;
-import org.eclipse.core.expressions.ExpressionConverter;
-import org.eclipse.core.expressions.IEvaluationContext;
+import org.eclipse.core.expressions.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.*;

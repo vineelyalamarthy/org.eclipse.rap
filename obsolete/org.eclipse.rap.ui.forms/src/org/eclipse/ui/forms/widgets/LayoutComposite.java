@@ -10,7 +10,8 @@
  *******************************************************************************/
 package org.eclipse.ui.forms.widgets;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Layout;
 /**
  * The class overrides default method for computing size in Composite by
  * accepting size returned from layout managers as-is. The default code accepts

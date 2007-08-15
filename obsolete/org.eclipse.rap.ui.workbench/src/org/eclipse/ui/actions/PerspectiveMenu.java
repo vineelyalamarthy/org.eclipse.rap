@@ -14,7 +14,6 @@ import java.util.*;
 import java.util.List;
 
 import org.eclipse.jface.action.*;
-import org.eclipse.jface.window.IWindowCallback;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -323,23 +322,18 @@ public abstract class PerspectiveMenu extends ContributionItem {
      * Show the "other" dialog, select a perspective, and run it. Pass on the selection
      * event should the meny need it.
      */
-    void runOther(final SelectionEvent event) {
-        final SelectPerspectiveDialog dlg = new SelectPerspectiveDialog(window
-                .getShell(), reg);
-        dlg.open(new IWindowCallback() {
-
-			public void windowClosed(int returnCode) {
-		        if (returnCode == Window.CANCEL) {
-					return;
-				}
-		        IPerspectiveDescriptor desc = dlg.getSelection();
-		        if (desc != null) {
-		            run(desc, event);
-		        }
-			}
-        	
-        });
-    }
+    void runOther(SelectionEvent event) {
+      SelectPerspectiveDialog dlg = new SelectPerspectiveDialog(window
+              .getShell(), reg);
+      dlg.open();
+      if (dlg.getReturnCode() == Window.CANCEL) {
+          return;
+      }
+      IPerspectiveDescriptor desc = dlg.getSelection();
+      if (desc != null) {
+          run(desc, event);
+      }
+  }
 
     /**
      * Sets the showActive flag.  If <code>showActive == true</code> then the

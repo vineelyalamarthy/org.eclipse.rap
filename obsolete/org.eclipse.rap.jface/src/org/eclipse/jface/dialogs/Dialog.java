@@ -430,7 +430,7 @@ public abstract class Dialog extends Window {
 		super(parentShell);
 		setShellStyle(SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL
 				| getDefaultOrientation());
-//		setBlockOnOpen(true);
+		setBlockOnOpen(true);
 	}
 
 	/**

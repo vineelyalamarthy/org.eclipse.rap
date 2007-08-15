@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.forms.widgets;
 
-import org.eclipse.swt.SWT;
-//import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * Utility methods to access shared form-specific resources.

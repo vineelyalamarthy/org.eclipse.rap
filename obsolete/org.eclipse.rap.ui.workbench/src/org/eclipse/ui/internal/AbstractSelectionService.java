@@ -13,15 +13,8 @@ package org.eclipse.ui.internal;
 import java.util.Hashtable;
 
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.jface.viewers.IPostSelectionProvider;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.ui.INullSelectionListener;
-import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.jface.viewers.*;
+import org.eclipse.ui.*;
 
 /**
  * Abstract selection service.

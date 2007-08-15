@@ -346,9 +346,7 @@ public class ProgressMonitorJobsDialog extends ProgressMonitorDialog {
 						 }
 			                 
                         if (!alreadyClosed) {
-                       // TODO [fappel]: fix this
-							open( null );
-//							open();
+							open();
 						}
                     }
                 });

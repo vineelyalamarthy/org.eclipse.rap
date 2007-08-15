@@ -13,7 +13,6 @@ package org.eclipse.jface.dialogs;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.window.IWindowCallback;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -85,14 +84,13 @@ public class MessageDialogWithToggle extends MessageDialog {
      * @param key
      *            the key to use when persisting the user's preference;
      *            <code>null</code> if you don't want it persisted.
-     * @param callback 
      * @return the dialog, after being closed by the user, which the client can
      *         only call <code>getReturnCode()</code> or
      *         <code>getToggleState()</code>
      */
     public static MessageDialogWithToggle openError(Shell parent, String title,
             String message, String toggleMessage, boolean toggleState,
-            IPreferenceStore store, String key, IWindowCallback callback) {
+            IPreferenceStore store, String key) {
         MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent,
                 title, null, // accept the default window icon
                 message, ERROR, new String[] { IDialogConstants.OK_LABEL }, 0, // ok
@@ -102,7 +100,7 @@ public class MessageDialogWithToggle extends MessageDialog {
                 toggleMessage, toggleState);
         dialog.prefStore = store;
         dialog.prefKey = key;
-        dialog.open( callback );
+        dialog.open();
         return dialog;
     }
 
@@ -127,7 +125,6 @@ public class MessageDialogWithToggle extends MessageDialog {
      * @param key
      *            the key to use when persisting the user's preference;
      *            <code>null</code> if you don't want it persisted.
-     * @param callback 
      * 
      * @return the dialog, after being closed by the user, which the client can
      *         only call <code>getReturnCode()</code> or
@@ -135,7 +132,7 @@ public class MessageDialogWithToggle extends MessageDialog {
      */
     public static MessageDialogWithToggle openInformation(Shell parent,
             String title, String message, String toggleMessage,
-            boolean toggleState, IPreferenceStore store, String key, IWindowCallback callback) {
+            boolean toggleState, IPreferenceStore store, String key) {
         MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent,
                 title, null, // accept the default window icon
                 message, INFORMATION,
@@ -144,7 +141,7 @@ public class MessageDialogWithToggle extends MessageDialog {
                 toggleMessage, toggleState);
         dialog.prefStore = store;
         dialog.prefKey = key;
-        dialog.open( callback );
+        dialog.open();
         return dialog;
     }
 
@@ -169,14 +166,13 @@ public class MessageDialogWithToggle extends MessageDialog {
      * @param key
      *            the key to use when persisting the user's preference;
      *            <code>null</code> if you don't want it persisted.
-     * @param callback 
      * @return the dialog, after being closed by the user, which the client can
      *         only call <code>getReturnCode()</code> or
      *         <code>getToggleState()</code>
      */
     public static MessageDialogWithToggle openOkCancelConfirm(Shell parent,
             String title, String message, String toggleMessage,
-            boolean toggleState, IPreferenceStore store, String key, IWindowCallback callback) {
+            boolean toggleState, IPreferenceStore store, String key) {
         MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent,
                 title, null, // accept the default window icon
                 message, QUESTION, new String[] { IDialogConstants.OK_LABEL,
@@ -184,7 +180,7 @@ public class MessageDialogWithToggle extends MessageDialog {
                 toggleMessage, toggleState);
         dialog.prefStore = store;
         dialog.prefKey = key;
-        dialog.open( callback );
+        dialog.open();
         return dialog;
     }
 
@@ -209,14 +205,13 @@ public class MessageDialogWithToggle extends MessageDialog {
      * @param key
      *            the key to use when persisting the user's preference;
      *            <code>null</code> if you don't want it persisted.
-     * @param callback 
      * @return the dialog, after being closed by the user, which the client can
      *         only call <code>getReturnCode()</code> or
      *         <code>getToggleState()</code>
      */
     public static MessageDialogWithToggle openWarning(Shell parent,
             String title, String message, String toggleMessage,
-            boolean toggleState, IPreferenceStore store, String key, IWindowCallback callback) {
+            boolean toggleState, IPreferenceStore store, String key) {
         MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent,
                 title, null, // accept the default window icon
                 message, WARNING, new String[] { IDialogConstants.OK_LABEL },
@@ -224,7 +219,7 @@ public class MessageDialogWithToggle extends MessageDialog {
                 toggleMessage, toggleState);
         dialog.prefStore = store;
         dialog.prefKey = key;
-        dialog.open( callback );
+        dialog.open();
         return dialog;
     }
 
@@ -249,14 +244,13 @@ public class MessageDialogWithToggle extends MessageDialog {
      * @param key
      *            the key to use when persisting the user's preference;
      *            <code>null</code> if you don't want it persisted.
-     * @param callback 
      * @return the dialog, after being closed by the user, which the client can
      *         only call <code>getReturnCode()</code> or
      *         <code>getToggleState()</code>
      */
     public static MessageDialogWithToggle openYesNoCancelQuestion(Shell parent,
             String title, String message, String toggleMessage,
-            boolean toggleState, IPreferenceStore store, String key, IWindowCallback callback) {
+            boolean toggleState, IPreferenceStore store, String key) {
         MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent,
                 title, null, // accept the default window icon
                 message, QUESTION, new String[] { IDialogConstants.YES_LABEL,
@@ -266,7 +260,7 @@ public class MessageDialogWithToggle extends MessageDialog {
                 toggleMessage, toggleState);
         dialog.prefStore = store;
         dialog.prefKey = key;
-        dialog.open( callback );
+        dialog.open();
         return dialog;
     }
 
@@ -291,7 +285,6 @@ public class MessageDialogWithToggle extends MessageDialog {
      * @param key
      *            the key to use when persisting the user's preference;
      *            <code>null</code> if you don't want it persisted.
-     * @param callback 
      * 
      * @return the dialog, after being closed by the user, which the client can
      *         only call <code>getReturnCode()</code> or
@@ -299,7 +292,7 @@ public class MessageDialogWithToggle extends MessageDialog {
      */
     public static MessageDialogWithToggle openYesNoQuestion(Shell parent,
             String title, String message, String toggleMessage,
-            boolean toggleState, IPreferenceStore store, String key, IWindowCallback callback) {
+            boolean toggleState, IPreferenceStore store, String key) {
         MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent,
                 title, null, // accept the default window icon
                 message, QUESTION, new String[] { IDialogConstants.YES_LABEL,
@@ -307,7 +300,7 @@ public class MessageDialogWithToggle extends MessageDialog {
                 toggleMessage, toggleState);
         dialog.prefStore = store;
         dialog.prefKey = key;
-        dialog.open( callback );
+        dialog.open();
         return dialog;
     }
 
@@ -435,8 +428,8 @@ public class MessageDialogWithToggle extends MessageDialog {
             
             // if the suggested id was used, increment the default for next use
             if (id == suggestedId) {
-				suggestedId++;
-			}
+                suggestedId++;
+            }
  
             Button button = createButton(parent, id, label,
                     defaultButtonIndex == i);
@@ -624,86 +617,86 @@ public class MessageDialogWithToggle extends MessageDialog {
      * @return the id for the specified button label
      */
     private int mapButtonLabelToButtonID(String buttonLabel, int defaultId) {
-    	// Not pretty but does the job...
-    	if (IDialogConstants.OK_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.OK_ID;
-		}
-    	
-	    if (IDialogConstants.YES_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.YES_ID;
-		}
-	    
-	    if (IDialogConstants.NO_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.NO_ID;
-		}
-	    
-	    if (IDialogConstants.CANCEL_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.CANCEL_ID;
-		}
-	    
-	    if (IDialogConstants.YES_TO_ALL_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.YES_TO_ALL_ID;
-		}
-	    
-	    if (IDialogConstants.SKIP_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.SKIP_ID;
-		}
-	    
-	    if (IDialogConstants.STOP_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.STOP_ID;
-		}
-	    
-	    if (IDialogConstants.ABORT_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.ABORT_ID;
-		}
-	    
-	    if (IDialogConstants.RETRY_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.RETRY_ID;
-		}
-	    
-	    if (IDialogConstants.IGNORE_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.IGNORE_ID;
-		}
-	    
-	    if (IDialogConstants.PROCEED_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.PROCEED_ID;
-		}
-	    
-	    if (IDialogConstants.OPEN_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.OPEN_ID;
-		}
-	    
-	    if (IDialogConstants.CLOSE_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.CLOSE_ID;
-		}
-	    
-	    if (IDialogConstants.BACK_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.BACK_ID;
-		}
-	    
-	    if (IDialogConstants.NEXT_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.NEXT_ID;
-		}
-	    
-	    if (IDialogConstants.FINISH_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.FINISH_ID;
-		}
-	    
-	    if (IDialogConstants.HELP_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.HELP_ID;
-		}
-	    
-	    if (IDialogConstants.NO_TO_ALL_LABEL.equals(buttonLabel)) {
-			return IDialogConstants.NO_TO_ALL_ID;
-		}
+        // Not pretty but does the job...
+        if (IDialogConstants.OK_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.OK_ID;
+        }
+        
+        if (IDialogConstants.YES_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.YES_ID;
+        }
+        
+        if (IDialogConstants.NO_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.NO_ID;
+        }
+        
+        if (IDialogConstants.CANCEL_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.CANCEL_ID;
+        }
+        
+        if (IDialogConstants.YES_TO_ALL_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.YES_TO_ALL_ID;
+        }
+        
+        if (IDialogConstants.SKIP_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.SKIP_ID;
+        }
+        
+        if (IDialogConstants.STOP_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.STOP_ID;
+        }
+        
+        if (IDialogConstants.ABORT_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.ABORT_ID;
+        }
+        
+        if (IDialogConstants.RETRY_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.RETRY_ID;
+        }
+        
+        if (IDialogConstants.IGNORE_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.IGNORE_ID;
+        }
+        
+        if (IDialogConstants.PROCEED_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.PROCEED_ID;
+        }
+        
+        if (IDialogConstants.OPEN_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.OPEN_ID;
+        }
+        
+        if (IDialogConstants.CLOSE_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.CLOSE_ID;
+        }
+        
+        if (IDialogConstants.BACK_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.BACK_ID;
+        }
+        
+        if (IDialogConstants.NEXT_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.NEXT_ID;
+        }
+        
+        if (IDialogConstants.FINISH_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.FINISH_ID;
+        }
+        
+        if (IDialogConstants.HELP_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.HELP_ID;
+        }
+        
+        if (IDialogConstants.NO_TO_ALL_LABEL.equals(buttonLabel)) {
+            return IDialogConstants.NO_TO_ALL_ID;
+        }
         
         //          No XXX_LABEL in IDialogConstants for these. Unlikely
         //            they would be used in a message dialog though.
-        //        	public int DETAILS_ID = 13;
-        //        	public int SELECT_ALL_ID = 18;
-        //        	public int DESELECT_ALL_ID = 19;
-        //        	public int SELECT_TYPES_ID = 20;
+        //          public int DETAILS_ID = 13;
+        //          public int SELECT_ALL_ID = 18;
+        //          public int DESELECT_ALL_ID = 19;
+        //          public int SELECT_TYPES_ID = 20;
 
-	    return defaultId;
+        return defaultId;
     }
 }

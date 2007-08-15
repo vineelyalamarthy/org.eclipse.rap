@@ -11,16 +11,10 @@
 
 package org.eclipse.ui.internal.menus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.eclipse.core.expressions.Expression;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.*;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.menus.IWidget;
 import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;

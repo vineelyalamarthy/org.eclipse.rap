@@ -10,17 +10,11 @@
  *******************************************************************************/
 package org.eclipse.ui.internal;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.SafeRunner;
+import org.eclipse.core.runtime.*;
 import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.IActionDelegate;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.IWorkbenchWindowPulldownDelegate;
-import org.eclipse.ui.IWorkbenchWindowPulldownDelegate2;
-import org.eclipse.ui.WorkbenchException;
+import org.eclipse.ui.*;
 
 /**
  * A workbench window pulldown action.

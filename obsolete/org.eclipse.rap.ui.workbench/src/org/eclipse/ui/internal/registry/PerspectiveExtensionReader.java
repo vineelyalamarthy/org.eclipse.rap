@@ -21,12 +21,8 @@ import java.util.Set;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
-import org.eclipse.ui.IPageLayout;
-import org.eclipse.ui.IViewLayout;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.DirtyPerspectiveMarker;
-import org.eclipse.ui.internal.PageLayout;
-import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.*;
+import org.eclipse.ui.internal.*;
 
 /**
  * A strategy to read perspective extension from the registry.

@@ -11,11 +11,7 @@
 
 package org.eclipse.ui.internal.services;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.eclipse.ui.ISourceProvider;
 import org.eclipse.ui.services.IDisposable;

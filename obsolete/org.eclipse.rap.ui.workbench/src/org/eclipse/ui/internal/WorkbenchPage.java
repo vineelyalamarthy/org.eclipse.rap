@@ -22,7 +22,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
 import org.eclipse.jface.util.*;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.window.IWindowCallback;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -1148,110 +1147,97 @@ public class WorkbenchPage implements
      * See IWorkbenchPage
      */
     public boolean closeEditors(IEditorReference[] refArray, boolean save) {
-        if (refArray.length == 0) {
-            return true;
-        }
-        
-        // Check if we're being asked to close any parts that are already closed or cannot
-        // be closed at this time
-        ArrayList toClose = new ArrayList();
-        for (int i = 0; i < refArray.length; i++) {
-            IEditorReference reference = refArray[i];
-            
-            // If we're in the middle of creating this part, this is a programming error. Abort the entire
-            // close operation. This usually occurs if someone tries to open a dialog in a method that
-            // isn't allowed to do so, and a *syncExec tries to close the part. If this shows up in a log
-            // file with a dialog's event loop on the stack, then the code that opened the dialog is usually
-            // at fault.
-            if (reference == partBeingActivated) {
-                WorkbenchPlugin.log(new RuntimeException("WARNING: Blocked recursive attempt to close part "  //$NON-NLS-1$
-                        + partBeingActivated.getId() + " while still in the middle of activating it")); //$NON-NLS-1$
-                return false;
-            }
-            
-            if(reference instanceof WorkbenchPartReference) {
-                WorkbenchPartReference ref = (WorkbenchPartReference) reference;
-                
-                // If we're being asked to close a part that is disposed (ie: already closed),
-                // skip it and proceed with closing the remaining parts.
-                if (ref.isDisposed()) {
-                    continue;
-                }
-            }
-            
-            toClose.add(reference);
-        }
-        
-        final IEditorReference[] editorRefs = (IEditorReference[]) toClose.toArray(new IEditorReference[toClose.size()]);
-        
-        // notify the model manager before the close
-        List partsToClose = new ArrayList();
-        for (int i = 0; i < editorRefs.length; i++) {
-            IEditorPart refPart = editorRefs[i].getEditor(false);
-            if (refPart != null) {
-            	partsToClose.add(refPart);
-            }
-        }
-//        final SaveablesList modelManager = null;
-        final SaveablesList modelManager;
-        Object postCloseInfo = null;
-        if(partsToClose.size()>0) {
-        	modelManager = (SaveablesList) getWorkbenchWindow().getService(ISaveablesLifecycleListener.class);
-        	// this may prompt for saving and return null if the user canceled:
-        	// TODO [bm] callback hack
-//        	postCloseInfo = modelManager.preCloseParts(partsToClose, save, getWorkbenchWindow());
-//        	if (postCloseInfo==null) {
-//        		return false;
-//        	}
-        	modelManager.preCloseParts(partsToClose, save, getWorkbenchWindow(), new IFunctionCallback() {
+      if (refArray.length == 0) {
+          return true;
+      }
+      
+      // Check if we're being asked to close any parts that are already closed or cannot
+      // be closed at this time
+      ArrayList toClose = new ArrayList();
+      for (int i = 0; i < refArray.length; i++) {
+          IEditorReference reference = refArray[i];
+          
+          // If we're in the middle of creating this part, this is a programming error. Abort the entire
+          // close operation. This usually occurs if someone tries to open a dialog in a method that
+          // isn't allowed to do so, and a *syncExec tries to close the part. If this shows up in a log
+          // file with a dialog's event loop on the stack, then the code that opened the dialog is usually
+          // at fault.
+          if (reference == partBeingActivated) {
+              WorkbenchPlugin.log(new RuntimeException("WARNING: Blocked recursive attempt to close part "  //$NON-NLS-1$
+                      + partBeingActivated.getId() + " while still in the middle of activating it")); //$NON-NLS-1$
+              return false;
+          }
+          
+          if(reference instanceof WorkbenchPartReference) {
+              WorkbenchPartReference ref = (WorkbenchPartReference) reference;
+              
+              // If we're being asked to close a part that is disposed (ie: already closed),
+              // skip it and proceed with closing the remaining parts.
+              if (ref.isDisposed()) {
+                  continue;
+              }
+          }
+          
+          toClose.add(reference);
+      }
+      
+      IEditorReference[] editorRefs = (IEditorReference[]) toClose.toArray(new IEditorReference[toClose.size()]);
+      
+      // notify the model manager before the close
+      List partsToClose = new ArrayList();
+      for (int i = 0; i < editorRefs.length; i++) {
+          IEditorPart refPart = editorRefs[i].getEditor(false);
+          if (refPart != null) {
+              partsToClose.add(refPart);
+          }
+      }
+      SaveablesList modelManager = null;
+      Object postCloseInfo = null;
+      if(partsToClose.size()>0) {
+          modelManager = (SaveablesList) getWorkbenchWindow().getService(ISaveablesLifecycleListener.class);
+          // this may prompt for saving and return null if the user canceled:
+          postCloseInfo = modelManager.preCloseParts(partsToClose, save, getWorkbenchWindow());
+          if (postCloseInfo==null) {
+              return false;
+          }
+      }
 
-				public void functionReturned(Object returnCode) {
-
-					if(returnCode == null) {
-						return;
-					}
-					
-					// Fire pre-removal changes 
-					for (int i = 0; i < editorRefs.length; i++) {
-						IEditorReference ref = editorRefs[i];
-						
-						// Notify interested listeners before the close
-						window.firePerspectiveChanged(WorkbenchPage.this, getPerspective(), ref,
-								CHANGE_EDITOR_CLOSE);
-						
-					}        
-					
-					deferUpdates(true);
-					try {        
-						if(modelManager!=null) {
-							modelManager.postClose(returnCode);
-						}
-						
-						// Close all editors.
-						for (int i = 0; i < editorRefs.length; i++) {
-							IEditorReference ref = editorRefs[i];
-							
-							// Remove editor from the presentation
-							editorPresentation.closeEditor(ref);
-							
-							partRemoved((WorkbenchPartReference)ref);                
-						}
-					} finally {
-						deferUpdates(false);
-					}
-					
-					// Notify interested listeners after the close
-					window.firePerspectiveChanged(WorkbenchPage.this, getPerspective(),
-							CHANGE_EDITOR_CLOSE);
-				}
-        		
-        	});
-        }
-        
-        // Return true on success.
-        // TODO: [bm] add callback - this will always return true
-        return true;
-    }
+      // Fire pre-removal changes 
+      for (int i = 0; i < editorRefs.length; i++) {
+          IEditorReference ref = editorRefs[i];
+          
+          // Notify interested listeners before the close
+          window.firePerspectiveChanged(this, getPerspective(), ref,
+                  CHANGE_EDITOR_CLOSE);
+          
+      }        
+      
+      deferUpdates(true);
+      try {        
+          if(modelManager!=null) {
+              modelManager.postClose(postCloseInfo);
+          }
+          
+          // Close all editors.
+          for (int i = 0; i < editorRefs.length; i++) {
+              IEditorReference ref = editorRefs[i];
+              
+              // Remove editor from the presentation
+              editorPresentation.closeEditor(ref);
+              
+              partRemoved((WorkbenchPartReference)ref);                
+          }
+      } finally {
+          deferUpdates(false);
+      }
+                      
+      // Notify interested listeners after the close
+      window.firePerspectiveChanged(this, getPerspective(),
+              CHANGE_EDITOR_CLOSE);
+      
+      // Return true on success.
+      return true;
+  }
     
     /**
      * Enables or disables listener notifications. This is used to delay listener notifications until the
@@ -1333,78 +1319,72 @@ public class WorkbenchPage implements
 	 *            parspectives)
 	 */
     /* package */
-    void closePerspective(final Perspective persp, boolean saveParts, final boolean closePage) {
+    void closePerspective(Perspective persp, boolean saveParts, boolean closePage) {
 
-        // Always unzoom
-        if (isZoomed()) {
-			zoomOut();
-		}
+      // Always unzoom
+      if (isZoomed()) {
+          zoomOut();
+      }
 
-        List partsToSave = new ArrayList();
-        List viewsToClose = new ArrayList();
-        // collect views that will go away and views that are dirty
-        IViewReference[] viewReferences = persp.getViewReferences();
-        for (int i = 0; i < viewReferences.length; i++) {
-			IViewReference reference = viewReferences[i];
-	        if (getViewFactory().getReferenceCount(reference) == 1) {
-	        	IViewPart viewPart = reference.getView(false);
-	        	if (viewPart != null) {
-	        		viewsToClose.add(viewPart);
-	        		if (saveParts && reference.isDirty()) {
-	        			partsToSave.add(viewPart);
-	        		}
-	        	}
-	        }
-		}
-        if (saveParts && perspList.size() == 1) {
-        	// collect editors that are dirty
-        	IEditorReference[] editorReferences = getEditorReferences();
-        	for (int i = 0; i < editorReferences.length; i++) {
-				IEditorReference reference = editorReferences[i];
-					if (reference.isDirty()) {
-						IEditorPart editorPart = reference.getEditor(false);
-						if (editorPart != null) {
-							partsToSave.add(editorPart);
-						}
-					}
-			}
-        }
-        if (saveParts && !partsToSave.isEmpty()) {
-        	if (!EditorManager.saveAll(partsToSave, true, true, false, window)) {
-        		// user canceled
-        		return;
-        	}
-	    }
-        // Close all editors on last perspective close
-        if (perspList.size() == 1 && getEditorManager().getEditorCount() > 0) {
-            // Close all editors
-            if (!closeAllEditors(false)) {
-				return;
-			}
-        }
-        
-        // closeAllEditors already notified the saveables list about the editors.
-        final SaveablesList saveablesList = (SaveablesList) getWorkbenchWindow().getWorkbench().getService(ISaveablesLifecycleListener.class);
-        // we took care of the saving already, so pass in false (postCloseInfo will be non-null)
-//        Object postCloseInfo = saveablesList.preCloseParts(viewsToClose, false, getWorkbenchWindow());
-//        saveablesList.postClose(postCloseInfo);
-        saveablesList.preCloseParts(viewsToClose, false, getWorkbenchWindow(), new IFunctionCallback() {
+      List partsToSave = new ArrayList();
+      List viewsToClose = new ArrayList();
+      // collect views that will go away and views that are dirty
+      IViewReference[] viewReferences = persp.getViewReferences();
+      for (int i = 0; i < viewReferences.length; i++) {
+          IViewReference reference = viewReferences[i];
+          if (getViewFactory().getReferenceCount(reference) == 1) {
+              IViewPart viewPart = reference.getView(false);
+              if (viewPart != null) {
+                  viewsToClose.add(viewPart);
+                  if (saveParts && reference.isDirty()) {
+                      partsToSave.add(viewPart);
+                  }
+              }
+          }
+      }
+      if (saveParts && perspList.size() == 1) {
+          // collect editors that are dirty
+          IEditorReference[] editorReferences = getEditorReferences();
+          for (int i = 0; i < editorReferences.length; i++) {
+              IEditorReference reference = editorReferences[i];
+                  if (reference.isDirty()) {
+                      IEditorPart editorPart = reference.getEditor(false);
+                      if (editorPart != null) {
+                          partsToSave.add(editorPart);
+                      }
+                  }
+          }
+      }
+      if (saveParts && !partsToSave.isEmpty()) {
+          if (!EditorManager.saveAll(partsToSave, true, true, false, window)) {
+              // user canceled
+              return;
+          }
+      }
+      // Close all editors on last perspective close
+      if (perspList.size() == 1 && getEditorManager().getEditorCount() > 0) {
+          // Close all editors
+          if (!closeAllEditors(false)) {
+              return;
+          }
+      }
+      
+      // closeAllEditors already notified the saveables list about the editors.
+      SaveablesList saveablesList = (SaveablesList) getWorkbenchWindow().getWorkbench().getService(ISaveablesLifecycleListener.class);
+      // we took care of the saving already, so pass in false (postCloseInfo will be non-null)
+      Object postCloseInfo = saveablesList.preCloseParts(viewsToClose, false, getWorkbenchWindow());
+      saveablesList.postClose(postCloseInfo);
 
-			public void functionReturned(Object returnValue) {
-				saveablesList.postClose(returnValue);
-				// Dispose of the perspective
-				boolean isActive = (perspList.getActive() == persp);
-				if (isActive) {
-					setPerspective(perspList.getNextActive());
-				}
-				disposePerspective(persp, true);
-				if (closePage && perspList.size() == 0) {
-					close();
-				}
-			}
-        	
-        });
-    }
+      // Dispose of the perspective
+      boolean isActive = (perspList.getActive() == persp);
+      if (isActive) {
+          setPerspective(perspList.getNextActive());
+      }
+      disposePerspective(persp, true);
+      if (closePage && perspList.size() == 0) {
+          close();
+      }
+  }
 
     /**
      * Forces all perspectives on the page to zoom out.
@@ -1499,8 +1479,7 @@ public class WorkbenchPage implements
                         .openError(
                                 window.getShell(),
                                 WorkbenchMessages.Error, 
-                                NLS.bind(WorkbenchMessages.Workbench_showPerspectiveError,desc.getId() )
-                                , null); 
+                                NLS.bind(WorkbenchMessages.Workbench_showPerspectiveError,desc.getId() )); 
             }
             return null;
         } finally {
@@ -2116,92 +2095,78 @@ public class WorkbenchPage implements
      * 
      * @see org.eclipse.ui.IWorkbenchPage#hideView(org.eclipse.ui.IViewReference)
      */
-    public void hideView(final IViewReference ref) {
-        
-        // Sanity check.
-        if (ref == null) {
-			return;
-		}
+    public void hideView(IViewReference ref) {
+      
+      // Sanity check.
+      if (ref == null) {
+          return;
+      }
 
-        final Perspective persp = getActivePerspective();
-        if (persp == null) {
-			return;
-		}
+      Perspective persp = getActivePerspective();
+      if (persp == null) {
+          return;
+      }
 
-        boolean promptedForSave = false;
-        IViewPart view = ref.getView(false);
-        if (view != null) {
+      boolean promptedForSave = false;
+      IViewPart view = ref.getView(false);
+      if (view != null) {
 
-            if (!certifyPart(view)) {
-                return;
-            }
-            
-            // Confirm.
-    		if (view instanceof ISaveablePart) {
-    			ISaveablePart saveable = (ISaveablePart)view;
-    			if (saveable.isSaveOnCloseNeeded()) {
-    				IWorkbenchWindow window = view.getSite().getWorkbenchWindow();
-    				boolean success = EditorManager.saveAll(Collections.singletonList(view), true, true, false, window);
-    				if (!success) {
-    					// the user cancelled.
-    					return;
-    				}
-    				promptedForSave = true;
-    			}
-    		}
-        }
-        
-        int refCount = getViewFactory().getReferenceCount(ref);
-//        final SaveablesList saveablesList = null;
-        final SaveablesList saveablesList;
-//        Object postCloseInfo = null;
-        if (refCount == 1) {
-        	IWorkbenchPart actualPart = ref.getPart(false);
-        	if (actualPart != null) {
-				saveablesList = (SaveablesList) actualPart
-						.getSite().getService(ISaveablesLifecycleListener.class);
-				// TODO: [bm] callback hack
-//				postCloseInfo = saveablesList.preCloseParts(Collections
-//						.singletonList(actualPart), !promptedForSave, this
-//						.getWorkbenchWindow());
-//				if (postCloseInfo==null) {
-//					// cancel
-//					return;
-//				}
-				saveablesList.preCloseParts(Collections
-						.singletonList(actualPart), !promptedForSave, this
-						.getWorkbenchWindow(), new IFunctionCallback() {
+          if (!certifyPart(view)) {
+              return;
+          }
+          
+          // Confirm.
+          if (view instanceof ISaveablePart) {
+              ISaveablePart saveable = (ISaveablePart)view;
+              if (saveable.isSaveOnCloseNeeded()) {
+                  IWorkbenchWindow window = view.getSite().getWorkbenchWindow();
+                  boolean success = EditorManager.saveAll(Collections.singletonList(view), true, true, false, window);
+                  if (!success) {
+                      // the user cancelled.
+                      return;
+                  }
+                  promptedForSave = true;
+              }
+          }
+      }
+      
+      int refCount = getViewFactory().getReferenceCount(ref);
+      SaveablesList saveablesList = null;
+      Object postCloseInfo = null;
+      if (refCount == 1) {
+          IWorkbenchPart actualPart = ref.getPart(false);
+          if (actualPart != null) {
+              saveablesList = (SaveablesList) actualPart
+                      .getSite().getService(ISaveablesLifecycleListener.class);
+              postCloseInfo = saveablesList.preCloseParts(Collections
+                      .singletonList(actualPart), !promptedForSave, this
+                      .getWorkbenchWindow());
+              if (postCloseInfo==null) {
+                  // cancel
+                  return;
+              }
+          }
+      }
+      
+      // Notify interested listeners before the hide
+      window.firePerspectiveChanged(this, persp.getDesc(), ref,
+              CHANGE_VIEW_HIDE);
 
-							public void functionReturned(Object returnValue) {
-								if(returnValue == null) {
-									return;
-								}
-								
-								// Notify interested listeners before the hide
-								window.firePerspectiveChanged(WorkbenchPage.this, persp.getDesc(), ref,
-										CHANGE_VIEW_HIDE);
-								
-								PartPane pane = getPane(ref);
-								pane.setInLayout(false);
-								
-								updateActivePart();
-								
-								if (saveablesList != null) {
-									saveablesList.postClose(returnValue);
-								}
-								
-								// Hide the part.
-								persp.hideView(ref);
-								
-								// Notify interested listeners after the hide
-								window.firePerspectiveChanged(WorkbenchPage.this, getPerspective(), CHANGE_VIEW_HIDE);
-							}
-					
-				});
-			}
-        }
-        
-    }
+      PartPane pane = getPane(ref);
+      pane.setInLayout(false);
+      
+      updateActivePart();
+      
+      if (saveablesList != null) {
+          saveablesList.postClose(postCloseInfo);
+      }
+
+      // Hide the part.
+      persp.hideView(ref);
+
+      // Notify interested listeners after the hide
+      window.firePerspectiveChanged(this, getPerspective(), CHANGE_VIEW_HIDE);
+  }
 
     /* package */void refreshActiveView() {
         updateActivePart();
@@ -3316,7 +3281,7 @@ public class WorkbenchPage implements
 	                String title = WorkbenchMessages.WorkbenchPage_problemRestoringTitle; 
 	                String msg = WorkbenchMessages.WorkbenchPage_errorReadingState;
 	                ErrorDialog.openError(getWorkbenchWindow().getShell(), title,
-	                        msg, status, null);
+	                        msg, status);
 	            }
 	        }
 	
@@ -4678,53 +4643,38 @@ public class WorkbenchPage implements
     /**
 	 * @since 3.1
 	 */
-	private void suggestReset() {
-		final IWorkbench workbench = getWorkbenchWindow().getWorkbench();
-//        workbench.getDisplay().asyncExec(new Runnable() {
-//            public void run() {
-                Shell parentShell = null;
-                
-				final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-//                if (window == null) {
-//                    if (workbench.getWorkbenchWindowCount() == 0) {
-//						return;
-//					}
-//                    window = workbench.getWorkbenchWindows()[0];
-//                }
+    private void suggestReset() {
+      final IWorkbench workbench = getWorkbenchWindow().getWorkbench();
+      workbench.getDisplay().asyncExec(new Runnable() {
+          public void run() {
+              Shell parentShell = null;
+              
+              IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+              if (window == null) {
+                  if (workbench.getWorkbenchWindowCount() == 0) {
+                      return;
+                  }
+                  window = workbench.getWorkbenchWindows()[0];
+              }
 
-                parentShell = window.getShell();
+              parentShell = window.getShell();
 
-//                if (MessageDialog
-//                        .openQuestion(
-//                                parentShell,
-//                                WorkbenchMessages.Dynamic_resetPerspectiveTitle, 
-//                                WorkbenchMessages.Dynamic_resetPerspectiveMessage
-//                                )) { 
-//                    IWorkbenchPage page = window.getActivePage();
-//                    if (page == null) {
-//						return;
-//					}
-//                    page.resetPerspective();
-//                }
-                
-                MessageDialog
-                .openQuestion(
-                        parentShell,
-                        WorkbenchMessages.Dynamic_resetPerspectiveTitle, 
-                        WorkbenchMessages.Dynamic_resetPerspectiveMessage,
-                        new IWindowCallback() {
+              if (MessageDialog
+                      .openQuestion(
+                              parentShell,
+                              WorkbenchMessages.Dynamic_resetPerspectiveTitle, 
+                              WorkbenchMessages.Dynamic_resetPerspectiveMessage)) { 
+                  IWorkbenchPage page = window.getActivePage();
+                  if (page == null) {
+                      return;
+                  }
+                  page.resetPerspective();
+              }
+          }
+      });
 
-							public void windowClosed(int returnCode) {
-								IWorkbenchPage page = window.getActivePage();
-			                    if (page == null) {
-									return;
-								}
-			                    page.resetPerspective();
-							}
-                        	
-                        });
-//        });
-	} 
+      
+  }
     
     public boolean isPartVisible(IWorkbenchPartReference reference) {        
         IWorkbenchPart part = reference.getPart(false);

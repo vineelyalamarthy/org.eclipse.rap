@@ -15,17 +15,17 @@ import java.util.Vector;
 
 import javax.servlet.http.HttpSession;
 
+import junit.framework.TestCase;
+
 import org.eclipse.rwt.internal.browser.Default;
 import org.eclipse.rwt.internal.browser.Ie6;
 import org.eclipse.rwt.internal.service.*;
 import org.eclipse.rwt.lifecycle.*;
-import org.eclipse.rwt.service.*;
-
-import junit.framework.TestCase;
+import org.eclipse.rwt.service.ISessionStore;
 
 import com.w4t.*;
-import com.w4t.W4TFixture.*;
 import com.w4t.IWindowManager.IWindow;
+import com.w4t.W4TFixture.*;
 import com.w4t.engine.util.WindowManager;
 import com.w4t.internal.adaptable.IFormAdapter;
 

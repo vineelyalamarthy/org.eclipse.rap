@@ -11,9 +11,7 @@
 
 package org.eclipse.jface.bindings.keys;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.eclipse.jface.bindings.TriggerSequence;
 import org.eclipse.jface.bindings.keys.formatting.KeyFormatterFactory;

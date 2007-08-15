@@ -13,11 +13,7 @@ package org.eclipse.ui.internal;
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorActionBarContributor;
-import org.eclipse.ui.IEditorDescriptor;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
 
 /**
