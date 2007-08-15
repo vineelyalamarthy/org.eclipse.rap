@@ -54,8 +54,7 @@ public class TextContentAdapter implements IControlContentAdapter {
 	public void insertControlContents(Control control, String text,
 			int cursorPosition) {
 		Point selection = ((Text) control).getSelection();
-		// TODO [bm] need Text#insert
-//		((Text) control).insert(text);
+		((Text) control).insert(text);
 		// Insert will leave the cursor at the end of the inserted text. If this
 		// is not what we wanted, reset the selection.
 		if (cursorPosition < text.length()) {
