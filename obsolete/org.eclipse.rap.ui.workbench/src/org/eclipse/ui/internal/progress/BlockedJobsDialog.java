@@ -279,8 +279,7 @@ public class BlockedJobsDialog extends IconAndMessageDialog {
 		setShellStyle(SWT.BORDER | SWT.TITLE | SWT.APPLICATION_MODAL
 				| SWT.RESIZE | getDefaultOrientation());
 		// no close button
-		// TODO [fappel]: no blocking API
-//		setBlockOnOpen(false);
+		setBlockOnOpen(false);
 		setMessage(blockingStatus.getMessage());
 	}
 

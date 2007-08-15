@@ -52,7 +52,7 @@ class SafeRunnableDialog extends ErrorDialog {
 		setStatus(status);
 		statuses.add(status);
 		
-//		setBlockOnOpen(false);
+		setBlockOnOpen(false);
 
 		String reason = JFaceResources
 				.getString("SafeRunnableDialog_checkDetailsMessage"); //$NON-NLS-1$

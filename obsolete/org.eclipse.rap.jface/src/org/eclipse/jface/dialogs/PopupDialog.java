@@ -322,7 +322,7 @@ public class PopupDialog extends Window {
 		this.titleText = titleText;
 		this.infoText = infoText;
 
-//		setBlockOnOpen(false);
+		setBlockOnOpen(false);
 
 		this.persistBounds = persistBounds;
 		initializeWidgetState();
