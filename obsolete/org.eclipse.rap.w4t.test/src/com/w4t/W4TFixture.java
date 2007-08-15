@@ -35,7 +35,6 @@ import org.eclipse.rwt.internal.resources.*;
 import org.eclipse.rwt.internal.service.*;
 import org.eclipse.rwt.resources.IResourceManager;
 import org.eclipse.rwt.service.ISessionStore;
-import org.eclipse.rwt.service.ServiceManager;
 import org.xml.sax.SAXException;
 
 import com.w4t.IWindowManager.IWindow;

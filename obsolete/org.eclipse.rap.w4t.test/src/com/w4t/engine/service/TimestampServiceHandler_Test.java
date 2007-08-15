@@ -12,10 +12,8 @@ package com.w4t.engine.service;
 
 import junit.framework.TestCase;
 
-import org.eclipse.rwt.internal.service.ContextProvider;
-import org.eclipse.rwt.internal.service.RequestParams;
+import org.eclipse.rwt.internal.service.*;
 import org.eclipse.rwt.internal.util.HTML;
-import org.eclipse.rwt.service.ServiceManager;
 
 import com.w4t.*;
 import com.w4t.W4TFixture.TestResponse;

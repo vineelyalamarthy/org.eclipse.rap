@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import junit.framework.TestCase;
 
 import org.eclipse.rwt.internal.service.*;
-import org.eclipse.rwt.service.ServiceManager;
 
 import com.w4t.W4TFixture;
 import com.w4t.W4TFixture.*;

@@ -11,7 +11,7 @@
 
 package org.eclipse.ui.internal.progress;
 
-import org.eclipse.rwt.lifecycle.UICallBackUtil;
+import org.eclipse.rwt.lifecycle.UICallBack;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
@@ -24,7 +24,7 @@ public class ProgressUtil {
   
   public static boolean isWorkbenchRunning( final Display display ) {
     final boolean[] result = new boolean[ 1 ];
-    UICallBackUtil.runNonUIThreadWithFakeContext( display, new Runnable() {
+    UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
       public void run() {
         result[ 0 ] = PlatformUI.isWorkbenchRunning();
       }

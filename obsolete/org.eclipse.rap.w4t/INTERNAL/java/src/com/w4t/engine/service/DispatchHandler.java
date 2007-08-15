@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.rwt.internal.service.*;
 import org.eclipse.rwt.service.IServiceHandler;
-import org.eclipse.rwt.service.ServiceManager;
 
 
 

@@ -18,11 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import junit.framework.TestCase;
 
 import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
-import org.eclipse.rwt.internal.service.ContextProvider;
-import org.eclipse.rwt.internal.service.RequestParams;
+import org.eclipse.rwt.internal.service.*;
 import org.eclipse.rwt.internal.util.HTML;
 import org.eclipse.rwt.resources.IResourceManager;
-import org.eclipse.rwt.service.ServiceManager;
 
 import com.w4t.W4TFixture;
 import com.w4t.W4TContext;

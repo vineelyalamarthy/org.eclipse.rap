@@ -20,7 +20,7 @@ import org.apache.commons.fileupload.FileUpload;
 import org.eclipse.rwt.internal.*;
 import org.eclipse.rwt.internal.engine.RWTDelegate;
 import org.eclipse.rwt.internal.service.LifeCycleServiceHandler;
-import org.eclipse.rwt.service.ServiceManager;
+import org.eclipse.rwt.internal.service.ServiceManager;
 
 import com.w4t.engine.requests.FileUploadRequest;
 import com.w4t.engine.service.DispatchHandler;

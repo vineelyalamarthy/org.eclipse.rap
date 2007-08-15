@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.*;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.internal.service.ContextProvider;
-import org.eclipse.rwt.lifecycle.UICallBackUtil;
+import org.eclipse.rwt.lifecycle.UICallBack;
 import org.eclipse.rwt.service.*;
 import org.eclipse.swt.widgets.Display;
 
@@ -122,7 +122,7 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
                 = ( SessionStoreListener )sessionStoreListeners.get( job );
               ISessionStore session = ContextProvider.getSession();
 //              session.removeSessionStoreListener( listener );
-              UICallBackUtil.deactivateUICallBack( id );
+              UICallBack.deactivate( id );
             }
           } );
         }
@@ -145,7 +145,7 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
         jobs.put( event.getJob(), Display.getCurrent() );
         bindToSession( event.getJob() );
         String id = String.valueOf( event.getJob().hashCode() );
-        UICallBackUtil.activateUICallBack( id );
+        UICallBack.activate( id );
       }
       manager = findProgressManager( event.getJob() );
     }

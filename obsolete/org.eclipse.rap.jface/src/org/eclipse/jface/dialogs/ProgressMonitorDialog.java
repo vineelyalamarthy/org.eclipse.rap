@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.jface.operation.*;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.window.IWindowCallback;
-import org.eclipse.rwt.lifecycle.UICallBackUtil;
+import org.eclipse.rwt.lifecycle.UICallBack;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -512,9 +512,9 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
       }
       
       private void deactivateUICallBack() {
-        UICallBackUtil.runNonUIThreadWithFakeContext( display, new Runnable() {
+        UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
           public void run() {
-            UICallBackUtil.deactivateUICallBack( runnableId[ 0 ] );
+            UICallBack.deactivate( runnableId[ 0 ] );
           }
         } );
       }
@@ -534,7 +534,7 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
       }
     };
     runnableId[ 0 ] = String.valueOf( wrapper.hashCode() );
-    UICallBackUtil.activateUICallBack( runnableId[ 0 ] );
+    UICallBack.activate( runnableId[ 0 ] );
     ModalContext.run( wrapper,
                       true,
                       getProgressMonitor(),
