@@ -18,7 +18,6 @@ import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.rwt.internal.*;
-import org.eclipse.rwt.internal.engine.*;
 import org.eclipse.rwt.internal.lifecycle.*;
 import org.eclipse.rwt.internal.resources.ResourceManager;
 import org.eclipse.rwt.internal.resources.ResourceRegistry;
@@ -28,7 +27,6 @@ import org.eclipse.rwt.internal.theme.ThemeManager;
 import org.eclipse.rwt.internal.theme.ThemeManager.ResourceLoader;
 import org.eclipse.rwt.lifecycle.PhaseListener;
 import org.eclipse.rwt.resources.IResource;
-import org.eclipse.ui.Activator;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.osgi.framework.Bundle;
@@ -128,7 +126,7 @@ final class EngineConfigWrapper implements IEngineConfig {
           = ( PhaseListener )elements[ i ].createExecutableExtension( "class" );
         PhaseListenerRegistry.add( listener );
       } catch( final CoreException ce ) {
-        Activator.getDefault().getLog().log( ce.getStatus() );
+        WorkbenchPlugin.getDefault().getLog().log( ce.getStatus() );
       }
     }
   }
@@ -160,7 +158,7 @@ final class EngineConfigWrapper implements IEngineConfig {
                                     IStatus.OK,
                                     msg,
                                     thr );
-        Activator.getDefault().getLog().log( status );
+        WorkbenchPlugin.getDefault().getLog().log( status );
       }
     }
   }
@@ -335,7 +333,7 @@ final class EngineConfigWrapper implements IEngineConfig {
           = ( IResource )elements[ i ].createExecutableExtension( "class" );
         ResourceRegistry.add( resource );
       } catch( final CoreException ce ) {
-        Activator.getDefault().getLog().log( ce.getStatus() );
+        WorkbenchPlugin.getDefault().getLog().log( ce.getStatus() );
       }
     }
   }

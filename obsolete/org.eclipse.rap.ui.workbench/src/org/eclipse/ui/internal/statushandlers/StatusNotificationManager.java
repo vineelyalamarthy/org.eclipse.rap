@@ -8,7 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package org.eclipse.ui.statushandlers;
+package org.eclipse.ui.internal.statushandlers;
 
 import java.util.*;
 
@@ -19,6 +19,7 @@ import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.statushandlers.StatusAdapter;
 
 
 /**

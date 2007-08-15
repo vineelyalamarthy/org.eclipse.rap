@@ -8,7 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package org.eclipse.ui.statushandlers;
+package org.eclipse.ui.internal.statushandlers;
 
 import java.net.URL;
 import java.util.*;
@@ -26,7 +26,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.internal.WorkbenchMessages;
 import org.eclipse.ui.internal.WorkbenchPlugin;
-import org.eclipse.ui.statushandlers.StatusNotificationManager.StatusInfo;
+import org.eclipse.ui.internal.statushandlers.StatusNotificationManager.StatusInfo;
+import org.eclipse.ui.statushandlers.StatusAdapter;
 
 /**
  * A dialog for displaying
