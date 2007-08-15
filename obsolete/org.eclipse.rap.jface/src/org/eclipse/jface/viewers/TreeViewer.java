@@ -169,7 +169,8 @@ public class TreeViewer extends AbstractTreeViewer {
 	 */
 	protected Item getItemAt(Point p) {
 //		return getTree().getItem(p);
-		throw new UnsupportedOperationException();
+	  // TODO [bm] IMPLEMENTATION MISSING
+		throw null;
 	}
 
 	/*

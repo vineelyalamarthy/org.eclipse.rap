@@ -176,8 +176,7 @@ public class TableViewer extends AbstractTableViewer {
 	}
 	
 	protected Item getItemAt(Point p) {
-//		return table.getItem(p);
-		throw new UnsupportedOperationException();
+		return table.getItem(p);
 	}
 
 	// Methods to provide widget independency

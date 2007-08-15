@@ -310,8 +310,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 	 * @see org.eclipse.jface.viewers.StructuredViewer#getItem(int, int)
 	 */
 	protected Item getItem(int x, int y) {
-//		return getItemAt(getControl().toControl(x, y));
-		throw new UnsupportedOperationException();
+		return getItemAt(getControl().toControl(x, y));
 	}
 
 	/**
