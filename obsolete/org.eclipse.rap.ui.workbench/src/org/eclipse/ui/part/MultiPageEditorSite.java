@@ -21,6 +21,7 @@ import org.eclipse.ui.*;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.PartSite;
+import org.eclipse.ui.internal.PopupMenuExtender;
 import org.eclipse.ui.internal.commands.SlaveCommandService;
 import org.eclipse.ui.internal.expressions.ActivePartExpression;
 import org.eclipse.ui.internal.handlers.NestableHandlerService;
@@ -160,13 +161,12 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	 * Dispose the contributions.
 	 */
 	public void dispose() {
-		// TODO: [bm] do we need this?
-//		if (menuExtenders != null) {
-//			for (int i = 0; i < menuExtenders.size(); i++) {
-//				((PopupMenuExtender) menuExtenders.get(i)).dispose();
-//			}
-//			menuExtenders = null;
-//		}
+		if (menuExtenders != null) {
+			for (int i = 0; i < menuExtenders.size(); i++) {
+				((PopupMenuExtender) menuExtenders.get(i)).dispose();
+			}
+			menuExtenders = null;
+		}
 
 		// Remove myself from the list of nested key binding services.
 //		if (service != null) {
