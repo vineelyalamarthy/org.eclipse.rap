@@ -143,8 +143,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
      * @return the menu control
      * @since 2.1
      */
-//    public Menu createMenuBar(Decorations parent) {
-    public Menu createMenuBar(Shell parent) {
+    public Menu createMenuBar(Decorations parent) {
         if (!menuExist()) {
             menu = new Menu(parent, SWT.BAR);
             update(false);
