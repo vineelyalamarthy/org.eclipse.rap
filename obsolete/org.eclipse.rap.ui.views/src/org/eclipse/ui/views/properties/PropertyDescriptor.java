@@ -110,9 +110,9 @@ public class PropertyDescriptor implements IPropertyDescriptor {
      * Since no cell editor is returned, the property is read only.
      * </p>
      */
-    public CellEditor createPropertyEditor(Composite parent) {
-        return null;
-    }
+//    public CellEditor createPropertyEditor(Composite parent) {
+//        return null;
+//    }
 
     /**
      * Returns <code>true</code> if this property descriptor is to be always 

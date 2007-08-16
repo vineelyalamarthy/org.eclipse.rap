@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.ui.views.properties;
 
-import org.eclipse.jface.viewers.CellEditor;
 
 /**
  * A listener which is notified when a cell editor is 
@@ -22,12 +21,12 @@ import org.eclipse.jface.viewers.CellEditor;
      *
      * @param cellEditor the cell editor which has been activated
      */
-    public void cellEditorActivated(CellEditor cellEditor);
+//    public void cellEditorActivated(CellEditor cellEditor);
 
     /**
      * Notifies that the cell editor has been deactivated
      *
      * @param cellEditor the cell editor which has been deactivated
      */
-    public void cellEditorDeactivated(CellEditor cellEditor);
+//    public void cellEditorDeactivated(CellEditor cellEditor);
 }

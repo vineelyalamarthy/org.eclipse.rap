@@ -15,6 +15,8 @@ package org.eclipse.ui.views.properties;
 import java.util.*;
 import java.util.List;
 
+import javax.swing.CellEditor;
+
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.viewers.*;
@@ -115,52 +117,52 @@ class PropertySheetViewer extends Viewer {
      * @param item
      *            the selected tree item
      */
-    private void activateCellEditor(TreeItem item) {
-        // ensure the cell editor is visible
+//    private void activateCellEditor(TreeItem item) {
+//        // ensure the cell editor is visible
 //        tree.showSelection();
-
-        // Get the entry for this item
-        IPropertySheetEntry activeEntry = (IPropertySheetEntry) item.getData();
-
-        // Get the cell editor for the entry.
-        // Note that the editor parent must be the Tree control
-        cellEditor = activeEntry.getEditor(tree);
-
-        if (cellEditor == null) {
-			// unable to create the editor
-            return;
-		}
-
-        // activate the cell editor
-        cellEditor.activate();
-
-        // if the cell editor has no control we can stop now
-        Control control = cellEditor.getControl();
-        if (control == null) {
-            cellEditor.deactivate();
-            cellEditor = null;
-            return;
-        }
-
-        // add our editor listener
-        cellEditor.addListener(editorListener);
-
-        // set the layout of the tree editor to match the cell editor
-        CellEditor.LayoutData layout = cellEditor.getLayoutData();
-        treeEditor.horizontalAlignment = layout.horizontalAlignment;
-        treeEditor.grabHorizontal = layout.grabHorizontal;
-        treeEditor.minimumWidth = layout.minimumWidth;
-        treeEditor.setEditor(control, item, columnToEdit);
-
-        // set the error text from the cel editor
-        setErrorMessage(cellEditor.getErrorMessage());
-
-        // give focus to the cell editor
-        cellEditor.setFocus();
-
-        // notify of activation
-        fireCellEditorActivated(cellEditor);
-    }
+//
+//        // Get the entry for this item
+//        IPropertySheetEntry activeEntry = (IPropertySheetEntry) item.getData();
+//
+//        // Get the cell editor for the entry.
+//        // Note that the editor parent must be the Tree control
+//        cellEditor = activeEntry.getEditor(tree);
+//
+//        if (cellEditor == null) {
+//			// unable to create the editor
+//            return;
+//		}
+//
+//        // activate the cell editor
+//        cellEditor.activate();
+//
+//        // if the cell editor has no control we can stop now
+//        Control control = cellEditor.getControl();
+//        if (control == null) {
+//            cellEditor.deactivate();
+//            cellEditor = null;
+//            return;
+//        }
+//
+//        // add our editor listener
+//        cellEditor.addListener(editorListener);
+//
+//        // set the layout of the tree editor to match the cell editor
+//        CellEditor.LayoutData layout = cellEditor.getLayoutData();
+//        treeEditor.horizontalAlignment = layout.horizontalAlignment;
+//        treeEditor.grabHorizontal = layout.grabHorizontal;
+//        treeEditor.minimumWidth = layout.minimumWidth;
+//        treeEditor.setEditor(control, item, columnToEdit);
+//
+//        // set the error text from the cel editor
+//        setErrorMessage(cellEditor.getErrorMessage());
+//
+//        // give focus to the cell editor
+//        cellEditor.setFocus();
+//
+//        // notify of activation
+//        fireCellEditorActivated(cellEditor);
+//    }
 
     /**
      * Adds a cell editor activation listener. Has no effect if an identical
@@ -261,7 +263,7 @@ class PropertySheetViewer extends Viewer {
     private void createEditorListener() {
         editorListener = new ICellEditorListener() {
             public void cancelEditor() {
-                deactivateCellEditor();
+//                deactivateCellEditor();
             }
 
             public void editorValueChanged(boolean oldValidState,
@@ -348,17 +350,17 @@ class PropertySheetViewer extends Viewer {
      * Deactivate the currently active cell editor.
      */
     /* package */
-    void deactivateCellEditor() {
-        treeEditor.setEditor(null, null, columnToEdit);
-        if (cellEditor != null) {
-            cellEditor.deactivate();
-            fireCellEditorDeactivated(cellEditor);
-            cellEditor.removeListener(editorListener);
-            cellEditor = null;
-        }
-        // clear any error message from the editor
-        setErrorMessage(null);
-    }
+//    void deactivateCellEditor() {
+//        treeEditor.setEditor(null, null, columnToEdit);
+//        if (cellEditor != null) {
+//            cellEditor.deactivate();
+//            fireCellEditorDeactivated(cellEditor);
+//            cellEditor.removeListener(editorListener);
+//            cellEditor = null;
+//        }
+//        // clear any error message from the editor
+//        setErrorMessage(null);
+//    }
 
     /**
      * Sends out a selection changed event for the entry tree to all registered
@@ -430,13 +432,13 @@ class PropertySheetViewer extends Viewer {
      * @param activatedCellEditor
      *            the activated cell editor
      */
-    private void fireCellEditorActivated(CellEditor activatedCellEditor) {
-        Object[] listeners = activationListeners.getListeners();
-        for (int i = 0; i < listeners.length; ++i) {
-            ((ICellEditorActivationListener) listeners[i])
-                    .cellEditorActivated(activatedCellEditor);
-        }
-    }
+//    private void fireCellEditorActivated(CellEditor activatedCellEditor) {
+//        Object[] listeners = activationListeners.getListeners();
+//        for (int i = 0; i < listeners.length; ++i) {
+//            ((ICellEditorActivationListener) listeners[i])
+//                    .cellEditorActivated(activatedCellEditor);
+//        }
+//    }
 
     /**
      * Notifies all registered cell editor activation listeners of a cell editor
@@ -445,13 +447,13 @@ class PropertySheetViewer extends Viewer {
      * @param activatedCellEditor
      *            the deactivated cell editor
      */
-    private void fireCellEditorDeactivated(CellEditor activatedCellEditor) {
-        Object[] listeners = activationListeners.getListeners();
-        for (int i = 0; i < listeners.length; ++i) {
-            ((ICellEditorActivationListener) listeners[i])
-                    .cellEditorDeactivated(activatedCellEditor);
-        }
-    }
+//    private void fireCellEditorDeactivated(CellEditor activatedCellEditor) {
+//        Object[] listeners = activationListeners.getListeners();
+//        for (int i = 0; i < listeners.length; ++i) {
+//            ((ICellEditorActivationListener) listeners[i])
+//                    .cellEditorDeactivated(activatedCellEditor);
+//        }
+//    }
 
     /**
      * Returns the active cell editor of this property sheet viewer or
@@ -459,9 +461,9 @@ class PropertySheetViewer extends Viewer {
      * 
      * @return the active cell editor
      */
-    public CellEditor getActiveCellEditor() {
-        return cellEditor;
-    }
+//    public CellEditor getActiveCellEditor() {
+//        return cellEditor;
+//    }
 
     private TreeItem[] getChildItems(Widget widget) {
         if (widget instanceof Tree) {
@@ -652,10 +654,10 @@ class PropertySheetViewer extends Viewer {
      */
     private void handleSelect(TreeItem selection) {
         // deactivate the current cell editor
-        if (cellEditor != null) {
-            applyEditorValue();
-            deactivateCellEditor();
-        }
+//        if (cellEditor != null) {
+//            applyEditorValue();
+//            deactivateCellEditor();
+//        }
 
         // get the new selection
         TreeItem[] sel = new TreeItem[] { selection };
@@ -672,7 +674,7 @@ class PropertySheetViewer extends Viewer {
                 setMessage(activeEntry.getDescription());
 
                 // activate a cell editor on the selection
-                activateCellEditor(sel[0]);
+//                activateCellEditor(sel[0]);
             }
         }
         entrySelectionChanged();
@@ -686,10 +688,10 @@ class PropertySheetViewer extends Viewer {
      *            the SWT tree event
      */
     private void handleTreeCollapse(TreeEvent event) {
-        if (cellEditor != null) {
-            applyEditorValue();
-            deactivateCellEditor();
-        }
+//        if (cellEditor != null) {
+//            applyEditorValue();
+//            deactivateCellEditor();
+//        }
     }
 
     /**
@@ -741,9 +743,9 @@ class PropertySheetViewer extends Viewer {
             public void widgetSelected(SelectionEvent e) {
             	// The viewer only owns the status line when there is
             	// no 'active' cell editor
-            	if (cellEditor == null || !cellEditor.isActivated()) {
-					updateStatusLine(e.item);
-				}
+//            	if (cellEditor == null || !cellEditor.isActivated()) {
+//					updateStatusLine(e.item);
+//				}
 			}
 
 			/* (non-Javadoc)
@@ -904,7 +906,7 @@ class PropertySheetViewer extends Viewer {
         // need to save any changed value when user clicks elsewhere
         applyEditorValue();
         // deactivate our cell editor
-        deactivateCellEditor();
+//        deactivateCellEditor();
 
         // set the new input to the root entry
         input = (Object[]) newInput;

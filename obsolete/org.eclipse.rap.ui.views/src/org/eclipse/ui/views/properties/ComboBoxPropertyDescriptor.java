@@ -64,14 +64,14 @@ public class ComboBoxPropertyDescriptor extends PropertyDescriptor {
      * The editor is configured with the current validator if there is one.
      * </p>
      */
-    public CellEditor createPropertyEditor(Composite parent) {
-        CellEditor editor = new ComboBoxCellEditor(parent, labels,
-                SWT.READ_ONLY);
-        if (getValidator() != null) {
-			editor.setValidator(getValidator());
-		}
-        return editor;
-    }
+//    public CellEditor createPropertyEditor(Composite parent) {
+//        CellEditor editor = new ComboBoxCellEditor(parent, labels,
+//                SWT.READ_ONLY);
+//        if (getValidator() != null) {
+//			editor.setValidator(getValidator());
+//		}
+//        return editor;
+//    }
 
     /**
      * The <code>ComboBoxPropertyDescriptor</code> implementation of this 

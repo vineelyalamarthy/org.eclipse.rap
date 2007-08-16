@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.ui.views.properties;
 
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ColorCellEditor;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * Descriptor for a property that has a color value which should be edited
@@ -46,11 +43,11 @@ public class ColorPropertyDescriptor extends PropertyDescriptor {
      * The editor is configured with the current validator if there is one.
      * </p>
      */
-    public CellEditor createPropertyEditor(Composite parent) {
-        CellEditor editor = new ColorCellEditor(parent);
-        if (getValidator() != null) {
-			editor.setValidator(getValidator());
-		}
-        return editor;
-    }
+//    public CellEditor createPropertyEditor(Composite parent) {
+//        CellEditor editor = new ColorCellEditor(parent);
+//        if (getValidator() != null) {
+//			editor.setValidator(getValidator());
+//		}
+//        return editor;
+//    }
 }

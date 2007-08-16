@@ -259,17 +259,17 @@ public class PropertySheetPage extends Page implements IPropertySheetPage, IAdap
     private ICellEditorActivationListener getCellEditorActivationListener() {
         if (cellEditorActivationListener == null) {
             cellEditorActivationListener = new ICellEditorActivationListener() {
-                public void cellEditorActivated(CellEditor cellEditor) {
+//                public void cellEditorActivated(CellEditor cellEditor) {
 //                    if (cellEditorActionHandler != null) {
 //						cellEditorActionHandler.addCellEditor(cellEditor);
 //					}
-                }
+//                }
 
-                public void cellEditorDeactivated(CellEditor cellEditor) {
+//                public void cellEditorDeactivated(CellEditor cellEditor) {
 //                    if (cellEditorActionHandler != null) {
 //						cellEditorActionHandler.removeCellEditor(cellEditor);
 //					}
-                }
+//                }
             };
         }
         return cellEditorActivationListener;
@@ -297,8 +297,8 @@ public class PropertySheetPage extends Page implements IPropertySheetPage, IAdap
                 return;
             }
             // see if item is editable
-            boolean editable = viewer.getActiveCellEditor() != null;
-            defaultsAction.setEnabled(editable);
+//            boolean editable = viewer.getActiveCellEditor() != null;
+//            defaultsAction.setEnabled(editable);
         }
     }
 

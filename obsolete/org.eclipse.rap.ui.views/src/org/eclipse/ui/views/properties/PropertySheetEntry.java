@@ -67,7 +67,7 @@ public class PropertySheetEntry extends EventManager implements
 
 	private IPropertyDescriptor descriptor;
 
-	private CellEditor editor;
+//	private CellEditor editor;
 
 	private String errorText;
 
@@ -82,7 +82,7 @@ public class PropertySheetEntry extends EventManager implements
 				boolean newValidState) {
 			if (!newValidState) {
 				// currently not valid so show an error message
-				setErrorText(editor.getErrorMessage());
+//				setErrorText(editor.getErrorMessage());
 			} else {
 				// currently valid
 				setErrorText(null);
@@ -110,35 +110,35 @@ public class PropertySheetEntry extends EventManager implements
 	 * (non-Javadoc) Method declared on IPropertySheetEntry.
 	 */
 	public void applyEditorValue() {
-		if (editor == null) {
-			return;
-		}
-
-		// Check if editor has a valid value
-		if (!editor.isValueValid()) {
-			setErrorText(editor.getErrorMessage());
-			return;
-		}
-
-		setErrorText(null);
-
-		// See if the value changed and if so update
-		Object newValue = editor.getValue();
-		boolean changed = false;
-		if (values.length > 1) {
-			changed = true;
-		} else if (editValue == null) {
-			if (newValue != null) {
-				changed = true;
-			}
-		} else if (!editValue.equals(newValue)) {
-			changed = true;
-		}
-
-		// Set the editor value
-		if (changed) {
-			setValue(newValue);
-		}
+//		if (editor == null) {
+//			return;
+//		}
+//
+//		// Check if editor has a valid value
+//		if (!editor.isValueValid()) {
+//			setErrorText(editor.getErrorMessage());
+//			return;
+//		}
+//
+//		setErrorText(null);
+//
+//		// See if the value changed and if so update
+//		Object newValue = editor.getValue();
+//		boolean changed = false;
+//		if (values.length > 1) {
+//			changed = true;
+//		} else if (editValue == null) {
+//			if (newValue != null) {
+//				changed = true;
+//			}
+//		} else if (!editValue.equals(newValue)) {
+//			changed = true;
+//		}
+//
+//		// Set the editor value
+//		if (changed) {
+//			setValue(newValue);
+//		}
 	}
 
 	/**
@@ -265,10 +265,10 @@ public class PropertySheetEntry extends EventManager implements
 	 * (non-Javadoc) Method declared on IPropertySheetEntry.
 	 */
 	public void dispose() {
-		if (editor != null) {
-			editor.dispose();
-			editor = null;
-		}
+//		if (editor != null) {
+//			editor.dispose();
+//			editor = null;
+//		}
 		// recursive call to dispose children
 		PropertySheetEntry[] entriesToDispose = childEntries;
 		childEntries = null;
@@ -366,20 +366,20 @@ public class PropertySheetEntry extends EventManager implements
 	 * 
 	 * @see org.eclipse.ui.views.properties.IPropertySheetEntry#getEditor(org.eclipse.swt.widgets.Composite)
 	 */
-	public CellEditor getEditor(Composite parent) {
-
-		if (editor == null) {
-			editor = descriptor.createPropertyEditor(parent);
-			if (editor != null) {
-				editor.addListener(cellEditorListener);
-			}
-		}
-		if (editor != null) {
-			editor.setValue(editValue);
-			setErrorText(editor.getErrorMessage());
-		}
-		return editor;
-	}
+//	public CellEditor getEditor(Composite parent) {
+//
+//		if (editor == null) {
+//			editor = descriptor.createPropertyEditor(parent);
+//			if (editor != null) {
+//				editor.addListener(cellEditorListener);
+//			}
+//		}
+//		if (editor != null) {
+//			editor.setValue(editValue);
+//			setErrorText(editor.getErrorMessage());
+//		}
+//		return editor;
+//	}
 
 	/**
 	 * Returns the edit value for the object at the given index.
@@ -658,10 +658,10 @@ public class PropertySheetEntry extends EventManager implements
 	private void setDescriptor(IPropertyDescriptor newDescriptor) {
 		// if our descriptor is changing, we have to get rid
 		// of our current editor if there is one
-		if (descriptor != newDescriptor && editor != null) {
-			editor.dispose();
-			editor = null;
-		}
+//		if (descriptor != newDescriptor && editor != null) {
+//			editor.dispose();
+//			editor = null;
+//		}
 		descriptor = newDescriptor;
 	}
 

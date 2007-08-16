@@ -35,7 +35,7 @@ package org.eclipse.ui.views.properties;
 
     public void run() {
         PropertySheetViewer ps = getPropertySheet();
-        ps.deactivateCellEditor();
+//        ps.deactivateCellEditor();
         if (isChecked()) {
             ps.showExpert();
         } else {

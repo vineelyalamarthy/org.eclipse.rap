@@ -36,7 +36,7 @@ package org.eclipse.ui.views.properties;
      * Reset the properties to their default values.
      */
     public void run() {
-        getPropertySheet().deactivateCellEditor();
+//        getPropertySheet().deactivateCellEditor();
         getPropertySheet().resetProperties();
     }
 }
