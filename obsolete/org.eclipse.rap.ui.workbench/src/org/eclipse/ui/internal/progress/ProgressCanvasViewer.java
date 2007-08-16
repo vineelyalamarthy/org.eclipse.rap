@@ -17,10 +17,10 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.widgets.*;
 
 /**
@@ -261,8 +261,8 @@ public class ProgressCanvasViewer extends AbstractProgressViewer {
 //        FontMetrics fm = gc.getFontMetrics();
 //        int charWidth = fm.getAverageCharWidth();
 //        int charHeight = fm.getHeight();
-        int charWidth = ( int )FontSizeCalculator.getAvgCharWidth( font );
-        int charHeight = FontSizeCalculator.getCharHeight( font );
+        int charWidth = ( int )Graphics.getAvgCharWidth( font );
+        int charHeight = Graphics.getCharHeight( font );
         int maxWidth = display.getBounds().width / 2;
         int maxHeight = display.getBounds().height / 6;
         int fontWidth = charWidth * maxCharacterWidth;

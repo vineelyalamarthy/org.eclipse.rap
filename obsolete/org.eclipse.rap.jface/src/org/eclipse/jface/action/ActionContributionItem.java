@@ -12,10 +12,10 @@ package org.eclipse.jface.action;
 
 import org.eclipse.jface.resource.*;
 import org.eclipse.jface.util.*;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.widgets.*;
 
 
@@ -1088,7 +1088,7 @@ public class ActionContributionItem extends ContributionItem {
 		int maxWidth = item.getImage().getBounds().width * 4;
 
         Font font = item.getParent().getFont();
-        if( FontSizeCalculator.textExtent( font, textValue, 0 ).x < maxWidth ) {
+        if( Graphics.textExtent( font, textValue, 0 ).x < maxWidth ) {
 			return textValue;
         }
 //		if (gc.textExtent(textValue).x < maxWidth) {
@@ -1099,7 +1099,7 @@ public class ActionContributionItem extends ContributionItem {
 		for (int i = textValue.length(); i > 0; i--) {
 			String test = textValue.substring(0, i);
 			test = test + ellipsis;
-			if (FontSizeCalculator.textExtent( font, textValue, 0 ).x < maxWidth ) {
+			if (Graphics.textExtent( font, textValue, 0 ).x < maxWidth ) {
 				return test;
 			}
 

@@ -15,7 +15,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.widgets.*;
@@ -429,7 +428,7 @@ public class TitleRegion extends Canvas {
 //			FontMetrics fm = gc.getFontMetrics();
 //			fontHeight = fm.getHeight();
 //			gc.dispose();
-		  fontHeight = FontSizeCalculator.getCharHeight( getFont() );
+		  fontHeight = Graphics.getCharHeight( getFont() );
 		}
 		return fontHeight;
 	}
@@ -446,7 +445,7 @@ public class TitleRegion extends Canvas {
 //			FontMetrics fm = gc.getFontMetrics();
 //			fontBaselineHeight = fm.getHeight() - fm.getDescent();
 //			gc.dispose();
-		  fontBaselineHeight = FontSizeCalculator.getCharHeight( getFont() );
+		  fontBaselineHeight = Graphics.getCharHeight( getFont() );
 		}
 		return fontBaselineHeight;
 	}

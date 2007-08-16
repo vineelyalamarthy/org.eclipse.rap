@@ -19,7 +19,6 @@ import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.widgets.*;
@@ -114,7 +113,7 @@ public class FormUtil {
 		wb.setText(text);
 //		FontMetrics fm = gc.getFontMetrics();
 //		int lineHeight = fm.getHeight();
-		int lineHeight = FontSizeCalculator.getCharHeight( font );
+		int lineHeight = Graphics.getCharHeight( font );
 
 		int saved = 0;
 		int last = 0;
@@ -124,7 +123,7 @@ public class FormUtil {
 		for (int loc = wb.first(); loc != BreakIterator.DONE; loc = wb.next()) {
 			String word = text.substring(saved, loc);
 //			Point extent = gc.textExtent(word);
-			Point extent = FontSizeCalculator.stringExtent( font, word );
+			Point extent = Graphics.stringExtent( font, word );
 			if (extent.x > wHint) {
 				// overflow
 				saved = last;

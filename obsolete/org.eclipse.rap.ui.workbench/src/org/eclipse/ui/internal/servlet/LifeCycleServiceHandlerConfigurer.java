@@ -26,7 +26,7 @@ import org.eclipse.rwt.internal.service.LifeCycleServiceHandler.LifeCycleSerivce
 import org.eclipse.rwt.internal.util.HTML;
 import org.eclipse.rwt.resources.IResourceManager;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
+import org.eclipse.swt.internal.graphics.TextSizeDetermination;
 
 class LifeCycleServiceHandlerConfigurer
   implements ILifeCycleServiceHandlerConfigurer
@@ -163,7 +163,7 @@ class LifeCycleServiceHandlerConfigurer
   public synchronized boolean isStartupPageModifiedSince() {
     boolean result;
 
-    int currentProbeCount = FontSizeCalculator.getProbeCount();
+    int currentProbeCount = TextSizeDetermination.getProbeCount();
     if( probeCount != currentProbeCount ) {
       lastModified = System.currentTimeMillis();
       probeCount = currentProbeCount;

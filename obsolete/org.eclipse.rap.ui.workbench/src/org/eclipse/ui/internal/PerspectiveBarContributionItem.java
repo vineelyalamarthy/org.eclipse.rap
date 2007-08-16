@@ -13,12 +13,12 @@ package org.eclipse.ui.internal;
 import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IPerspectiveDescriptor;
@@ -219,12 +219,12 @@ public class PerspectiveBarContributionItem extends ContributionItem {
         Font font = item.getParent().getFont();
 //        GC gc = new GC(item.getParent());
         int maxWidth = getMaxWidth(item.getImage());
-        if (FontSizeCalculator.textExtent(font, textValue, 0).x >= maxWidth) {
+        if (Graphics.textExtent(font, textValue, 0).x >= maxWidth) {
 //        if (gc.textExtent(textValue).x >= maxWidth) {
             for (int i = textValue.length(); i > 0; i--) {
                 String test = textValue.substring(0, i);
                 test = test + ellipsis;
-                if (FontSizeCalculator.textExtent(font, test, 0).x < maxWidth) {
+                if (Graphics.textExtent(font, test, 0).x < maxWidth) {
                     returnText = test;
                     break;
                 }

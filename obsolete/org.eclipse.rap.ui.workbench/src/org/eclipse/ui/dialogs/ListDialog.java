@@ -14,9 +14,9 @@ import java.util.List;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.*;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
 
@@ -116,8 +116,8 @@ public class ListDialog extends SelectionDialog {
 		}
         GridData gd = new GridData(GridData.FILL_BOTH);
         Font font = fTableViewer.getControl().getFont();
-        gd.heightHint = FontSizeCalculator.getCharHeight( font ) * heightInChars;
-        gd.widthHint = ( int )( ( FontSizeCalculator.getAvgCharWidth( font ) * widthInChars ) );
+        gd.heightHint = Graphics.getCharHeight( font ) * heightInChars;
+        gd.widthHint = ( int )( ( Graphics.getAvgCharWidth( font ) * widthInChars ) );
 //        gd.heightHint = convertHeightInCharsToPixels(heightInChars);
 //        gd.widthHint = convertWidthInCharsToPixels(widthInChars);
         Table table = fTableViewer.getTable();

@@ -12,10 +12,10 @@ package org.eclipse.jface.preference;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -228,7 +228,7 @@ public class StringFieldEditor extends FieldEditor {
 //            GC gc = new GC(textField);
             try {
               Point extent
-                = FontSizeCalculator.textExtent( textField.getFont(), "X", 0 );
+                = Graphics.textExtent( textField.getFont(), "X", 0 );
 //                Point extent = gc.textExtent("X");//$NON-NLS-1$
                 gd.widthHint = widthInChars * extent.x;
             } finally {

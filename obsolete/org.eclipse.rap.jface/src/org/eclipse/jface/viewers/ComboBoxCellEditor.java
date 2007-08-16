@@ -14,10 +14,10 @@ package org.eclipse.jface.viewers;
 import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.widgets.*;
 
 /**
@@ -196,7 +196,7 @@ public class ComboBoxCellEditor extends CellEditor {
             // make the comboBox 10 characters wide
             Font font = comboBox.getFont();
             layoutData.minimumWidth 
-              = ( int )FontSizeCalculator.getAvgCharWidth( font ) * 10 + 10;
+              = ( int )Graphics.getAvgCharWidth( font ) * 10 + 10;
 //            GC gc = new GC(comboBox);
 //            layoutData.minimumWidth = (gc.getFontMetrics()
 //                    .getAverageCharWidth() * 10) + 10;

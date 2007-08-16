@@ -18,12 +18,12 @@ import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
@@ -361,7 +361,7 @@ public class FormHeading extends Canvas {
 //				fontHeight = gc.getFontMetrics().getHeight();
 //				gc.dispose();
 				//TODO (jb) fontHeight = FontSizeEstimation.getCharHeight( getFont() );
-				fontHeight = FontSizeCalculator.getCharHeight( getFont() );
+				fontHeight = Graphics.getCharHeight( getFont() );
 			}
 			return fontHeight;
 		}
@@ -376,7 +376,7 @@ public class FormHeading extends Canvas {
 //				FontMetrics fm = gc.getFontMetrics();
 //				fontBaselineHeight = fm.getHeight() - fm.getDescent();
 //				gc.dispose();
-				fontBaselineHeight = FontSizeCalculator.getCharHeight( getFont() );
+				fontBaselineHeight = Graphics.getCharHeight( getFont() );
 			}
 			return fontBaselineHeight;
 		}

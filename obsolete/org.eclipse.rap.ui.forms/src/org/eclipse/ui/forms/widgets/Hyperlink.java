@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.ui.forms.widgets;
 
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.internal.widgets.IHyperlinkAdapter;
 import org.eclipse.ui.internal.forms.widgets.FormUtil;
@@ -309,7 +309,7 @@ public class Hyperlink extends AbstractHyperlink {
 			extent = FormUtil.computeWrapSize(getFont(), getText(), wHint);
 		} else {
 //		  extent = gc.textExtent(getText());
-			extent = FontSizeCalculator.stringExtent( getFont(), getText() );
+			extent = Graphics.stringExtent( getFont(), getText() );
 			if ((getStyle() & SWT.WRAP)==0 && wHint!=SWT.DEFAULT)
 				extent.x = wHint;
 		}

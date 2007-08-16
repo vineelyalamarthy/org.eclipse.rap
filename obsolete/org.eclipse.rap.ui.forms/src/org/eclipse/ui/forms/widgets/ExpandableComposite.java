@@ -12,9 +12,9 @@ package org.eclipse.ui.forms.widgets;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.events.*;
 import org.eclipse.ui.internal.forms.widgets.FormUtil;
@@ -258,7 +258,7 @@ public class ExpandableComposite extends Canvas {
 //				FontMetrics fm = gc.getFontMetrics();
 //				int textHeight = fm.getHeight();
 //				gc.dispose();
-			    int textHeight = FontSizeCalculator.getCharHeight( getFont() );
+			    int textHeight = Graphics.getCharHeight( getFont() );
 				if (textClient != null
 						&& (expansionStyle & LEFT_TEXT_CLIENT_ALIGNMENT) != 0) {
 					textHeight = Math.max(textHeight, tcsize.y);

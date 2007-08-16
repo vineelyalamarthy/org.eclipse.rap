@@ -12,9 +12,9 @@ package org.eclipse.jface.dialogs;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.internal.graphics.FontSizeCalculator;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
 
@@ -164,7 +164,7 @@ public abstract class DialogPage implements IDialogPage, IMessageProvider {
 //		}
 //        return Dialog.convertHorizontalDLUsToPixels(fontMetrics, dlus);
         int avgCharWidth 
-          = Math.round( FontSizeCalculator.getAvgCharWidth( dialogFont ) );
+          = Math.round( Graphics.getAvgCharWidth( dialogFont ) );
         int result 
           =   ( avgCharWidth * dlus + HORIZONTAL_DIALOG_UNIT_PER_CHAR / 2 )
             / HORIZONTAL_DIALOG_UNIT_PER_CHAR;
@@ -192,7 +192,7 @@ public abstract class DialogPage implements IDialogPage, IMessageProvider {
 //			return 0;
 //		}
 //        return Dialog.convertVerticalDLUsToPixels(fontMetrics, dlus);
-        int charHeight = FontSizeCalculator.getCharHeight( dialogFont );
+        int charHeight = Graphics.getCharHeight( dialogFont );
         int result
           =   ( charHeight * dlus + VERTICAL_DIALOG_UNITS_PER_CHAR / 2 )
             / VERTICAL_DIALOG_UNITS_PER_CHAR;
