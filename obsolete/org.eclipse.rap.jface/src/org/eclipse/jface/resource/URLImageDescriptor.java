@@ -12,6 +12,8 @@ package org.eclipse.jface.resource;
 
 import java.io.*;
 import java.net.URL;
+
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 
@@ -92,7 +94,7 @@ class URLImageDescriptor extends ImageDescriptor {
      * Method declared on Object.
      */
     /**
-     * The <code>URLImageDescriptor</code> implementation of this <code>Object</code> method 
+     * The <code>URLImageDescriptor</code> implementation of this <code>Object</code> method
      * returns a string representation of this object which is suitable only for debugging.
      */
     public String toString() {
@@ -111,6 +113,6 @@ class URLImageDescriptor extends ImageDescriptor {
     if( pos != -1 ) {
       path = path.substring( pos + schema.length() );
     }
-    return Image.find( path, getStream() );
+    return Graphics.getImage( path, getStream() );
   }
 }

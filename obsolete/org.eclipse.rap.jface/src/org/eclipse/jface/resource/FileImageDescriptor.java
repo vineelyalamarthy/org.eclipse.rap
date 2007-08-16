@@ -11,6 +11,8 @@
 package org.eclipse.jface.resource;
 
 import java.io.*;
+
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 
@@ -21,7 +23,7 @@ import org.eclipse.swt.graphics.Image;
 class FileImageDescriptor extends ImageDescriptor {
 
     /**
-     * The class whose resource directory contain the file, 
+     * The class whose resource directory contain the file,
      * or <code>null</code> if none.
      */
     private Class location;
@@ -96,16 +98,16 @@ class FileImageDescriptor extends ImageDescriptor {
 //        }
 //        return result;
 //    }
-    
+
     public Image createImage(boolean returnMissingImageOnError, Device device) {
       String path = location.getPackage().getName().replace( '.', '/' );
-      return Image.find( path + "/" + name, getStream() );
+      return Graphics.getImage( path + "/" + name, getStream() );
     }
 
     /**
      * Returns a stream on the image contents.  Returns
      * null if a stream could not be opened.
-     * 
+     *
      * @return the buffered stream on the file or <code>null</code>
      * if the file cannot be found
      */
@@ -144,7 +146,7 @@ class FileImageDescriptor extends ImageDescriptor {
      * Method declared on Object.
      */
     /**
-     * The <code>FileImageDescriptor</code> implementation of this <code>Object</code> method 
+     * The <code>FileImageDescriptor</code> implementation of this <code>Object</code> method
      * returns a string representation of this object which is suitable only for debugging.
      */
     public String toString() {

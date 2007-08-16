@@ -13,72 +13,74 @@ package org.eclipse.ui.forms.internal.widgets.togglehyperlinkkit;
 
 import java.io.IOException;
 
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.rwt.lifecycle.*;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.internal.graphics.ResourceFactory;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.forms.widgets.*;
 
 /* (intentionally non-JavaDoc'ed)
- * This class serves as the LCA for org.eclipse.ui.forms.widgets.TreeNode and  
- * org.eclipse.ui.forms.widgets.Twistie. 
+ * This class serves as the LCA for org.eclipse.ui.forms.widgets.TreeNode and
+ * org.eclipse.ui.forms.widgets.Twistie.
  */
 public final class ToggleHyperlinkLCA extends AbstractWidgetLCA {
 
   private static final String PROP_EXPANDED = "expanded";
   private static final String PROP_SELECTION_LISTENERS = "selectionListeners";
-  
+
   private static final String PREFIX = "resource/widget/rap/hyperlink/";
   private static final String MINUS_GIF = PREFIX + "minus.gif";
   private static final String PLUS_GIF = PREFIX + "plus.gif";
 
-  private static final String TWISTIE_COLLAPSE_GIF 
+  private static final String TWISTIE_COLLAPSE_GIF
     = PREFIX + "twistie_collapse.gif";
-  private static final String TWISTIE_COLLAPSE_HOVER_GIF 
+  private static final String TWISTIE_COLLAPSE_HOVER_GIF
     = PREFIX + "twistie_collapse_hover.gif";
-  private static final String TWISTIE_EXPAND_GIF 
+  private static final String TWISTIE_EXPAND_GIF
     = PREFIX + "twistie_expand.gif";
-  private static final String TWISTIE_EXPAND_HOVER_GIF 
+  private static final String TWISTIE_EXPAND_HOVER_GIF
     = PREFIX + "twistie_expand_hover.gif";
 
   private static final JSListenerInfo SELECTION_LISTENER
-    = new JSListenerInfo( "click", 
-                          "org.eclipse.ui.forms.widgets.ToggleHyperlink.onClick", 
+    = new JSListenerInfo( "click",
+                          "org.eclipse.ui.forms.widgets.ToggleHyperlink.onClick",
                           JSListenerType.ACTION );
 
-  public void createResetHandlerCalls( final String typePoolId ) 
-    throws IOException 
+  public void createResetHandlerCalls( final String typePoolId )
+    throws IOException
   {
   }
 
   public String getTypePoolId( final Widget widget ) throws IOException {
     return null;
   }
-  
+
   public void readData( final Widget widget ) {
     // It is not neccessary to read the expanded state as a HyperlinkListener
     // will always be registered (see ToggleHyperlink).
     ControlLCAUtil.processSelection( widget, null, false );
   }
-  
+
   public void preserveValues( final Widget widget ) {
     ToggleHyperlink hyperlink = ( ToggleHyperlink )widget;
     ControlLCAUtil.preserveValues( hyperlink );
     IWidgetAdapter adapter = WidgetUtil.getAdapter( hyperlink );
-    adapter.preserve( PROP_EXPANDED, 
+    adapter.preserve( PROP_EXPANDED,
                       Boolean.valueOf( hyperlink.isExpanded() ) );
     boolean hasListener = SelectionEvent.hasListener( hyperlink );
-    adapter.preserve( PROP_SELECTION_LISTENERS, 
+    adapter.preserve( PROP_SELECTION_LISTENERS,
                       Boolean.valueOf( hasListener ) );
   }
-  
+
   public void renderInitialization( final Widget widget ) throws IOException {
     ToggleHyperlink hyperlink = ( ToggleHyperlink )widget;
     JSWriter writer = JSWriter.getWriterFor( hyperlink );
     writer.newWidget( "org.eclipse.ui.forms.widgets.ToggleHyperlink" );
     writeImages( hyperlink );
   }
-  
+
   public void renderChanges( final Widget widget ) throws IOException {
     ToggleHyperlink hyperlink = ( ToggleHyperlink )widget;
     ControlLCAUtil.writeChanges( hyperlink );
@@ -90,60 +92,60 @@ public final class ToggleHyperlinkLCA extends AbstractWidgetLCA {
     JSWriter writer = JSWriter.getWriterFor( widget );
     writer.dispose();
   }
-  
+
   ////////////////
   // Write changes
 
-  private void writeImages( final ToggleHyperlink hyperlink ) 
+  private void writeImages( final ToggleHyperlink hyperlink )
     throws IOException
   {
     JSWriter writer = JSWriter.getWriterFor( hyperlink );
     Image[] images = getImages( hyperlink );
     String[] imageNames = new String[ images.length ];
     for( int i = 0; i < imageNames.length; i++ ) {
-      imageNames[ i ] = Image.getPath( images[ i ] );
+      imageNames[ i ] = ResourceFactory.getImagePath( images[ i ] );
     }
     writer.set( "images", imageNames );
-    
+
   }
 
-  private static void writeExpanded( final ToggleHyperlink hyperlink ) 
-    throws IOException 
+  private static void writeExpanded( final ToggleHyperlink hyperlink )
+    throws IOException
   {
     JSWriter writer = JSWriter.getWriterFor( hyperlink );
     Boolean newValue = Boolean.valueOf( hyperlink.isExpanded() );
     writer.set( PROP_EXPANDED, "expanded", newValue, Boolean.FALSE );
   }
 
-  private static void writeSelectionListener( final ToggleHyperlink hyperlink ) 
-    throws IOException 
+  private static void writeSelectionListener( final ToggleHyperlink hyperlink )
+    throws IOException
   {
     JSWriter writer = JSWriter.getWriterFor( hyperlink );
-    writer.updateListener( SELECTION_LISTENER, 
-                           PROP_SELECTION_LISTENERS, 
+    writer.updateListener( SELECTION_LISTENER,
+                           PROP_SELECTION_LISTENERS,
                            SelectionEvent.hasListener( hyperlink ) );
   }
 
-  /* (intentiaonally non-JavaDoc'ed) 
-   * Returns four images for: 
-   *   collapsedNormal, collapsedHover, expandedNormal, expandedHover 
+  /* (intentiaonally non-JavaDoc'ed)
+   * Returns four images for:
+   *   collapsedNormal, collapsedHover, expandedNormal, expandedHover
    */
   private static Image[] getImages( final ToggleHyperlink hyperlink ) {
     ClassLoader classLoader = ToggleHyperlinkLCA.class.getClassLoader();
     Image[] result;
     if( hyperlink instanceof TreeNode ) {
       result = new Image[] {
-        Image.find( MINUS_GIF, classLoader ),
+        Graphics.getImage( MINUS_GIF, classLoader ),
         null,
-        Image.find( PLUS_GIF, classLoader ),
+        Graphics.getImage( PLUS_GIF, classLoader ),
         null
       };
     } else if( hyperlink instanceof Twistie ) {
       result = new Image[] {
-        Image.find( TWISTIE_COLLAPSE_GIF, classLoader ),
-        Image.find( TWISTIE_COLLAPSE_HOVER_GIF, classLoader ),
-        Image.find( TWISTIE_EXPAND_GIF, classLoader ),
-        Image.find( TWISTIE_EXPAND_HOVER_GIF, classLoader )
+        Graphics.getImage( TWISTIE_COLLAPSE_GIF, classLoader ),
+        Graphics.getImage( TWISTIE_COLLAPSE_HOVER_GIF, classLoader ),
+        Graphics.getImage( TWISTIE_EXPAND_GIF, classLoader ),
+        Graphics.getImage( TWISTIE_EXPAND_HOVER_GIF, classLoader )
       };
     } else {
       result = new Image[] { null, null, null, null };

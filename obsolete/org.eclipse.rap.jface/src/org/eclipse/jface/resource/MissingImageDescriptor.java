@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.jface.resource;
 
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 
@@ -19,7 +20,7 @@ import org.eclipse.swt.graphics.Image;
  * <p>
  * Use <code>MissingImageDescriptor.getInstance</code> to
  * access the singleton instance maintained in an
- * internal state variable. 
+ * internal state variable.
  * </p>
  */
 class MissingImageDescriptor extends ImageDescriptor {
@@ -51,14 +52,14 @@ class MissingImageDescriptor extends ImageDescriptor {
         }
         return instance;
     }
-    
-    public Image createImage( final boolean returnMissingImageOnError, 
+
+    public Image createImage( final boolean returnMissingImageOnError,
                               final Device device )
     {
       if( image != null ) {
         String path = "org/eclipse/jface/resource/images/missing_image.png";
         ClassLoader loader = getClass().getClassLoader();
-        image = Image.find( path, loader.getResourceAsStream( path ) );
+        image = Graphics.getImage( path, loader.getResourceAsStream( path ) );
       }
       return image;
     }
