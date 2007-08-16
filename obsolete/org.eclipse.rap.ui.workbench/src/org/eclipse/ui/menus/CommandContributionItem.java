@@ -581,11 +581,6 @@ public final class CommandContributionItem extends ContributionItem {
 									menuManager, "menu:" + id); //$NON-NLS-1$
 						}
 					});
-					menu.addDisposeListener(new DisposeListener() {
-						public void widgetDisposed(DisposeEvent e) {
-							System.out.println("dispose menu"); //$NON-NLS-1$
-						}
-					});
 					// position the menu below the drop down item
 					Rectangle b = ti.getBounds();
 					Point p = ti.getParent().toDisplay(
