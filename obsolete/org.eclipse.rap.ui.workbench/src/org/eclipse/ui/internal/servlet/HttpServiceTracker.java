@@ -33,7 +33,8 @@ public class HttpServiceTracker extends ServiceTracker {
     for( Iterator it = servletAliases.iterator(); it.hasNext(); ) {
       String name = ( String )it.next();
       try {
-        httpService.registerServlet( "/" + name, new RequestHandler(), null, null ); //$NON-NLS-1$
+        RequestHandler handler = new RequestHandler();
+        httpService.registerServlet( "/" + name, handler, null, null ); //$NON-NLS-1$
       } catch( Exception e ) {
         String text =   "Could not register servlet mapping ''{0}''.";
         Object[] param = new Object[] { name };

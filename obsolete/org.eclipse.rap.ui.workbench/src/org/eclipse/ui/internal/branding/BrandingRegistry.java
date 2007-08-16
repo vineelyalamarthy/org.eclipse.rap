@@ -110,7 +110,8 @@ public class BrandingRegistry {
           Object[] args = new Object[]{
             entrypoint, branding.getId()
           };
-          throw new IllegalArgumentException( MessageFormat.format( msg, args ) );
+          String txt = MessageFormat.format( msg, args );
+          throw new IllegalArgumentException( txt );
         }
       }
     }
@@ -124,7 +125,8 @@ public class BrandingRegistry {
     for( int i = 0; i < brandings.length; i++ ) {
       String contributorName = brandings[ i ].getContributor().getName();
       String id = brandings[ i ].getAttribute( "id" );
-      String defaultEntrypointId = brandings[ i ].getAttribute( "defaultEntrypointId" );
+      String defaultEntrypointId 
+        = brandings[ i ].getAttribute( "defaultEntrypointId" );
       String body = brandings[ i ].getAttribute( "body" );
       String title = brandings[ i ].getAttribute( "title" );
       String servletname = brandings[ i ].getAttribute( "servletName" );
@@ -145,7 +147,8 @@ public class BrandingRegistry {
       att.put( "href", favicon );
       branding.addHeader( "link", att );
       // loop through all additional headers
-      IConfigurationElement[] ahl = brandings[ i ].getChildren( TAG_ADITIONAL_HEADERS );
+      IConfigurationElement[] ahl 
+        = brandings[ i ].getChildren( TAG_ADITIONAL_HEADERS );
       if( ahl.length > 0 ) {
         IConfigurationElement ah = ahl[ 0 ];
         IConfigurationElement[] headers = ah.getChildren();
@@ -173,7 +176,8 @@ public class BrandingRegistry {
         }
       }
       // loop through all whitelisted entrypoints
-      IConfigurationElement[] eps = brandings[ i ].getChildren( TAG_WHITELIST_ENTRYPOINTS );
+      IConfigurationElement[] eps
+        = brandings[ i ].getChildren( TAG_WHITELIST_ENTRYPOINTS );
       if( eps.length > 0 ) {
         IConfigurationElement epse = eps[ 0 ];
         IConfigurationElement[] epoints = epse.getChildren();
@@ -190,7 +194,9 @@ public class BrandingRegistry {
     }
   }
 
-  public void registerResource( final String resource, final Branding branding ) {
+  public void registerResource( final String resource, 
+                                final Branding branding )
+  {
     ParamCheck.notNull( resource, "scriptfile" );
     ParamCheck.notNull( branding, "branding" );
     URL scriptUrl = Platform.getBundle( branding.getContributor() )
