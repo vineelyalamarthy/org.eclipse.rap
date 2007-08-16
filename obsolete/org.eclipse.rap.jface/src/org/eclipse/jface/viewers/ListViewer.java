@@ -211,7 +211,9 @@ public class ListViewer extends AbstractListViewer {
      */
     protected void listSetTopIndex(int index) {
 //    	list.setTopIndex(index);
-//    	throw new UnsupportedOperationException();
+      // TODO [rh] IMPLEMENTATION MISSING: as a consequence revealing or 
+      //      preserving the topIndex is not yet possible (and not planned for 
+      //      RAP 1.0)
     }
 
 	/* (non-Javadoc)
