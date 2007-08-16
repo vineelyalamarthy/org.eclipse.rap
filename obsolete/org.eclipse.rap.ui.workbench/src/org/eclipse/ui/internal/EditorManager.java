@@ -1533,18 +1533,17 @@ public class EditorManager implements IExtensionChangeHandler {
 //	 *      java.lang.Object[])
 //	 */
 	public void removeExtension(IExtension source, Object[] objects) {
-//		for (int i = 0; i < objects.length; i++) {
-//			if (objects[i] instanceof IEditorPart) {
-//				// close the editor and clean up the editor history
-//
-//				IEditorPart editor = (IEditorPart) objects[i];
+		for (int i = 0; i < objects.length; i++) {
+			if (objects[i] instanceof IEditorPart) {
+				// close the editor and clean up the editor history
+
+				IEditorPart editor = (IEditorPart) objects[i];
 //				IEditorInput input = editor.getEditorInput();
-//				page.closeEditor(editor, true);
+				page.closeEditor(editor, true);
 //				((Workbench) window.getWorkbench()).getEditorHistory().remove(
 //						input);
-//			}
-//		}
-		throw new UnsupportedOperationException();
+			}
+		}
 	}
 //
 //	/*
