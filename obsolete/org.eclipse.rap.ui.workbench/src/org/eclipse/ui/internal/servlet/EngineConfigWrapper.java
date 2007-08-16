@@ -29,7 +29,10 @@ import org.eclipse.rwt.lifecycle.PhaseListener;
 import org.eclipse.rwt.resources.IResource;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.internal.branding.BrandingRegistry;
 import org.osgi.framework.Bundle;
+
+
 
 /**
  * The underlying W4Toolkit runtime engine expects some configuration
@@ -79,6 +82,7 @@ final class EngineConfigWrapper implements IEngineConfig {
     registerLifeCycleServiceHandlerConfigurer();
     registerUICallBackServiceHandler();
   }
+
 
   public File getClassDir() {
     return engineConfig.getClassDir();
@@ -169,10 +173,12 @@ final class EngineConfigWrapper implements IEngineConfig {
       String contributorName = elements[ i ].getContributor().getName();
       String className = elements[ i ].getAttribute( "class" );
       String parameter = elements[ i ].getAttribute( "parameter" );
+      String id = elements[ i ].getAttribute( "id" );
       try {
         Bundle bundle = Platform.getBundle( contributorName );
         Class clazz = bundle.loadClass( className );
         EntryPointManager.register( parameter, clazz );
+        BrandingRegistry.getInstance().bindEntrypoint( id, parameter );
       } catch( final Throwable thr ) {
         String text =   "Could not register entry point ''{0}'' "
                       + "with request startup parameter ''{1}''.";
@@ -183,7 +189,6 @@ final class EngineConfigWrapper implements IEngineConfig {
                                     IStatus.OK,
                                     msg,
                                     thr );
-//        Activator.getDefault().getLog().log( status );
         WorkbenchPlugin.getDefault().getLog().log( status );
       }
     }

@@ -24,17 +24,25 @@ import org.eclipse.rwt.internal.engine.RWTDelegate;
 public class RequestHandler extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
-  private final RWTDelegate servlet;
+  
+  private static RWTDelegate servlet;
+  private static boolean isInitialized;
 
   public RequestHandler() {
-    servlet = new RWTDelegate();
+    if( servlet == null ) {
+      servlet = new RWTDelegate();
+    }
   }
   
   public void init( final ServletConfig config ) throws ServletException {
-    ServletContext servletContext = config.getServletContext();
-    servletContext.setAttribute( IEngineConfig.class.getName(), 
-                                 new EngineConfigWrapper() );
-    servlet.init( config );
+    // TODO [bm] this is not thread-safe in case of two concurrent init calls
+    if( !isInitialized ) {
+      isInitialized = true;
+      ServletContext servletContext = config.getServletContext();
+      servletContext.setAttribute( IEngineConfig.class.getName(),
+                                   new EngineConfigWrapper() );
+      servlet.init( config );
+    }
   }
   
   public void service( final HttpServletRequest request, 
@@ -45,6 +53,10 @@ public class RequestHandler extends HttpServlet {
   }
   
   public void destroy() {
-    servlet.destroy();
+	  // TODO [bm] save a list of RequestHandlers in HttpServer
+	  // and destroy them on shutdown
+	  // BUT: do we need to destroy?
+	  // distroy() is not overridden and empty in GenericServlet
+//    servlet.destroy();
   }
 }

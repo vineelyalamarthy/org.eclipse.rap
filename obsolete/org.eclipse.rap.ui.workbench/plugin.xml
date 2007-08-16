@@ -3,15 +3,6 @@
 <plugin>
 
   <extension
-      id="org.eclipse.ui.requestHandler"
-      point="org.eclipse.equinox.http.registry.servlets">
-    <servlet
-        alias="/rap"
-        class="org.eclipse.ui.internal.servlet.RequestHandler">
-    </servlet>
-  </extension>
-
-  <extension
       id="org.eclipse.ui.workbench.adapterfactories"
       point="org.eclipse.rap.ui.adapterfactory">
     <factory

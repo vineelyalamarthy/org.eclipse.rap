@@ -23,10 +23,13 @@ import org.eclipse.rwt.internal.resources.ResourceManager;
 import org.eclipse.rwt.internal.service.*;
 import org.eclipse.rwt.internal.service.LifeCycleServiceHandler.ILifeCycleServiceHandlerConfigurer;
 import org.eclipse.rwt.internal.service.LifeCycleServiceHandler.LifeCycleSerivceHandlerSync;
+import org.eclipse.rwt.internal.theme.ThemeUtil;
 import org.eclipse.rwt.internal.util.HTML;
 import org.eclipse.rwt.resources.IResourceManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.internal.graphics.TextSizeDetermination;
+import org.eclipse.ui.internal.branding.Branding;
+import org.eclipse.ui.internal.branding.BrandingRegistry;
 
 class LifeCycleServiceHandlerConfigurer
   implements ILifeCycleServiceHandlerConfigurer
@@ -58,6 +61,7 @@ class LifeCycleServiceHandlerConfigurer
     }
     setDummyBrowser();
     try {
+      applyBranding( content );
       String libs = getLibraries();
       BrowserSurvey.replacePlaceholder( content, "${libraries}", libs );
       String appScript = getAppScript();
@@ -68,6 +72,38 @@ class LifeCycleServiceHandlerConfigurer
     return new ByteArrayInputStream( content.toString().getBytes() );
   }
 
+  private void applyBranding( final StringBuffer content ) {
+    HttpServletRequest request = ContextProvider.getRequest();
+    String servletName = request.getServletPath();
+    if( servletName.startsWith( "/" ) ) {
+      servletName = servletName.substring( 1 );
+    }
+    String entrypoint = request.getParameter( RequestParams.STARTUP );
+    BrandingRegistry brandingRegistry = BrandingRegistry.getInstance();
+    Branding branding 
+      = brandingRegistry.getBrandingFor( servletName, entrypoint );
+    if( entrypoint == null ) {
+      entrypoint 
+        = brandingRegistry.getEntrypoint( branding.getDefaultEntrypointId() );
+    }
+    if( entrypoint == null ) {
+      entrypoint = EntryPointManager.DEFAULT;
+    }
+    if( branding.getThemeId() != null ) {
+      ThemeUtil.setCurrentTheme( branding.getThemeId() );
+    }
+    BrowserSurvey.replacePlaceholder( content, 
+                                      "${body}", 
+                                      branding.getBody() );
+    BrowserSurvey.replacePlaceholder( content, 
+                                      "${title}", 
+                                      branding.getTitle() );
+    BrowserSurvey.replacePlaceholder( content,
+                                      "${headers}",
+                                      branding.renderHeaders() );
+    BrowserSurvey.replacePlaceholder( content, "${startup}", entrypoint );
+  }
+  
   private String getAppScript() throws IOException {
     fakeWriter();
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();

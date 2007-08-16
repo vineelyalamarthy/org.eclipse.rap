@@ -22,8 +22,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.*;
+import org.eclipse.ui.internal.branding.Branding;
+import org.eclipse.ui.internal.branding.BrandingRegistry;
 import org.eclipse.ui.internal.misc.StatusUtil;
 import org.eclipse.ui.internal.registry.*;
+import org.eclipse.ui.internal.servlet.HttpServiceTracker;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.presentations.AbstractPresentationFactory;
@@ -122,6 +125,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
     
 //    private WorkbenchOperationSupport operationSupport;
 	private BundleListener bundleListener;
+    private HttpServiceTracker httpServiceTracker;
         
     
     /**
@@ -804,14 +808,28 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 //        return decoratorManager;
 //    }
 
+    /**
+     * Get the http service tracker to register new servlets or resources
+     * 
+     * @return ServiceTracker the http server tracker 
+     */
+    public HttpServiceTracker getHttpServiceTracker() {
+      return httpServiceTracker;
+    }
+    
     /*
      *  (non-Javadoc)
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     public void start(BundleContext context) throws Exception {
-    	context.addBundleListener(getBundleListener());
+        context.addBundleListener(getBundleListener());
         super.start(context);
         bundleContext = context;
+        
+        // initialise the servlet names
+        httpServiceTracker = new HttpServiceTracker(context);
+        BrandingRegistry.readBrandings();
+        httpServiceTracker.open();
         
 //        JFaceUtil.initializeJFace();
 		
@@ -1033,6 +1051,10 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
     		context.removeBundleListener(bundleListener);
     		bundleListener = null;
     	}
+    	
+        httpServiceTracker.close();
+        httpServiceTracker = null;
+        
     	// TODO normally super.stop(*) would be the last statement in this
     	// method
         super.stop(context);
