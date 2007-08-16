@@ -108,11 +108,12 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
   }
 
   public void done( final IJobChangeEvent event ) {
-    ProgressManager manager;
+    final ProgressManager[] manager = new ProgressManager[ 1 ];
+    Display display = null;
     synchronized( lock ) {
       try {
-        manager = findProgressManager( event.getJob() );
-        Display display = ( Display )jobs.get( event.getJob() );
+        manager[ 0 ] = findProgressManager( event.getJob() );
+        display = ( Display )jobs.get( event.getJob() );
         if( display != null ) {
           display.asyncExec( new Runnable() {
             public void run() {
@@ -130,7 +131,15 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
         jobs.remove( event.getJob() );
       }
     }
-    manager.changeListener.done( event );
+    if( display != null ) {
+      display.asyncExec( new Runnable() {
+        public void run() {
+          manager[ 0 ].changeListener.done( event );
+        }
+      } );
+//    } else {
+//      manager[ 0 ].changeListener.done( event );      
+    }
   }
 
   public void running( final IJobChangeEvent event ) {

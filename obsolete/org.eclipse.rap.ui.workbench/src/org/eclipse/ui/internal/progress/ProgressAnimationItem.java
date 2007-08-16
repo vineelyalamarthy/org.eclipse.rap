@@ -332,13 +332,13 @@ public class ProgressAnimationItem extends AnimationItem implements
     }
 
     public void finished(final JobTreeElement jte) {
-//        final Display display = Display.getDefault();
-        final Display display = Display.getCurrent();
-        display.asyncExec(new Runnable() {
-            public void run() {
-                refresh();
-            }
+//    final Display display = Display.getDefault();
+      if( bar != null ){
+        bar.getDisplay().asyncExec(new Runnable() {
+          public void run() {
+              refresh();
+          }
         });
+      }
     }
-    
 }
