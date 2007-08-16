@@ -58,7 +58,7 @@ public class Hyperlink extends AbstractHyperlink {
 
 //		FontData fontData = getFont().getFontData()[ 0 ];
 //		int newStyle = fontData.getStyle() & ~SWT.BOLD;
-//		setFont( Font.getFont( fontData.getName(), fontData.getHeight(), newStyle ) );
+//		setFont( Graphics.getColor( fontData.getName(), fontData.getHeight(), newStyle ) );
 	}
 	
 	// Begin RAP specific

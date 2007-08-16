@@ -194,7 +194,7 @@ public class WorkbenchLabelProvider extends LabelProvider implements
 
         Font font = (Font) SWTResourceUtil.getFontTable().get(descriptor);
         if (font == null) {
-            font = Font.getFont( descriptor );
+            font = Graphics.getFont( descriptor );
 //            font = new Font(Display.getCurrent(), descriptor);
             SWTResourceUtil.getFontTable().put(descriptor, font);
         }

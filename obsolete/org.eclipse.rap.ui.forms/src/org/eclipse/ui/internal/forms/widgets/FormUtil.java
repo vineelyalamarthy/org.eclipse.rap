@@ -15,6 +15,7 @@ package org.eclipse.ui.internal.forms.widgets;
 
 import java.text.BreakIterator;
 
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.*;
@@ -38,7 +39,7 @@ public class FormUtil {
 	public static final String DEBUG_FOCUS = DEBUG + "/focus"; //$NON-NLS-1$
 
 	public static final String FOCUS_SCROLLING = "focusScrolling"; //$NON-NLS-1$
-	
+
 	public static final String IGNORE_BODY = "__ignore_body__"; //$NON-NLS-1$
 
 	public static Text createText(Composite parent, String label,
@@ -104,7 +105,7 @@ public class FormUtil {
 //		return width;
 //	}
 
-//XXX Changed method signature	
+//XXX Changed method signature
 //	public static Point computeWrapSize(GC gc, String text, int wHint) {
 	public static Point computeWrapSize(Font font, String text, int wHint) {
 	  // XXX RAP specific: RCP Forms uses BreakIterator from the com.ibm.icu
@@ -461,7 +462,7 @@ public class FormUtil {
                                      fontDatas[ i ].getHeight(),
                                      fontDatas[ i ].getStyle() | SWT.BOLD );
 		}
-		return Font.getFont( fontDatas[ 0 ] );
+		return Graphics.getFont( fontDatas[ 0 ] );
 	}
 
 	public static boolean mnemonicMatch(String text, char key) {
@@ -485,10 +486,10 @@ public class FormUtil {
 		} while (index < length);
 		return '\0';
 	}
-	
+
 	public static void setFocusScrollingEnabled(Control c, boolean enabled) {
 		ScrolledComposite scomp = null;
-		
+
 		if (c instanceof ScrolledComposite)
 			scomp = (ScrolledComposite)c;
 		else
@@ -496,7 +497,7 @@ public class FormUtil {
 		if (scomp!=null)
 			scomp.setData(FormUtil.FOCUS_SCROLLING, enabled?null:Boolean.FALSE);
 	}
-	
+
 //	public static void setAntialias(GC gc, int style) {
 //		if (!gc.getAdvanced()) {
 //			gc.setAdvanced(true);

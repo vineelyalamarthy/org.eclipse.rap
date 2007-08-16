@@ -10,37 +10,38 @@
  *******************************************************************************/
 package org.eclipse.jface.resource;
 
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.graphics.*;
 
 /**
  * Describes a Font using an array of FontData
- * 
+ *
  * @since 3.1
  */
 final class ArrayFontDescriptor extends FontDescriptor {
 
     private FontData[] data;
     private Font originalFont = null;
-    
+
     /**
      * Creates a font descriptor for a font with the given name, height,
      * and style. These arguments are passed directly to the constructor
      * of Font.
-     * 
+     *
      * @param data FontData describing the font to create
-     * 
+     *
      * @see org.eclipse.swt.graphics.Font#Font(org.eclipse.swt.graphics.Device, org.eclipse.swt.graphics.FontData)
      * @since 3.1
      */
     public ArrayFontDescriptor(FontData[] data) {
         this.data = data;
     }
- 
+
     /**
      * Creates a font descriptor that describes the given font.
-     * 
+     *
      * @param originalFont font to be described
-     * 
+     *
      * @see FontDescriptor#createFrom(org.eclipse.swt.graphics.Font)
      * @since 3.1
      */
@@ -48,7 +49,7 @@ final class ArrayFontDescriptor extends FontDescriptor {
         this(originalFont.getFontData());
         this.originalFont = originalFont;
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.jface.resource.FontDescriptor#getFontData()
      */
@@ -56,24 +57,24 @@ final class ArrayFontDescriptor extends FontDescriptor {
     	// Copy the original array to ensure that callers will not modify it
     	return copy(data);
     }
-    
-    
+
+
     /* (non-Javadoc)
      * @see org.eclipse.jface.resource.FontDescriptor#createFont(org.eclipse.swt.graphics.Device)
      */
     public Font createFont(Device device) {
-        
+
         // If this descriptor is an existing font, then we can return the original font
         // if this is the same device.
-        if (originalFont != null) {         
+        if (originalFont != null) {
             // If we're allocating on the same device as the original font, return the original.
 //            if (originalFont.getDevice() == device) {
                 return originalFont;
 //            }
         }
-        
+
 //        return new Font(device, data);
-        return Font.getFont( data[ 0 ] );
+        return Graphics.getFont( data[ 0 ] );
     }
 
     /* (non-Javadoc)
@@ -85,30 +86,30 @@ final class ArrayFontDescriptor extends FontDescriptor {
             if (descr.originalFont != originalFont) {
                 return false;
             }
-            
+
             if (originalFont != null) {
                 return true;
             }
-            
+
             if (data.length != descr.data.length) {
                 return false;
             }
-            
+
             for (int i = 0; i < data.length; i++) {
                 FontData fd = data[i];
                 FontData fd2 = descr.data[i];
-                
+
                 if (!fd.equals(fd2)) {
                     return false;
                 }
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -116,9 +117,9 @@ final class ArrayFontDescriptor extends FontDescriptor {
         if (originalFont != null) {
             return originalFont.hashCode();
         }
-        
+
         int code = 0;
-        
+
         for (int i = 0; i < data.length; i++) {
             FontData fd = data[i];
             code += fd.hashCode();

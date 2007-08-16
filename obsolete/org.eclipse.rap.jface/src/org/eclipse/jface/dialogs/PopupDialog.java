@@ -19,6 +19,7 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.window.Window;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
@@ -41,13 +42,13 @@ import org.eclipse.swt.widgets.*;
  * to add content. In general, however, the creation of stylistic features, such
  * as the dialog menu, separator styles, and fonts, is kept private so that all
  * popup dialogs will have a similar appearance.
- * 
+ *
  * @since 3.2
  */
 public class PopupDialog extends Window {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final GridDataFactory LAYOUTDATA_GRAB_BOTH = GridDataFactory.fillDefaults().grab(true,true);
 
@@ -89,7 +90,7 @@ public class PopupDialog extends Window {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.action.IAction#run()
 		 */
 		public void run() {
@@ -117,7 +118,7 @@ public class PopupDialog extends Window {
 	}
 
 	/**
-	 * 
+	 *
 	 * Remember bounds action for the dialog.
 	 */
 	private class PersistBoundsAction extends Action {
@@ -130,7 +131,7 @@ public class PopupDialog extends Window {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.action.IAction#run()
 		 */
 		public void run() {
@@ -168,7 +169,7 @@ public class PopupDialog extends Window {
 
 	/**
 	 * Vertical spacing (in pixels) between cells in the layouts inside popup
-	 * dialogs (value is 1).  
+	 * dialogs (value is 1).
 	 */
 	public final static int POPUP_VERTICALSPACING = 1;
 
@@ -179,12 +180,12 @@ public class PopupDialog extends Window {
 	public final static int POPUP_HORIZONTALSPACING = 1;
 
 	/**
-	 * 
+	 *
 	 */
 	private static final GridLayoutFactory POPUP_LAYOUT_FACTORY = GridLayoutFactory
 			.fillDefaults().margins(POPUP_MARGINWIDTH, POPUP_MARGINHEIGHT)
 			.spacing(POPUP_HORIZONTALSPACING, POPUP_VERTICALSPACING);
-	
+
 	/**
 	 * Border thickness in pixels.
 	 */
@@ -226,7 +227,7 @@ public class PopupDialog extends Window {
 	 * font.
 	 */
 	private Font infoFont;
-	
+
 	/**
 	 * Font to be used for the title area text. Computed based on the dialog's
 	 * font.
@@ -241,8 +242,8 @@ public class PopupDialog extends Window {
 	private boolean listenToDeactivate;
 
 	private boolean listenToParentDeactivate;
-	
-	private Listener parentDeactivateListener;	
+
+	private Listener parentDeactivateListener;
 
 	/**
 	 * Flag indicating whether focus should be taken when the dialog is opened.
@@ -279,7 +280,7 @@ public class PopupDialog extends Window {
 
 	/**
 	 * Constructs a new instance of <code>PopupDialog</code>.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent shell.
 	 * @param shellStyle
@@ -308,7 +309,7 @@ public class PopupDialog extends Window {
 	 * @param infoText
 	 *            Text to be shown in a lower info area, or <code>null</code>
 	 *            if there is no info area.
-	 * 
+	 *
 	 * @see PopupDialog#getDialogSettings()
 	 */
 	public PopupDialog(Shell parent, int shellStyle, boolean takeFocusOnOpen,
@@ -330,7 +331,7 @@ public class PopupDialog extends Window {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#configureShell(Shell)
 	 */
 	protected void configureShell(Shell shell) {
@@ -394,7 +395,7 @@ public class PopupDialog extends Window {
 			};
 			shell.getParent().addListener(SWT.Deactivate, parentDeactivateListener);
 		}
-		
+
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent event) {
 				handleDispose();
@@ -412,10 +413,10 @@ public class PopupDialog extends Window {
 	 * Overriding <code>createDialogArea</code> and (optionally)
 	 * <code>createTitleMenuArea</code> and <code>createTitleMenuArea</code>
 	 * are recommended rather than overriding this method.
-	 * 
+	 *
 	 * @param parent
 	 *            the composite used to parent the contents.
-	 * 
+	 *
 	 * @return the control representing the contents.
 	 */
 	protected Control createContents(Composite parent) {
@@ -435,7 +436,7 @@ public class PopupDialog extends Window {
 		if (dialogArea.getLayoutData() == null) {
 			LAYOUTDATA_GRAB_BOTH.applyTo(dialogArea);
 		}
-		
+
 		// Info field
 		if (hasInfoArea()) {
 			infoSeparator = createHorizontalSeparator(composite);
@@ -461,13 +462,13 @@ public class PopupDialog extends Window {
 	 * <p>
 	 * Subclasses must override this method but may call <code>super</code> as
 	 * in the following example:
-	 * 
+	 *
 	 * <pre>
 	 * Composite composite = (Composite) super.createDialogArea(parent);
 	 * //add controls to composite as necessary
 	 * return composite;
 	 * </pre>
-	 * 
+	 *
 	 * @param parent
 	 *            the parent composite to contain the dialog area
 	 * @return the dialog area control
@@ -482,7 +483,7 @@ public class PopupDialog extends Window {
 	/**
 	 * Returns the control that should get initial focus. Subclasses may
 	 * override this method.
-	 * 
+	 *
 	 * @return the Control that should receive focus when the popup opens.
 	 */
 	protected Control getFocusControl() {
@@ -492,7 +493,7 @@ public class PopupDialog extends Window {
 	/**
 	 * Sets the tab order for the popup. Clients should override to introduce
 	 * specific tab ordering.
-	 * 
+	 *
 	 * @param composite
 	 *            the composite in which all content, including the title area
 	 *            and info area, was created. This composite's parent is the
@@ -506,7 +507,7 @@ public class PopupDialog extends Window {
 	 * Returns a boolean indicating whether the popup should have a title area
 	 * at the top of the dialog. Subclasses may override. Default behavior is to
 	 * have a title area if there is to be a menu or title text.
-	 * 
+	 *
 	 * @return <code>true</code> if a title area should be created,
 	 *         <code>false</code> if it should not.
 	 */
@@ -518,7 +519,7 @@ public class PopupDialog extends Window {
 	 * Returns a boolean indicating whether the popup should have an info area
 	 * at the bottom of the dialog. Subclasses may override. Default behavior is
 	 * to have an info area if info text was provided at the time of creation.
-	 * 
+	 *
 	 * @return <code>true</code> if a title area should be created,
 	 *         <code>false</code> if it should not.
 	 */
@@ -533,12 +534,12 @@ public class PopupDialog extends Window {
 	 * indicate whether a menu should be shown, and
 	 * <code>createTitleControl</code> to to customize the presentation of the
 	 * title.
-	 * 
+	 *
 	 * <p>
 	 * If this method is overridden, the returned control's layout data must be
 	 * an instance of <code>GridData</code>. This method must not modify the
 	 * parent's layout.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent composite.
 	 * @return The Control representing the title and menu area.
@@ -564,12 +565,12 @@ public class PopupDialog extends Window {
 	 * Subclasses may override if a different control is desired for
 	 * representing the title text, or if something different than the title
 	 * should be displayed in location where the title text typically is shown.
-	 * 
+	 *
 	 * <p>
 	 * If this method is overridden, the returned control's layout data must be
 	 * an instance of <code>GridData</code>. This method must not modify the
 	 * parent's layout.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent composite.
 	 * @return The Control representing the title area.
@@ -581,19 +582,19 @@ public class PopupDialog extends Window {
 			.align(SWT.FILL, SWT.CENTER)
 			.grab(true, false)
 			.span(showDialogMenu ? 1 : 2, 1)
-			.applyTo(titleLabel);	
-		
+			.applyTo(titleLabel);
+
 		Font font = titleLabel.getFont();
 		FontData[] fontDatas = font.getFontData();
-        titleFont = Font.getFont( fontDatas[ 0 ].getName(), 
-                                  fontDatas[ 0 ].getHeight(), 
-                                  SWT.BOLD );
+		titleFont = Graphics.getFont( fontDatas[ 0 ].getName(),
+		                              fontDatas[ 0 ].getHeight(),
+		                              SWT.BOLD );
 //		for (int i = 0; i < fontDatas.length; i++) {
 //			fontDatas[i].setStyle(SWT.BOLD);
 //		}
 //		titleFont = new Font(titleLabel.getDisplay(), fontDatas);
 		titleLabel.setFont(titleFont);
-		
+
 		if (titleText != null) {
 			titleLabel.setText(titleText);
 		}
@@ -604,17 +605,17 @@ public class PopupDialog extends Window {
 	 * Creates the optional info text area. This method is only called if the
 	 * <code>hasInfoArea()</code> method returns true. Subclasses typically
 	 * need not override this method, but may do so.
-	 * 
+	 *
 	 * <p>
 	 * If this method is overridden, the returned control's layout data must be
 	 * an instance of <code>GridData</code>. This method must not modify the
 	 * parent's layout.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param parent
 	 *            The parent composite.
 	 * @return The control representing the info text area.
-	 * 
+	 *
 	 * @see PopupDialog#hasInfoArea()
 	 * @see PopupDialog#createTitleControl(Composite)
 	 */
@@ -624,9 +625,9 @@ public class PopupDialog extends Window {
 		infoLabel.setText(infoText);
 		Font font = infoLabel.getFont();
 		FontData[] fontDatas = font.getFontData();
-        infoFont = Font.getFont( fontDatas[ 0 ].getName(),
-                                 fontDatas[ 0 ].getHeight() * 9 / 10,
-                                 fontDatas[ 0 ].getStyle() );
+		infoFont = Graphics.getFont( fontDatas[ 0 ].getName(),
+		                             fontDatas[ 0 ].getHeight() * 9 / 10,
+		                             fontDatas[ 0 ].getStyle() );
 //		for (int i = 0; i < fontDatas.length; i++) {
 //			fontDatas[i].setHeight(fontDatas[i].getHeight() * 9 / 10);
 //		}
@@ -641,7 +642,7 @@ public class PopupDialog extends Window {
 
 	/**
 	 * Create a horizontal separator for the given parent.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent composite.
 	 * @return The Control representing the horizontal separator.
@@ -656,7 +657,7 @@ public class PopupDialog extends Window {
 
 	/**
 	 * Create the dialog's menu for the move and resize actions.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent composite.
 	 */
@@ -699,7 +700,7 @@ public class PopupDialog extends Window {
 
 	/**
 	 * Fill the dialog's menu. Subclasses may extend or override.
-	 * 
+	 *
 	 * @param dialogMenu
 	 *            The dialog's menu.
 	 */
@@ -715,7 +716,7 @@ public class PopupDialog extends Window {
 
 	/**
 	 * Perform the requested tracker action (resize or move).
-	 * 
+	 *
 	 * @param style
 	 *            The track style (resize or move).
 	 */
@@ -774,10 +775,10 @@ public class PopupDialog extends Window {
 	 * Set the text to be shown in the popup's info area. This message has no
 	 * effect if there was no info text supplied when the dialog first opened.
 	 * Subclasses may override this method.
-	 * 
+	 *
 	 * @param text
 	 *            the text to be shown when the info area is displayed.
-	 * 
+	 *
 	 */
 	protected void setInfoText(String text) {
 		infoText = text;
@@ -790,10 +791,10 @@ public class PopupDialog extends Window {
 	 * Set the text to be shown in the popup's title area. This message has no
 	 * effect if there was no title label specified when the dialog was
 	 * originally opened. Subclasses may override this method.
-	 * 
+	 *
 	 * @param text
 	 *            the text to be shown when the title area is displayed.
-	 * 
+	 *
 	 */
 	protected void setTitleText(String text) {
 		titleText = text;
@@ -807,7 +808,7 @@ public class PopupDialog extends Window {
 	 * This value is initially set in the dialog's constructor, but can be
 	 * modified if the persist bounds action is shown on the menu and the user
 	 * has changed its value. Subclasses may override this method.
-	 * 
+	 *
 	 * @return <true> if the dialogs bounds will be persisted, false if it will
 	 *         not.
 	 */
@@ -824,9 +825,9 @@ public class PopupDialog extends Window {
 	 * framework hooks that allow subclasses to set the focus and tab order, and
 	 * avoids the use of <code>shell.open()</code> in cases where the focus
 	 * should not be given to the shell initially.
-	 * 
+	 *
 	 * @return the return code
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#open(org.eclipse.jface.window.IWindowCallback)
 	 */
 	public int open() {
@@ -874,7 +875,7 @@ public class PopupDialog extends Window {
 	 * state so that the widgets can be recreated if the dialog is reopened.
 	 * This method may be extended (<code>super.close</code> must be called).
 	 * </p>
-	 * 
+	 *
 	 * @return <code>true</code> if the window is (or was already) closed, and
 	 *         <code>false</code> if it is still open
 	 */
@@ -884,14 +885,14 @@ public class PopupDialog extends Window {
 		if (getShell() == null || getShell().isDisposed()) {
 			return true;
 		}
-		
+
 		saveDialogBounds(getShell());
 		// Widgets are about to be disposed, so null out any state
 		// related to them that was not handled in dispose listeners.
 		// We do this before disposal so that any received activate or
 		// deactivate events are duly ignored.
 		initializeWidgetState();
-		
+
 		if (parentDeactivateListener != null) {
 //			getShell().getParent().removeListener(SWT.Deactivate, parentDeactivateListener);
 			parentDeactivateListener = null;
@@ -904,7 +905,7 @@ public class PopupDialog extends Window {
 	 * Gets the dialog settings that should be used for remembering the bounds
 	 * of the dialog. Subclasses should override this method when they wish to
 	 * persist the bounds of the dialog.
-	 * 
+	 *
 	 * @return settings the dialog settings used to store the dialog's location
 	 *         and/or size, or <code>null</code> if the dialog's bounds should
 	 *         never be stored.
@@ -921,7 +922,7 @@ public class PopupDialog extends Window {
 	 * <code>super.saveDialogBounds</code> if additional bounds information
 	 * should be stored. Clients may also call this method to persist the bounds
 	 * at times other than closing the dialog.
-	 * 
+	 *
 	 * @param shell
 	 *            The shell whose bounds are to be stored
 	 */
@@ -953,7 +954,7 @@ public class PopupDialog extends Window {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#getInitialSize()
 	 */
 	protected Point getInitialSize() {
@@ -989,7 +990,7 @@ public class PopupDialog extends Window {
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#getInitialLocation(org.eclipse.swt.graphics.Point)
 	 */
 	protected Point getInitialLocation(Point initialSize) {
@@ -1022,7 +1023,7 @@ public class PopupDialog extends Window {
 
 	/**
 	 * Apply any desired color to the specified composite and its children.
-	 * 
+	 *
 	 * @param composite
 	 *            the contents composite
 	 */
@@ -1037,7 +1038,7 @@ public class PopupDialog extends Window {
 
 	/**
 	 * Apply any desired fonts to the specified composite and its children.
-	 * 
+	 *
 	 * @param composite
 	 *            the contents composite
 	 */
@@ -1049,7 +1050,7 @@ public class PopupDialog extends Window {
 	/**
 	 * Set the specified foreground color for the specified control and all of
 	 * its children, except for those specified in the list of exclusions.
-	 * 
+	 *
 	 * @param color
 	 *            the color to use as the foreground color
 	 * @param control
@@ -1074,7 +1075,7 @@ public class PopupDialog extends Window {
 	/**
 	 * Set the specified background color for the specified control and all of
 	 * its children.
-	 * 
+	 *
 	 * @param color
 	 *            the color to use as the background color
 	 * @param control
@@ -1102,7 +1103,7 @@ public class PopupDialog extends Window {
 	 * If a subclass wishes to exclude a particular control in its contents from
 	 * getting the specified foreground color, it may instead override
 	 * <code>PopupDialog.getForegroundColorExclusions</code>.
-	 * 
+	 *
 	 * @param color
 	 *            the color to use as the background color
 	 * @param control
@@ -1119,7 +1120,7 @@ public class PopupDialog extends Window {
 	 * If a subclass wishes to exclude a particular control in its contents from
 	 * getting the specified background color, it may instead override
 	 * <code>PopupDialog.getBackgroundColorExclusions</code>.
-	 * 
+	 *
 	 * @param color
 	 *            the color to use as the background color
 	 * @param control
@@ -1134,8 +1135,8 @@ public class PopupDialog extends Window {
 	 * Return a list of controls which should never have their foreground color
 	 * reset. Subclasses may extend this method (should always call
 	 * <code>super.getForegroundColorExclusions</code> to aggregate the list.
-	 * 
-	 * 
+	 *
+	 *
 	 * @return the List of controls
 	 */
 	protected List getForegroundColorExclusions() {
@@ -1156,7 +1157,7 @@ public class PopupDialog extends Window {
 	 * Return a list of controls which should never have their background color
 	 * reset. Subclasses may extend this method (should always call
 	 * <code>super.getBackgroundColorExclusions</code> to aggregate the list.
-	 * 
+	 *
 	 * @return the List of controls
 	 */
 	protected List getBackgroundColorExclusions() {
@@ -1195,7 +1196,7 @@ public class PopupDialog extends Window {
 		}
 
 	}
-	
+
 	/**
 	 * The dialog is being disposed.  Dispose of any resources allocated.
 	 *
