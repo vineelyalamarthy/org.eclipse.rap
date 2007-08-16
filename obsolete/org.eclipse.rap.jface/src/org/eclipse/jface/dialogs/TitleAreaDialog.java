@@ -16,6 +16,7 @@ package org.eclipse.jface.dialogs;
 
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -43,7 +44,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Message type constant used to display an info icon with the message.
-	 * 
+	 *
 	 * @since 2.0
 	 * @deprecated
 	 */
@@ -51,7 +52,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Message type constant used to display a warning icon with the message.
-	 * 
+	 *
 	 * @since 2.0
 	 * @deprecated
 	 */
@@ -100,7 +101,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Instantiate a new title area dialog.
-	 * 
+	 *
 	 * @param parentShell
 	 *            the parent SWT shell
 	 */
@@ -145,7 +146,7 @@ public class TitleAreaDialog extends TrayDialog {
 	 * and returns a new <code>Composite</code> with no margins and spacing.
 	 * Subclasses should override.
 	 * </p>
-	 * 
+	 *
 	 * @param parent
 	 *            The parent composite to contain the dialog area
 	 * @return the dialog area control
@@ -170,7 +171,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Creates the dialog's title area.
-	 * 
+	 *
 	 * @param parent
 	 *            the SWT parent for the title area widgets
 	 * @return Control with the highest x axis value.
@@ -191,7 +192,7 @@ public class TitleAreaDialog extends TrayDialog {
 		Color foreground;
 		if (titleAreaRGB != null) {
 //			titleAreaColor = new Color(display, titleAreaRGB);
-			titleAreaColor = Color.getColor(titleAreaRGB);
+			titleAreaColor = Graphics.getColor(titleAreaRGB);
 			background = titleAreaColor;
 			foreground = null;
 		} else {
@@ -268,7 +269,7 @@ public class TitleAreaDialog extends TrayDialog {
 	/**
 	 * Set the layout values for the messageLabel, messageImageLabel and
 	 * fillerLabel for the case where there is a normal message.
-	 * 
+	 *
 	 * @param verticalSpacing
 	 *            int The spacing between widgets on the vertical axis.
 	 * @param horizontalSpacing
@@ -307,7 +308,7 @@ public class TitleAreaDialog extends TrayDialog {
 	 * The <code>TitleAreaDialog</code> implementation of this
 	 * <code>Window</code> methods returns an initial size which is at least
 	 * some reasonable minimum.
-	 * 
+	 *
 	 * @return the initial size of the dialog
 	 */
 	protected Point getInitialSize() {
@@ -320,10 +321,10 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Retained for backward compatibility.
-	 * 
+	 *
 	 * Returns the title area composite. There is no composite in this
 	 * implementation so the shell is returned.
-	 * 
+	 *
 	 * @return Composite
 	 * @deprecated
 	 */
@@ -333,7 +334,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Returns the title image label.
-	 * 
+	 *
 	 * @return the title image label
 	 */
 	protected Label getTitleImageLabel() {
@@ -344,7 +345,7 @@ public class TitleAreaDialog extends TrayDialog {
 	 * Display the given error message. The currently displayed message is saved
 	 * and will be redisplayed when the error message is set to
 	 * <code>null</code>.
-	 * 
+	 *
 	 * @param newErrorMessage
 	 *            the newErrorMessage to display or <code>null</code>
 	 */
@@ -450,7 +451,7 @@ public class TitleAreaDialog extends TrayDialog {
 	 * </p>
 	 * This method should be called after the dialog has been opened as it
 	 * updates the message label immediately.
-	 * 
+	 *
 	 * @param newMessage
 	 *            the message, or <code>null</code> to clear the message
 	 */
@@ -473,7 +474,7 @@ public class TitleAreaDialog extends TrayDialog {
 	 * message until the error message is cleared. This method replaces the
 	 * current message and does not affect the error message.
 	 * </p>
-	 * 
+	 *
 	 * @param newMessage
 	 *            the message, or <code>null</code> to clear the message
 	 * @param newType
@@ -502,7 +503,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Show the new message and image.
-	 * 
+	 *
 	 * @param newMessage
 	 * @param newImage
 	 */
@@ -516,7 +517,7 @@ public class TitleAreaDialog extends TrayDialog {
 			message = "";//$NON-NLS-1$
 		// Message string to be shown - if there is an image then add in
 		// a space to the message for layout purposes
-		String shownMessage = (newImage == null) ? message : " " + message; //$NON-NLS-1$  
+		String shownMessage = (newImage == null) ? message : " " + message; //$NON-NLS-1$
 		messageImage = newImage;
 		if (!showingError) {
 			// we are not showing an error
@@ -529,7 +530,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Update the contents of the messageLabel.
-	 * 
+	 *
 	 * @param newMessage
 	 *            the message to use
 	 */
@@ -539,7 +540,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Sets the title to be shown in the title area of this dialog.
-	 * 
+	 *
 	 * @param newTitle
 	 *            the title show
 	 */
@@ -554,7 +555,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Sets the title bar color for this dialog.
-	 * 
+	 *
 	 * @param color
 	 *            the title bar color
 	 */
@@ -564,7 +565,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 	/**
 	 * Sets the title image to be shown in the title area of this dialog.
-	 * 
+	 *
 	 * @param newTitleImage
 	 *            the title image to be shown
 	 */
@@ -589,7 +590,7 @@ public class TitleAreaDialog extends TrayDialog {
 	/**
 	 * Make the label used for displaying error images visible depending on
 	 * boolean.
-	 * 
+	 *
 	 * @param visible
 	 *            If <code>true</code> make the image visible, if not then
 	 *            make it not visible.
@@ -603,7 +604,7 @@ public class TitleAreaDialog extends TrayDialog {
 	/**
 	 * Reset the attachment of the workArea to now attach to top as the top
 	 * control.
-	 * 
+	 *
 	 * @param top
 	 */
 	private void resetWorkAreaAttachments(Control top) {

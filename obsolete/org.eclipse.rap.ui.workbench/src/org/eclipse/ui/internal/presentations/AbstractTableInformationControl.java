@@ -12,6 +12,7 @@ package org.eclipse.ui.internal.presentations;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.*;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
@@ -49,11 +50,11 @@ public abstract class AbstractTableInformationControl {
 
             String matchName = ((ILabelProvider) tableViewer.getLabelProvider())
                     .getText(element);
-            
+
             if(matchName == null) {
 				return false;
 			}
-            // A dirty editor's label will start with dirty prefix, this prefix 
+            // A dirty editor's label will start with dirty prefix, this prefix
             // should not be taken in consideration when matching with a pattern
             String prefix = DefaultTabItem.DIRTY_PREFIX;
             if (matchName.startsWith(prefix)) {
@@ -159,7 +160,7 @@ public abstract class AbstractTableInformationControl {
     /**
      * Creates an information control with the given shell as parent. The given
      * styles are applied to the shell and the table widget.
-     * 
+     *
      * @param parent
      *            the parent shell
      * @param shellStyle
@@ -214,16 +215,16 @@ public abstract class AbstractTableInformationControl {
         /*
          * Bug in GTK, see SWT bug: 62405 Editor drop down performance slow on
          * Linux-GTK on mouse move.
-         * Rather then removing the support altogether this feature has been 
-         * worked around for GTK only as we expect that newer versions of GTK 
-         * will no longer exhibit this quality and we will be able to have the 
+         * Rather then removing the support altogether this feature has been
+         * worked around for GTK only as we expect that newer versions of GTK
+         * will no longer exhibit this quality and we will be able to have the
          * desired support running on all platforms. See
-         * comment https://bugs.eclipse.org/bugs/show_bug.cgi?id=62405#c22 
+         * comment https://bugs.eclipse.org/bugs/show_bug.cgi?id=62405#c22
          * TODO: remove this code once bug 62405 is fixed for the mainstream GTK
          * version
          */
         final int ignoreEventCount = Platform.getWS().equals(Platform.WS_GTK) ? 4 : 1;
-    
+
 //        table.addMouseMoveListener(new MouseMoveListener() {
 //            TableItem fLastItem = null;
 //            int lastY = 0;
@@ -261,7 +262,7 @@ public abstract class AbstractTableInformationControl {
 //                }
 //            }
 //        });
-    
+
 //        table.addMouseListener(new MouseAdapter() {
 //            public void mouseUp(MouseEvent e) {
 //                if (table.getSelectionCount() < 1) {
@@ -381,7 +382,7 @@ public abstract class AbstractTableInformationControl {
 //        setForegroundColor(display.getSystemColor(SWT.COLOR_INFO_FOREGROUND));
 //        setBackgroundColor(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
         setForegroundColor(display.getSystemColor(SWT.COLOR_BLACK));
-        setBackgroundColor(Color.getColor(255, 255, 202));
+        setBackgroundColor(Graphics.getColor(255, 255, 202));
     }
 
     private void installFilter() {
@@ -452,7 +453,7 @@ public abstract class AbstractTableInformationControl {
 
     /**
      * Delete all selected elements.
-     *  
+     *
      * @return <code>true</code> if there are no elements left after deletion.
      */
     protected abstract boolean deleteSelectedElements();

@@ -12,6 +12,7 @@ package org.eclipse.ui.internal.presentations.defaultpresentation;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.util.Geometry;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
@@ -34,7 +35,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
     private PaneFolder paneFolder;
     private Control viewToolBar;
     private Label titleLabel;
-    
+
     private PaneFolderButtonListener buttonListener = new PaneFolderButtonListener() {
         public void stateButtonPressed(int buttonId) {
             fireEvent(TabFolderEvent.stackStateToEventId(buttonId));
@@ -42,14 +43,14 @@ public class DefaultTabFolder extends AbstractTabFolder {
 
         /**
          * Called when a close button is pressed.
-         *   
+         *
          * @param item the tab whose close button was pressed
          */
         public void closeButtonPressed(CTabItem item) {
             fireEvent(TabFolderEvent.EVENT_CLOSE, getTab(item));
         }
         /**
-         * 
+         *
          * @since 3.0
          */
         public void showList(CTabFolderEvent event) {
@@ -58,7 +59,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
 //            fireEvent(TabFolderEvent.EVENT_SHOW_LIST);
         }
     };
-    
+
     // Workaround cause SWT.Selection does not carry item
 //    private Listener selectionListener = new Listener() {
 //        public void handleEvent(Event e) {
@@ -71,36 +72,36 @@ public class DefaultTabFolder extends AbstractTabFolder {
             }
         }
     };
-    
+
     // TODO: [fappel] initialization via theme listener
-    private static Color activeForeground = Color.getColor( 255, 255, 255 ); 
-    private static Color inactiveForeground = Color.getColor( 0, 0, 0 ); 
+    private static Color activeForeground = Graphics.getColor( 255, 255, 255 );
+    private static Color inactiveForeground = Graphics.getColor( 0, 0, 0 );
     private static Color[] activeSelectedBackground = new Color[] {
-    	Color.getColor( 0, 128, 192 ),
-    	Color.getColor( 0, 128, 192 )
+    	Graphics.getColor( 0, 128, 192 ),
+    	Graphics.getColor( 0, 128, 192 )
     };
     private static Color[] unselectedBackground = new Color[] {
-    	Color.getColor( 236, 233, 216 ),
-    	Color.getColor( 236, 233, 216 )
+    	Graphics.getColor( 236, 233, 216 ),
+    	Graphics.getColor( 236, 233, 216 )
     };
     private static Color[] inactiveSelectedBackground = new Color[] {
-    	Color.getColor( 211, 231, 223 ),
-    	Color.getColor( 211, 231, 223 )
+    	Graphics.getColor( 211, 231, 223 ),
+    	Graphics.getColor( 211, 231, 223 )
     };
-    private static DefaultTabFolderColors colorsInactiveSelected 
+    private static DefaultTabFolderColors colorsInactiveSelected
     = new DefaultTabFolderColors( inactiveForeground,
     		inactiveSelectedBackground,
     		null,
     		false );
     private static DefaultTabFolderColors colorsActiveSelected
     = new DefaultTabFolderColors( activeForeground,
-    		activeSelectedBackground, 
-    		null, 
+    		activeSelectedBackground,
+    		null,
     		false );
     private static DefaultTabFolderColors colorsInactive
     = new DefaultTabFolderColors( inactiveForeground,
-    		unselectedBackground, 
-    		null, 
+    		unselectedBackground,
+    		null,
     		false );
 
     private DefaultTabFolderColors[] activeShellColors = {
@@ -110,14 +111,14 @@ public class DefaultTabFolder extends AbstractTabFolder {
     		colorsInactiveSelected, colorsActiveSelected, colorsInactive
     };
 //    private static DefaultTabFolderColors defaultColors = new DefaultTabFolderColors();
-//    
+//
 //    private DefaultTabFolderColors[] activeShellColors = {defaultColors, defaultColors, defaultColors};
 //    private DefaultTabFolderColors[] inactiveShellColors = {defaultColors, defaultColors, defaultColors};
     private boolean shellActive = false;
-    
+
     /**
      * Create a new instance of the receiver
-     * 
+     *
      * @param parent
      * @param flags
      * @param allowMin
@@ -132,19 +133,19 @@ public class DefaultTabFolder extends AbstractTabFolder {
 //        paneFolder.getControl().addListener(SWT.Selection, selectionListener);
         ((CTabFolder)paneFolder.getControl()).addSelectionListener(selectionListener);
         paneFolder.setTopRight(null);
-        
+
         // Initialize view menu dropdown
-        {            
+        {
 //            ToolBar actualToolBar = new ToolBar(paneFolder.getControl(), SWT.FLAT | SWT.NO_BACKGROUND);
         	ToolBar actualToolBar = new ToolBar(paneFolder.getControl(), SWT.FLAT);
             viewToolBar = actualToolBar;
-            
+
 	        ToolItem pullDownButton = new ToolItem(actualToolBar, SWT.PUSH);
 	        Image hoverImage = WorkbenchImages
 	                .getImage(IWorkbenchGraphicConstants.IMG_LCL_RENDERED_VIEW_MENU);
 //	        pullDownButton.setDisabledImage(hoverImage);
 	        pullDownButton.setImage(hoverImage);
-	        pullDownButton.setToolTipText(WorkbenchMessages.Menu); 
+	        pullDownButton.setToolTipText(WorkbenchMessages.Menu);
 //            actualToolBar.addMouseListener(new MouseAdapter() {
 //                public void mouseDown(MouseEvent e) {
 //                    fireEvent(TabFolderEvent.EVENT_PANE_MENU, getSelection(), getPaneMenuLocation());
@@ -158,14 +159,14 @@ public class DefaultTabFolder extends AbstractTabFolder {
             	}
             });
         }
-        
+
         // TODO: remove hack
         ActivateListener activateListener = new ActivateAdapter() {
             public void activated( ActivateEvent event ) {
               fireEvent( TabFolderEvent.EVENT_GIVE_FOCUS_TO_PART );
             }
         };
-        
+
         // Initialize content description label
         {
 	        titleLabel = new Label(paneFolder.getControl(), SWT.NONE);
@@ -174,17 +175,17 @@ public class DefaultTabFolder extends AbstractTabFolder {
             attachListeners(titleLabel, false);
             ActivateEvent.addListener( titleLabel , activateListener );
         }
-        
+
         ActivateEvent.addListener( paneFolder.getControl(), activateListener );
         ActivateEvent.addListener( paneFolder.getViewForm(), activateListener );
-        
+
         attachListeners(paneFolder.getControl(), false);
         attachListeners(paneFolder.getViewForm(), false);
-        
+
         paneFolder.setTabHeight(computeTabHeight());
-        
+
         viewToolBar.moveAbove(null);
-        
+
         // TODO: hack around workbench themes
         activeShellColors[1].background[0] = paneFolder.getControl().getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION);
         inactiveShellColors[1].background[0] = paneFolder.getControl().getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION);
@@ -193,7 +194,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
     /**
      * Changes the minimum number of characters to display in the pane folder
      * tab. This control how much information will be displayed to the user.
-     * 
+     *
      * @param count
      *            The number of characters to display in the tab folder; this
      *            value should be a positive integer.
@@ -203,11 +204,11 @@ public class DefaultTabFolder extends AbstractTabFolder {
     public void setMinimumCharacters(int count) {
         paneFolder.setMinimumCharacters(count);
     }
-    
+
 //    public void setSimpleTabs(boolean simple) {
 //        paneFolder.setSimpleTab(simple);
 //    }
-    
+
     /**
      * @param item
      * @return
@@ -227,19 +228,19 @@ public class DefaultTabFolder extends AbstractTabFolder {
     /* package */ PaneFolder getFolder() {
         return paneFolder;
     }
-    
+
     public AbstractTabItem getSelection() {
         return getTab(paneFolder.getSelection());
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#add(int)
      */
     public AbstractTabItem add(int index, int flags) {
         DefaultTabItem result = new DefaultTabItem((CTabFolder)getFolder().getControl(), index, flags);
-        
+
         result.getWidget().setData(result);
-        
+
         return result;
     }
 
@@ -262,13 +263,13 @@ public class DefaultTabFolder extends AbstractTabFolder {
      */
     public AbstractTabItem[] getItems() {
         CTabItem[] items = paneFolder.getItems();
-        
+
         AbstractTabItem[] result = new AbstractTabItem[items.length];
-        
+
         for (int i = 0; i < result.length; i++) {
             result[i] = getTab(items[i]);
         }
-        
+
         return result;
     }
 
@@ -279,7 +280,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
         // Override retrieving all the items when we just want the count.
         return paneFolder.getItemCount();
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#setSelection(org.eclipse.ui.internal.presentations.util.AbstractTabItem)
      */
@@ -300,7 +301,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
     public Control getControl() {
         return paneFolder.getControl();
     }
-    
+
     public void setUnselectedCloseVisible(boolean visible) {
         paneFolder.setUnselectedCloseVisible(visible);
     }
@@ -308,7 +309,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
 //    public void setUnselectedImageVisible(boolean visible) {
 //        paneFolder.setUnselectedImageVisible(visible);
 //    }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#getTabArea()
      */
@@ -335,11 +336,11 @@ public class DefaultTabFolder extends AbstractTabFolder {
      */
     public void setSelectedInfo(PartInfo info) {
         String newTitle = DefaultTabItem.escapeAmpersands(info.contentDescription);
-        
+
         if (!Util.equals(titleLabel.getText(), newTitle)) {
             titleLabel.setText(newTitle);
         }
-    	
+
         if (!info.contentDescription.equals(Util.ZERO_LENGTH_STRING)) {
             paneFolder.setTopLeft(titleLabel);
             titleLabel.setVisible(true);
@@ -354,38 +355,38 @@ public class DefaultTabFolder extends AbstractTabFolder {
      */
     public Point getPaneMenuLocation() {
         Point toolbarSize = viewToolBar.getSize();
-        
+
         return viewToolBar.toDisplay(0,toolbarSize.y);
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#getPartListLocation()
      */
     public Point getPartListLocation() {
         return paneFolder.getControl().toDisplay(paneFolder.getChevronLocation());
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#getSystemMenuLocation()
      */
     public Point getSystemMenuLocation() {
         Rectangle bounds = DragUtil.getDisplayBounds(paneFolder.getControl());
-		
+
 		int idx = paneFolder.getSelectionIndex();
 		if (idx > -1) {
 		    CTabItem item = paneFolder.getItem(idx);
 		    Rectangle itemBounds = item.getBounds();
-		
+
 		    bounds.x += itemBounds.x;
 		    bounds.y += itemBounds.y;
 		}
-		
+
 		Point location = new Point(bounds.x, bounds.y
 		        + paneFolder.getTabHeight());
-		
+
 		return location;
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#isOnBorder(org.eclipse.swt.graphics.Point)
      */
@@ -393,19 +394,19 @@ public class DefaultTabFolder extends AbstractTabFolder {
         Control content = paneFolder.getContent();
         if (content != null) {
             Rectangle displayBounds = DragUtil.getDisplayBounds(content);
-            
+
             if (paneFolder.getTabPosition() == SWT.TOP) {
                 return toTest.y >= displayBounds.y;
             }
-            
+
             if (toTest.y >= displayBounds.y && toTest.y < displayBounds.y + displayBounds.height) {
                 return true;
             }
         }
-        
+
         return super.isOnBorder(toTest);
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#layout(boolean)
      */
@@ -413,7 +414,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
         paneFolder.layout(flushCache);
         super.layout(flushCache);
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#setState(int)
      */
@@ -421,7 +422,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
         paneFolder.setState(state);
         super.setState(state);
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#setActive(int)
      */
@@ -429,7 +430,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
         super.setActive(activeState);
         updateColors();
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#setTabPosition(int)
      */
@@ -438,11 +439,11 @@ public class DefaultTabFolder extends AbstractTabFolder {
         super.setTabPosition(tabPosition);
         layout(true);
     }
-    
+
     public void flushToolbarSize() {
         paneFolder.flushTopCenterSize();
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#setToolbar(org.eclipse.swt.widgets.Control)
      */
@@ -450,30 +451,30 @@ public class DefaultTabFolder extends AbstractTabFolder {
         paneFolder.setTopCenter(toolbarControl);
         super.setToolbar(toolbarControl);
     }
-    
+
     public void setColors(DefaultTabFolderColors colors, int activationState, boolean shellActivationState) {
         Assert.isTrue(activationState < activeShellColors.length);
-                
+
         if (shellActivationState) {
             activeShellColors[activationState] = colors;
         } else {
             inactiveShellColors[activationState] = colors;
         }
-        
+
         if (activationState == getActive() && shellActive == shellActivationState) {
             updateColors();
         }
     }
-    
+
     /**
-     * 
+     *
      * @since 3.1
      */
     private void updateColors() {
-        DefaultTabFolderColors currentColors = shellActive ? 
-                activeShellColors[getActive()] 
+        DefaultTabFolderColors currentColors = shellActive ?
+                activeShellColors[getActive()]
                 : inactiveShellColors[getActive()];
-                
+
         paneFolder.setSelectionForeground(currentColors.foreground);
         paneFolder.setSelectionBackground(currentColors.background, currentColors.percentages, currentColors.vertical);
     }
@@ -482,14 +483,14 @@ public class DefaultTabFolder extends AbstractTabFolder {
         setColors(colors, activationState, true);
         setColors(colors, activationState, false);
     }
-    
+
     /* (non-Javadoc)
      * @see org.eclipse.ui.internal.presentations.util.AbstractTabFolder#shellActive(boolean)
      */
     public void shellActive(boolean isActive) {
         this.shellActive = isActive;
         super.shellActive(isActive);
-        
+
         updateColors();
     }
 
@@ -504,7 +505,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
 //            paneFolder.setTabHeight(computeTabHeight());
 //        }
 //    }
-    
+
     /**
      * @return the required tab height for this folder.
      */
@@ -534,13 +535,13 @@ public class DefaultTabFolder extends AbstractTabFolder {
     public void setSingleTab(boolean b) {
         paneFolder.setSingleTab(b);
         AbstractTabItem[] items = getItems();
-        
+
         for (int i = 0; i < items.length; i++) {
             DefaultTabItem item = (DefaultTabItem)items[i];
-        
+
             item.updateTabText();
         }
-        
+
         layout(true);
     }
 

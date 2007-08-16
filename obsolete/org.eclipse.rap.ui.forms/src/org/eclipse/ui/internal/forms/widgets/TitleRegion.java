@@ -12,6 +12,7 @@ package org.eclipse.ui.internal.forms.widgets;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.internal.graphics.FontSizeCalculator;
@@ -75,7 +76,7 @@ public class TitleRegion extends Canvas {
 
 		public MenuHyperlink(Composite parent, int style) {
 		  super( parent, style );
-		  setBackground( Color.getColor( 255, 0, 0 ) );
+		  setBackground( Graphics.getColor( 255, 0, 0 ) );
       setExpanded(true);
 		}
 
@@ -393,7 +394,7 @@ public class TitleRegion extends Canvas {
 	/**
 	 * Sets the form's busy state. Busy form will display 'busy' animation in
 	 * the area of the title image.
-	 * 
+	 *
 	 * @param busy
 	 *            the form's busy state
 	 */

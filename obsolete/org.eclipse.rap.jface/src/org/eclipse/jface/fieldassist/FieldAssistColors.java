@@ -136,7 +136,7 @@
 //
 //		// create the color
 ////		Color color = new Color(display, destRed, destGreen, destBlue);
-//		Color color = Color.getColor(destRed, destGreen, destBlue);
+//		Color color = Graphics.getColor(destRed, destGreen, destBlue);
 //		
 //		// record the color in a map using the original color as the key
 //		requiredFieldColorMap.put(dest, color);

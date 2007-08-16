@@ -11,6 +11,7 @@
 package org.eclipse.jface.resource;
 
 import org.eclipse.jface.preference.JFacePreferences;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
@@ -31,7 +32,7 @@ public class JFaceColors {
      */
     public static Color getBannerBackground(Device display) {
         //return display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
-    	return Color.getColor(255,255,255);
+    	return Graphics.getColor(255,255,255);
     }
 
     /**
@@ -42,7 +43,7 @@ public class JFaceColors {
      */
     public static Color getBannerForeground(Device display) {
 //        return display.getSystemColor(SWT.COLOR_LIST_FOREGROUND);
-    	return Color.getColor(0,0,0);
+    	return Graphics.getColor(0,0,0);
     }
 
     /**
@@ -104,8 +105,8 @@ public class JFaceColors {
      * may be disposed. Users of the colors in this class should add a IPropertyChangeListener
      * to detect when any of these colors change.
      * @param colorName name of the color
-     * 
-     * @deprecated JFaceColors no longer maintains a cache of colors.  This job 
+     *
+     * @deprecated JFaceColors no longer maintains a cache of colors.  This job
      * is now handled by the ColorRegistry.
      */
     public static void clearColor(String colorName) {
@@ -115,8 +116,8 @@ public class JFaceColors {
     /**
      * Dispose of all allocated colors. Called on workbench
      * shutdown.
-     * 
-     * @deprecated JFaceColors no longer maintains a cache of colors.  This job 
+     *
+     * @deprecated JFaceColors no longer maintains a cache of colors.  This job
      * is now handled by the ColorRegistry.
      */
     public static void disposeColors() {
@@ -126,9 +127,9 @@ public class JFaceColors {
     /**
      * Set the foreground and background colors of the
      * control to the specified values. If the values are
-     * null than ignore them. 
+     * null than ignore them.
      * @param control the control the foreground and/or background color should be set
-     * 
+     *
      * @param foreground Color the foreground color (maybe <code>null</code>)
      * @param background Color the background color (maybe <code>null</code>)
      */

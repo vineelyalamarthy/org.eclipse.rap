@@ -23,6 +23,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -35,9 +36,9 @@ import org.eclipse.ui.progress.IProgressConstants;
 
 /**
  * ProgressInfoItem is the item used to show jobs.
- * 
+ *
  * @since 3.1
- * 
+ *
  */
 class ProgressInfoItem extends Composite {
 
@@ -140,7 +141,7 @@ class ProgressInfoItem extends Composite {
 								.getWorkbenchImageDescriptor("dlcl16/progress_rem.gif")); //$NON-NLS-1$
 
 		// Mac has different Gamma value
-//		int shift = "carbon".equals(SWT.getPlatform()) ? -25 : -10;//$NON-NLS-1$ 
+//		int shift = "carbon".equals(SWT.getPlatform()) ? -25 : -10;//$NON-NLS-1$
 //
 //		Color lightColor = PlatformUI.getWorkbench().getDisplay()
 //				.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
@@ -158,7 +159,7 @@ class ProgressInfoItem extends Composite {
 	/**
 	 * Create a new instance of the receiver with the specified parent, style
 	 * and info object/
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param progressInfo
@@ -176,7 +177,7 @@ class ProgressInfoItem extends Composite {
 	 * Create the child widgets of the receiver.
 	 */
 	/**
-	 * 
+	 *
 	 */
 	protected void createChildren() {
 
@@ -218,7 +219,7 @@ class ProgressInfoItem extends Composite {
 //		actionBar.addListener(SWT.Traverse, new Listener() {
 //			/*
 //			 * (non-Javadoc)
-//			 * 
+//			 *
 //			 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 //			 */
 //			public void handleEvent(Event event) {
@@ -249,7 +250,7 @@ class ProgressInfoItem extends Composite {
 //		mouseListener = new MouseAdapter() {
 //			/*
 //			 * (non-Javadoc)
-//			 * 
+//			 *
 //			 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.MouseEvent)
 //			 */
 //			public void mouseDown(MouseEvent e) {
@@ -269,7 +270,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Set the layout of the widgets for the no progress case.
-	 * 
+	 *
 	 */
 	private void setLayoutsForNoProgress() {
 
@@ -292,7 +293,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Cancel or remove the reciever.
-	 * 
+	 *
 	 */
 	protected void cancelOrRemove() {
 
@@ -306,7 +307,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Get the image for the info.
-	 * 
+	 *
 	 * @return Image
 	 */
 	private Image getInfoImage() {
@@ -343,7 +344,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Get the main title for the receiver.
-	 * 
+	 *
 	 * @return String
 	 */
 	private String getMainTitle() {
@@ -359,7 +360,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Get the name and status for the main label.
-	 * 
+	 *
 	 * @return String
 	 */
 	protected String getJobNameAndStatus() {
@@ -399,7 +400,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Return the finished String for a job.
-	 * 
+	 *
 	 * @param job
 	 *            the completed Job
 	 * @param withTime
@@ -419,7 +420,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Get the time string the finished job
-	 * 
+	 *
 	 * @return String or <code>null</code> if this is not one of the finished
 	 *         jobs.
 	 */
@@ -434,7 +435,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Refresh the contents of the receiver.
-	 * 
+	 *
 	 */
 	void refresh() {
 
@@ -537,7 +538,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Return whether or not the receiver is a completed job.
-	 * 
+	 *
 	 * @return boolean <code>true</code> if the state is Job#NONE.
 	 */
 	private boolean isCompleted() {
@@ -554,7 +555,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Return the job infos in the receiver.
-	 * 
+	 *
 	 * @return JobInfo[]
 	 */
 	private JobInfo[] getJobInfos() {
@@ -569,7 +570,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Return whether or not the receiver is being displayed as running.
-	 * 
+	 *
 	 * @return boolean
 	 */
 	private boolean isRunning() {
@@ -585,7 +586,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Get the current percent done.
-	 * 
+	 *
 	 * @return int
 	 */
 	private int getPercentDone() {
@@ -609,7 +610,7 @@ class ProgressInfoItem extends Composite {
 	/**
 	 * Set the images in the toolbar based on whether the receiver is finished
 	 * or not. Also update tooltips if required.
-	 * 
+	 *
 	 */
 	private void updateToolBarValues() {
 		if (isCompleted()) {
@@ -641,7 +642,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Create the progress bar and apply any style bits from style.
-	 * 
+	 *
 	 * @param style
 	 */
 	void createProgressBar(int style) {
@@ -679,7 +680,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Set the text of the link to the taskString.
-	 * 
+	 *
 	 * @param taskString
 	 */
 	void setLinkText(Job linkJob, String taskString, int index) {
@@ -712,7 +713,7 @@ class ProgressInfoItem extends Composite {
 			link.addSelectionListener(new SelectionAdapter() {
 				/*
 				 * (non-Javadoc)
-				 * 
+				 *
 				 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 				 */
 				public void widgetSelected(SelectionEvent e) {
@@ -723,7 +724,7 @@ class ProgressInfoItem extends Composite {
 			link.addListener(SWT.Resize, new Listener() {
 				/*
 				 * (non-Javadoc)
-				 * 
+				 *
 				 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 				 */
 				public void handleEvent(Event event) {
@@ -752,7 +753,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Update the text in the link
-	 * 
+	 *
 	 * @param taskString
 	 * @param link
 	 */
@@ -766,14 +767,14 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Set the color base on the index
-	 * 
+	 *
 	 * @param i
 	 */
 	public void setColor(int i) {
 		currentIndex = i;
 
-		setAllBackgrounds(Color.getColor( 248, 248, 255 ) );
-		setAllForegrounds(Color.getColor( 0, 0, 0 ));
+		setAllBackgrounds(Graphics.getColor( 248, 248, 255 ) );
+		setAllForegrounds(Graphics.getColor( 0, 0, 0 ));
 		// TODO [fappel]: fix this
 //		if (selected) {
 //			setAllBackgrounds(getDisplay().getSystemColor(
@@ -796,7 +797,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Set the foreground of all widgets to the supplied color.
-	 * 
+	 *
 	 * @param color
 	 */
 	private void setAllForegrounds(Color color) {
@@ -812,7 +813,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Set the background of all widgets to the supplied color.
-	 * 
+	 *
 	 * @param color
 	 */
 	private void setAllBackgrounds(Color color) {
@@ -830,7 +831,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Set the focus to the button.
-	 * 
+	 *
 	 */
 	void setButtonFocus() {
 		actionBar.setFocus();
@@ -838,7 +839,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Set the selection colors.
-	 * 
+	 *
 	 * @param select
 	 *            boolean that indicates whether or not to show selection.
 	 */
@@ -852,7 +853,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Set the listener for index changes.
-	 * 
+	 *
 	 * @param indexListener
 	 */
 	void setIndexListener(IndexListener indexListener) {
@@ -861,7 +862,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Return whether or not the receiver is selected.
-	 * 
+	 *
 	 * @return boolean
 	 */
 	boolean isSelected() {
@@ -871,7 +872,7 @@ class ProgressInfoItem extends Composite {
 	/**
 	 * Set whether or not the receiver is being displayed based on the top and
 	 * bottom of the currently visible area.
-	 * 
+	 *
 	 * @param top
 	 * @param bottom
 	 */
@@ -884,7 +885,7 @@ class ProgressInfoItem extends Composite {
 
 	/**
 	 * Set whether or not the receiver is being displayed
-	 * 
+	 *
 	 * @param displayed
 	 */
 	private void setDisplayed(boolean displayed) {

@@ -184,7 +184,7 @@ public class ShowViewDialog extends Dialog implements
 //		Control treeControl = treeViewer.getControl();
 //		RGB dimmedRGB = blend(treeControl.getForeground().getRGB(), treeControl.getBackground().getRGB(), 60);
 //		dimmedForeground = new Color(treeControl.getDisplay(), dimmedRGB);
-//		dimmedForeground = Color.getColor(dimmedRGB);
+//		dimmedForeground = Graphics.getColor(dimmedRGB);
 //		treeControl.addDisposeListener(new DisposeListener() {
 //			public void widgetDisposed(DisposeEvent e) {
 //				dimmedForeground.dispose();

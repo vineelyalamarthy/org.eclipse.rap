@@ -11,18 +11,20 @@
 package org.eclipse.jface.resource;
 
 import java.util.*;
+
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * A color registry maintains a mapping between symbolic color names and SWT 
+ * A color registry maintains a mapping between symbolic color names and SWT
  * <code>Color</code>s.
  * <p>
- * A color registry owns all of the <code>Color</code> objects registered with 
- * it, and automatically disposes of them when the SWT Display that creates the 
- * <code>Color</code>s is disposed. Because of this, clients do not need to 
- * (indeed, must not attempt to) dispose of <code>Color</code> objects 
+ * A color registry owns all of the <code>Color</code> objects registered with
+ * it, and automatically disposes of them when the SWT Display that creates the
+ * <code>Color</code>s is disposed. Because of this, clients do not need to
+ * (indeed, must not attempt to) dispose of <code>Color</code> objects
  * themselves.
  * </p>
  * <p>
@@ -32,19 +34,19 @@ import org.eclipse.swt.widgets.Display;
  * <p>
  * Clients may instantiate this class (it was not designed to be subclassed).
  * </p>
- * 
+ *
  * @since 3.0
  */
 public class ColorRegistry extends ResourceRegistry {
 
     /**
-     * This registries <code>Display</code>. All colors will be allocated using 
+     * This registries <code>Display</code>. All colors will be allocated using
      * it.
      */
     protected Device display;
 
     /**
-     * Collection of <code>Color</code> that are now stale to be disposed when 
+     * Collection of <code>Color</code> that are now stale to be disposed when
      * it is safe to do so (i.e. on shutdown).
      */
     private List staleColors = new ArrayList();
@@ -71,9 +73,9 @@ public class ColorRegistry extends ResourceRegistry {
     };
 
     /**
-     * Create a new instance of the receiver that is hooked to the current 
+     * Create a new instance of the receiver that is hooked to the current
      * display.
-     * 
+     *
      * @see org.eclipse.swt.widgets.Display#getCurrent()
      */
     public ColorRegistry() {
@@ -82,7 +84,7 @@ public class ColorRegistry extends ResourceRegistry {
 
     /**
      * Create a new instance of the receiver.
-     * 
+     *
      * @param display the <code>Display</code> to hook into.
      */
     public ColorRegistry(Device display) {
@@ -91,7 +93,7 @@ public class ColorRegistry extends ResourceRegistry {
 
     /**
      * Create a new instance of the receiver.
-     * 
+     *
      * @param display the <code>Display</code> to hook into
      * @param cleanOnDisplayDisposal
 	 *            whether all fonts allocated by this <code>ColorRegistry</code>
@@ -108,20 +110,20 @@ public class ColorRegistry extends ResourceRegistry {
 
     /**
      * Create a new <code>Color</code> on the receivers <code>Display</code>.
-     * 
+     *
      * @param rgb the <code>RGB</code> data for the color.
      * @return the new <code>Color</code> object.
-     * 
+     *
      * @since 3.1
      */
     private Color createColor(RGB rgb) {
-      return Color.getColor( rgb );
+      return Graphics.getColor( rgb );
 //        return new Color(display, rgb);
     }
 
     /**
      * Dispose of all of the <code>Color</code>s in this iterator.
-     * 
+     *
      * @param iterator over <code>Collection</code> of <code>Color</code>
      */
     private void disposeColors(Iterator iterator) {
@@ -132,9 +134,9 @@ public class ColorRegistry extends ResourceRegistry {
     }
 
     /**
-     * Returns the <code>color</code> associated with the given symbolic color 
+     * Returns the <code>color</code> associated with the given symbolic color
      * name, or <code>null</code> if no such definition exists.
-     * 
+     *
      * @param symbolicName symbolic color name
      * @return the <code>Color</code> or <code>null</code>
      */
@@ -177,10 +179,10 @@ public class ColorRegistry extends ResourceRegistry {
         Assert.isNotNull(symbolicName);
         return (RGB) stringToRGB.get(symbolicName);
     }
-    
+
     /**
      * Returns the color descriptor associated with the given symbolic color name.
-     * @since 3.1 
+     * @since 3.1
      *
      * @param symbolicName
      * @return the color descriptor associated with the given symbolic color name.
@@ -215,14 +217,14 @@ public class ColorRegistry extends ResourceRegistry {
     }
 
     /**
-     * Adds (or replaces) a color to this color registry under the given 
+     * Adds (or replaces) a color to this color registry under the given
      * symbolic name.
      * <p>
      * A property change event is reported whenever the mapping from a symbolic
      * name to a color changes. The source of the event is this registry; the
      * property name is the symbolic color name.
      * </p>
-     * 
+     *
      * @param symbolicName the symbolic color name
      * @param colorData an <code>RGB</code> object
      */
@@ -231,14 +233,14 @@ public class ColorRegistry extends ResourceRegistry {
     }
 
     /**
-     * Adds (or replaces) a color to this color registry under the given 
+     * Adds (or replaces) a color to this color registry under the given
      * symbolic name.
      * <p>
      * A property change event is reported whenever the mapping from a symbolic
      * name to a color changes. The source of the event is this registry; the
      * property name is the symbolic color name.
      * </p>
-     * 
+     *
      * @param symbolicName the symbolic color name
      * @param colorData an <code>RGB</code> object
      * @param update - fire a color mapping changed if true. False if this
