@@ -51,7 +51,7 @@
       <complexType>
          <sequence>
             <element ref="additionalHeaders" minOccurs="0" maxOccurs="1"/>
-            <element ref="allowedEntrypoints" minOccurs="0" maxOccurs="1"/>
+            <element ref="associatedEntrypoints" minOccurs="0" maxOccurs="1"/>
          </sequence>
          <attribute name="id" type="string" use="required">
             <annotation>
@@ -181,7 +181,7 @@
       </complexType>
    </element>
 
-   <element name="allowedEntrypoints">
+   <element name="associatedEntrypoints">
       <complexType>
          <sequence minOccurs="1" maxOccurs="unbounded">
             <element ref="entrypoint"/>
