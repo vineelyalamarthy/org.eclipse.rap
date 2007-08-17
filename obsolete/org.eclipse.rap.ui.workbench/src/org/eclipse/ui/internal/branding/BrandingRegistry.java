@@ -27,7 +27,6 @@ public class BrandingRegistry {
   private static final String TAG_ADITIONAL_HEADERS = "additionalHeaders";
   private static final String TAG_WHITELIST_ENTRYPOINTS = "entrypoints";
   private static final String TAG_META = "meta";
-  private static final String TAG_SCRIPT = "script";
   private static final String TAG_LINK = "link";
   private static final String TAG_ATTRIBUTE = "attribute";
   private static final String ATT_NAME = "name";
@@ -131,7 +130,7 @@ public class BrandingRegistry {
       String title = brandings[ i ].getAttribute( "title" );
       String servletname = brandings[ i ].getAttribute( "servletName" );
       String favicon = brandings[ i ].getAttribute( "favicon" );
-      String theme = brandings[ i ].getAttribute( "theme" );
+      String theme = brandings[ i ].getAttribute( "themeId" );
       Branding branding = new Branding( id );
       branding.setContributor( contributorName );
       branding.setBodyTemplate( body );
@@ -162,9 +161,6 @@ public class BrandingRegistry {
             at.put( ATT_CONENT, h.getAttribute( ATT_CONENT ) );
           } else if( element == TAG_LINK ) {
             at.put( ATT_REL, h.getAttribute( ATT_REL ) );
-          } else if( element == TAG_SCRIPT ) {
-            String scriptFile = h.getAttribute( ATT_SRC );
-            at.put( ATT_SRC, scriptFile );
           }
           // add additional attributes
           IConfigurationElement[] aAtt = h.getChildren( TAG_ATTRIBUTE );
