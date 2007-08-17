@@ -26,7 +26,7 @@ public class RequestHandler extends HttpServlet {
   private static final long serialVersionUID = 1L;
   
   private static RWTDelegate servlet;
-  private static boolean isInitialized;
+  private static EngineConfigWrapper engineConfigWrapper;
 
   public RequestHandler() {
     if( servlet == null ) {
@@ -36,15 +36,15 @@ public class RequestHandler extends HttpServlet {
   
   public void init( final ServletConfig config ) throws ServletException {
     // TODO [bm] this is not thread-safe in case of two concurrent init calls
-    if( !isInitialized ) {
-      isInitialized = true;
-      ServletContext servletContext = config.getServletContext();
-      servletContext.setAttribute( IEngineConfig.class.getName(),
-                                   new EngineConfigWrapper() );
+    if( engineConfigWrapper == null ) {
+      engineConfigWrapper = new EngineConfigWrapper();
+      prepareServletContext( config );
       servlet.init( config );
+    } else {
+      prepareServletContext( config );
     }
   }
-  
+
   public void service( final HttpServletRequest request, 
                        final HttpServletResponse response )
     throws ServletException, IOException
@@ -58,5 +58,11 @@ public class RequestHandler extends HttpServlet {
 	  // BUT: do we need to destroy?
 	  // distroy() is not overridden and empty in GenericServlet
 //    servlet.destroy();
+  }
+
+  private static void prepareServletContext( final ServletConfig config ) {
+    ServletContext servletContext = config.getServletContext();
+    servletContext.setAttribute( IEngineConfig.class.getName(),
+                                 engineConfigWrapper );
   }
 }
