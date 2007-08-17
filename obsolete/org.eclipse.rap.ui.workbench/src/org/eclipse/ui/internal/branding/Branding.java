@@ -45,7 +45,7 @@ public class Branding {
   }
 
   public void setTitle( final String title ) {
-    this.title = title;
+    this.title = title == null ? "" : title;
   }
 
   public String getId() {
