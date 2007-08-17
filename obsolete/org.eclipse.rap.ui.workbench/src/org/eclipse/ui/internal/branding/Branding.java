@@ -86,7 +86,7 @@ public class Branding {
     if( resource == null ) {
       return;
     }
-    BrandingRegistry.getInstance().registerResource( resource, this );
+    BrandingRegistry.getInstance().registerImage( resource, this );
   }
 
   public String getBody() {

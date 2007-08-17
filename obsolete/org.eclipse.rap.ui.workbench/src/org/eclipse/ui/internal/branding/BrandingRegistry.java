@@ -194,10 +194,10 @@ public class BrandingRegistry {
     }
   }
 
-  public void registerResource( final String resource, 
+  public void registerImage( final String resource, 
                                 final Branding branding )
   {
-    ParamCheck.notNull( resource, "scriptfile" );
+    ParamCheck.notNull( resource, "resource" );
     ParamCheck.notNull( branding, "branding" );
     URL scriptUrl = Platform.getBundle( branding.getContributor() )
       .getEntry( resource );
@@ -206,9 +206,7 @@ public class BrandingRegistry {
       is = scriptUrl.openStream();
       if( is != null ) {
         RWT.getResourceManager().register( resource,
-                                           is,
-                                           HTML.CHARSET_NAME_UTF_8,
-                                           RegisterOptions.NONE );
+                                           is );
       }
     } catch( IOException e ) {
       e.printStackTrace();
