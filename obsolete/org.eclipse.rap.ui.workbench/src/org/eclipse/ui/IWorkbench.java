@@ -433,7 +433,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 *         <code>false</code> if the operation was canceled by the user or
 	 *         an error occurred while saving
 	 */
-//	public boolean saveAllEditors(boolean confirm);
+	public boolean saveAllEditors(boolean confirm);
 
 	/**
 	 * Returns the element factory with the given id.
