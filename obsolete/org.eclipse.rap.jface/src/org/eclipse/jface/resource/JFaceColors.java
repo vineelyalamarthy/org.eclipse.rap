@@ -14,7 +14,6 @@ import org.eclipse.jface.preference.JFacePreferences;
 import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
@@ -30,7 +29,7 @@ public class JFaceColors {
      * @see SWT#COLOR_LIST_BACKGROUND
      * @see Display#getSystemColor(int)
      */
-    public static Color getBannerBackground(Device display) {
+    public static Color getBannerBackground(Display display) {
         //return display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
     	return Graphics.getColor(255,255,255);
     }
@@ -41,7 +40,7 @@ public class JFaceColors {
      * @see SWT#COLOR_LIST_FOREGROUND
      * @see Display#getSystemColor(int)
      */
-    public static Color getBannerForeground(Device display) {
+    public static Color getBannerForeground(Display display) {
 //        return display.getSystemColor(SWT.COLOR_LIST_FOREGROUND);
     	return Graphics.getColor(0,0,0);
     }
@@ -72,7 +71,7 @@ public class JFaceColors {
      * @see ColorRegistry#get(String)
      * @see JFacePreferences#ERROR_COLOR
      */
-    public static Color getErrorText(Device display) {
+    public static Color getErrorText(Display display) {
         return JFaceResources.getColorRegistry().get(
                 JFacePreferences.ERROR_COLOR);
     }
@@ -83,7 +82,7 @@ public class JFaceColors {
      * @see ColorRegistry#get(String)
      * @see JFacePreferences#HYPERLINK_COLOR
      */
-    public static Color getHyperlinkText(Device display) {
+    public static Color getHyperlinkText(Display display) {
         return JFaceResources.getColorRegistry().get(
                 JFacePreferences.HYPERLINK_COLOR);
     }
@@ -94,7 +93,7 @@ public class JFaceColors {
      * @see ColorRegistry#get(String)
      * @see JFacePreferences#ACTIVE_HYPERLINK_COLOR
      */
-    public static Color getActiveHyperlinkText(Device display) {
+    public static Color getActiveHyperlinkText(Display display) {
         return JFaceResources.getColorRegistry().get(
                 JFacePreferences.ACTIVE_HYPERLINK_COLOR);
     }

@@ -87,7 +87,7 @@ public class ColorRegistry extends ResourceRegistry {
      *
      * @param display the <code>Display</code> to hook into.
      */
-    public ColorRegistry(Device display) {
+    public ColorRegistry(Display display) {
     	this (display, true);
     }
 
@@ -100,7 +100,7 @@ public class ColorRegistry extends ResourceRegistry {
 	 *            should be disposed when the display is disposed
      * @since 3.1
      */
-    public ColorRegistry(Device display, boolean cleanOnDisplayDisposal) {
+    public ColorRegistry(Display display, boolean cleanOnDisplayDisposal) {
         Assert.isNotNull(display);
         this.display = display;
         if (cleanOnDisplayDisposal) {

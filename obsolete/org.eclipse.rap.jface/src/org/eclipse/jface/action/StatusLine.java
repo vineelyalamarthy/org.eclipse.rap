@@ -644,7 +644,7 @@ import org.eclipse.swt.widgets.*;
      */
     protected void updateMessageLabel() {
         if (fMessageLabel != null && !fMessageLabel.isDisposed()) {
-            Device display = fMessageLabel.getDisplay();
+            Display display = fMessageLabel.getDisplay();
             if ((fErrorText != null && fErrorText.length() > 0)
                     || fErrorImage != null) {
                 fMessageLabel.setForeground(JFaceColors.getErrorText(display));

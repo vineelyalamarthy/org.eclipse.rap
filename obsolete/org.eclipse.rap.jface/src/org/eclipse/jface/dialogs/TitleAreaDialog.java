@@ -187,7 +187,7 @@ public class TitleAreaDialog extends TrayDialog {
 			}
 		});
 		// Determine the background color of the title bar
-		Device display = parent.getDisplay();
+		Display display = parent.getDisplay();
 		Color background;
 		Color foreground;
 		if (titleAreaRGB != null) {

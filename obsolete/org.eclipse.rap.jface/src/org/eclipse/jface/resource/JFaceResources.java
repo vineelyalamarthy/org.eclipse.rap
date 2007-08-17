@@ -50,7 +50,7 @@ public class JFaceResources {
 	 * the associated display.
 	 */
 //	private static final Map registries = new HashMap();
-  public final static class Registries
+  private final static class Registries
     extends SessionSingletonBase
   {
 	private final Map registries = new HashMap();
@@ -82,7 +82,7 @@ public class JFaceResources {
 	 * explicitly set.
 	 */
 //	private static ColorRegistry colorRegistry;
-  public final static class ColorRegistryStore extends SessionSingletonBase {
+  private final static class ColorRegistryStore extends SessionSingletonBase {
     private final ColorRegistry colorRegistry;
     private ColorRegistryStore() {
       colorRegistry = new ColorRegistry();
@@ -113,7 +113,7 @@ public class JFaceResources {
 	 * explicitly set.
 	 */
 //	private static FontRegistry fontRegistry = null;
-  public final static class FontRegistryStore extends SessionSingletonBase {
+  private final static class FontRegistryStore extends SessionSingletonBase {
     private FontRegistry fontRegistry;
     private FontRegistryStore() {
     }
@@ -145,7 +145,7 @@ public class JFaceResources {
 	 * The JFace image registry; <code>null</code> until lazily initialized.
 	 */
 //	private static ImageRegistry imageRegistry = null;
-  public final static class ImageRegistryStore extends SessionSingletonBase {
+  private final static class ImageRegistryStore extends SessionSingletonBase {
     private final ImageRegistry imageRegistry;
     private ImageRegistryStore() {
       imageRegistry = new ImageRegistry();
