@@ -45,7 +45,9 @@ public class Branding {
   }
 
   public void setTitle( final String title ) {
-    this.title = title == null ? "" : title;
+    this.title = title == null
+                              ? ""
+                              : title;
   }
 
   public String getId() {
@@ -73,11 +75,7 @@ public class Branding {
     StringBuffer buffer = new StringBuffer();
     for( Iterator iter = headers.iterator(); iter.hasNext(); ) {
       Header header = ( Header )iter.next();
-      try {
-        buffer.append( header.render() + "\n" );
-      } catch( IOException e ) {
-        e.printStackTrace();
-      }
+      buffer.append( header.render() + "\n" );
     }
     return buffer.toString();
   }

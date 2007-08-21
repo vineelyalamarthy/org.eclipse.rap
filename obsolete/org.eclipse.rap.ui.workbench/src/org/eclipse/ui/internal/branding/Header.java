@@ -8,10 +8,7 @@
  ******************************************************************************/
 package org.eclipse.ui.internal.branding;
 
-import java.io.IOException;
 import java.util.*;
-
-import org.eclipse.rwt.internal.lifecycle.HtmlResponseWriter;
 
 public class Header {
 
@@ -38,28 +35,24 @@ public class Header {
     return ( String )attributes.get( key );
   }
 
-  public String render() throws IOException {
-    // TODO [bm] eliminate use of HtmlResponseWriter
-    HtmlResponseWriter writer = new HtmlResponseWriter();
-    writer.startElement( tagName, null );
+  public String render() {
+    StringBuffer buffer = new StringBuffer();
+    buffer.append( "<" );
+    buffer.append( tagName );
+    buffer.append( " " );
     Set keys = attributes.keySet();
     Iterator iterator = keys.iterator();
     while( iterator.hasNext() ) {
       String key = ( String )iterator.next();
       String value = ( String )attributes.get( key );
       if( key != null && value != null ) {
-        writer.writeAttribute( key, value, "" );
+        buffer.append( key );
+        buffer.append( "=\"" );
+        buffer.append( value );
+        buffer.append( "\" " );
       }
     }
-    writer.endElement( tagName );
-    return getBodyMarkup( writer );
-  }
-
-  public static String getBodyMarkup( final HtmlResponseWriter writer ) {
-    StringBuffer buffer = new StringBuffer();
-    for( int i = 0; i < writer.getBodySize(); i++ ) {
-      buffer.append( writer.getBodyToken( i ) );
-    }
+    buffer.append( "/>" );
     return buffer.toString();
   }
 }

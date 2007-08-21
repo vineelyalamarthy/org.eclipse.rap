@@ -16,9 +16,7 @@ import java.util.*;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.rwt.RWT;
-import org.eclipse.rwt.internal.util.HTML;
 import org.eclipse.rwt.internal.util.ParamCheck;
-import org.eclipse.rwt.resources.IResourceManager.RegisterOptions;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 
 public class BrandingRegistry {
@@ -31,14 +29,11 @@ public class BrandingRegistry {
   private static final String TAG_ATTRIBUTE = "attribute";
   private static final String ATT_NAME = "name";
   private static final String ATT_CONENT = "content";
-  private static final String ATT_SRC = "src";
   private static final String ATT_REL = "rel";
   private static final String ATT_VALUE = "value";
   private static final String ATT_EP_ID = "id";
-  
   private static BrandingRegistry instance;
   private static Branding defaultBranding;
-  
   private List brandings = new ArrayList();
   private Map entrypointAssociation = new HashMap();
 
@@ -87,8 +82,8 @@ public class BrandingRegistry {
     brandings.add( branding );
   }
 
-  public Branding getBrandingFor( final String servletName, 
-                                  final String entrypoint ) 
+  public Branding getBrandingFor( final String servletName,
+                                  final String entrypoint )
   {
     for( Iterator b = brandings.iterator(); b.hasNext(); ) {
       Branding branding = ( Branding )b.next();
@@ -124,8 +119,7 @@ public class BrandingRegistry {
     for( int i = 0; i < brandings.length; i++ ) {
       String contributorName = brandings[ i ].getContributor().getName();
       String id = brandings[ i ].getAttribute( "id" );
-      String defaultEntrypointId 
-        = brandings[ i ].getAttribute( "defaultEntrypointId" );
+      String defaultEntrypointId = brandings[ i ].getAttribute( "defaultEntrypointId" );
       String body = brandings[ i ].getAttribute( "body" );
       String title = brandings[ i ].getAttribute( "title" );
       String servletname = brandings[ i ].getAttribute( "servletName" );
@@ -146,8 +140,7 @@ public class BrandingRegistry {
       att.put( "href", favicon );
       branding.addHeader( "link", att );
       // loop through all additional headers
-      IConfigurationElement[] ahl 
-        = brandings[ i ].getChildren( TAG_ADITIONAL_HEADERS );
+      IConfigurationElement[] ahl = brandings[ i ].getChildren( TAG_ADITIONAL_HEADERS );
       if( ahl.length > 0 ) {
         IConfigurationElement ah = ahl[ 0 ];
         IConfigurationElement[] headers = ah.getChildren();
@@ -172,8 +165,7 @@ public class BrandingRegistry {
         }
       }
       // loop through all whitelisted entrypoints
-      IConfigurationElement[] eps
-        = brandings[ i ].getChildren( TAG_WHITELIST_ENTRYPOINTS );
+      IConfigurationElement[] eps = brandings[ i ].getChildren( TAG_WHITELIST_ENTRYPOINTS );
       if( eps.length > 0 ) {
         IConfigurationElement epse = eps[ 0 ];
         IConfigurationElement[] epoints = epse.getChildren();
@@ -190,9 +182,7 @@ public class BrandingRegistry {
     }
   }
 
-  public void registerImage( final String resource, 
-                                final Branding branding )
-  {
+  public void registerImage( final String resource, final Branding branding ) {
     ParamCheck.notNull( resource, "resource" );
     ParamCheck.notNull( branding, "branding" );
     URL scriptUrl = Platform.getBundle( branding.getContributor() )
@@ -201,8 +191,7 @@ public class BrandingRegistry {
     try {
       is = scriptUrl.openStream();
       if( is != null ) {
-        RWT.getResourceManager().register( resource,
-                                           is );
+        RWT.getResourceManager().register( resource, is );
       }
     } catch( IOException e ) {
       e.printStackTrace();
