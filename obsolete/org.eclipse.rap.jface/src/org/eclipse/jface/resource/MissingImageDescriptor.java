@@ -56,7 +56,7 @@ class MissingImageDescriptor extends ImageDescriptor {
     public Image createImage( final boolean returnMissingImageOnError,
                               final Device device )
     {
-      if( image != null ) {
+      if( image == null ) {
         String path = "org/eclipse/jface/resource/images/missing_image.png";
         ClassLoader loader = getClass().getClassLoader();
         image = Graphics.getImage( path, loader.getResourceAsStream( path ) );
