@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+  <extension
+      id="org.eclipse.rap.gmaps.gmap"
+      point="org.eclipse.rap.ui.resources">
+    <resource class="org.eclipse.rap.gmaps.GMapAPIResource"/>
+    <resource class="org.eclipse.rap.gmaps.GMapResource"/>
+  </extension>
+</plugin>

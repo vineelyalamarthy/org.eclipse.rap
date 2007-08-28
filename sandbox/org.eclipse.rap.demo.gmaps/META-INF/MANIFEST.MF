@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RAP Gmaps Plug-in (incubation)
+Bundle-SymbolicName: org.eclipse.rap.demo.gmaps;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.rap.rwt
+Import-Package: javax.servlet;version="2.4.0",
+ javax.servlet.http;version="2.4.0"
+Export-Package: org.eclipse.rap.gmaps,
+ org.eclipse.rap.internal.gmaps.gmapkit
