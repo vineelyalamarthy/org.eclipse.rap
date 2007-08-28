@@ -80,7 +80,7 @@ public class DecoratingLabelProvider extends LabelProvider implements
      * <code>decorateImage</code> method.
      */
     public Image getImage(Object element) {
-//        Image image = provider.getImage(element);
+        Image image = provider.getImage(element);
 //        if (decorator != null) {
 //        	if (decorator instanceof LabelDecorator) {
 //				LabelDecorator ld2 = (LabelDecorator) decorator;
@@ -95,8 +95,7 @@ public class DecoratingLabelProvider extends LabelProvider implements
 //	            }
 //			}
 //        }
-//        return image;
-    	return null;
+        return image;
     }
 
 	/**
