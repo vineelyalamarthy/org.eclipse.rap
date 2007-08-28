@@ -47,24 +47,27 @@
           org_eclipse_rap_height = window.innerHeight;
         } else if( document.all ) {
           org_eclipse_rap_width = document.body.clientWidth;
-         org_eclipse_rap_height = document.body.clientHeight;
+          org_eclipse_rap_height = document.body.clientHeight;
         }  
       }
-
-      if( discoverAjax() ) {
-        discoverSize();
-
-        // rap runtime application
-        ${appscript}
-        // end rap runtime application
-
-        // append application init parameters<s
+      
+      function appendInitParameters() {
+        var req = org.eclipse.swt.Request.getInstance();
         req.addParameter( "w4t_survey", "true" );
         req.addParameter( "w4t_scriptEnabled", "true" );
         req.addParameter( "w4t_ajaxEnabled", "true" );
         req.addParameter( "startup", "${startup}" );
         req.addParameter( "w4t_width", org_eclipse_rap_width );
         req.addParameter( "w4t_height", org_eclipse_rap_height );
+      }
+
+      if( discoverAjax() ) {
+        discoverSize();
+        // append application init parameters
+        appendInitParameters();
+        // rap runtime application
+        ${appscript}
+        // end rap runtime application
       } else {
         // write unsupported browser or security message
         document.write( "<p>Your browser or settings are not supported. " );
