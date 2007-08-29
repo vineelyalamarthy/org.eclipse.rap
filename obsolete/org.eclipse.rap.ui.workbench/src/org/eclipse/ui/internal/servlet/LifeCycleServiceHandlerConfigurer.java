@@ -22,7 +22,7 @@ import org.eclipse.rwt.internal.lifecycle.*;
 import org.eclipse.rwt.internal.resources.ResourceManager;
 import org.eclipse.rwt.internal.service.*;
 import org.eclipse.rwt.internal.service.LifeCycleServiceHandler.ILifeCycleServiceHandlerConfigurer;
-import org.eclipse.rwt.internal.service.LifeCycleServiceHandler.LifeCycleSerivceHandlerSync;
+import org.eclipse.rwt.internal.service.LifeCycleServiceHandler.LifeCycleServiceHandlerSync;
 import org.eclipse.rwt.internal.theme.ThemeUtil;
 import org.eclipse.rwt.internal.util.HTML;
 import org.eclipse.rwt.resources.IResourceManager;
@@ -45,8 +45,8 @@ class LifeCycleServiceHandlerConfigurer
   private static int probeCount;
   private static long lastModified = System.currentTimeMillis();
 
-  private final static LifeCycleSerivceHandlerSync syncHandler
-    = new RWTLifeCycleSerivceHandlerSync();
+  private final static LifeCycleServiceHandlerSync syncHandler
+    = new RWTLifeCycleServiceHandlerSync();
   
   public InputStream getTemplateOfStartupPage() throws IOException {
     InputStream result = loadTemplateFile();
@@ -222,7 +222,7 @@ class LifeCycleServiceHandlerConfigurer
     return result;
   }
 
-  public LifeCycleSerivceHandlerSync getSynchronizationHandler() {
+  public LifeCycleServiceHandlerSync getSynchronizationHandler() {
     return syncHandler;
   }
 }
