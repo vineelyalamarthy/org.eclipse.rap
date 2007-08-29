@@ -440,7 +440,7 @@ qx.Class.define("qx.ui.basic.Label",
           
       if (this._isCreated) {
         this._renderContent();
-      }
+      } 
     },
 
 
@@ -451,6 +451,8 @@ qx.Class.define("qx.ui.basic.Label",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
+// TODO [rh] unused
+/*     
     _applyMnemonic : function(value, old)
     {
       this._mnemonicTest = value ? new RegExp("^(((<([^>]|" + value + ")+>)|(&([^;]|" + value + ")+;)|[^&" + value + "])*)(" + value + ")", "i") : null;
@@ -459,7 +461,7 @@ qx.Class.define("qx.ui.basic.Label",
         this._renderContent();
       }
     },
-
+*/
 
 
 
@@ -564,7 +566,13 @@ qx.Class.define("qx.ui.basic.Label",
         element.innerHTML = "";
       } else {
         var style = element.style;
-        style.overflow = "hidden";
+        if( !this.getWrap() ) {
+          if( this.getInnerWidth() < this.getPreferredInnerWidth() ) {
+            style.overflow = "hidden";
+          } else {
+            style.overflow = "";
+          }
+        }
         element.innerHTML = html;
       }
     }
