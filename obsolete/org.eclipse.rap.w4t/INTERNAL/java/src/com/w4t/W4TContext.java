@@ -14,12 +14,12 @@ import java.util.Locale;
 
 import org.eclipse.rwt.internal.*;
 import org.eclipse.rwt.internal.browser.Browser;
-import org.eclipse.rwt.internal.lifecycle.ILifeCycle;
 import org.eclipse.rwt.internal.lifecycle.LifeCycleFactory;
 import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
 import org.eclipse.rwt.internal.service.ContextProvider;
 import org.eclipse.rwt.internal.service.IServiceStateInfo;
 import org.eclipse.rwt.internal.util.ParamCheck;
+import org.eclipse.rwt.lifecycle.ILifeCycle;
 import org.eclipse.rwt.resources.IResourceManager;
 
 import com.w4t.IWindowManager.IWindow;

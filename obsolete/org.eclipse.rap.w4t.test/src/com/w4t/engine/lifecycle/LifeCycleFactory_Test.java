@@ -2,8 +2,8 @@ package com.w4t.engine.lifecycle;
 
 import junit.framework.TestCase;
 
-import org.eclipse.rwt.internal.lifecycle.ILifeCycle;
 import org.eclipse.rwt.internal.lifecycle.LifeCycleFactory;
+import org.eclipse.rwt.lifecycle.ILifeCycle;
 
 import com.w4t.W4TFixture;
 import com.w4t.engine.lifecycle.standard.LifeCycle_Standard;
