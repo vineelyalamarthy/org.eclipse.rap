@@ -168,9 +168,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * @see org.eclipse.jface.viewers.ColumnViewer#getItemAt(org.eclipse.swt.graphics.Point)
 	 */
 	protected Item getItemAt(Point p) {
-//		return getTree().getItem(p);
-	  // TODO [bm] IMPLEMENTATION MISSING
-		throw null;
+		return getTree().getItem(p);
 	}
 
 	/*
