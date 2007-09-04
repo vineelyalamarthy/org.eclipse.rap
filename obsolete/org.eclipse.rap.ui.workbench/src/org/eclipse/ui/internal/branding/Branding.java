@@ -29,6 +29,7 @@ public class Branding {
   private String contributor;
   private String servletName;
   private String defaultEntrypointId;
+  private String exitConfirmation;
   private List headers;
   private List entrypointIdWhiteList = new ArrayList();
 
@@ -171,5 +172,15 @@ public class Branding {
   public void setDefaultEntrypointId( final String defaultEntrypointId ) {
     this.defaultEntrypointId = defaultEntrypointId;
     this.entrypointIdWhiteList.add( defaultEntrypointId );
+  }
+
+  
+  public String getExitConfirmation() {
+    return exitConfirmation;
+  }
+
+  
+  public void setExitConfirmation( String exitConfirmation ) {
+    this.exitConfirmation = exitConfirmation;
   }
 }

@@ -61,11 +61,13 @@ class LifeCycleServiceHandlerConfigurer
     }
     setDummyBrowser();
     try {
-      applyBranding( content );
       String libs = getLibraries();
       BrowserSurvey.replacePlaceholder( content, "${libraries}", libs );
       String appScript = getAppScript();
+      // append placeholder for branding
+      appScript += "${exitConfirmation}";
       BrowserSurvey.replacePlaceholder( content, "${appscript}", appScript );
+      applyBranding( content );
     } finally {
       removeDummyBrowser();
     }
@@ -102,6 +104,15 @@ class LifeCycleServiceHandlerConfigurer
                                       "${headers}",
                                       branding.renderHeaders() );
     BrowserSurvey.replacePlaceholder( content, "${startup}", entrypoint );
+    
+    String exitConfirmation = branding.getExitConfirmation();
+    String confirmationCall = "";
+    if( exitConfirmation != null && exitConfirmation != "" ) {
+      confirmationCall = "app.setConfirmExit(\"" + exitConfirmation + "\");";
+    }
+    BrowserSurvey.replacePlaceholder( content,
+                                      "${exitConfirmation}",
+                                      confirmationCall );
   }
   
   private String getAppScript() throws IOException {

@@ -111,6 +111,13 @@
                </appInfo>
             </annotation>
          </attribute>
+         <attribute name="exitConfirmation" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

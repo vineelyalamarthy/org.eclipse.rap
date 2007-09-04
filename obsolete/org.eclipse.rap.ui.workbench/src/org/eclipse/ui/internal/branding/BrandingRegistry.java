@@ -125,6 +125,7 @@ public class BrandingRegistry {
       String servletname = brandings[ i ].getAttribute( "servletName" );
       String favicon = brandings[ i ].getAttribute( "favicon" );
       String theme = brandings[ i ].getAttribute( "themeId" );
+      String exitConfirmation = brandings[ i ].getAttribute( "exitConfirmation" );
       Branding branding = new Branding( id );
       branding.setContributor( contributorName );
       branding.setBodyTemplate( body );
@@ -132,6 +133,7 @@ public class BrandingRegistry {
       branding.setThemeId( theme );
       branding.setFavIcon( favicon );
       branding.setServletName( servletname );
+      branding.setExitConfirmation( exitConfirmation );
       branding.setDefaultEntrypointId( defaultEntrypointId );
       // add favicon
       HashMap att = new HashMap();
