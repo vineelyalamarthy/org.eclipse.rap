@@ -2790,11 +2790,11 @@ public class WorkbenchWindow extends ApplicationWindow implements
 						PartSite site = (PartSite) part.getSite();
 						site.getPane().shellActivated();
 					}
-//					IEditorPart editor = currentPage.getActiveEditor();
-//					if (editor != null) {
-//						PartSite site = (PartSite) editor.getSite();
-//						site.getPane().shellActivated();
-//					}
+					IEditorPart editor = currentPage.getActiveEditor();
+					if (editor != null) {
+						PartSite site = (PartSite) editor.getSite();
+						site.getPane().shellActivated();
+					}
 					getWorkbenchImpl()
 							.fireWindowActivated(WorkbenchWindow.this);
 				}
@@ -2810,11 +2810,11 @@ public class WorkbenchWindow extends ApplicationWindow implements
 						PartSite site = (PartSite) part.getSite();
 						site.getPane().shellDeactivated();
 					}
-//					IEditorPart editor = currentPage.getActiveEditor();
-//					if (editor != null) {
-//						PartSite site = (PartSite) editor.getSite();
-//						site.getPane().shellDeactivated();
-//					}
+					IEditorPart editor = currentPage.getActiveEditor();
+					if (editor != null) {
+						PartSite site = (PartSite) editor.getSite();
+						site.getPane().shellDeactivated();
+					}
 					getWorkbenchImpl().fireWindowDeactivated(
 							WorkbenchWindow.this);
 				}

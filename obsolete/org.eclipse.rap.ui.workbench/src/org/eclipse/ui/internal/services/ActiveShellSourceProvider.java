@@ -273,15 +273,6 @@ public final class ActiveShellSourceProvider extends AbstractSourceProvider {
 		this.workbench = workbench;
 		this.display = workbench.getDisplay();
 		this.display.addFilter(SWT.Activate, listener);
-//		workbench.getActiveWorkbenchWindow().getShell().addShellListener(new ShellAdapter() {
-//
-//			public void shellActivated(ShellEvent ev) {
-//				Event e = new Event();
-//				e.widget = ev.widget;
-//				listener.handleEvent(e);
-//			}
-//			
-//		});
 	}
 
 	public final void dispose() {
