@@ -64,10 +64,6 @@ class LifeCycleServiceHandlerConfigurer
       String libs = getLibraries();
       BrowserSurvey.replacePlaceholder( content, "${libraries}", libs );
       String appScript = getAppScript();
-      // append placeholder for branding
-      // TODO [fappel]: Why is this placeholder added at runtime and not
-      //                part of the startup template?
-      appScript += "${exitConfirmation}";
       BrowserSurvey.replacePlaceholder( content, "${appscript}", appScript );
       applyBranding( content );
     } finally {
@@ -107,10 +103,10 @@ class LifeCycleServiceHandlerConfigurer
                                       branding.renderHeaders() );
     BrowserSurvey.replacePlaceholder( content, "${startup}", entrypoint );
     
-    String exitConfirmation = branding.getExitConfirmation();
+    String exitMessage = branding.getExitMessage();
     String confirmationCall = "";
-    if( exitConfirmation != null && exitConfirmation != "" ) {
-      confirmationCall = "app.setConfirmExit(\"" + exitConfirmation + "\");";
+    if( exitMessage != null && exitMessage != "" ) {
+      confirmationCall = "app.setExitMessage(\"" + exitMessage + "\");";
     }
     BrowserSurvey.replacePlaceholder( content,
                                       "${exitConfirmation}",

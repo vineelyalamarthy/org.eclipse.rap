@@ -114,7 +114,7 @@
          <attribute name="exitConfirmation" type="string">
             <annotation>
                <documentation>
-                  
+                  The attribute &quot;exitConfirmation&quot; gives you the ability to set a message which will be shown when the user tries to close your application. This can happen we he closes the browser tab or just navigates to another url. It should be mentioned that this will only work in browsers of the Mozilla family and Internet Explorer.
                </documentation>
             </annotation>
          </attribute>

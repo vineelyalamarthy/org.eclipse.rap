@@ -8,11 +8,12 @@
  ******************************************************************************/
 package org.eclipse.ui.internal.branding;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.rwt.internal.util.ParamCheck;
@@ -29,9 +30,16 @@ public class Branding {
   private String contributor;
   private String servletName;
   private String defaultEntrypointId;
-  private String exitConfirmation;
+  private String exitMessage = "";
   private List headers;
   private List entrypointIdWhiteList = new ArrayList();
+  
+  private static final Pattern DOUBLE_QUOTE_PATTERN
+  = Pattern.compile( "(\"|\\\\)" );
+  private static final Pattern NEWLINE_PATTERN
+  = Pattern.compile( "\\r\\n|\\r|\\n" );
+  private static final String NEWLINE_ESCAPE = "\\\\n";
+
 
   public List getEntrypoints() {
     return entrypointIdWhiteList;
@@ -175,12 +183,26 @@ public class Branding {
   }
 
   
-  public String getExitConfirmation() {
-    return exitConfirmation;
+  public String getExitMessage() {
+    return escapeString( exitMessage );
+  }
+  
+  public void setExitMessage( String exitMessage ) {
+	if( exitMessage != null ) {
+		this.exitMessage = exitMessage;
+	}
+  }
+  
+  // TODO [bm] this is just a copy of JSWriter#escapeText
+  // we should move this to a public accessible class and make it 
+  // static - Rüdiger mentioned also to have JSWriter#call static
+  // and without the widgetmanager check
+  private static String escapeString( final String input ) {
+		Matcher matcher = DOUBLE_QUOTE_PATTERN.matcher(input);
+		String result = matcher.replaceAll("\\\\$1");
+		matcher = NEWLINE_PATTERN.matcher(result);
+		result = matcher.replaceAll(NEWLINE_ESCAPE);
+		return result;
   }
 
-  
-  public void setExitConfirmation( String exitConfirmation ) {
-    this.exitConfirmation = exitConfirmation;
-  }
 }
