@@ -65,6 +65,8 @@ class LifeCycleServiceHandlerConfigurer
       BrowserSurvey.replacePlaceholder( content, "${libraries}", libs );
       String appScript = getAppScript();
       // append placeholder for branding
+      // TODO [fappel]: Why is this placeholder added at runtime and not
+      //                part of the startup template?
       appScript += "${exitConfirmation}";
       BrowserSurvey.replacePlaceholder( content, "${appscript}", appScript );
       applyBranding( content );
