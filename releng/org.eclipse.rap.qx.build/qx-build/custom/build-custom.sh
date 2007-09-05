@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 VERSION=0.7.0
 REVISION=9276
 QOOXDOO=../../../qooxdoo/qooxdoo

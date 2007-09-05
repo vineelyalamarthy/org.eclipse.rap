@@ -341,7 +341,10 @@ qx.Class.define("qx.io.remote.Exchange",
             }
 
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
-            throw new Error("Unknown status code: " + vStatusCode);
+            // TODO [rh] this fixes bug #618, the same change is also in qx trunk
+            //      as of 2007-09-05 
+//            throw new Error("Unknown status code: " + vStatusCode);
+            return false;
         }
       }
     },
