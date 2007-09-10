@@ -72,6 +72,8 @@ class LifeCycleServiceHandlerConfigurer
     return new ByteArrayInputStream( content.toString().getBytes() );
   }
 
+  // TODO [fappel]: extend branding mechanism to work also for RWT/JFace
+  //                standalone applications
   private void applyBranding( final StringBuffer content ) {
     HttpServletRequest request = ContextProvider.getRequest();
     String servletName = request.getServletPath();
@@ -141,7 +143,8 @@ class LifeCycleServiceHandlerConfigurer
   private void fakeWriter() {
     IServiceStateInfo stateInfo = ContextProvider.getStateInfo();
     HtmlResponseWriter original = stateInfo.getResponseWriter();
-    stateInfo.setAttribute( LifeCycleServiceHandlerConfigurer.class.getName(), original );
+    String key = LifeCycleServiceHandlerConfigurer.class.getName();
+    stateInfo.setAttribute( key, original );
     HtmlResponseWriter fake = new HtmlResponseWriter();
     stateInfo.setResponseWriter( fake );
   }
@@ -219,7 +222,9 @@ class LifeCycleServiceHandlerConfigurer
     long dateHeader = request.getDateHeader( "If-Modified-Since" );
     // Because browser store the date in format with seconds as smallest unit
     // add one second to avoid rounding problems...
-    if( dateHeader + 1000 < lastModified ) {
+    if(    dateHeader + 1000 < lastModified
+        || RWTRequestVersionControl.hasChanged() )
+    {
       result = true;
       response.addDateHeader( "Last-Modified", lastModified );
       // TODO [fappel]: Think about "expires"-header for proxy usage.
