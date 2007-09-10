@@ -1,0 +1,21 @@
+### Eclipse Workspace Patch 1.0
+#P org.eclipse.rap.tools
+Index: qx-build/source/class/qx/io/remote/Exchange.js
+===================================================================
+RCS file: /cvsroot/technology/org.eclipse.rap/org.eclipse.rap.tools/qx-build/source/class/qx/io/remote/Exchange.js,v
+retrieving revision 1.5
+diff -u -r1.5 Exchange.js
+--- qx-build/source/class/qx/io/remote/Exchange.js	10 Sep 2007 16:24:31 -0000	1.5
++++ qx-build/source/class/qx/io/remote/Exchange.js	10 Sep 2007 16:25:40 -0000
+@@ -341,7 +341,10 @@
+             }
+ 
+             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
+-            throw new Error("Unknown status code: " + vStatusCode);
++            // TODO [rh] this fixes bug #618, the same change is also in qx trunk
++            //      as of 2007-09-05 
++//            throw new Error("Unknown status code: " + vStatusCode);
++            return false;
+         }
+       }
+     },
