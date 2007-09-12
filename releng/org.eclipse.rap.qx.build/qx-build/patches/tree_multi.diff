@@ -1,0 +1,33 @@
+### Eclipse Workspace Patch 1.0
+#P org.eclipse.rap.tools
+Index: qx-build/source/class/qx/ui/tree/AbstractTreeElement.js
+===================================================================
+RCS file: /cvsroot/technology/org.eclipse.rap/org.eclipse.rap.tools/qx-build/source/class/qx/ui/tree/AbstractTreeElement.js,v
+retrieving revision 1.1
+diff -u -r1.1 AbstractTreeElement.js
+--- qx-build/source/class/qx/ui/tree/AbstractTreeElement.js	7 Aug 2007 16:30:43 -0000	1.1
++++ qx-build/source/class/qx/ui/tree/AbstractTreeElement.js	12 Sep 2007 09:46:38 -0000
+@@ -293,7 +293,7 @@
+       if (old && vManager.getSelectedItem() == this) {
+         vManager.deselectAll();
+       } else if (value && vManager.getSelectedItem() != this) {
+-        vManager.setSelectedItem(this);
++        //vManager.setSelectedItem(this);
+       }
+     },
+ 
+Index: qx-build/source/class/qx/ui/tree/TreeFolder.js
+===================================================================
+RCS file: /cvsroot/technology/org.eclipse.rap/org.eclipse.rap.tools/qx-build/source/class/qx/ui/tree/TreeFolder.js,v
+retrieving revision 1.1
+diff -u -r1.1 TreeFolder.js
+--- qx-build/source/class/qx/ui/tree/TreeFolder.js	7 Aug 2007 16:30:43 -0000	1.1
++++ qx-build/source/class/qx/ui/tree/TreeFolder.js	12 Sep 2007 09:46:38 -0000
+@@ -861,6 +861,7 @@
+           if (!this.getTree().getUseDoubleClick()) {
+             this.open();
+           }
++          this.getTree().getManager().handleMouseUp(e.getTarget(), e);
+       }
+     },
+ 

@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       if (old && vManager.getSelectedItem() == this) {
         vManager.deselectAll();
       } else if (value && vManager.getSelectedItem() != this) {
-        vManager.setSelectedItem(this);
+        //vManager.setSelectedItem(this);
       }
     },
 
