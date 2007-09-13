@@ -50,7 +50,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="com.w4t.engine.lifecycle.PhaseListener"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.rwt.lifecycle.PhaseListener"/>
                </appInfo>
             </annotation>
          </attribute>

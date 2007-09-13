@@ -50,7 +50,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.swt.resources.IResource"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.rwt.resources.IResource"/>
                </appInfo>
             </annotation>
          </attribute>
