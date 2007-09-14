@@ -97,6 +97,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
       UICallBackServiceHandler.runNonUIThreadWithFakeContext( display,
                                                               runnable,
                                                               true );
+      display.dispose();
     }
   }
   // end session timeout shutdown handler
@@ -823,20 +824,16 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 			return false;
 		}
 
-		if( !sessionInvalidated ) {
-            // TODO [fappel] if user has moved to another URL, what else can
-            //               we do than skip window closing?
-    		SafeRunner.run(new SafeRunnable(WorkbenchMessages.ErrorClosing) {
-    			public void run() {
-    				if (isClosing || force) {
-    					isClosing = windowManager.close();
-    				}
-    			}
-    			public void handleException( Throwable e ) {
-    			  e.printStackTrace();
-    			}
-    		});
-		}
+		SafeRunner.run(new SafeRunnable(WorkbenchMessages.ErrorClosing) {
+			public void run() {
+				if (isClosing || force) {
+					isClosing = windowManager.close();
+				}
+			}
+			public void handleException( Throwable e ) {
+			  e.printStackTrace();
+			}
+		});
 
 		if (!force && !isClosing) {
 			return false;
@@ -2672,6 +2669,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //		ObjectActionContributorManager.getManager().dispose();
 		if (tracker != null) {
 			tracker.close();
+			tracker = null;
 		}
 	}
 

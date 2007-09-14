@@ -28,7 +28,6 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
   private static JobManagerAdapter _instance;
   private final Map providers;
   private final Map jobs;
-  private final Map sessionStoreListeners;
   private final ProgressManager defaultProgressManager;
   final Object lock;
 
@@ -55,7 +54,6 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
     }
     providers = new HashMap();
     jobs = new HashMap();
-    sessionStoreListeners = new HashMap();
     defaultProgressManager = new ProgressManager();
     Job.getJobManager().setProgressProvider( this );
     Job.getJobManager().addJobChangeListener( this );
@@ -119,10 +117,6 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
             public void run() {
               Job job = event.getJob();
               String id = String.valueOf( job.hashCode() );
-              SessionStoreListener listener
-                = ( SessionStoreListener )sessionStoreListeners.get( job );
-              ISessionStore session = ContextProvider.getSession();
-//              session.removeSessionStoreListener( listener );
               UICallBack.deactivate( id );
             }
           } );
@@ -195,7 +189,6 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
           providers.remove( keyToRemove );
           jobs.remove( keyToRemove );
         }
-//          sessionStoreListeners.remove( keyToRemove );
         //////////////////////////////////////////////////////////////////////
         // TODO [fappel]: Very ugly hack to avoid a memory leak.
         //                As a job can not be removed from the
@@ -234,7 +227,6 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
       }
       //////////////////////////////////////////////////////////////////////
     };
-    sessionStoreListeners.put( keyToRemove, listener );
     session.addSessionStoreListener( listener );
   }
 }
