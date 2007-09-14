@@ -234,8 +234,6 @@ final class EngineConfigWrapper implements IEngineConfig {
       String themeId = elements[ i ].getAttribute( "id" );
       String themeFile = elements[ i ].getAttribute( "file" );
       String themeName = elements[ i ].getAttribute( "name" );
-      String asDefaultStr = elements[ i ].getAttribute( "default" );
-      boolean asDefault = Boolean.valueOf( asDefaultStr ).booleanValue();
       try {
         final Bundle bundle = Platform.getBundle( contributorName );
         URL url = bundle.getResource( themeFile );
@@ -257,8 +255,7 @@ final class EngineConfigWrapper implements IEngineConfig {
             ThemeManager.getInstance().registerTheme( themeId,
                                                       themeName,
                                                       inStream,
-                                                      resLoader,
-                                                      asDefault );
+                                                      resLoader );
           } finally {
             inStream.close();
           }
