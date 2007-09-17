@@ -12,11 +12,11 @@ To support theming, a widget provides a couple of files that are relevant for th
 The custom widget must provide the theme-relevant files in a package with is named after the schema &lt;code&gt;&amp;lt;package&amp;gt;.internal.&amp;lt;widget&amp;gt;kit&lt;/code&gt; where &lt;code&gt;&amp;lt;package&amp;gt;&lt;/code&gt; is the package name and &lt;code&gt;&amp;lt;widget&amp;gt;&lt;/code&gt; is the lower case class name of the custom control. This is the same package that also contains the lifecycle adapter (LCA).
 &lt;p&gt;
 Theming relevant files include:
-&lt;du&gt;
+&lt;ul&gt;
   &lt;li&gt;A theme definiton file with the name &lt;code&gt;&amp;lt;Widget&amp;gt;.theme.xml&lt;/code&gt;. This file defines new theming keys.&lt;/li&gt;
   &lt;li&gt;A theme adapter class that implements &lt;code&gt;IControlThemeAdapter&lt;/code&gt; and is named &lt;code&gt;&amp;lt;Widget&amp;gt;ThemeAdapter&lt;/code&gt;. The theme adapter provides the control with the current values of theming-dependent properties.&lt;/li&gt;
   &lt;li&gt;An appearance fragment file with the name &lt;code&gt;&amp;lt;Widget&amp;gt;.appearances.js&lt;/code&gt;. This file defines new qooxdoo appearances.&lt;/li&gt;
-&lt;/du&gt;
+&lt;/ul&gt;
 None of these files are mandatory, files which are found are respected, but files which are missing do not hurt.
       </documentation>
    </annotation>
