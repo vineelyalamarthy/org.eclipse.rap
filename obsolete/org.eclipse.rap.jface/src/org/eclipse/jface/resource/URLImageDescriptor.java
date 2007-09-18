@@ -113,6 +113,11 @@ class URLImageDescriptor extends ImageDescriptor {
     if( pos != -1 ) {
       path = path.substring( pos + schema.length() );
     }
+    schema = "platform:/"; //$NON-NLS-1$
+    pos = path.indexOf( schema );
+    if( pos != -1 ) {
+      path = path.substring( pos + schema.length() );
+    }
     return Graphics.getImage( path, getStream() );
   }
 }
