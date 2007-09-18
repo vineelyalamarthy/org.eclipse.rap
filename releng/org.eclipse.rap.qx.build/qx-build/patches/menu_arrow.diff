@@ -1,0 +1,19 @@
+### Eclipse Workspace Patch 1.0
+#P org.eclipse.rap.tools
+Index: qx-build/source/class/qx/ui/menu/ButtonLayoutImpl.js
+===================================================================
+RCS file: /cvsroot/technology/org.eclipse.rap/org.eclipse.rap.tools/qx-build/source/class/qx/ui/menu/ButtonLayoutImpl.js,v
+retrieving revision 1.1
+diff -u -r1.1 ButtonLayoutImpl.js
+--- qx-build/source/class/qx/ui/menu/ButtonLayoutImpl.js	7 Aug 2007 16:30:44 -0000	1.1
++++ qx-build/source/class/qx/ui/menu/ButtonLayoutImpl.js	17 Sep 2007 13:20:22 -0000
+@@ -197,7 +197,8 @@
+           break;
+ 
+         case vWidget._arrowObject:
+-          vPos = vMenu.getArrowPosition();
++//          vPos = vMenu.getArrowPosition();
++          vPos = vMenu.getWidth() - 18;
+           break;
+       }
+ 

@@ -197,7 +197,8 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
           break;
 
         case vWidget._arrowObject:
-          vPos = vMenu.getArrowPosition();
+//          vPos = vMenu.getArrowPosition();
+          vPos = vMenu.getWidth() - 18;
           break;
       }
 
