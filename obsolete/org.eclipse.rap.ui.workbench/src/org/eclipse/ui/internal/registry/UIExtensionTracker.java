@@ -13,6 +13,8 @@ package org.eclipse.ui.internal.registry;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.dynamichelpers.ExtensionTracker;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.service.*;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 
@@ -36,6 +38,12 @@ public class UIExtensionTracker extends ExtensionTracker {
 	 */
 	public UIExtensionTracker(Display display) {
 		this.display = display;
+		ISessionStore session = ContextProvider.getSession();
+		session.addSessionStoreListener( new SessionStoreListener() {
+              public void beforeDestroy( final SessionStoreEvent event ) {
+                UIExtensionTracker.this.close();
+              }
+        } );
 	}
 
 	protected void applyRemove(final IExtensionChangeHandler handler, final IExtension removedExtension, final Object[] objects) {

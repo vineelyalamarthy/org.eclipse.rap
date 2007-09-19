@@ -17,6 +17,9 @@ import org.eclipse.core.commands.*;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.expressions.*;
 import org.eclipse.core.runtime.*;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.service.*;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
@@ -575,20 +578,27 @@ public abstract class RegistryPersistence implements IDisposable,
 		registryChangeListener = new IRegistryChangeListener() {
 			public final void registryChanged(final IRegistryChangeEvent event) {
 				if (isChangeImportant(event)) {
-					// TODO: async exec
-//					Display.getDefault().asyncExec(new Runnable() {
-//						public final void run() {
+					Display.getDefault().asyncExec(new Runnable() {
+						public final void run() {
 							read();
-//						}
-//					});
+						}
+					});
 				}
 			}
 		};
+        ISessionStore session = ContextProvider.getSession();
+        session.addSessionStoreListener( new SessionStoreListener() {
+          public void beforeDestroy( final SessionStoreEvent event ) {
+            final IExtensionRegistry registry = Platform.getExtensionRegistry();
+            registry.removeRegistryChangeListener(registryChangeListener);
+            registryListenerAttached = false;
+          }
+        } );
 	}
 
 	/**
-	 * Detaches the registry change listener from the registry.
-	 */
+     * Detaches the registry change listener from the registry.
+     */
 	public void dispose() {
 		final IExtensionRegistry registry = Platform.getExtensionRegistry();
 		registry.removeRegistryChangeListener(registryChangeListener);

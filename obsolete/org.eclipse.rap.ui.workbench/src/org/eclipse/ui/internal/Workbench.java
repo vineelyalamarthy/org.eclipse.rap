@@ -97,7 +97,6 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
       UICallBackServiceHandler.runNonUIThreadWithFakeContext( display,
                                                               runnable,
                                                               true );
-      display.dispose();
     }
   }
   // end session timeout shutdown handler

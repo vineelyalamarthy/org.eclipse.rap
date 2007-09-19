@@ -14,6 +14,7 @@ package org.eclipse.jface.viewers;
 
 import java.util.*;
 import java.util.List;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.util.SafeRunnable;

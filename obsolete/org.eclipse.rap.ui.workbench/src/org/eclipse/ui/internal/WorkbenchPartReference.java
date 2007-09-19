@@ -22,6 +22,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.misc.UIListenerLogging;
 import org.eclipse.ui.internal.util.Util;
@@ -310,7 +311,7 @@ public abstract class WorkbenchPartReference implements IWorkbenchPartReference 
     
     protected ImageDescriptor computeImageDescriptor() {
         if (part != null) {
-//            return ImageDescriptor.createFromImage(part.getTitleImage(), Display.getCurrent());
+            return ImageDescriptor.createFromImage(part.getTitleImage(), Display.getCurrent());
         }
         return defaultImageDescriptor;
     }
