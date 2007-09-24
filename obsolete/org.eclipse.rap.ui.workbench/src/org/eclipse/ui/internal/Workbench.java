@@ -1594,14 +1594,14 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //		StartupThreading.runWithoutExceptions(new StartupRunnable() {
 //
 //			public void runWithException() {
-//				final CurrentSelectionSourceProvider currentSelectionSourceProvider = new CurrentSelectionSourceProvider(
-//						Workbench.this);
-//				evaluationService.addSourceProvider(currentSelectionSourceProvider);
-//				handlerService[0].addSourceProvider(currentSelectionSourceProvider);
+				final CurrentSelectionSourceProvider currentSelectionSourceProvider = new CurrentSelectionSourceProvider(
+						Workbench.this);
+				evaluationService.addSourceProvider(currentSelectionSourceProvider);
+				handlerService[0].addSourceProvider(currentSelectionSourceProvider);
 //				contextService.addSourceProvider(currentSelectionSourceProvider);
-//				menuService.addSourceProvider(currentSelectionSourceProvider);
-//				sourceProviderService.registerProvider(currentSelectionSourceProvider);
-//				
+				menuService.addSourceProvider(currentSelectionSourceProvider);
+				sourceProviderService.registerProvider(currentSelectionSourceProvider);
+				
 				actionSetSourceProvider = new ActionSetSourceProvider();
 				evaluationService.addSourceProvider(actionSetSourceProvider);
 				handlerService[0].addSourceProvider(actionSetSourceProvider);
