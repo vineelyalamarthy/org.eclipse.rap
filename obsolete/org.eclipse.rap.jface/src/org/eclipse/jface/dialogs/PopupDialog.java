@@ -828,7 +828,7 @@ public class PopupDialog extends Window {
 	 *
 	 * @return the return code
 	 *
-	 * @see org.eclipse.jface.window.Window#open(org.eclipse.jface.window.IWindowCallback)
+	 * @see org.eclipse.jface.window.Window#open()
 	 */
 	public int open() {
 

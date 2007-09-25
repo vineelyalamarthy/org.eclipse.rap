@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.rap.ui" id="resources" name="Resources"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         The &lt;code&gt;resources&lt;/code&gt; extension point is used to register additional resources which are used in the client application. This can be for example a javascript library, additional images used by the client or other documents which are then available on the client. The resource can be located locally or loaded from an external location.
       </documentation>
    </annotation>
 
@@ -43,11 +43,16 @@
    </element>
 
    <element name="resource">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="class"/>
+         </appInfo>
+      </annotation>
       <complexType>
-         <attribute name="class" type="string">
+         <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  An implementation of &lt;code&gt;org.eclipse.rwt.resources.IResource&lt;/code&gt; to define location, options and other aspects for this resource.
                </documentation>
                <appInfo>
                   <meta.attribute kind="java" basedOn="org.eclipse.rwt.resources.IResource"/>
@@ -62,7 +67,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         RAP 1.0
       </documentation>
    </annotation>
 
@@ -71,7 +76,13 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         [Enter extension point usage example here.]
+         &lt;pre&gt;
+&lt;extension
+    id=&quot;org.eclipse.rap.gmaps.gmap&quot;
+    point=&quot;org.eclipse.rap.ui.resources&quot;&gt;
+  &lt;resource class=&quot;org.eclipse.rap.gmaps.GMapResource&quot;/&gt;
+&lt;/extension&gt;
+&lt;/pre&gt;
       </documentation>
    </annotation>
 
@@ -80,7 +91,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         Besides registering resources with an extension you can dynamically register new resources with an &lt;code&gt;IResourceManager&lt;/code&gt;. Use &lt;code&gt;RWT.getResourceManager&lt;/code&gt; to obtain the currently active resource manager implemenation.
       </documentation>
    </annotation>
 
@@ -89,7 +100,7 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         
       </documentation>
    </annotation>
 
@@ -98,7 +109,11 @@
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         
+         Copyright (c) 2007 Innoopract Informationssysteme GmbH and others.&lt;br&gt;
+All rights reserved. This program and the accompanying materials are made
+available under the terms of the Eclipse Public License v1.0 which accompanies
+this distribution, and is available at &lt;a 
+href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;
       </documentation>
    </annotation>
 
