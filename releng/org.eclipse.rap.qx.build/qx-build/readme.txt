@@ -13,3 +13,11 @@
    The qx.js is optimized for size and execution speed and thus hardly human
    readable. Therefore another file qx-debug.js is provided to ease debugging,
    tracing call stacks and so on. 
+   
+NOTE:
+  Due to legal issues the qx-build/source folder does NOT contain the following
+  files and folders that can be found in the original qooxdoo source trunk:
+  - class/qx/theme/icon/Nuvola.js
+  - class/qx/theme/icon/CrystalClear.js
+  - class/qx/xml/Namespace.js
+  - class/qx/ui/table
