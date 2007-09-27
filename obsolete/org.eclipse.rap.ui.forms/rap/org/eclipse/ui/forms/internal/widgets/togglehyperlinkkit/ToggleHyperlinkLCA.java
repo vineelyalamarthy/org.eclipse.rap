@@ -53,7 +53,7 @@ public final class ToggleHyperlinkLCA extends AbstractWidgetLCA {
   {
   }
 
-  public String getTypePoolId( final Widget widget ) throws IOException {
+  public String getTypePoolId( final Widget widget ) {
     return null;
   }
 
