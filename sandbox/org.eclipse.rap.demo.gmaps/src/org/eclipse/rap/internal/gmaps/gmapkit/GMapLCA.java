@@ -39,7 +39,7 @@ public class GMapLCA extends AbstractWidgetLCA {
     writer.newWidget( "org.eclipse.rap.gmaps.GMap", new Object[] { id } );
     writer.set( "appearance", "composite" );
     writer.set( "overflow", "hidden" );
-    ControlLCAUtil.writeStyleFlags( widget );
+    ControlLCAUtil.writeStyleFlags( (GMap)widget );
   }
 
   public void renderChanges( final Widget widget ) throws IOException {
@@ -60,7 +60,7 @@ public class GMapLCA extends AbstractWidgetLCA {
     
   }
 
-  public String getTypePoolId( Widget widget ) throws IOException
+  public String getTypePoolId( Widget widget )
   {
     // TODO Auto-generated method stub
     return null;
