@@ -14,6 +14,8 @@ package org.eclipse.jface.internal.databinding.internal.swt;
 import org.eclipse.core.databinding.observable.Diffs;
 import org.eclipse.jface.internal.databinding.provisional.swt.AbstractSWTObservableValue;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Combo;
 
 /**
@@ -24,9 +26,8 @@ public class ComboObservableValue extends AbstractSWTObservableValue {
 
 	private final Combo combo;
 	private final String attribute;
-	// TODO [sa] implement when ComboBox implements setText and ModifyListener
-//	private boolean updating = false;
-//	private String currentValue;
+	private boolean updating = false;
+	private String currentValue;
 
 	/**
 	 * @param combo
@@ -37,34 +38,32 @@ public class ComboObservableValue extends AbstractSWTObservableValue {
 		this.combo = combo;
 		this.attribute = attribute;
 		
-		// TODO [sa] implement when ComboBox implements setText and ModifyListener
-//		if (attribute.equals(SWTProperties.SELECTION)
-//				|| attribute.equals(SWTProperties.TEXT)) {
-//			this.currentValue = combo.getText();
-//			combo.addModifyListener(new ModifyListener() {
-//
-//				public void modifyText(ModifyEvent e) {
-//					if (!updating) {
-//						String oldValue = currentValue;
-//						currentValue = ComboObservableValue.this.combo
-//								.getText();
-//						fireValueChange(Diffs.createValueDiff(oldValue,
-//								currentValue));
-//					}
-//				}
-//			});
-//		} else
+		if (attribute.equals(SWTProperties.SELECTION)
+				|| attribute.equals(SWTProperties.TEXT)) {
+			this.currentValue = combo.getText();
+			combo.addModifyListener(new ModifyListener() {
+
+				public void modifyText(ModifyEvent e) {
+					if (!updating) {
+						String oldValue = currentValue;
+						currentValue = ComboObservableValue.this.combo
+								.getText();
+						fireValueChange(Diffs.createValueDiff(oldValue,
+								currentValue));
+					}
+				}
+			});
+		} else
 			throw new IllegalArgumentException();
 	}
 
 	public void doSetValue(final Object value) {
 		String oldValue = combo.getText();
 		try {
-			// TODO [sa] implement when ComboBox implements setText and ModifyListener
-//			updating = true;
+			updating = true;
 			if (attribute.equals(SWTProperties.TEXT)) {
-//				String stringValue = value != null ? value.toString() : ""; //$NON-NLS-1$
-//				combo.setText(stringValue);
+				String stringValue = value != null ? value.toString() : ""; //$NON-NLS-1$
+				combo.setText(stringValue);
 			} else if (attribute.equals(SWTProperties.SELECTION)) {
 				String items[] = combo.getItems();
 				int index = -1;
@@ -76,14 +75,14 @@ public class ComboObservableValue extends AbstractSWTObservableValue {
 						}
 					}
 					if (index == -1) {
-//						combo.setText((String) value);
+						combo.setText((String) value);
 					} else {
 						combo.select(index); // -1 will not "unselect"
 					}
 				}
 			}
 		} finally {
-//			updating = false;
+			updating = false;
 		}
 		fireValueChange(Diffs.createValueDiff(oldValue, combo.getText()));
 	}
