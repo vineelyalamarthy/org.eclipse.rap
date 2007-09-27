@@ -414,6 +414,9 @@ public class DecoratedField {
 			decDatas[i].showOnFocus = showOnFocus;
 		}
 		label.setImage(decDatas[i].decoration.getImage());
+// [RAP] (mis-)use images toolTipText for the decorations' description
+		showHoverText( decDatas[i].decoration.getDescription(), label );
+// [RAP] end RAP specific		
 		label.setData(decDatas[i]);
 		label.setLayoutData(formData);
 		label.setVisible(!showOnFocus);
@@ -804,6 +807,9 @@ public class DecoratedField {
 	 * specified control.
 	 */
 	private void showHoverText(String text, Control hoverNear) {
+// [RAP] (mis-)use images toolTipText for the decorations' description
+	  hoverNear.setToolTipText( text );
+// [RAP] end RAP specific    
 		if (text == null) {
 			hideHover();
 			return;
