@@ -188,9 +188,9 @@ public class Branding {
   }
   
   public void setExitMessage( String exitMessage ) {
-	if( exitMessage != null ) {
-		this.exitMessage = exitMessage;
-	}
+    if( exitMessage != null ) {
+      this.exitMessage = exitMessage;
+    }
   }
   
   // TODO [bm] this is just a copy of JSWriter#escapeText

@@ -108,7 +108,7 @@ class LifeCycleServiceHandlerConfigurer
     String exitMessage = branding.getExitMessage();
     String confirmationCall = "";
     if( exitMessage != null && exitMessage != "" ) {
-      confirmationCall = "app.setExitMessage(\"" + exitMessage + "\");";
+      confirmationCall = "app.setExitConfirmation(\"" + exitMessage + "\");";
     }
     BrowserSurvey.replacePlaceholder( content,
                                       "${exitConfirmation}",
