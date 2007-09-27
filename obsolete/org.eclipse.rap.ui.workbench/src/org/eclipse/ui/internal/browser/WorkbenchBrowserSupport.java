@@ -15,11 +15,11 @@ import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 
-public class WorkbenchBrowserSupport extends SessionSingletonBase {
+public final class WorkbenchBrowserSupport extends SessionSingletonBase {
 
-	/*
-	 * (intentionally non-JavaDoc'ed) Returns the default implementation since
-	 * the browserSupport extension point is not implemented (yet).
+	/* (intentionally non-JavaDoc'ed)
+	 * Returns the default implementation since the browserSupport extension 
+	 * point is not implemented (yet).
 	 */
 	public static IWorkbenchBrowserSupport getInstance() {
 		Object result = getInstance(DefaultWorkbenchBrowserSupport.class);
