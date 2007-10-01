@@ -371,7 +371,7 @@ public class LogView extends ViewPart implements ILogListener {
 		fTreeViewer = new TreeViewer(parent, SWT.FULL_SELECTION);
 		fTree = fTreeViewer.getTree();
 		fTree.setLinesVisible(true);
-//		createColumns(fTree);
+		createColumns(fTree);
 		fTreeViewer.setContentProvider(new LogViewContentProvider(this));
 		fTreeViewer.setLabelProvider(fLabelProvider = new LogViewLabelProvider());
 		fLabelProvider.connect(this);
@@ -396,9 +396,12 @@ public class LogView extends ViewPart implements ILogListener {
 		fColumn1 = new TreeColumn(tree, SWT.LEFT);
 		fColumn1.setText(PDERuntimeMessages.LogView_column_message); 
 //		fColumn1.setWidth(fMemento.getInteger(P_COLUMN_1).intValue());
+		fColumn1.setWidth(300);
 		fColumn1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+			    System.out.println(MESSAGE_ORDER);
 				MESSAGE_ORDER *= -1;
+				System.out.println(MESSAGE_ORDER);
 				ViewerComparator comparator = getViewerComparator(MESSAGE);
 				fTreeViewer.setComparator(comparator);
 				boolean isComparatorSet = 
@@ -415,6 +418,7 @@ public class LogView extends ViewPart implements ILogListener {
 		fColumn2 = new TreeColumn(tree, SWT.LEFT);
 		fColumn2.setText(PDERuntimeMessages.LogView_column_plugin); 
 //		fColumn2.setWidth(fMemento.getInteger(P_COLUMN_2).intValue());
+		fColumn2.setWidth(150);
 		fColumn2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				PLUGIN_ORDER *= -1;
@@ -434,6 +438,7 @@ public class LogView extends ViewPart implements ILogListener {
 		fColumn3 = new TreeColumn(tree, SWT.LEFT);
 		fColumn3.setText(PDERuntimeMessages.LogView_column_date);
 //		fColumn3.setWidth(fMemento.getInteger(P_COLUMN_3).intValue());
+		fColumn3.setWidth(150);
 		fColumn3.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				DATE_ORDER *= -1;
@@ -452,14 +457,15 @@ public class LogView extends ViewPart implements ILogListener {
 
 	private void initializeViewerSorter() {
 //		byte orderType = fMemento.getInteger(P_ORDER_TYPE).byteValue();
-//		ViewerComparator comparator = getViewerComparator(orderType);
-//		fTreeViewer.setComparator(comparator);
+	    byte orderType = DATE;
+		ViewerComparator comparator = getViewerComparator(orderType);
+		fTreeViewer.setComparator(comparator);
 //		if (orderType == MESSAGE )
 //			setColumnSorting(fColumn1, MESSAGE_ORDER);
 //		else if (orderType == PLUGIN)
 //			setColumnSorting(fColumn2, PLUGIN_ORDER);
 //		else if (orderType == DATE)
-//			setColumnSorting(fColumn3, DATE_ORDER);
+			setColumnSorting(fColumn3, DATE_ORDER);
 	}
 
 	private void setColumnSorting(TreeColumn column, int order) {
@@ -739,11 +745,12 @@ public class LogView extends ViewPart implements ILogListener {
 //			DATE_ORDER = DESCENDING;
 //			break;
 //		default:
-//			DATE_ORDER = DESCENDING;
-//		MESSAGE_ORDER = DESCENDING;
-//		PLUGIN_ORDER = DESCENDING;
+			DATE_ORDER = DESCENDING;
+		MESSAGE_ORDER = DESCENDING;
+		PLUGIN_ORDER = DESCENDING;
 //		}
 //		setComparator(fMemento.getInteger(P_ORDER_TYPE).byteValue());
+		setComparator(DATE);
 	}
 
 	private void initializeMemento() {
