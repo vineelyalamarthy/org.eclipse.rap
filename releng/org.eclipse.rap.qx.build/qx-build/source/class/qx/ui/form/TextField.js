@@ -1002,7 +1002,9 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function(vStart)
       {
         this._visualPropertyCheck();
-        this._inputElement.selectionStart = vStart;
+        if( this.isSeeable() ) {
+          this._inputElement.selectionStart = vStart;
+        } 
       }
     }),
 
@@ -1035,7 +1037,7 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function()
       {
         this._visualPropertyCheck();
-        return this._inputElement.selectionStart;
+        return this.isSeeable() ? this._inputElement.selectionStart : 0;
       }
     }),
 
@@ -1071,7 +1073,7 @@ qx.Class.define("qx.ui.form.TextField",
 
         var el = this._inputElement;
 
-        if (qx.util.Validation.isValidString(el.value)) {
+        if (qx.util.Validation.isValidString(el.value) && this.isSeeable()) {
           el.selectionEnd = el.selectionStart + vLength;
         }
       }
@@ -1105,7 +1107,7 @@ qx.Class.define("qx.ui.form.TextField",
         this._visualPropertyCheck();
 
         var el = this._inputElement;
-        return el.selectionEnd - el.selectionStart;
+        return this.isSeeable() ? ( el.selectionEnd - el.selectionStart ) : 0;
       }
     }),
 
@@ -1143,6 +1145,9 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function(vText)
       {
         this._visualPropertyCheck();
+        if( !this.isSeeable() ) {
+          return;
+        }
 
         var el = this._inputElement;
 
@@ -1237,10 +1242,11 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function(vStart, vEnd)
       {
         this._visualPropertyCheck();
-
-        var el = this._inputElement;
-        el.selectionStart = vStart;
-        el.selectionEnd = vEnd;
+        if( this.isSeeable() ) {
+          var el = this._inputElement;
+          el.selectionStart = vStart;
+          el.selectionEnd = vEnd;
+        }
       }
     })
   },

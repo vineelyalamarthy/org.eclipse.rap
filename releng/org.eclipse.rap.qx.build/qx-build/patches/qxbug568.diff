@@ -1,0 +1,73 @@
+### Eclipse Workspace Patch 1.0
+#P org.eclipse.rap.tools
+Index: qx-build/source/class/qx/ui/form/TextField.js
+===================================================================
+RCS file: /cvsroot/technology/org.eclipse.rap/org.eclipse.rap.tools/qx-build/source/class/qx/ui/form/TextField.js,v
+retrieving revision 1.3
+diff -u -r1.3 TextField.js
+--- qx-build/source/class/qx/ui/form/TextField.js	7 Aug 2007 16:30:45 -0000	1.3
++++ qx-build/source/class/qx/ui/form/TextField.js	4 Oct 2007 16:06:05 -0000
+@@ -1002,7 +1002,9 @@
+       "default" : function(vStart)
+       {
+         this._visualPropertyCheck();
+-        this._inputElement.selectionStart = vStart;
++        if( this.isSeeable() ) {
++          this._inputElement.selectionStart = vStart;
++        } 
+       }
+     }),
+ 
+@@ -1035,7 +1037,7 @@
+       "default" : function()
+       {
+         this._visualPropertyCheck();
+-        return this._inputElement.selectionStart;
++        return this.isSeeable() ? this._inputElement.selectionStart : 0;
+       }
+     }),
+ 
+@@ -1071,7 +1073,7 @@
+ 
+         var el = this._inputElement;
+ 
+-        if (qx.util.Validation.isValidString(el.value)) {
++        if (qx.util.Validation.isValidString(el.value) && this.isSeeable()) {
+           el.selectionEnd = el.selectionStart + vLength;
+         }
+       }
+@@ -1105,7 +1107,7 @@
+         this._visualPropertyCheck();
+ 
+         var el = this._inputElement;
+-        return el.selectionEnd - el.selectionStart;
++        return this.isSeeable() ? ( el.selectionEnd - el.selectionStart ) : 0;
+       }
+     }),
+ 
+@@ -1143,6 +1145,9 @@
+       "default" : function(vText)
+       {
+         this._visualPropertyCheck();
++        if( !this.isSeeable() ) {
++          return;
++        }
+ 
+         var el = this._inputElement;
+ 
+@@ -1237,10 +1242,11 @@
+       "default" : function(vStart, vEnd)
+       {
+         this._visualPropertyCheck();
+-
+-        var el = this._inputElement;
+-        el.selectionStart = vStart;
+-        el.selectionEnd = vEnd;
++        if( this.isSeeable() ) {
++          var el = this._inputElement;
++          el.selectionStart = vStart;
++          el.selectionEnd = vEnd;
++        }
+       }
+     })
+   },

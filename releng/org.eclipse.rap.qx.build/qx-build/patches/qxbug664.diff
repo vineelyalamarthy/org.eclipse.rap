@@ -1,0 +1,39 @@
+Index: branches/legacy_0_7_x/qooxdoo/frontend/framework/source/class/qx/io/remote/XmlHttpTransport.js
+===================================================================
+--- branches/legacy_0_7_x/qooxdoo/frontend/framework/source/class/qx/io/remote/XmlHttpTransport.js	(revision 10231)
++++ branches/legacy_0_7_x/qooxdoo/frontend/framework/source/class/qx/io/remote/XmlHttpTransport.js	(working copy)
+@@ -110,6 +110,16 @@
+      */
+     createRequestObject : function() {
+       return qx.net.HttpRequest.create();
++    },
++
++
++    /**
++     * Dummy function to use for onreadystatechange after disposal
++     *
++     * @type static
++     * @return {var} none
++     */
++    __dummy : function() {
+     }
+   },
+ 
+@@ -883,13 +893,10 @@
+ 
+     if (vRequest)
+     {
+-      // Should be right,
+-      // but is not compatible to mshtml (throws an exception)
+-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+-      } else { // empty to help the generator to optimize this variant
+-        vRequest.onreadystatechange = null;
+-      }
+-
++      // Clean up state change handler
++      // Note that for IE the proper way to do this is to set it to a 
++      // dummy function, not null (Google on "onreadystatechange dummy IE unhook")
++      vRequest.onreadystatechange = qx.io.remote.XmlHttpTransport.__dummy;
+       // Aborting
+       switch(vRequest.readyState)
+       {
