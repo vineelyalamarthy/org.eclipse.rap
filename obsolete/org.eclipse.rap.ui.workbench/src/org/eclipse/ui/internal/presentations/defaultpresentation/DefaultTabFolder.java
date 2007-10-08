@@ -84,8 +84,8 @@ public class DefaultTabFolder extends AbstractTabFolder {
     	Graphics.getColor( 236, 233, 216 )
     };
     private static Color[] inactiveSelectedBackground = new Color[] {
-    	Graphics.getColor( 211, 231, 223 ),
-    	Graphics.getColor( 211, 231, 223 )
+    	Graphics.getColor( 217, 227, 243 ),
+    	Graphics.getColor( 217, 227, 243 )
     };
     private static DefaultTabFolderColors colorsInactiveSelected
     = new DefaultTabFolderColors( inactiveForeground,
@@ -99,7 +99,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
     		false );
     private static DefaultTabFolderColors colorsInactive
     = new DefaultTabFolderColors( inactiveForeground,
-    		unselectedBackground,
+                                  inactiveSelectedBackground,
     		null,
     		false );
 
