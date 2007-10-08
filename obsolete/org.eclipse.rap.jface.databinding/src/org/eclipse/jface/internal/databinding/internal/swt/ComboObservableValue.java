@@ -14,8 +14,7 @@ package org.eclipse.jface.internal.databinding.internal.swt;
 import org.eclipse.core.databinding.observable.Diffs;
 import org.eclipse.jface.internal.databinding.provisional.swt.AbstractSWTObservableValue;
 import org.eclipse.jface.util.Assert;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.Combo;
 
 /**
@@ -38,8 +37,11 @@ public class ComboObservableValue extends AbstractSWTObservableValue {
 		this.combo = combo;
 		this.attribute = attribute;
 		
-		if (attribute.equals(SWTProperties.SELECTION)
-				|| attribute.equals(SWTProperties.TEXT)) {
+		// TODO [fappel]: check difference between selection and text again
+		if(    attribute.equals(SWTProperties.SELECTION)
+			|| attribute.equals(SWTProperties.TEXT ) )
+		{
+		  if( attribute.equals( SWTProperties.TEXT  ) ) {
 			this.currentValue = combo.getText();
 			combo.addModifyListener(new ModifyListener() {
 
@@ -53,6 +55,21 @@ public class ComboObservableValue extends AbstractSWTObservableValue {
 					}
 				}
 			});
+		  }
+		  if( attribute.equals( SWTProperties.SELECTION ) ) {
+            this.currentValue = combo.getText();
+            combo.addSelectionListener(new SelectionAdapter() {
+              public void widgetSelected( SelectionEvent e ) {
+                if (!updating) {
+                  String oldValue = currentValue;
+                  currentValue = ComboObservableValue.this.combo
+                  .getText();
+                  fireValueChange(Diffs.createValueDiff(oldValue,
+                                                        currentValue));
+                }
+              }
+            });		    
+		  }
 		} else
 			throw new IllegalArgumentException();
 	}
