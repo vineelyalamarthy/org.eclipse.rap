@@ -474,7 +474,10 @@ public final class PaneFolder {
 	                    + titleArea.width - topRightSize.x, titleArea.y
 	                    + (titleArea.height - topRightSize.y) / 2, topRightSize.x,
 	                    topRightSize.y);
-	
+// TODO [rh] hack to fix CTabFolder layout problems
+	            topRightArea.y -= 1;
+// end hack
+	            
 	            if (topRight != null) {
 	                topRight.setBounds(Geometry.toControl(topRight.getParent(),
 	                        topRightArea));
