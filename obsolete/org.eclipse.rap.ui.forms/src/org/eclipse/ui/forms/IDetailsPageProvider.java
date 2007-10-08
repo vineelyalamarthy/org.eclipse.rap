@@ -20,7 +20,7 @@ package org.eclipse.ui.forms;
  * 
  * @see DetailsPart
  * @see MasterDetailsBlock
- * @since 3.0
+ * @since 1.0
  */
 public interface IDetailsPageProvider {
 /**

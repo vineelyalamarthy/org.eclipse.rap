@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Shell;
  * window.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public final class ActiveShellExpression extends Expression {
 
@@ -61,7 +61,7 @@ public final class ActiveShellExpression extends Expression {
 	 * Expression information for this expression.  Namely active shell and 
 	 * active workbench window name.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public final void collectExpressionInfo(final ExpressionInfo info) {
 		info.addVariableNameAccess(ISources.ACTIVE_SHELL_NAME);

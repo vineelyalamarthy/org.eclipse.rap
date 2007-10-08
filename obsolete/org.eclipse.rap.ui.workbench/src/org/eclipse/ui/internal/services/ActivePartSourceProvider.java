@@ -20,7 +20,7 @@ import org.eclipse.ui.internal.util.Util;
 /**
  * Provides notifications when the active part changes.
  * 
- * @since 3.1
+ * @since 1.0
  */
 public class ActivePartSourceProvider extends AbstractSourceProvider {
 

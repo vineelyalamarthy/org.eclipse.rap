@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Event;
  * <b>Subclasses can implement their custom navigation algorithms</b>
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class CellNavigationStrategy {

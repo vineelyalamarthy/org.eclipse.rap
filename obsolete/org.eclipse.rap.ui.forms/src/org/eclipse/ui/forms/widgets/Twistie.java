@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Composite;
  * collapsed and down in the expanded state. Triangle color can be changed.
  * 
  * @see TreeNode
- * @since 3.0
+ * @since 1.0
  */
 public class Twistie extends ToggleHyperlink {
 //	private static final int[] onPoints = { 0, 2, 8, 2, 4, 6 };

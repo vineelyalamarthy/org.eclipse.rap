@@ -25,7 +25,7 @@ import org.eclipse.ui.internal.WorkbenchWindow;
 /**
  * A provider of notifications for when the active shell changes.
  * 
- * @since 3.1
+ * @since 1.0
  */
 public final class ActiveShellSourceProvider extends AbstractSourceProvider {
 
@@ -64,7 +64,7 @@ public final class ActiveShellSourceProvider extends AbstractSourceProvider {
 	 * <code>workbench.getActiveWorkbenchWindow()</code> returned
 	 * <code>null</code>.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private WorkbenchWindow lastActiveWorkbenchWindow = null;
 
@@ -72,7 +72,7 @@ public final class ActiveShellSourceProvider extends AbstractSourceProvider {
 	 * The result of the last visibility check on the coolbar of the last active
 	 * workbench window.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private Boolean lastCoolbarVisibility = Boolean.FALSE;
 	
@@ -80,14 +80,14 @@ public final class ActiveShellSourceProvider extends AbstractSourceProvider {
 	 * The result of the last visibility check on the perspective bar of the
 	 * last active workbench window.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private Boolean lastPerspectiveBarVisibility = Boolean.FALSE;
 	
 	/**
 	 * The listener to individual window properties.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private final IPropertyChangeListener propertyListener = new IPropertyChangeListener() {
 

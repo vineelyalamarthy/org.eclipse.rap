@@ -22,7 +22,7 @@ import org.eclipse.core.databinding.observable.IObserving;
  * This interface is not meant to be implemented by clients.
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  */
 public interface IBeanObservable extends IObserving {
 	/**

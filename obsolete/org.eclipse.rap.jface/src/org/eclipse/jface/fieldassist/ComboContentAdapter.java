@@ -19,7 +19,7 @@
 // * convenience class for easily creating a {@link ContentProposalAdapter} for
 // * combo fields.
 // * 
-// * @since 3.2
+// * @since 1.0
 // */
 //public class ComboContentAdapter implements IControlContentAdapter {
 //

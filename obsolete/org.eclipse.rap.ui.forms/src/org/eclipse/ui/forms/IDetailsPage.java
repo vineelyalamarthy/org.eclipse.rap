@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Composite;
  * 
  * @see DetailsPart
  * @see MasterDetailsBlock
- * @since 3.0
+ * @since 1.0
  */
 public interface IDetailsPage extends IFormPart, IPartSelectionListener {
 	/**

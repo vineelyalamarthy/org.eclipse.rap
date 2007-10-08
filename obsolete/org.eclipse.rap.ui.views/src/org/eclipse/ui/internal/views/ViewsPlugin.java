@@ -21,7 +21,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * instantiated or subclassed by clients.
  * </p>
  * 
- * @since 2.1
+ * @since 1.0
  */
 public final class ViewsPlugin extends AbstractUIPlugin {
     /**

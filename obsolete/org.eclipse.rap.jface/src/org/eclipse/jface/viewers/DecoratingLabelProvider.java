@@ -242,7 +242,7 @@ public class DecoratingLabelProvider extends LabelProvider implements
 	 * Decoration is ready. Update anything else for the settings.
 	 * @param settings The object collecting the settings.
 	 * @param element The Object being decorated.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected void updateForDecorationReady(ViewerLabel settings, Object element) {
 		
@@ -294,7 +294,7 @@ public class DecoratingLabelProvider extends LabelProvider implements
      * instance of {@link LabelDecorator}.
      * @return the decoration context associated with this label provider
      * 
-     * @since 3.2
+     * @since 1.0
      */
     public IDecorationContext getDecorationContext() {
 		return decorationContext;
@@ -305,7 +305,7 @@ public class DecoratingLabelProvider extends LabelProvider implements
      * for this label provider if that decorator implements {@link LabelDecorator}.
      * @param decorationContext the decoration context.
      * 
-     * @since 3.2
+     * @since 1.0
      */
 	public void setDecorationContext(IDecorationContext decorationContext) {
 		Assert.isNotNull(decorationContext);

@@ -61,7 +61,7 @@ import org.eclipse.swt.widgets.*;
  * myControl.setLayout(new CellLayout(2).setMargins(10,10).setSpacing(5,5));
  * </code>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class CellLayout extends Layout {
 

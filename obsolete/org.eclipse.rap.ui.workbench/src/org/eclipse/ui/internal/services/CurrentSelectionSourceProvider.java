@@ -35,7 +35,7 @@ import org.eclipse.ui.IWorkbenchWindow;
  * <code>org.eclipse.ui.workbench</code> plug-in.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public final class CurrentSelectionSourceProvider extends
 		AbstractSourceProvider implements INullSelectionListener {

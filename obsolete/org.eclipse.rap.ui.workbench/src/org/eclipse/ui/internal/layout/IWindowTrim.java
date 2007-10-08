@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Control;
  * {@link #getValidSides() }, etc.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public interface IWindowTrim {
 	/**
@@ -59,7 +59,7 @@ public interface IWindowTrim {
 	 * trim.
 	 * 
 	 * @return The unique id
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public String getId();
 
@@ -69,7 +69,7 @@ public interface IWindowTrim {
 	 * 
 	 * @return The display name for this trim
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public String getDisplayName();
 
@@ -80,7 +80,7 @@ public interface IWindowTrim {
 	 * @return true if the UI should profer the close affordance; false
 	 *         otherwise
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public boolean isCloseable();
 
@@ -90,7 +90,7 @@ public interface IWindowTrim {
 	 * trim layout. The implementor should take any necessary clean up actions
 	 * here.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void handleClose();
 
@@ -100,7 +100,7 @@ public interface IWindowTrim {
 	 * horizontally resizable controls.
 	 * 
 	 * @return pixels, or SWT.DEFAULT
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public int getWidthHint();
 
@@ -110,7 +110,7 @@ public interface IWindowTrim {
 	 * vertically resizable controls.
 	 * 
 	 * @return pixels, or SWT.DEFAULT
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public int getHeightHint();
 
@@ -120,7 +120,7 @@ public interface IWindowTrim {
 	 * space will be divided equally among all the resizeable controls.
 	 * 
 	 * @return <code>true</code> or <code>false</code>.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public boolean isResizeable();
 }

@@ -24,7 +24,7 @@ import org.eclipse.jface.action.*;
  * </p>
  * 
  * @see org.eclipse.ui.application.WorkbenchAdvisor#fillActionBars
- * @since 3.0
+ * @since 1.0
  */
 public interface IActionBarConfigurer {
     
@@ -33,7 +33,7 @@ public interface IActionBarConfigurer {
      * containing this configurer's action bars. 
      * 
      * @return the workbench window configurer
-     * @since 3.1
+     * @since 1.0
      */
     public IWorkbenchWindowConfigurer getWindowConfigurer();
     

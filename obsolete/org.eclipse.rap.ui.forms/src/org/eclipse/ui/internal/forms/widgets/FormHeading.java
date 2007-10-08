@@ -620,7 +620,7 @@ public class FormHeading extends Canvas {
 	 * Returns the title image that will be rendered to the left of the title.
 	 * 
 	 * @return the title image
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public Image getImage() {
 		return titleRegion.getImage();
@@ -674,7 +674,7 @@ public class FormHeading extends Canvas {
 	 * 
 	 * @param image
 	 *            the title image or <code>null</code> to show no image.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void setImage(Image image) {
 		titleRegion.setImage(image);
@@ -767,7 +767,7 @@ public class FormHeading extends Canvas {
 	 * title area.
 	 * 
 	 * @return form drop-down menu manager
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public IMenuManager getMenuManager() {
 		return titleRegion.getMenuManager();

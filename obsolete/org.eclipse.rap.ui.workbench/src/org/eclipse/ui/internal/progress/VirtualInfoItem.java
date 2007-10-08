@@ -56,7 +56,7 @@
 // * VirtualInfoItem is the item used to show jobs which only displays when it is
 // * visible.
 // * 
-// * @since 3.1
+// * @since 1.0
 // * 
 // */
 //class VirtualInfoItem extends Canvas {

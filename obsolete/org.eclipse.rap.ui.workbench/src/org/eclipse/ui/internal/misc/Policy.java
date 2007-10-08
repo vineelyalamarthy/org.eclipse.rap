@@ -18,7 +18,7 @@ import org.eclipse.ui.PlatformUI;
  * A common facility for parsing the <code>org.eclipse.ui/.options</code>
  * file.
  * 
- * @since 2.1
+ * @since 1.0
  */
 public class Policy {
     public static boolean DEFAULT = false;
@@ -39,7 +39,7 @@ public class Policy {
 	 * used by the commands architecture.
 	 * 
 	 * @see ISourceProvider
-	 * @since 3.2
+	 * @since 1.0
 	 */
     public static boolean DEBUG_SOURCES = DEFAULT;
 
@@ -122,14 +122,14 @@ public class Policy {
     /**
      * Whether or not to resolve images as they are declared.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static boolean DEBUG_DECLARED_IMAGES = DEFAULT;
     
     /**
      * Whether or not to print contribution-related issues.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static boolean DEBUG_CONTRIBUTIONS = DEFAULT;
 

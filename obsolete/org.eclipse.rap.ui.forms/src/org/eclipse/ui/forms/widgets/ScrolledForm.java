@@ -40,7 +40,7 @@ import org.eclipse.ui.forms.IMessage;
  * <p>
  * Although the class is not final, it is not expected to be be extended.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class ScrolledForm extends SharedScrolledComposite {
 	private Form content;
@@ -214,7 +214,7 @@ public class ScrolledForm extends SharedScrolledComposite {
 	 * @param busy
 	 *            the form's busy state
 	 * @see Form#setBusy(boolean)
-	 * @since 3.3
+	 * @since 1.0
 	 */
 
 	public void setBusy(boolean busy) {
@@ -228,7 +228,7 @@ public class ScrolledForm extends SharedScrolledComposite {
 	 * @param headClient
 	 *            the optional child of the head
 	 * @see Form#setHeadClient(Control)
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void setHeadClient(Control headClient) {
 		content.setHeadClient(headClient);
@@ -246,7 +246,7 @@ public class ScrolledForm extends SharedScrolledComposite {
 	 * @param messages
 	 * 			 an optional array of children that itemize individual
 	 * 			messages or <code>null</code> for a simple message.
-	 * @since 3.3
+	 * @since 1.0
 	 * @see Form#setMessage(String, int)
 	 */
 	public void setMessage(String newMessage, int newType, IMessage[] messages) {

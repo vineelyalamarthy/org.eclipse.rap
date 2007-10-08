@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.Assert;
  * This class is not intended to be subclassed.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class TreeSelection extends StructuredSelection implements ITreeSelection {
 
@@ -151,7 +151,7 @@ public class TreeSelection extends StructuredSelection implements ITreeSelection
 	 * 
 	 * @return the element comparer or <code>null</code>
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public IElementComparer getElementComparer() {
 		if (element2TreePaths == null)

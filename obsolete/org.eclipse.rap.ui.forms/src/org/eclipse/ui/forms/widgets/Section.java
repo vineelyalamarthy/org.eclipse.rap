@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.*;
  * <code>FormText</code> to provide for hyperlinks and images in the
  * description area.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class Section extends ExpandableComposite {
 	/**
@@ -234,7 +234,7 @@ public class Section extends ExpandableComposite {
 	 * Use the method only if you want to create the description control
 	 * yourself.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 * @param descriptionControl
 	 *            the control that will be placed below the title text.
 	 */

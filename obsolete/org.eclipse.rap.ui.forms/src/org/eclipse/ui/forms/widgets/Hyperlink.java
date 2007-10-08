@@ -27,7 +27,7 @@ import org.eclipse.ui.internal.forms.widgets.FormUtil;
  * Hyperlink can be extended.
  * 
  * @see org.eclipse.ui.forms.HyperlinkGroup
- * @since 3.0
+ * @since 1.0
  */
 public class Hyperlink extends AbstractHyperlink {
 	private String text;

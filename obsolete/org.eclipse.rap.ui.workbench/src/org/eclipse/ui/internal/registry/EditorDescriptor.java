@@ -28,7 +28,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable,
 
     /**
      * Generated serial version UID for this class.
-     * @since 3.1
+     * @since 1.0
      */
     private static final long serialVersionUID = 3905241225668998961L;
 
@@ -279,7 +279,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable,
 	 * Verifies that the image descriptor generates an image.  If not, the 
 	 * descriptor is replaced with the default image.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void verifyImage() {
 		if (imageDesc == null) {
@@ -458,7 +458,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable,
      * Return the open mode of this editor.
      *
 	 * @return the open mode of this editor
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private int getOpenMode() {
 		if (configurationElement == null) { // if we've been serialized, return our serialized value

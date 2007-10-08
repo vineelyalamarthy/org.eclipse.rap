@@ -178,7 +178,7 @@ public abstract class ViewPart extends WorkbenchPart implements IViewPart {
      * The site for a view must be an <code>IViewSite</code>.
      * 
      * @param site the site to check
-     * @since 3.1
+     * @since 1.0
      */
     protected final void checkSite(IWorkbenchPartSite site) {
         super.checkSite(site);

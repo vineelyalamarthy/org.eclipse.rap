@@ -21,7 +21,7 @@ import org.eclipse.jface.dialogs.ErrorSupportProvider;
  * The Policy class handles settings for behaviour, debug flags and logging
  * within JFace.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class Policy {
 
@@ -76,7 +76,7 @@ public class Policy {
 	 * @param logger
 	 *            the logger to use, or <code>null</code> to use the default
 	 *            logger
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static void setLog(ILogger logger) {
 		log = logger;
@@ -89,7 +89,7 @@ public class Policy {
 	 * </p>
 	 * 
 	 * @return the logger
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static ILogger getLog() {
 		if (log == null) {
@@ -129,7 +129,7 @@ public class Policy {
 	 * Return the comparator used by JFace to sort strings.
 	 * 
 	 * @return the comparator used by JFace to sort strings
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static Comparator getComparator() {
 		if (viewerComparator == null) {
@@ -143,7 +143,7 @@ public class Policy {
 	 * 
 	 * @param comparator
 	 *            comparator used by JFace to sort strings
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static void setComparator(Comparator comparator) {
 		org.eclipse.core.runtime.Assert.isTrue(viewerComparator == null);
@@ -156,7 +156,7 @@ public class Policy {
 	 * 
 	 * @param factory
 	 *            the AnimatorFactory to use.
-	 * @since 3.2
+	 * @since 1.0
 	 * @deprecated this is no longer in use as of 3.3
 	 */
 	public static void setAnimatorFactory(AnimatorFactory factory) {
@@ -168,7 +168,7 @@ public class Policy {
 	 * instances.
 	 * 
 	 * @return the animator factory used to create control animator instances.
-	 * @since 3.2
+	 * @since 1.0
 	 * @deprecated this is no longer in use as of 3.3
 	 */
 	public static AnimatorFactory getAnimatorFactory() {

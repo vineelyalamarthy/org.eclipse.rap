@@ -132,7 +132,7 @@ public class PreferenceManager {
      * @param top top at the given path
      * @return the node, or <code>null</code> if none
      * 
-     * @since 3.1
+     * @since 1.0
      */
     protected IPreferenceNode find(String path,IPreferenceNode top){
     	 Assert.isNotNull(path);
@@ -188,7 +188,7 @@ public class PreferenceManager {
 	 * Returns the root level nodes of this preference manager.
 	 * 
 	 * @return an array containing the root nodes
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public final IPreferenceNode[] getRootSubNodes() {
 		return getRoot().getSubNodes();

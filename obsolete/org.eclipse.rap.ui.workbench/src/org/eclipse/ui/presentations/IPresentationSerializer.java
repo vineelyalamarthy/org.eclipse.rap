@@ -16,7 +16,7 @@ package org.eclipse.ui.presentations;
  * 
  * Not intended to be implemented by clients
  * 
- * @since 3.0
+ * @since 1.0
  */
 public interface IPresentationSerializer {
     /**

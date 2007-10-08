@@ -436,7 +436,7 @@ public abstract class FieldEditor {
      * @return DialogPage or <code>null</code> if it 
      * has not been set.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     protected DialogPage getPage(){
     	return page;
@@ -594,7 +594,7 @@ public abstract class FieldEditor {
      * Set the page to be the receiver.
 	 * @param dialogPage
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void setPage(DialogPage dialogPage) {
 		page = dialogPage;

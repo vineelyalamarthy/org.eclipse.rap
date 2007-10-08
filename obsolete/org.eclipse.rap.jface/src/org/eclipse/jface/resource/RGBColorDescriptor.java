@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.*;
 /**
  * Describes a color by its RGB values.
  *
- * @since 3.1
+ * @since 1.0
  */
 class RGBColorDescriptor extends ColorDescriptor {
 
@@ -39,7 +39,7 @@ class RGBColorDescriptor extends ColorDescriptor {
 	/**
      * Creates a new RGBColorDescriptor that describes an existing color.
      *
-     * @since 3.1
+     * @since 1.0
      *
      * @param originalColor a color to describe
      */

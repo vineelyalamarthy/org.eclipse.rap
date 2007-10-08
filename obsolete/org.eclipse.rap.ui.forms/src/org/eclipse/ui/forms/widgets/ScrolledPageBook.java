@@ -23,7 +23,7 @@ import org.eclipse.ui.internal.forms.widgets.WrappedPageBook;
  * (pages), while showing one at a time. The content is scrolled if there is
  * not enough space to fit it in the client area.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class ScrolledPageBook extends SharedScrolledComposite {
 	private WrappedPageBook pageBook;

@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Control;
  * Messages can be associated with controls, or be of a general nature.
  * 
  * @see IMessageManager
- * @since 3.3
+ * @since 1.0
  */
 public interface IMessage extends IMessageProvider {
 	/**

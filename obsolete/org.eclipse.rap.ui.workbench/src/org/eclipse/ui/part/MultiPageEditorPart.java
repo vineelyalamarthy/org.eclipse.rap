@@ -294,7 +294,7 @@ public abstract class MultiPageEditorPart extends EditorPart {
 	 * @return the parent for this editor's container. Must not be
 	 *         <code>null</code>.
 	 *         
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	protected Composite createPageContainer(Composite parent) {
 		return parent;
@@ -817,7 +817,7 @@ public abstract class MultiPageEditorPart extends EditorPart {
 	 * @param input the editor input
 	 * @return the editors contained in this multi-page editor
 	 * whose editor input match the provided input
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public final IEditorPart[] findEditors(IEditorInput input) {
 		List result = new ArrayList();
@@ -839,7 +839,7 @@ public abstract class MultiPageEditorPart extends EditorPart {
 	 * no effect of the given editor part is not contained in this
 	 * multi-page editor.
 	 * @param editorPart the editor part
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public final void setActiveEditor(IEditorPart editorPart) {
 		int count = getPageCount();

@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
 /**
- * @since 3.2
+ * @since 1.0
  * 
  */
 public class ObjectToPrimitiveValidator implements IValidator {

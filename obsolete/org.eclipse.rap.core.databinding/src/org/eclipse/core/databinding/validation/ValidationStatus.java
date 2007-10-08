@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.Status;
 /**
  * Convenience class for creating status objects.
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class ValidationStatus extends Status {

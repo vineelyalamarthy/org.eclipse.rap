@@ -20,7 +20,7 @@ package org.eclipse.jface.bindings.keys.formatting;
  * formatter to be changed.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  * @see org.eclipse.jface.bindings.keys.formatting.IKeyFormatter
  */
 public final class KeyFormatterFactory {

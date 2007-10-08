@@ -55,7 +55,7 @@
 //     * The cell editor value is the string itself, which is initially the empty
 //     * string. Initially, the cell editor has no cell validator.
 //     * 
-//     * @since 2.1
+//     * @since 1.0
 //     */
 //    public TextCellEditor() {
 //        setStyle(defaultStyle);
@@ -79,7 +79,7 @@
 //     *
 //     * @param parent the parent control
 //     * @param style the style bits
-//     * @since 2.1
+//     * @since 1.0
 //     */
 //    public TextCellEditor(Composite parent, int style) {
 //        super(parent, style);
@@ -274,7 +274,7 @@
 //     * 
 //     * @param event the selection event
 //     * 
-//     * @since 3.0
+//     * @since 1.0
 //     */
 //    protected void handleDefaultSelection(SelectionEvent event) {
 //        // same with enter-key handling code in keyReleaseOccured(e);

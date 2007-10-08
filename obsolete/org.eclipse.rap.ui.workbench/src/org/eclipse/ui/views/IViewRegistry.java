@@ -23,7 +23,7 @@ package org.eclipse.ui.views;
  * 
  * @see org.eclipse.ui.views.IViewDescriptor
  * @see org.eclipse.ui.views.IStickyViewDescriptor
- * @since 3.1
+ * @since 1.0
  */
 public interface IViewRegistry {
     /**

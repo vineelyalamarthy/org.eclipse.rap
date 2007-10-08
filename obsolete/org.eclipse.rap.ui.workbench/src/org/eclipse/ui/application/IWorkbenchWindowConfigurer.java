@@ -32,7 +32,7 @@ import org.eclipse.ui.presentations.AbstractPresentationFactory;
  * 
  * @see IWorkbenchConfigurer#getWindowConfigurer
  * @see WorkbenchAdvisor#preWindowOpen
- * @since 3.0
+ * @since 1.0
  */
 public interface IWorkbenchWindowConfigurer {
     /**
@@ -399,7 +399,7 @@ public interface IWorkbenchWindowConfigurer {
 	 * @param memento the memento in which to save the window's state
 	 * @return a status object indicating whether the save was successful
      * @see IWorkbenchConfigurer#restoreWorkbenchWindow(IMemento)
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	public IStatus saveState(IMemento memento);
 }

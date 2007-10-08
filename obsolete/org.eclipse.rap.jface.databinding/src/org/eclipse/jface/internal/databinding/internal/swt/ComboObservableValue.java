@@ -18,7 +18,7 @@ import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.Combo;
 
 /**
- * @since 3.2
+ * @since 1.0
  * 
  */
 public class ComboObservableValue extends AbstractSWTObservableValue {

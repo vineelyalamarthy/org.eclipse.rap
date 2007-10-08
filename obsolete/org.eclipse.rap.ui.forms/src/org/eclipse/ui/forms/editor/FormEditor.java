@@ -43,7 +43,7 @@ import org.eclipse.ui.part.*;
  * get notified when pages are changed. This new API in JFace allows dynamic
  * help to update on page changes.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class FormEditor extends MultiPageEditorPart implements
 		IPageChangeProvider {
@@ -213,7 +213,7 @@ public abstract class FormEditor extends MultiPageEditorPart implements
 	 *            the position to add the page at (0-based)
 	 * @param page
 	 *            the form page to add
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void addPage(int index, IFormPage page) throws PartInitException {
 		super.addPage(index, page.getPartControl());
@@ -246,7 +246,7 @@ public abstract class FormEditor extends MultiPageEditorPart implements
 	 *            the page control to add
 	 * @param index
 	 *            the index at which to add the page (0-based)
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void addPage(int index, Control control) {
 		super.addPage(index, control);
@@ -264,7 +264,7 @@ public abstract class FormEditor extends MultiPageEditorPart implements
 	 * 
 	 * @return <code>true</code> if any of the pages in the editor are dirty,
 	 *         <code>false</code> otherwise.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 
 	public boolean isDirty() {
@@ -286,7 +286,7 @@ public abstract class FormEditor extends MultiPageEditorPart implements
 	 * be called as a first step of a 'save' operation.
 	 * @param onSave <code>true</code> if commit is performed as part
 	 * of the 'save' operation, <code>false</code> otherwise.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 
 	protected void commitPages(boolean onSave) {
@@ -323,7 +323,7 @@ public abstract class FormEditor extends MultiPageEditorPart implements
 	 * position.
 	 * 
 	 * @see MultiPageEditorPart#addPage(int, IEditorPart, IEditorInput)
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void addPage(int index, IEditorPart editor, IEditorInput input)
 			throws PartInitException {

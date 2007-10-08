@@ -17,7 +17,7 @@ import org.eclipse.ui.IViewLayout;
  * Implementation of IViewLayout.
  * This is an API facade on the internal ViewLayoutRec.
  *  
- * @since 3.0
+ * @since 1.0
  */
 public class ViewLayout implements IViewLayout {
     private ViewLayoutRec rec;

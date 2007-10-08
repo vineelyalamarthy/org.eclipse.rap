@@ -28,7 +28,7 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
  * Clients may instantiate this class. It is not intended to be subclassed.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public final class WorkbenchPartLabelProvider extends LabelProvider implements
         ITableLabelProvider {
@@ -113,7 +113,7 @@ public final class WorkbenchPartLabelProvider extends LabelProvider implements
     /* (non-Javadoc)
      * @see org.eclipse.jface.viewers.LabelProvider#dispose()
      * 
-     * @since 3.2
+     * @since 1.0
      */
     public void dispose() {
     	resourceManager.dispose();

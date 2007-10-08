@@ -41,7 +41,7 @@ import org.eclipse.jface.util.Util;
  * to extend this class.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public final class KeySequence extends TriggerSequence implements Comparable {
 

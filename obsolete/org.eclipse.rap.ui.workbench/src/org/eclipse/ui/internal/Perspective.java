@@ -573,7 +573,7 @@ public class Perspective {
     /**
      * Returns true if a view is standalone.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public boolean isStandaloneView(IViewReference ref) {
         ViewLayoutRec rec = getViewLayoutRec(ref, false);
@@ -584,7 +584,7 @@ public class Perspective {
      * Returns whether the title for a view should
      * be shown.  This applies only to standalone views.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public boolean getShowTitleView(IViewReference ref) {
         ViewLayoutRec rec = getViewLayoutRec(ref, false);
@@ -2082,7 +2082,7 @@ public class Perspective {
     /**
      * Returns whether the given view is closeable in this perspective.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public boolean isCloseable(IViewReference reference) {
         ViewLayoutRec rec = getViewLayoutRec(reference, false);
@@ -2095,7 +2095,7 @@ public class Perspective {
     /**
      * Returns whether the given view is moveable in this perspective.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public boolean isMoveable(IViewReference reference) {
         ViewLayoutRec rec = getViewLayoutRec(reference, false);

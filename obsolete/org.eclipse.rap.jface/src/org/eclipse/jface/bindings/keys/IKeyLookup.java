@@ -16,7 +16,7 @@ package org.eclipse.jface.bindings.keys;
  * (i.e., used in persistence) into real key stroke instances.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public interface IKeyLookup {
 	/**

@@ -35,7 +35,7 @@ import org.eclipse.ui.progress.WorkbenchJob;
  * of the text widget are used to drive a PatternFilter that is on the viewer.
  * 
  * @see org.eclipse.ui.dialogs.PatternFilter
- * @since 3.2
+ * @since 1.0
  */
 public class FilteredTree extends Composite {
 
@@ -82,7 +82,7 @@ public class FilteredTree extends Composite {
     
     /**
      * The parent composite of the filtered tree.
-     * @since 3.3
+     * @since 1.0
      */
     protected Composite parent;
 
@@ -97,7 +97,7 @@ public class FilteredTree extends Composite {
     protected boolean showFilterControls;
 
 	/**
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected Composite treeComposite;
     
@@ -160,7 +160,7 @@ public class FilteredTree extends Composite {
 	 *            the parent <code>Composite</code>
 	 * @see #init(int, PatternFilter)
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected FilteredTree(Composite parent) {
 		super(parent, SWT.NONE);
@@ -175,7 +175,7 @@ public class FilteredTree extends Composite {
 	 * @param filter
 	 *            the filter to be used
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected void init(int treeStyle, PatternFilter filter) {
 		patternFilter = filter;
@@ -282,7 +282,7 @@ public class FilteredTree extends Composite {
 	 * @param style SWT style bits used to create the tree viewer
 	 * @return the tree viewer
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected TreeViewer doCreateTreeViewer(Composite parent, int style) {
 		return new NotifyingTreeViewer(parent, style);
@@ -550,7 +550,7 @@ public class FilteredTree extends Composite {
 	 *            the parent composite
 	 * @return the text widget
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected Text doCreateFilterText(Composite parent) {
 		return new Text(parent, SWT.SINGLE | SWT.BORDER /*| SWT.SEARCH | SWT.CANCEL*/);
@@ -754,7 +754,7 @@ public class FilteredTree extends Composite {
 	 * Custom tree viewer subclass that clears the caches in patternFilter on
 	 * any change to the tree. See bug 187200.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 *
 	 */
 	class NotifyingTreeViewer extends TreeViewer {

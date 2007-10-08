@@ -483,7 +483,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 		/**
 		 * Disposes this contribution. 
 		 * 
-		 * @since 3.1
+		 * @since 1.0
 		 */
 		public void dispose() {
 			// do nothing
@@ -492,7 +492,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 		/**
 		 * Disposes the actions.
 		 *
-		 * @since 3.1
+		 * @since 1.0
 		 */
 		protected void disposeActions() {
             if (actions != null) {

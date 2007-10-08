@@ -164,7 +164,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements
      * @param objectClass the class name to adapt the selection to
      * @return an adapted selection
      * 
-     * @since 3.1
+     * @since 1.0
      */
     private static IStructuredSelection adaptSelection(IStructuredSelection selection, String objectClass) {
     	// TODO: [bm] this is from LegacyResourceSupport
@@ -192,7 +192,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements
      * @return an adapted element or <code>null</code> if the 
      * element could not be adapted.
      * 
-     * @since 3.1
+     * @since 1.0
      */    
     public static Object getAdapter(Object element, String objectClass) {
     	// TODO: [bm] this is from LegacyResourceSupport
@@ -224,7 +224,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements
      * Returns the class search order starting with <code>extensibleClass</code>.
      * The search order is defined in this class' comment.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     private static boolean isInstanceOf(Class clazz, String type) {
     	// TODO: [bm] this is from LegacyResourceSupport

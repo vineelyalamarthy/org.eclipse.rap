@@ -20,7 +20,7 @@ import org.eclipse.swt.graphics.*;
  * 
  * <p><b>This classes is intended to be subclassed</b></p>
  * 
- * @since 3.3
+ * @since 1.0
  *
  */
 public class ColumnLabelProvider extends CellLabelProvider implements

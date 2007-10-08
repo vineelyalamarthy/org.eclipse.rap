@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.*;
  * contribution items are disposed (freeing their resources), but that layout
  * information about the item is not lost.
  * 
- * @since 3.0
+ * @since 1.0
  */
 final class PlaceholderContributionItem implements IContributionItem {
 
@@ -154,7 +154,7 @@ final class PlaceholderContributionItem implements IContributionItem {
      * @return the minimum number of tool items to show, or <code>SHOW_ALL_ITEMS</code>
      *         if a value was not set
      * @see #setMinimumItemsToShow(int)
-	 * @since 3.2
+	 * @since 1.0
      */
     int getMinimumItemsToShow() {
     	return storedMinimumItems;
@@ -165,7 +165,7 @@ final class PlaceholderContributionItem implements IContributionItem {
      * 
      * @return <code>true</code> if chevron support is enabled, <code>false</code>
      *         otherwise
-	 * @since 3.2
+	 * @since 1.0
      */
     boolean getUseChevron() {
         return storedUseChevron;

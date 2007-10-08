@@ -20,7 +20,7 @@ import org.eclipse.core.databinding.observable.list.AbstractObservableList;
  * Abstract base class of CComboObservableList, ComboObservableList, and
  * ListObservableList.
  * 
- * @since 3.2
+ * @since 1.0
  * 
  */
 public abstract class SWTObservableList extends AbstractObservableList {

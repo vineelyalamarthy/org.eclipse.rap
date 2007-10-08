@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
  * <p>
  * This class is not intended to be subclassed.
  * 
- * @since 3.2
+ * @since 1.0
  * @deprecated As of 3.3, clients should use
  *             {@link org.eclipse.jface.fieldassist.ControlDecoration} and
  *             {@link ContentAssistCommandAdapter} instead of this class.

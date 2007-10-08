@@ -22,7 +22,7 @@ import org.eclipse.ui.ISources;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 
 /**
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class EvaluationAuthority extends ExpressionAuthority {

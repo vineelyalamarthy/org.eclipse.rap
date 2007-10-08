@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.IStatus;
 /**
  * A context sensitive viewer update request.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public interface IViewerUpdate extends IProgressMonitor {
 

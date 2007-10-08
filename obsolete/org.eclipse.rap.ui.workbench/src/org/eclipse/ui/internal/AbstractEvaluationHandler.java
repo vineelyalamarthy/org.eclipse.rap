@@ -22,7 +22,7 @@ import org.eclipse.ui.internal.services.IEvaluationService;
  * This internal class serves as a foundation for any handler that would like
  * its enabled state controlled by core expressions and the IEvaluationService.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public abstract class AbstractEvaluationHandler extends AbstractEnabledHandler {
 	private final static String PROP_ENABLED = "enabled"; //$NON-NLS-1$

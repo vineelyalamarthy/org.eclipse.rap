@@ -102,7 +102,7 @@ public abstract class Page implements IPageBookViewPage {
      * Subclasses may extend.
      * </p>
      * 
-     * @since 2.0
+     * @since 1.0
      */
     public void init(IPageSite pageSite) {
         site = pageSite;

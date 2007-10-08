@@ -568,7 +568,7 @@ public/*final*/class WorkbenchImages {
      * Disposes and clears the workbench images.
      * Called when the workbench is shutting down.
      *
-     * @since 3.1
+     * @since 1.0
      */
     public static void dispose() {
         if (imageRegistry != null) {

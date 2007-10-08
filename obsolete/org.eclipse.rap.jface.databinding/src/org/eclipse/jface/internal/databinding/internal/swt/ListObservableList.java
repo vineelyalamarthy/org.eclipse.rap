@@ -14,7 +14,7 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.widgets.List;
 
 /**
- * @since 3.2
+ * @since 1.0
  * 
  */
 public class ListObservableList extends SWTObservableList {

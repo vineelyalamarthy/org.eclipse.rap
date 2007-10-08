@@ -19,7 +19,7 @@ package org.eclipse.ui.forms.events;
  * 
  * @see IHyperlinkListener
  * @see HyperlinkEvent
- * @since 3.0
+ * @since 1.0
  */
 public class HyperlinkAdapter implements IHyperlinkListener {
 	/**

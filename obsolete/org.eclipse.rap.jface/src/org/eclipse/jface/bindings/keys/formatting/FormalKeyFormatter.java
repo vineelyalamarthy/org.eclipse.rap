@@ -19,7 +19,7 @@ import org.eclipse.jface.bindings.keys.*;
  * persistence, and is not really intended for display to the user.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public final class FormalKeyFormatter extends AbstractKeyFormatter {
 

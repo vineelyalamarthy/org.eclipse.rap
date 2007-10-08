@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.*;
  * This class is not intended to be extended by clients.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  * @deprecated As of 3.3, this class is no longer necessary.
  * 
  */

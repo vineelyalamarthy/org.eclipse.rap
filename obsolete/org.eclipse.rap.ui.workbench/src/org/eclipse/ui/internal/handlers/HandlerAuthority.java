@@ -39,7 +39,7 @@ import org.eclipse.ui.internal.services.ExpressionAuthority;
  * considers which source the handler came from.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 final class HandlerAuthority extends ExpressionAuthority {
 
@@ -547,7 +547,7 @@ final class HandlerAuthority extends ExpressionAuthority {
 	 *            the command id to check
 	 * @param context
 	 *            the context to use for activations
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public final IHandler findHandler(String commandId,
 			IEvaluationContext context) {
@@ -601,7 +601,7 @@ final class HandlerAuthority extends ExpressionAuthority {
 	 * @return <code>true</code> if the handler expression can evaluate to
 	 *         true.
 	 * @throws CoreException
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private boolean eval(IEvaluationContext context,
 			IHandlerActivation activation) throws CoreException {
@@ -622,7 +622,7 @@ final class HandlerAuthority extends ExpressionAuthority {
 	 * </p>
 	 * 
 	 * @return an evaluation context with no parent.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public IEvaluationContext getContextSnapshot() {
 		return fillInContext(false);
@@ -637,7 +637,7 @@ final class HandlerAuthority extends ExpressionAuthority {
 	 * </p>
 	 * 
 	 * @return an evaluation context with no parent.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public IEvaluationContext getFullContextSnapshot() {
 		return fillInContext(true);

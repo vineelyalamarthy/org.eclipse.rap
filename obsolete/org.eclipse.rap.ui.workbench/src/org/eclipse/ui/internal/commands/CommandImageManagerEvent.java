@@ -28,7 +28,7 @@ package org.eclipse.ui.internal.commands;
  * <code>org.eclipse.jface.commands</code>.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  * @see ICommandImageManagerListener#commandImageManagerChanged(CommandImageManagerEvent)
  */
 public final class CommandImageManagerEvent {

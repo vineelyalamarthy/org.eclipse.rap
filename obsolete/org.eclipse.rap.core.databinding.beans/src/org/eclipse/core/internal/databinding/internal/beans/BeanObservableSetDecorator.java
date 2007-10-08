@@ -25,7 +25,7 @@ import org.eclipse.core.databinding.observable.set.ISetChangeListener;
 /**
  * {@link IBeanObservable} decorator for an {@link IObservableSet}.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public class BeanObservableSetDecorator implements IObservableSet, IBeanObservable {
 	private IObservableSet delegate;

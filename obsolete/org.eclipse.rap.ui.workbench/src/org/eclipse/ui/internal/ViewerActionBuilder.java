@@ -174,7 +174,7 @@ public class ViewerActionBuilder extends PluginActionBuilder {
 		 * This simplifies cleanup, in addition to potentially reducing the number of listeners.
 		 * 
 		 * @see ISelectionChangedListener
-		 * @since 3.1
+		 * @since 1.0
 		 */
 		public void selectionChanged(SelectionChangedEvent event) {
 			if (actions != null) {

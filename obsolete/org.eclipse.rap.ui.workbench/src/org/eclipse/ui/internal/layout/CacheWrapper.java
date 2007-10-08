@@ -50,7 +50,7 @@ import org.eclipse.swt.widgets.*;
  * the parent is layed out).  
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class CacheWrapper {
     private Composite proxy;

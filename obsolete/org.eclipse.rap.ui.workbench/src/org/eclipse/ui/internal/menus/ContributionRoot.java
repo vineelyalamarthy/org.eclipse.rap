@@ -21,7 +21,7 @@ import org.eclipse.ui.menus.IContributionRoot;
 /**
  * Default implementation.
  * 
- * @since 3.3
+ * @since 1.0
  */
 final class ContributionRoot implements
 		IContributionRoot {

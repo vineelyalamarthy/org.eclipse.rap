@@ -31,7 +31,7 @@ import org.eclipse.ui.statushandlers.StatusManager;
 /**
  * Helper class for prompting to save dirty views or editors.
  * 
- * @since 3.0.1
+ * @since 1.0.1
  */
 public class SaveableHelper {
 	
@@ -287,7 +287,7 @@ public class SaveableHelper {
 	 *            the model source
 	 * @return <code>true</code> if save is required, <code>false</code>
 	 *         otherwise
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static boolean needsSave(ISaveablesSource modelSource) {
 		Saveable[] selectedModels = modelSource.getActiveSaveables();

@@ -15,7 +15,7 @@ import org.eclipse.ui.presentations.IPresentablePart;
 import org.eclipse.ui.presentations.IPresentationSerializer;
 
 /**
- * @since 3.0
+ * @since 1.0
  */
 public abstract class TabOrder {
     /**

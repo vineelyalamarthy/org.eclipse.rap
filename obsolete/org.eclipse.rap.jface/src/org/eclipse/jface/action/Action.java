@@ -120,7 +120,7 @@ public abstract class Action extends AbstractAction implements IAction {
 	 *            the key code to be translated
 	 * @return the string representation of the key code
 	 * @see org.eclipse.swt.SWT
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public static String findKeyString(int keyCode) {
 		return LegacyActionTools.findKeyString(keyCode);
@@ -152,7 +152,7 @@ public abstract class Action extends AbstractAction implements IAction {
 	 * @return the string representation of the SWT modifier bit, or
 	 *         <code>null</code> if the key code was not an SWT modifier bit
 	 * @see org.eclipse.swt.SWT
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public static String findModifierString(int keyCode) {
 		return LegacyActionTools.findModifierString(keyCode);
@@ -180,7 +180,7 @@ public abstract class Action extends AbstractAction implements IAction {
 	 *            the text
 	 * @return the text sans mnemonics
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public static String removeMnemonics(String text) {
 		return LegacyActionTools.removeMnemonics(text);
@@ -463,7 +463,7 @@ public abstract class Action extends AbstractAction implements IAction {
 	 *            <code>true</code> if the action succeeded and
 	 *            <code>false</code> if the action failed or was not completed
 	 * @see IAction#RESULT
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public final void notifyResult(boolean success) {
 		// avoid Boolean.valueOf(boolean) to allow compilation against JCL
@@ -489,7 +489,7 @@ public abstract class Action extends AbstractAction implements IAction {
 	 * 
 	 * @param event
 	 *            the SWT event which triggered this action being run
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public void runWithEvent(Event event) {
 		run();

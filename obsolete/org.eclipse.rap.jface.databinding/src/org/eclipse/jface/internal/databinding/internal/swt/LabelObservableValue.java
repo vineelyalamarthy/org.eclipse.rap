@@ -16,7 +16,7 @@ import org.eclipse.jface.internal.databinding.provisional.swt.AbstractSWTObserva
 import org.eclipse.swt.widgets.Label;
 
 /**
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class LabelObservableValue extends AbstractSWTObservableValue {

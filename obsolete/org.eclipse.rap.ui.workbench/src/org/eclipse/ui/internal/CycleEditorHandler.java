@@ -25,7 +25,7 @@ import org.eclipse.ui.commands.ICommandService;
  * Replacement for CycleEditorAction
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  */
 public class CycleEditorHandler extends CycleBaseHandler {
 

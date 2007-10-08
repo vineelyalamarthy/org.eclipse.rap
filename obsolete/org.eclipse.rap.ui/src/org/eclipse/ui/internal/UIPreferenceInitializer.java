@@ -31,7 +31,7 @@
 // * org.eclipse.core.runtime.compatibility. For more details, see bug 58975 - New
 // * preference mechanism does not properly initialize defaults.
 // * 
-// * @since 3.0
+// * @since 1.0
 // */
 //public class UIPreferenceInitializer extends AbstractPreferenceInitializer {
 //

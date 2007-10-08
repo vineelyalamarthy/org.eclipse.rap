@@ -64,7 +64,7 @@ public class MultiPageSelectionProvider implements IPostSelectionProvider {
      * Adds a listener for post selection changes in this multi page selection provider.
      *
      * @param listener a selection changed listener
-     * @since 3.2
+     * @since 1.0
      */
     public void addPostSelectionChangedListener(ISelectionChangedListener listener) {
     	postListeners.add(listener);
@@ -87,7 +87,7 @@ public class MultiPageSelectionProvider implements IPostSelectionProvider {
      * selection has changed.
      * 
      * @param event the event to propogate.
-     * @since 3.2
+     * @since 1.0
      */
     public void firePostSelectionChanged(final SelectionChangedEvent event) {
 		Object[] listeners = postListeners.getListeners();
@@ -140,7 +140,7 @@ public class MultiPageSelectionProvider implements IPostSelectionProvider {
      * Removes a listener for post selection changes in this multi page selection provider.
      *
      * @param listener a selection changed listener
-     * @since 3.2
+     * @since 1.0
      */
     public void removePostSelectionChangedListener(ISelectionChangedListener listener) {
     	postListeners.remove(listener);

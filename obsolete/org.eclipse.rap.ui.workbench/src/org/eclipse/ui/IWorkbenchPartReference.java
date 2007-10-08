@@ -71,7 +71,7 @@ public interface IWorkbenchPartReference {
      * 
      * @return the part name
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public String getPartName();
 
@@ -80,7 +80,7 @@ public interface IWorkbenchPartReference {
      * 
      * @return the content description for the part
      * 
-     * @since 3.0  
+     * @since 1.0  
      */
     public String getContentDescription();
     
@@ -90,7 +90,7 @@ public interface IWorkbenchPartReference {
      * 
      * @return <code>true</code> if the part is dirty, <code>false</code> otherwise
      * 
-     * @since 3.2 (previously existed on IEditorReference)
+     * @since 1.0 (previously existed on IEditorReference)
      */
     public boolean isDirty();
     
@@ -103,7 +103,7 @@ public interface IWorkbenchPartReference {
 	 * @param key
 	 *            The property to return. Must not be <code>null</code>.
 	 * @return The String property, or <code>null</code>.
-	 * @since 3.3
+	 * @since 1.0
 	 */
     public String getPartProperty(String key);
     
@@ -112,7 +112,7 @@ public interface IWorkbenchPartReference {
 	 * 
 	 * @param listener
 	 *            Must not be <code>null</code>.
-	 * @since 3.3
+	 * @since 1.0
 	 */
     public void addPartPropertyListener(IPropertyChangeListener listener);
     
@@ -121,7 +121,7 @@ public interface IWorkbenchPartReference {
 	 * 
 	 * @param listener
 	 *            Must not be <code>null</code>.
-	 * @since 3.3
+	 * @since 1.0
 	 */
     public void removePartPropertyListener(IPropertyChangeListener listener);
 }

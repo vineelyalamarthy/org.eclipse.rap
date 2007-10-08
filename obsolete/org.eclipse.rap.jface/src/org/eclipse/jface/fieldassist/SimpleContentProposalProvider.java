@@ -17,7 +17,7 @@
 // * Strings to content proposals.
 // * 
 // * @see IContentProposalProvider
-// * @since 3.2
+// * @since 1.0
 // * 
 // */
 //public class SimpleContentProposalProvider implements IContentProposalProvider {
@@ -105,7 +105,7 @@
 //	 *            show only those that match the current contents of the field,
 //	 *            and <code>false</code> if the proposals should remain the
 //	 *            same, ignoring the field content.
-//	 * @since 3.3
+//	 * @since 1.0
 //	 */
 //	public void setFiltering(boolean filterProposals) {
 //		this.filterProposals = filterProposals;

@@ -34,7 +34,7 @@ import org.eclipse.jface.util.Policy;
  * @see IStructuredContentProvider
  * @see StructuredViewer
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class ViewerComparator {
 	/**

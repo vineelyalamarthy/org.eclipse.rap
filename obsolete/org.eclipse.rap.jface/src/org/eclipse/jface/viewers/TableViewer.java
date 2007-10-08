@@ -303,7 +303,7 @@ public class TableViewer extends AbstractTableViewer {
 	 *            <code>true</code> to make the preserved selection visible
 	 *            afterwards
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void refresh(final Object element, final boolean updateLabels,
 			boolean reveal) {
@@ -338,7 +338,7 @@ public class TableViewer extends AbstractTableViewer {
 	 *            <code>true</code> to make the preserved selection visible
 	 *            afterwards
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void refresh(boolean updateLabels, boolean reveal) {
 		refresh(getRoot(), updateLabels, reveal);

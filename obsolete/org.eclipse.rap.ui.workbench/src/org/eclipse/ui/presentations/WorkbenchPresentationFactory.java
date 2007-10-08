@@ -20,7 +20,7 @@ import org.eclipse.ui.internal.presentations.util.*;
 /**
  * The default presentation factory for the Workbench.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class WorkbenchPresentationFactory extends AbstractPresentationFactory {
 

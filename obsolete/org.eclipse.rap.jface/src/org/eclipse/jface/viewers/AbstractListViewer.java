@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Widget;
  * @see org.eclipse.jface.viewers.ListViewer
  * @see org.eclipse.jface.viewers.ComboViewer
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class AbstractListViewer extends StructuredViewer {
 
@@ -160,7 +160,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
 	 * @param position
 	 *            a 0-based position relative to the model, or -1 to indicate
 	 *            the last position
-	 * @since 3.3
+	 * @since 1.0
 	 */
     public void insert(Object element, int position) {
     	if (getComparator() != null || hasFilters()) {
@@ -180,7 +180,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
      * @return String. Return the emptyString if the labelProvider
      * returns null for the text.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     private String getLabelProviderText(ILabelProvider labelProvider, Object element){
     	String text = labelProvider.getText(element);
@@ -539,7 +539,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
 	 * @param element
 	 * @return true if listMap contains the given element
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private boolean listMapContains(Object element) {
 		return getElementIndex(element) != -1;

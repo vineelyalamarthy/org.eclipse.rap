@@ -226,7 +226,7 @@ public abstract class AbstractSelectionService implements ISelectionService {
     /**
      * Sets the current-active part (or null if none)
      * 
-     * @since 3.1 
+     * @since 1.0 
      *
      * @param newPart the new active part (or null if none)
      */

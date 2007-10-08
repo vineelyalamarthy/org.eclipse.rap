@@ -97,7 +97,7 @@ public class EditorActionBarContributor implements IEditorActionBarContributor {
      *
      * @param coolBarManager the manager that controls the workbench cool bar.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public void contributeToCoolBar(ICoolBarManager coolBarManager) {
     }

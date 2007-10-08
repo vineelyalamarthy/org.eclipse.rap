@@ -42,7 +42,7 @@
 //     * Property name that signifies the selected color of this
 //     * <code>ColorSelector</code> has changed.
 //     * 
-//     * @since 3.0
+//     * @since 1.0
 //     */
 //    public static final String PROP_COLORCHANGE = "colorValue"; //$NON-NLS-1$
 //
@@ -109,7 +109,7 @@
 //     * 
 //     * @param listener
 //     *            a property change listener
-//     * @since 3.0
+//     * @since 1.0
 //     */
 //    public void addListener(IPropertyChangeListener listener) {
 //        addListenerObject(listener);
@@ -157,7 +157,7 @@
 //     * 
 //     * @param listener
 //     *            a property change listener
-//     * @since 3.0
+//     * @since 1.0
 //     */
 //    public void removeListener(IPropertyChangeListener listener) {
 //        removeListenerObject(listener);
@@ -207,7 +207,7 @@
 //	 * Activate the editor for this selector. This causes the color selection
 //	 * dialog to appear and wait for user input.
 //	 * 
-//	 * @since 3.2
+//	 * @since 1.0
 //	 */
 //	public void open() {
 //		ColorDialog colorDialog = new ColorDialog(fButton.getShell());

@@ -23,7 +23,7 @@ import org.eclipse.ui.PlatformUI;
  * properties or by adding new adapter.
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  */
 public class StatusAdapter implements IAdaptable {
 

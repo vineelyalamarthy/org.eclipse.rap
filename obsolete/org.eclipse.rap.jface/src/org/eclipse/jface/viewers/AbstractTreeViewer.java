@@ -139,7 +139,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the element or tree path
 	 * @return the items for that element
 	 *
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	final protected Widget[] internalFindItems(Object parentElementOrTreePath) {
 		Widget[] widgets;
@@ -196,7 +196,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the parent element
 	 * @param childElements
 	 *            the child elements to add
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected void internalAdd(Widget widget, Object parentElementOrTreePath,
 			Object[] childElements) {
@@ -911,7 +911,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @return <code>true</code> if the refer to the same elements,
 	 *         <code>false</code> otherwise
 	 * 
-	 * @since 3.1 in TreeViewer, moved to AbstractTreeViewer in 3.3
+	 * @since 1.0 in TreeViewer, moved to AbstractTreeViewer in 3.3
 	 */
 	protected boolean isSameSelection(List items, Item[] current) {
 		// If they are not the same size then they are not equivalent
@@ -1083,7 +1083,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * 
 	 * @throws ArrayIndexOutOfBoundsException
 	 *             if the index is not valid.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected Item getChild(Widget widget, int index) {
 		return getChildren(widget)[index];
@@ -1566,7 +1566,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @param elementOrTreePath
 	 * @return the parent element, or parent path, or <code>null</code>
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	protected Object getParentElement(Object elementOrTreePath) {
 		if (elementOrTreePath instanceof TreePath) {
@@ -1598,7 +1598,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the element or tree path to select
 	 * @return the widget to be selected, or <code>null</code> if not found
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected Widget internalGetWidgetToSelect(Object elementOrTreePath) {
 		if (elementOrTreePath instanceof TreePath) {
@@ -1754,7 +1754,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            <code>true</code> to update labels for existing elements,
 	 *            <code>false</code> to only update labels as needed, assuming
 	 *            that labels for existing elements are unchanged.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected void internalRefresh(Widget widget, Object element,
 			boolean doStruct, boolean updateLabels) {
@@ -1821,7 +1821,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * 
 	 * @param elementsOrPaths
 	 *            the elements or element paths to remove
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected void internalRemove(Object[] elementsOrPaths) {
 		Object input = getInput();
@@ -1849,7 +1849,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @param parent the parent element
 	 * @param elements
 	 *            the elements to remove
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected void internalRemove(Object parent, Object[] elements) {
 
@@ -2083,7 +2083,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @param elements
 	 *            the elements to remove
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void remove(final Object parent, final Object[] elements) {
 		assertElementsNotNull(elements);
@@ -2277,7 +2277,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the array of expanded tree paths
 	 * @see #getExpandedTreePaths()
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void setExpandedTreePaths(TreePath[] treePaths) {
 		assertElementsNotNull(treePaths);
@@ -2426,7 +2426,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            <code>true</code> to update labels for existing elements,
 	 *            <code>false</code> to only update labels as needed, assuming
 	 *            that labels for existing elements are unchanged.
-	 * @since 2.1
+	 * @since 1.0
 	 */
 	private void updateChildren(Widget widget, Object parent,
 			Object[] elementChildren, boolean updateLabels) {
@@ -2679,7 +2679,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * element is only visible if the parent is expanded.
 	 * 
 	 * @return the visible expanded elements
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public Object[] getVisibleExpandedElements() {
 		ArrayList v = new ArrayList();
@@ -2708,7 +2708,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @param item
 	 * @return {@link TreePath}
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	protected TreePath getTreePathFromItem(Item item) {
 		LinkedList segments = new LinkedList();
@@ -2725,7 +2725,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * This implementation of getSelection() returns an instance of
 	 * ITreeSelection.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public ISelection getSelection() {
 		Control control = getControl();
@@ -2766,7 +2766,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @return the array of expanded tree paths
 	 * @see #setExpandedElements
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public TreePath[] getExpandedTreePaths() {
 		ArrayList items = new ArrayList();
@@ -2805,7 +2805,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            a 0-based position relative to the model, or -1 to indicate
 	 *            the last position
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void insert(Object parentElementOrTreePath, Object element,
 			int position) {
@@ -2865,7 +2865,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * This implementation of {@link #getItemAt(Point)} returns null to ensure
 	 * API backwards compatibility. Subclasses should override.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected Item getItemAt(Point point) {
 		return null;
@@ -2875,7 +2875,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * This implementation of {@link #createViewerEditor()} returns null to ensure
 	 * API backwards compatibility. Subclasses should override.
 	 *
-	 * @since 3.3
+	 * @since 1.0
 	 */
 //	protected ColumnViewerEditor createViewerEditor() {
 //		return null;
@@ -2888,7 +2888,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *
 	 * @return the number of columns
 	 *
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected int doGetColumnCount() {
 		return 0;
@@ -2930,7 +2930,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *
 	 * @return <code>true</code> if the given object is either the input or an empty tree path,
 	 * <code>false</code> otherwise.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	final protected boolean internalIsInputOrEmptyPath(final Object elementOrTreePath) {
 		if (elementOrTreePath.equals(getInput()))

@@ -14,7 +14,7 @@ package org.eclipse.core.internal.databinding.observable.tree;
  * Request monitor used to collect the number of children for an element in a lazy
  * observable tree.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public interface IChildrenCountUpdate extends IViewerUpdate {
 

@@ -178,7 +178,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/**
 	 * The testable object facade.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	private static WorkbenchTestable testableObject;
 
@@ -186,7 +186,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * Signals that the workbench should create a splash implementation when
 	 * instantiated. Intial value is <code>true</code>.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 //	private static boolean createSplash = true;
 
@@ -198,7 +198,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/**
 	 * The display used for all UI interactions with this workbench.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private Display display;
 
@@ -223,7 +223,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * Advisor providing application-specific configuration and customization of
 	 * the workbench.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private WorkbenchAdvisor advisor;
 
@@ -231,7 +231,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * Object for configuring the workbench. Lazily initialized to an instance
 	 * unique to the workbench instance.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private WorkbenchConfigurer workbenchConfigurer;
 
@@ -285,7 +285,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * @param advisor
 	 *            the application-specific advisor that configures and
 	 *            specializes this workbench instance
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	// see createAndRunWorkbench for initialisation
 	private Workbench() {}
@@ -431,7 +431,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/**
 	 * Create the splash wrapper and set it to work.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 //	private void createSplashWrapper() {
 //		final Display display = getDisplay();
@@ -532,7 +532,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * 
 	 * @param splashLoc the location to load from
 	 * @return the image or <code>null</code>
-	 * @since 3.3
+	 * @since 1.0
 	 */
 //	private Image loadImage(String splashLoc) {
 //		Image background = null;
@@ -554,7 +554,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * provided the default Eclipse implementation is returned.
 	 * 
 	 * @return the splash handler for this application or <code>null</code>
-	 * @since 3.3
+	 * @since 1.0
 	 */
 //	private static AbstractSplashHandler getSplash() {
 //		if (!createSplash)
@@ -576,7 +576,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * Returns the testable object facade, for use by the test harness.
 	 * 
 	 * @return the testable object facade
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	public static WorkbenchTestable getWorkbenchTestable() {
 //		if (testableObject == null) {
@@ -588,7 +588,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/*
 	 * (non-Javadoc) Method declared on IWorkbench.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void addWorkbenchListener(IWorkbenchListener listener) {
 		workbenchListeners.add(listener);
@@ -597,7 +597,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/*
 	 * (non-Javadoc) Method declared on IWorkbench.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void removeWorkbenchListener(IWorkbenchListener listener) {
 		workbenchListeners.remove(listener);
@@ -610,7 +610,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 *            flag indicating whether the shutdown is being forced
 	 * @return <code>true</code> to allow the workbench to proceed with
 	 *         shutdown, <code>false</code> to veto a non-forced shutdown
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	boolean firePreShutdown(final boolean forced) {
 		Object list[] = workbenchListeners.getListeners();
@@ -632,7 +632,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/**
 	 * Fire workbench postShutdown event.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	void firePostShutdown() {
 		Object list[] = workbenchListeners.getListeners();
@@ -1314,7 +1314,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * Initialize colors defined by the new colorDefinitions extension point.
 	 * Note this will be rolled into initializeColors() at some point.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private void initializeApplicationColors() {
 //		StartupThreading.runWithoutExceptions(new StartupRunnable() {
@@ -1376,7 +1376,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * expected that the array will contain the same icon, rendered at different
 	 * sizes.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private static void initializeImages() {
 		ImageDescriptor[] windowImages = WorkbenchPlugin.getDefault()
@@ -1395,7 +1395,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/*
 	 * Take the workbenches' images out of the shared registry.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private void uninitializeImages() {
 		WorkbenchImages.dispose();
@@ -1409,7 +1409,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/*
 	 * Initialize the workbench colors.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private void initializeColors() {
 //		StartupThreading.runWithoutExceptions(new StartupRunnable() {
@@ -2150,7 +2150,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 *         {@link PlatformUI#RETURN_UNSTARTABLE RETURN_UNSTARTABLE}if the
 	 *         workbench could not be started; other values reserved for future
 	 *         use
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private int runUI() {
 //		UIStats.start(UIStats.START_WORKBENCH, "Workbench"); //$NON-NLS-1$
@@ -2787,7 +2787,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.IWorkbench
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	public IElementFactory getElementFactory(String factoryId) {
 //		Assert.isNotNull(factoryId);
@@ -2815,7 +2815,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * changed. This value will only be <code>null</code> if the
 	 * initialization call has not yet completed.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	private BindingManager bindingManager;
 
@@ -2825,7 +2825,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * changed. This value will only be <code>null</code> if the
 	 * initialization call has not yet completed.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private CommandManager commandManager;
 
@@ -2835,7 +2835,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * changed. This value will only be <code>null</code> if the
 	 * initialization call has not yet completed.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	private ContextManager contextManager;
 
@@ -2952,7 +2952,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 
 	/**
 	 * @return the workbench intro manager
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	/* package */WorkbenchIntroManager getWorkbenchIntroManager() {
 //		if (introManager == null) {
@@ -2966,7 +2966,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/**
 	 * @return the intro extension for this workbench.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	public IntroDescriptor getIntroDescriptor() {
 //		return introDescriptor;
@@ -2978,7 +2978,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * 
 	 * @param descriptor
 	 *            The intro descriptor to use.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	public void setIntroDescriptor(IntroDescriptor descriptor) {
 //		if (getIntroManager().getIntro() != null) {
@@ -3151,7 +3151,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/**
 	 * Adds the listener that handles startup plugins
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void addStartupRegistryListener() {
 //		IExtensionRegistry registry = Platform.getExtensionRegistry();

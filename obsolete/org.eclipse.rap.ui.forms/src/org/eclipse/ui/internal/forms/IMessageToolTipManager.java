@@ -42,7 +42,7 @@ import org.eclipse.ui.forms.widgets.Form;
  *      work or that it will remain the same. Please do not use this API without
  *      consulting with the Platform UA team.
  *      </p>
- * @since 3.3
+ * @since 1.0
  */
 public interface IMessageToolTipManager {
 	/**

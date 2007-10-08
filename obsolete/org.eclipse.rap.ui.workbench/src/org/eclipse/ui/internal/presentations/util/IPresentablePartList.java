@@ -13,7 +13,7 @@ package org.eclipse.ui.internal.presentations.util;
 import org.eclipse.ui.presentations.IPresentablePart;
 
 /**
- * @since 3.0
+ * @since 1.0
  */
 public interface IPresentablePartList {
     public void insert(IPresentablePart part, int idx);

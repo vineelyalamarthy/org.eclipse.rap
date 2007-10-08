@@ -45,7 +45,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * @see DetailsPart
  * @see IDetailsPage
  * @see IDetailsPageProvider
- * @since 3.0
+ * @since 1.0
  */
 public abstract class MasterDetailsBlock {
 	/**

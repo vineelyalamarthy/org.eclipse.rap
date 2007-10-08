@@ -62,7 +62,7 @@ public interface IEditorDescriptor extends IWorkbenchPartDescriptor {
      * 
      * @return <code>true</code> if editor is inside editor area, and
      * <code>false</code> otherwise
-     * @since 3.0
+     * @since 1.0
      */
     public boolean isInternal();
 
@@ -72,7 +72,7 @@ public interface IEditorDescriptor extends IWorkbenchPartDescriptor {
      * 
      * @return <code>true</code> if editor is in-place, and <code>false</code>
      * otherwise
-     * @since 3.0
+     * @since 1.0
      */
 //    public boolean isOpenInPlace();
 
@@ -82,7 +82,7 @@ public interface IEditorDescriptor extends IWorkbenchPartDescriptor {
      * 
      * @return <code>true</code> if editor is external, and <code>false</code>
      * otherwise
-     * @since 3.0
+     * @since 1.0
      */
 //    public boolean isOpenExternal();
 
@@ -92,7 +92,7 @@ public interface IEditorDescriptor extends IWorkbenchPartDescriptor {
      * if there is no explicit matching strategy specified.
      * 
      * @return the editor matching strategy, or <code>null</code> if none
-     * @since 3.1
+     * @since 1.0
      */
     public IEditorMatchingStrategy getEditorMatchingStrategy();
 }

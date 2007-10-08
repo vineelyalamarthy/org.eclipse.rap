@@ -26,7 +26,7 @@ import org.eclipse.ui.menus.IWorkbenchWidget;
  * Handles the top level caching for 3.2 style trim
  * contributions.
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class TrimAdditionCacheEntry  {

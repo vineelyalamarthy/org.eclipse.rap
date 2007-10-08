@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.*;
 /**
  * Caches the preferred size of an SWT control
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class SizeCache {
     private Control control;

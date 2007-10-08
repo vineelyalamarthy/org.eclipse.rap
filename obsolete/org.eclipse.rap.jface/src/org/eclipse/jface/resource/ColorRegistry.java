@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Display;
  * Clients may instantiate this class (it was not designed to be subclassed).
  * </p>
  *
- * @since 3.0
+ * @since 1.0
  */
 public class ColorRegistry extends ResourceRegistry {
 
@@ -98,7 +98,7 @@ public class ColorRegistry extends ResourceRegistry {
      * @param cleanOnDisplayDisposal
 	 *            whether all fonts allocated by this <code>ColorRegistry</code>
 	 *            should be disposed when the display is disposed
-     * @since 3.1
+     * @since 1.0
      */
     public ColorRegistry(Display display, boolean cleanOnDisplayDisposal) {
         Assert.isNotNull(display);
@@ -114,7 +114,7 @@ public class ColorRegistry extends ResourceRegistry {
      * @param rgb the <code>RGB</code> data for the color.
      * @return the new <code>Color</code> object.
      *
-     * @since 3.1
+     * @since 1.0
      */
     private Color createColor(RGB rgb) {
       return Graphics.getColor( rgb );
@@ -182,7 +182,7 @@ public class ColorRegistry extends ResourceRegistry {
 
     /**
      * Returns the color descriptor associated with the given symbolic color name.
-     * @since 3.1
+     * @since 1.0
      *
      * @param symbolicName
      * @return the color descriptor associated with the given symbolic color name.

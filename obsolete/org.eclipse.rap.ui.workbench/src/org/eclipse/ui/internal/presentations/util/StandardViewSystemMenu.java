@@ -22,7 +22,7 @@ import org.eclipse.ui.presentations.IStackPresentationSite;
  * Implements the system context menu that is used by the default presentation. Not 
  * intended to be subclassed by clients.
  * 
- * @since 3.1
+ * @since 1.0
  */
 public class StandardViewSystemMenu implements ISystemMenu {
 

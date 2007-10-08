@@ -49,7 +49,7 @@ public interface IPerspectiveDescriptor {
      * This is the value of its <code>"description"</code> attribute.
      *
      * @return the description
-     * @since 3.0
+     * @since 1.0
      */
     public String getDescription();
 

@@ -20,7 +20,7 @@ import org.eclipse.ui.services.IServiceWithSources;
  * This should be more a more generic way to have your core expressions
  * evaluated. This is internal in 3.3, and highly experimental.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public interface IEvaluationService extends IServiceWithSources {
 	public static final String RESULT = "org.eclipse.ui.services.result"; //$NON-NLS-1$

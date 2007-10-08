@@ -211,7 +211,7 @@ public class PageSite implements IPageSite, INestable {
 	 * 
 	 * @see org.eclipse.ui.internal.services.INestable#activate()
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void activate() {
 		serviceLocator.activate();
@@ -222,7 +222,7 @@ public class PageSite implements IPageSite, INestable {
 	 * 
 	 * @see org.eclipse.ui.internal.services.INestable#deactivate()
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void deactivate() {
 		serviceLocator.deactivate();

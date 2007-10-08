@@ -27,7 +27,7 @@ import org.eclipse.ui.internal.presentations.util.*;
 import org.eclipse.ui.internal.util.Util;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 public class DefaultTabFolder extends AbstractTabFolder {
 
@@ -50,7 +50,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
         }
         /**
          *
-         * @since 3.0
+         * @since 1.0
          */
         public void showList(CTabFolderEvent event) {
         	// TODO hack to prevent opening the default part list
@@ -198,7 +198,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
      *            The number of characters to display in the tab folder; this
      *            value should be a positive integer.
      * @see org.eclipse.swt.custom.CTabFolder#setMinimumCharacters(int)
-     * @since 3.1
+     * @since 1.0
      */
     public void setMinimumCharacters(int count) {
         paneFolder.setMinimumCharacters(count);
@@ -211,7 +211,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
     /**
      * @param item
      * @return
-     * @since 3.1
+     * @since 1.0
      */
     protected DefaultTabItem getTab(CTabItem item) {
         return (DefaultTabItem)item.getData();
@@ -318,7 +318,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
 
     /**
      * @param enabled
-     * @since 3.1
+     * @since 1.0
      */
     public void enablePaneMenu(boolean enabled) {
         if (enabled) {
@@ -467,7 +467,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
 
     /**
      *
-     * @since 3.1
+     * @since 1.0
      */
     private void updateColors() {
         DefaultTabFolderColors currentColors = shellActive ?
@@ -495,7 +495,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
 
     /**
      * @param font
-     * @since 3.1
+     * @since 1.0
      */
 //    public void setFont(Font font) {
 //        if (font != paneFolder.getControl().getFont()) {
@@ -529,7 +529,7 @@ public class DefaultTabFolder extends AbstractTabFolder {
 
     /**
      * @param b
-     * @since 3.1
+     * @since 1.0
      */
     public void setSingleTab(boolean b) {
         paneFolder.setSingleTab(b);

@@ -14,7 +14,7 @@ package org.eclipse.core.internal.databinding.observable.tree;
 import java.util.EventObject;
 
 /**
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class TreeChangeEvent extends EventObject {

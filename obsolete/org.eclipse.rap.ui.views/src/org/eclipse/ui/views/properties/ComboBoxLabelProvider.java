@@ -18,7 +18,7 @@ import org.eclipse.jface.viewers.LabelProvider;
  * <code>Integer</code> value is the <code>String</code> at the value in 
  * the provided values array.  
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class ComboBoxLabelProvider extends LabelProvider {
 

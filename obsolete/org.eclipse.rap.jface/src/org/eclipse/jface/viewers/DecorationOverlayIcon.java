@@ -23,7 +23,7 @@
 // * {@link IDecoration#BOTTOM_LEFT} and {@link IDecoration#BOTTOM_RIGHT}. Additionally,
 // * the overlay can be used to provide an underlay corresponding to {@link IDecoration#UNDERLAY}. 
 // * 
-// * @since 3.3
+// * @since 1.0
 // * @see IDecoration
 // */
 //public class DecorationOverlayIcon extends CompositeImageDescriptor {

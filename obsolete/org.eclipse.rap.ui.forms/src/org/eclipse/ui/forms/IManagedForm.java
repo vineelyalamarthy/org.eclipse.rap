@@ -27,14 +27,14 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * should be created using ManagedForm.
  * 
  * @see ManagedForm
- * @since 3.0
+ * @since 1.0
  */
 public interface IManagedForm {
 	/**
 	 * Initializes the form by looping through the managed parts and
 	 * initializing them. Has no effect if already called once.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void initialize();
 
@@ -179,7 +179,7 @@ public interface IManagedForm {
 	 * form.
 	 * 
 	 * @return the message manager instance
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	IMessageManager getMessageManager();
 }

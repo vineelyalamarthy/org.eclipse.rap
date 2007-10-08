@@ -37,7 +37,7 @@ import org.eclipse.ui.progress.IProgressConstants;
 /**
  * ProgressInfoItem is the item used to show jobs.
  *
- * @since 3.1
+ * @since 1.0
  *
  */
 class ProgressInfoItem extends Composite {

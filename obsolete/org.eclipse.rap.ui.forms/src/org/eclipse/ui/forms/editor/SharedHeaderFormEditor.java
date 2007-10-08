@@ -24,7 +24,7 @@ import org.eclipse.ui.internal.forms.widgets.FormUtil;
  * not change when pages are switched. Pages that are added to this editor
  * should not have the title or image set.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public abstract class SharedHeaderFormEditor extends FormEditor {
 	private HeaderForm headerForm;

@@ -16,7 +16,7 @@ package org.eclipse.ui.forms.events;
  * @see org.eclipse.ui.forms.widgets.Hyperlink
  * @see org.eclipse.ui.forms.widgets.ImageHyperlink
  * @see org.eclipse.ui.forms.widgets.FormText
- * @since 3.0
+ * @since 1.0
  */
 public interface IHyperlinkListener {
 	/**

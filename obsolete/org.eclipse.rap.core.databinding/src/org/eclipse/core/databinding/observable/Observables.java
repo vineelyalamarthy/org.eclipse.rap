@@ -29,7 +29,7 @@ import org.eclipse.core.internal.databinding.observable.UnmodifiableObservableLi
  * Contains static methods to operate on or return
  * {@link IObservable Observables}.
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class Observables {
 	/**

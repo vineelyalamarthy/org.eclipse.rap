@@ -18,7 +18,7 @@ import java.util.*;
  * A static class providing utility methods to all of JFace.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public final class Util {
 

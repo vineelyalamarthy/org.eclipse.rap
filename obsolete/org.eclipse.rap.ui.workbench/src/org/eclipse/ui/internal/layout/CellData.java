@@ -24,7 +24,7 @@ import org.eclipse.swt.layout.GridData;
  * it will behave just like attaching a CellData created using its default
  * constructor.
  * 
- * @since 3.0
+ * @since 1.0
  **/
 public final class CellData {
 
@@ -356,7 +356,7 @@ public final class CellData {
      * 
      * @param control 
      * @param cellBounds
-     * @since 3.0
+     * @since 1.0
      */
     public void positionControl(SizeCache cache, Rectangle cellBounds) {
 
@@ -401,7 +401,7 @@ public final class CellData {
      * @param controlWidth
      * @param controlHeight
      * @return
-     * @since 3.0
+     * @since 1.0
      */
     private Point computeControlSize(SizeCache toCompute, int controlWidth,
             int controlHeight) {

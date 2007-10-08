@@ -137,7 +137,7 @@ public interface IWorkbenchPreferenceConstants {
      * A named preference indicating the presentation factory
      * to use for the workbench look and feel.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public static final String PRESENTATION_FACTORY_ID = "presentationFactoryId"; //$NON-NLS-1$
 
@@ -149,7 +149,7 @@ public interface IWorkbenchPreferenceConstants {
      * {@link #TOP_RIGHT}, {@link #TOP_LEFT}, or {@link #LEFT}.
      * </p>
      *
-     * @since 3.0
+     * @since 1.0
      */
     public static String DOCK_PERSPECTIVE_BAR = "DOCK_PERSPECTIVE_BAR"; //$NON-NLS-1$	
 
@@ -164,7 +164,7 @@ public interface IWorkbenchPreferenceConstants {
      * @see #LEFT
      * @see #BOTTOM
      * @see #RIGHT
-     * @since 3.0
+     * @since 1.0
      */
     public static final String INITIAL_FAST_VIEW_BAR_LOCATION = "initialFastViewBarLocation"; //$NON-NLS-1$
 
@@ -172,7 +172,7 @@ public interface IWorkbenchPreferenceConstants {
      * Constant to be used when referring to the top right of the workbench window. 
      *
      * @see #DOCK_PERSPECTIVE_BAR
-     * @since 3.0
+     * @since 1.0
      */
     public static final String TOP_RIGHT = "topRight"; //$NON-NLS-1$
 
@@ -180,7 +180,7 @@ public interface IWorkbenchPreferenceConstants {
      * Constant to be used when referring to the top left of the workbench window. 
      *
      * @see #DOCK_PERSPECTIVE_BAR
-     * @since 3.0
+     * @since 1.0
      */
     public static final String TOP_LEFT = "topLeft"; //$NON-NLS-1$
 
@@ -189,7 +189,7 @@ public interface IWorkbenchPreferenceConstants {
      *
      * @see #DOCK_PERSPECTIVE_BAR
      * @see #INITIAL_FAST_VIEW_BAR_LOCATION
-     * @since 3.0
+     * @since 1.0
      */
     public static final String LEFT = "left"; //$NON-NLS-1$
 
@@ -197,7 +197,7 @@ public interface IWorkbenchPreferenceConstants {
      * Constant to be used when referring to the bottom of the workbench window. 
      *
      * @see #INITIAL_FAST_VIEW_BAR_LOCATION
-     * @since 3.0
+     * @since 1.0
      */
     public static final String BOTTOM = "bottom"; //$NON-NLS-1$
 
@@ -205,7 +205,7 @@ public interface IWorkbenchPreferenceConstants {
      * Constant to be used when referring to the right side of the workbench window. 
      *
      * @see #INITIAL_FAST_VIEW_BAR_LOCATION
-     * @since 3.0
+     * @since 1.0
      */
     public static final String RIGHT = "right"; //$NON-NLS-1$
 
@@ -218,7 +218,7 @@ public interface IWorkbenchPreferenceConstants {
      * </p> 
      * 
      * @see org.eclipse.ui.application.WorkbenchWindowAdvisor#openIntro()
-     * @since 3.0
+     * @since 1.0
      */
     public static final String SHOW_INTRO = "showIntro"; //$NON-NLS-1$
 
@@ -232,7 +232,7 @@ public interface IWorkbenchPreferenceConstants {
      * The default value for this preference is: <code>true</code>
      * </p>
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public static String SHOW_TRADITIONAL_STYLE_TABS = "SHOW_TRADITIONAL_STYLE_TABS"; //$NON-NLS-1$
 
@@ -246,7 +246,7 @@ public interface IWorkbenchPreferenceConstants {
      * The default value for this preference is: <code>true</code> (show text on the perspective bar)
      * </p>
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public static String SHOW_TEXT_ON_PERSPECTIVE_BAR = "SHOW_TEXT_ON_PERSPECTIVE_BAR"; //$NON-NLS-1$
 
@@ -258,7 +258,7 @@ public interface IWorkbenchPreferenceConstants {
      * The default value for this preference is: <code>null</code>
      * </p>
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public static String HELP_CONTENTS_ACTION_TEXT = "helpContentsActionText"; //$NON-NLS-1$
     
@@ -270,7 +270,7 @@ public interface IWorkbenchPreferenceConstants {
      * The default value for this preference is: <code>null</code>
      * </p>
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static String HELP_SEARCH_ACTION_TEXT = "helpSearchActionText"; //$NON-NLS-1$
 	
@@ -282,7 +282,7 @@ public interface IWorkbenchPreferenceConstants {
      * The default value for this preference is: <code>null</code>
      * </p>
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static String DYNAMIC_HELP_ACTION_TEXT = "dynamicHelpActionText"; //$NON-NLS-1$
     
@@ -292,7 +292,7 @@ public interface IWorkbenchPreferenceConstants {
      * The default value for this preference is: <code>true</code> (show animations when a transition occurs)
      * </p>
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static final String ENABLE_ANIMATIONS = "ENABLE_ANIMATIONS"; //$NON-NLS-1$
     
@@ -306,7 +306,7 @@ public interface IWorkbenchPreferenceConstants {
      * <code>"org.eclipse.ui.defaultAcceleratorConfiguration"</code>.
      * <p>
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static final String KEY_CONFIGURATION_ID = "KEY_CONFIGURATION_ID"; //$NON-NLS-1$
     
@@ -321,7 +321,7 @@ public interface IWorkbenchPreferenceConstants {
      * The default value for this preference is <code>-1</code>.
      * </p>
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static final String EDITOR_MINIMUM_CHARACTERS = "EDITOR_MINIMUM_CHARACTERS"; //$NON-NLS-1$
 
@@ -333,21 +333,21 @@ public interface IWorkbenchPreferenceConstants {
      * The default value for this preference is <code>1</code>.
      * </p>
      * 
-     * @since 3.2
+     * @since 1.0
      */
     public static final String VIEW_MINIMUM_CHARACTERS = "VIEW_MINIMUM_CHARACTERS"; //$NON-NLS-1$
     
 	/**
 	 * Stores whether or not system jobs are being shown.
      * 
-     * @since 3.1
+     * @since 1.0
 	 */
 	public static final String SHOW_SYSTEM_JOBS = "SHOW_SYSTEM_JOBS";//$NON-NLS-1$
 
 	/**
 	 * Workbench preference for the current theme.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static String CURRENT_THEME_ID = "CURRENT_THEME_ID"; //$NON-NLS-1$
 
@@ -355,7 +355,7 @@ public interface IWorkbenchPreferenceConstants {
      * A preference value indicating whether editors should be closed before saving 
      * the workbench state when exiting.  The default is <code>false</code>.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static final String CLOSE_EDITORS_ON_EXIT = "CLOSE_EDITORS_ON_EXIT"; //$NON-NLS-1$
     
@@ -363,14 +363,14 @@ public interface IWorkbenchPreferenceConstants {
      * Stores whether or not to show progress while starting the workbench.
      * The default is <code>false</code>.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static final String SHOW_PROGRESS_ON_STARTUP = "SHOW_PROGRESS_ON_STARTUP"; //$NON-NLS-1$
     
     /**
      * Stores whether or not to show the memory monitor in the workbench window.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static final String SHOW_MEMORY_MONITOR = "SHOW_MEMORY_MONITOR"; //$NON-NLS-1$
     
@@ -379,7 +379,7 @@ public interface IWorkbenchPreferenceConstants {
 	 * working set for newly created views (without previously stored state).
 	 * This is a hint that view implementors should honor.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
     public static final String USE_WINDOW_WORKING_SET_BY_DEFAULT = "USE_WINDOW_WORKING_SET_BY_DEFAULT"; //$NON-NLS-1$
     
@@ -387,14 +387,14 @@ public interface IWorkbenchPreferenceConstants {
      * Stores whether or not to show the text widget that allows type-ahead search 
      * in the case where a FilteredTree is used to display and filter tree items.
      * 
-     * @since 3.2
+     * @since 1.0
      */
     public static final String SHOW_FILTERED_TEXTS = "SHOW_FILTERED_TEXTS";	//$NON-NLS-1$
 
 	/**
 	 * Stores whether or not views may be detached. The default is <code>true</code>.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final String ENABLE_DETACHED_VIEWS = "ENABLE_DETACHED_VIEWS"; //$NON-NLS-1$
 
@@ -406,7 +406,7 @@ public interface IWorkbenchPreferenceConstants {
 	 * no prompt.
 	 * 
 	 * @see Saveable
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final String PROMPT_WHEN_SAVEABLE_STILL_OPEN = "PROMPT_WHEN_SAVEABLE_STILL_OPEN"; //$NON-NLS-1$
 	
@@ -415,7 +415,7 @@ public interface IWorkbenchPreferenceConstants {
 	 * The value is a comma-separated list of perspective ids.
 	 * The default is the empty string.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final String PERSPECTIVE_BAR_EXTRAS = "PERSPECTIVE_BAR_EXTRAS"; //$NON-NLS-1$
 
@@ -423,7 +423,7 @@ public interface IWorkbenchPreferenceConstants {
 	 * Allows locking the trim to prevent user dragging on startup.
 	 * The default is <code>false</code>.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final String LOCK_TRIM = "LOCK_TRIM"; //$NON-NLS-1$
     
@@ -434,7 +434,7 @@ public interface IWorkbenchPreferenceConstants {
      * behaviour.
      * </p>
      * 
-     * @since 3.3
+     * @since 1.0
      */
     public static final String ENABLE_NEW_MIN_MAX = "ENABLE_MIN_MAX"; //$NON-NLS-1$
 
@@ -448,7 +448,7 @@ public interface IWorkbenchPreferenceConstants {
 	 * The default is <code>false</code>.
 	 * </p>
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static final String DISABLE_NEW_FAST_VIEW = "disableNewFastView"; //$NON-NLS-1$
 	
@@ -460,7 +460,7 @@ public interface IWorkbenchPreferenceConstants {
      * behaviour.
      * </p>
      * 
-     * @since 3.3
+     * @since 1.0
      */
 	public static final String ENABLE_32_STICKY_CLOSE_BEHAVIOR = "ENABLE_32_STICKY_CLOSE_BEHAVIOR"; //$NON-NLS-1$
 }

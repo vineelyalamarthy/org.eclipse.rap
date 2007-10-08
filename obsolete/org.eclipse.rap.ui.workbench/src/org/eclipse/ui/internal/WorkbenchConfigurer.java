@@ -29,7 +29,7 @@ import org.eclipse.ui.application.*;
  * This class is not intended to be instantiated or subclassed by clients.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public final class WorkbenchConfigurer implements IWorkbenchConfigurer {
 
@@ -58,7 +58,7 @@ public final class WorkbenchConfigurer implements IWorkbenchConfigurer {
      * if configured to do so).
      * If <code>false</code> the window will be closed, leaving the workbench running.
      * 
-     * @since 3.1
+     * @since 1.0
      */
 	private boolean exitOnLastWindowClose = true;
 

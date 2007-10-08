@@ -165,7 +165,7 @@
 // * 
 // * @see FormToolkit
 // * @see TableWrapLayout
-// * @since 3.0
+// * @since 1.0
 // */
 //public class FormText extends Canvas {
 //	/**
@@ -618,7 +618,7 @@
 //	 *            an object of the type <samp>Control</samp> or <samp>null</samp>
 //	 *            if the existing control at the specified key needs to be
 //	 *            removed.
-//	 * @since 3.1
+//	 * @since 1.0
 //	 */
 //	public void setControl(String key, Control control) {
 //		String fullKey = "o." + key; //$NON-NLS-1$
@@ -993,7 +993,7 @@
 //	 *                <ul>
 //	 *                <li>ERROR_NULL_ARGUMENT when listener is null</li>
 //	 *                </ul>
-//	 * @since 3.1
+//	 * @since 1.0
 //	 */
 //	public void addSelectionListener(SelectionListener listener) {
 //		checkWidget();
@@ -1021,7 +1021,7 @@
 //	 *                <ul>
 //	 *                <li>ERROR_NULL_ARGUMENT when listener is null</li>
 //	 *                </ul>
-//	 * @since 3.1
+//	 * @since 1.0
 //	 */
 //	public void removeSelectionListener(SelectionListener listener) {
 //		checkWidget();
@@ -1043,7 +1043,7 @@
 //	 *                <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
 //	 *                thread that created the receiver</li>
 //	 *                </ul>
-//	 * @since 3.1
+//	 * @since 1.0
 //	 */
 //
 //	public String getSelectionText() {
@@ -1058,7 +1058,7 @@
 //	 * 
 //	 * @return <code>true</code> if the selected text can be copied into the
 //	 *         clipboard, <code>false</code> otherwise.
-//	 * @since 3.1
+//	 * @since 1.0
 //	 */
 //	public boolean canCopy() {
 //		return selData != null && selData.canCopy();
@@ -1068,7 +1068,7 @@
 //	 * Copies the selected text into the clipboard. Does nothing if no text is
 //	 * selected or the text cannot be copied for any other reason.
 //	 * 
-//	 * @since 3.1
+//	 * @since 1.0
 //	 */
 //
 //	public void copy() {
@@ -1088,7 +1088,7 @@
 //	 * 
 //	 * @return href of the selected hyperlink or <code>null</code> if none
 //	 *         selected.
-//	 * @since 3.1
+//	 * @since 1.0
 //	 */
 //	public Object getSelectedLinkHref() {
 //		IHyperlinkSegment link = getSelectedLink();
@@ -1102,7 +1102,7 @@
 //	 * 
 //	 * @return text of the selected hyperlink or <code>null</code> if none
 //	 *         selected.
-//	 * @since 3.1
+//	 * @since 1.0
 //	 */
 //	public String getSelectedLinkText() {
 //		IHyperlinkSegment link = getSelectedLink();

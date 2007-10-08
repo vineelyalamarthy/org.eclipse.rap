@@ -18,7 +18,7 @@ import org.eclipse.jface.viewers.ISelection;
  * state.
  * 
  * @see IFormPart
- * @since 3.0
+ * @since 1.0
  */
 public interface IPartSelectionListener {
 	/**

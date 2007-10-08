@@ -20,7 +20,7 @@ package org.eclipse.ui;
  * </p>
  *
  * @see IPageLayout#createPlaceholderFolder
- * @since 2.0
+ * @since 1.0
  */
 public interface IPlaceholderFolderLayout {
 	
@@ -51,7 +51,7 @@ public interface IPlaceholderFolderLayout {
 	 *            Must not be <code>null</code>.
 	 * @return property value, or <code>null</code> if the property is not
 	 *         set.
-	 * @since 3.3
+	 * @since 1.0
 	 */
     public String getProperty(String id);
     
@@ -71,7 +71,7 @@ public interface IPlaceholderFolderLayout {
 	 *            property id. Must not be <code>null</code>.
 	 * @param value
 	 *            property value. <code>null</code> will clear the property.
-	 * @since 3.3
+	 * @since 1.0
 	 */
     public void setProperty(String id, String value);
 }

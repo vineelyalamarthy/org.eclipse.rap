@@ -72,7 +72,7 @@ import org.eclipse.ui.internal.misc.StatusUtil;
  * advisor. This handler doesn't have to be added as "statusHandlers" extension.
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  */
 public class StatusManager extends SessionSingletonBase {
 	/**
@@ -261,7 +261,7 @@ public class StatusManager extends SessionSingletonBase {
 	 * WorkbenchErrorHandler inserts it into the log, then ignore it.
 	 * 
 	 * @see #addLoggedStatus(IStatus)
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private class StatusManagerLogListener implements ILogListener {
 

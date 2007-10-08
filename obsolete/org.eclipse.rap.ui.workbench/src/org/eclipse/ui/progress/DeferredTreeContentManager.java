@@ -38,7 +38,7 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
  * performance benefits of deferring content.
  * 
  * @see IDeferredWorkbenchAdapter
- * @since 3.0
+ * @since 1.0
  */
 public class DeferredTreeContentManager {
     ITreeContentProvider contentProvider;
@@ -51,7 +51,7 @@ public class DeferredTreeContentManager {
      * The DeferredContentFamily is a class used to keep track of a
      * manager-object pair so that only jobs scheduled by the receiver
      * are cancelled by the receiver.
-     * @since 3.1
+     * @since 1.0
      *
      */
     class DeferredContentFamily {
@@ -143,7 +143,7 @@ public class DeferredTreeContentManager {
 	 * placeholder node. Subclasses may override.
 	 * 
 	 * @return a pending update adapter
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	protected PendingUpdateAdapter createPendingUpdateAdapter() {
 		return new PendingUpdateAdapter();

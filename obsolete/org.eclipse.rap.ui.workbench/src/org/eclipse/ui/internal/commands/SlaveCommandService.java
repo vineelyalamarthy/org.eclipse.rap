@@ -27,7 +27,7 @@ import org.eclipse.ui.menus.UIElement;
  * <code>org.eclipse.ui.workbench</code> plug-in.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class SlaveCommandService implements ICommandService {
 
@@ -36,7 +36,7 @@ public class SlaveCommandService implements ICommandService {
 	/**
 	 * The collection of ICallbackReferences added through this service.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private Set fCallbackCache = new HashSet();
 
@@ -46,7 +46,7 @@ public class SlaveCommandService implements ICommandService {
 	 * The scoping constant added to callback registrations submitted through
 	 * this service.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private String fScopingName;
 
@@ -54,7 +54,7 @@ public class SlaveCommandService implements ICommandService {
 	 * The object to scope. In theory, the service locator that would find this
 	 * service.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private Object fScopingValue;
 

@@ -19,7 +19,7 @@ import org.eclipse.swt.graphics.Point;
  * 
  * Not intended to be implemented by clients.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public interface IStackPresentationSite {
     public static int STATE_MINIMIZED = 0;
@@ -138,7 +138,7 @@ public interface IStackPresentationSite {
      * changed. Hints to the workbench that it should trigger a layout at the
      * next opportunity.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public void flushLayout();
     
@@ -146,7 +146,7 @@ public interface IStackPresentationSite {
      * Returns the list of presentable parts currently in this site
      * 
      * @return the list of presentable parts currently in this site
-     * @since 3.1
+     * @since 1.0
      */
     public IPresentablePart[] getPartList();
     
@@ -161,7 +161,7 @@ public interface IStackPresentationSite {
 	 *            Must not be <code>null</code>.
 	 * @return property value, or <code>null</code> if the property is not
 	 *         set.
-	 * @since 3.3
+	 * @since 1.0
 	 */
     public String getProperty(String id);
 }

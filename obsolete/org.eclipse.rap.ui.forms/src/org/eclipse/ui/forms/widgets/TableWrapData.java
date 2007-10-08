@@ -20,7 +20,7 @@ import org.eclipse.swt.graphics.Point;
  * the parent.
  * 
  * @see TableWrapLayout
- * @since 3.0
+ * @since 1.0
  */
 public final class TableWrapData {
 	/**

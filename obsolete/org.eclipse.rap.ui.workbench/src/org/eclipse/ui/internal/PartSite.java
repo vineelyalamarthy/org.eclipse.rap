@@ -529,7 +529,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
 	 * Prints out the identifier, the plug-in identifier and the registered
 	 * name. This is for debugging purposes only.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public String toString() {
 		final StringBuffer buffer = new StringBuffer();

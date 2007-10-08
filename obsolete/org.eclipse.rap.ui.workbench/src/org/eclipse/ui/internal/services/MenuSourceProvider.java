@@ -28,7 +28,7 @@ import org.eclipse.ui.ISources;
  * <code>org.eclipse.ui.workbench</code>.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public final class MenuSourceProvider extends AbstractSourceProvider {
 

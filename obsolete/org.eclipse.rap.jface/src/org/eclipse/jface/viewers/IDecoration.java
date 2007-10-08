@@ -85,7 +85,7 @@ public interface IDecoration{
 	 * Set the foreground color for this decoration.
 	 * @param color the color to be set for the foreground
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void setForegroundColor(Color color);
 	
@@ -93,7 +93,7 @@ public interface IDecoration{
 	 * Set the background color for this decoration.
 	 * @param color the color to be set for the background
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void setBackgroundColor(Color color);
 	
@@ -101,7 +101,7 @@ public interface IDecoration{
 	 * Set the font for this decoration.
 	 * @param font the font to use in this decoration
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void setFont(Font font);
 
@@ -110,7 +110,7 @@ public interface IDecoration{
 	 * will be applied.
 	 * @return the decoration context
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public IDecorationContext getDecorationContext();
 }

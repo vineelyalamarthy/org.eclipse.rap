@@ -140,7 +140,7 @@ abstract public class LayoutPart implements ISizeProvider {
     /**
      * @see org.eclipse.ui.presentations.StackPresentation#getSizeFlags(boolean)
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public int getSizeFlags(boolean horizontal) {
         return SWT.MIN;
@@ -149,7 +149,7 @@ abstract public class LayoutPart implements ISizeProvider {
     /**
      * @see org.eclipse.ui.presentations.StackPresentation#computePreferredSize(boolean, int, int, int)
      * 
-     * @since 3.1 
+     * @since 1.0 
      */
     public int computePreferredSize(boolean width, int availableParallel, int availablePerpendicular, int preferredParallel) {
     	
@@ -449,7 +449,7 @@ abstract public class LayoutPart implements ISizeProvider {
     /**
      * Returns an id representing this part, suitable for use in a placeholder.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public String getPlaceHolderId() {
         return getID();
@@ -470,7 +470,7 @@ abstract public class LayoutPart implements ISizeProvider {
      * Returns true iff the given part can be added to this ILayoutContainer
      * @param toAdd
      * @return
-     * @since 3.1
+     * @since 1.0
      */
     public boolean allowsAdd(LayoutPart toAdd) {
         return false;

@@ -19,7 +19,7 @@
 // * ViewerColumn implementation for TableViewer to enable column-specific label
 // * providers and editing support.
 // * 
-// * @since 3.3
+// * @since 1.0
 // */
 //public final class TableViewerColumn extends ViewerColumn {
 //	private TableColumn column;

@@ -33,7 +33,7 @@ import org.eclipse.ui.forms.widgets.ScrolledPageBook;
  * the disposed pages are needed again after that, they
  * will be created again.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public final class DetailsPart implements IFormPart, IPartSelectionListener {
 	private IManagedForm managedForm;

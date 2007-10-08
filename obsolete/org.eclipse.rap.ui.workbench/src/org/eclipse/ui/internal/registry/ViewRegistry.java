@@ -32,7 +32,7 @@ public class ViewRegistry extends SessionSingletonBase implements IViewRegistry,
     /**
      * Proxies a Category implementation.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     private static class ViewCategoryProxy implements IViewCategory, IPluginContribution {
 
@@ -262,7 +262,7 @@ public class ViewRegistry extends SessionSingletonBase implements IViewRegistry,
      *
 	 * @param id the category id
 	 * @return the Category
-     * @since 3.1
+     * @since 1.0
 	 */
 	private Category internalFindCategory(String id) {
 		Iterator itr = categories.iterator();

@@ -34,7 +34,7 @@ import org.eclipse.ui.menus.UIElement;
  * the proxied handler.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public final class HandlerProxy extends AbstractHandler implements
 		IElementUpdater {

@@ -41,7 +41,7 @@ import org.eclipse.ui.internal.util.Util;
 public abstract class ObjectContributorManager implements IExtensionChangeHandler {
 	
 	/** 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private class ContributorRecord {
 		/**
@@ -187,7 +187,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
      * @return an unmodifiable <code>Collection</code> containing all registered
      * contributions.  The objects in this <code>Collection</code> will be 
      * <code>List</code>s containing the actual contributions.
-     * @since 3.0
+     * @since 1.0
      */
     public Collection getContributors() {
         return Collections.unmodifiableCollection(contributors.values());
@@ -391,7 +391,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
      * @return the contributions for the given class. This considers
      * contributors on any super classes and interfaces.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     protected List getObjectContributors(Class objectClass) {
 		List objectList = null;
@@ -421,7 +421,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
      * @return the contributions for the given class. This considers
      * adaptable contributors on any super classes and interfaces.
      * 
-     * @since 3.1
+     * @since 1.0
      */
 	protected List getResourceContributors(Class resourceClass) {
 		List resourceList = null;
@@ -447,7 +447,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
      * @return the contributions for the given class. This considers
      * contributors to this specific type.
      * 
-     * @since 3.1
+     * @since 1.0
      */
 	protected List getAdaptableContributors(String adapterType) {
 		List adaptableList = null;
@@ -481,7 +481,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * search order of every class in <code>results</code>.  
 	 * @param adapters
 	 * @param results
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected void removeCommonAdapters(List adapters, List results) {
     	for (Iterator it = results.iterator(); it.hasNext();) {
@@ -545,7 +545,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
     /**
      * Remove listeners and dispose of this manager.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public void dispose() {
     	if(canHandleExtensionTracking()) {

@@ -18,7 +18,7 @@ package org.eclipse.ui.views.properties;
  * resetted.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  * @see org.eclipse.ui.views.properties.IPropertySource
  */
 public interface IPropertySource2 extends IPropertySource {
@@ -62,7 +62,7 @@ public interface IPropertySource2 extends IPropertySource {
      *         specified property
      * @see IPropertySource2#isPropertyResettable(Object)
      * @see #resetPropertyValue(Object)
-     * @since 3.1
+     * @since 1.0
      */
     public boolean isPropertySet(Object id);
 }

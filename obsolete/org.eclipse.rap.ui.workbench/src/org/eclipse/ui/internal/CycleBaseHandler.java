@@ -24,7 +24,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 /**
  * Its a base class for switching between views/editors/perspectives.
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 

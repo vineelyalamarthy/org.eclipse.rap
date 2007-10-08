@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Display;
  * set of colors is needed, subclass this class and override 'initialize' and/or
  * 'initializeColors'.
  *
- * @since 3.0
+ * @since 1.0
  */
 public class FormColors {
 	/**
@@ -88,7 +88,7 @@ public class FormColors {
 	/**
 	 * Key for the section toggle hover color.
 	 *
-	 * @since 3.1
+	 * @since 1.0
 	 * @deprecated use <code>IFormColors.TB_TOGGLE_HOVER</code>.
 	 */
 	public static final String TB_TOGGLE_HOVER = IFormColors.TB_TOGGLE_HOVER;
@@ -176,7 +176,7 @@ public class FormColors {
 	 * colors have been already initialized. Call this method prior to using
 	 * color keys with the H_ prefix to ensure they are available.
 	 *
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected void initializeFormHeaderColors() {
 		if (colorRegistry.containsKey(IFormColors.H_BOTTOM_KEYLINE2))
@@ -221,7 +221,7 @@ public class FormColors {
 	 * The color should not be disposed because it is managed by this class.
 	 *
 	 * @return the inactive form color
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public Color getInactiveBackground() {
 		String key = "__ncbg__"; //$NON-NLS-1$
@@ -397,7 +397,7 @@ public class FormColors {
 	 * @param ratio
 	 *            percentage of the first color in the blend (0-100)
 	 * @return the RGB value of the blended color
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static RGB blend(RGB c1, RGB c2, int ratio) {
 		int r = blend(c1.red, c2.red, ratio);
@@ -418,7 +418,7 @@ public class FormColors {
 	 * @return <code>true</code> if at least one of the primary colors in the
 	 *         source RGB are within the provided range, <code>false</code>
 	 *         otherwise.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static boolean testAnyPrimaryColor(RGB rgb, int from, int to) {
 		if (testPrimaryColor(rgb.red, from, to))
@@ -442,7 +442,7 @@ public class FormColors {
 	 * @return <code>true</code> if at least two of the primary colors in the
 	 *         source RGB are within the provided range, <code>false</code>
 	 *         otherwise.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static boolean testTwoPrimaryColors(RGB rgb, int from, int to) {
 		int total = 0;

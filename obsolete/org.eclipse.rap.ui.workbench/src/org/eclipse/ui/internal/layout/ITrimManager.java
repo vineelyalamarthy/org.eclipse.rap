@@ -23,7 +23,7 @@ import org.eclipse.swt.SWT;
  * other things.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public interface ITrimManager {
 
@@ -112,7 +112,7 @@ public interface ITrimManager {
 	 * 
 	 * @return the list of IDs that can be used with area descriptions. We
 	 *         currently support SWT.TOP, SWT.BOTTOM, SWT.LEFT, and SWT.RIGHT.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public int[] getAreaIds();
 
@@ -124,7 +124,7 @@ public interface ITrimManager {
 	 * @param areaId
 	 *            the trim area id
 	 * @return the IWindowTrim array
-	 * @since 3.2
+	 * @since 1.0
 	 * @see #getAreaIds()
 	 */
 	public List getAreaTrim(int areaId);
@@ -143,7 +143,7 @@ public interface ITrimManager {
 	 *            that's not contained in the List is removed from the window
 	 *            trim (but not disposed()). If <code>false</code> then the
 	 *            extra trim is shuffled to the beginning of the trim area.
-	 * @since 3.2
+	 * @since 1.0
 	 * @see #getAreaIds()
 	 */
 	public void updateAreaTrim(int id, List trim, boolean removeExtra);
@@ -153,7 +153,7 @@ public interface ITrimManager {
 	 * TrimLayout.
 	 * 
 	 * @return The List of all IWindowTrim elements
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public List getAllTrim();
 
@@ -166,14 +166,14 @@ public interface ITrimManager {
 	 *            the trim to update
 	 * @param visible
 	 *            visible or not
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void setTrimVisible(IWindowTrim trim, boolean visible);
 	
 	/**
 	 * Force the trim areas to layout to pick up changes
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void forceLayout();
 }

@@ -171,7 +171,7 @@ public abstract class RegistryReader {
      * 
      * @param configElement the element
      * @return the description
-     * @since 3.1
+     * @since 1.0
      */
     public static String getDescription(IConfigurationElement configElement) {
 		IConfigurationElement[] children = configElement.getChildren(IWorkbenchRegistryConstants.TAG_DESCRIPTION);
@@ -191,7 +191,7 @@ public abstract class RegistryReader {
 	 * @param classAttributeName
 	 *            the name of the class attribute to check
 	 * @return the value of the attribute or nested class element
-	 * @since 3.1
+	 * @since 1.0
 	 */
     public static String getClassValue(IConfigurationElement configElement, String classAttributeName) {
     	String className = configElement.getAttribute(classAttributeName);

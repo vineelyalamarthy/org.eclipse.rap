@@ -18,7 +18,7 @@ import java.util.ListIterator;
  * Class RandomAccessListIterator.  A ListIterator implementation that also
  * provides access to individual elements based on the element's index.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public class RandomAccessListIterator implements ListIterator {
 	private ListIterator delegate = null;

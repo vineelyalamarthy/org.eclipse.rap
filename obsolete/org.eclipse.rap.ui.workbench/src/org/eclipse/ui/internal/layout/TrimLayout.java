@@ -50,7 +50,7 @@ import org.eclipse.ui.internal.TrimDragPreferences;
  * layout and may be arranged through other means.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class TrimLayout extends Layout implements ICachingLayout, ITrimManager {
 
@@ -726,7 +726,7 @@ public class TrimLayout extends Layout implements ICachingLayout, ITrimManager {
 	 * @param areaId
 	 *            the side it's on
 	 * @return the area rectangle.
-	 * @since 3.2
+	 * @since 1.0
 	 * @see #getAreaIds()
 	 */
 	public Rectangle getTrimRect(Composite window, int areaId) {
@@ -831,7 +831,7 @@ public class TrimLayout extends Layout implements ICachingLayout, ITrimManager {
 	 * @param trim
 	 *            the Control to find.
 	 * @return the trim descriptor, or <code>null</code> if not found.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	private TrimDescriptor findTrimDescription(Control trim) {
 		Iterator d = fTrimDescriptors.values().iterator();

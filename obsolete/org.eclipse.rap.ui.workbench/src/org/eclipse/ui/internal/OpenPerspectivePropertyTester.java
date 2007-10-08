@@ -18,7 +18,7 @@ import org.eclipse.ui.IWorkbenchPage;
 /**
  * Tests if any Perspective is open or not.
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class OpenPerspectivePropertyTester extends PropertyTester {

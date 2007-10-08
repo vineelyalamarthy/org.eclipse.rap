@@ -37,7 +37,7 @@
 // * progress job or jobs that are finished awaiting user input. It only updates
 // * those items that are currently visible.
 // * 
-// * @since 3.3
+// * @since 1.0
 // * 
 // */
 //public class VirtualProgressViewer extends AbstractProgressViewer {

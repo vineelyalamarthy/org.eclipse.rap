@@ -27,7 +27,7 @@ import org.eclipse.ui.presentations.IPresentablePart;
 import org.eclipse.ui.presentations.IStackPresentationSite;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 public final class PresentablePartFolder implements IPresentablePartList {    
     private AbstractTabFolder folder;
@@ -112,7 +112,7 @@ public final class PresentablePartFolder implements IPresentablePartList {
     
     /**
      * 
-     * @since 3.1
+     * @since 1.0
      */
     private void layoutContent() {
         if (current != null) {
@@ -124,7 +124,7 @@ public final class PresentablePartFolder implements IPresentablePartList {
 
     /**
      * 
-     * @since 3.1
+     * @since 1.0
      */
     protected void disposed() {
         folder.getControl().getShell().removeShellListener(shellListener);

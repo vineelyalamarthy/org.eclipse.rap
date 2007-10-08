@@ -26,7 +26,7 @@ import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.runtime.Assert;
 
 /**
- * @since 3.2
+ * @since 1.0
  * 
  */
 public class DetailObservableSet extends ObservableSet implements IObserving {

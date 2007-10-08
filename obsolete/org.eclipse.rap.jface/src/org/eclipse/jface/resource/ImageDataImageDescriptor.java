@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 class ImageDataImageDescriptor extends ImageDescriptor {
 

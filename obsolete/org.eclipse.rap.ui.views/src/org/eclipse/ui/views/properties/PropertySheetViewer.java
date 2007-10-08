@@ -978,7 +978,7 @@ class PropertySheetViewer extends Viewer {
 	 * </p>
 	 * @param sorter the sorter to set (<code>null</code> will reset to the
 	 * default sorter)
-     * @since 3.1
+     * @since 1.0
 	 */
 	public void setSorter(PropertySheetSorter sorter) {
 		if (null == sorter) {

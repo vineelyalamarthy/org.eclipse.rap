@@ -17,7 +17,7 @@ import org.eclipse.swt.SWT;
  * required to get the default behaviour.
  * 
  * @see ColumnLayout
- * @since 3.0
+ * @since 1.0
  */
 public final class ColumnLayoutData {
 	/**

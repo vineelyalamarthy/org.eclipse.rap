@@ -31,7 +31,7 @@ public class StatusLineManager extends ContributionManager implements
      * Identifier of group marker used to position contributions at the beginning
      * of the status line.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public static final String BEGIN_GROUP = "BEGIN_GROUP"; //$NON-NLS-1$
 
@@ -39,7 +39,7 @@ public class StatusLineManager extends ContributionManager implements
      * Identifier of group marker used to position contributions in the middle
      * of the status line.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public static final String MIDDLE_GROUP = "MIDDLE_GROUP"; //$NON-NLS-1$
 
@@ -47,7 +47,7 @@ public class StatusLineManager extends ContributionManager implements
      * Identifier of group marker used to position contributions at the end
      * of the status line.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public static final String END_GROUP = "END_GROUP"; //$NON-NLS-1$
 
@@ -90,7 +90,7 @@ public class StatusLineManager extends ContributionManager implements
      * @param parent the parent control
      * @param style the style for the control
      * @return the status line control
-     * @since 3.0
+     * @since 1.0
      */
     public Control createControl(Composite parent, int style) {
         if (!statusLineExist() && parent != null) {
@@ -132,7 +132,7 @@ public class StatusLineManager extends ContributionManager implements
      * to provide your own object used to handle progress.
      * 
      * @return the IProgressMonitor delegate
-     * @since 3.0
+     * @since 1.0
      */
     protected IProgressMonitor getProgressMonitorDelegate() {
         return (IProgressMonitor) getControl();

@@ -24,7 +24,7 @@ import org.eclipse.ui.internal.util.Util;
  * </p><p>
  *  with the 'query' format being "[id1]=[val1]&[id2]=[val2]..."
  * </p>
- * @since 3.3
+ * @since 1.0
  *
  */
 public class MenuLocationURI {

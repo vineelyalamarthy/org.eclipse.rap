@@ -37,7 +37,7 @@ import org.eclipse.ui.internal.services.EvaluationResultCache;
  * equals.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 final class HandlerActivation extends EvaluationResultCache implements
 		IHandlerActivation {

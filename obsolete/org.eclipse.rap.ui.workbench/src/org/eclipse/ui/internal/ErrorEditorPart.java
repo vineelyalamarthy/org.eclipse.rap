@@ -21,7 +21,7 @@ import org.eclipse.ui.part.EditorPart;
 /**
  * This part is shown instead the editors with errors.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public class ErrorEditorPart extends EditorPart {
 

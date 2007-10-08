@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.*;
  * possible to set width and/or height hints using ColumnLayoutData objects.
  * 
  * @see ColumnLayoutData
- * @since 3.0
+ * @since 1.0
  */
 public final class ColumnLayout extends Layout implements ILayoutExtension {
 	/**

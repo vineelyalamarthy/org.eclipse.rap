@@ -18,7 +18,7 @@ import org.eclipse.core.commands.HandlerEvent;
  * Abstract base class that provides the enabled state, where changing the state
  * fires the HandlerEvent.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public abstract class AbstractEnabledHandler extends AbstractHandler {
 

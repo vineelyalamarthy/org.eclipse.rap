@@ -345,7 +345,7 @@ public class EditorStack extends PartStack {
 	 * 
 	 * @param show
 	 *            <code>true</code> - the min/max buttons are visible.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void showMinMax(boolean show) {
 		StackPresentation pres = getPresentation();

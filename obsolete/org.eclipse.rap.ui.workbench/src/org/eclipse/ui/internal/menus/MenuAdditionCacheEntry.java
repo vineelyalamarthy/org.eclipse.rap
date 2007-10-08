@@ -29,7 +29,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.services.IServiceLocator;
 
 /**
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class MenuAdditionCacheEntry extends AbstractContributionFactory {

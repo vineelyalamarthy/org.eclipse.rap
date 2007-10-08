@@ -17,7 +17,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Interface containing various registry constants (tag and attribute names).
  * 
- * @since 3.1
+ * @since 1.0
  */
 public interface IWorkbenchRegistryConstants {
 
@@ -466,7 +466,7 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * Splash id attribute.  Value <code>splashId</code>.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static String ATT_SPLASH_ID = "splashId"; //$NON-NLS-1$
 
@@ -545,21 +545,21 @@ public interface IWorkbenchRegistryConstants {
 	 * The legacy extension point (2.1.x and earlier) for specifying a key
 	 * binding scheme.
 	 * 
-	 * @since 3.1.1
+	 * @since 1.0.1
 	 */
 	public static String PL_ACCELERATOR_CONFIGURATIONS = "acceleratorConfigurations"; //$NON-NLS-1$
 
 	/**
 	 * The legacy extension point (2.1.x and earlier) for specifying a context.
 	 * 
-	 * @since 3.1.1
+	 * @since 1.0.1
 	 */
 	public static String PL_ACCELERATOR_SCOPES = "acceleratorScopes"; //$NON-NLS-1$
 
 	/**
 	 * The legacy extension point (2.1.x and earlier) for specifying a command.
 	 * 
-	 * @since 3.1.1
+	 * @since 1.0.1
 	 */
 	public static String PL_ACTION_DEFINITIONS = "actionDefinitions"; //$NON-NLS-1$
 
@@ -575,7 +575,7 @@ public interface IWorkbenchRegistryConstants {
 	 * The extension point (3.1 and later) for specifying bindings, such as
 	 * keyboard shortcuts.
 	 * 
-	 * @since 3.1.1
+	 * @since 1.0.1
 	 */
 	public static String PL_BINDINGS = "bindings"; //$NON-NLS-1$
 
@@ -586,7 +586,7 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The extension point (3.2 and later) for associating images with commands.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static String PL_COMMAND_IMAGES = "commandImages"; //$NON-NLS-1$
 
@@ -595,14 +595,14 @@ public interface IWorkbenchRegistryConstants {
 	 * other things have appeared first in this extension point and then been
 	 * moved to their own extension point.
 	 * 
-	 * @since 3.1.1
+	 * @since 1.0.1
 	 */
 	public static String PL_COMMANDS = "commands"; //$NON-NLS-1$
 
 	/**
 	 * The extension point (3.0 and later) for specifying a context.
 	 * 
-	 * @since 3.1.1
+	 * @since 1.0.1
 	 */
 	public static String PL_CONTEXTS = "contexts"; //$NON-NLS-1$
 
@@ -628,7 +628,7 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The extension point (3.1 and later) for specifying handlers.
 	 * 
-	 * @since 3.1.1
+	 * @since 1.0.1
 	 */
 	public static String PL_HANDLERS = "handlers"; //$NON-NLS-1$
 
@@ -641,21 +641,21 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The extension point for keyword definitions.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static String PL_KEYWORDS = "keywords"; //$NON-NLS-1$
 
 	/**
 	 * The extension point (3.2 and later) for specifying menu contributions.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static String PL_MENUS = "menus"; //$NON-NLS-1$
 
 	/**
 	 * The extension point (3.3 and later) for specifying menu contributions.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static String PL_MENU_CONTRIBUTION = "menuContribution"; //$NON-NLS-1$
 
@@ -678,7 +678,7 @@ public interface IWorkbenchRegistryConstants {
 	public static String PL_STARTUP = "startup"; //$NON-NLS-1$
 	
 	/**
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static String PL_SPLASH_HANDLERS = "splashHandlers"; //$NON-NLS-1$
 
@@ -1082,7 +1082,7 @@ public interface IWorkbenchRegistryConstants {
 	 * The name of the element defining the insertion point for menu
 	 * additions.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static String TAG_LOCATION_URI = "locationURI"; //$NON-NLS-1$
 
@@ -1191,7 +1191,7 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The name of the element describing splash handlers. Value
 	 * <code>splashHandler</code>.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static String TAG_SPLASH_HANDLER = "splashHandler"; //$NON-NLS-1$
 	
@@ -1199,7 +1199,7 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The name of the element describing splash handler product bindings. Value
 	 * <code>splashHandlerProductBinding</code>.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static String TAG_SPLASH_HANDLER_PRODUCT_BINDING = "splashHandlerProductBinding"; //$NON-NLS-1$
 	

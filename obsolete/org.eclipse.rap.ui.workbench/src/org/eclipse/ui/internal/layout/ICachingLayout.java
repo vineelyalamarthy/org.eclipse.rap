@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Control;
  * can be reused when a child control changes.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public interface ICachingLayout {
     /**

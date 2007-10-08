@@ -16,7 +16,7 @@ import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.internal.misc.StatusUtil;
 
 /**
- * @since 3.3
+ * @since 1.0
  * 
  */
 public final class StartupThreading {

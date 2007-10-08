@@ -22,7 +22,7 @@ import java.util.Comparator;
  * implement custom sorting.
  * </p>
  *
- * @since 3.1
+ * @since 1.0
  */
 public class PropertySheetSorter  {
 

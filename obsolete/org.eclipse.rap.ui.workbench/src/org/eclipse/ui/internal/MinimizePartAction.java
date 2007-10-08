@@ -14,7 +14,7 @@ import org.eclipse.ui.*;
 import org.eclipse.ui.presentations.IStackPresentationSite;
 
 /**
- * @since 3.0
+ * @since 1.0
  */
 public class MinimizePartAction extends PageEventAction {
 

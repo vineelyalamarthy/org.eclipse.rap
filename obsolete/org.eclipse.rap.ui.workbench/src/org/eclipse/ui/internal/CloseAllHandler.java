@@ -24,7 +24,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * Replacement for CloseAllAction
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class CloseAllHandler extends AbstractEvaluationHandler {

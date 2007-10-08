@@ -23,7 +23,7 @@ import org.eclipse.ui.internal.misc.StringMatcher;
 import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultTabItem;
 
 /**
- * @since 3.0
+ * @since 1.0
  */
 public abstract class AbstractTableInformationControl {
 

@@ -16,7 +16,7 @@ package org.eclipse.jface.viewers;
  * The LabelDecorator is an abstract superclass of ILabelDecorators
  * that support IDecorationContext.
  * @see IDecorationContext
- * @since 3.2
+ * @since 1.0
  *
  */
 public abstract class LabelDecorator implements ILabelDecorator {

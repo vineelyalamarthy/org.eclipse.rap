@@ -27,7 +27,7 @@ import org.eclipse.ui.menus.UIElement;
  * This service can be used to access the set of commands and handlers.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public final class CommandService implements ICommandService {
 

@@ -17,7 +17,7 @@ import org.eclipse.core.expressions.*;
  * An expression that simply returns <code>true</code> at all times. A shared
  * instance of this expression is provided.
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 public final class AlwaysEnabledExpression extends Expression {

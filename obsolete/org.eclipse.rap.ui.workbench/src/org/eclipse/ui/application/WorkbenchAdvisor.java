@@ -99,7 +99,7 @@ import org.eclipse.ui.statushandlers.*;
  * </ul>
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class WorkbenchAdvisor {
 
@@ -212,7 +212,7 @@ public abstract class WorkbenchAdvisor {
 	 * Returns the workbench error handler for the advisor.
 	 * 
 	 * @return the workbench error handler
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public AbstractStatusHandler getWorkbenchErrorHandler() {
 		if (workbenchErrorHandler == null) {
@@ -370,7 +370,7 @@ public abstract class WorkbenchAdvisor {
 	 * @param configurer
 	 *            the workbench window configurer
 	 * @return a new workbench window advisor
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
@@ -769,7 +769,7 @@ public abstract class WorkbenchAdvisor {
 	 * @param memento
 	 *            the memento in which to save the advisor's state
 	 * @return a status object indicating whether the save was successful
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IStatus saveState(IMemento memento) {
 		return Status.OK_STATUS;
@@ -786,7 +786,7 @@ public abstract class WorkbenchAdvisor {
 	 * @param memento
 	 *            the memento from which to restore the advisor's state
 	 * @return a status object indicating whether the restore was successful
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IStatus restoreState(IMemento memento) {
 		return Status.OK_STATUS;

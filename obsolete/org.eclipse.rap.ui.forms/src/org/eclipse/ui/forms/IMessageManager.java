@@ -45,7 +45,7 @@ import org.eclipse.ui.forms.widgets.Form;
  * extended.
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  * @see IMessageProvider
  * @see IManagedForm
  */

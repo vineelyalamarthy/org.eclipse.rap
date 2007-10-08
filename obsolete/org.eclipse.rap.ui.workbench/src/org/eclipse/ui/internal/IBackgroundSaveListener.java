@@ -12,7 +12,7 @@
 package org.eclipse.ui.internal;
 
 /**
- * @since 3.3
+ * @since 1.0
  *
  */
 interface IBackgroundSaveListener {

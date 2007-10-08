@@ -26,7 +26,7 @@ import org.eclipse.ui.*;
  * <b>Note</b>: this class should not be instantiated or extended by clients.
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  */
 public class HandlerUtil {
 	private static void noVariableFound(ExecutionEvent event, String name)

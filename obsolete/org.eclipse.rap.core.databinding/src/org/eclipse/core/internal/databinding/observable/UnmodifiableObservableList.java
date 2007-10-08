@@ -23,7 +23,7 @@ import org.eclipse.core.databinding.observable.list.ObservableList;
  * in the originating wrapped list are propagated and thrown from this instance
  * when appropriate.  All mutators throw an UnsupportedOperationException.
  * 
- * @since 3.2
+ * @since 1.0
  */
 /*
  * Implementation makes the assumption that the superclass (UnmodifiableList) is

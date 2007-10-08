@@ -39,7 +39,7 @@ import org.eclipse.swt.graphics.Image;
  * @see FieldDecoration
  * @see ImageRegistry
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class FieldDecorationRegistry extends SessionSingletonBase {
 
@@ -71,7 +71,7 @@ public class FieldDecorationRegistry extends SessionSingletonBase {
 	 * Decoration id for the decoration that should be used to cue the user that
 	 * a field has additional information.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static final String DEC_INFORMATION = "DEC_INFORMATION"; //$NON-NLS-1$
 
@@ -79,7 +79,7 @@ public class FieldDecorationRegistry extends SessionSingletonBase {
 	 * Decoration id for the decoration that should be used to cue the user that
 	 * a field has an error with quick fix available.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static final String DEC_ERROR_QUICKFIX = "DEC_ERRORQUICKFIX"; //$NON-NLS-1$
 

@@ -243,7 +243,7 @@ public abstract class PartSashContainer extends LayoutPart implements
      * @param swtDirectionConstant one of SWT.TOP, SWT.BOTTOM, SWT.LEFT, or SWT.RIGHT
      * @param ratioForNewPart a value between 0.0 and 1.0 specifying how much space will be allocated for the newly added part
      * @param relative existing part indicating where the new child should be attached
-     * @since 3.0
+     * @since 1.0
      */
     void addEnhanced(LayoutPart child, int swtDirectionConstant,
             float ratioForNewPart, LayoutPart relative) {
@@ -880,7 +880,7 @@ public abstract class PartSashContainer extends LayoutPart implements
      * Returns the currently zoomed part or null if none
      * 
      * @return the currently zoomed part or null if none
-     * @since 3.1
+     * @since 1.0
      */
     public LayoutPart getZoomedPart() {
         return zoomedPart;
@@ -1130,7 +1130,7 @@ public abstract class PartSashContainer extends LayoutPart implements
      * @param side
      * @param cursor
      * @return
-     * @since 3.1
+     * @since 1.0
      */
 //    private SashContainerDropTarget createDropTarget(final LayoutPart sourcePart, int side, int cursor, LayoutPart targetPart) {
 //        if (dropTarget == null) {

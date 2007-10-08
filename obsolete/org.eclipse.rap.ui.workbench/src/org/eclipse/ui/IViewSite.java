@@ -32,7 +32,7 @@ public interface IViewSite extends IWorkbenchPartSite {
      * or <code>null</code> if it has none.
      * 
      * @see IWorkbenchPage#showView(String, String, int)
-     * @since 3.0
+     * @since 1.0
      */
     public String getSecondaryId();
 }

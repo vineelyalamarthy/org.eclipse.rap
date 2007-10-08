@@ -31,7 +31,7 @@ import org.eclipse.ui.*;
  * consulting with the Platform/UI team.
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  */
 public class InternalHandlerUtil {
 	/**

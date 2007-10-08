@@ -25,7 +25,7 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
  * control using decoration and hover decoration color. Control should be
  * rendered based on the current expansion state.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class ToggleHyperlink extends AbstractHyperlink {
 	protected int innerWidth;
@@ -101,7 +101,7 @@ public abstract class ToggleHyperlink extends AbstractHyperlink {
 	 * Returns the hover color of the decoration.
 	 * 
 	 * @return the hover color of the decoration.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public Color getHoverDecorationColor() {
 		return hoverColor;

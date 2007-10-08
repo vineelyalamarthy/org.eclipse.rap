@@ -49,7 +49,7 @@ import org.eclipse.ui.services.IDisposable;
  * <code>org.eclipse.ui.commands</code>.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public interface ICommandImageService extends IDisposable {
 

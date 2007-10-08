@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Display;
  * class is extended by HyperlinkGroup but is otwerwise not intended to be
  * subclassed.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class HyperlinkSettings {
 	/**

@@ -33,7 +33,7 @@ public class WWinPluginPulldown extends WWinPluginAction {
 		 * A wrapper for loading the menu that defends against possible
 		 * exceptions triggered outside of the workbench.
 		 * 
-		 * @since 3.0
+		 * @since 1.0
 		 */
 		private class MenuLoader implements ISafeRunnable {
 

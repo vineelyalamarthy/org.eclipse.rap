@@ -33,7 +33,7 @@
 // * the input stream, however - it must be well formed in that case.
 // * </p>
 //
-// * @since 3.0
+// * @since 1.0
 // * @see FormText
 // */
 //public class ScrolledFormText extends SharedScrolledComposite {

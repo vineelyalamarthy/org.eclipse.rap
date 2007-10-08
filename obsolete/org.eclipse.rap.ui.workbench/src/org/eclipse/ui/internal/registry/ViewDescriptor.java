@@ -236,7 +236,7 @@ public class ViewDescriptor implements IViewDescriptor, IPluginContribution {
 	 * be deactivated by calling {@link ViewDescriptor#deactivateHandler()}.
 	 * This method will only activate the handler if it is not currently active.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
     public final void activateHandler() {
 //		if (handlerActivation == null) {
@@ -252,7 +252,7 @@ public class ViewDescriptor implements IViewDescriptor, IPluginContribution {
 	 * previously activated by calling {@link ViewDescriptor#activateHandler()}.
 	 * This method will only deactivative the handler if it is currently active.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public final void deactivateHandler() {
 //		if (handlerActivation != null) {

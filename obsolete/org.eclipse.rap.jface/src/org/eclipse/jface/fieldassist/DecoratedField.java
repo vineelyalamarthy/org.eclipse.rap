@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.*;
  * <p>
  * This class is not intended to be subclassed.
  * 
- * @since 3.2
+ * @since 1.0
  * @deprecated As of 3.3, clients should use {@link ControlDecoration} instead.
  */
 public class DecoratedField {

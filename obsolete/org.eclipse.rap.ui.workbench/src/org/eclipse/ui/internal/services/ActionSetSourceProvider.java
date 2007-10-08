@@ -30,7 +30,7 @@ import org.eclipse.ui.internal.util.Util;
  * <code>org.eclipse.ui.workbench</code>.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public final class ActionSetSourceProvider extends AbstractSourceProvider
 		implements IActionSetsListener {

@@ -28,7 +28,7 @@ import org.eclipse.ui.internal.services.RegistryPersistence;
  * A static class for accessing the registry and the preference store.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 final class CommandPersistence extends RegistryPersistence {
 
@@ -50,7 +50,7 @@ final class CommandPersistence extends RegistryPersistence {
 	 * The index of the commandParameterType elements in the indexed array.
 	 * 
 	 * @see CommandPersistence#read()
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	private static final int INDEX_PARAMETER_TYPE_DEFINITIONS = 2;
 
@@ -312,7 +312,7 @@ final class CommandPersistence extends RegistryPersistence {
 	 * @param commandService
 	 *            The command service to which the commands should be added;
 	 *            must not be <code>null</code>.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	private static final void readParameterTypesFromRegistry(
 			final IConfigurationElement[] configurationElements,

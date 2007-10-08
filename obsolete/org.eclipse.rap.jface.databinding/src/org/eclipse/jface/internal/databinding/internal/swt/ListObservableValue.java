@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * @since 3.2
+ * @since 1.0
  * 
  */
 public class ListObservableValue extends AbstractSWTObservableValue {

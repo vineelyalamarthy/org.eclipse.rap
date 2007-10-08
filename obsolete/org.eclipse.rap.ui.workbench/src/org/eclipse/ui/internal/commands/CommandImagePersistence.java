@@ -37,7 +37,7 @@ import org.eclipse.ui.internal.util.BundleUtility;
  * consulting with the Platform/UI team.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 final class CommandImagePersistence extends RegistryPersistence {
 

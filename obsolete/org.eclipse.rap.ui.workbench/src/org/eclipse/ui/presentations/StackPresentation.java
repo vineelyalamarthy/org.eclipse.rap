@@ -38,7 +38,7 @@ import org.eclipse.ui.ISizeProvider;
  * <code>StackPresentation.remove</code>. 
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class StackPresentation implements ISizeProvider {
 
@@ -149,7 +149,7 @@ public abstract class StackPresentation implements ISizeProvider {
      * 
      * @param isVisible the state to set visibility to
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public abstract void setVisible(boolean isVisible);
 
@@ -202,7 +202,7 @@ public abstract class StackPresentation implements ISizeProvider {
      * 
      * @param toMove a part that already belongs to this presentation
      * @param cookie a drop cookie returned by <code>StackPresentation#dragOver</code> 
-     * @since 3.1
+     * @since 1.0
      */
     public void movePart(IPresentablePart toMove, Object cookie) {
         removePart(toMove);

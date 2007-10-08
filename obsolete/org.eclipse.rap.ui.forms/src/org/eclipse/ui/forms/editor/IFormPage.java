@@ -32,7 +32,7 @@ import org.eclipse.ui.forms.IManagedForm;
  * often added to show the raw source code of the file open into
  * the multi-page editor.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public interface IFormPage extends IEditorPart {
 	/**

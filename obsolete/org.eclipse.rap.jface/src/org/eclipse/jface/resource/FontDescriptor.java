@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Display;
  * will be compared, so hashCode(...) and equals(...) must return something 
  * meaningful.
  * 
- * @since 3.1
+ * @since 1.0
  */
 public abstract class FontDescriptor extends DeviceResourceDescriptor {
     
@@ -28,7 +28,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * descriptor depends on the Font. Disposing the Font while the descriptor
      * is still in use may throw a graphic disposed exception.
      * 
-     * @since 3.1
+     * @since 1.0
      *
      * @deprecated use {@link FontDescriptor#createFrom(Font)}
      *
@@ -47,7 +47,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * while the descriptor is still in use may cause SWT to throw a graphic
      * disposed exception.
      * 
-     * @since 3.1
+     * @since 1.0
      *
      * @param font font to create
      * @return a newly created FontDescriptor that describes the given font
@@ -60,7 +60,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * Creates a new FontDescriptor given the an array of FontData that describes 
      * the font.
      * 
-     * @since 3.1
+     * @since 1.0
      *
      * @param data an array of FontData that describes the font (will be passed into
      * the Font's constructor)
@@ -99,7 +99,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * in the returned array has no effect on the original FontDescriptor.
      * 
      * @return the set of FontData associated with this font
-     * @since 3.3
+     * @since 1.0
      */
     public FontData[] getFontData() {
     	Font tempFont = createFont(Display.getCurrent());
@@ -114,7 +114,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * 
      * @param original array to copy
      * @return a deep copy of the original array
-     * @since 3.3
+     * @since 1.0
      */
     public static FontData[] copy(FontData[] original) {
     	FontData[] result = new FontData[original.length];
@@ -132,7 +132,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * 
 	 * @param next FontData to copy
 	 * @return a copy of the given FontData
-     * @since 3.3
+     * @since 1.0
 	 */
 	public static FontData copy(FontData next) {
 		FontData result = new FontData(next.getName(), next.getHeight(), next.getStyle());
@@ -149,7 +149,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * @param style a bitwise combination of SWT.NORMAL, SWT.ITALIC and SWT.BOLD
      * @return a new FontDescriptor with the given style
      * 
-     * @since 3.3
+     * @since 1.0
      */
 //    public final FontDescriptor setStyle(int style) {
 //    	FontData[] data = getFontData();
@@ -178,7 +178,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * 
      * @param style a bitwise combination of SWT.NORMAL, SWT.ITALIC and SWT.BOLD
      * @return a new FontDescriptor with the given additional style bits
-     * @since 3.3
+     * @since 1.0
      */
 //    public final FontDescriptor withStyle(int style) {
 //    	FontData[] data = getFontData();
@@ -207,7 +207,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * 
      * @param height a height, in points
      * @return a new FontDescriptor with the height, in points
-     * @since 3.3
+     * @since 1.0
      */
 //    public final FontDescriptor setHeight(int height) {
 //    	FontData[] data = getFontData();
@@ -238,7 +238,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * fonts. 
      * @return a FontDescriptor whose height differs from the reciever by the given number
      * of points. 
-     * @since 3.3
+     * @since 1.0
      */
 //    public final FontDescriptor increaseHeight(int heightDelta) {
 //    	if (heightDelta == 0) {
@@ -258,7 +258,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
     /**
      * Creates the Font described by this descriptor. 
      * 
-     * @since 3.1 
+     * @since 1.0 
      *
      * @param device device on which to allocate the font
      * @return a newly allocated Font (never null)
@@ -270,7 +270,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor {
      * Deallocates anything that was allocated by createFont, given a font
      * that was allocated by an equal FontDescriptor.
      * 
-     * @since 3.1 
+     * @since 1.0 
      *
      * @param previouslyCreatedFont previously allocated font
      */

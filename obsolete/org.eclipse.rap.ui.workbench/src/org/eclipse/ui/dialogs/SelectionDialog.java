@@ -216,7 +216,7 @@ public abstract class SelectionDialog extends TrayDialog {
 	 * 
 	 * @param newResult -
 	 *            the new values
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	protected void setSelectionResult(Object[] newResult) {
 		result = newResult;
@@ -247,7 +247,7 @@ public abstract class SelectionDialog extends TrayDialog {
 	 *            Specified using {@link Dialog#DIALOG_PERSISTLOCATION}
 	 *            and {@link Dialog#DIALOG_PERSISTSIZE}.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 * 
 	 * @see Dialog#getDialogBoundsStrategy()
 	 * @see Dialog#getDialogBoundsSettings()
@@ -267,7 +267,7 @@ public abstract class SelectionDialog extends TrayDialog {
 	 *         size, or <code>null</code> if the dialog's bounds should not be
 	 *         stored.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 * 
 	 * @see Dialog#getDialogBoundsStrategy()
 	 * @see #setDialogBoundsSettings(IDialogSettings, int)
@@ -284,7 +284,7 @@ public abstract class SelectionDialog extends TrayDialog {
 	 * @return the constant describing the strategy for persisting the dialog
 	 *         bounds.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 * @see Dialog#DIALOG_PERSISTLOCATION
 	 * @see Dialog#DIALOG_PERSISTSIZE
 	 * @see Dialog#getDialogBoundsSettings()

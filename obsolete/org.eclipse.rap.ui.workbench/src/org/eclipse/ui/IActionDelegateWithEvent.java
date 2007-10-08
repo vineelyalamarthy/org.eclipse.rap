@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Event;
  * Otherwise, they should simply implement <code>IActionDelegate</code> (or subinterface).
  * <p>
  *
- * @since 2.0
+ * @since 1.0
  * @deprecated Use org.eclipse.ui.IActionDelegate2 instead.
  */
 public interface IActionDelegateWithEvent {

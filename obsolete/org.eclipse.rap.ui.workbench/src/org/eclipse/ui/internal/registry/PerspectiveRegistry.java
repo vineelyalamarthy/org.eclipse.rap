@@ -262,7 +262,7 @@ public class PerspectiveRegistry implements IPerspectiveRegistry,
 	 * 
 	 * @param desc
 	 *            the perspective to delete
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void internalDeletePerspective(PerspectiveDescriptor desc) {
 		perspToRemove.add(desc.getId());

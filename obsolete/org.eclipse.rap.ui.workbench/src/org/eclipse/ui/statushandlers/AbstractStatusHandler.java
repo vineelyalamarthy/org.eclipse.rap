@@ -50,7 +50,7 @@ import java.util.Map;
  * initialization. Handlers shouldn't be instantiated in different way,
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  */
 public abstract class AbstractStatusHandler {
 

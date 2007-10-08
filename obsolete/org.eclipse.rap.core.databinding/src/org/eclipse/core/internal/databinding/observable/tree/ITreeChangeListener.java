@@ -12,7 +12,7 @@
 package org.eclipse.core.internal.databinding.observable.tree;
 
 /**
- * @since 3.3
+ * @since 1.0
  * 
  */
 public interface ITreeChangeListener {

@@ -11,7 +11,7 @@
 package org.eclipse.ui.internal.presentations.util;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 public abstract class TabFolderListener {
     public abstract void handleEvent(TabFolderEvent e);

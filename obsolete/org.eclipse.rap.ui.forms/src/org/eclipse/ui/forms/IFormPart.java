@@ -36,7 +36,7 @@ package org.eclipse.ui.forms;
  * removing themselves as listeners from all event providers.
  * 
  * @see IManagedForm
- * @since 3.0
+ * @since 1.0
  * 
  */
 public interface IFormPart {

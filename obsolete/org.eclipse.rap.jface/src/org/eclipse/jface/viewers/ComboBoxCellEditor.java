@@ -55,7 +55,7 @@
 //     * Creates a new cell editor with no control and no  st of choices. Initially,
 //     * the cell editor has no cell validator.
 //     * 
-//     * @since 2.1
+//     * @since 1.0
 //     * @see CellEditor#setStyle
 //     * @see CellEditor#create
 //     * @see ComboBoxCellEditor#setItems
@@ -89,7 +89,7 @@
 //     * @param parent the parent control
 //     * @param items the list of strings for the combo box
 //     * @param style the style bits
-//     * @since 2.1
+//     * @since 1.0
 //     */
 //    public ComboBoxCellEditor(Composite parent, String[] items, int style) {
 //        super(parent, style);

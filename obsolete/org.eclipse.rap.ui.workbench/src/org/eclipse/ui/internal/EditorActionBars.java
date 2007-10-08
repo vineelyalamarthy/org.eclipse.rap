@@ -364,7 +364,7 @@ public class EditorActionBars extends SubActionBars2 {
 	 * 
 	 * @param enabledAllowed
 	 *            <code>true</code> if the items may enable
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	private void setEnabledAllowed(boolean enabledAllowed) {
 		if (this.enabledAllowed == enabledAllowed) {

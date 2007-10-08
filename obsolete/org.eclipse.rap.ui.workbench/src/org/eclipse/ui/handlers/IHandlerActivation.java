@@ -26,7 +26,7 @@ import org.eclipse.ui.internal.services.IEvaluationResultCache;
  * This interface is not intended to be implemented or extended by clients.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  * @see org.eclipse.ui.ISources
  * @see org.eclipse.ui.ISourceProvider
  */
@@ -35,7 +35,7 @@ public interface IHandlerActivation extends IEvaluationResultCache, Comparable {
 	/**
 	 * The depth at which the root exists.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final int ROOT_DEPTH = 1;
 
@@ -64,7 +64,7 @@ public interface IHandlerActivation extends IEvaluationResultCache, Comparable {
 	 * 
 	 * @return The depth at which the handler was inserted into the services
 	 *         hierarchy; should be a positive integer.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public int getDepth();
 

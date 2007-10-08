@@ -135,7 +135,7 @@ public interface IMemento {
      * 
      * @return the data of the Text node of the memento, or <code>null</code>
      * if the memento has no Text node.
-     * @since 2.0
+     * @since 1.0
      */
     public String getTextData();
 
@@ -177,7 +177,7 @@ public interface IMemento {
      * Each memento is allowed only one text node.
      * 
      * @param data the data to be placed on the Text node
-     * @since 2.0
+     * @since 1.0
      */
     public void putTextData(String data);
 }

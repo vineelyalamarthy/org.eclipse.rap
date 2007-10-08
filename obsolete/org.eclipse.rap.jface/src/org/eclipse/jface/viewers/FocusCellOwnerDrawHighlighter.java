@@ -22,7 +22,7 @@
 //import org.eclipse.swt.widgets.Listener;
 //
 ///**
-// * @since 3.3
+// * @since 1.0
 // * 
 // */
 //public class FocusCellOwnerDrawHighlighter extends FocusCellHighlighter {

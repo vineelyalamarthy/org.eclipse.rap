@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Widget;
 /**
  * Notifies listeners about a hyperlink change.
  *
- * @since 3.0
+ * @since 1.0
  */
 public final class HyperlinkEvent extends TypedEvent {
 	private static final long serialVersionUID = 6009335074727417445L;

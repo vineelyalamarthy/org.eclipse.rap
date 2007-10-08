@@ -21,7 +21,7 @@ import org.eclipse.ui.internal.presentations.util.*;
  * the content of the currently selected part. There are no tabs, no title, no toolbar,
  * etc. There is no means to select a different part, unless it is done programmatically.
  * 
- * @since 3.1
+ * @since 1.0
  */
 public class EmptyTabFolder extends AbstractTabFolder {
 

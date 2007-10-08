@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Control;
  * This is a factory for presentation objects that control the appearance of
  * editors, views and other components in the workbench.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class AbstractPresentationFactory {
 

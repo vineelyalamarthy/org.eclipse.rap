@@ -12,7 +12,7 @@
 package org.eclipse.core.internal.databinding;
 
 /**
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class Util {

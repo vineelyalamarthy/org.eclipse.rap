@@ -31,7 +31,7 @@ import org.eclipse.ui.services.IServiceLocator;
  * by the user.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public class ActionSetManager {
 

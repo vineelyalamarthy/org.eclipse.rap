@@ -27,7 +27,7 @@ import org.eclipse.ui.forms.widgets.Section;
  * calling <code>super</code> is required.
  * 
  * @see Section
- * @since 3.0
+ * @since 1.0
  */
 public class SectionPart extends AbstractFormPart {
 	private Section section;

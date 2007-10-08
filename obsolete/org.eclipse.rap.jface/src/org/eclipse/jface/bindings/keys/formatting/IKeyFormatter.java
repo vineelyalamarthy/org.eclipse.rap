@@ -22,7 +22,7 @@ import org.eclipse.jface.bindings.keys.KeyStroke;
  * that are used for persistent storage.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public interface IKeyFormatter {
 

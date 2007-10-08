@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.*;
  * consulting with the Platform/UI team.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
 */
 public class CoolBarManager2 extends CoolBarManager implements ICoolBarManager2 {
 
@@ -68,7 +68,7 @@ public class CoolBarManager2 extends CoolBarManager implements ICoolBarManager2 
      * @param parent
      *            the parent control
      * @return the cool bar control
-	 * @since 3.2
+	 * @since 1.0
      */
     public Control createControl2(Composite parent) {
         return createControl(parent);
@@ -78,7 +78,7 @@ public class CoolBarManager2 extends CoolBarManager implements ICoolBarManager2 
      * Returns the control for this manager.
      * 
      * @return the control, or <code>null</code> if none
-	 * @since 3.2
+	 * @since 1.0
      */
     public Control getControl2() {
         return getControl();

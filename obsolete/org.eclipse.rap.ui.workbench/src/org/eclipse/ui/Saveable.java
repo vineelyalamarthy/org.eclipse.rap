@@ -35,7 +35,7 @@ import org.eclipse.ui.progress.IJobRunnable;
  * </p>
  * 
  * @see ISaveablesSource
- * @since 3.2
+ * @since 1.0
  */
 public abstract class Saveable extends InternalSaveable implements IAdaptable {
 
@@ -50,7 +50,7 @@ public abstract class Saveable extends InternalSaveable implements IAdaptable {
 	 * @param page
 	 *            the workbench page in which to show this saveable
 	 * @return <code>true</code> if this saveable is now visible to the user
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public boolean show(IWorkbenchPage page) {
 		if (page == null) {
@@ -200,7 +200,7 @@ public abstract class Saveable extends InternalSaveable implements IAdaptable {
 	 *         or a job runnable that needs to be run to complete the save in
 	 *         the background.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public IJobRunnable doSave(IProgressMonitor monitor,
 			IShellProvider shellProvider) throws CoreException {
@@ -235,7 +235,7 @@ public abstract class Saveable extends InternalSaveable implements IAdaptable {
 	 *            request to close a workbench part, and all of the given parts
 	 *            will be closed after the save operation finishes successfully.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void disableUI(IWorkbenchPart[] parts, boolean closing) {
 		for (int i = 0; i < parts.length; i++) {
@@ -265,7 +265,7 @@ public abstract class Saveable extends InternalSaveable implements IAdaptable {
 	 * @param parts
 	 *            the workbench parts containing this saveable
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void enableUI(IWorkbenchPart[] parts) {
 		for (int i = 0; i < parts.length; i++) {
@@ -290,7 +290,7 @@ public abstract class Saveable extends InternalSaveable implements IAdaptable {
 	 * {@link #hashCode()} based on an underlying implementation class that is
 	 * shared by both Saveable subclasses.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public Object getAdapter(Class adapter) {
 		return null;

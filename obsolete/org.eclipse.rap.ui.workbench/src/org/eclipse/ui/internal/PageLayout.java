@@ -207,7 +207,7 @@ public class PageLayout implements IPageLayout {
 	 * found. If create is true, the record is created if it doesn't already
 	 * exist.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
     ViewLayoutRec getViewLayoutRec(String id, boolean create) {
         ViewLayoutRec rec = (ViewLayoutRec) mapIDtoViewLayoutRec.get(id);
@@ -355,7 +355,7 @@ public class PageLayout implements IPageLayout {
      * state if a new stack is created. Used by the 'perspectiveExtension'
      * reader.
      * 
-     *  @since 3.3
+     *  @since 1.0
      */
     public void addView(String viewId, int relationship, float ratio,
             String refId, boolean minimized) {
@@ -598,7 +598,7 @@ public class PageLayout implements IPageLayout {
 
     /**
      * @return the <code>ViewFactory</code> for this <code>PageLayout</code>.
-     * @since 3.0
+     * @since 1.0
      */
     /* package */
     ViewFactory getViewFactory() {
@@ -805,7 +805,7 @@ public class PageLayout implements IPageLayout {
      * @return one of IPageLayout.TOP, IPageLayout.BOTTOM, IPageLayout.LEFT, IPageLayout.RIGHT, or -1 indicating an
      * invalid input
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public static int swtConstantToLayoutPosition(int swtConstant) {
         switch (swtConstant) {
@@ -824,7 +824,7 @@ public class PageLayout implements IPageLayout {
 
     /* (non-Javadoc)
      * @see org.eclipse.ui.IPageLayout#addStandaloneView(java.lang.String, boolean, int, float, java.lang.String)
-     * @since 3.0
+     * @since 1.0
      */
     public void addStandaloneView(String viewId, boolean showTitle,
             int relationship, float ratio, String refId) {
@@ -876,7 +876,7 @@ public class PageLayout implements IPageLayout {
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.IPageLayout#getViewLayout(java.lang.String)
-	 * @since 3.0
+	 * @since 1.0
 	 */
     public IViewLayout getViewLayout(String viewId) {
         ViewLayoutRec rec = getViewLayoutRec(viewId, true);
@@ -887,7 +887,7 @@ public class PageLayout implements IPageLayout {
     }
 
     /**
-     * @since 3.0
+     * @since 1.0
      */
     public Map getIDtoViewLayoutRecMap() {
         return mapIDtoViewLayoutRec;
@@ -897,7 +897,7 @@ public class PageLayout implements IPageLayout {
      * Removes any existing placeholder with the given id.
      * 
      * @param id the id for the placeholder
-     * @since 3.1
+     * @since 1.0
      */
 	public void removePlaceholder(String id) {
 		LayoutPart part = getRefPart(id);

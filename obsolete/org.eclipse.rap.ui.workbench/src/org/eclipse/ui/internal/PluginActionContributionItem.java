@@ -39,7 +39,7 @@ public class PluginActionContributionItem extends ActionContributionItem {
     /**
      * Hook the activity and identifier listener (if necessary);
      * 
-     * @since 3.1
+     * @since 1.0
      */
 //    private void hookListeners() {
 //        PlatformUI.getWorkbench().getActivitySupport().getActivityManager()
@@ -54,7 +54,7 @@ public class PluginActionContributionItem extends ActionContributionItem {
     /**
      * Unhook the activity and identifier listener (if necessary);
      * 
-     * @since 3.1
+     * @since 1.0
      */
 //    private void unhookListeners() {
 //        PlatformUI.getWorkbench().getActivitySupport().getActivityManager()
@@ -86,7 +86,7 @@ public class PluginActionContributionItem extends ActionContributionItem {
     /**
      * Create the IIdentifier reference for this item.
      *
-     * @since 3.0
+     * @since 1.0
      */
 //    private IIdentifier getIdentifier() {
 //        if (!WorkbenchActivityHelper.isFiltering()) {
@@ -110,7 +110,7 @@ public class PluginActionContributionItem extends ActionContributionItem {
     /**
      * Dispose of the IIdentifier if necessary.
      * 
-     * @since 3.0
+     * @since 1.0
      */
 //    private void disposeIdentifier() {
 //        identifier = null;
@@ -148,7 +148,7 @@ public class PluginActionContributionItem extends ActionContributionItem {
     /**
      * Mark the parent dirty if we have a parent.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     private void invalidateParent() {
         IContributionManager parent = getParent();

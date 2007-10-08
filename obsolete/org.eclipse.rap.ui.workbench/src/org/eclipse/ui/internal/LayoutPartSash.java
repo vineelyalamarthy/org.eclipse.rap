@@ -110,7 +110,7 @@ class LayoutPartSash extends LayoutPart {
     /**
      * Creates the underlying SWT control.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     private void doCreateControl() {
         if (sash == null) {
@@ -275,7 +275,7 @@ class LayoutPartSash extends LayoutPart {
 
     /**
      * @param resizable
-     * @since 3.1
+     * @since 1.0
      */
     public void setEnabled(boolean resizable) {
         this.enabled = resizable;

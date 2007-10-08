@@ -19,7 +19,7 @@ package org.eclipse.ui.forms.events;
  * 
  * @see IExpansionListener
  * @see ExpansionEvent
- * @since 3.0
+ * @since 1.0
  */
 public class ExpansionAdapter implements IExpansionListener {
 	/**

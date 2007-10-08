@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.*;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 public class EnhancedFillLayout extends Layout {
 

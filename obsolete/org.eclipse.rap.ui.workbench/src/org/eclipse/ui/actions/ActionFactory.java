@@ -39,7 +39,7 @@ import org.eclipse.ui.services.IServiceLocator;
  * action factories.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class ActionFactory {
 
@@ -219,7 +219,7 @@ public abstract class ActionFactory {
      * Workbench action (id "closeOthers"): Close all editors except the one that 
 	 * is active. This action maintains its enablement state.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
      */
     public static final ActionFactory CLOSE_OTHERS = new ActionFactory("closeOthers") {//$NON-NLS-1$
         /* (non-Javadoc)
@@ -591,7 +591,7 @@ public abstract class ActionFactory {
      * Workbench action (id "minimize"): Minimizes the active part. This
      * action maintains its enablement state.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static final ActionFactory MINIMIZE = new ActionFactory("minimize") {//$NON-NLS-1$
         
@@ -654,7 +654,7 @@ public abstract class ActionFactory {
      * or opens the new wizard dialog when pressed.  For use in the toolbar.
      * This action maintains its enablement state.
      * 
-     * @since 3.1
+     * @since 1.0
      */
 //    public static final ActionFactory NEW_WIZARD_DROP_DOWN = new ActionFactory(
 //            "newWizardDropDown") { //$NON-NLS-1$
@@ -1324,7 +1324,7 @@ public abstract class ActionFactory {
     
     /**
      * Workbench action (id "showQuickAccess"): Shows a list of UI elements like editors, views, perspectives etc.
-     * @since 3.3
+     * @since 1.0
      */
 //    public static final ActionFactory SHOW_QUICK_ACCESS = new ActionFactory(
 //    		"showQuickAccess") { //$NON-NLS-1$
@@ -1458,7 +1458,7 @@ public abstract class ActionFactory {
      * Workbench action (id "helpSearch"): Open the help search. This action
      * is always enabled.
      *  
-     * @since 3.1  
+     * @since 1.0  
      */
 //    public static final ActionFactory HELP_SEARCH = new ActionFactory(
 //            "helpSearch") {//$NON-NLS-1$
@@ -1480,7 +1480,7 @@ public abstract class ActionFactory {
      * Workbench action (id "dynamicHelp"): Open the dynamic help. This action
      * is always enabled.
      *
-     * @since 3.1
+     * @since 1.0
      */
 //    public static final ActionFactory DYNAMIC_HELP = new ActionFactory(
 //            "dynamicHelp") {//$NON-NLS-1$
@@ -1502,7 +1502,7 @@ public abstract class ActionFactory {
      * Workbench action (id "openPerspectiveDialog"): Open the Open Perspective dialog. This action
      * is always enabled.
      *
-     * @since 3.1
+     * @since 1.0
      */
 //    public static final ActionFactory OPEN_PERSPECTIVE_DIALOG = new ActionFactory(
 //            "openPerspectiveDialog") {//$NON-NLS-1$
@@ -1524,7 +1524,7 @@ public abstract class ActionFactory {
      * Workbench action (id "newEditor"): Open a new editor on the active editor's input. 
      * This action maintains its enablement state.
      *
-     * @since 3.1
+     * @since 1.0
      */
 //    public static final ActionFactory NEW_EDITOR = new ActionFactory(
 //            "newEditor") {//$NON-NLS-1$
@@ -1548,7 +1548,7 @@ public abstract class ActionFactory {
 	 * coolbar and perspective bar if the window advisor creating the window
 	 * allowed for their visibility initially.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static final ActionFactory TOGGLE_COOLBAR = new ActionFactory(
 			"toggleCoolbar") { //$NON-NLS-1$

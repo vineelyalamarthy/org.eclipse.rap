@@ -124,7 +124,7 @@ public abstract class AbstractUIPlugin extends Plugin {
     /**
      * The bundle listener used for kicking off refreshPluginActions().
      * 
-     * @since 3.0.1
+     * @since 1.0.1
      */
     private BundleListener bundleListener;
     
@@ -163,7 +163,7 @@ public abstract class AbstractUIPlugin extends Plugin {
      * For more details, see <code>Plugin</code>'s default constructor.
      *
      * @see Plugin#Plugin()
-     * @since 3.0
+     * @since 1.0
      */
     public AbstractUIPlugin() {
         super();
@@ -329,7 +329,7 @@ public abstract class AbstractUIPlugin extends Plugin {
      *             {@link Plugin#initializeDefaultPluginPreferences}.
      * 
      * @see #initializeDefaultPreferences
-     * @since 2.0
+     * @since 1.0
      */
     protected void initializeDefaultPluginPreferences() {
         // N.B. by the time this method is called, the plug-in has a 
@@ -563,7 +563,7 @@ public abstract class AbstractUIPlugin extends Plugin {
      * but must send super <b>first</b>.
      * {@inheritDoc}
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public void start(BundleContext context) throws Exception {
         super.start(context);
@@ -603,7 +603,7 @@ public abstract class AbstractUIPlugin extends Plugin {
      * always done.
      * {@inheritDoc}
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public void stop(BundleContext context) throws Exception {
         try {
@@ -638,7 +638,7 @@ public abstract class AbstractUIPlugin extends Plugin {
      * root of the plug-in; the path must be legal
      * @return an image descriptor, or <code>null</code> if no image
      * could be found
-     * @since 3.0
+     * @since 1.0
      */
     public static ImageDescriptor imageDescriptorFromPlugin(String pluginId,
             String imageFilePath) {
@@ -679,7 +679,7 @@ public abstract class AbstractUIPlugin extends Plugin {
      * @return path to a location in the file system where this plug-in can
      * persist data between sessions, or <code>null</code> if no such
      * location is available.
-     * @since 3.1
+     * @since 1.0
      */
     private IPath getStateLocationOrNull() {
         try {

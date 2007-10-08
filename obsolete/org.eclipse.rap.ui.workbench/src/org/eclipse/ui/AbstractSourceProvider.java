@@ -20,7 +20,7 @@ import java.util.Map;
  * appropriate.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public abstract class AbstractSourceProvider implements ISourceProvider {
 
@@ -28,7 +28,7 @@ public abstract class AbstractSourceProvider implements ISourceProvider {
 	 * Whether source providers should print out debugging information to the
 	 * console when events arrive.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 //	protected static boolean DEBUG = Policy.DEBUG_SOURCES;
 
@@ -104,7 +104,7 @@ public abstract class AbstractSourceProvider implements ISourceProvider {
 	 * @param message
 	 *            The debugging message to log; if <code>null</code>, then
 	 *            nothing is logged.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	protected final void logDebuggingInfo(final String message) {
 //		if (DEBUG && (message != null)) {

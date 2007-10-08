@@ -21,7 +21,7 @@ import org.eclipse.ui.internal.progress.ProgressView;
  * without exposing their concrete implementation classes.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public class ExtensionFactory implements IExecutableExtensionFactory,
         IExecutableExtension {
@@ -59,7 +59,7 @@ public class ExtensionFactory implements IExecutableExtensionFactory,
     /**
      * Factory ID for the new (and improved) keys preference page.
      * 
-     * @since 3.2
+     * @since 1.0
      */
     public static final String NEW_KEYS_PREFERENCE_PAGE = "newKeysPreferencePage"; //$NON-NLS-1$
 

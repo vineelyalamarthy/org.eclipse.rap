@@ -16,7 +16,7 @@ package org.eclipse.ui.forms;
  * when overriding.
  * 
  * @see org.eclipse.ui.forms.widgets.Section
- * @since 3.0
+ * @since 1.0
  */
 public abstract class AbstractFormPart implements IFormPart {
 	private IManagedForm managedForm;

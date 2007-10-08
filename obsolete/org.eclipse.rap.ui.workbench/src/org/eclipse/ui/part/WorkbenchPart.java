@@ -267,7 +267,7 @@ public abstract class WorkbenchPart extends EventManager implements
      * The default implementation does nothing.
      * 
      * @param site the site to check
-     * @since 3.1
+     * @since 1.0
      */
     protected void checkSite(IWorkbenchPartSite site) {
         // do nothing
@@ -337,7 +337,7 @@ public abstract class WorkbenchPart extends EventManager implements
      * @param busy boolean to indicate that the busy state has started
      *  	or ended.
      * @see org.eclipse.ui.progress.IWorkbenchSiteProgressService#showBusyForFamily(Object)
-     * @since 3.0
+     * @since 1.0
      */
     public void showBusy(boolean busy) {
         //By default do nothing
@@ -366,7 +366,7 @@ public abstract class WorkbenchPart extends EventManager implements
      *
      * @param partName the part name, as it should be displayed in tabs.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     protected void setPartName(String partName) {
 
@@ -416,7 +416,7 @@ public abstract class WorkbenchPart extends EventManager implements
      * 
      * @param description the content description
      * 
-     * @since 3.0
+     * @since 1.0
      */
     protected void setContentDescription(String description) {
         internalSetContentDescription(description);

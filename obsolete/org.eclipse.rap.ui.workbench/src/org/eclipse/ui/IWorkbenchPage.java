@@ -68,7 +68,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * Change event id when the perspective has completed a reset to its
 	 * original state.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 * @see IPerspectiveListener
 	 */
 	public static final String CHANGE_RESET_COMPLETE = "resetComplete"; //$NON-NLS-1$
@@ -154,7 +154,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * Change event id when the page working set list was replaced
 	 * 
 	 * @see IPropertyChangeListener
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final String CHANGE_WORKING_SETS_REPLACE = "workingSetsReplace"; //$NON-NLS-1$	 
 
@@ -163,7 +163,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * activated. Use of this mode has the same effect as calling
 	 * {@link #showView(String)}.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public static final int VIEW_ACTIVATE = 1;
 
@@ -172,7 +172,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * view is opened in the container that contains the active view then this
 	 * has the same effect as <code>VIEW_CREATE</code>.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public static final int VIEW_VISIBLE = 2;
 
@@ -182,7 +182,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * that it is opened in its own container. In other words, only if it is not
 	 * stacked with another view.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public static final int VIEW_CREATE = 3;
 
@@ -190,7 +190,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * Editor opening match mode specifying that no matching against existing
 	 * editors should be done.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final int MATCH_NONE = 0;
 
@@ -198,7 +198,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * Editor opening match mode specifying that the editor input should be
 	 * considered when matching against existing editors.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final int MATCH_INPUT = 1;
 
@@ -206,14 +206,14 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * Editor opening match mode specifying that the editor id should be
 	 * considered when matching against existing editors.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final int MATCH_ID = 2;
 
 	/**
 	 * State of a view in a given page when the view stack is minimized.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final int STATE_MINIMIZED = IStackPresentationSite.STATE_MINIMIZED;
 
@@ -221,7 +221,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * State of a view in a given page when the page is zoomed in on the view
 	 * stack.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final int STATE_MAXIMIZED = IStackPresentationSite.STATE_MAXIMIZED;
 
@@ -229,7 +229,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * State of a view in a given page when the view stack is in it's normal
 	 * state.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static final int STATE_RESTORED = IStackPresentationSite.STATE_RESTORED;
 
@@ -247,7 +247,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @param listener
 	 *            the property change listener to add
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public void addPropertyChangeListener(IPropertyChangeListener listener);
 
@@ -306,7 +306,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 *            changes
 	 * @return <code>true</code> if the editors were successfully closed, and
 	 *         <code>false</code> if the editors are still open
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public boolean closeEditors(IEditorReference[] editorRefs, boolean save);
 
@@ -344,7 +344,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @param viewId
 	 *            the id of the view extension to use
 	 * @return the view reference, or <code>null</code> if none is found
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public IViewReference findViewReference(String viewId);
 
@@ -357,7 +357,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 *            the secondary id to use, or <code>null</code> for no
 	 *            secondary id
 	 * @return the view reference, or <code>null</code> if none is found
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public IViewReference findViewReference(String viewId, String secondaryId);
 
@@ -401,7 +401,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @see #MATCH_NONE
 	 * @see #MATCH_INPUT
 	 * @see #MATCH_ID
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public IEditorReference[] findEditors(IEditorInput input, String editorId,
 			int matchFlags);
@@ -497,7 +497,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * Returns the working set of this page.
 	 * 
 	 * @return the working set of this page.
-	 * @since 2.0
+	 * @since 1.0
 	 * @deprecated individual views should store a working set if needed
 	 */
 //	public IWorkingSet getWorkingSet();
@@ -530,7 +530,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @param view
 	 *            the references whos view is to be hidden
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public void hideView(IViewReference view);
 
@@ -650,7 +650,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @see #MATCH_NONE
 	 * @see #MATCH_INPUT
 	 * @see #MATCH_ID
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public IEditorPart openEditor(final IEditorInput input,
 			final String editorId, final boolean activate, final int matchFlags)
@@ -661,7 +661,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @param listener
 	 *            the property change listener to remove
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public void removePropertyChangeListener(IPropertyChangeListener listener);
 
@@ -838,7 +838,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 *                if the view could not be initialized
 	 * @exception IllegalArgumentException
 	 *                if the supplied mode is not valid
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public IViewPart showView(String viewId, String secondaryId, int mode)
 			throws PartInitException;
@@ -880,7 +880,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * context.
 	 * 
 	 * @return the navigation history
-	 * @since 2.1
+	 * @since 1.0
 	 */
 //	public INavigationHistory getNavigationHistory();
 
@@ -892,7 +892,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @return the parts that are stacked with this part, including the part in
 	 *         question. <code>null</code> is returned if the part does not
 	 *         belong to this page.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	IViewPart[] getViewStack(IViewPart part);
 
@@ -902,7 +902,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @see IPageLayout#addNewWizardShortcut(String)
 	 * @return an array of wizard identifiers
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	public String[] getNewWizardShortcuts();
 
@@ -912,7 +912,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @see IPageLayout#addPerspectiveShortcut(String)
 	 * @return an array of perspective identifiers
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public String[] getPerspectiveShortcuts();
 
@@ -922,7 +922,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @see IPageLayout#addShowViewShortcut(String)
 	 * @return an array of view identifiers
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public String[] getShowViewShortcuts();
 
@@ -931,7 +931,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * in the order in which they were opened.
 	 * 
 	 * @return the open perspective descriptors, in order of opening
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IPerspectiveDescriptor[] getOpenPerspectives();
 
@@ -940,7 +940,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * in the order in which they were activated (oldest first).
 	 * 
 	 * @return the open perspective descriptors, in order of activation
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IPerspectiveDescriptor[] getSortedPerspectives();
 
@@ -958,7 +958,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 *            whether the page's parts should be saved if closed
 	 * @param closePage
 	 *            whether the page itself should be closed if last perspective
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void closePerspective(IPerspectiveDescriptor desc,
 			boolean saveParts, boolean closePage);
@@ -973,7 +973,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 *            whether the page's editors should be saved
 	 * @param closePage
 	 *            whether the page itself should be closed
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void closeAllPerspectives(boolean saveEditors, boolean closePage);
 
@@ -991,7 +991,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @return the extension tracker
 	 * @see IWorkbench#getExtensionTracker()
 	 * @see IWorkbenchWindow#getExtensionTracker()
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IExtensionTracker getExtensionTracker();
 
@@ -1003,7 +1003,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @return the visible working sets for this page
 	 * @see IWorkbench#getActivitySupport()
-	 * @since 3.2
+	 * @since 1.0
 	 */
 //	public IWorkingSet[] getWorkingSets();
 
@@ -1014,7 +1014,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @param sets
 	 *            the new working sets for this page. The array may be empty,
 	 *            but no element in the array may be <code>null</code>.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 //	public void setWorkingSets(IWorkingSet[] sets);
 
@@ -1068,7 +1068,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * </p>
 	 * 
 	 * @return the aggregate working set for this page
-	 * @since 3.2
+	 * @since 1.0
 	 */
 //	public IWorkingSet getAggregateWorkingSet();
 
@@ -1077,7 +1077,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * 
 	 * @return <code>true</code> if the page is zoomed in the workbench
 	 *         window, <code>false</code> otherwise.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public boolean isPageZoomed();
 
@@ -1085,7 +1085,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * Zooms out the zoomed-in part. If the page does not have a zoomed part, it
 	 * does nothing.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void zoomOut();
 
@@ -1095,7 +1095,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @param ref
 	 *            the workbench part to zoom in on. Must not be
 	 *            <code>null</code>.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void toggleZoom(IWorkbenchPartReference ref);
 
@@ -1106,7 +1106,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 * @param ref
 	 *            the workbench part to query. Must not be <code>null</code>.
 	 * @return one of the STATE_* contants.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public int getPartState(IWorkbenchPartReference ref);
 
@@ -1118,7 +1118,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 *            the workbench part reference. Must not be <code>null</code>.
 	 * @param state
 	 *            one of the STATE_* constants.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void setPartState(IWorkbenchPartReference ref, int state);
 
@@ -1130,7 +1130,7 @@ public interface IWorkbenchPage extends IPartService, ISelectionService
 	 *            The part to search for. It can be <code>null</code>.
 	 * @return The reference for the given part, or <code>null</code> if no
 	 *         reference can be found.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public IWorkbenchPartReference getReference(IWorkbenchPart part);
 }

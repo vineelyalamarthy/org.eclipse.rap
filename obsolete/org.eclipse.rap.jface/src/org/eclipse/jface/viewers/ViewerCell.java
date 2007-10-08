@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.*;
 /**
  * The ViewerCell is the JFace representation of a cell entry in a ViewerRow.
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class ViewerCell {

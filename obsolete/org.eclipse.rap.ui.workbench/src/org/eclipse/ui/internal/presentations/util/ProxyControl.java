@@ -120,7 +120,7 @@ public class ProxyControl {
 	 * 
 	 * @param visible
 	 *            <code>true</code> - set it to visible
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void setVisible(boolean visible) {
 //		this.visible = visible;

@@ -21,7 +21,7 @@ import org.eclipse.ui.internal.forms.widgets.FormUtil;
  * controls in the toolkit. Classes that extend it are not required to implement
  * any method.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class SharedScrolledComposite extends ScrolledComposite {
 //	private static final int H_SCROLL_INCREMENT = 5;

@@ -50,14 +50,14 @@ public interface ILayoutContainer {
      * Called by child parts to request a zoom in, given an immediate child 
      * 
      * @param toZoom
-     * @since 3.1
+     * @since 1.0
      */
     public void childRequestZoomIn(LayoutPart toZoom);
     
     /**
      * Called by child parts to request a zoom out
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public void childRequestZoomOut();
     
@@ -67,7 +67,7 @@ public interface ILayoutContainer {
      * 
      * @param toTest
      * @return
-     * @since 3.1
+     * @since 1.0
      */
     public boolean childObscuredByZoom(LayoutPart toTest);
     
@@ -76,7 +76,7 @@ public interface ILayoutContainer {
      * 
      * @param toTest
      * @return
-     * @since 3.1
+     * @since 1.0
      */
     public boolean childIsZoomed(LayoutPart toTest);
 

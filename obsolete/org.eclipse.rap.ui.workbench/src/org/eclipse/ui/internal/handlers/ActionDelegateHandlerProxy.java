@@ -33,7 +33,7 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
  * <code>org.eclipse.ui.workbench</code> plug-in.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public final class ActionDelegateHandlerProxy implements ISelectionListener,
 		ISelectionChangedListener, INullSelectionListener, IHandler,

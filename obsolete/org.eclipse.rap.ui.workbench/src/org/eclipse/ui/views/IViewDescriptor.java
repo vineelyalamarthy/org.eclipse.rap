@@ -28,7 +28,7 @@ import org.eclipse.ui.IWorkbenchPartDescriptor;
  * </p>
  * 
  * @see org.eclipse.ui.views.IViewRegistry
- * @since 3.1 
+ * @since 1.0 
  */
 public interface IViewDescriptor extends IWorkbenchPartDescriptor, IAdaptable {
     /**

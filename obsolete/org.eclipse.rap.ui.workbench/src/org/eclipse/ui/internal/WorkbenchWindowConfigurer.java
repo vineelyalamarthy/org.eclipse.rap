@@ -36,7 +36,7 @@ import org.eclipse.ui.presentations.WorkbenchPresentationFactory;
  * This class is not intended to be instantiated or subclassed by clients.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public final class WorkbenchWindowConfigurer implements
         IWorkbenchWindowConfigurer {

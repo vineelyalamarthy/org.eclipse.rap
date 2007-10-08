@@ -15,7 +15,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 public class NullEditorInput implements IEditorInput {
 

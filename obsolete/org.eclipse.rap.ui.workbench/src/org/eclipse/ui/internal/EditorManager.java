@@ -323,7 +323,7 @@ public class EditorManager implements IExtensionChangeHandler {
 	 * @param matchFlags
 	 *            flags specifying which aspects to match
 	 * @return the matching editor, or <code>null</code> if no match fond
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IEditorPart findEditor(String editorId, IEditorInput input,
 			int matchFlags) {
@@ -346,7 +346,7 @@ public class EditorManager implements IExtensionChangeHandler {
 	 * @param matchFlags
 	 *            flags specifying which aspects to match
 	 * @return the matching editor, or <code>null</code> if no match fond
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IEditorReference[] findEditors(IEditorInput input, String editorId,
 			int matchFlags) {
@@ -383,7 +383,7 @@ public class EditorManager implements IExtensionChangeHandler {
 	 *            check (warning: items may be removed)
 	 * @param result
 	 *            the list to which matching editor references should be added
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void findEditors(List editorList, IEditorInput input,
 			String editorId, int matchFlags, List result) {

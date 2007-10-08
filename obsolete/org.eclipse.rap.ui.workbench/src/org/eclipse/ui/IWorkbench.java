@@ -75,7 +75,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return the display to be used for all UI interactions with this
 	 *         workbench
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public Display getDisplay();
 
@@ -83,7 +83,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * Returns the progress service for the workbench.
 	 * 
 	 * @return the progress service
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public IProgressService getProgressService();
 
@@ -92,7 +92,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @param listener
 	 *            the workbench listener to add
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void addWorkbenchListener(IWorkbenchListener listener);
 
@@ -101,7 +101,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @param listener
 	 *            the workbench listener to remove
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void removeWorkbenchListener(IWorkbenchListener listener);
 	
@@ -110,7 +110,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @param listener
 	 *            the window listener to add
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public void addWindowListener(IWindowListener listener);
 
@@ -119,7 +119,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @param listener
 	 *            the window listener to remove
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public void removeWindowListener(IWindowListener listener);
 
@@ -159,7 +159,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return the workbench operation support
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	public IWorkbenchOperationSupport getOperationSupport();
 
@@ -181,7 +181,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * Returns the preference store for the workbench.
 	 * 
 	 * @return the workbench preference store
-	 * @since 2.0
+	 * @since 1.0
 	 * @deprecated this returns the internal preference store for the workbench,
 	 *             which clients should not use. Use
 	 *             {@link PlatformUI#getPreferenceStore()} instead. Note that
@@ -205,7 +205,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * are not considered main windows.
 	 * 
 	 * @return the number of open windows
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public int getWorkbenchWindowCount();
 
@@ -222,7 +222,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * Returns the working set manager for the workbench.
 	 * 
 	 * @return the working set manager
-	 * @since 2.0
+	 * @since 1.0
 	 */
 //	public IWorkingSetManager getWorkingSetManager();
 
@@ -232,7 +232,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * when the working sets it manages are no longer needed.
 	 * 
 	 * @return the local working set manager
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	public ILocalWorkingSetManager createLocalWorkingSetManager();
 
@@ -305,7 +305,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * @return <code>true</code> if the workbench was successfully closed, and
 	 *         <code>false</code> if it could not be closed
 	 * 
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public boolean restart();
 
@@ -346,7 +346,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * @exception WorkbenchException
 	 *                if the perspective could not be shown
 	 * 
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public IWorkbenchPage showPerspective(String perspectiveId,
 			IWorkbenchWindow window) throws WorkbenchException;
@@ -392,7 +392,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * @exception WorkbenchException
 	 *                if the perspective could not be shown
 	 * 
-	 * @since 2.0
+	 * @since 1.0
 	 */
 	public IWorkbenchPage showPerspective(String perspectiveId,
 			IWorkbenchWindow window, IAdaptable input)
@@ -442,7 +442,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 *            the id of the element factory
 	 * @return the element factory, or <code>null</code> if none
 	 * @see IElementFactory
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	public IElementFactory getElementFactory(String factoryId);
 
@@ -451,7 +451,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return an interface to manage activities at the workbench level.
 	 *         Guaranteed not to be <code>null</code>.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	IWorkbenchActivitySupport getActivitySupport();
 
@@ -460,7 +460,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return an interface to manage commands at the workbench level.
 	 *         Guaranteed not to be <code>null</code>.
-	 * @since 3.0
+	 * @since 1.0
 	 * @deprecated Please use {@link IServiceLocator#getService(Class)} instead.
 	 * @see ICommandService
 	 * @see IHandlerService
@@ -472,7 +472,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return an interface to manage contexts at the workbench level.
 	 *         Guaranteed not to be <code>null</code>.
-	 * @since 3.0
+	 * @since 1.0
 	 * @deprecated Please use {@link IServiceLocator#getService(Class)} instead.
 	 * @see IContextService
 	 */
@@ -483,7 +483,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return the theme manager for this workbench.Guaranteed not to be
 	 *         <code>null</code>.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	public IThemeManager getThemeManager();
 
@@ -492,7 +492,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return the intro manager for this workbench. Guaranteed not to be
 	 *         <code>null</code>.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	public IIntroManager getIntroManager();
 
@@ -500,7 +500,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * Return the help system for this workbench.
 	 * 
 	 * @return the help system
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	public IWorkbenchHelpSystem getHelpSystem();
 
@@ -508,7 +508,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * Return the browser support for this workbench.
 	 * 
 	 * @return the browser support system
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IWorkbenchBrowserSupport getBrowserSupport();
 
@@ -518,7 +518,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return <code>true</code> if the workbench is in the process of
 	 *         closing, <code>false</code> otherwise
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public boolean isClosing();
 
@@ -536,7 +536,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * @return the extension tracker
 	 * @see IWorkbenchWindow#getExtensionTracker()
 	 * @see IWorkbenchPage#getExtensionTracker()
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IExtensionTracker getExtensionTracker();
 
@@ -544,7 +544,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * Returns the view registry for the workbench.
 	 * 
 	 * @return the workbench view registry
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IViewRegistry getViewRegistry();
 
@@ -552,7 +552,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * Return the new wizard registry.
 	 * 
 	 * @return the new wizard registry
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	public IWizardRegistry getNewWizardRegistry();
 
@@ -560,7 +560,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * Return the import wizard registry.
 	 * 
 	 * @return the import wizard registry
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	public IWizardRegistry getImportWizardRegistry();
 
@@ -568,7 +568,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * Return the export wizard registry.
 	 * 
 	 * @return the export wizard registry
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	public IWizardRegistry getExportWizardRegistry();
 	
@@ -578,7 +578,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * Return true if successful. Return false if the user has canceled the
 	 * command.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 * 
 	 * @param shellProvider the provider used to obtain a shell in prompting is
 	 *            required. Clients can use a workbench window for this.

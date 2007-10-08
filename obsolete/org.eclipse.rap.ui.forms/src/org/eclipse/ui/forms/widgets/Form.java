@@ -77,7 +77,7 @@ import org.eclipse.ui.internal.forms.widgets.FormUtil;
  * <p>
  * Although the class is not final, it should not be subclassed.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class Form extends Composite {
 	private FormHeading head;
@@ -200,7 +200,7 @@ public class Form extends Composite {
 	 * Returns the title image that will be rendered to the left of the title.
 	 * 
 	 * @return the title image or <code>null</code> if not set.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public Image getImage() {
 		return head.getImage();
@@ -276,7 +276,7 @@ public class Form extends Composite {
 	 * 
 	 * @param image
 	 *            the title image or <code>null</code> to show no image.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void setImage(Image image) {
 		head.setImage(image);
@@ -319,7 +319,7 @@ public class Form extends Composite {
 	 * starting at the position 0,0. If the image is smaller than the container
 	 * in any dimension, it will be tiled.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 * 
 	 * @param backgroundImage
 	 *            the head background image.
@@ -346,7 +346,7 @@ public class Form extends Composite {
 	 * 
 	 * @param alignment
 	 *            SWT.TOP or SWT.BOTTOM
-	 * @since 3.3
+	 * @since 1.0
 	 */
 
 	public void setToolBarVerticalAlignment(int alignment) {
@@ -357,7 +357,7 @@ public class Form extends Composite {
 	 * Returns the current tool bar alignment (if used).
 	 * 
 	 * @return SWT.TOP or SWT.BOTTOM
-	 * @since 3.3
+	 * @since 1.0
 	 */
 
 	public int getToolBarVerticalAlignment() {
@@ -369,7 +369,7 @@ public class Form extends Composite {
 	 * items.
 	 * 
 	 * @return title area drop-down menu manager
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public IMenuManager getMenuManager() {
 		return head.getMenuManager();
@@ -388,7 +388,7 @@ public class Form extends Composite {
 	 * above the body). Use this container as a parent for the head client.
 	 * 
 	 * @return the head of the form.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public Composite getHead() {
 		return head;
@@ -399,7 +399,7 @@ public class Form extends Composite {
 	 * 
 	 * @return the head client or <code>null</code> if not set.
 	 * @see #setHeadClient(Control)
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public Control getHeadClient() {
 		return head.getHeadClient();
@@ -415,7 +415,7 @@ public class Form extends Composite {
 	 * 
 	 * @param headClient
 	 *            the optional child of the head
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void setHeadClient(Control headClient) {
 		head.setHeadClient(headClient);
@@ -475,7 +475,7 @@ public class Form extends Composite {
 	 *             always tiled and alignment cannot be controlled.
 	 * @param backgroundImageAlignment
 	 *            The backgroundImageAlignment to set.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void setBackgroundImageAlignment(int backgroundImageAlignment) {
 	}
@@ -486,7 +486,7 @@ public class Form extends Composite {
 	 * @deprecated due to the underlying widget limitations, background image is
 	 *             always clipped.
 	 * @return true
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public boolean isBackgroundImageClipped() {
 		return true;
@@ -499,7 +499,7 @@ public class Form extends Composite {
 	 *             always clipped.
 	 * @param backgroundImageClipped
 	 *            the value to set
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void setBackgroundImageClipped(boolean backgroundImageClipped) {
 	}
@@ -509,7 +509,7 @@ public class Form extends Composite {
 	 * 
 	 * @return <code>true</code> if the head/body separator is visible,
 	 *         <code>false</code> otherwise
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public boolean isSeparatorVisible() {
 		return head.isSeparatorVisible();
@@ -523,7 +523,7 @@ public class Form extends Composite {
 	 * @param addSeparator
 	 *            <code>true</code> to make the separator visible,
 	 *            <code>false</code> otherwise.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void setSeparatorVisible(boolean addSeparator) {
 		head.setSeparatorVisible(addSeparator);
@@ -535,7 +535,7 @@ public class Form extends Composite {
 	 * to render the separator.
 	 * 
 	 * @return separator color or <code>null</code> if not set.
-	 * @since 3.2
+	 * @since 1.0
 	 * @deprecated use <code>getHeadColor(IFormColors.H_BOTTOM_KEYLINE2)</code>
 	 */
 
@@ -549,7 +549,7 @@ public class Form extends Composite {
 	 * @param separatorColor
 	 *            the color to render the head separator or <code>null</code>
 	 *            to use the default color.
-	 * @since 3.2
+	 * @since 1.0
 	 * @deprecated use
 	 *             <code>setHeadColor(IFormColors.H_BOTTOM_KEYLINE2, separatorColor)</code>
 	 */
@@ -566,7 +566,7 @@ public class Form extends Composite {
 	 *            prefix.
 	 * @param color
 	 *            the color to use for the provided key
-	 * @since 3.3
+	 * @since 1.0
 	 */
 
 	public void setHeadColor(String key, Color color) {
@@ -580,7 +580,7 @@ public class Form extends Composite {
 	 * @param key
 	 *            the color key
 	 * @return the color object or <code>null</code> if not set.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 
 	public Color getHeadColor(String key) {
@@ -594,7 +594,7 @@ public class Form extends Composite {
 	 * @param message
 	 *            the message, or <code>null</code> to clear the message
 	 * @see #setMessage(String, int)
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public void setMessage(String message) {
 		this.setMessage(message, 0, null);
@@ -614,7 +614,7 @@ public class Form extends Composite {
 	 * @param newType
 	 *            the message type
 	 * @see org.eclipse.jface.dialogs.IMessageProvider
-	 * @since 3.2
+	 * @since 1.0
 	 */
 
 	public void setMessage(String newMessage, int newType) {
@@ -642,7 +642,7 @@ public class Form extends Composite {
 	 *            the individual messages that contributed to the overall
 	 *            message
 	 * @see org.eclipse.jface.dialogs.IMessageProvider
-	 * @since 3.3
+	 * @since 1.0
 	 */
 
 	public void setMessage(String newMessage, int newType, IMessage[] children) {
@@ -656,7 +656,7 @@ public class Form extends Composite {
 	 * 
 	 * @param listener
 	 * @see #removeMessageHyperlinkListener(IHyperlinkListener)
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void addMessageHyperlinkListener(IHyperlinkListener listener) {
 		head.addMessageHyperlinkListener(listener);
@@ -667,7 +667,7 @@ public class Form extends Composite {
 	 * 
 	 * @param listener
 	 * @see #addMessageHyperlinkListener(IHyperlinkListener)
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void removeMessageHyperlinkListener(IHyperlinkListener listener) {
 		head.removeMessageHyperlinkListener(listener);
@@ -678,7 +678,7 @@ public class Form extends Composite {
 	 * animation in the area of the title image.
 	 * 
 	 * @return <code>true</code> if busy, <code>false</code> otherwise.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 
 	public boolean isBusy() {
@@ -691,7 +691,7 @@ public class Form extends Composite {
 	 * 
 	 * @param busy
 	 *            the form's busy state
-	 * @since 3.2
+	 * @since 1.0
 	 */
 
 	public void setBusy(boolean busy) {
@@ -712,7 +712,7 @@ public class Form extends Composite {
 //	 *            the callback that will be invoked to set the drag data and to
 //	 *            cleanup after the drag and drop operation finishes
 //	 * @see org.eclipse.swt.dnd.DND
-//	 * @since 3.3
+//	 * @since 1.0
 //	 */
 //	public void addTitleDragSupport(int operations, Transfer[] transferTypes,
 //			DragSourceListener listener) {
@@ -733,7 +733,7 @@ public class Form extends Composite {
 //	 *            the callback that will be invoked after the drag and drop
 //	 *            operation finishes
 //	 * @see org.eclipse.swt.dnd.DND
-//	 * @since 3.3
+//	 * @since 1.0
 //	 */
 //	public void addTitleDropSupport(int operations, Transfer[] transferTypes,
 //			DropTargetListener listener) {
@@ -764,7 +764,7 @@ public class Form extends Composite {
 	 * 
 	 * @return an array of children messages or <code>null</code> if not set.
 	 * @see #setMessage(String, int, IMessage[])
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public IMessage[] getChildrenMessages() {
 		return head.getChildrenMessages();

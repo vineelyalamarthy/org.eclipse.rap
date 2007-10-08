@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Control;
  * 
  * @see IMessageManager
  * @see IMessage
- * @since 3.3
+ * @since 1.0
  */
 public interface IMessagePrefixProvider {
 	/**

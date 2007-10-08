@@ -57,7 +57,7 @@ public interface IEditorReference extends IWorkbenchPartReference {
      *  
      * @return the editor input for the editor referenced by this object
      * @throws PartInitException if there was an error restoring the editor input
-     * @since 3.1
+     * @since 1.0
      */
     public IEditorInput getEditorInput() throws PartInitException;
 }

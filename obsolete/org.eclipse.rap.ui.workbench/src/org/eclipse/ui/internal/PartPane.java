@@ -549,7 +549,7 @@ public abstract class PartPane extends LayoutPart implements IPropertyListener,
     
     /**
      * @return
-     * @since 3.1
+     * @since 1.0
      */
     public abstract boolean isCloseable();
     

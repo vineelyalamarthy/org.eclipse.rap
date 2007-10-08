@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.presentations.IPresentablePart;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 public interface ISystemMenu {
     void show(Control control, Point displayCoordinates, IPresentablePart currentSelection);
@@ -23,7 +23,7 @@ public interface ISystemMenu {
     /**
      * Disposes of this system menu.
      * 
-     * @since 3.3
+     * @since 1.0
      */
     void dispose();
 }

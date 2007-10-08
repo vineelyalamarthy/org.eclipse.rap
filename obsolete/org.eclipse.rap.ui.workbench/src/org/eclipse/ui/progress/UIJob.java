@@ -21,7 +21,7 @@ import org.eclipse.ui.internal.progress.ProgressMessages;
 /**
  * The UIJob is a Job that runs within the UI Thread via an asyncExec.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class UIJob extends Job {
     private Display cachedDisplay;

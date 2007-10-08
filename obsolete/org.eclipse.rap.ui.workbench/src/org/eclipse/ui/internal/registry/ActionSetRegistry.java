@@ -23,7 +23,7 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
 public class ActionSetRegistry implements IExtensionChangeHandler {
     
     /** 
-     * @since 3.1
+     * @since 1.0
      */
     private class ActionSetPartAssociation {
         /**
@@ -67,7 +67,7 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
      * Return the action set part association extension point.
      * 
      * @return the action set part association extension point
-     * @since 3.1
+     * @since 1.0
      */
     private IExtensionPoint getActionSetPartAssociationExtensionPoint() {
         return Platform
@@ -81,7 +81,7 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
      * Return the action set extension point.
      * 
      * @return the action set extension point
-     * @since 3.1
+     * @since 1.0
      */
     private IExtensionPoint getActionSetExtensionPoint() {
         return Platform

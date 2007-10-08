@@ -105,7 +105,7 @@ public class PerspectiveHelper {
 //        /**
 //         * @param part
 //         * @param dragRectangle
-//         * @since 3.1
+//         * @since 1.0
 //         */
 //        private void setTarget(LayoutPart part, Rectangle dragRectangle) {
 //            this.part = part;
@@ -1092,7 +1092,7 @@ public class PerspectiveHelper {
 
     /**
      * Returns true if a placeholder exists for a given ID.
-     * @since 3.0
+     * @since 1.0
      */
     public boolean hasPlaceholder(String primaryId, String secondaryId) {
         LayoutPart testPart;

@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.*;
  * This class may be instantiated; it is not intended to be subclassed.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class ToolBarContributionItem extends ContributionItem implements IToolBarContributionItem {
 

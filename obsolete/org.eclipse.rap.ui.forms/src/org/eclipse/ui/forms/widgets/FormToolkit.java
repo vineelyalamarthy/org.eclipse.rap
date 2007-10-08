@@ -48,7 +48,7 @@ import org.eclipse.ui.internal.forms.widgets.FormUtil;
  * the methods needs to be modified. In those cases, <code>super</code> must
  * be called to preserve normal behaviour.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class FormToolkit {
 	public static final String KEY_DRAW_BORDER = "FormWidgetFactory.drawBorder"; //$NON-NLS-1$
@@ -630,7 +630,7 @@ public class FormToolkit {
 	 * form heading using colors computed based on the current skin and
 	 * operating system.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 * @param form
 	 *            the form to decorate
 	 */
@@ -783,7 +783,7 @@ public class FormToolkit {
 	 * the native border is used, this margin is 0.
 	 * 
 	 * @return the margin in the parent when children have their border painted
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public int getBorderMargin() {
 		return getBorderStyle() == SWT.BORDER ? 0 : 2;
@@ -815,7 +815,7 @@ public class FormToolkit {
 	 *            if <code>true</code>, the scrolled composite will be
 	 *            scrolled only vertically if needed. Otherwise, the scrolled
 	 *            composite origin will be set to the control origin.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static void setControlVisible(Control c, boolean verticalOnly) {
 		ScrolledComposite scomp = FormUtil.getScrolledComposite(c);
@@ -860,7 +860,7 @@ public class FormToolkit {
 	 *         not set. The default orientation is inherited from the Window
 	 *         default orientation.
 	 * @see org.eclipse.jface.window.Window#getDefaultOrientation()
-	 * @since 3.1
+	 * @since 1.0
 	 */
 
 	public int getOrientation() {
@@ -874,7 +874,7 @@ public class FormToolkit {
 	 * 
 	 * @param orientation
 	 *            style for this toolkit.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 
 	public void setOrientation(int orientation) {

@@ -266,7 +266,7 @@ public class FontRegistry extends ResourceRegistry {
      * @param location the name of the resource bundle
      * @param loader the ClassLoader to use to find the resource bundle
      * @exception MissingResourceException if the resource bundle cannot be found
-     * @since 2.1
+     * @since 1.0
      */
     public FontRegistry(String location, ClassLoader loader)
             throws MissingResourceException {
@@ -349,7 +349,7 @@ public class FontRegistry extends ResourceRegistry {
 	 * @param cleanOnDisplayDisposal
 	 *            whether all fonts allocated by this <code>FontRegistry</code>
 	 *            should be disposed when the display is disposed
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public FontRegistry(Display display, boolean cleanOnDisplayDisposal) {
 		Assert.isNotNull(display);
@@ -430,7 +430,7 @@ public class FontRegistry extends ResourceRegistry {
      * @param fonts the fonts to check
      * @param display the display to check against
      * @return the list of fonts that have been found on this system
-     * @since 3.1
+     * @since 1.0
      */
     public FontData [] filterData(FontData [] fonts, Display display) {
     	ArrayList good = new ArrayList(fonts.length);
@@ -523,7 +523,7 @@ public class FontRegistry extends ResourceRegistry {
      * @param symbolicName symbolic font name
      * @return the font descriptor (never null)
      *
-     * @since 3.3
+     * @since 1.0
      */
     public FontDescriptor getDescriptor(String symbolicName) {
         Assert.isNotNull(symbolicName);
@@ -595,7 +595,7 @@ public class FontRegistry extends ResourceRegistry {
      *
      * @param symbolicName symbolic font name
      * @return the font
-     * @since 3.0
+     * @since 1.0
      */
     public Font getBold(String symbolicName) {
 
@@ -609,7 +609,7 @@ public class FontRegistry extends ResourceRegistry {
      *
      * @param symbolicName symbolic font name
      * @return the font
-     * @since 3.0
+     * @since 1.0
      */
     public Font getItalic(String symbolicName) {
 
@@ -821,7 +821,7 @@ public class FontRegistry extends ResourceRegistry {
 	 * Returns the font descriptor for the JFace default font.
 	 *
 	 * @return the font descriptor for the JFace default font
-     * @since 3.3
+     * @since 1.0
 	 */
 	public FontDescriptor defaultFontDescriptor() {
 		return FontDescriptor.createFrom(defaultFontData());

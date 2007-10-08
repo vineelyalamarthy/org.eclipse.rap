@@ -15,7 +15,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.presentations.*;
 
 /**
- * @since 3.0
+ * @since 1.0
  */
 public abstract class DefaultStackPresentationSite implements
         IStackPresentationSite {

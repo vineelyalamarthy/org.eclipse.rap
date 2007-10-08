@@ -27,7 +27,7 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
  * the proxied handler.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public final class LegacyHandlerProxy extends AbstractHandler {
 

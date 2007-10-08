@@ -27,7 +27,7 @@ import org.eclipse.ui.internal.services.RegistryPersistence;
  * <code>org.eclipse.ui.workbench</code> plug-in.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 final class MenuPersistence extends RegistryPersistence {
 

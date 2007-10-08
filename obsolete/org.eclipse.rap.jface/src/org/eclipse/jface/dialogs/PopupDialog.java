@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.*;
  * as the dialog menu, separator styles, and fonts, is kept private so that all
  * popup dialogs will have a similar appearance.
  *
- * @since 3.2
+ * @since 1.0
  */
 public class PopupDialog extends Window {
 

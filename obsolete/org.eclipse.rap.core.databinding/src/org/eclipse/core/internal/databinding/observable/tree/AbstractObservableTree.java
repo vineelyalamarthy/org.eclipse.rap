@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Status;
 
 /**
- * @since 3.3
+ * @since 1.0
  * 
  */
 public abstract class AbstractObservableTree extends AbstractObservable

@@ -32,7 +32,7 @@ import org.eclipse.ui.handlers.IHandlerService;
  * <p>
  * This class is not intended to be subclassed.
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class ContentAssistCommandAdapter extends ContentProposalAdapter {
 
@@ -129,7 +129,7 @@ public class ContentAssistCommandAdapter extends ContentProposalAdapter {
 	 *            decoration's location or appearance should use
 	 *            <code>false</code> for this parameter, creating their own
 	 *            {@link ControlDecoration} and managing it directly.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public ContentAssistCommandAdapter(Control control,
 			IControlContentAdapter controlContentAdapter,
@@ -225,7 +225,7 @@ public class ContentAssistCommandAdapter extends ContentProposalAdapter {
 	 * @return the {@link FieldDecoration} that should be used to show content
 	 * assist.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private FieldDecoration getContentAssistFieldDecoration() {
 		FieldDecorationRegistry registry = FieldDecorationRegistry.getDefault();
@@ -263,7 +263,7 @@ public class ContentAssistCommandAdapter extends ContentProposalAdapter {
 	 * Overridden to hide and show the content assist decoration
 	 * 
 	 * @see org.eclipse.jface.fieldassist.ContentProposalAdapter#setEnabled(boolean)
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);

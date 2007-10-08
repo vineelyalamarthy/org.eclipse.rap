@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.*;
 /**
  * Contains static methods for manipulating SWT controls
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class SwtUtil {
 

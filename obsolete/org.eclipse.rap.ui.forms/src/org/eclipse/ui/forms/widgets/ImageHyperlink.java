@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Event;
  * The class does not need to be sublassed but it is allowed to do so if some
  * aspect of the image hyperlink needs to be modified.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class ImageHyperlink extends Hyperlink {
 	/**

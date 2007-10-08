@@ -49,7 +49,7 @@ import org.eclipse.ui.presentations.IStackPresentationSite;
  * To be consistent with SWT composites, this object can deal with its children
  * being disposed without warning. This is treated like a removal.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public final class PaneFolder {
     // Tab folder and associated proxy controls
@@ -401,7 +401,7 @@ public final class PaneFolder {
 	 * 
 	 * @param show
 	 *            <code>true</code> - the min/max buttons are visible.
-	 * @since 3.3
+	 * @since 1.0
 	 */
     public void showMinMax(boolean show) {
     	showButtons = show;
@@ -788,7 +788,7 @@ public final class PaneFolder {
      *            The number of characters to display in the tab folder; this
      *            value should be a positive integer.
      * @see org.eclipse.swt.custom.CTabFolder#setMinimumCharacters(int)
-     * @since 3.1
+     * @since 1.0
      */
     public void setMinimumCharacters(int count) {
         tabFolder.setMinimumCharacters(count);
@@ -839,7 +839,7 @@ public final class PaneFolder {
 	 * 
 	 * @param visible
 	 *            <code>true</code> - it's visible.
-	 * @since 3.2
+	 * @since 1.0
 	 */
     public void setVisible(boolean visible) {
 		contentProxy.setVisible(visible);

@@ -28,7 +28,7 @@ import org.eclipse.ui.*;
  * <code>org.eclipse.ui.workbench</code> plug-in.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  * @see ISourceProvider
  * @see ISources
  * @see Expression
@@ -253,7 +253,7 @@ public abstract class ExpressionAuthority implements ISourceProviderListener {
 	 * 
 	 * @param sourceNames
 	 *            The array of names that changed.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected void sourceChanged(final String[] sourceNames) {
 		// this is a no-op, since we're late in the game

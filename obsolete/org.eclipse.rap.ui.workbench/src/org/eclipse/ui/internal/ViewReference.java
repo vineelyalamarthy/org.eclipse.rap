@@ -485,7 +485,7 @@ class ViewReference extends WorkbenchPartReference implements IViewReference {
 	 * 
 	 * @return the last state that was saved by the workbench. It can return
 	 *         <code>null</code>.
-	 * @since 3.1.1
+	 * @since 1.0.1
 	 */
 	public IMemento getMemento() {
 		return memento;

@@ -21,7 +21,7 @@ import org.eclipse.ui.menus.UIElement;
  * Our element reference that is used during element
  * registration/unregistration.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public class ElementReference implements IElementReference {
 

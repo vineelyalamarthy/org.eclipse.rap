@@ -147,7 +147,7 @@
 //    /**
 //     * Creates a new cell editor with no control 
 //     * The cell editor has no cell validator.
-//     * @since 2.1
+//     * @since 1.0
 //     */
 //    protected CellEditor() {
 //    }
@@ -168,7 +168,7 @@
 //     *
 //     * @param parent the parent control
 //     * @param style the style bits
-//     * @since 2.1
+//     * @since 1.0
 //     */
 //    protected CellEditor(Composite parent, int style) {
 //        this.style = style;
@@ -222,7 +222,7 @@
 //     * Creates the control for this cell editor under the given parent control.
 //     * 
 //     * @param parent the parent control
-//     * @since 2.1
+//     * @since 1.0
 //     */
 //    public void create(Composite parent) {
 //        Assert.isTrue(control == null);
@@ -366,7 +366,7 @@
 //     * Sets the style bits for this cell editor.
 //     * 
 //     * @param style the SWT style bits for this cell editor
-//     * @since 2.1
+//     * @since 1.0
 //     */
 //    public void setStyle(int style) {
 //        this.style = style;
@@ -376,7 +376,7 @@
 //     * Returns the style bits for this cell editor.
 //     *
 //     * @return the style for this cell editor
-//     * @since 2.1
+//     * @since 1.0
 //     */
 //    public int getStyle() {
 //        return style;
@@ -541,7 +541,7 @@
 //
 //    /**
 //     * Marks this cell editor as dirty.
-//     * @since 2.1
+//     * @since 1.0
 //     */
 //    protected void markDirty() {
 //        dirty = true;

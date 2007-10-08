@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.*;
  * preference page).
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class MessageDialogWithToggle extends MessageDialog {
 

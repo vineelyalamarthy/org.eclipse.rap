@@ -21,7 +21,7 @@ import org.eclipse.ui.menus.IMenuService;
  * Internal baseclass for Workbench and Window menu service implementations.
  * Methods in this class might some day make sense to live in IMenuService.
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 public abstract class InternalMenuService implements IMenuService {

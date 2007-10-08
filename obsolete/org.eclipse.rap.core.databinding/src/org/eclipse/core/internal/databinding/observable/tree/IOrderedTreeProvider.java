@@ -18,7 +18,7 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
  * Objects that implement this interface are capable of describing a tree by
  * returning the list of children of any given element in the tree.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public interface IOrderedTreeProvider {
 	/**

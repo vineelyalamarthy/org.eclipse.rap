@@ -24,7 +24,7 @@ import org.eclipse.ui.ISources;
  * This interface is not intended to be implemented or extended by clients.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  * @see org.eclipse.ui.ISources
  * @see org.eclipse.ui.ISourceProvider
  */
@@ -74,7 +74,7 @@ public interface IEvaluationResultCache {
 	 * 
 	 * @param result
 	 *            The cached result to use.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void setResult(boolean result);
 }

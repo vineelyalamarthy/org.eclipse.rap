@@ -23,7 +23,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
  * This class may be instantiated. It is not intented to be subclassed.
  * </p>
  *
- * @since 2.0 
+ * @since 1.0 
  */
 public class LabelRetargetAction extends RetargetAction {
     private String defaultText;
@@ -56,7 +56,7 @@ public class LabelRetargetAction extends RetargetAction {
      * @param style one of <code>AS_PUSH_BUTTON</code>, <code>AS_CHECK_BOX</code>,
      * 		<code>AS_DROP_DOWN_MENU</code>, <code>AS_RADIO_BUTTON</code>, and
      * 		<code>AS_UNSPECIFIED</code>.
-     * @since 3.0
+     * @since 1.0
      */
     public LabelRetargetAction(String actionID, String text, int style) {
         super(actionID, text, style);

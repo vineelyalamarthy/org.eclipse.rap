@@ -14,7 +14,7 @@ package org.eclipse.core.internal.databinding.observable.tree;
  * Context sensitive children update request for a parent and subrange of its
  * children.
  *  
- * @since 3.3
+ * @since 1.0
  */
 public interface IChildrenUpdate extends IViewerUpdate {
 

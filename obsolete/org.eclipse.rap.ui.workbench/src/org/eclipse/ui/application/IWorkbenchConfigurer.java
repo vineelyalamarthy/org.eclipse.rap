@@ -27,7 +27,7 @@ import org.eclipse.ui.*;
  * </p>
  * 
  * @see WorkbenchAdvisor#initialize
- * @since 3.0
+ * @since 1.0
  */
 public interface IWorkbenchConfigurer {
 
@@ -83,7 +83,7 @@ public interface IWorkbenchConfigurer {
 	 * @return the configurer for the restored window
 	 * @throws WorkbenchException if an error occurred during the restore
      * @see IWorkbenchWindowConfigurer#saveState(IMemento)
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IWorkbenchWindowConfigurer restoreWorkbenchWindow(IMemento memento)
 			throws WorkbenchException;
@@ -234,7 +234,7 @@ public interface IWorkbenchConfigurer {
 	 * @return <code>true</code> if the workbench will exit when the last
 	 *         window is closed, <code>false</code> if the window should just
 	 *         be closed
-	 * @since 3.1
+	 * @since 1.0
 	 */
     public boolean getExitOnLastWindowClose();
     
@@ -250,7 +250,7 @@ public interface IWorkbenchConfigurer {
 	 *            <code>true</code> if the workbench should exit when the last
 	 *            window is closed, <code>false</code> if the window should
 	 *            just be closed
-	 * @since 3.1
+	 * @since 1.0
 	 */
     public void setExitOnLastWindowClose(boolean enabled);
 }

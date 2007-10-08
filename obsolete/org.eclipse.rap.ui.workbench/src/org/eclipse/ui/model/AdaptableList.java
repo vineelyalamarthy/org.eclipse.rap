@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.IAdaptable;
  * This class is not intended to be subclassed.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  * @see org.eclipse.ui.model.IWorkbenchAdapter
  */
 public class AdaptableList extends WorkbenchAdapter implements IAdaptable {
@@ -137,7 +137,7 @@ public class AdaptableList extends WorkbenchAdapter implements IAdaptable {
      * 
      * @param type the type of the array to create
      * @return the elements in the list
-     * @since 3.1
+     * @since 1.0
      */
     public Object[] getTypedChildren(Class type) {
 		return children.toArray((Object[]) Array.newInstance(type, children

@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.*;
  * widths are not the same.
  * 
  * @see TableWrapData
- * @since 3.0
+ * @since 1.0
  */
 public final class TableWrapLayout extends Layout implements ILayoutExtension {
 	/**

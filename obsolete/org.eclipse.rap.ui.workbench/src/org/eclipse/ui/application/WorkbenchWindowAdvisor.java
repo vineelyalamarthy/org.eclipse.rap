@@ -50,7 +50,7 @@ import org.eclipse.ui.internal.WorkbenchWindowConfigurer;
  * </ul>
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public class WorkbenchWindowAdvisor {
 
@@ -289,7 +289,7 @@ public class WorkbenchWindowAdvisor {
 	 * 
 	 * @param memento the storage area for object's state
 	 * @return a status object indicating whether the save was successful
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IStatus saveState(IMemento memento) {
 		// do nothing
@@ -301,7 +301,7 @@ public class WorkbenchWindowAdvisor {
 	 * 
 	 * @param memento the storage area for object's state
 	 * @return a status object indicating whether the restore was successful
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IStatus restoreState(IMemento memento) {
 		// do nothing

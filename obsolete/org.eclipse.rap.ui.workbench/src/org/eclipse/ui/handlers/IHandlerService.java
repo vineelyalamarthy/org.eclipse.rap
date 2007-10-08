@@ -29,7 +29,7 @@ import org.eclipse.ui.services.IServiceWithSources;
  * This interface is not intended to be implemented or extended by clients.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public interface IHandlerService extends IServiceWithSources {
 
@@ -50,7 +50,7 @@ public interface IHandlerService extends IServiceWithSources {
 	 *         which this service was retrieved is destroyed. This activation is
 	 *         local to this service (i.e., it is not the activation that is
 	 *         passed as a parameter).
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public IHandlerActivation activateHandler(IHandlerActivation activation);
 
@@ -110,7 +110,7 @@ public interface IHandlerService extends IServiceWithSources {
 	 *         which this service was retrieved is destroyed.
 	 * 
 	 * @see org.eclipse.ui.ISources
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public IHandlerActivation activateHandler(String commandId,
 			IHandler handler, Expression expression);
@@ -150,7 +150,7 @@ public interface IHandlerService extends IServiceWithSources {
 	 *         which this service was retrieved is destroyed.
 	 * 
 	 * @see org.eclipse.ui.ISources
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public IHandlerActivation activateHandler(String commandId,
 			IHandler handler, Expression expression, boolean global);
@@ -204,7 +204,7 @@ public interface IHandlerService extends IServiceWithSources {
 	 *            <code>null</code>.
 	 * @return An execution event suitable for calling
 	 *         {@link Command#executeWithChecks(ExecutionEvent)}.
-	 * @since 3.2
+	 * @since 1.0
 	 * @see Command#executeWithChecks(ExecutionEvent)
 	 */
 	public ExecutionEvent createExecutionEvent(Command command, Event event);
@@ -222,7 +222,7 @@ public interface IHandlerService extends IServiceWithSources {
 	 *            <code>null</code>.
 	 * @return An execution event suitable for calling
 	 *         {@link Command#executeWithChecks(ExecutionEvent)}.
-	 * @since 3.2
+	 * @since 1.0
 	 * @see ParameterizedCommand#getCommand()
 	 * @see Command#executeWithChecks(ExecutionEvent)
 	 */
@@ -275,7 +275,7 @@ public interface IHandlerService extends IServiceWithSources {
 	 *             If the command you are trying to execute is not enabled.
 	 * @throws NotHandledException
 	 *             If there is no handler.
-	 * @since 3.2
+	 * @since 1.0
 	 * @see Command#executeWithChecks(ExecutionEvent)
 	 */
 	public Object executeCommand(String commandId, Event event)
@@ -300,7 +300,7 @@ public interface IHandlerService extends IServiceWithSources {
 	 *             If the command you are trying to execute is not enabled.
 	 * @throws NotHandledException
 	 *             If there is no handler.
-	 * @since 3.2
+	 * @since 1.0
 	 * @see Command#executeWithChecks(ExecutionEvent)
 	 */
 	public Object executeCommand(ParameterizedCommand command, Event event)
@@ -339,7 +339,7 @@ public interface IHandlerService extends IServiceWithSources {
 	 *            The help context identifier to register; may be
 	 *            <code>null</code> if the help context identifier should be
 	 *            removed.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 //	public void setHelpContextId(IHandler handler, String helpContextId);
 }

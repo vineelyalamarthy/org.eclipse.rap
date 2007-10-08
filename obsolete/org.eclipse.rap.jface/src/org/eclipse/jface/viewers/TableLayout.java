@@ -31,7 +31,7 @@ public class TableLayout extends Layout {
 	 * To ensure there are N pixels available for the content of the column,
 	 * assign N+COLUMN_TRIM for the column width.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	private static int COLUMN_TRIM = "carbon".equals(SWT.getPlatform()) ? 24 : 3; //$NON-NLS-1$
 	private static int COLUMN_TRIM = 3;

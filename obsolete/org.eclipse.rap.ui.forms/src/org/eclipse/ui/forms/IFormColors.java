@@ -13,7 +13,7 @@ package org.eclipse.ui.forms;
 /**
  * A place to hold all the color constants used in the forms package.
  * 
- * @since 3.3
+ * @since 1.0
  */
 
 public interface IFormColors {

@@ -32,7 +32,7 @@ import org.eclipse.ui.internal.services.IEvaluationService;
  * workbench.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public final class HandlerService implements IHandlerService {
 
@@ -228,7 +228,7 @@ public final class HandlerService implements IHandlerService {
 	 *            the command id to check
 	 * @param context
 	 *            the context to use for activations
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public final IHandler findHandler(String commandId,
 			IEvaluationContext context) {
@@ -245,7 +245,7 @@ public final class HandlerService implements IHandlerService {
 	 * </p>
 	 * 
 	 * @return an evaluation context with no parent.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public final IEvaluationContext getContextSnapshot() {
 		return handlerAuthority.getContextSnapshot();
@@ -260,7 +260,7 @@ public final class HandlerService implements IHandlerService {
 	 * </p>
 	 * 
 	 * @return an evaluation context with no parent.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public final IEvaluationContext getFullContextSnapshot() {
 		return handlerAuthority.getFullContextSnapshot();
@@ -288,7 +288,7 @@ public final class HandlerService implements IHandlerService {
 	 * @throws NotDefinedException
 	 * @throws NotEnabledException
 	 * @throws NotHandledException
-	 * @since 3.3
+	 * @since 1.0
 	 * @see #getContextSnapshot()
 	 */
 //	public final Object executeCommandInContext(

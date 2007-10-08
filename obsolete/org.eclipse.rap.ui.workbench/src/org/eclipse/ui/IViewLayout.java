@@ -16,7 +16,7 @@ package org.eclipse.ui;
  * This interface is not intended to be implemented by clients.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public interface IViewLayout {
 

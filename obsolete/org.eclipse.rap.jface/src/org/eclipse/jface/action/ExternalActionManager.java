@@ -38,7 +38,7 @@ import org.eclipse.jface.util.*;
  * This class is not intended to be called or extended by any external clients.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public final class ExternalActionManager {
 
@@ -47,7 +47,7 @@ public final class ExternalActionManager {
 	 * simply takes a <code>BindingManager</code> and a
 	 * <code>CommandManager</code>.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static final class CommandCallback /*implements
 			IBindingManagerListener, IBindingManagerCallback */ {
@@ -107,7 +107,7 @@ public final class ExternalActionManager {
 		 *            The command manager which will provide the callback; must
 		 *            not be <code>null</code>.
 		 * 
-		 * @since 3.1
+		 * @since 1.0
 		 */
 		public CommandCallback(final /*BindingManager */ Object bindingManager,
 				final CommandManager commandManager) {
@@ -133,7 +133,7 @@ public final class ExternalActionManager {
 		 *            The callback mechanism for checking whether a command is
 		 *            active; must not be <code>null</code>.
 		 * 
-		 * @since 3.1
+		 * @since 1.0
 		 */
 		public CommandCallback(final /* BindingManager */ Object bindingManager,
 				final CommandManager commandManager,
@@ -237,7 +237,7 @@ public final class ExternalActionManager {
 		 * @return The array of active triggers (<code>TriggerSequence</code>)
 		 *         for a particular command identifier. This value is guaranteed
 		 *         not to be <code>null</code>, but it may be empty.
-		 * @since 3.2
+		 * @since 1.0
 		 */
 //		public final TriggerSequence[] getActiveBindingsFor(
 //				final String commandId) {
@@ -325,7 +325,7 @@ public final class ExternalActionManager {
 	 * Defines a callback mechanism for developer who wish to further control
 	 * the visibility of legacy action-based contribution items.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static interface IActiveChecker {
 		/**
@@ -353,7 +353,7 @@ public final class ExternalActionManager {
 	 * Clients may implement this interface, but must not extend.
 	 * </p>
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 //	public static interface IBindingManagerCallback extends ICallback {
 //
@@ -377,7 +377,7 @@ public final class ExternalActionManager {
 	 * A callback mechanism for some external tool to communicate extra
 	 * information to actions and action contribution items.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public static interface ICallback {
 

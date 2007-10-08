@@ -13,7 +13,7 @@ import org.eclipse.swt.events.TypedEvent;
 /**
  * Notifies listeners when expandable controls change expansion state.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public final class ExpansionEvent extends TypedEvent {
 	private static final long serialVersionUID = 6009335074727417445L;

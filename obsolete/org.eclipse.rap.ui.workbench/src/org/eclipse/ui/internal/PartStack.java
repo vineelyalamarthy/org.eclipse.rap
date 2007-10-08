@@ -32,7 +32,7 @@ import org.eclipse.ui.presentations.*;
  * Implements the common behavior for stacks of Panes (ie: EditorStack and ViewStack)
  * This layout container has PartPanes as children and belongs to a PartSashContainer.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class PartStack extends LayoutPart implements ILayoutContainer {
 
@@ -155,7 +155,7 @@ public abstract class PartStack extends LayoutPart implements ILayoutContainer {
 //         * @param pane
 //         * @param result result of the presentation's dragOver method, or null if we are
 //         * simply stacking anywhere.
-//         * @since 3.1
+//         * @since 1.0
 //         */
 //        public void setTarget(PartStack stack, PartPane pane, StackDropResult result) {
 //            this.pane = pane;

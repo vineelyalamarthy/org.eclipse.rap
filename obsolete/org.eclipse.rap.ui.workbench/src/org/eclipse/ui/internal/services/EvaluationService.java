@@ -18,7 +18,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.ISourceProvider;
 
 /**
- * @since 3.3
+ * @since 1.0
  * 
  */
 public final class EvaluationService implements IEvaluationService {

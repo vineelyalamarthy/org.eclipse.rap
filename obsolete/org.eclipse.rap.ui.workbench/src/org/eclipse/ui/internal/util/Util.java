@@ -612,7 +612,7 @@ public final class Util {
      * @param array1
      * @param array2
      * @return
-     * @since 3.1
+     * @since 1.0
      */
     public static Object[] appendArray(Object[] array1, Object[] array2) {        
         Object[] result = new Object[array1.length + array2.length];
@@ -641,7 +641,7 @@ public final class Util {
 	 * @param prop the initial comma-separated string
 	 * @param separator the separator characters
 	 * @return the array of string tokens
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static String[] getArrayFromList(String prop, String separator) {
 		if (prop == null || prop.trim().equals("")) { //$NON-NLS-1$
@@ -666,7 +666,7 @@ public final class Util {
 	 *            the shell to search on
 	 * @return the window for the given shell or the currently active window if
 	 *         one could not be determined
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public static IWorkbenchWindow getWorkbenchWindowForShell(Shell shellToCheck) {
 		IWorkbenchWindow workbenchWindow = null;
@@ -693,7 +693,7 @@ public final class Util {
 	 * 
 	 * @return the shell to parent on or <code>null</code> if there is no
 	 *         appropriate shell
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static Shell getShellToParentOn() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
@@ -739,7 +739,7 @@ public final class Util {
 	 * @param find the string to find.
 	 * @param replacement the string to replace.
 	 * @return The new string.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static String replaceAll(String src, String find, String replacement) {
 		final int len = src.length();

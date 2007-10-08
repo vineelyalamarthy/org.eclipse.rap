@@ -141,7 +141,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
      *
      * @param parent the parent decorations
      * @return the menu control
-     * @since 2.1
+     * @since 1.0
      */
     public Menu createMenuBar(Decorations parent) {
         if (!menuExist()) {
@@ -362,7 +362,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
      * Returns the parent contribution manager of this manger.
      * 
      * @return the parent contribution manager
-     * @since 2.0
+     * @since 1.0
      */
     public IContributionManager getParent() {
         return parent;
@@ -485,7 +485,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
      * The <code>MenuManager</code> implementation of this <code>ContributionManager</code> method
      * also propagates the dirty flag up the parent chain.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public void markDirty() {
         super.markDirty();
@@ -530,7 +530,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
      * Sets the overrides for this contribution manager
      * 
      * @param newOverrides the overrides for the items of this manager
-     * @since 2.0
+     * @since 1.0
      */
     public void setOverrides(IContributionManagerOverrides newOverrides) {
         overrides = newOverrides;

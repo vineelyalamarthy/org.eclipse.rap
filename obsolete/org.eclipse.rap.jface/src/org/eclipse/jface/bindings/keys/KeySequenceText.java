@@ -31,7 +31,7 @@
 // * their component key presses are released.
 // * </p>
 // * 
-// * @since 3.1
+// * @since 1.0
 // */
 //public final class KeySequenceText {
 //
@@ -462,7 +462,7 @@
 //	 * The name of the property representing the current key sequence in this
 //	 * key sequence widget.
 //	 * 
-//	 * @since 3.2
+//	 * @since 1.0
 //	 */
 //	public static final String P_KEY_SEQUENCE = "org.eclipse.jface.bindings.keys.KeySequenceText.KeySequence"; //$NON-NLS-1$
 //
@@ -544,7 +544,7 @@
 //	 * @param listener
 //	 *            The listener to be notified when changes occur; must not be
 //	 *            <code>null</code>.
-//	 * @since 3.2
+//	 * @since 1.0
 //	 */
 //	public final void addPropertyChangeListener(
 //			final IPropertyChangeListener listener) {
@@ -678,7 +678,7 @@
 //	 * 
 //	 * @param oldKeySequence
 //	 *            The old key sequence; must not be <code>null</code>.
-//	 * @since 3.2
+//	 * @since 1.0
 //	 */
 //	protected final void firePropertyChangeEvent(
 //			final KeySequence oldKeySequence) {
@@ -824,7 +824,7 @@
 //	 * 
 //	 * @param listener
 //	 *            The listener to be removed; must not be <code>null</code>.
-//	 * @since 3.2
+//	 * @since 1.0
 //	 */
 //	public final void removePropertyChangeListener(
 //			final IPropertyChangeListener listener) {

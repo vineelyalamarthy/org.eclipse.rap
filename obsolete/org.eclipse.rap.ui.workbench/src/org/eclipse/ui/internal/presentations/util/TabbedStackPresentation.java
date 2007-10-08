@@ -24,7 +24,7 @@ import org.eclipse.ui.internal.presentations.defaultpresentation.DefaultPartList
 import org.eclipse.ui.presentations.*;
 
 /**
- * @since 3.0
+ * @since 1.0
  */
 public final class TabbedStackPresentation extends StackPresentation {
 
@@ -482,7 +482,7 @@ public final class TabbedStackPresentation extends StackPresentation {
      * Move the tabs around.  This is for testing <b>ONLY</b>.
      * @param part the part to move
      * @param index the new index
-     * @since 3.2
+     * @since 1.0
      */
     public void moveTab(IPresentablePart part, int index) {
     	tabs.move(part, index);
@@ -492,7 +492,7 @@ public final class TabbedStackPresentation extends StackPresentation {
     /**
      * Get the tab list. This is for testing <b>ONLY</b>.
      * @return the presentable parts in order.
-     * @since 3.2
+     * @since 1.0
      */
     public IPresentablePart[] getPartList() {
     	return tabs.getPartList();
@@ -504,7 +504,7 @@ public final class TabbedStackPresentation extends StackPresentation {
 	 * 
 	 * @param show
 	 *            <code>true</code> - the min/max buttons are visible.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void showMinMax(boolean show) {
         folder.getTabFolder().showMinMax(show);

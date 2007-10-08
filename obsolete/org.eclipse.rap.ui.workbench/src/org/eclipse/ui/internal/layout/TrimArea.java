@@ -21,7 +21,7 @@ import org.eclipse.ui.internal.WindowTrimProxy;
 /**
  * Represents one Trim Area.
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class TrimArea {
 	// this is no longer necessary, since every piece of window trim defined

@@ -15,7 +15,7 @@ import org.eclipse.ui.internal.presentations.util.AbstractTabItem;
 import org.eclipse.ui.internal.presentations.util.PartInfo;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 public class EmptyTabItem extends AbstractTabItem {
 

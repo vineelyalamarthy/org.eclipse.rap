@@ -283,7 +283,7 @@ public interface IWorkbenchActionConstants {
 
     /**
      * File menu: name of group for extra Print-like actions (value <code>"print.ext"</code>).
-     * @since 3.0
+     * @since 1.0
      */
     public static final String PRINT_EXT = "print.ext"; // Group. //$NON-NLS-1$
 
@@ -490,21 +490,21 @@ public interface IWorkbenchActionConstants {
     /**
      * Workbench toolbar id for file toolbar group.
      * 
-     * @since 2.1
+     * @since 1.0
      */
     public static final String TOOLBAR_FILE = "org.eclipse.ui.workbench.file"; //$NON-NLS-1$
 
     /**
      * Workbench toolbar id for navigate toolbar group.
      * 
-     * @since 2.1
+     * @since 1.0
      */
     public static final String TOOLBAR_NAVIGATE = "org.eclipse.ui.workbench.navigate"; //$NON-NLS-1$
 
     /**
      * Workbench toolbar id for help toolbar group.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static final String TOOLBAR_HELP = "org.eclipse.ui.workbench.help"; //$NON-NLS-1$    
 
@@ -514,35 +514,35 @@ public interface IWorkbenchActionConstants {
     /**
      * Group id for pin toolbar group.
      * 
-     * @since 2.1
+     * @since 1.0
      */
     public static final String PIN_GROUP = "pin.group"; //$NON-NLS-1$
 
     /**
      * Group id for history toolbar group.
      * 
-     * @since 2.1
+     * @since 1.0
      */
     public static final String HISTORY_GROUP = "history.group"; //$NON-NLS-1$
 
     /**
      * Group id for new toolbar group.
      * 
-     * @since 2.1
+     * @since 1.0
      */
     public static final String NEW_GROUP = "new.group"; //$NON-NLS-1$
 
     /**
      * Group id for save group.
      * 
-     * @since 2.1
+     * @since 1.0
      */
     public static final String SAVE_GROUP = "save.group"; //$NON-NLS-1$
     
     /**
      * Group id for build group.
      * 
-     * @since 2.1
+     * @since 1.0
      */
     public static final String BUILD_GROUP = "build.group"; //$NON-NLS-1$
 
@@ -570,14 +570,14 @@ public interface IWorkbenchActionConstants {
     /**
      * Pop-up menu: name of group for Show In actions (value <code>"group.showIn"</code>).
      * 
-     * @since 2.1
+     * @since 1.0
      */
     public static final String GROUP_SHOW_IN = "group.showIn"; //$NON-NLS-1$
 
     /**
      * Coolbar: name of group for application created actions
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public static final String GROUP_APP = "group.application"; //$NON-NLS-1$
 
@@ -589,7 +589,7 @@ public interface IWorkbenchActionConstants {
     /**
      * Coolbar: name of group for help actions and contributions
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static final String GROUP_HELP = "group.help"; //$NON-NLS-1$    
 
@@ -719,7 +719,7 @@ public interface IWorkbenchActionConstants {
      * (value <code>"showIn"</code>).
      * 
      * @see org.eclipse.ui.internal.ShowInAction
-     * @since 2.1
+     * @since 1.0
      * 
      * @deprecated
      */

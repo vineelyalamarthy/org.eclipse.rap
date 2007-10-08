@@ -36,7 +36,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
      * Used by the workbench window extension handler to unhook action sets from
      * their associated window.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static class Binding {
         PluginActionSetBuilder builder;

@@ -20,7 +20,7 @@ import org.eclipse.ui.internal.layout.IWindowTrim;
  * window trim. It must supply a unique ID so that it's position can be
  * saved/restored.
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class WindowTrimProxy implements IWindowTrim {
 

@@ -141,7 +141,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	 * Notifies the multi page editor service that the component within which it 
 	 * exists has become active.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public final void activate() {
 		serviceLocator.activate();
@@ -151,7 +151,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	 * Notifies the multi page editor service that the component within which it 
 	 * exists has been deactived.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	public final void deactivate() {
 		serviceLocator.deactivate();
@@ -401,7 +401,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	 * 
 	 * @param event  the event
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	protected void handlePostSelectionChanged(SelectionChangedEvent event) {
 		ISelectionProvider parentProvider = getMultiPageEditor().getSite()

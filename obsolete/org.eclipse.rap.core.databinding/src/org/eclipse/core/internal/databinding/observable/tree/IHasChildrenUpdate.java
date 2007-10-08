@@ -13,7 +13,7 @@ package org.eclipse.core.internal.databinding.observable.tree;
 /**
  * Context sensitive update request for whether elements have children.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public interface IHasChildrenUpdate extends IViewerUpdate {
 

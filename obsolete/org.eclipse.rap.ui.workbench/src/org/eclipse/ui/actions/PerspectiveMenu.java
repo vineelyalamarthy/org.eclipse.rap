@@ -67,7 +67,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
     /**
      * The translatable message to show when there are no perspectives.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     private static final String NO_TARGETS_MSG = WorkbenchMessages.Workbench_showInNoPerspectives;
 
@@ -76,14 +76,14 @@ public abstract class PerspectiveMenu extends ContributionItem {
      * (OpenPerspectiveAction). This map may be empty, but it is never
      * <code>null</code>.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     private Map actions = new HashMap();
 
     /**
      * The action for that allows the user to choose any perspective to open.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     private Action openOtherAction = new Action(WorkbenchMessages.PerspectiveMenu_otherItem) {
         public final void runWithEvent(final Event event) {
@@ -141,7 +141,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
      * @param manager
      *            The menu manager that should receive the menu items; must not
      *            be <code>null</code>.
-     * @since 3.1
+     * @since 1.0
      */
     private final void fillMenu(final MenuManager manager) {
         // Clear out the manager so that we have a blank slate.
@@ -190,7 +190,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
      *            be retrieved.
      * @return The action for the given identifier; or <code>null</code> if
      *         there is no perspective with the given identifier.
-     * @since 3.1
+     * @since 1.0
      */
     private final IAction getAction(final String id) {
         IAction action = (IAction) actions.get(id);

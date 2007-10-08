@@ -41,7 +41,7 @@ public interface IEditorSite extends IWorkbenchPartSite {
 	 * action bars are done by the <code>IEditorActionBarContributor</code>.
 	 * 
 	 * @return the action bars
-	 * @since 2.1
+	 * @since 1.0
 	 */
     public IActionBars getActionBars();
 
@@ -72,7 +72,7 @@ public interface IEditorSite extends IWorkbenchPartSite {
      *            contributions to this context menu.
      * @see IWorkbenchPartSite#registerContextMenu(MenuManager,
      *      ISelectionProvider)
-     * @since 3.1
+     * @since 1.0
      */
     public void registerContextMenu(MenuManager menuManager,
             ISelectionProvider selectionProvider, boolean includeEditorInput);
@@ -107,7 +107,7 @@ public interface IEditorSite extends IWorkbenchPartSite {
      *            contributions to this context menu.
      * @see IWorkbenchPartSite#registerContextMenu(MenuManager,
      *      ISelectionProvider)
-     * @since 3.1
+     * @since 1.0
      */
     public void registerContextMenu(String menuId, MenuManager menuManager,
             ISelectionProvider selectionProvider, boolean includeEditorInput);

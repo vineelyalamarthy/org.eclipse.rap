@@ -33,7 +33,7 @@ import org.eclipse.ui.services.IServiceLocator;
  * <b>Note:</b> Clients my instantiate, but they must not subclass.
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  */
 public class CommandAction extends Action {
 

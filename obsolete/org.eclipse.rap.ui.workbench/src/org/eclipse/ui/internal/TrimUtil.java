@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.*;
 /**
  * Simple class to provide some common internal Trim support.
  *
- * @since 3.2
+ * @since 1.0
  *
  */
 public class TrimUtil {

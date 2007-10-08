@@ -252,7 +252,7 @@ public class InputDialog extends Dialog {
      * 
      * @param errorMessage
      *            the error message, or <code>null</code> to clear
-     * @since 3.0
+     * @since 1.0
      */
     public void setErrorMessage(String errorMessage) {
     	this.errorMessage = errorMessage;

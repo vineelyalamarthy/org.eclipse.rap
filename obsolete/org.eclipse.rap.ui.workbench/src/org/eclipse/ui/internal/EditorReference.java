@@ -166,7 +166,7 @@ public class EditorReference extends WorkbenchPartReference implements
     }
     
     /**
-     * @since 3.1 
+     * @since 1.0 
      *
      * @param id
      * @return
@@ -478,7 +478,7 @@ public class EditorReference extends WorkbenchPartReference implements
      * can't always be changed for an editor. Editors that don't implement IReusableEditor
      * can't have their input changed once they've been materialized.
      * 
-     * @since 3.1 
+     * @since 1.0 
      *
      * @param input new input
      * @return true iff the input was actually changed
@@ -532,7 +532,7 @@ public class EditorReference extends WorkbenchPartReference implements
      * something like failure to fire an expected property change. Only the first malfunction is
      * recorded to avoid spamming the system log with repeated failures in the same editor.
      *  
-     * @since 3.1 
+     * @since 1.0 
      *
      * @param string
      */

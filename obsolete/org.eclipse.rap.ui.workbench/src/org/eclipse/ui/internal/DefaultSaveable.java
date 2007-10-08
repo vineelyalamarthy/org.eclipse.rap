@@ -20,7 +20,7 @@ import org.eclipse.ui.*;
  * A default {@link Saveable} implementation that wrappers a regular
  * workbench part (one that does not itself adapt to Saveable).
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class DefaultSaveable extends Saveable {
 

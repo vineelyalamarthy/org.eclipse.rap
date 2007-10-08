@@ -53,7 +53,7 @@ public interface IEditorActionBarContributor {
      * 
      * @param bars the action bars
      * @param page the workbench page for this contributor
-     * @since 2.0
+     * @since 1.0
      */
     public void init(IActionBars bars, IWorkbenchPage page);
 
@@ -69,7 +69,7 @@ public interface IEditorActionBarContributor {
     /**
      * Disposes this contributor. 
      * 
-     * @since 2.0
+     * @since 1.0
      */
     public void dispose();
 }

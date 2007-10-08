@@ -113,7 +113,7 @@ public interface IWorkbenchPartSite extends IWorkbenchSite {
 	 * </p>
 	 * 
 	 * @return the key binding service in use
-	 * @since 2.1
+	 * @since 1.0
 	 * @deprecated Use {@link IServiceLocator#getService(Class)} instead.
 	 * @see IContextService
 	 * @see IHandlerService
@@ -123,7 +123,7 @@ public interface IWorkbenchPartSite extends IWorkbenchSite {
     /**
      * Returns the part associated with this site 
      * 
-     * @since 3.1 
+     * @since 1.0 
      *
      * @return the part associated with this site
      */

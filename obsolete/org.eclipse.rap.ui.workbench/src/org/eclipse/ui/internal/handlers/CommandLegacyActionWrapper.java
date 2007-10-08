@@ -45,7 +45,7 @@ import org.eclipse.ui.services.IServiceLocator;
  * <code>org.eclipse.ui.handlers</code>.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public final class CommandLegacyActionWrapper extends AbstractAction {
 

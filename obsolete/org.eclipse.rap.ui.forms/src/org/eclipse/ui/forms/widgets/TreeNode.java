@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
  * control has keyboard focus.
  * 
  * @see Twistie
- * @since 3.0
+ * @since 1.0
  */
 public class TreeNode extends ToggleHyperlink {
 	/**

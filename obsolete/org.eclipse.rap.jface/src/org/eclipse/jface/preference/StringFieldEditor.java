@@ -111,7 +111,7 @@ public class StringFieldEditor extends FieldEditor {
      *  on the fly checking (the default), or <code>VALIDATE_ON_FOCUS_LOST</code> to
      *  perform validation only after the text has been typed in
      * @param parent the parent of the field editor's control
-     * @since 2.0
+     * @since 1.0
      */
     public StringFieldEditor(String name, String labelText, int width,
             int strategy, Composite parent) {

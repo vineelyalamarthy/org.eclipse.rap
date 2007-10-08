@@ -97,7 +97,7 @@ import org.eclipse.ui.views.IViewRegistry;
      * @return <code>true</code> if the given view id contains a wildcard,
      *         <code>false</code> otherwise
      * 
-     * @since 3.1
+     * @since 1.0
      */
     static boolean hasWildcard(String viewId) {
         return viewId.indexOf(PartPlaceholder.WILD_CARD) >= 0;
@@ -191,7 +191,7 @@ import org.eclipse.ui.views.IViewRegistry;
 
     /**
      * @return the <code>IViewRegistry</code> used by this factory.
-     * @since 3.0
+     * @since 1.0
      */
     public IViewRegistry getViewRegistry() {
         return viewReg;
@@ -209,7 +209,7 @@ import org.eclipse.ui.views.IViewRegistry;
 
     /**
      * @return the <code>WorkbenchPage</code> used by this factory.
-     * @since 3.0
+     * @since 1.0
      */
     public WorkbenchPage getWorkbenchPage() {
         return page;

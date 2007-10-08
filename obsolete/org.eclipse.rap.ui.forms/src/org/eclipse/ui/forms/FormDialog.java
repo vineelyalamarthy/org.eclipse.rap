@@ -38,7 +38,7 @@ import org.eclipse.ui.internal.forms.Messages;
  * Otherwise, the dialog may open very wide.
  * <p>
  * 
- * @since 3.3
+ * @since 1.0
  */
 
 public class FormDialog extends TrayDialog {

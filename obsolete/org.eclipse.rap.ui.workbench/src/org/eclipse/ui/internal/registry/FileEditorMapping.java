@@ -272,7 +272,7 @@ public class FileEditorMapping extends Object implements IFileEditorMapping,
 	 * declarations or the preference page.
 	 * 
 	 * @return the editors the default editors
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IEditorDescriptor [] getDeclaredDefaultEditors() {
 		return (IEditorDescriptor []) declaredDefaultEditors.
@@ -284,7 +284,7 @@ public class FileEditorMapping extends Object implements IFileEditorMapping,
 	 * 
 	 * @param editor the editor to test
 	 * @return whether the editor is declared default
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public boolean isDeclaredDefaultEditor (IEditorDescriptor editor) {
 		return declaredDefaultEditors.contains(editor);
@@ -294,7 +294,7 @@ public class FileEditorMapping extends Object implements IFileEditorMapping,
 	 * Set the default editors for this mapping.
 	 * 
 	 * @param defaultEditors the editors
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void setDefaultEditors(List defaultEditors) {
 		declaredDefaultEditors = defaultEditors;		

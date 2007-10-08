@@ -15,7 +15,7 @@ import org.eclipse.ui.internal.util.Util;
 import org.eclipse.ui.presentations.IPresentablePart;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 public final class PartInfo {
     public String name;

@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Shell;
  * </p>
  * 
  * @see org.eclipse.ui.IWorkbench#getProgressService() 
- * @since 3.0
+ * @since 1.0
  */
 public interface IProgressService extends IRunnableContext {
 
@@ -123,7 +123,7 @@ public interface IProgressService extends IRunnableContext {
      * IRunnableWithProgress) might run the runnable asynchronously
      * if <code>fork</code> is <code>true</code>.
      * 
-     * @since 3.2
+     * @since 1.0
      */
     public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable) throws InvocationTargetException, InterruptedException;
     

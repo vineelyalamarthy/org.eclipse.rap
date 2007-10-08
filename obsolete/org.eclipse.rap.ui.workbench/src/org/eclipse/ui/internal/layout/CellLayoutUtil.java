@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.*;
  * Contains helper methods for CellLayout. Many of these methods are workarounds for
  * known SWT bugs. They should be updated once the original bugs are fixed in SWT.
  * 
- * @since 3.0
+ * @since 1.0
  */
 class CellLayoutUtil {
 

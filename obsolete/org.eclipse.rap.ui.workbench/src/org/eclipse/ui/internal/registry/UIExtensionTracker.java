@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 public class UIExtensionTracker extends ExtensionTracker {
     private Display display;

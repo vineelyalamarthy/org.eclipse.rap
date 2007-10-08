@@ -26,7 +26,7 @@ import org.eclipse.ui.presentations.IPresentablePart;
  * This interface is not intended to be implemented by client
  * plug-ins.
  * @see IWorkbenchPartSite#getAdapter(Class)
- * @since 3.0
+ * @since 1.0
  */
 public interface IWorkbenchSiteProgressService extends IProgressService {
 
@@ -100,7 +100,7 @@ public interface IWorkbenchSiteProgressService extends IProgressService {
 	 * counter is not positive.
 	 * </p>
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void incrementBusy();
 
@@ -109,7 +109,7 @@ public interface IWorkbenchSiteProgressService extends IProgressService {
 	 * be used for background work that does not use jobs. It is an error to call
 	 * this method without first making a matching call to {@link #incrementBusy()}.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void decrementBusy();
 	

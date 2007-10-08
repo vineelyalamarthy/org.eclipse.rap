@@ -24,7 +24,7 @@ import org.eclipse.jface.internal.provisional.action.*;
  * consulting with the Platform/UI team.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public interface IActionBarPresentationFactory {
 	

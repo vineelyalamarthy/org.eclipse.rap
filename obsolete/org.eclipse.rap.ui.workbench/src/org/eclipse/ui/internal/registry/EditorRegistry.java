@@ -305,7 +305,7 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 	 * 
 	 * @param filename the filename
 	 * @return the content type or <code>null</code> if it could not be determined
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private IContentType guessAtContentType(String filename) {
 		return Platform.getContentTypeManager().findContentTypeFor(filename);
@@ -1291,7 +1291,7 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 	 * @param filename the file name
 	 * @param contentType the content type
 	 * @return the editor for a file with a given content type
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private IEditorDescriptor getEditorForContentType(String filename,
 			IContentType contentType) {
@@ -1476,7 +1476,7 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 	 * 
 	 * @param type the content type to check
 	 * @return the editors
-	 * @since 3.1
+	 * @since 1.0
      *
      * TODO: this should be rolled in with the above findRelatedObjects code
 	 */
@@ -1519,7 +1519,7 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 	 * Get filemappings for all defined filetypes, including those defined by content type.
 	 * 
 	 * @return the filetypes
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public IFileEditorMapping [] getUnifiedMappings() {
         IFileEditorMapping[] standardMappings = PlatformUI.getWorkbench()

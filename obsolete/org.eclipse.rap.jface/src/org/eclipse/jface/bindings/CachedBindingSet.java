@@ -22,7 +22,7 @@
 // * resolution.
 // * </p>
 // * 
-// * @since 3.1
+// * @since 1.0
 // */
 //final class CachedBindingSet {
 //

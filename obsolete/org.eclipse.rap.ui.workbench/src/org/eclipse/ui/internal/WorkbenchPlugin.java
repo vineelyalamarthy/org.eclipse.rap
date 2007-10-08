@@ -117,7 +117,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
     /**
      * Information describing the product (formerly called "primary plugin"); lazily
      * initialized.
-     * @since 3.0
+     * @since 1.0
      */
 //    private ProductInfo productInfo = null;
 
@@ -140,7 +140,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 
     /**
      * Unload all members.  This can be used to run a second instance of a workbench.
-     * @since 3.0 
+     * @since 1.0 
      */
     void reset() {
         editorRegistry = null;
@@ -237,7 +237,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 * @param extensionName
 	 *            the name of the extension to test for
 	 * @return whether or not the extension is declared
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static boolean hasExecutableExtension(IConfigurationElement element,
 			String extensionName) {
@@ -273,7 +273,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 * @return whether or not the bundle expressed by the above criteria is
 	 *         active. If the bundle cannot be determined then the state of the
 	 *         bundle that declared the element is returned.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static boolean isBundleLoadedForExecutableExtension(
 			IConfigurationElement element, String extensionName) {
@@ -301,7 +301,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 * @return the bundle referenced by the extension. If that bundle cannot be
 	 *         determined the bundle that declared the element is returned. Note
 	 *         that this may be <code>null</code>.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static Bundle getBundleForExecutableExtension(IConfigurationElement element, String extensionName) {
 		// this code is derived heavily from
@@ -536,7 +536,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * Returns the working set manager
      * 
      * @return the working set manager
-     * @since 2.0
+     * @since 1.0
      */
 //    public IWorkingSetManager getWorkingSetManager() {
 //        if (workingSetManager == null) {
@@ -550,7 +550,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * Returns the working set registry
      * 
      * @return the working set registry
-     * @since 2.0
+     * @since 1.0
      */
 //    public WorkingSetRegistry getWorkingSetRegistry() {
 //        if (workingSetRegistry == null) {
@@ -564,7 +564,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * Returns the introduction registry.
      *
      * @return the introduction registry.
-     * @since 3.0
+     * @since 1.0
      */
 //    public IIntroRegistry getIntroRegistry() {
 //        if (introRegistry == null) {
@@ -577,7 +577,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 * Returns the operation support.
 	 * 
 	 * @return the workbench operation support.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //    public IWorkbenchOperationSupport getOperationSupport() {
 //        if (operationSupport == null) {
@@ -972,7 +972,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * Return an array of all bundles contained in this workbench.
      * 
      * @return an array of bundles in the workbench or an empty array if none
-     * @since 3.0
+     * @since 1.0
      */
     public Bundle[] getBundles() {
         return bundleContext == null ? new Bundle[0] : bundleContext
@@ -983,7 +983,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * Returns the bundle context associated with the workbench plug-in.
      * 
      * @return the bundle context
-     * @since 3.1
+     * @since 1.0
      */
     public BundleContext getBundleContext() {
     	return bundleContext;
@@ -1001,7 +1001,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      *
      * @return the application name, or <code>null</code>
      * @see org.eclipse.swt.widgets.Display#setAppName
-     * @since 3.0
+     * @since 1.0
      */
 //    public String getAppName() {
 //        return getProductInfo().getAppName();
@@ -1011,7 +1011,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * Returns the name of the product.
      * 
      * @return the product name, or <code>null</code> if none
-     * @since 3.0
+     * @since 1.0
      */
     public String getProductName() {
 //        return getProductInfo().getProductName();
@@ -1024,7 +1024,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * 
      * @return an array of the image descriptors for the window image, or
      *         <code>null</code> if none
-     * @since 3.0
+     * @since 1.0
      */
     public ImageDescriptor[] getWindowImages() {
 //        return getProductInfo().getWindowImages();
@@ -1069,7 +1069,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * Return the new wizard registry.
      * 
      * @return the new wizard registry
-     * @since 3.1
+     * @since 1.0
      */
 //    public IWizardRegistry getNewWizardRegistry() {
 //    	return NewWizardRegistry.getInstance();
@@ -1079,7 +1079,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * Return the import wizard registry.
      * 
      * @return the import wizard registry
-     * @since 3.1
+     * @since 1.0
      */
 //    public IWizardRegistry getImportWizardRegistry() {
 //    	return ImportWizardRegistry.getInstance();
@@ -1089,7 +1089,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * Return the export wizard registry.
      * 
      * @return the export wizard registry
-     * @since 3.1
+     * @since 1.0
      */
 //    public IWizardRegistry getExportWizardRegistry() {
 //    	return ExportWizardRegistry.getInstance();
@@ -1106,7 +1106,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * @return path to a location in the file system where this plug-in can
      * persist data between sessions, or <code>null</code> if no such
      * location is available.
-     * @since 3.1
+     * @since 1.0
      */
     public IPath getDataLocation() {
         try {

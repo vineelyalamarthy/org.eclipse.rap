@@ -41,7 +41,7 @@ import org.eclipse.ui.services.IServiceLocator;
  * This class may be instantiated; it is not intended to be subclassed.
  * </p>
  * 
- * @since 3.3
+ * @since 1.0
  */
 public final class CommandContributionItem extends ContributionItem {
 	/**

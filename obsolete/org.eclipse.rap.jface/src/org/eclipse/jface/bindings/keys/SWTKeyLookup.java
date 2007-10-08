@@ -25,7 +25,7 @@ import org.eclipse.swt.SWT;
  * dependency on SWT.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  * @see org.eclipse.jface.bindings.keys.KeyLookupFactory
  */
 public final class SWTKeyLookup implements IKeyLookup {

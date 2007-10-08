@@ -84,7 +84,7 @@ public abstract class ContributionItem implements IContributionItem {
      * The default implementation of this <code>IContributionItem</code>
      * method does nothing. Subclasses may override.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public void fill(CoolBar parent, int index) {
     }
@@ -93,7 +93,7 @@ public abstract class ContributionItem implements IContributionItem {
      * The default implementation of this <code>IContributionItem</code>
      * method does nothing. Subclasses may override.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public void saveWidgetState() {
     }
@@ -110,7 +110,7 @@ public abstract class ContributionItem implements IContributionItem {
      * contribution item is not currently added to a contribution manager.
      * 
      * @return the parent contribution manager, or <code>null</code>
-     * @since 2.0
+     * @since 1.0
      */
     public IContributionManager getParent() {
         return parent;

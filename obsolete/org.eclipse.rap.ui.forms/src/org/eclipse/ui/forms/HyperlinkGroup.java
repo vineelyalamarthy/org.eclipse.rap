@@ -27,7 +27,7 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
  * preference. Hyperlink labels are added to the group after creation and are
  * automatically removed from the group when they are disposed.
  * 
- * @since 3.0
+ * @since 1.0
  */
 
 public final class HyperlinkGroup extends HyperlinkSettings {

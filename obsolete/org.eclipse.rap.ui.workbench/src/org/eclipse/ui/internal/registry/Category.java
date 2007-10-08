@@ -267,7 +267,7 @@ public class Category implements IWorkbenchAdapter, IPluginContribution, IAdapta
 	/**
 	 * Clear all elements from this category.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void clear() {
 		if (elements != null) {

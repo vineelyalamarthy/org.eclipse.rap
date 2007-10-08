@@ -191,7 +191,7 @@ public interface IWorkbenchWindow extends IPageService, IRunnableContext,
      * responsibility to call <code>Display.readAndDispatch()</code>
      * to ensure UI responsiveness.
      * 
-     * @since 3.2
+     * @since 1.0
      */
     public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable) throws InvocationTargetException, InterruptedException;
 
@@ -218,7 +218,7 @@ public interface IWorkbenchWindow extends IPageService, IRunnableContext,
 	 * @return the extension tracker
 	 * @see IWorkbench#getExtensionTracker()
 	 * @see IWorkbenchPage#getExtensionTracker()
-	 * @since 3.1
+	 * @since 1.0
 	 */
     public IExtensionTracker getExtensionTracker();
 }

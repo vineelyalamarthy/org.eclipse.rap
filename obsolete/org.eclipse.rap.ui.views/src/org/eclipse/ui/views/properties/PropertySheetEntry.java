@@ -37,7 +37,7 @@ import org.eclipse.ui.internal.views.ViewsPlugin;
  * changes value.
  * </p>
  * 
- * @since 3.0 (was previously internal)
+ * @since 1.0 (was previously internal)
  */
 public class PropertySheetEntry extends EventManager implements
 		IPropertySheetEntry {
@@ -255,7 +255,7 @@ public class PropertySheetEntry extends EventManager implements
 	 * 
 	 * @return a new <code>PropertySheetEntry</code> instance for the
 	 *         descriptor passed in
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected PropertySheetEntry createChildEntry() {
 		return new PropertySheetEntry();
@@ -348,7 +348,7 @@ public class PropertySheetEntry extends EventManager implements
 	 * Returns the descriptor for this entry.
 	 * 
 	 * @return the descriptor for this entry
-	 * @since 3.1 (was previously private)
+	 * @since 1.0 (was previously private)
 	 */
 	protected IPropertyDescriptor getDescriptor() {
 		return descriptor;
@@ -433,7 +433,7 @@ public class PropertySheetEntry extends EventManager implements
 	 * Returns the parent of this entry.
 	 * 
 	 * @return the parent entry, or <code>null</code> if it has no parent
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected PropertySheetEntry getParent() {
 		return parent;
@@ -446,7 +446,7 @@ public class PropertySheetEntry extends EventManager implements
 	 *            an object for which to obtain a property source or
 	 *            <code>null</code> if a property source is not available
 	 * @return an property source for the given object
-	 * @since 3.1 (was previously private)
+	 * @since 1.0 (was previously private)
 	 */
 	protected IPropertySource getPropertySource(Object object) {
 		if (sources.containsKey(object))
@@ -492,7 +492,7 @@ public class PropertySheetEntry extends EventManager implements
 	 * Returns the value objects of this entry.
 	 * 
 	 * @return the value objects of this entry
-	 * @since 3.1 (was previously private)
+	 * @since 1.0 (was previously private)
 	 */
 	public Object[] getValues() {
 		return values;
@@ -579,7 +579,7 @@ public class PropertySheetEntry extends EventManager implements
 	/**
 	 * Refresh the entry tree from the root down.
 	 * 
-	 * @since 3.1 (was previously private)
+	 * @since 1.0 (was previously private)
 	 */
 	protected void refreshFromRoot() {
 		if (parent == null) {

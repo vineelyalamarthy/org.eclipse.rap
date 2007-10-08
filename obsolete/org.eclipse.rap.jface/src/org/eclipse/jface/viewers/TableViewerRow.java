@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.*;
 
 /**
  * TableViewerRow is the Table specific implementation of ViewerRow
- * @since 3.3
+ * @since 1.0
  *
  */
 public class TableViewerRow extends ViewerRow {

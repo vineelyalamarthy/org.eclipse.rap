@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Text;
  * convenience class for easily creating a {@link ContentProposalAdapter} for
  * text fields.
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class TextContentAdapter implements IControlContentAdapter {
 

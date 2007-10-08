@@ -609,7 +609,7 @@ public class WorkbenchPage implements
      * Implements IWorkbenchPage
      * 
      * @see org.eclipse.ui.IWorkbenchPage#addPropertyChangeListener(IPropertyChangeListener)
-     * @since 2.0
+     * @since 1.0
      * @deprecated individual views should store a working set if needed and
      *             register a property change listener directly with the
      *             working set manager to receive notification when the view
@@ -1096,7 +1096,7 @@ public class WorkbenchPage implements
      * Makes the given part active. Brings it in front if necessary. Permits null 
      * (indicating that no part should be active).
      * 
-     * @since 3.1 
+     * @since 1.0 
      *
      * @param ref new active part (or null)
      */
@@ -1117,7 +1117,7 @@ public class WorkbenchPage implements
      * Makes the given editor active. Brings it to front if necessary. Permits <code>null</code> 
      * (indicating that no editor is active).
      * 
-     * @since 3.1 
+     * @since 1.0 
      *
      * @param ref the editor to make active, or <code>null</code> for no active editor
      */
@@ -2037,7 +2037,7 @@ public class WorkbenchPage implements
 	 * 
 	 * @param persp the perspective
 	 * @return an array of view parts
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	/*package*/IViewPart[] getViews(Perspective persp, boolean restore) {			
         if (persp == null) {
@@ -2070,7 +2070,7 @@ public class WorkbenchPage implements
      * Implements IWorkbenchPage
      * 
      * @see org.eclipse.ui.IWorkbenchPage#getWorkingSet()
-     * @since 2.0
+     * @since 1.0
      * @deprecated individual views should store a working set if needed
      */
 //    public IWorkingSet getWorkingSet() {
@@ -2304,7 +2304,7 @@ public class WorkbenchPage implements
      * 
      * @param ref the view reference to check.  Must not be <code>null</code>.
      * @return true if the part is closeable.
-     * @since 3.1.1
+     * @since 1.0.1
      */
     public boolean isCloseable(IViewReference ref) {
 		Perspective persp = getActivePerspective();
@@ -2319,7 +2319,7 @@ public class WorkbenchPage implements
      * 
      * @param ref the view reference to check.  Must not be <code>null</code>.
      * @return true if the part is moveable.
-     * @since 3.1.1
+     * @since 1.0.1
      */
     public boolean isMoveable(IViewReference ref) {
 		Perspective persp = getActivePerspective();
@@ -2704,7 +2704,7 @@ public class WorkbenchPage implements
      * Implements IWorkbenchPage
      * 
      * @see org.eclipse.ui.IWorkbenchPage#removePropertyChangeListener(IPropertyChangeListener)
-     * @since 2.0
+     * @since 1.0
      * @deprecated individual views should store a working set if needed and
      *             register a property change listener directly with the
      *             working set manager to receive notification when the view
@@ -3432,7 +3432,7 @@ public class WorkbenchPage implements
      * 
      * @param newWorkingSet
      *            the active working set for the page. May be null.
-     * @since 2.0
+     * @since 1.0
      * @deprecated individual views should store a working set if needed
      */
 //    public void setWorkingSet(IWorkingSet newWorkingSet) {
@@ -3520,7 +3520,7 @@ public class WorkbenchPage implements
     /**
      * @param mode the mode to test
      * @return whether the mode is recognized
-     * @since 3.0
+     * @since 1.0
      */
     private boolean certifyMode(int mode) {
         switch (mode) {
@@ -3766,7 +3766,7 @@ public class WorkbenchPage implements
      * Return all open Perspective objects.
      * 
      * @return all open Perspective objects
-     * @since 3.1
+     * @since 1.0
      */
     /*package*/Perspective [] getOpenInternalPerspectives() {
         return perspList.getOpenedPerspectives();
@@ -3779,7 +3779,7 @@ public class WorkbenchPage implements
 	 * 
 	 * @param part specified part to search for
 	 * @return the first sorted perspespective containing the part
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	/*package*/Perspective getFirstPerspectiveWithView(IViewPart part) {
 		Perspective [] perspectives = perspList.getSortedPerspectives();
@@ -4336,7 +4336,7 @@ public class WorkbenchPage implements
 	 * @param part
 	 *            the part
 	 * @return the stack of references
-	 * @since 3.0
+	 * @since 1.0
 	 */
     private IViewReference[] getViewReferenceStack(IViewPart part) {
         // Sanity check.
@@ -4641,7 +4641,7 @@ public class WorkbenchPage implements
     }
     
     /**
-	 * @since 3.1
+	 * @since 1.0
 	 */
     private void suggestReset() {
       final IWorkbench workbench = getWorkbenchWindow().getWorkbench();

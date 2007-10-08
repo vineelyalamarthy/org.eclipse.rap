@@ -34,7 +34,7 @@ import org.eclipse.ui.internal.forms.MessageManager;
  * directly. Instead, they should do it through IManagedForm interface as much
  * as possible.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class ManagedForm implements IManagedForm {
 	private Object input;

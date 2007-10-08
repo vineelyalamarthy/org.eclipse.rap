@@ -16,7 +16,7 @@ package org.eclipse.ui.commands;
  * This class is not intended to be extended by clients.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  * @deprecated Please use the "org.eclipse.core.commands" plug-in instead.
  * @see org.eclipse.core.commands.common.CommandException
  */
@@ -54,7 +54,7 @@ public abstract class CommandException extends Exception {
      * cause is nonexistent or unknown. 
      *
      * @return the cause or <code>null</code>
-     * @since 3.1
+     * @since 1.0
      */
     public Throwable getCause() {
         return cause;

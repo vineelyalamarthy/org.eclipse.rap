@@ -21,7 +21,7 @@ public class PartPlaceholder extends LayoutPart {
     /**
      * Placeholder ids may contain wildcards.  This is the wildcard string.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public static String WILD_CARD = "*"; //$NON-NLS-1$
 
@@ -46,7 +46,7 @@ public class PartPlaceholder extends LayoutPart {
     /**
      * Returns whether this placeholder has a wildcard.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public boolean hasWildCard() {
         return getID().indexOf(WILD_CARD) != -1;

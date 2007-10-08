@@ -12,7 +12,7 @@
 //package org.eclipse.jface.viewers;
 //
 ///**
-// * @since 3.3
+// * @since 1.0
 // * 
 // */
 //public abstract class FocusCellHighlighter {

@@ -15,7 +15,7 @@ package org.eclipse.ui.menus;
  * Provides utilities and constants for use with the
  * new menus API.
  *  
- * @since 3.3
+ * @since 1.0
  *
  */
 public class MenuUtil {

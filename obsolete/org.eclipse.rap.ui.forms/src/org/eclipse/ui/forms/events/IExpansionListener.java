@@ -13,7 +13,7 @@ package org.eclipse.ui.forms.events;
  * Classes that implement this interface will be notified before and after the
  * expandable control's expansion state changes.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public interface IExpansionListener {
 	/**

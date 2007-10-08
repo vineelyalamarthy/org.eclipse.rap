@@ -33,7 +33,7 @@ import org.eclipse.ui.internal.ShowViewMenu;
  * contribution item factories.
  * </p>
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class ContributionItemFactory {
 
@@ -190,7 +190,7 @@ public abstract class ContributionItemFactory {
      * promising new item wizards and an "Other" subitem. Selecting
      * one of the items invokes the corresponding new item wizard. 
      * This action dynamically maintains the new item wizard shortlist.
-     * @since 3.1
+     * @since 1.0
      */
 //    public static final ContributionItemFactory NEW_WIZARD_SHORTLIST = new ContributionItemFactory(
 //            "newWizardShortlist") { //$NON-NLS-1$
@@ -206,7 +206,7 @@ public abstract class ContributionItemFactory {
     /**
      * Workbench contribution item (id "helpSearch"): An editable field
      * for entering help search queries.
-     * @since 3.1
+     * @since 1.0
      */
 //    public static final ContributionItemFactory HELP_SEARCH = new ContributionItemFactory(
 //            "helpSearch") {//$NON-NLS-1$

@@ -39,7 +39,7 @@ import org.eclipse.ui.model.WorkbenchPartLabelProvider;
  * @see Saveable
  * @see ISaveablesSource
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class SaveablesList implements ISaveablesLifecycleListener {
 

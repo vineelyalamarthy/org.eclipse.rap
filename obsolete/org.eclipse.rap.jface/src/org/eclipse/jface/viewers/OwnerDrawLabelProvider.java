@@ -25,7 +25,7 @@
 // * <b>This class is intended to be subclassed by implementors.</b>
 // * </p>
 // * 
-// * @since 3.3
+// * @since 1.0
 // * 
 // */
 //public abstract class OwnerDrawLabelProvider extends CellLabelProvider {

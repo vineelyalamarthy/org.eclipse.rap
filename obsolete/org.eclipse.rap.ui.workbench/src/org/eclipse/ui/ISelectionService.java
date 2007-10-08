@@ -50,7 +50,7 @@ public interface ISelectionService {
      *
      * @param partId the id of the part to track
      * @param listener a selection listener
-     * @since 2.0
+     * @since 1.0
      */
     public void addSelectionListener(String partId, ISelectionListener listener);
 
@@ -82,7 +82,7 @@ public interface ISelectionService {
      *
      * @param partId the id of the part to track
      * @param listener a selection listener
-     * @since 2.0
+     * @since 1.0
      */
     public void addPostSelectionListener(String partId,
             ISelectionListener listener);
@@ -103,7 +103,7 @@ public interface ISelectionService {
      *
      * @param partId the id of the part
      * @return the current selection, or <code>null</code> if undefined
-     * @since 2.0
+     * @since 1.0
      */
     public ISelection getSelection(String partId);
 
@@ -121,7 +121,7 @@ public interface ISelectionService {
      *
      * @param partId the id of the part to track
      * @param listener a selection listener
-     * @since 2.0
+     * @since 1.0
      */
     public void removeSelectionListener(String partId,
             ISelectionListener listener);
@@ -140,7 +140,7 @@ public interface ISelectionService {
      *
      * @param partId the id of the part to track
      * @param listener a selection listener
-     * @since 2.0
+     * @since 1.0
      */
     public void removePostSelectionListener(String partId,
             ISelectionListener listener);

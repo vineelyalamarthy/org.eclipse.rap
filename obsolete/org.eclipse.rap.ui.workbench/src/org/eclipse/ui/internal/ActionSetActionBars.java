@@ -125,7 +125,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 	 * @return the contribution item that the given items should be returned
 	 *         after.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private IContributionItem findAlphabeticalOrder(String startId,
 			String itemId, IContributionManager mgr) {

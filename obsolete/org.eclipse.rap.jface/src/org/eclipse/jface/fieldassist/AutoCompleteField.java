@@ -20,7 +20,7 @@
 // * @see ContentProposalAdapter
 // * @see SimpleContentProposalProvider
 // * 
-// * @since 3.3
+// * @since 1.0
 // */
 //public class AutoCompleteField {
 //

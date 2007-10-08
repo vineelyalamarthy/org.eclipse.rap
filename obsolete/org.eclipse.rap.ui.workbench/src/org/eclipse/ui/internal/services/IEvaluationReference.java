@@ -16,7 +16,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 /**
  * This is not meant to be implemented or extended by clients.
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 public interface IEvaluationReference extends IEvaluationResultCache {

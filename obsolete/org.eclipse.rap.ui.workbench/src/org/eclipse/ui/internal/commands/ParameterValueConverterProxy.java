@@ -21,7 +21,7 @@ import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
  * This delays the class loading until the converter is really asked to do
  * string/object conversions.
  * 
- * @since 3.2
+ * @since 1.0
  */
 public final class ParameterValueConverterProxy extends
 		AbstractParameterValueConverter {

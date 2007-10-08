@@ -31,7 +31,7 @@ import org.eclipse.ui.internal.layout.*;
  * A utility class to manage the perspective switcher.  At some point, it might be nice to
  * move all this into PerspectiveViewBar.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class PerspectiveSwitcher implements IWindowTrim {
 

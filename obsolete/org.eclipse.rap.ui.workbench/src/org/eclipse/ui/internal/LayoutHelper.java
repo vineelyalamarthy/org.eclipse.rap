@@ -17,7 +17,7 @@ import org.eclipse.ui.views.IViewDescriptor;
  * Helper methods that the internal layout classes (<code>PageLayout</code> and 
  * <code>FolderLayout</code>) utilize for activities support and view creation.
  * 
- * @since 3.0
+ * @since 1.0
  */
 class LayoutHelper {
 

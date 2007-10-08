@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Table;
  * <code>TableViewer</code>.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 public class DeferredContentProvider implements ILazyContentProvider {
 

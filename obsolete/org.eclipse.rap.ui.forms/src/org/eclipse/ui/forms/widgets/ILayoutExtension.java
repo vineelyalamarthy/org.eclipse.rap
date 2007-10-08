@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
  * 
  * @see TableWrapLayout
  * @see ColumnLayout
- * @since 3.0
+ * @since 1.0
  */
 public interface ILayoutExtension {
 	/**

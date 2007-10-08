@@ -42,7 +42,7 @@ import org.eclipse.ui.services.IServiceLocator;
  * <code>org.eclipse.ui.workbench</code> plug-in.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 // TODO [bm] activities
 public final class WorkbenchMenuService extends InternalMenuService {
@@ -51,7 +51,7 @@ public final class WorkbenchMenuService extends InternalMenuService {
 	 * A combined property and activity listener that updates the visibility of
 	 * contribution items in the new menu system.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	// TODO: [bm] activities
 	private final class ContributionItemUpdater implements

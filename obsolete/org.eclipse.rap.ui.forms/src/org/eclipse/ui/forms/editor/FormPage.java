@@ -29,7 +29,7 @@ import org.eclipse.ui.part.EditorPart;
  * editor and never create the form because no attempt has been made to show the
  * page).
  * 
- * @since 3.0
+ * @since 1.0
  */
 public class FormPage extends EditorPart implements IFormPage {
 	private FormEditor editor;

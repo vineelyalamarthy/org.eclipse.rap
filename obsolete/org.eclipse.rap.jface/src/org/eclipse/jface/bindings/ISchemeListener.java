@@ -21,7 +21,7 @@
 // * This interface may be implemented by clients.
 // * </p>
 // * 
-// * @since 3.1
+// * @since 1.0
 // * @see Scheme#addSchemeListener(ISchemeListener)
 // * @see Scheme#removeSchemeListener(ISchemeListener)
 // * @see SchemeEvent

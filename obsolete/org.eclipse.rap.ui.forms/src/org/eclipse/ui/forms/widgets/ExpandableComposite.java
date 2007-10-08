@@ -41,7 +41,7 @@ import org.eclipse.ui.internal.forms.widgets.FormUtil;
  * subclasses.
  * 
  * @see Section
- * @since 3.0
+ * @since 1.0
  */
 public class ExpandableComposite extends Canvas {
 	/**
@@ -94,7 +94,7 @@ public class ExpandableComposite extends Canvas {
 	 * be painted behind the text. This style is useful when a more descrete
 	 * option is needed for the title bar.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public static final int SHORT_TITLE_BAR = 1 << 9;
 
@@ -132,7 +132,7 @@ public class ExpandableComposite extends Canvas {
 	 * line as defined in the font used to render it. This value will be added
 	 * to it.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public int descriptionVerticalSpacing = 0;
 
@@ -140,7 +140,7 @@ public class ExpandableComposite extends Canvas {
 	 * Horizontal margin around the inside of the title bar area when TITLE_BAR
 	 * or SHORT_TITLE_BAR style is used. This variable is not used otherwise.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public int titleBarTextMarginWidth = 6;
 
@@ -924,7 +924,7 @@ public class ExpandableComposite extends Canvas {
 	 * 
 	 * @return the difference in height between the text and the text client or
 	 *         0 if no corrective action is needed.
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public int getTextClientHeightDifference() {
 		if (textClient == null || textLabel == null)

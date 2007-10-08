@@ -31,7 +31,7 @@ import org.eclipse.ui.IWorkbenchWindow;
  * </p>
  * 
  * @see ISources#ACTIVE_MENU_NAME
- * @since 3.2
+ * @since 1.0
  */
 public final class LegacyViewerContributionExpression extends
 		WorkbenchWindowExpression {

@@ -132,7 +132,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	/**
 	 * The composite under which workbench pages create their controls.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private Composite pageComposite;
 
@@ -140,7 +140,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Bit flags indication which submenus (New, Show Views, ...) this window
 	 * contains. Initially none.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private int submenus = 0x00;
 
@@ -148,14 +148,14 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Object for configuring this workbench window. Lazily initialized to an
 	 * instance unique to this window.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private WorkbenchWindowConfigurer windowConfigurer = null;
 	
 	/**
 	 * List of generic property listeners.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	private ListenerList genericPropertyListeners = new ListenerList();
 
@@ -178,14 +178,14 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	/**
 	 * Coolbar visibility change property.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static final String PROP_COOLBAR_VISIBLE = "coolbarVisible"; //$NON-NLS-1$
 	
 	/**
 	 * Perspective bar visibility change property.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public static final String PROP_PERSPECTIVEBAR_VISIBLE = "perspectiveBarVisible"; //$NON-NLS-1$
 	
@@ -194,7 +194,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * present somewhere in this window.
 	 * 
 	 * @see #addSubmenu
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public static final int SHOW_VIEW_SUBMENU = 0x01;
 
@@ -203,7 +203,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * probably present somewhere in this window.
 	 * 
 	 * @see #addSubmenu
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public static final int OPEN_PERSPECTIVE_SUBMENU = 0x02;
 
@@ -212,7 +212,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * present somewhere in this window.
 	 * 
 	 * @see #addSubmenu
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	public static final int NEW_WIZARD_SUBMENU = 0x04;
 
@@ -225,7 +225,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 *            {@link #OPEN_PERSPECTIVE_SUBMENU OPEN_PERSPECTIVE_SUBMENU},
 	 *            {@link #SHOW_VIEW_SUBMENU SHOW_VIEW_SUBMENU}
 	 * @see #containsSubmenu
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public void addSubmenu(int type) {
 		submenus |= type;
@@ -242,7 +242,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * @return <code>true</code> if window contains submenu,
 	 *         <code>false</code> otherwise
 	 * @see #addSubmenu
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public boolean containsSubmenu(int type) {
 		return ((submenus & type) != 0);
@@ -251,7 +251,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	/**
 	 * Constant indicating that all the actions bars should be filled.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private static final int FILL_ALL_ACTION_BARS = ActionBarAdvisor.FILL_MENU_BAR
 			| ActionBarAdvisor.FILL_COOL_BAR
@@ -298,7 +298,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Return the action set extension point.
 	 * 
 	 * @return the action set extension point
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private IExtensionPoint getActionSetExtensionPoint() {
 //		return Platform.getExtensionRegistry().getExtensionPoint(
@@ -348,7 +348,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * The number of large updates that are currently going on. If this is
 	 * number is greater than zero, then UI updateActionBars is a no-op.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private int largeUpdates = 0;
 
@@ -530,7 +530,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Add a generic property listener.
 	 * 
 	 * @param listener the listener to add
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void addPropertyChangeListener(IPropertyChangeListener listener) {
 		genericPropertyListeners.add(listener);
@@ -540,7 +540,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Removes a generic property listener.
 	 * 
 	 * @param listener the listener to remove 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void removePropertyChangeListener(IPropertyChangeListener listener) {
 		genericPropertyListeners.remove(listener);
@@ -862,7 +862,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Creates and remembers the client composite, under which workbench pages
 	 * create their controls.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	protected Composite createPageComposite(Composite parent) {
 		pageComposite = new Composite(parent, SWT.NONE);
@@ -878,7 +878,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * the client composite. This MUST create the client composite via a call to
 	 * <code>createClientComposite</code>.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	protected Control createContents(Composite parent) {
 		// we know from Window.create that the parent is a Shell.
@@ -1075,7 +1075,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Notifies interested parties (namely the advisor) that the window is about
 	 * to be opened.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void fireWindowOpening() {
 		// let the application do further configuration
@@ -1088,7 +1088,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * 
 	 * @throws WorkbenchException
 	 *             passed through from the advisor
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	void fireWindowRestored() throws WorkbenchException {
 		getWindowAdvisor().postWindowRestore();
@@ -1098,7 +1098,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Notifies interested parties (namely the advisor) that the window has been
 	 * created.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void fireWindowCreated() {
 		getWindowAdvisor().postWindowCreate();
@@ -1108,7 +1108,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Notifies interested parties (namely the advisor and the window listeners)
 	 * that the window has been opened.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void fireWindowOpened() {
 		getWorkbenchImpl().fireWindowOpened(this);
@@ -1121,7 +1121,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * 
 	 * @return <code>true</code> if the close should proceed,
 	 *         <code>false</code> if it should be canceled
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private boolean fireWindowShellClosing() {
 		return getWindowAdvisor().preWindowShellClose();
@@ -1131,7 +1131,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Notifies interested parties (namely the advisor and the window listeners)
 	 * that the window has been closed.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void fireWindowClosed() {
 		// let the application do further deconfiguration
@@ -1210,7 +1210,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	/**
 	 * Fires perspective deactivated.
 	 * 
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	void firePerspectivePreDeactivate(IWorkbenchPage page,
 			IPerspectiveDescriptor perspective) {
@@ -1222,7 +1222,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	/**
 	 * Fires perspective deactivated.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	void firePerspectiveDeactivated(IWorkbenchPage page,
 			IPerspectiveDescriptor perspective) {
@@ -1285,7 +1285,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	/**
 	 * Fires perspective saved as.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	void firePerspectiveSavedAs(IWorkbenchPage page,
 			IPerspectiveDescriptor oldPerspective,
@@ -2562,7 +2562,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * @param memento
 	 *            the memento to update
 	 * @return the status, OK or not..
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	private IStatus saveTrimState(IMemento memento) {
 		int[] ids = defaultLayout.getAreaIds();
@@ -2590,7 +2590,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * @param memento
 	 *            the 'root' Workbench memento to restore
 	 * @return the status, OK or not
-	 * @since 3.2
+	 * @since 1.0
 	 */
 	private IStatus restoreTrimState(IMemento memento) {
 		// Determine if we have saved state. If we don't have any 3.2
@@ -2876,7 +2876,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * update
 	 * 
 	 * @return true iff we are deferring UI updates.
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private boolean updatesDeferred() {
 		return largeUpdates > 0;
@@ -2894,7 +2894,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Important: always use with <code>largeUpdateEnd</code>!
 	 * </p>
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public final void largeUpdateStart() {
 		largeUpdates++;
@@ -2912,7 +2912,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Important: always protect this call by using <code>finally</code>!
 	 * </p>
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public final void largeUpdateEnd() {
 		if (--largeUpdates == 0) {
@@ -3273,7 +3273,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * The <code>WorkbenchWindow</code> implementation of this method
 	 * delegates to the window configurer.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	protected Point getInitialSize() {
 		return getWindowConfigurer().getInitialSize();
@@ -3284,7 +3284,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 *            whether the cool bar should be shown. This is only applicable
 	 *            if the window configurer also wishes either the cool bar to be
 	 *            visible.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public void setCoolBarVisible(boolean visible) {
 		boolean oldValue = coolBarVisible;
@@ -3298,7 +3298,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * @return whether the cool bar should be shown. This is only applicable if
 	 *         the window configurer also wishes either the cool bar to be
 	 *         visible.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public boolean getCoolBarVisible() {
 		return coolBarVisible;
@@ -3309,7 +3309,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 *            whether the perspective bar should be shown. This is only
 	 *            applicable if the window configurer also wishes either the
 	 *            perspective bar to be visible.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public void setPerspectiveBarVisible(boolean visible) {
 		boolean oldValue = perspectiveBarVisible;
@@ -3323,7 +3323,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * @return whether the perspective bar should be shown. This is only
 	 *         applicable if the window configurer also wishes either the
 	 *         perspective bar to be visible.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public boolean getPerspectiveBarVisible() {
 		return perspectiveBarVisible;
@@ -3336,7 +3336,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * 
 	 * @param visible
 	 *            <code>true</code> or <code>false</code>
-	 * @since 3.2
+	 * @since 1.0
 	 */
 //	public void setFastViewBarVisible(boolean visible) {
 //		boolean oldValue = fastViewBarVisible;
@@ -3352,7 +3352,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * 
 	 * @return <code>true</code> if the workbench window thinks the fastview
 	 *         bar should be visible.
-	 * @since 3.2
+	 * @since 1.0
 	 */
 //	public boolean getFastViewBarVisible() {
 //		return fastViewBarVisible;
@@ -3363,7 +3363,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 *            whether the perspective bar should be shown. This is only
 	 *            applicable if the window configurer also wishes either the
 	 *            perspective bar to be visible.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public void setStatusLineVisible(boolean visible) {
 		boolean oldValue = statusLineVisible;
@@ -3377,7 +3377,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * @return whether the perspective bar should be shown. This is only
 	 *         applicable if the window configurer also wishes either the
 	 *         perspective bar to be visible.
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	public boolean getStatusLineVisible() {
 		return statusLineVisible;
@@ -3389,7 +3389,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * 
 	 * called IWorkbench
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	private void updateLayoutDataForContents() {
 		if (defaultLayout == null) {
@@ -3554,7 +3554,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
      * </p>
      * 
      * @return a cool bar manager
-	 * @since 3.2
+	 * @since 1.0
      */
     protected ICoolBarManager createCoolBarManager2(int style) {
         return getActionBarPresentationFactory().createCoolBarManager();
@@ -3566,7 +3566,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
      * Subclasses may override this method to customize the tool bar manager.
      * </p>
      * @return a tool bar manager
-	 * @since 3.2
+	 * @since 1.0
      */
     protected IToolBarManager createToolBarManager2(int style) {
         return getActionBarPresentationFactory().createToolBarManager();
@@ -3576,7 +3576,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Delegate to the presentation factory.
 	 * 
 	 * @see org.eclipse.jface.window.ApplicationWindow#createStatusLineManager
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	protected StatusLineManager createStatusLineManager() {
 		// @issue ApplicationWindow and WorkbenchWindow should allow full
@@ -3589,7 +3589,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Delegate to the presentation factory.
 	 * 
 	 * @see org.eclipse.jface.window.ApplicationWindow#createStatusLine
-	 * @since 3.0
+	 * @since 1.0
 	 */
 	protected void createStatusLine(Shell shell) {
 		getWindowConfigurer().getPresentationFactory().createStatusLineControl(
@@ -3600,7 +3600,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Updates the fast view bar, if present. TODO: The fast view bar should
 	 * update itself as necessary. All calls to this should be cleaned up.
 	 * 
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	public void updateFastViewBar() {
 //		if (getFastViewBar() != null) {
@@ -3623,7 +3623,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * @param side
 	 *            one of <code>SWT.LEFT</code>,<code>SWT.BOTTOM</code>,
 	 *            or <code>SWT.RIGHT</code> (only LEFT has been tested)
-	 * @since 3.0
+	 * @since 1.0
 	 */
 //	public void addToTrim(IWindowTrim trim, int side) {
 //		IWindowTrim reference = null;
@@ -3649,7 +3649,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 *            perspective to customize
 	 * 
 	 * @return a new perspective customization dialog
-	 * @since 3.1
+	 * @since 1.0
 	 */
 //	public CustomizePerspectiveDialog createCustomizePerspectiveDialog(
 //			Perspective persp) {
@@ -3660,7 +3660,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * Returns the default page input for workbench pages opened in this window.
 	 * 
 	 * @return the default page input or <code>null</code> if none
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	IAdaptable getDefaultPageInput() {
 		return getWorkbenchImpl().getDefaultPageInput();
@@ -3773,7 +3773,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 	 * respects the window configurer and will only toggle visibility if the
 	 * item in question was originally declared visible by the window advisor.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	public void toggleToolbarVisibility() {
 		boolean coolbarVisible = getCoolBarVisible();

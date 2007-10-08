@@ -32,7 +32,7 @@ import org.eclipse.ui.handlers.IHandlerService;
  * <code>org.eclipse.ui.workbench</code> plug-in.
  * </p>
  * 
- * @since 3.2
+ * @since 1.0
  */
 public class SlaveHandlerService implements IHandlerService {
 

@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Widget;
  * Table or Tree. Implementors of {@link ColumnViewer} have to provide a
  * concrete implementation for the underlying widget
  * 
- * @since 3.3
+ * @since 1.0
  * 
  */
 public abstract class ViewerRow implements Cloneable {

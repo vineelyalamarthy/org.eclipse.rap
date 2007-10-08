@@ -73,7 +73,7 @@ public class PerspectiveListenerList extends EventManager {
     /**
      * Notifies the listener that a perspective has been deactivated.
      * 
-     * @since 3.2
+     * @since 1.0
      */
     public void firePerspectivePreDeactivate(final IWorkbenchPage page,
             final IPerspectiveDescriptor perspective) {
@@ -93,7 +93,7 @@ public class PerspectiveListenerList extends EventManager {
     /**
      * Notifies the listener that a perspective has been deactivated.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public void firePerspectiveDeactivated(final IWorkbenchPage page,
             final IPerspectiveDescriptor perspective) {
@@ -130,7 +130,7 @@ public class PerspectiveListenerList extends EventManager {
      * Notifies the listener that a part has been affected
      * in the given perspective.
      * 
-     * @since 3.0
+     * @since 1.0
      */
     public void firePerspectiveChanged(final IWorkbenchPage page,
             final IPerspectiveDescriptor perspective,
@@ -152,7 +152,7 @@ public class PerspectiveListenerList extends EventManager {
     /**
      * Notifies the listener that a perspective has been closed.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public void firePerspectiveClosed(final IWorkbenchPage page,
             final IPerspectiveDescriptor perspective) {
@@ -172,7 +172,7 @@ public class PerspectiveListenerList extends EventManager {
     /**
      * Notifies the listener that a perspective has been opened.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public void firePerspectiveOpened(final IWorkbenchPage page,
             final IPerspectiveDescriptor perspective) {
@@ -192,7 +192,7 @@ public class PerspectiveListenerList extends EventManager {
     /**
      * Notifies the listener that a perspective has been deactivated.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public void firePerspectiveSavedAs(final IWorkbenchPage page,
             final IPerspectiveDescriptor oldPerspective,

@@ -145,7 +145,7 @@ public class LayoutTree implements ISizeProvider {
      * @param a a positive integer or INFINITE indicating positive infinity
      * @param b a positive integer (may not be INFINITE)
      * @return a - b, or INFINITE if a == INFINITE
-     * @since 3.1
+     * @since 1.0
      */
     public static int subtract(int a, int b) {
         Assert.isTrue(b >= 0 && b < INFINITE);
@@ -159,7 +159,7 @@ public class LayoutTree implements ISizeProvider {
      * @param a a positive integer
      * @param b a positive integer
      * @return a + b, or INFINITE if a or b are positive infinity
-     * @since 3.1
+     * @since 1.0
      */
     public static int add(int a, int b) {
     	if (a == INFINITE || b == INFINITE) {
@@ -176,7 +176,7 @@ public class LayoutTree implements ISizeProvider {
      * subtraction from infinity. 
      * 
      * @param toCheck integer to validate
-     * @since 3.1
+     * @since 1.0
      */
     public static void assertValidSize(int toCheck) {
     	Assert.isTrue(toCheck >= 0 && (toCheck == INFINITE || toCheck < INFINITE / 2));
@@ -238,7 +238,7 @@ public class LayoutTree implements ISizeProvider {
 	 * 
 	 * @see org.eclipse.ui.presentations.StackPresentation#computePreferredSize(boolean, int, int, int)
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	protected int doComputePreferredSize(boolean width, int availableParallel, int availablePerpendicular, int preferredParallel) {
     	int result = Math.min(availableParallel, 
@@ -317,7 +317,7 @@ public class LayoutTree implements ISizeProvider {
      * For use in benchmarks and test suites only. Displays cache utilization statistics for all
      * LayoutTree instances.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public static void printCacheStatistics() {
     	System.out.println("minimize cache " + minCacheHits + " / " + (minCacheHits + minCacheMisses) + " hits " + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -415,7 +415,7 @@ public class LayoutTree implements ISizeProvider {
      * out of synch with their cached information (for example, if a lot of changes
      * may have happened without calling flushCache after each change)
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public void flushChildren() {
         flushNode();
@@ -425,7 +425,7 @@ public class LayoutTree implements ISizeProvider {
      * Flushes all cached information about this node and all of its ancestors.
      * This should be called when a single child changes.
      * 
-     * @since 3.1
+     * @since 1.0
      */
     public final void flushCache() {
         flushNode();
@@ -574,7 +574,7 @@ public class LayoutTree implements ISizeProvider {
      * LayoutParts that are being arranged by the LayoutTree. 
      * 
      * @param parent
-     * @since 3.1
+     * @since 1.0
      */
     public void createControl(Composite parent) {        
     }
@@ -605,7 +605,7 @@ public class LayoutTree implements ISizeProvider {
      * 
      * @param vertical 
      * @return
-     * @since 3.1
+     * @since 1.0
      */
     public final boolean hasSizeFlag(boolean width, int flag) {        
         return (getSizeFlags(width) & flag) != 0;

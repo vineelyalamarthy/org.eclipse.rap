@@ -13,7 +13,7 @@ package org.eclipse.ui;
 /**
  * This interface describes the constants used for <link>IWorkbenchPart</link> properties.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public interface IWorkbenchPartConstants {
 

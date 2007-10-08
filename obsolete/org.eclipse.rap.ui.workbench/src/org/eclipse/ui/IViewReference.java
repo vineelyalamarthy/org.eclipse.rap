@@ -24,7 +24,7 @@ public interface IViewReference extends IWorkbenchPartReference {
      * 
      * @return the secondary ID, or <code>null</code> if there is no secondary id
      * @see IWorkbenchPage#showView(String, String, int)
-     * @since 3.0
+     * @since 1.0
      */
     public String getSecondaryId();
 

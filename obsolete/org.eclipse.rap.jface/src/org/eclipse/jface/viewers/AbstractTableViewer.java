@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.*;
  * {@link org.eclipse.swt.widgets.Table} like widgets can use to provide a
  * viewer on top of their widget implementations.
  * 
- * @since 3.3
+ * @since 1.0
  */
 public abstract class AbstractTableViewer extends ColumnViewer {
 
@@ -251,7 +251,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @param element
 	 * @param index
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void createItem(Object element, int index) {
 		if (virtualManager == null) {
@@ -636,7 +636,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	/**
 	 * Refresh all with virtual elements.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void internalVirtualRefreshAll() {
 
@@ -661,7 +661,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * 
 	 * @param updateLabels
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	private void internalRefreshAll(boolean updateLabels) {
 		// the parent
@@ -991,7 +991,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @param count
 	 *            the new table size.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void setItemCount(int count) {
 		if (isBusy())
@@ -1024,7 +1024,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @param index
 	 * @see ILazyContentProvider
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void replace(Object element, int index) {
 		if (isBusy())
@@ -1039,7 +1039,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @param index
 	 *            the index of the table item to be cleared
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 */
 	public void clear(int index) {
 		Item item = doGetItem(index);
@@ -1081,7 +1081,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *            the search item
 	 * @return the index of the item
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract int doIndexOf(Item item);
 
@@ -1090,7 +1090,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * 
 	 * @return the number of items
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract int doGetItemCount();
 
@@ -1100,7 +1100,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @param count
 	 *            the number of items
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doSetItemCount(int count);
 
@@ -1110,7 +1110,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * 
 	 * @return the items in the receiver
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract Item[] doGetItems();
 
@@ -1130,7 +1130,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *                if the index is not between 0 and the number of elements
 	 *                in the list minus 1 (inclusive)
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract Widget doGetColumn(int index);
 
@@ -1145,7 +1145,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *                if the index is not between 0 and the number of elements
 	 *                in the list minus 1 (inclusive)
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract Item doGetItem(int index);
 
@@ -1156,7 +1156,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * 
 	 * @return an array representing the selection
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract Item[] doGetSelection();
 
@@ -1167,7 +1167,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * 
 	 * @return an array representing the selection
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract int[] doGetSelectionIndices();
 
@@ -1177,7 +1177,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * with the <code>SWT.VIRTUAL</code> style, these attributes are requested
 	 * again as needed.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doClearAll();
 
@@ -1187,7 +1187,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * 
 	 * @param item the item to reset 
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doResetItem(Item item);
 	
@@ -1204,14 +1204,14 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *                if either the start or end are not between 0 and the
 	 *                number of elements in the list minus 1 (inclusive)
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doRemove(int start, int end);
 
 	/**
 	 * Removes all of the items from the receiver.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doRemoveAll();
 
@@ -1227,7 +1227,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *                between 0 and the number of elements in the list minus 1
 	 *                (inclusive)
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doRemove(int[] indices);
 
@@ -1242,14 +1242,14 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @exception IllegalArgumentException -
 	 *                if the item is null
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doShowItem(Item item);
 
 	/**
 	 * Deselects all selected items in the receiver.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doDeselectAll();
 
@@ -1268,7 +1268,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @exception IllegalArgumentException -
 	 *                if the array of items is null
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doSetSelection(Item[] items);
 
@@ -1277,7 +1277,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * this method simply returns. Otherwise, the items are scrolled until the
 	 * selection is visible.
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doShowSelection();
 
@@ -1296,7 +1296,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @exception IllegalArgumentException -
 	 *                if the array of indices is null
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doSetSelection(int[] indices);
 
@@ -1316,7 +1316,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @see SWT#VIRTUAL
 	 * @see SWT#SetData
 	 * 
-	 * @since 3.3
+	 * @since 1.0
 	 */
 	protected abstract void doClear(int index);
 	

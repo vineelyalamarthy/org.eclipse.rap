@@ -15,7 +15,7 @@ import org.eclipse.core.expressions.Expression;
 import org.eclipse.jface.util.IPropertyChangeListener;
 
 /**
- * @since 3.3
+ * @since 1.0
  * 
  */
 public class EvaluationReference extends EvaluationResultCache implements

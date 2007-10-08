@@ -48,7 +48,7 @@ import org.eclipse.jface.viewers.deferred.ConcurrentTableUpdator.Range;
  * the previous range.
  * </p>
  * 
- * @since 3.1
+ * @since 1.0
  */
 /* package */ final class BackgroundContentProvider {
     

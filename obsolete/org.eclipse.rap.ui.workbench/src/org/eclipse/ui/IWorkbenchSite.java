@@ -41,7 +41,7 @@ import org.eclipse.ui.services.IServiceLocator;
  * 
  * @see org.eclipse.ui.IWorkbenchPartSite
  * @see org.eclipse.ui.part.IPageSite
- * @since 2.0
+ * @since 1.0
  */
 public interface IWorkbenchSite extends IAdaptable, IShellProvider
 		,IServiceLocator {

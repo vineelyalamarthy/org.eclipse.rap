@@ -13,7 +13,7 @@ package org.eclipse.jface.viewers;
 /**
  * A selection containing tree paths.
  * 
- * @since 3.2
+ * @since 1.0
  *
  */
 public interface ITreeSelection extends IStructuredSelection {

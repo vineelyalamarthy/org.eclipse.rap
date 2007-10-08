@@ -23,7 +23,7 @@ import org.eclipse.ui.internal.presentations.util.WidgetTabItem;
 import org.eclipse.ui.internal.util.Util;
 
 /**
- * @since 3.1
+ * @since 1.0
  */
 public class DefaultTabItem extends WidgetTabItem {
 
@@ -118,7 +118,7 @@ public class DefaultTabItem extends WidgetTabItem {
 	 * Escapes all the ampersands in the given string such that they can be
 	 * displayed verbatim in an SWT label rather than treated as accelerators.
 	 * 
-	 * @since 3.1
+	 * @since 1.0
 	 * 
 	 * @return a string where all ampersands are escaped
 	 */

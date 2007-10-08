@@ -22,7 +22,7 @@ import org.eclipse.ui.forms.events.IHyperlinkListener;
  * hyperlink events. Subclasses are responsible for rendering the hyperlink in
  * the client area.
  * 
- * @since 3.0
+ * @since 1.0
  */
 public abstract class AbstractHyperlink extends Canvas {
 	private boolean hasFocus;
