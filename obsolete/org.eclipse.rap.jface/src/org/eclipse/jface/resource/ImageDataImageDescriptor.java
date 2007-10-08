@@ -105,4 +105,8 @@ class ImageDataImageDescriptor extends ImageDescriptor {
 //        return (imgWrap.originalImage == null && data.equals(imgWrap.data));
     }
     
+    public Image createImage(boolean returnMissingImageOnError, Device device) {
+      return originalImage;
+    }
+    
 }
