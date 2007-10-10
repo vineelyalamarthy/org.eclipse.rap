@@ -20,7 +20,6 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.ui.IMemento;
 
 class LogReader {

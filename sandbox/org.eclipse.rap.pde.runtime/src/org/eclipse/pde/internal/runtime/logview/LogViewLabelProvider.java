@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.pde.internal.runtime.logview;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IStatus;
@@ -18,9 +20,6 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.pde.internal.runtime.PDERuntimeMessages;
 import org.eclipse.pde.internal.runtime.PDERuntimePluginImages;
 import org.eclipse.swt.graphics.Image;
-
-import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.text.SimpleDateFormat;
 
 public class LogViewLabelProvider
 	extends LabelProvider

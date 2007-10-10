@@ -16,7 +16,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.Action;
 import org.eclipse.pde.internal.runtime.PDERuntimePlugin;
-import org.eclipse.ui.*;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 
 /*
  * This action is used to Open the Log File from the LogView if both org.eclipse.ui.ide and 

@@ -12,10 +12,9 @@ package org.eclipse.pde.internal.runtime.logview;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.text.SimpleDateFormat;
-
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
