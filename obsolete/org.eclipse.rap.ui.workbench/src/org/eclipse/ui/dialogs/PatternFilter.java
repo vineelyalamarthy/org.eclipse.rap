@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.ui.dialogs;
 
+import java.text.BreakIterator;
 import java.util.*;
 
 import org.eclipse.jface.viewers.*;
@@ -286,23 +287,22 @@ public class PatternFilter extends ViewerFilter {
 		// compile against JCL Foundation (bug 80053).
 		// Also need to do this in an NL-sensitive way. The use of BreakIterator
 		// was suggested in bug 90579.
-//		BreakIterator iter = BreakIterator.getWordInstance();
-//		iter.setText(text);
-//		int i = iter.first();
-//		while (i != java.text.BreakIterator.DONE && i < text.length()) {
-//			int j = iter.following(i);
-//			if (j == java.text.BreakIterator.DONE) {
-//				j = text.length();
-//			}
-//			// match the word
-//			if (Character.isLetterOrDigit(text.charAt(i))) {
-//				String word = text.substring(i, j);
-//				words.add(word);
-//			}
-//			i = j;
-//		}
-//		return (String[]) words.toArray(new String[words.size()]);
-    	return text.split( "\\W" );
+		BreakIterator iter = BreakIterator.getWordInstance();
+		iter.setText(text);
+		int i = iter.first();
+		while (i != java.text.BreakIterator.DONE && i < text.length()) {
+			int j = iter.following(i);
+			if (j == java.text.BreakIterator.DONE) {
+				j = text.length();
+			}
+			// match the word
+			if (Character.isLetterOrDigit(text.charAt(i))) {
+				String word = text.substring(i, j);
+				words.add(word);
+			}
+			i = j;
+		}
+		return (String[]) words.toArray(new String[words.size()]);
     }
     
 	/**
