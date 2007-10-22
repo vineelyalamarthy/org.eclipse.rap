@@ -13,6 +13,8 @@ package org.eclipse.ui.internal.servlet;
 
 import java.io.*;
 import java.text.MessageFormat;
+import java.util.Hashtable;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,29 +49,47 @@ class LifeCycleServiceHandlerConfigurer
 
   private final static LifeCycleServiceHandlerSync syncHandler
     = new RWTLifeCycleServiceHandlerSync();
+  private static String content;
+  private final static Map templateBuffer = new Hashtable();
   
   public InputStream getTemplateOfStartupPage() throws IOException {
-    InputStream result = loadTemplateFile();
-    InputStreamReader isr = new InputStreamReader( result );
-    BufferedReader reader = new BufferedReader( isr );
-    String line = reader.readLine();
-    StringBuffer content = new StringBuffer();
-    while( line != null ) {
-      content.append( line );
-      content.append( "\n" );
-      line = reader.readLine();
-    }
+    readContent();
+    StringBuffer buffer = new StringBuffer( content );
     setDummyBrowser();
     try {
       String libs = getLibraries();
-      BrowserSurvey.replacePlaceholder( content, "${libraries}", libs );
+      BrowserSurvey.replacePlaceholder( buffer, "${libraries}", libs );
       String appScript = getAppScript();
-      BrowserSurvey.replacePlaceholder( content, "${appscript}", appScript );
-      applyBranding( content );
+      BrowserSurvey.replacePlaceholder( buffer, "${appscript}", appScript );
+      applyBranding( buffer );
     } finally {
       removeDummyBrowser();
     }
-    return new ByteArrayInputStream( content.toString().getBytes() );
+    String templateString = buffer.toString();
+
+    // buffer bytes to avoid unnecessary getBytes calls
+    byte[] template = ( byte[] )templateBuffer.get( templateString );
+    if( template == null ) {
+      template = templateString.getBytes();
+      templateBuffer.put( templateString, template );
+    }
+    return new ByteArrayInputStream( template );
+  }
+
+  private void readContent() throws IOException {
+    if( content == null ) {
+      InputStream result = loadTemplateFile();
+      InputStreamReader isr = new InputStreamReader( result );
+      BufferedReader reader = new BufferedReader( isr );
+      String line = reader.readLine();
+      StringBuffer buffer = new StringBuffer();
+      while( line != null ) {
+        buffer.append( line );
+        buffer.append( "\n" );
+        line = reader.readLine();
+      }
+      content = buffer.toString();
+    }
   }
 
   // TODO [fappel]: extend branding mechanism to work also for RWT/JFace
