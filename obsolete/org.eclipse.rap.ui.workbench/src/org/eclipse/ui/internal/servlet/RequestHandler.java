@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2002-2007 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,7 +20,6 @@ import org.eclipse.rwt.internal.IEngineConfig;
 import org.eclipse.rwt.internal.engine.RWTDelegate;
 
 
-
 public class RequestHandler extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
@@ -35,6 +34,7 @@ public class RequestHandler extends HttpServlet {
   }
   
   public void init( final ServletConfig config ) throws ServletException {
+    super.init( config );
     // TODO [bm] this is not thread-safe in case of two concurrent init calls
     if( engineConfigWrapper == null ) {
       engineConfigWrapper = new EngineConfigWrapper();
@@ -45,7 +45,7 @@ public class RequestHandler extends HttpServlet {
     }
   }
 
-  public void service( final HttpServletRequest request, 
+  public void service( final HttpServletRequest request,
                        final HttpServletResponse response )
     throws ServletException, IOException
   {
