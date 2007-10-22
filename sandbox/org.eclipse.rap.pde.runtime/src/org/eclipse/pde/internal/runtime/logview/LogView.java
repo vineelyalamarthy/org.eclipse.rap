@@ -395,9 +395,7 @@ public class LogView extends ViewPart implements ILogListener {
 		fColumn1.setWidth(300);
 		fColumn1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-			    System.out.println(MESSAGE_ORDER);
 				MESSAGE_ORDER *= -1;
-				System.out.println(MESSAGE_ORDER);
 				ViewerComparator comparator = getViewerComparator(MESSAGE);
 				fTreeViewer.setComparator(comparator);
 				boolean isComparatorSet = 

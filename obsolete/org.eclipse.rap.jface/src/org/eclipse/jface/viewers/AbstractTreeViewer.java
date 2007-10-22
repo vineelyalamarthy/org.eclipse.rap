@@ -2618,9 +2618,8 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			}
 		}
 
-		// WORKAROUND
+		// TODO: [fappel][bm] WORKAROUND
 		if (widget == tree && oldCnt == 0 && getItemCount(tree) != 0) {
-			 System.out.println("WORKAROUND setRedraw");
 			tree.setRedraw(false);
 			tree.setRedraw(true);
 		}
