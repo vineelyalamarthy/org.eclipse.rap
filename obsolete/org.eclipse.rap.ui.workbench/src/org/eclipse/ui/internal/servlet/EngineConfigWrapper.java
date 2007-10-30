@@ -54,10 +54,10 @@ final class EngineConfigWrapper implements IEngineConfig {
   private static final String ID_ENTRY_POINT
     = "org.eclipse.rap.ui.entrypoint";
   //  extension point id for custom theme registration
-  private static final String ID_SWT_THEMES
+  private static final String ID_THEMES
     = "org.eclipse.rap.ui.themes";
   //  extension point id for custom themeable widget registration
-  private static final String ID_SWT_THEMEABLE_WIDGETS
+  private static final String ID_THEMEABLE_WIDGETS
     = "org.eclipse.rap.ui.themeableWidgets";
   //  extension point id for phase listener registration
   private static final String ID_PHASE_LISTENER
@@ -75,8 +75,8 @@ final class EngineConfigWrapper implements IEngineConfig {
     registerRWTLifeCycle();
     registerResourceManagerFactory();
     registerWorkbenchEntryPoint();
-    registerSWTThemeableWidgets();
-    registerSWTThemes();
+    registerThemeableWidgets();
+    registerThemes();
     registerFactories();
     registerResources();
     registerLifeCycleServiceHandlerConfigurer();
@@ -194,9 +194,9 @@ final class EngineConfigWrapper implements IEngineConfig {
     }
   }
 
-  private static void registerSWTThemeableWidgets() {
+  private static void registerThemeableWidgets() {
     IExtensionRegistry registry = Platform.getExtensionRegistry();
-    IExtensionPoint ep = registry.getExtensionPoint( ID_SWT_THEMEABLE_WIDGETS );
+    IExtensionPoint ep = registry.getExtensionPoint( ID_THEMEABLE_WIDGETS );
     IConfigurationElement[] widgetExts = ep.getConfigurationElements();
     for( int i = 0; i < widgetExts.length; i++ ) {
       String contributorName = widgetExts[ i ].getContributor().getName();
@@ -205,10 +205,11 @@ final class EngineConfigWrapper implements IEngineConfig {
       String widgetClass = widgetExts[ i ].getAttribute( "class" );
       try {
         final Bundle bundle = Platform.getBundle( contributorName );
-        Class widget = bundle.loadClass( widgetClass );
+        Class widget;
+        widget = bundle.loadClass( widgetClass );
         ThemeManager.getInstance().addThemeableWidget( widget );
-      } catch( final ClassNotFoundException e ) {
-        String text =   "Could not load SWT themeable widget ''{0}''.";
+      } catch( final Throwable e ) {
+        String text =   "Could not register themeable widget ''{0}''.";
         Object[] param = new Object[] { widgetClass };
         String msg = MessageFormat.format( text, param );
         Status status = new Status( IStatus.ERROR,
@@ -217,16 +218,21 @@ final class EngineConfigWrapper implements IEngineConfig {
                                     msg,
                                     e );
         WorkbenchPlugin.getDefault().getLog().log( status );
-        // TODO [rst] Added to make errors in custom themes visible on the
-        //            console, revise this
-        System.err.println( msg + " Reason: " + e.getMessage() );
+        // Display startup error in stderr
+        String reason;
+        if( e instanceof ClassNotFoundException ) {
+          reason = "Class not found";
+        } else {
+          reason = e.getMessage();
+        }
+        System.err.println( "ERROR: " + msg + " Reason: " + reason );
       }
     }
   }
-
-  private static void registerSWTThemes() {
+  
+  private static void registerThemes() {
     IExtensionRegistry registry = Platform.getExtensionRegistry();
-    IExtensionPoint ep = registry.getExtensionPoint( ID_SWT_THEMES );
+    IExtensionPoint ep = registry.getExtensionPoint( ID_THEMES );
     IConfigurationElement[] elements = ep.getConfigurationElements();
     ThemeManager.getInstance().initialize();
     for( int i = 0; i < elements.length; i++ ) {
@@ -260,24 +266,23 @@ final class EngineConfigWrapper implements IEngineConfig {
             inStream.close();
           }
         }
-      } catch( final Throwable thr ) {
-        String text = "Could not register SWT theme ''{0}'' "
-                    + "from file ''{1}''.";
+      } catch( final Throwable e ) {
+        String text = "Could not register custom theme ''{0}'' "
+                      + "from file ''{1}''.";
         Object[] param = new Object[] { themeId, themeFile };
         String msg = MessageFormat.format( text, param );
         Status status = new Status( IStatus.ERROR,
                                     contributorName,
                                     IStatus.OK,
                                     msg,
-                                    thr );
+                                    e );
         WorkbenchPlugin.getDefault().getLog().log( status );
-        // TODO [rst] Added to make errors in custom themes visible on the
-        //            console, revise this
-        System.err.println( msg + " Reason: " + thr.getMessage() );
+        // Display startup error in stderr
+        System.err.println( "ERROR: " + msg + " Reason: " + e.getMessage() );
       }
     }
   }
-
+  
   private static void registerRWTLifeCycle() {
     // TODO: [fappel] ugly, ugly, ugly - replace this.
     //                Create the only valid lifecycle for RAP
