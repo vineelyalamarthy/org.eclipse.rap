@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rap.demo.feature"
       label="RAP Demo Deployment Feature"
-      version="1.0.0.qualifier"
+      version="1.0.1.qualifier"
       provider-name="eclipse.org">
 
    <description url="http://www.example.com/description">
