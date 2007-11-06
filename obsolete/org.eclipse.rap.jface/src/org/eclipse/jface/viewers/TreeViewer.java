@@ -427,11 +427,12 @@ public class TreeViewer extends AbstractTreeViewer {
 			final Object element) {
 		if (isBusy())
 			return;
-		preservingSelection(new Runnable() {
-			public void run() {
+		Item[] selectedItems = getSelection(getControl());
+		TreeSelection selection = (TreeSelection) getSelection();
 				Widget[] itemsToDisassociate;
 				if (parentElementOrTreePath instanceof TreePath) {
-					TreePath elementPath = ((TreePath)parentElementOrTreePath).createChildPath(element);
+			TreePath elementPath = ((TreePath) parentElementOrTreePath)
+					.createChildPath(element);
 					itemsToDisassociate = internalFindItems(elementPath);
 				} else {
 					itemsToDisassociate = internalFindItems(element);
@@ -439,15 +440,18 @@ public class TreeViewer extends AbstractTreeViewer {
 				if (internalIsInputOrEmptyPath(parentElementOrTreePath)) {
 					if (index < tree.getItemCount()) {
 						TreeItem item = tree.getItem(index);
-						// disassociate any differen item that represents the
+				selection = adjustSelectionForReplace(selectedItems, selection, item, element, getRoot());
+				// disassociate any different item that represents the
 						// same element under the same parent (the tree)
 						for (int i = 0; i < itemsToDisassociate.length; i++) {
 							if (itemsToDisassociate[i] instanceof TreeItem) {
 								TreeItem itemToDisassociate = (TreeItem)itemsToDisassociate[i];
-								if (itemToDisassociate != item && itemToDisassociate.getParentItem() == null) {
-									int index = getTree().indexOf(itemToDisassociate);
+						if (itemToDisassociate != item
+								&& itemToDisassociate.getParentItem() == null) {
+							int indexToDisassociate = getTree().indexOf(
+									itemToDisassociate);
 									disassociate(itemToDisassociate);
-									getTree().clear(index, true);
+							getTree().clear(indexToDisassociate, true);
 								}
 							}
 						}
@@ -463,15 +467,18 @@ public class TreeViewer extends AbstractTreeViewer {
 						TreeItem parentItem = (TreeItem) parentItems[i];
 						if (index < parentItem.getItemCount()) {
 							TreeItem item = parentItem.getItem(index);
-							// disassociate any differen item that represents the
+					selection = adjustSelectionForReplace(selectedItems, selection, item, element, parentItem.getData());
+					// disassociate any different item that represents the
 							// same element under the same parent (the tree)
 							for (int j = 0; j < itemsToDisassociate.length; j++) {
 								if (itemsToDisassociate[j] instanceof TreeItem) {
 									TreeItem itemToDisassociate = (TreeItem)itemsToDisassociate[j];
-									if (itemToDisassociate != item && itemToDisassociate.getParentItem() == parentItem) {
-										int index = parentItem.indexOf(itemToDisassociate);
+							if (itemToDisassociate != item
+									&& itemToDisassociate.getParentItem() == parentItem) {
+								int indexToDisaccociate = parentItem
+										.indexOf(itemToDisassociate);
 										disassociate(itemToDisassociate);
-										parentItem.clear(index, true);
+								parentItem.clear(indexToDisaccociate, true);
 									}
 								}
 							}
@@ -479,13 +486,57 @@ public class TreeViewer extends AbstractTreeViewer {
 							updateItem(item, element);
 							if (!TreeViewer.this.equals(oldData, element)) {
 								item.clearAll(true);
+					}
+				}
 							}
 						}
+		// Restore the selection if we are not already in a nested preservingSelection:
+		if (!preservingSelection) {
+			setSelectionToWidget(selection, false);
+			// send out notification if old and new differ
+			ISelection newSelection = getSelection();
+			if (!newSelection.equals(selection)) {
+				handleInvalidSelection(selection, newSelection);
 					}
 				}
 			}
 
-		});
+	/**
+	 * Fix for bug 185673: If the currently replaced item was selected, add it
+	 * to the selection that is being restored. Only do this if its getData() is
+	 * currently null
+	 * 
+	 * @param selectedItems
+	 * @param selection
+	 * @param item
+	 * @param element
+	 * @return
+	 */
+	private TreeSelection adjustSelectionForReplace(Item[] selectedItems,
+			TreeSelection selection, TreeItem item, Object element, Object parentElement) {
+		if (item.getData() != null || selectedItems.length == selection.size()
+				|| parentElement == null) {
+			// Don't do anything - we are not seeing an instance of bug 185673
+			return selection;
+	}
+		for (int i = 0; i < selectedItems.length; i++) {
+			if (item == selectedItems[i]) {
+				// The current item was selected, but its data is null.
+				// The data will be replaced by the given element, so to keep
+				// it selected, we have to add it to the selection.
+				TreePath[] originalPaths = selection.getPaths();
+				int length = originalPaths.length;
+				TreePath[] paths = new TreePath[length + 1];
+				System.arraycopy(originalPaths, 0, paths, 0, length);
+				// set the element temporarily so that we can call getTreePathFromItem
+				item.setData(element);
+				paths[length] = getTreePathFromItem(item);
+				item.setData(null);
+				return new TreeSelection(paths, selection.getElementComparer());
+			}
+		}
+		// The item was not selected, return the given selection
+		return selection;
 	}
 
 	public boolean isExpandable(Object element) {
@@ -712,8 +763,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	private ViewerRow createNewRowPart(ViewerRow parent, int style, int rowIndex) {
 		if (parent == null) {
 			if (rowIndex >= 0) {
-//				return getViewerRowFromItem(new TreeItem(tree, style, rowIndex));
-				return getViewerRowFromItem(new TreeItem(tree, style));
+				return getViewerRowFromItem(new TreeItem(tree, style, rowIndex));
 			}
 			return getViewerRowFromItem(new TreeItem(tree, style));
 		}
@@ -883,10 +933,10 @@ public class TreeViewer extends AbstractTreeViewer {
 				for (int i = 0; i < items.length; i++) {
 					TreeItem item = (TreeItem) items[i];
 					if (!hasChildren) {
-//						item.setItemCount(0);
+						item.setItemCount(0);
 					} else {
 						if (!item.getExpanded()) {
-//							item.setItemCount(1);
+							item.setItemCount(1);
 							TreeItem child = item.getItem(0);
 							if (child.getData() != null) {
 								disassociate(child);

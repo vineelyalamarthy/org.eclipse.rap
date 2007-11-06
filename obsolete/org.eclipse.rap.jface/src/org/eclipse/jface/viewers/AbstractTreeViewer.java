@@ -882,10 +882,25 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			columnCount = 1;
 
 		ViewerRow viewerRowFromItem = getViewerRowFromItem(item);
+
+		boolean isVirtual = (getControl().getStyle() & SWT.VIRTUAL) != 0;
+
+		// If the control is virtual, we cannot use the cached viewer row object. See bug 188663.
+		if (isVirtual) {
+			viewerRowFromItem = (ViewerRow) viewerRowFromItem.clone();
+		}
+		
 		for (int column = 0; column < columnCount; column++) {
 			ViewerColumn columnViewer = getViewerColumn(column);
-			columnViewer.refresh(updateCell(viewerRowFromItem,
-					column, element));
+			ViewerCell cellToUpdate = updateCell(viewerRowFromItem, column,
+					element);
+			
+			// If the control is virtual, we cannot use the cached cell object. See bug 188663.
+			if (isVirtual) {
+				cellToUpdate = new ViewerCell(cellToUpdate.getViewerRow(), cellToUpdate.getColumnIndex(), element);
+			}
+			
+			columnViewer.refresh(cellToUpdate);
 
 			// As it is possible for user code to run the event
 			// loop check here.
@@ -1427,7 +1442,11 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	}
 
 	/**
-	 * @param tree
+	 * Initializes the tree with root items, expanding to the appropriate
+	 * level if necessary.
+	 *
+	 * @param tree the tree control
+	 * @since 1.0
 	 */
 	protected void internalInitializeTree(Control tree) {
 		createChildren(tree);
