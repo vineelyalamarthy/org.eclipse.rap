@@ -242,9 +242,7 @@ class LifeCycleServiceHandlerConfigurer
     long dateHeader = request.getDateHeader( "If-Modified-Since" );
     // Because browser store the date in format with seconds as smallest unit
     // add one second to avoid rounding problems...
-    if(    dateHeader + 1000 < lastModified
-        || RWTRequestVersionControl.hasChanged() )
-    {
+    if( dateHeader + 1000 < lastModified ) {
       result = true;
       response.addDateHeader( "Last-Modified", lastModified );
       // TODO [fappel]: Think about "expires"-header for proxy usage.
