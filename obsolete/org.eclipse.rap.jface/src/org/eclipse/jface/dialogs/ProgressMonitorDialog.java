@@ -15,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.operation.*;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.rwt.lifecycle.UICallBack;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -474,70 +473,20 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
 	 * responsibility to call <code>Display.readAndDispatch()</code> to ensure
 	 * UI responsiveness.
 	 */
-  public void run( final boolean fork,
-                   final boolean cancelable,
-                   final IRunnableWithProgress runnable )
-    throws InvocationTargetException, InterruptedException
-  {
-    setCancelable( cancelable );
-    aboutToRun();
-    // [fappel]: We can't block here as the UI-Thread belongs to a
-    // current client request. All UI updates (in particular
-    // opening the Dialog) must be done by the response to
-    // this request.
-    progressMonitor.forked = true;
-    final Display display = Display.getCurrent();
-    final String[] runnableId = new String[ 1 ];
-    IRunnableWithProgress wrapper = new IRunnableWithProgress() {
-      public void run( final IProgressMonitor monitor )
-        throws InvocationTargetException, InterruptedException
-      {
+    public void run(boolean fork, boolean cancelable,
+            IRunnableWithProgress runnable) throws InvocationTargetException,
+            InterruptedException {
+        setCancelable(cancelable);
         try {
-          runnable.run( monitor );
-        } catch( final Throwable thr ) {
-          display.syncExec( new Runnable() {
-            public void run() {
-              openError( thr );
-            }
-          } );
+            aboutToRun();
+            // Let the progress monitor know if they need to update in UI Thread
+            progressMonitor.forked = fork;
+            ModalContext.run(runnable, fork, getProgressMonitor(), getShell()
+                    .getDisplay());
         } finally {
-          display.syncExec( new Runnable() {
-            public void run() {
-              finishedRun();
-              deactivateUICallBack();
-            }
-          } );
+            finishedRun();
         }
-      }
-      
-      private void deactivateUICallBack() {
-        UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
-          public void run() {
-            UICallBack.deactivate( runnableId[ 0 ] );
-          }
-        } );
-      }
-      
-      private void openError( final Throwable thr ) {
-        String pluginId = "org.eclipse.rap.jface";
-        IStatus status = new Status( IStatus.ERROR,
-                                     pluginId,
-                                     IStatus.OK,
-                                     thr.getMessage(),
-                                     thr );
-        ErrorDialog.openError( getParentShell(),
-                               "Problem occured.",
-                               thr.getMessage(),
-                               status );
-      }
-    };
-    runnableId[ 0 ] = String.valueOf( wrapper.hashCode() );
-    UICallBack.activate( runnableId[ 0 ] );
-    ModalContext.run( wrapper,
-                      true,
-                      getProgressMonitor(),
-                      getShell().getDisplay() );
-  }
+    }
 
 	/**
      * Returns whether the dialog should be opened before the operation is run.
