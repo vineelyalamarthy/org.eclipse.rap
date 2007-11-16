@@ -1,10 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH. All rights
- * reserved. This program and the accompanying materials are made available
- * under the terms of the Eclipse Public License v1.0 which accompanies this
- * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
- * Contributors: Innoopract Informationssysteme GmbH - initial API and
- * implementation
+ * Copyright (c) 2002-2007 Innoopract Informationssysteme GmbH.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
 package org.eclipse.ui.internal.branding;
 
@@ -184,19 +186,19 @@ public class BrandingRegistry {
     }
   }
 
-  public void registerImage( final String resource, final Branding branding ) {
+  protected void registerImage( final String resource, final Branding branding ) throws IOException {
     ParamCheck.notNull( resource, "resource" );
     ParamCheck.notNull( branding, "branding" );
     URL scriptUrl = Platform.getBundle( branding.getContributor() )
       .getEntry( resource );
-    InputStream is;
+    InputStream is = null;
     try {
       is = scriptUrl.openStream();
       if( is != null ) {
         RWT.getResourceManager().register( resource, is );
       }
-    } catch( IOException e ) {
-      e.printStackTrace();
+    } finally {
+        if (is != null) is.close();
     }
   }
 }

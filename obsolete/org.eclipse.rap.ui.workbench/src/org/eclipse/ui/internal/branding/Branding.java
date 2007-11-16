@@ -8,6 +8,7 @@
  ******************************************************************************/
 package org.eclipse.ui.internal.branding;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.MessageFormat;
@@ -93,7 +94,11 @@ public class Branding {
     if( resource == null ) {
       return;
     }
-    BrandingRegistry.getInstance().registerImage( resource, this );
+    try {
+      BrandingRegistry.getInstance().registerImage( resource, this );
+    } catch( IOException e ) {
+      e.printStackTrace();
+    }
   }
 
   public String getBody() {
