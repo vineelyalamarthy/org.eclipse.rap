@@ -698,7 +698,11 @@ public class TreeViewer extends AbstractTreeViewer {
 			virtualLazyUpdateChildCount(widget, getChildren(widget).length);
 		} else if (((TreeItem) widget).getExpanded()) {
 			// prevent SetData callback
-			((TreeItem)widget).setText(" "); //$NON-NLS-1$
+		    // TODO [bm] this causes empty labels for expanded nodes
+		    // after refreshing virtual tree. Investigate why JFace wants to prevent
+		    // callback here?!
+			//((TreeItem)widget).setText(" "); //$NON-NLS-1$
+		  
 			virtualLazyUpdateWidget(parent, index);
 		} else {
 			return;
