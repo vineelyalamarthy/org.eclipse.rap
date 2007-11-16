@@ -42,7 +42,7 @@ qx.Class.define( "org.eclipse.rap.gmaps.GMap", {
       var shell = null;
       var parent = this.getParent();
       while( shell == null && parent != null ) {
-        if( parent.classname == "org.eclipse.rap.rwt.widgets.Shell" ) {
+        if( parent.classname == "org.eclipse.swt.widgets.Shell" ) {
           shell = parent;
         }
         parent = parent.getParent();
