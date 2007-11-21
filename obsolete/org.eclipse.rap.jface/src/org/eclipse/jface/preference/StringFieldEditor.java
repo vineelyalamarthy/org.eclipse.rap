@@ -17,8 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
 
 /**
  * A field editor for a string type preference.
@@ -335,7 +334,13 @@ public class StringFieldEditor extends FieldEditor {
 //                        valueChanged();
 //                    }
 //                });
-
+                  // XXX: [bm] cannot use verify event as it's fired before text is changed
+                  textField.addModifyListener( new ModifyListener() {
+                    public void modifyText( ModifyEvent event ) {
+                      valueChanged();
+                    }
+                  });
+                  
                 break;
             case VALIDATE_ON_FOCUS_LOST:
 //                textField.addKeyListener(new KeyAdapter() {
@@ -343,6 +348,11 @@ public class StringFieldEditor extends FieldEditor {
 //                        clearErrorMessage();
 //                    }
 //                });
+                textField.addVerifyListener( new VerifyListener() {
+                  public void verifyText( VerifyEvent event ) {
+                    clearErrorMessage();
+                  }
+                });
                 textField.addFocusListener(new FocusAdapter() {
                     public void focusGained(FocusEvent e) {
                         refreshValidState();
