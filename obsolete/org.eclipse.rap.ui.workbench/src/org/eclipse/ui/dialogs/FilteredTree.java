@@ -593,30 +593,27 @@ public class FilteredTree extends Composite {
      */
     private void createClearText(Composite parent) {
     	// only create the button if the text widget doesn't support one natively
-//    	if ((filterText.getStyle() & SWT.CANCEL) == 0) {
-//			filterToolBar = new ToolBarManager(SWT.FLAT | SWT.HORIZONTAL);
-//			filterToolBar.createControl(parent);
-//
-//			IAction clearTextAction = new Action("", IAction.AS_PUSH_BUTTON) {//$NON-NLS-1$
-//				/*
-//				 * (non-Javadoc)
-//				 * 
-//				 * @see org.eclipse.jface.action.Action#run()
-//				 */
-//				public void run() {
-//					clearText();
-//				}
-//			};
-//
-//			clearTextAction
-//					.setToolTipText(WorkbenchMessages.FilteredTree_ClearToolTip);
-//			clearTextAction.setImageDescriptor(JFaceResources
-//					.getImageRegistry().getDescriptor(CLEAR_ICON));
-//			clearTextAction.setDisabledImageDescriptor(JFaceResources
-//					.getImageRegistry().getDescriptor(DCLEAR_ICON));
-//
-//			filterToolBar.add(clearTextAction);
-//		}
+    	// TODO jk - reenable if-statement when SWT.CANCEL is introduced
+    	// if ((filterText.getStyle() & SWT.CANCEL) == 0) {
+    	filterToolBar = new ToolBarManager(SWT.FLAT | SWT.HORIZONTAL);
+    	filterToolBar.createControl(parent);
+
+    	IAction clearTextAction = new Action("", IAction.AS_PUSH_BUTTON) {//$NON-NLS-1$
+	    	/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.action.Action#run()
+			 */
+	    	public void run() {
+	    		clearText();
+	    	}
+    	};
+
+    	clearTextAction.setToolTipText(WorkbenchMessages.FilteredTree_ClearToolTip);
+    	clearTextAction.setImageDescriptor(JFaceResources.getImageRegistry().getDescriptor(CLEAR_ICON));
+    	clearTextAction.setDisabledImageDescriptor(JFaceResources.getImageRegistry().getDescriptor(DCLEAR_ICON));
+
+    	filterToolBar.add(clearTextAction);
     }
 
     /**
