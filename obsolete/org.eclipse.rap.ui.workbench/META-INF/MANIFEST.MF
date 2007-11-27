@@ -3,6 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.rap.ui.workbench; singleton:=true
 Bundle-Version: 1.0.1.qualifier
+Bundle-ClassPath: patch.jar,
+ .
+Eclipse-ExtensibleAPI: true
 Bundle-Activator: org.eclipse.ui.internal.WorkbenchPlugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin

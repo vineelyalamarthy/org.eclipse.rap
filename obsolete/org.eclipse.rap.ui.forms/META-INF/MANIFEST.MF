@@ -5,6 +5,9 @@ Bundle-SymbolicName: org.eclipse.rap.ui.forms;singleton:=true
 Bundle-Version: 1.0.1.qualifier
 Bundle-Vendor: %provider-name
 Bundle-Localization: plugin
+Bundle-ClassPath: patch.jar,
+ .
+Eclipse-ExtensibleAPI: true
 Export-Package: org.eclipse.ui.forms,
  org.eclipse.ui.forms.editor,
  org.eclipse.ui.forms.events,

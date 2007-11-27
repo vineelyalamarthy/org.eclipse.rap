@@ -3,7 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.rap.jface
 Bundle-Version: 1.0.1.qualifier
-Bundle-ClassPath: .
+Bundle-ClassPath: patch.jar,
+ .
+Eclipse-ExtensibleAPI: true
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Export-Package: org.eclipse.jface,
