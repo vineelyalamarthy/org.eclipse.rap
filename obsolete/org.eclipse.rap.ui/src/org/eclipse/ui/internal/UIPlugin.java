@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-
 import org.osgi.framework.BundleContext;
 
 /**
@@ -101,5 +100,7 @@ public final class UIPlugin extends AbstractUIPlugin {
 //                UIPlugin.this.savePluginPreferences();
 //            }
 //        });
+        ResourceTranslatorHelper.registerAlgorithm();
     }
+
 }
