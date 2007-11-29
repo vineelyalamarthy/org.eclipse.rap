@@ -11,8 +11,7 @@
 
 package org.eclipse.ui.internal;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.ResourceBundle;
 
 import org.eclipse.core.internal.runtime.ResourceTranslator;
@@ -35,6 +34,8 @@ class ResourceTranslatorHelper {
     = new Class[] { Runnable.class };
   private static final String METHOD_SET_TRANSLATOR_ALGORITHM
     = "setTranslatorAlgorithm";
+  private static final String METHOD_GET_BUNDLE_CONTEXT
+    = "getBundleContext";
   private static final String FIELD_ALGORITHM_IO = "algorithmIO";
   private static Class CLASS_REGISTRY_FACTORY = RegistryFactory.class;
   
@@ -46,20 +47,48 @@ class ResourceTranslatorHelper {
   private static final class TranslatorAlgorithm implements Runnable {
 
     public void run() {
-      ResourceBundle bundle = getResourceBundle();
-      String result
-        = ResourceTranslator.getResourceString( null, getKey(), bundle );
+      String result = getKey();
+      ResourceBundle bundle = null;
+      try {
+        bundle = getResourceBundle();
+      } catch( final Exception shouldNotHappen ) {
+        // TODO [fappel]: I use reflection to get the bundle context since this
+        //                is not available in 3.2. We do not support the 
+        //                NLS patch fragment in 3.2 but unfortunately our build
+        //                process for 3.2 fails. As we will skip support for
+        //                3.2 soon, this seems to be the easiest solution.
+        //                Remove reflection usage after 3.2 support has been
+        //                skipped.
+        shouldNotHappen.printStackTrace();
+      }
+      if( bundle != null ) {
+        result = ResourceTranslator.getResourceString( null, getKey(), bundle );
+      }
       getIOHandle().set( result );
     }
 
-    private ResourceBundle getResourceBundle() {
+    private ResourceBundle getResourceBundle()
+      throws NoSuchMethodException,
+             IllegalAccessException,
+             InvocationTargetException
+    {
       Bundle bundle = Platform.getBundle( getSymbolicName() );
-      BundleContext bundleContext = bundle.getBundleContext();
+      BundleContext bundleContext = getBundleContext( bundle );
       String id = BundleLocalization.class.getName();
       ServiceReference reference = bundleContext.getServiceReference( id );
       BundleLocalization localization
         = ( BundleLocalization )bundleContext.getService( reference );
       return localization.getLocalization( bundle, RWT.getLocale().toString() );
+    }
+
+    private BundleContext getBundleContext( final Bundle bundle )
+      throws NoSuchMethodException,
+             IllegalAccessException,
+             InvocationTargetException
+    {
+      Method getBundleContext
+        = Bundle.class.getDeclaredMethod( METHOD_GET_BUNDLE_CONTEXT, null );
+      return ( BundleContext )getBundleContext.invoke( bundle, null );
     }
 
     private String getKey() {
