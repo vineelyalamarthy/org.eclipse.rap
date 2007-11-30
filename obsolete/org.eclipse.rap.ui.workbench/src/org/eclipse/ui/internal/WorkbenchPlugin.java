@@ -22,10 +22,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.*;
-import org.eclipse.ui.internal.branding.Branding;
-import org.eclipse.ui.internal.branding.BrandingRegistry;
+import org.eclipse.ui.internal.branding.BrandingExtension;
 import org.eclipse.ui.internal.misc.StatusUtil;
 import org.eclipse.ui.internal.registry.*;
+import org.eclipse.ui.internal.servlet.EntryPointExtension;
 import org.eclipse.ui.internal.servlet.HttpServiceTracker;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -828,7 +828,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
         
         // initialise the servlet names
         httpServiceTracker = new HttpServiceTracker(context);
-        BrandingRegistry.readBrandings();
+        BrandingExtension.read();
         httpServiceTracker.open();
         
 //        JFaceUtil.initializeJFace();
@@ -1054,6 +1054,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
     	
         httpServiceTracker.close();
         httpServiceTracker = null;
+        EntryPointExtension.unbindAll();
         
     	// TODO normally super.stop(*) would be the last statement in this
     	// method

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH. All rights
+ * Copyright (c) 2002-2007 Innoopract Informationssysteme GmbH. All rights
  * reserved. This program and the accompanying materials are made available
  * under the terms of the Eclipse Public License v1.0 which accompanies this
  * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
@@ -11,203 +11,147 @@ package org.eclipse.ui.internal.branding;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.MessageFormat;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.eclipse.core.runtime.*;
-import org.eclipse.rwt.internal.util.ParamCheck;
-import org.eclipse.ui.internal.WorkbenchPlugin;
-import org.osgi.framework.Bundle;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.rwt.branding.Header;
+import org.eclipse.rwt.branding.AbstractBranding;
+import org.eclipse.rwt.internal.resources.ResourceManager;
+import org.eclipse.ui.internal.servlet.EntryPointExtension;
 
-public class Branding {
+public final class Branding extends AbstractBranding {
 
-  private StringBuffer buffer;
-  private String id;
-  private String title = "";
-  private String themeId;
-  private String favIcon;
-  private String contributor;
-  private String servletName;
-  private String defaultEntrypointId;
-  private String exitMessage = "";
-  private List headers;
-  private List entrypointIdWhiteList = new ArrayList();
+  private static final String[] EMPTY_STRINGS = new String[ 0 ];
+  private static final Header[] EMPTY_HEADERS = new Header[ 0 ];
   
-  private static final Pattern DOUBLE_QUOTE_PATTERN
-  = Pattern.compile( "(\"|\\\\)" );
-  private static final Pattern NEWLINE_PATTERN
-  = Pattern.compile( "\\r\\n|\\r|\\n" );
-  private static final String NEWLINE_ESCAPE = "\\\\n";
-
-
-  public List getEntrypoints() {
-    return entrypointIdWhiteList;
+  private final String contributor;
+  private String servletName;
+  private String defaultEntryPointId;
+  private List entryPointIds;
+  private String title;
+  private String favIcon;
+  private List headers;
+  private String body;
+  private String exitMessage;
+  private String themeId;
+  
+  public Branding( final String contributor ) {
+    this.contributor = contributor;
   }
 
-  public void addEntrypoint( final String entrypointId ) {
-    entrypointIdWhiteList.add( entrypointId );
+  /////////////////
+  // Setter methods
+  
+  public void setServletName( final String servletName ) {
+    this.servletName = servletName;
   }
 
-  public String getTitle() {
-    return title;
+  public void addEntryPointId( final String entryPointId ) {
+    if( entryPointIds == null ) {
+      entryPointIds = new ArrayList();
+    }
+    entryPointIds.add( entryPointId );
   }
 
+  public void setDefaultEntryPointId( final String defaultEntryPointId ) {
+    this.defaultEntryPointId = defaultEntryPointId;
+  }
+  
   public void setTitle( final String title ) {
-    this.title = title == null
-                              ? ""
-                              : title;
+    this.title = title;
   }
 
-  public String getId() {
-    return id;
+  public void setFavIcon( final String favIcon ) {
+    this.favIcon = favIcon;
+  }
+  
+  public void setBody( final String body ) {
+    this.body = body;
   }
 
-  public Branding( final String id ) {
-    this.id = id;
-  }
-
-  public void addHeader( final String tagname, final HashMap attributes ) {
+  public void addHeader( final String tagName, final Map attributes ) {
     if( headers == null ) {
       headers = new ArrayList();
     }
-    Header h = new Header( tagname );
-    h.setAttributes( attributes );
-    headers.add( h );
+    Header header = new Header( tagName, attributes );
+    headers.add( header );
   }
 
-  public String renderHeaders() {
-    registerResource( favIcon );
-    if( headers == null ) {
-      return "";
-    }
-    StringBuffer buffer = new StringBuffer();
-    for( Iterator iter = headers.iterator(); iter.hasNext(); ) {
-      Header header = ( Header )iter.next();
-      buffer.append( header.render() + "\n" );
-    }
-    return buffer.toString();
-  }
-
-  public void registerResource( final String resource ) {
-    if( resource == null ) {
-      return;
-    }
-    try {
-      BrandingRegistry.getInstance().registerImage( resource, this );
-    } catch( IOException e ) {
-      e.printStackTrace();
-    }
-  }
-
-  public String getBody() {
-    if( buffer == null ) {
-      return "";
-    }
-    return buffer.toString();
-  }
-
-  public void setBodyTemplate( final String bodyTemplate ) {
-    if( contributor == null || bodyTemplate == null ) {
-      return;
-    }
-    final Bundle bundle = Platform.getBundle( contributor );
-    URL url = bundle.getResource( bodyTemplate );
-    InputStream inputStream;
-    try {
-      inputStream = url.openStream();
-      if( inputStream != null ) {
-        buffer = new StringBuffer();
-        try {
-          byte[] bytes = new byte[ 512 ];
-          int bytesRead = inputStream.read( bytes );
-          while( bytesRead != -1 ) {
-            buffer.append( new String( bytes, 0, bytesRead ) );
-            bytesRead = inputStream.read( bytes );
-          }
-        } finally {
-          inputStream.close();
-        }
-      }
-    } catch( Exception e ) {
-      String text = "Could not register body template ''{0}'' contributed by bundle ''{1}''.";
-      Object[] param = new Object[]{
-        bodyTemplate, contributor
-      };
-      String msg = MessageFormat.format( text, param );
-      Status status = new Status( IStatus.ERROR,
-                                  contributor,
-                                  IStatus.OK,
-                                  msg,
-                                  e );
-      WorkbenchPlugin.getDefault().getLog().log( status );
-    }
-  }
-
-  public String getThemeId() {
-    return themeId;
+  public void setExitMessage( final String exitMessage ) {
+    this.exitMessage = exitMessage;
   }
 
   public void setThemeId( final String themeId ) {
     this.themeId = themeId;
   }
 
-  public String getFavIcon() {
-    return favIcon;
-  }
-
-  public void setFavIcon( final String favIcon ) {
-    this.favIcon = favIcon;
-  }
-
+  ///////////////////////////
+  // IBranding implementation
+  
   public String getServletName() {
     return servletName;
   }
 
-  public void setServletName( final String servletName ) {
-    this.servletName = servletName;
+  public String getDefaultEntryPoint() {
+    return EntryPointExtension.getById( defaultEntryPointId );
   }
-
-  public String getContributor() {
-    return contributor;
-  }
-
-  public void setContributor( final String contributor ) {
-    ParamCheck.notNull( contributor, "contributor" );
-    this.contributor = contributor;
-  }
-
-  public String getDefaultEntrypointId() {
-    return defaultEntrypointId;
-  }
-
-  public void setDefaultEntrypointId( final String defaultEntrypointId ) {
-    this.defaultEntrypointId = defaultEntrypointId;
-    this.entrypointIdWhiteList.add( defaultEntrypointId );
-  }
-
   
+  public String[] getEntryPoints() {
+    String[] result;
+    if( entryPointIds == null ) {
+      result = EMPTY_STRINGS;
+    } else {
+      result = new String[ entryPointIds.size() ];
+      for( int i = 0; i < result.length; i++ ) {
+        String entryPointId = ( String )entryPointIds.get( i );
+        result[ i ] = EntryPointExtension.getById( entryPointId );
+      }
+    }
+    return result;
+  }
+  
+  public String getTitle() {
+    return title;
+  }
+
+  public String getFavIcon() {
+    return favIcon;
+  }
+  
+  public Header[] getHeaders() {
+    Header[] result;
+    if( headers == null ) {
+      result = EMPTY_HEADERS;
+    } else {
+      result = new Header[ headers.size() ];
+      headers.toArray( result );
+    }
+    return result;
+  }
+  
+  public String getBody() {
+    return body;
+  }
+
   public String getExitMessage() {
-    return escapeString( exitMessage );
+    return exitMessage;
   }
   
-  public void setExitMessage( String exitMessage ) {
-    if( exitMessage != null ) {
-      this.exitMessage = exitMessage;
+  public String getThemeId() {
+    return themeId;
+  }
+
+  public void registerResources() throws IOException {
+    if( favIcon != null && !"".equals( favIcon ) ) { //$NON-NLS-1$
+      URL url = Platform.getBundle( contributor ).getEntry( favIcon );
+      InputStream stream = url.openStream();
+      if( stream != null ) {
+        try {
+          ResourceManager.getInstance().register( favIcon, stream );
+        } finally {
+          stream.close();
+        }
+      }
     }
   }
-  
-  // TODO [bm] this is just a copy of JSWriter#escapeText
-  // we should move this to a public accessible class and make it 
-  // static - Rüdiger mentioned also to have JSWriter#call static
-  // and without the widgetmanager check
-  private static String escapeString( final String input ) {
-		Matcher matcher = DOUBLE_QUOTE_PATTERN.matcher(input);
-		String result = matcher.replaceAll("\\\\$1");
-		matcher = NEWLINE_PATTERN.matcher(result);
-		result = matcher.replaceAll(NEWLINE_ESCAPE);
-		return result;
-  }
-
 }

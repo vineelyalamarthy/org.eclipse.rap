@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2002-2007 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,17 +19,14 @@ import java.text.MessageFormat;
 import org.eclipse.core.runtime.*;
 import org.eclipse.rwt.internal.*;
 import org.eclipse.rwt.internal.lifecycle.*;
-import org.eclipse.rwt.internal.resources.ResourceManager;
-import org.eclipse.rwt.internal.resources.ResourceRegistry;
-import org.eclipse.rwt.internal.service.LifeCycleServiceHandler;
-import org.eclipse.rwt.internal.service.ServiceManager;
+import org.eclipse.rwt.internal.resources.*;
+import org.eclipse.rwt.internal.service.*;
 import org.eclipse.rwt.internal.theme.ResourceLoader;
 import org.eclipse.rwt.internal.theme.ThemeManager;
 import org.eclipse.rwt.lifecycle.PhaseListener;
 import org.eclipse.rwt.resources.IResource;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
-import org.eclipse.ui.internal.branding.BrandingRegistry;
 import org.osgi.framework.Bundle;
 
 
@@ -178,17 +175,17 @@ final class EngineConfigWrapper implements IEngineConfig {
         Bundle bundle = Platform.getBundle( contributorName );
         Class clazz = bundle.loadClass( className );
         EntryPointManager.register( parameter, clazz );
-        BrandingRegistry.getInstance().bindEntrypoint( id, parameter );
+        EntryPointExtension.bind( id, parameter );
       } catch( final Throwable thr ) {
         String text =   "Could not register entry point ''{0}'' "
                       + "with request startup parameter ''{1}''.";
         Object[] param = new Object[] { className, parameter };
         String msg = MessageFormat.format( text, param );
-        Status status = new Status( IStatus.ERROR,
-                                    contributorName,
-                                    IStatus.OK,
-                                    msg,
-                                    thr );
+        IStatus status = new Status( IStatus.ERROR,
+                                     contributorName,
+                                     IStatus.OK,
+                                     msg,
+                                     thr );
         WorkbenchPlugin.getDefault().getLog().log( status );
       }
     }
