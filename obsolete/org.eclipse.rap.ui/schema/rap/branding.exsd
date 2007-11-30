@@ -70,7 +70,7 @@
          <attribute name="defaultEntrypointId" type="string">
             <annotation>
                <documentation>
-                  To not having an application-wide entrypoint you can define a default entrypoint per branding. Having an URI like http://&amp;lt;host&amp;gt;:&amp;lt;port&amp;gt;/&amp;lt;servletName&amp;gt; will automatically start the server with the entrypoint you defined here.
+                  To not have an application-wide entrypoint you can define a default entrypoint per branding. Having an URI like http://&amp;lt;host&amp;gt;:&amp;lt;port&amp;gt;/&amp;lt;servletName&amp;gt; will automatically start the server with the entrypoint you defined here.
                </documentation>
             </annotation>
          </attribute>
