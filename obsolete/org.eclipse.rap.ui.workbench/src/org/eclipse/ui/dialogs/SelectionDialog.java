@@ -47,9 +47,9 @@ public abstract class SelectionDialog extends TrayDialog {
 	// dialog settings for storing bounds (since 3.2)
 	private IDialogSettings dialogBoundsSettings = null;
 
-	static String SELECT_ALL_TITLE = WorkbenchMessages.SelectionDialog_selectLabel;
+	static String SELECT_ALL_TITLE = WorkbenchMessages.get().SelectionDialog_selectLabel;
 
-	static String DESELECT_ALL_TITLE = WorkbenchMessages.SelectionDialog_deselectLabel;
+	static String DESELECT_ALL_TITLE = WorkbenchMessages.get().SelectionDialog_deselectLabel;
 
 	/**
 	 * Creates a dialog instance. Note that the dialog will have no visual
@@ -76,10 +76,10 @@ public abstract class SelectionDialog extends TrayDialog {
 	 * (non-Javadoc) Method declared on Dialog.
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
+		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.get().OK_LABEL,
 				true);
 		createButton(parent, IDialogConstants.CANCEL_ID,
-				IDialogConstants.CANCEL_LABEL, false);
+				IDialogConstants.get().CANCEL_LABEL, false);
 	}
 
 	/**

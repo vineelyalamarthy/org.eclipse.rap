@@ -72,7 +72,7 @@ public class ContentOutline extends PageBookView implements ISelectionProvider,
     /**
      * Message to show on the default page.
      */
-    private String defaultText =ContentOutlineMessages.ContentOutline_noOutline; 
+    private String defaultText =ContentOutlineMessages.get().ContentOutline_noOutline; 
 
     /**
      * Creates a content outline view with no content outline pages.

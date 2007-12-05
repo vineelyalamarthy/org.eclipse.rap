@@ -823,7 +823,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 			return false;
 		}
 
-		SafeRunner.run(new SafeRunnable(WorkbenchMessages.ErrorClosing) {
+		SafeRunner.run(new SafeRunnable(WorkbenchMessages.get().ErrorClosing) {
 			public void run() {
 				if (isClosing || force) {
 					isClosing = windowManager.close();
@@ -853,7 +853,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 		final boolean[] result = new boolean[1];
 		result[0] = true;
 
-		SafeRunner.run(new SafeRunnable(WorkbenchMessages.ErrorClosing) {
+		SafeRunner.run(new SafeRunnable(WorkbenchMessages.get().ErrorClosing) {
 			public void run() {
 				// Collect dirtyParts
 				ArrayList dirtyParts = new ArrayList();
@@ -1781,7 +1781,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 
 				public void runWithException() throws Throwable {
 					ErrorDialog.openError(null,
-							WorkbenchMessages.Problems_Opening_Page, e.getMessage(), e
+							WorkbenchMessages.get().Problems_Opening_Page, e.getMessage(), e
 									.getStatus());
 				}});
 		}
@@ -1912,7 +1912,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //		}
 //		return result[0];
 		// TODO fake status
-		String msg = WorkbenchMessages.Workbench_restoreDisabled;
+		String msg = WorkbenchMessages.get().Workbench_restoreDisabled;
 		return new Status(IStatus.WARNING, WorkbenchPlugin.PI_WORKBENCH, IWorkbenchConfigurer.RESTORE_CODE_RESET, msg, null);
 	}
 
@@ -1947,7 +1947,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 			throw (WorkbenchException) result[0];
 		} else {
 			throw new WorkbenchException(
-					WorkbenchMessages.Abnormal_Workbench_Conditi);
+					WorkbenchMessages.get().Abnormal_Workbench_Conditi);
 		}
 	}
 
@@ -2016,7 +2016,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	private IStatus restoreState(final IMemento memento) {
 
 		final MultiStatus result = new MultiStatus(PlatformUI.PLUGIN_ID,
-				IStatus.OK, WorkbenchMessages.Workbench_problemsRestoring, null);
+				IStatus.OK, WorkbenchMessages.get().Workbench_problemsRestoring, null);
 
 //		final boolean showProgress = PrefUtil.getAPIPreferenceStore()
 //				.getBoolean(
@@ -2479,7 +2479,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 				throw new WorkbenchException(
 						NLS
 								.bind(
-										WorkbenchMessages.WorkbenchPage_ErrorCreatingPerspective,
+										WorkbenchMessages.get().WorkbenchPage_ErrorCreatingPerspective,
 										perspectiveId));
 			}
 			win.getShell().open();
@@ -2493,7 +2493,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 
 		// Just throw an exception....
 		throw new WorkbenchException(NLS
-				.bind(WorkbenchMessages.Workbench_showPerspectiveError,
+				.bind(WorkbenchMessages.get().Workbench_showPerspectiveError,
 						perspectiveId));
 	}
 
@@ -2608,7 +2608,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 					throw new WorkbenchException(
 							NLS
 									.bind(
-											WorkbenchMessages.WorkbenchPage_ErrorCreatingPerspective,
+											WorkbenchMessages.get().WorkbenchPage_ErrorCreatingPerspective,
 											perspectiveId));
 				}
 				win.getShell().open();

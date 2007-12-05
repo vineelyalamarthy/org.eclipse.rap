@@ -83,7 +83,7 @@ public class PerspectiveBarContributionItem extends ContributionItem {
             }
             toolItem.setImage(image);
 
-            toolItem.setToolTipText(NLS.bind(WorkbenchMessages.PerspectiveBarContributionItem_toolTip, perspective.getLabel()));
+            toolItem.setToolTipText(NLS.bind(WorkbenchMessages.get().PerspectiveBarContributionItem_toolTip, perspective.getLabel()));
             toolItem.addSelectionListener(new SelectionAdapter() {
 
                 public void widgetSelected(SelectionEvent event) {
@@ -159,7 +159,7 @@ public class PerspectiveBarContributionItem extends ContributionItem {
                         IWorkbenchGraphicConstants.IMG_ETOOL_DEF_PERSPECTIVE)
                         .createImage());
             }
-            toolItem.setToolTipText(NLS.bind(WorkbenchMessages.PerspectiveBarContributionItem_toolTip, perspective.getLabel() ));
+            toolItem.setToolTipText(NLS.bind(WorkbenchMessages.get().PerspectiveBarContributionItem_toolTip, perspective.getLabel() ));
         }
         update();
     }

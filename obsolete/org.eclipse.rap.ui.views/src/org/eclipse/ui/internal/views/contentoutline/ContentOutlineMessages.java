@@ -9,22 +9,24 @@
  **********************************************************************/
 package org.eclipse.ui.internal.views.contentoutline;
 
-import org.eclipse.osgi.util.NLS;
+import org.eclipse.rwt.RWT;
 
 /**
  * ContentOutlineMessages is the message class for the messages used in the content outline.
  *
  */
-public class ContentOutlineMessages extends NLS {
+public class ContentOutlineMessages{
 	private static final String BUNDLE_NAME = "org.eclipse.ui.internal.views.contentoutline.messages";//$NON-NLS-1$
 
 	// ==============================================================================
 	// Outline View
 	// ==============================================================================
-	public static String ContentOutline_noOutline;
+	public String ContentOutline_noOutline;
 
-	static {
-		// load message values from bundle file
-		NLS.initializeMessages(BUNDLE_NAME, ContentOutlineMessages.class);
-	}
+	
+	 public static ContentOutlineMessages get() {
+	    Class clazz = ContentOutlineMessages.class;
+        Object result = RWT.NLS.getISO8859_1Encoded( BUNDLE_NAME, clazz );
+        return ( ContentOutlineMessages )result;
+     }
 }

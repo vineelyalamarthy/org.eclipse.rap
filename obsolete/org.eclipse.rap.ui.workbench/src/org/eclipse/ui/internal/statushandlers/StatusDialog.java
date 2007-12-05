@@ -67,14 +67,14 @@ public class StatusDialog extends ErrorDialog {
 			setShellStyle(~SWT.APPLICATION_MODAL & getShellStyle());
 		}
 
-		String reason = WorkbenchMessages.StatusDialog_checkDetailsMessage;
+		String reason = WorkbenchMessages.get().StatusDialog_checkDetailsMessage;
 		if (statusInfo.getStatus().getStatus().getException() != null) {
 			reason = statusInfo.getStatus().getStatus().getException()
 					.getMessage() == null ? statusInfo.getStatus().getStatus()
 					.getException().toString() : statusInfo.getStatus()
 					.getStatus().getException().getMessage();
 		}
-		this.message = NLS.bind(WorkbenchMessages.StatusDialog_reason,
+		this.message = NLS.bind(WorkbenchMessages.get().StatusDialog_reason,
 				new Object[] { statusInfo.getDisplayString(), reason });
 	}
 

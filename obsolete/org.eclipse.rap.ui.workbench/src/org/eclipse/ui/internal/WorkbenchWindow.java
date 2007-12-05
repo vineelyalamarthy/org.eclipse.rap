@@ -928,7 +928,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 		topBar = new CBanner(shell, SWT.NONE);
 		topBarTrim = new WindowTrimProxy(topBar,
 				"org.eclipse.ui.internal.WorkbenchWindow.topBar", //$NON-NLS-1$  
-				WorkbenchMessages.TrimCommon_Main_TrimName, SWT.NONE, true);
+				WorkbenchMessages.get().TrimCommon_Main_TrimName, SWT.NONE, true);
 
 		// the banner gets a curve along with the new tab style
 		// TODO create a dedicated preference for this
@@ -1407,7 +1407,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			statusLineTrim = new WindowTrimProxy(
 					getStatusLineManager().getControl(),
 					"org.eclipse.jface.action.StatusLineManager", //$NON-NLS-1$
-					WorkbenchMessages.TrimCommon_StatusLine_TrimName, SWT.NONE,
+					WorkbenchMessages.get().TrimCommon_StatusLine_TrimName, SWT.NONE,
 					true);
 		}
 		return statusLineTrim;
@@ -1430,12 +1430,12 @@ public class WorkbenchWindow extends ApplicationWindow implements
 
 		if (IWorkbenchActionConstants.TOOLBAR_FILE
 				.equalsIgnoreCase(actionSetId)) {
-			return WorkbenchMessages.WorkbenchWindow_FileToolbar;
+			return WorkbenchMessages.get().WorkbenchWindow_FileToolbar;
 		}
 
 		if (IWorkbenchActionConstants.TOOLBAR_NAVIGATE
 				.equalsIgnoreCase(actionSetId)) {
-			return WorkbenchMessages.WorkbenchWindow_NavigateToolbar;
+			return WorkbenchMessages.get().WorkbenchWindow_NavigateToolbar;
 		}
 
 		return null;
@@ -1602,7 +1602,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			throw (WorkbenchException) result[0];
 		} else {
 			throw new WorkbenchException(
-					WorkbenchMessages.WorkbenchWindow_exceptionMessage);
+					WorkbenchMessages.get().WorkbenchWindow_exceptionMessage);
 		}
 	}
 
@@ -1642,7 +1642,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 			pageName = ""; //$NON-NLS-1$
 		}
 		return new Status(IStatus.ERROR, PlatformUI.PLUGIN_ID, 0, NLS.bind(
-				WorkbenchMessages.WorkbenchWindow_unableToRestorePerspective,
+				WorkbenchMessages.get().WorkbenchWindow_unableToRestorePerspective,
 				pageName), null);
 	}
 
@@ -1651,7 +1651,7 @@ public class WorkbenchWindow extends ApplicationWindow implements
 		Assert.isNotNull(getShell());
 
 		final MultiStatus result = new MultiStatus(PlatformUI.PLUGIN_ID, IStatus.OK,
-				WorkbenchMessages.WorkbenchWindow_problemsRestoringWindow, null);
+				WorkbenchMessages.get().WorkbenchWindow_problemsRestoringWindow, null);
 
 		// Restore the window advisor state.
 		IMemento windowAdvisorState = memento

@@ -53,10 +53,10 @@ class PropertySheetViewer extends Viewer {
 
     private TreeEditor treeEditor;
 
-    private static String[] columnLabels = {
-            PropertiesMessages.PropertyViewer_property, PropertiesMessages.PropertyViewer_value };
+    private String[] columnLabels = {
+            PropertiesMessages.get().PropertyViewer_property, PropertiesMessages.get().PropertyViewer_value };
 
-    private static String MISCELLANEOUS_CATEGORY_NAME = PropertiesMessages.PropertyViewer_misc;
+    private String MISCELLANEOUS_CATEGORY_NAME = PropertiesMessages.get().PropertyViewer_misc;
 
     // Cell editor support.
     private int columnToEdit = 1;

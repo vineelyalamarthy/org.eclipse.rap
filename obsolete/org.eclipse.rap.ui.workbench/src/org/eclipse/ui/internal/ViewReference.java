@@ -223,7 +223,7 @@ class ViewReference extends WorkbenchPartReference implements IViewReference {
 		if (exception != null) {
 			IStatus partStatus = exception.getStatus();
 			IStatus displayStatus = StatusUtil.newStatus(partStatus, NLS.bind(
-					WorkbenchMessages.ViewFactory_initException, partStatus
+					WorkbenchMessages.get().ViewFactory_initException, partStatus
 							.getMessage()));
 			IStatus logStatus = StatusUtil
 					.newStatus(
@@ -290,7 +290,7 @@ class ViewReference extends WorkbenchPartReference implements IViewReference {
 		IViewDescriptor desc = factory.viewReg.find(getId());
 		if (desc == null) {
 			throw new PartInitException(
-					WorkbenchMessages.ViewFactory_couldNotCreate);
+					WorkbenchMessages.get().ViewFactory_couldNotCreate);
 		}
 
 		// Create the part pane
@@ -342,7 +342,7 @@ class ViewReference extends WorkbenchPartReference implements IViewReference {
 
 			if (view.getSite() != site) {
 				throw new PartInitException(
-						WorkbenchMessages.ViewFactory_siteException, null);
+						WorkbenchMessages.get().ViewFactory_siteException, null);
 			}
 			int style = SWT.NONE;
 			if (view instanceof IWorkbenchPartOrientation) {

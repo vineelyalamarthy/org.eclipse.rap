@@ -467,7 +467,7 @@ public class PerspectiveRegistry implements IPerspectiveRegistry,
 	 * @param status
 	 */
 	private void unableToLoadPerspective(IStatus status) {
-		String msg = WorkbenchMessages.Perspective_errorLoadingState;
+		String msg = WorkbenchMessages.get().Perspective_errorLoadingState;
 		if (status == null) {
 //			IStatus errStatus = new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, msg);
 			IStatus errStatus = new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, 0, msg, null);

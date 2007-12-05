@@ -184,7 +184,7 @@ public class FilteredTree extends Composite {
 //				IWorkbenchPreferenceConstants.SHOW_FILTERED_TEXTS);
 		createControl(parent, treeStyle);
 		createRefreshJob();
-		setInitialText(WorkbenchMessages.FilteredTree_FilterMessage);
+		setInitialText(WorkbenchMessages.get().FilteredTree_FilterMessage);
 		setFont(parent.getFont());
 	}
 
@@ -609,7 +609,7 @@ public class FilteredTree extends Composite {
 	    	}
     	};
 
-    	clearTextAction.setToolTipText(WorkbenchMessages.FilteredTree_ClearToolTip);
+    	clearTextAction.setToolTipText(WorkbenchMessages.get().FilteredTree_ClearToolTip);
     	clearTextAction.setImageDescriptor(JFaceResources.getImageRegistry().getDescriptor(CLEAR_ICON));
     	clearTextAction.setDisabledImageDescriptor(JFaceResources.getImageRegistry().getDescriptor(DCLEAR_ICON));
 

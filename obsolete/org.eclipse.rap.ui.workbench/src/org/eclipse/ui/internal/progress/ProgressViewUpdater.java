@@ -253,7 +253,7 @@ public class ProgressViewUpdater
      * Create the update job that handles the updatesInfo.
      */
     private void createUpdateJob() {
-        updateJob = new WorkbenchJob(ProgressMessages.ProgressContentProvider_UpdateProgressJob) {
+        updateJob = new WorkbenchJob(ProgressMessages.get().ProgressContentProvider_UpdateProgressJob) {
             /*
              * (non-Javadoc)
              * 

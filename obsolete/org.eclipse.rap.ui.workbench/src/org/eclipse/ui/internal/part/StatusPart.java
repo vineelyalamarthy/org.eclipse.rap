@@ -122,7 +122,7 @@ public class StatusPart {
         }
         
         if (showingDetails) {
-            detailsButton.setText(IDialogConstants.HIDE_DETAILS_LABEL);
+            detailsButton.setText(IDialogConstants.get().HIDE_DETAILS_LABEL);
             Text detailsText = new Text(detailsArea, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL 
 //                    | SWT.MULTI | SWT.READ_ONLY | SWT.LEFT_TO_RIGHT);
                       | SWT.MULTI | SWT.READ_ONLY);
@@ -133,7 +133,7 @@ public class StatusPart {
 //            detailsArea.layout(true);
             detailsArea.layout();
         } else {
-            detailsButton.setText(IDialogConstants.SHOW_DETAILS_LABEL);
+            detailsButton.setText(IDialogConstants.get().SHOW_DETAILS_LABEL);
         }
     }
 

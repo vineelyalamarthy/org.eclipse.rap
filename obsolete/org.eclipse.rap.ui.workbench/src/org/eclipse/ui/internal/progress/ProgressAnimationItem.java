@@ -158,7 +158,7 @@ public class ProgressAnimationItem extends AnimationItem implements
                         // green arrow with error overlay
                         initButton(
                                 errorImage,
-                                NLS.bind(ProgressMessages.ProgressAnimationItem_error, job.getName())); 
+                                NLS.bind(ProgressMessages.get().ProgressAnimationItem_error, job.getName())); 
                         return;
                     }
                     IAction action = getAction(job);
@@ -166,20 +166,20 @@ public class ProgressAnimationItem extends AnimationItem implements
                         // green arrow with exclamation mark
                         String tt = action.getToolTipText();
                         if (tt == null || tt.trim().length() == 0) {
-							tt = NLS.bind(ProgressMessages.ProgressAnimationItem_ok, job.getName());
+							tt = NLS.bind(ProgressMessages.get().ProgressAnimationItem_ok, job.getName());
 						} 
                         initButton(okImage, tt);
                         return;
                     }
                     // just the green arrow
-                    initButton(noneImage, ProgressMessages.ProgressAnimationItem_tasks); 
+                    initButton(noneImage, ProgressMessages.get().ProgressAnimationItem_tasks); 
                     return;
                 }
             }
         }
         
         if (animationRunning) {
-            initButton(noneImage, ProgressMessages.ProgressAnimationItem_tasks);
+            initButton(noneImage, ProgressMessages.get().ProgressAnimationItem_tasks);
             return;
         }
 

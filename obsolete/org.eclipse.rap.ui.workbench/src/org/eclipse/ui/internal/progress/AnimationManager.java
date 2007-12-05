@@ -74,7 +74,7 @@ public class AnimationManager extends SessionSingletonBase {
         animationProcessor = new ProgressAnimationProcessor(this);
 
         animationUpdateJob 
-          = new WorkbenchJob(ProgressMessages.AnimationManager_AnimationStart){
+          = new WorkbenchJob(ProgressMessages.get().AnimationManager_AnimationStart){
 
             /*
              * (non-Javadoc)

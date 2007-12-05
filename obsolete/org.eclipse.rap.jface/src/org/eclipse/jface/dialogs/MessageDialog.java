@@ -289,8 +289,8 @@ public class MessageDialog extends IconAndMessageDialog {
                 // default
                 // window
                 // icon
-                message, QUESTION, new String[] { IDialogConstants.OK_LABEL,
-                        IDialogConstants.CANCEL_LABEL }, 0); // OK is the
+                message, QUESTION, new String[] { IDialogConstants.get().OK_LABEL,
+                        IDialogConstants.get().CANCEL_LABEL }, 0); // OK is the
         // default
         return dialog.open() == 0;
     }
@@ -311,7 +311,7 @@ public class MessageDialog extends IconAndMessageDialog {
                 // default
                 // window
                 // icon
-                message, ERROR, new String[] { IDialogConstants.OK_LABEL }, 0); // ok
+                message, ERROR, new String[] { IDialogConstants.get().OK_LABEL }, 0); // ok
         // is
         // the
         // default
@@ -337,7 +337,7 @@ public class MessageDialog extends IconAndMessageDialog {
                 // window
                 // icon
                 message, INFORMATION,
-                new String[] { IDialogConstants.OK_LABEL }, 0);
+                new String[] { IDialogConstants.get().OK_LABEL }, 0);
         // ok is the default
         dialog.open();
         return;
@@ -362,8 +362,8 @@ public class MessageDialog extends IconAndMessageDialog {
                 // default
                 // window
                 // icon
-                message, QUESTION, new String[] { IDialogConstants.YES_LABEL,
-                        IDialogConstants.NO_LABEL }, 0); // yes is the default
+                message, QUESTION, new String[] { IDialogConstants.get().YES_LABEL,
+                        IDialogConstants.get().NO_LABEL }, 0); // yes is the default
         return dialog.open() == 0;
     }
 
@@ -383,7 +383,7 @@ public class MessageDialog extends IconAndMessageDialog {
                 // default
                 // window
                 // icon
-                message, WARNING, new String[] { IDialogConstants.OK_LABEL }, 0); // ok
+                message, WARNING, new String[] { IDialogConstants.get().OK_LABEL }, 0); // ok
         // is
         // the
         // default

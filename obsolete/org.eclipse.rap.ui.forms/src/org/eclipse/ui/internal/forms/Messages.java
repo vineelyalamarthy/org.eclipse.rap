@@ -10,32 +10,32 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.forms;
 
-import org.eclipse.osgi.util.NLS;
+import org.eclipse.rwt.RWT;
 
-public class Messages extends NLS {
-	private static final String BUNDLE_NAME = "org.eclipse.ui.internal.forms.Messages"; //$NON-NLS-1$
+public class Messages {
 
-	private Messages() {
-	}
+  private static final String BUNDLE_NAME = "org.eclipse.ui.internal.forms.Messages"; //$NON-NLS-1$
 
-	static {
-		// initialize resource bundle
-		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
-	}
+  private Messages() {
+  }
 
-	public static String FormDialog_defaultTitle;
-	public static String FormText_copy;
-	public static String Form_tooltip_minimize;
-	public static String Form_tooltip_restore;
-	/* 
-	 * Message manager
-	 */
-	public static String MessageManager_sMessageSummary;
-	public static String MessageManager_sWarningSummary;
-	public static String MessageManager_sErrorSummary;
-	public static String MessageManager_pMessageSummary;
-	public static String MessageManager_pWarningSummary;
-	public static String MessageManager_pErrorSummary;
-	public static String ToggleHyperlink_accessibleColumn;
-	public static String ToggleHyperlink_accessibleName;		
+  public static Messages get() {
+    Class clazz = Messages.class;
+    return ( Messages )RWT.NLS.getISO8859_1Encoded( BUNDLE_NAME, clazz );
+  }
+  public String FormDialog_defaultTitle;
+  public String FormText_copy;
+  public String Form_tooltip_minimize;
+  public String Form_tooltip_restore;
+  /*
+   * Message manager
+   */
+  public String MessageManager_sMessageSummary;
+  public String MessageManager_sWarningSummary;
+  public String MessageManager_sErrorSummary;
+  public String MessageManager_pMessageSummary;
+  public String MessageManager_pWarningSummary;
+  public String MessageManager_pErrorSummary;
+  public String ToggleHyperlink_accessibleColumn;
+  public String ToggleHyperlink_accessibleName;		
 }

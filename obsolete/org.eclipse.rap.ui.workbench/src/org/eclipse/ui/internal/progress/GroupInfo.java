@@ -80,7 +80,7 @@ class GroupInfo extends JobTreeElement implements IProgressMonitor {
         String[] messageValues = new String[2];
         messageValues[0] = taskName;
         messageValues[1] = String.valueOf(getPercentDone());
-        return NLS.bind(ProgressMessages.JobInfo_NoTaskNameDoneMessage, messageValues); 
+        return NLS.bind(ProgressMessages.get().JobInfo_NoTaskNameDoneMessage, messageValues); 
 
     }
 

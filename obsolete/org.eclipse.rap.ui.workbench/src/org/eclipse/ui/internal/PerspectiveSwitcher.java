@@ -948,24 +948,24 @@ public class PerspectiveSwitcher implements IWindowTrim {
 
     private void addDockOnSubMenu(Menu menu) {
         MenuItem item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(WorkbenchMessages.PerspectiveSwitcher_dockOn);
+        item.setText(WorkbenchMessages.get().PerspectiveSwitcher_dockOn);
 
         final Menu subMenu = new Menu(item);
 
         final MenuItem menuItemTopRight = new MenuItem(subMenu, SWT.RADIO);
-        menuItemTopRight.setText(WorkbenchMessages.PerspectiveSwitcher_topRight); 
+        menuItemTopRight.setText(WorkbenchMessages.get().PerspectiveSwitcher_topRight); 
         
 //        window.getWorkbench().getHelpSystem().setHelp(menuItemTopRight,
 //        		IWorkbenchHelpContextIds.DOCK_ON_PERSPECTIVE_ACTION);
 
         final MenuItem menuItemTopLeft = new MenuItem(subMenu, SWT.RADIO);
-        menuItemTopLeft.setText(WorkbenchMessages.PerspectiveSwitcher_topLeft); 
+        menuItemTopLeft.setText(WorkbenchMessages.get().PerspectiveSwitcher_topLeft); 
         
 //        window.getWorkbench().getHelpSystem().setHelp(menuItemTopLeft,
 //        		IWorkbenchHelpContextIds.DOCK_ON_PERSPECTIVE_ACTION);
 
         final MenuItem menuItemLeft = new MenuItem(subMenu, SWT.RADIO);
-        menuItemLeft.setText(WorkbenchMessages.PerspectiveSwitcher_left); 
+        menuItemLeft.setText(WorkbenchMessages.get().PerspectiveSwitcher_left); 
         
 //        window.getWorkbench().getHelpSystem().setHelp(menuItemLeft,
 //        		IWorkbenchHelpContextIds.DOCK_ON_PERSPECTIVE_ACTION);
@@ -1200,7 +1200,7 @@ public class PerspectiveSwitcher implements IWindowTrim {
 	 * @see org.eclipse.ui.internal.IWindowTrim#getDisplayName()
 	 */
 	public String getDisplayName() {
-		return WorkbenchMessages.TrimCommon_PerspectiveSwitcher_TrimName;
+		return WorkbenchMessages.get().TrimCommon_PerspectiveSwitcher_TrimName;
 	}
 
 	/* (non-Javadoc)

@@ -222,7 +222,7 @@ public class DefaultTabItem extends WidgetTabItem {
 
 		if (!contentDescription.equals("")) { //$NON-NLS-1$
 			text = MessageFormat.format(
-					WorkbenchMessages.EditorPart_AutoTitleFormat, new String[] {
+					WorkbenchMessages.get().EditorPart_AutoTitleFormat, new String[] {
 							text, contentDescription });
 		}
 

@@ -16,6 +16,7 @@ import java.io.StringWriter;
 import java.util.*;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.widgets.*;
@@ -41,17 +42,17 @@ public class MessageManager implements IMessageManager {
 //			.getDefault().getFieldDecoration(
 //					FieldDecorationRegistry.DEC_WARNING);
 
-	private static final String[] SINGLE_MESSAGE_SUMMARY_KEYS = {
-			Messages.MessageManager_sMessageSummary,
-			Messages.MessageManager_sMessageSummary,
-			Messages.MessageManager_sWarningSummary,
-			Messages.MessageManager_sErrorSummary };
+	private final String[] SINGLE_MESSAGE_SUMMARY_KEYS = {
+			Messages.get().MessageManager_sMessageSummary,
+			Messages.get().MessageManager_sMessageSummary,
+			Messages.get().MessageManager_sWarningSummary,
+			Messages.get().MessageManager_sErrorSummary };
 
-	private static final String[] MULTIPLE_MESSAGE_SUMMARY_KEYS = {
-			Messages.MessageManager_pMessageSummary,
-			Messages.MessageManager_pMessageSummary,
-			Messages.MessageManager_pWarningSummary,
-			Messages.MessageManager_pErrorSummary };
+	private final String[] MULTIPLE_MESSAGE_SUMMARY_KEYS = {
+			Messages.get().MessageManager_pMessageSummary,
+			Messages.get().MessageManager_pMessageSummary,
+			Messages.get().MessageManager_pWarningSummary,
+			Messages.get().MessageManager_pErrorSummary };
 
 	static class Message implements IMessage {
 		Control control;
@@ -446,7 +447,7 @@ public class MessageManager implements IMessageManager {
 			// show a summary message for the message
 			// and list of errors for the details
 			if (peers.size() > 1)
-				messageText = Messages.bind(
+				messageText = NLS.bind(
 						MULTIPLE_MESSAGE_SUMMARY_KEYS[maxType],
 						new String[] { peers.size() + "" }); //$NON-NLS-1$
 			else

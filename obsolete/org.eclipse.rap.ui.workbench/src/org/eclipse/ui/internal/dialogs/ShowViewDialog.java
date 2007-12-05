@@ -95,7 +95,7 @@ public class ShowViewDialog extends Dialog implements
      */
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
-        shell.setText(WorkbenchMessages.ShowView_shellTitle);
+        shell.setText(WorkbenchMessages.get().ShowView_shellTitle);
 //        PlatformUI.getWorkbench().getHelpSystem().setHelp(shell,
 //				IWorkbenchHelpContextIds.SHOW_VIEW_DIALOG);
     }
@@ -112,9 +112,9 @@ public class ShowViewDialog extends Dialog implements
      */
     protected void createButtonsForButtonBar(Composite parent) {
         okButton = createButton(parent, IDialogConstants.OK_ID,
-                IDialogConstants.OK_LABEL, true);
+                IDialogConstants.get().OK_LABEL, true);
         createButton(parent, IDialogConstants.CANCEL_ID,
-                IDialogConstants.CANCEL_LABEL, false);
+                IDialogConstants.get().CANCEL_LABEL, false);
         updateButtons();
     }
 

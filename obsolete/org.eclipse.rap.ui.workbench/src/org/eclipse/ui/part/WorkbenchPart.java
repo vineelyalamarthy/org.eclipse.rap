@@ -383,7 +383,7 @@ public abstract class WorkbenchPart extends EventManager implements
         if (!Util.equals(description, "")) { //$NON-NLS-1$
             newTitle = MessageFormat
                     .format(
-                            WorkbenchMessages.WorkbenchPart_AutoTitleFormat, new String[] { name, description });
+                            WorkbenchMessages.get().WorkbenchPart_AutoTitleFormat, new String[] { name, description });
         }
 
         setTitle(newTitle);

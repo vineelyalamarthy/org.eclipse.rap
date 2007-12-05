@@ -80,14 +80,14 @@ public class ListSelectionDialog extends SelectionDialog {
             IStructuredContentProvider contentProvider,
             ILabelProvider labelProvider, String message) {
         super(parentShell);
-        setTitle(WorkbenchMessages.ListSelection_title);
+        setTitle(WorkbenchMessages.get().ListSelection_title);
         inputElement = input;
         this.contentProvider = contentProvider;
         this.labelProvider = labelProvider;
         if (message != null) {
 			setMessage(message);
 		} else {
-			setMessage(WorkbenchMessages.ListSelection_message);
+			setMessage(WorkbenchMessages.get().ListSelection_message);
 		} 
     }
 

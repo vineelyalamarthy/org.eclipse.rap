@@ -72,7 +72,7 @@ public class WorkbenchSiteProgressService implements
         }
 
         private SiteUpdateJob() {
-            super(ProgressMessages.WorkbenchSiteProgressService_CursorJob);
+            super(ProgressMessages.get().WorkbenchSiteProgressService_CursorJob);
         }
 
         /**

@@ -76,7 +76,7 @@ public class ShowViewAction extends Action implements IPluginContribution {
                     page.showView(desc.getId());
                 }
             } catch (PartInitException e) {
-                ErrorDialog.openError(window.getShell(), WorkbenchMessages.ShowView_errorTitle,
+                ErrorDialog.openError(window.getShell(), WorkbenchMessages.get().ShowView_errorTitle,
                         e.getMessage(), e.getStatus());
             }
         }

@@ -117,7 +117,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 		noEntryArea.setLayout(new GridLayout());
 
 		Text noEntryLabel = new Text(noEntryArea, SWT.SINGLE);
-		noEntryLabel.setText(ProgressMessages.ProgressView_NoOperations);
+		noEntryLabel.setText(ProgressMessages.get().ProgressView_NoOperations);
 		// TODO [fappel]: fix this
 		noEntryLabel.setBackground(noEntryArea.getBackground());
 //		noEntryLabel.setBackground(noEntryArea.getDisplay().getSystemColor(

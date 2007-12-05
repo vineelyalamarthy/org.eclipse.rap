@@ -97,7 +97,7 @@ public abstract class UIJob extends Job {
                     if (result == null) {
 						result = new Status(IStatus.ERROR,
                                 PlatformUI.PLUGIN_ID, IStatus.ERROR,
-                                ProgressMessages.Error,
+                                ProgressMessages.get().Error,
                                 null);
 					}
                     done(result);

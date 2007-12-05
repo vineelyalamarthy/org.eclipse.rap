@@ -404,7 +404,7 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
 	 */
 	protected void createCancelButton(Composite parent) {
 		cancel = createButton(parent, IDialogConstants.CANCEL_ID,
-				IDialogConstants.CANCEL_LABEL, true);
+				IDialogConstants.get().CANCEL_LABEL, true);
 //		if (arrowCursor == null) {
 //			arrowCursor = new Cursor(cancel.getDisplay(), SWT.CURSOR_ARROW);
 //		}

@@ -24,8 +24,8 @@ public class MinimizePartAction extends PageEventAction {
      * @param window the window
      */
     public MinimizePartAction(IWorkbenchWindow window) {
-        super(WorkbenchMessages.MinimizePartAction_text, window); 
-        setToolTipText(WorkbenchMessages.MinimizePartAction_toolTip);
+        super(WorkbenchMessages.get().MinimizePartAction_text, window); 
+        setToolTipText(WorkbenchMessages.get().MinimizePartAction_toolTip);
         // @issue missing action id
         updateState();
 //        window.getWorkbench().getHelpSystem().setHelp(this,

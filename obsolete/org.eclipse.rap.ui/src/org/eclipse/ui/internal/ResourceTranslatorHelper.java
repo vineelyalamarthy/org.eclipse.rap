@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.RegistryFactory;
 import org.eclipse.osgi.service.localization.BundleLocalization;
 import org.eclipse.rwt.RWT;
+import org.eclipse.rwt.internal.service.ContextProvider;
 import org.osgi.framework.*;
 
 /**
@@ -50,7 +51,9 @@ class ResourceTranslatorHelper {
       String result = getKey();
       ResourceBundle bundle = null;
       try {
-        bundle = getResourceBundle();
+        if( ContextProvider.hasContext() ) {
+          bundle = getResourceBundle();
+        }
       } catch( final Exception shouldNotHappen ) {
         // TODO [fappel]: I use reflection to get the bundle context since this
         //                is not available in 3.2. We do not support the 

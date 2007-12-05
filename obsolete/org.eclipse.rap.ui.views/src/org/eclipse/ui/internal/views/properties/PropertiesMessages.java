@@ -9,9 +9,9 @@
  **********************************************************************/
 package org.eclipse.ui.internal.views.properties;
 
-import org.eclipse.osgi.util.NLS;
+import org.eclipse.rwt.RWT;
 
-public class PropertiesMessages extends NLS {
+public class PropertiesMessages {
 	private static final String BUNDLE_NAME = "org.eclipse.ui.internal.views.properties.messages";//$NON-NLS-1$
 
 	// package: org.eclipse.ui.views.properties
@@ -20,26 +20,27 @@ public class PropertiesMessages extends NLS {
 	// Properties View
 	// ==============================================================================
 
-	public static String Categories_text;
-	public static String Categories_toolTip;
+	public String Categories_text;
+	public String Categories_toolTip;
 
-	public static String CopyProperty_text;
+	public String CopyProperty_text;
 
-	public static String Defaults_text;
-	public static String Defaults_toolTip;
+	public String Defaults_text;
+	public String Defaults_toolTip;
 
-	public static String Filter_text;
-	public static String Filter_toolTip;
+	public String Filter_text;
+	public String Filter_toolTip;
 
-	public static String PropertyViewer_property;
-	public static String PropertyViewer_value;
-	public static String PropertyViewer_misc;
+	public String PropertyViewer_property;
+	public String PropertyViewer_value;
+	public String PropertyViewer_misc;
 
-	public static String CopyToClipboardProblemDialog_title;
-	public static String CopyToClipboardProblemDialog_message;
+	public String CopyToClipboardProblemDialog_title;
+	public String CopyToClipboardProblemDialog_message;
 
-	static {
-		// load message values from bundle file
-		NLS.initializeMessages(BUNDLE_NAME, PropertiesMessages.class);
-	}
+	public static PropertiesMessages get() {
+      Class clazz = PropertiesMessages.class;
+      Object result = RWT.NLS.getISO8859_1Encoded( BUNDLE_NAME, clazz );
+      return ( PropertiesMessages )result;
+    }
 }

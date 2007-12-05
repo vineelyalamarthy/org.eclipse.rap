@@ -207,7 +207,7 @@ class ProgressInfoItem extends Composite {
 		// cursor we might have
 		actionButton = new ToolItem(actionBar, SWT.NONE);
 		actionButton
-				.setToolTipText(ProgressMessages.NewProgressView_CancelJobToolTip);
+				.setToolTipText(ProgressMessages.get().NewProgressView_CancelJobToolTip);
 		actionButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				actionButton.setEnabled(false);
@@ -371,16 +371,16 @@ class ProgressInfoItem extends Composite {
 		String name = job.getName();
 
 		if (job.isSystem()) {
-			name = NLS.bind(ProgressMessages.JobInfo_System, name);
+			name = NLS.bind(ProgressMessages.get().JobInfo_System, name);
 		}
 
 		if (jobInfo.isCanceled()) {
-			return NLS.bind(ProgressMessages.JobInfo_Cancelled, name);
+			return NLS.bind(ProgressMessages.get().JobInfo_Cancelled, name);
 		}
 
 		if (jobInfo.isBlocked()) {
 			IStatus blockedStatus = jobInfo.getBlockedStatus();
-			return NLS.bind(ProgressMessages.JobInfo_Blocked, name,
+			return NLS.bind(ProgressMessages.get().JobInfo_Blocked, name,
 					blockedStatus.getMessage());
 		}
 
@@ -388,13 +388,13 @@ class ProgressInfoItem extends Composite {
 		case Job.RUNNING:
 			return name;
 		case Job.SLEEPING: {
-			return NLS.bind(ProgressMessages.JobInfo_Sleeping, name);
+			return NLS.bind(ProgressMessages.get().JobInfo_Sleeping, name);
 
 		}
 		case Job.NONE: // Only happens for kept jobs
 			return getJobInfoFinishedString(job, true);
 		default:
-			return NLS.bind(ProgressMessages.JobInfo_Waiting, name);
+			return NLS.bind(ProgressMessages.get().JobInfo_Waiting, name);
 		}
 	}
 
@@ -412,10 +412,10 @@ class ProgressInfoItem extends Composite {
 			time = getTimeString();
 		}
 		if (time != null) {
-			return NLS.bind(ProgressMessages.JobInfo_FinishedAt, job.getName(),
+			return NLS.bind(ProgressMessages.get().JobInfo_FinishedAt, job.getName(),
 					time);
 		}
-		return NLS.bind(ProgressMessages.JobInfo_Finished, job.getName());
+		return NLS.bind(ProgressMessages.get().JobInfo_Finished, job.getName());
 	}
 
 	/**
@@ -501,7 +501,7 @@ class ProgressInfoItem extends Composite {
 						taskString = subTaskString;
 					} else {
 						taskString = NLS.bind(
-								ProgressMessages.JobInfo_DoneNoProgressMessage,
+								ProgressMessages.get().JobInfo_DoneNoProgressMessage,
 								taskString, subTaskString);
 					}
 				}
@@ -620,7 +620,7 @@ class ProgressInfoItem extends Composite {
 //			actionButton.setDisabledImage(JFaceResources
 //					.getImage(DISABLED_CLEAR_FINISHED_JOB_KEY));
 			actionButton
-					.setToolTipText(ProgressMessages.NewProgressView_ClearJobToolTip);
+					.setToolTipText(ProgressMessages.get().NewProgressView_ClearJobToolTip);
 		} else {
 			actionButton.setImage(JFaceResources.getImage(STOP_IMAGE_KEY));
 			// TODO [fappel]: fix this

@@ -12,11 +12,13 @@ package org.eclipse.jface.resource;
 
 import java.text.MessageFormat;
 import java.util.*;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
@@ -74,8 +76,8 @@ public class JFaceResources {
 	/**
 	 * The JFace resource bundle; eagerly initialized.
 	 */
-	private static final ResourceBundle bundle = ResourceBundle
-			.getBundle("org.eclipse.jface.messages"); //$NON-NLS-1$
+//	private static final ResourceBundle bundle = ResourceBundle
+//			.getBundle("org.eclipse.jface.messages"); //$NON-NLS-1$
 
 	/**
 	 * The JFace color registry; <code>null</code> until lazily initialized or
@@ -286,7 +288,19 @@ public class JFaceResources {
 	 * @return the resource bundle
 	 */
 	public static ResourceBundle getBundle() {
-		return bundle;
+	  ResourceBundle result = null;
+	  String baseName = "org.eclipse.jface.messages";
+      try {
+        ClassLoader loader = JFaceResources.class.getClassLoader();
+        result = ResourceBundle.getBundle( baseName, RWT.getLocale(), loader );
+      } catch( final RuntimeException re ) {
+        // TODO [fappel]: improve this
+        String msg =   "Warning: could not retrieve resource bundle "
+                     + "- loading system default";
+        System.out.println( msg );
+        result = ResourceBundle.getBundle( baseName );
+      }
+      return result;
 	}
 
 	/**
@@ -539,7 +553,7 @@ public class JFaceResources {
 	 */
 	public static String getString(String key) {
 		try {
-			return bundle.getString(key);
+		  return getBundle().getString(key);
 		} catch (MissingResourceException e) {
 			return key;
 		}

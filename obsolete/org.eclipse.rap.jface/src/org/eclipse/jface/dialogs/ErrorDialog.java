@@ -161,7 +161,7 @@ public class ErrorDialog extends IconAndMessageDialog {
      */
     protected void createButtonsForButtonBar(Composite parent) {
         // create OK and Details buttons
-        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
+        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.get().OK_LABEL,
                 true);
         createDetailsButton(parent);
     }
@@ -203,7 +203,7 @@ public class ErrorDialog extends IconAndMessageDialog {
     protected void createDetailsButton(Composite parent) {
         if (shouldShowDetailsButton()) {
             detailsButton = createButton(parent, IDialogConstants.DETAILS_ID,
-                    IDialogConstants.SHOW_DETAILS_LABEL, false);
+                    IDialogConstants.get().SHOW_DETAILS_LABEL, false);
         }
     }
 
@@ -510,10 +510,10 @@ public class ErrorDialog extends IconAndMessageDialog {
         if (listCreated) {
             list.dispose();
             listCreated = false;
-            detailsButton.setText(IDialogConstants.SHOW_DETAILS_LABEL);
+            detailsButton.setText(IDialogConstants.get().SHOW_DETAILS_LABEL);
         } else {
             list = createDropDownList((Composite) getContents());
-            detailsButton.setText(IDialogConstants.HIDE_DETAILS_LABEL);
+            detailsButton.setText(IDialogConstants.get().HIDE_DETAILS_LABEL);
         }
         Point newSize = getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT);
         getShell()

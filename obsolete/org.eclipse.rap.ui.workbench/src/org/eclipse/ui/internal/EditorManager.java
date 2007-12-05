@@ -72,9 +72,9 @@ public class EditorManager implements IExtensionChangeHandler {
 	// Handler for the pin editor keyboard shortcut
 //	private IHandlerActivation pinEditorHandlerActivation = null;
 
-	static final String RESOURCES_TO_SAVE_MESSAGE = WorkbenchMessages.EditorManager_saveResourcesMessage;
+	static final String RESOURCES_TO_SAVE_MESSAGE = WorkbenchMessages.get().EditorManager_saveResourcesMessage;
 
-	static final String SAVE_RESOURCES_TITLE = WorkbenchMessages.EditorManager_saveResourcesTitle;
+	static final String SAVE_RESOURCES_TITLE = WorkbenchMessages.get().EditorManager_saveResourcesTitle;
 
 	/**
 	 * EditorManager constructor comment.
@@ -563,7 +563,7 @@ public class EditorManager implements IExtensionChangeHandler {
 		EditorDescriptor desc = (EditorDescriptor) reg.findEditor(editorId);
 		if (desc == null) {
 			throw new PartInitException(NLS.bind(
-					WorkbenchMessages.EditorManager_unknownEditorIDMessage,
+					WorkbenchMessages.get().EditorManager_unknownEditorIDMessage,
 					editorId));
 		}
 
@@ -601,7 +601,7 @@ public class EditorManager implements IExtensionChangeHandler {
 		} else {
 			// this should never happen
 			throw new PartInitException(NLS.bind(
-					WorkbenchMessages.EditorManager_invalidDescriptor, desc
+					WorkbenchMessages.get().EditorManager_invalidDescriptor, desc
 							.getId()));
 		}
 
@@ -688,7 +688,7 @@ public class EditorManager implements IExtensionChangeHandler {
 					.findEditor(editorArray[i]);
 			if (innerDesc == null) {
 				throw new PartInitException(NLS.bind(
-						WorkbenchMessages.EditorManager_unknownEditorIDMessage,
+						WorkbenchMessages.get().EditorManager_unknownEditorIDMessage,
 						editorArray[i]));
 			}
 			descArray[i] = innerDesc;
@@ -735,7 +735,7 @@ public class EditorManager implements IExtensionChangeHandler {
 			// Sanity-check the site
 			if (part.getSite() != site || part.getEditorSite() != site) {
 				throw new PartInitException(NLS.bind(
-						WorkbenchMessages.EditorManager_siteIncorrect, desc
+						WorkbenchMessages.get().EditorManager_siteIncorrect, desc
 								.getId()));
 			}
 
@@ -747,7 +747,7 @@ public class EditorManager implements IExtensionChangeHandler {
 			}
 
 			throw new PartInitException(
-					WorkbenchMessages.EditorManager_errorInInit, e);
+					WorkbenchMessages.get().EditorManager_errorInInit, e);
 		}
 
 		return site;
@@ -785,7 +785,7 @@ public class EditorManager implements IExtensionChangeHandler {
 		} catch (CoreException e) {
 			throw new PartInitException(StatusUtil.newStatus(
 					desc.getPluginID(),
-					WorkbenchMessages.EditorManager_instantiationError, e));
+					WorkbenchMessages.get().EditorManager_instantiationError, e));
 		}
 	}
 
@@ -1075,16 +1075,16 @@ public class EditorManager implements IExtensionChangeHandler {
       // Use a simpler dialog if there's only one
       if( modelsToSave.size() == 1 ) {
         Saveable model = ( Saveable )modelsToSave.get( 0 );
-        String message = NLS.bind( WorkbenchMessages.EditorManager_saveChangesQuestion,
+        String message = NLS.bind( WorkbenchMessages.get().EditorManager_saveChangesQuestion,
                                    model.getName() );
         // Show a dialog.
         String[] buttons = new String[]{
-          IDialogConstants.YES_LABEL,
-          IDialogConstants.NO_LABEL,
-          IDialogConstants.CANCEL_LABEL
+          IDialogConstants.get().YES_LABEL,
+          IDialogConstants.get().NO_LABEL,
+          IDialogConstants.get().CANCEL_LABEL
         };
         MessageDialog d = new MessageDialog( shellProvider.getShell(),
-                                             WorkbenchMessages.Save_Resource,
+                                             WorkbenchMessages.get().Save_Resource,
                                              null,
                                              message,
                                              MessageDialog.QUESTION,
@@ -1160,7 +1160,7 @@ public class EditorManager implements IExtensionChangeHandler {
       }
     };
     // Do the save.
-    return SaveableHelper.runProgressMonitorOperation( WorkbenchMessages.Save_All,
+    return SaveableHelper.runProgressMonitorOperation( WorkbenchMessages.get().Save_All,
                                                        progressOp,
                                                        runnableContext,
                                                        shellProvider );

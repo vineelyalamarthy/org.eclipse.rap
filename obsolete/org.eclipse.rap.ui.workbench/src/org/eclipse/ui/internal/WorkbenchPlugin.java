@@ -223,7 +223,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
             throw core;
         } catch (Exception e) {
             throw new CoreException(new Status(IStatus.ERROR, PI_WORKBENCH,
-                    IStatus.ERROR, WorkbenchMessages.WorkbenchPlugin_extension,e));
+                    IStatus.ERROR, WorkbenchMessages.get().WorkbenchPlugin_extension,e));
         }
     }
     

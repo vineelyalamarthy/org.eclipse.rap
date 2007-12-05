@@ -14,6 +14,8 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.rwt.RWT;
+
 /**
  * @since 1.0
  * 
@@ -35,7 +37,7 @@ public class BindingMessages {
 	 * Key to be used for a "Multiple Problems." message.
 	 */
 	public static final String MULTIPLE_PROBLEMS = "MultipleProblems"; //$NON-NLS-1$
-
+	
 	/**
 	 * Returns the resource object with the given key in the resource bundle for
 	 * JFace Data Binding. If there isn't any value under the given key, the key
@@ -45,6 +47,21 @@ public class BindingMessages {
 	 *            the resource name
 	 * @return the string
 	 */
+	public static ResourceBundle getBundle(){
+	  ResourceBundle result = null;
+	  String baseName = "org.eclipse.core.internal.databinding.messages";
+	  try {
+        ClassLoader loader = BindingMessages.class.getClassLoader();
+        result = ResourceBundle.getBundle( baseName, RWT.getLocale(), loader );
+      } catch( RuntimeException re ) {
+        // TODO [fappel]: improve this
+        String msg =   "Warning: could not retrieve resource bundle "
+                     + "- loading system default";
+        System.out.println( msg );
+        result = ResourceBundle.getBundle( baseName );
+      }
+      return result;
+	}
 	public static String getString(String key) {
 		try {
 			return bundle.getString(key);

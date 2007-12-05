@@ -113,7 +113,7 @@ public class DeferredTreeContentManager {
      * @throws RuntimeException if the element is null.
      */
     public boolean mayHaveChildren(Object element) {
-    	Assert.isNotNull(element, ProgressMessages.DeferredTreeContentManager_NotDeferred); 
+    	Assert.isNotNull(element, ProgressMessages.get().DeferredTreeContentManager_NotDeferred); 
         IDeferredWorkbenchAdapter adapter = getAdapter(element);
         return adapter != null && adapter.isContainer();
     }
@@ -275,7 +275,7 @@ public class DeferredTreeContentManager {
      */
     protected String getFetchJobName(Object parent, IDeferredWorkbenchAdapter adapter) {
         return NLS.bind(
-				ProgressMessages.DeferredTreeContentManager_FetchingName,
+				ProgressMessages.get().DeferredTreeContentManager_FetchingName,
                adapter.getLabel(parent));
     }
 
@@ -289,7 +289,7 @@ public class DeferredTreeContentManager {
     protected void addChildren(final Object parent, final Object[] children,
             IProgressMonitor monitor) {
         WorkbenchJob updateJob = new WorkbenchJob(
-				ProgressMessages.DeferredTreeContentManager_AddingChildren) {
+				ProgressMessages.get().DeferredTreeContentManager_AddingChildren) {
             /*
              * (non-Javadoc)
              * 
@@ -334,7 +334,7 @@ public class DeferredTreeContentManager {
 			return;
 		}
         //Clear the placeholder if it is still there
-        WorkbenchJob clearJob = new WorkbenchJob(ProgressMessages.DeferredTreeContentManager_ClearJob) {
+        WorkbenchJob clearJob = new WorkbenchJob(ProgressMessages.get().DeferredTreeContentManager_ClearJob) {
             /*
              * (non-Javadoc)
              * 

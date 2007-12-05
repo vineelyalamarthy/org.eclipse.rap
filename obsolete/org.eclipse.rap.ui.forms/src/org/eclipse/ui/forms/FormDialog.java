@@ -115,6 +115,6 @@ public class FormDialog extends TrayDialog {
 	 *            the dialog form
 	 */
 	protected void createFormContent(IManagedForm mform) {
-		mform.getForm().setText(Messages.FormDialog_defaultTitle);
+		mform.getForm().setText(Messages.get().FormDialog_defaultTitle);
 	}
 }

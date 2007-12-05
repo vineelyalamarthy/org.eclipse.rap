@@ -73,7 +73,7 @@ public class CycleEditorHandler extends CycleBaseHandler {
 	 */
 	protected String getTableHeader() {
 		// TODO Auto-generated method stub
-		return WorkbenchMessages.CycleEditorAction_header;
+		return WorkbenchMessages.get().CycleEditorAction_header;
 	}
 
 }

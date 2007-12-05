@@ -40,8 +40,8 @@ public class SaveAllAction extends PageEventAction implements IPropertyListener 
      * @param window the window
      */
     public SaveAllAction(IWorkbenchWindow window) {
-        super(WorkbenchMessages.SaveAll_text, window);
-        setToolTipText(WorkbenchMessages.SaveAll_toolTip);
+        super(WorkbenchMessages.get().SaveAll_text, window);
+        setToolTipText(WorkbenchMessages.get().SaveAll_toolTip);
         setId("saveAll"); //$NON-NLS-1$
         setEnabled(false);
 //        window.getWorkbench().getHelpSystem().setHelp(this,

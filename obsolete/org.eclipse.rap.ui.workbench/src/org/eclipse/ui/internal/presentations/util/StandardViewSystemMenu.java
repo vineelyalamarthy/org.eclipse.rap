@@ -65,7 +65,7 @@ public class StandardViewSystemMenu implements ISystemMenu {
     }
 
     String getMoveMenuText() {
-    	return WorkbenchMessages.ViewPane_moveView;
+    	return WorkbenchMessages.get().ViewPane_moveView;
     }
     
     /* (non-Javadoc)

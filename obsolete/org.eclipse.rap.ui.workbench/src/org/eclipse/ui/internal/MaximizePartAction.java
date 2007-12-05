@@ -23,8 +23,8 @@ public class MaximizePartAction extends PageEventAction {
      * @param window the window
      */
     public MaximizePartAction(IWorkbenchWindow window) {
-        super(WorkbenchMessages.MaximizePartAction_text, window);
-        setToolTipText(WorkbenchMessages.MaximizePartAction_toolTip);
+        super(WorkbenchMessages.get().MaximizePartAction_text, window);
+        setToolTipText(WorkbenchMessages.get().MaximizePartAction_toolTip);
         // @issue missing action id
         updateState();
 //        window.getWorkbench().getHelpSystem().setHelp(this,

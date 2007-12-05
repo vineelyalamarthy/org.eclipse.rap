@@ -161,7 +161,7 @@ public class ProgressView extends ViewPart implements IViewPart {
 	 * Create the cancel action for the receiver.
 	 */
 	private void createCancelAction() {
-		cancelAction = new Action(ProgressMessages.ProgressView_CancelAction) {
+		cancelAction = new Action(ProgressMessages.get().ProgressView_CancelAction) {
 			/*
 			 * (non-Javadoc)
 			 * 
@@ -179,7 +179,7 @@ public class ProgressView extends ViewPart implements IViewPart {
 	 */
 	private void createClearAllAction() {
 		clearAllAction = new Action(
-				ProgressMessages.ProgressView_ClearAllAction) {
+				ProgressMessages.get().ProgressView_ClearAllAction) {
 			/*
 			 * (non-Javadoc)
 			 * 
@@ -190,7 +190,7 @@ public class ProgressView extends ViewPart implements IViewPart {
 			}
 		};
 		clearAllAction
-				.setToolTipText(ProgressMessages.NewProgressView_RemoveAllJobsToolTip);
+				.setToolTipText(ProgressMessages.get().NewProgressView_RemoveAllJobsToolTip);
 		ImageDescriptor id = WorkbenchImages
 				.getWorkbenchImageDescriptor("/elcl16/progress_remall.gif"); //$NON-NLS-1$
 		if (id != null) {

@@ -65,7 +65,7 @@ public class PerspectiveBarNewContributionItem extends ContributionItem {
             toolItem.setImage(image);
 
             toolItem.setText(""); //$NON-NLS-1$
-            toolItem.setToolTipText(WorkbenchMessages.PerspectiveBarNewContributionItem_toolTip); 
+            toolItem.setToolTipText(WorkbenchMessages.get().PerspectiveBarNewContributionItem_toolTip); 
             toolItem.addSelectionListener(new SelectionAdapter() {
 
                 public void widgetSelected(SelectionEvent event) {

@@ -648,14 +648,14 @@ public class Perspective {
         try {
             factory = persp.createFactory();
         } catch (CoreException e) {
-            throw new WorkbenchException(NLS.bind(WorkbenchMessages.Perspective_unableToLoad, persp.getId() ));
+            throw new WorkbenchException(NLS.bind(WorkbenchMessages.get().Perspective_unableToLoad, persp.getId() ));
         }
 		
 		/*
 		 * IPerspectiveFactory#createFactory() can return null
 		 */
 		if (factory == null) {
-			throw new WorkbenchException(NLS.bind(WorkbenchMessages.Perspective_unableToLoad, persp.getId() ));
+			throw new WorkbenchException(NLS.bind(WorkbenchMessages.get().Perspective_unableToLoad, persp.getId() ));
 		}		
 		
 		
@@ -1003,7 +1003,7 @@ public class Perspective {
         MultiStatus result = new MultiStatus(
                 PlatformUI.PLUGIN_ID,
                 IStatus.OK,
-                WorkbenchMessages.Perspective_problemsRestoringPerspective, null);
+                WorkbenchMessages.get().Perspective_problemsRestoringPerspective, null);
 
         // Create persp descriptor.
         descriptor = new PerspectiveDescriptor(null, null, null);
@@ -1030,7 +1030,7 @@ public class Perspective {
 
     IStatus createReferences(IMemento views[]) {
         MultiStatus result = new MultiStatus(PlatformUI.PLUGIN_ID, IStatus.OK,
-                WorkbenchMessages.Perspective_problemsRestoringViews, null); 
+                WorkbenchMessages.get().Perspective_problemsRestoringViews, null); 
 
         for (int x = 0; x < views.length; x++) {
             // Get the view details.
@@ -1966,7 +1966,7 @@ public class Perspective {
         IViewReference ref = factory.createView(viewId, secondaryId);
         IViewPart part = (IViewPart) ref.getPart(true);
         if (part == null) {
-            throw new PartInitException(NLS.bind(WorkbenchMessages.ViewFactory_couldNotCreate, ref.getId()));
+            throw new PartInitException(NLS.bind(WorkbenchMessages.get().ViewFactory_couldNotCreate, ref.getId()));
         }
         ViewSite site = (ViewSite) part.getSite();
         ViewPane pane = (ViewPane) site.getPane();

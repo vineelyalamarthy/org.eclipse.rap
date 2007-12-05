@@ -54,7 +54,7 @@ public class ProgressManagerUtil {
 	static final QualifiedName INFRASTRUCTURE_PROPERTY = new QualifiedName(WorkbenchPlugin.PI_WORKBENCH,"INFRASTRUCTURE_PROPERTY");//$NON-NLS-1$
 	
 
-	private static String ellipsis = ProgressMessages.ProgressFloatingWindow_EllipsisValue;
+	private static String ellipsis = ProgressMessages.get().ProgressFloatingWindow_EllipsisValue;
 
 	/**
 	 * Return a status for the exception.

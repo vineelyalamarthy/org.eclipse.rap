@@ -307,7 +307,7 @@ public class EditorReference extends WorkbenchPartReference implements
         // Get the input factory.
         IMemento editorMem = getMemento();
         if (editorMem == null) {
-            throw new PartInitException(NLS.bind(WorkbenchMessages.EditorManager_no_persisted_state, getId(), getName()));
+            throw new PartInitException(NLS.bind(WorkbenchMessages.get().EditorManager_no_persisted_state, getId(), getName()));
         }
 //        IMemento inputMem = editorMem
 //                .getChild(IWorkbenchConstants.TAG_INPUT);
@@ -414,7 +414,7 @@ public class EditorReference extends WorkbenchPartReference implements
                     NLS.bind("Unable to create editor ID {0}: {1}",  //$NON-NLS-1$
                             getId(), originalStatus.getMessage()));
             IStatus displayStatus = StatusUtil.newStatus(originalStatus,
-					WorkbenchMessages.EditorManager_unableToCreateEditor);
+					WorkbenchMessages.get().EditorManager_unableToCreateEditor);
 
 			// Pass the error to the status handling facility         
             StatusManager.getManager().handle(logStatus);       
@@ -571,7 +571,7 @@ public class EditorReference extends WorkbenchPartReference implements
             EditorDescriptor desc = getDescriptor();
             
             if (desc == null) {
-                throw new PartInitException(NLS.bind(WorkbenchMessages.EditorManager_missing_editor_descriptor, editorID));
+                throw new PartInitException(NLS.bind(WorkbenchMessages.get().EditorManager_missing_editor_descriptor, editorID));
             }
             
             
@@ -601,7 +601,7 @@ public class EditorReference extends WorkbenchPartReference implements
 //                    throw new PartInitException(WorkbenchMessages.EditorManager_no_in_place_support);
 //                }
             } else {
-                throw new PartInitException(NLS.bind(WorkbenchMessages.EditorManager_invalid_editor_descriptor, editorID));
+                throw new PartInitException(NLS.bind(WorkbenchMessages.get().EditorManager_invalid_editor_descriptor, editorID));
             }
             // Create a pane for this part
             PartPane pane = getPane();

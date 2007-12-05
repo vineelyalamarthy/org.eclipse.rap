@@ -88,7 +88,7 @@ public class ViewLabelProvider extends LabelProvider { // implements IColorProvi
      * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
      */
     public String getText(Object element) {
-        String label = WorkbenchMessages.ViewLabel_unknown;
+        String label = WorkbenchMessages.get().ViewLabel_unknown;
         if (element instanceof IViewCategory) {
 			label = ((IViewCategory) element).getLabel();
 		} else if (element instanceof IViewDescriptor) {

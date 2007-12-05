@@ -437,13 +437,13 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 		((GridLayout) parent.getLayout()).makeColumnsEqualWidth = false;
 		if (wizard.isHelpAvailable()) {
 			helpButton = createButton(parent, IDialogConstants.HELP_ID,
-					IDialogConstants.HELP_LABEL, false);
+					IDialogConstants.get().HELP_LABEL, false);
 		}
 		if (wizard.needsPreviousAndNextButtons()) {
 			createPreviousAndNextButtons(parent);
 		}
 		finishButton = createButton(parent, IDialogConstants.FINISH_ID,
-				IDialogConstants.FINISH_LABEL, true);
+				IDialogConstants.get().FINISH_LABEL, true);
 		cancelButton = createCancelButton(parent);
 	}
 
@@ -479,7 +479,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 		// increment the number of columns in the button bar
 		((GridLayout) parent.getLayout()).numColumns++;
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText(IDialogConstants.CANCEL_LABEL);
+		button.setText(IDialogConstants.get().CANCEL_LABEL);
 		setButtonLayoutData(button);
 		button.setFont(parent.getFont());
 		button.setData(new Integer(IDialogConstants.CANCEL_ID));
@@ -683,9 +683,9 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 		composite.setLayoutData(data);
 		composite.setFont(parent.getFont());
 		backButton = createButton(composite, IDialogConstants.BACK_ID,
-				IDialogConstants.BACK_LABEL, false);
+				IDialogConstants.get().BACK_LABEL, false);
 		nextButton = createButton(composite, IDialogConstants.NEXT_ID,
-				IDialogConstants.NEXT_LABEL, false);
+				IDialogConstants.get().NEXT_LABEL, false);
 		return composite;
 	}
 
@@ -700,7 +700,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 				null,
 				JFaceResources.getString("WizardClosingDialog.message"), //$NON-NLS-1$
 				MessageDialog.QUESTION,
-				new String[] { IDialogConstants.OK_LABEL }, 0);
+				new String[] { IDialogConstants.get().OK_LABEL }, 0);
 		return result;
 	}
 

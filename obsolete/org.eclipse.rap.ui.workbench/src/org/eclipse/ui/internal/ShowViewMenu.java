@@ -33,7 +33,7 @@ public class ShowViewMenu extends ContributionItem {
 
 	private IWorkbenchWindow window;
 
-	private static final String NO_TARGETS_MSG = WorkbenchMessages.Workbench_showInNoTargets;
+	private static final String NO_TARGETS_MSG = WorkbenchMessages.get().Workbench_showInNoTargets;
 
 	private Comparator actionComparator = new Comparator() {
 		public int compare(Object o1, Object o2) {
@@ -91,7 +91,7 @@ public class ShowViewMenu extends ContributionItem {
 		this.window = window;
 		final IHandlerService handlerService = (IHandlerService) window
 				.getService(IHandlerService.class);
-        showDlgAction = new Action(WorkbenchMessages.ShowView_title) {
+        showDlgAction = new Action(WorkbenchMessages.get().ShowView_title) {
             public void run() {
 				try {
 					handlerService.executeCommand(

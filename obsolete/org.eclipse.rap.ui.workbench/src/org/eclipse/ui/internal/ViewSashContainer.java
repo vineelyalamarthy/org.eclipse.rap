@@ -66,7 +66,7 @@ public class ViewSashContainer extends PartSashContainer {
         MultiStatus result = new MultiStatus(
                 PlatformUI.PLUGIN_ID,
                 IStatus.OK,
-                WorkbenchMessages.RootLayoutContainer_problemsRestoringPerspective, null);
+                WorkbenchMessages.get().RootLayoutContainer_problemsRestoringPerspective, null);
 
         // Read the info elements.
         IMemento[] children = memento.getChildren(IWorkbenchConstants.TAG_INFO);
@@ -164,7 +164,7 @@ public class ViewSashContainer extends PartSashContainer {
         MultiStatus result = new MultiStatus(
                 PlatformUI.PLUGIN_ID,
                 IStatus.OK,
-                WorkbenchMessages.RootLayoutContainer_problemsSavingPerspective, null); 
+                WorkbenchMessages.get().RootLayoutContainer_problemsSavingPerspective, null); 
 
         // Loop through the relationship array.
         for (int i = 0; i < relationships.length; i++) {

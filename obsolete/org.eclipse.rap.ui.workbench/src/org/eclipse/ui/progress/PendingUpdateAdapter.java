@@ -76,7 +76,7 @@ public class PendingUpdateAdapter implements IWorkbenchAdapter, IAdaptable {
      * @see org.eclipse.ui.model.IWorkbenchAdapter#getLabel(java.lang.Object)
      */
     public String getLabel(Object o) {
-        return ProgressMessages.PendingUpdateAdapter_PendingLabel;
+        return ProgressMessages.get().PendingUpdateAdapter_PendingLabel;
     }
 
     /* (non-Javadoc)

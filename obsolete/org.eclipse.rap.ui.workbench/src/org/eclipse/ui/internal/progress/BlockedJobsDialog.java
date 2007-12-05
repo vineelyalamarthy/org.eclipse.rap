@@ -105,7 +105,7 @@ public class BlockedJobsDialog extends IconAndMessageDialog {
 		 */
 		String getDisplayString() {
 			if (blockedTaskName == null || blockedTaskName.length() == 0) {
-				return ProgressMessages.BlockedJobsDialog_UserInterfaceTreeElement;
+				return ProgressMessages.get().BlockedJobsDialog_UserInterfaceTreeElement;
 			}
 			return blockedTaskName;
 		}
@@ -205,7 +205,7 @@ public class BlockedJobsDialog extends IconAndMessageDialog {
 
 		if (taskName == null || taskName.length() == 0)
 			getSingleton()
-					.setBlockedTaskName(ProgressMessages.BlockedJobsDialog_UserInterfaceTreeElement);
+					.setBlockedTaskName(ProgressMessages.get().BlockedJobsDialog_UserInterfaceTreeElement);
 		else
 			getSingleton().setBlockedTaskName(taskName);
 
@@ -216,7 +216,7 @@ public class BlockedJobsDialog extends IconAndMessageDialog {
 		if (parentShell == null) {
 			// create the job that will open the dialog after a delay.
 			WorkbenchJob dialogJob = new WorkbenchJob(
-					WorkbenchMessages.EventLoopProgressMonitor_OpenDialogJobName) {
+					WorkbenchMessages.get().EventLoopProgressMonitor_OpenDialogJobName) {
 				/*
 				 * (non-Javadoc)
 				 * 
@@ -394,7 +394,7 @@ public class BlockedJobsDialog extends IconAndMessageDialog {
 	 */
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(ProgressMessages.BlockedJobsDialog_BlockedTitle);
+		shell.setText(ProgressMessages.get().BlockedJobsDialog_BlockedTitle);
 		// TODO [fappel]: cursor
 //		if (waitCursor == null) {
 //			waitCursor = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);

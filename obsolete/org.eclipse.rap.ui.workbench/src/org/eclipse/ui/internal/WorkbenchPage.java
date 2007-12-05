@@ -474,7 +474,7 @@ public class WorkbenchPage implements
             throws WorkbenchException {
         super();
         if (layoutID == null) {
-			throw new WorkbenchException(WorkbenchMessages.WorkbenchPage_UndefinedPerspective);
+			throw new WorkbenchException(WorkbenchMessages.get().WorkbenchPage_UndefinedPerspective);
 		}
         init(w, layoutID, input, true);
     }
@@ -533,7 +533,7 @@ public class WorkbenchPage implements
      * Activates a part. The part is given focus, the pane is hilighted.
      */
     private void activatePart(final IWorkbenchPart part) {
-        Platform.run(new SafeRunnable(WorkbenchMessages.WorkbenchPage_ErrorActivatingView) { 
+        Platform.run(new SafeRunnable(WorkbenchMessages.get().WorkbenchPage_ErrorActivatingView) { 
                     public void run() {
                         if (part != null) {
                             //part.setFocus();
@@ -1478,8 +1478,8 @@ public class WorkbenchPage implements
                 MessageDialog
                         .openError(
                                 window.getShell(),
-                                WorkbenchMessages.Error, 
-                                NLS.bind(WorkbenchMessages.Workbench_showPerspectiveError,desc.getId() )); 
+                                WorkbenchMessages.get().Error, 
+                                NLS.bind(WorkbenchMessages.get().Workbench_showPerspectiveError,desc.getId() )); 
             }
             return null;
         } finally {
@@ -1918,7 +1918,7 @@ public class WorkbenchPage implements
      * active perspective.
      */
     public String getLabel() {
-        String label = WorkbenchMessages.WorkbenchPage_UnknownLabel;
+        String label = WorkbenchMessages.get().WorkbenchPage_UnknownLabel;
         IWorkbenchAdapter adapter = (IWorkbenchAdapter) Util.getAdapter(input, 
                 IWorkbenchAdapter.class);
         if (adapter != null) {
@@ -1926,9 +1926,9 @@ public class WorkbenchPage implements
 		}
         Perspective persp = getActivePerspective();
         if (persp != null) {
-			label = NLS.bind(WorkbenchMessages.WorkbenchPage_PerspectiveFormat,  label, persp.getDesc().getLabel());
+			label = NLS.bind(WorkbenchMessages.get().WorkbenchPage_PerspectiveFormat,  label, persp.getDesc().getLabel());
 		} else if (deferredActivePersp != null) {
-			label = NLS.bind(WorkbenchMessages.WorkbenchPage_PerspectiveFormat,label, deferredActivePersp.getLabel());
+			label = NLS.bind(WorkbenchMessages.get().WorkbenchPage_PerspectiveFormat,label, deferredActivePersp.getLabel());
 		} 
         return label;
     }
@@ -2224,7 +2224,7 @@ public class WorkbenchPage implements
                     .findPerspectiveWithId(layoutID);
             if (desc == null) {
 				throw new WorkbenchException(
-                        NLS.bind(WorkbenchMessages.WorkbenchPage_ErrorCreatingPerspective,layoutID ));
+                        NLS.bind(WorkbenchMessages.get().WorkbenchPage_ErrorCreatingPerspective,layoutID ));
 			}
             Perspective persp = findPerspective(desc);
             if (persp == null) {
@@ -3278,8 +3278,8 @@ public class WorkbenchPage implements
 	        if (newPersp != null) {
 	            IStatus status = newPersp.restoreState();
 	            if (status.getSeverity() != IStatus.OK) {
-	                String title = WorkbenchMessages.WorkbenchPage_problemRestoringTitle; 
-	                String msg = WorkbenchMessages.WorkbenchPage_errorReadingState;
+	                String title = WorkbenchMessages.get().WorkbenchPage_problemRestoringTitle; 
+	                String msg = WorkbenchMessages.get().WorkbenchPage_errorReadingState;
 	                ErrorDialog.openError(getWorkbenchWindow().getShell(), title,
 	                        msg, status);
 	            }
@@ -3490,11 +3490,11 @@ public class WorkbenchPage implements
         if (secondaryID != null) {
             if (secondaryID.length() == 0
                     || secondaryID.indexOf(ViewFactory.ID_SEP) != -1) {
-				throw new IllegalArgumentException(WorkbenchMessages.WorkbenchPage_IllegalSecondaryId);
+				throw new IllegalArgumentException(WorkbenchMessages.get().WorkbenchPage_IllegalSecondaryId);
 			} 
         }
         if (!certifyMode(mode)) {
-			throw new IllegalArgumentException(WorkbenchMessages.WorkbenchPage_IllegalViewMode);
+			throw new IllegalArgumentException(WorkbenchMessages.get().WorkbenchPage_IllegalViewMode);
 		}
 
         // Run op in busy cursor.
@@ -3513,7 +3513,7 @@ public class WorkbenchPage implements
 		} else if (result[0] instanceof PartInitException) {
 			throw (PartInitException) result[0];
 		} else {
-			throw new PartInitException(WorkbenchMessages.WorkbenchPage_AbnormalWorkbenchCondition);
+			throw new PartInitException(WorkbenchMessages.get().WorkbenchPage_AbnormalWorkbenchCondition);
 		} 
     }
 
@@ -4662,8 +4662,8 @@ public class WorkbenchPage implements
               if (MessageDialog
                       .openQuestion(
                               parentShell,
-                              WorkbenchMessages.Dynamic_resetPerspectiveTitle, 
-                              WorkbenchMessages.Dynamic_resetPerspectiveMessage)) { 
+                              WorkbenchMessages.get().Dynamic_resetPerspectiveTitle, 
+                              WorkbenchMessages.get().Dynamic_resetPerspectiveMessage)) { 
                   IWorkbenchPage page = window.getActivePage();
                   if (page == null) {
                       return;

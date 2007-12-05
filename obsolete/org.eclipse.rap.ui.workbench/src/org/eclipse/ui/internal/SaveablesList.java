@@ -433,12 +433,12 @@ public class SaveablesList implements ISaveablesLifecycleListener {
                 // Show a dialog.
                 String[] buttons;
                 if(canCancel) {
-                    buttons = new String[] { IDialogConstants.YES_LABEL,
-                            IDialogConstants.NO_LABEL,
-                            IDialogConstants.CANCEL_LABEL };
+                    buttons = new String[] { IDialogConstants.get().YES_LABEL,
+                            IDialogConstants.get().NO_LABEL,
+                            IDialogConstants.get().CANCEL_LABEL };
                 } else {
-                    buttons = new String[] { IDialogConstants.YES_LABEL,
-                            IDialogConstants.NO_LABEL};
+                    buttons = new String[] { IDialogConstants.get().YES_LABEL,
+                            IDialogConstants.get().NO_LABEL};
                 }
 
                 // don't save if we don't prompt
@@ -448,11 +448,11 @@ public class SaveablesList implements ISaveablesLifecycleListener {
                 if (stillOpenElsewhere) {
                     String message = NLS
                             .bind(
-                                    WorkbenchMessages.EditorManager_saveChangesOptionallyQuestion,
+                                    WorkbenchMessages.get().EditorManager_saveChangesOptionallyQuestion,
                                     model.getName());
                     MessageDialogWithToggle dialogWithToggle = new MessageDialogWithToggle(shellProvider.getShell(),
-                            WorkbenchMessages.Save_Resource, null, message,
-                            MessageDialog.QUESTION, buttons, 0, WorkbenchMessages.EditorManager_closeWithoutPromptingOption, false) {
+                            WorkbenchMessages.get().Save_Resource, null, message,
+                            MessageDialog.QUESTION, buttons, 0, WorkbenchMessages.get().EditorManager_closeWithoutPromptingOption, false) {
                         protected int getShellStyle() {
                             return (canCancel ? SWT.CLOSE : SWT.NONE)
                                     | SWT.TITLE | SWT.BORDER
@@ -464,10 +464,10 @@ public class SaveablesList implements ISaveablesLifecycleListener {
                 } else {
                     String message = NLS
                             .bind(
-                                    WorkbenchMessages.EditorManager_saveChangesQuestion,
+                                    WorkbenchMessages.get().EditorManager_saveChangesQuestion,
                                     model.getName());
                     dialog = new MessageDialog(shellProvider.getShell(),
-                            WorkbenchMessages.Save_Resource, null, message,
+                            WorkbenchMessages.get().Save_Resource, null, message,
                             MessageDialog.QUESTION, buttons, 0) {
                         protected int getShellStyle() {
                             return (canCancel ? SWT.CLOSE : SWT.NONE)
@@ -523,8 +523,8 @@ public class SaveablesList implements ISaveablesLifecycleListener {
                         modelsToSave,
                         new ArrayContentProvider(),
                         new WorkbenchPartLabelProvider(),
-                        stillOpenElsewhere ? WorkbenchMessages.EditorManager_saveResourcesOptionallyMessage
-                                : WorkbenchMessages.EditorManager_saveResourcesMessage,
+                        stillOpenElsewhere ? WorkbenchMessages.get().EditorManager_saveResourcesOptionallyMessage
+                                : WorkbenchMessages.get().EditorManager_saveResourcesMessage,
                         canCancel, stillOpenElsewhere);
                 dlg.setInitialSelections(modelsToSave.toArray());
                 dlg.setTitle(EditorManager.SAVE_RESOURCES_TITLE);
@@ -582,7 +582,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 
         // Do the save.
         return !SaveableHelper.runProgressMonitorOperation(
-                WorkbenchMessages.Save_All, progressOp, runnableContext,
+                WorkbenchMessages.get().Save_All, progressOp, runnableContext,
                 shellProvider);
     }
 
@@ -707,10 +707,10 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 
         protected void createButtonsForButtonBar(Composite parent) {
             createButton(parent, IDialogConstants.OK_ID,
-                    IDialogConstants.OK_LABEL, true);
+                    IDialogConstants.get().OK_LABEL, true);
             if (canCancel) {
                 createButton(parent, IDialogConstants.CANCEL_ID,
-                        IDialogConstants.CANCEL_LABEL, false);
+                        IDialogConstants.get().CANCEL_LABEL, false);
             }
         }
         
@@ -732,7 +732,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
                  checkbox.setLayoutData(gd);
                  
                  Label label = new Label(checkboxComposite, SWT.NONE);
-                 label.setText(WorkbenchMessages.EditorManager_closeWithoutPromptingOption);
+                 label.setText(WorkbenchMessages.get().EditorManager_closeWithoutPromptingOption);
                  gd = new GridData();
                  gd.grabExcessHorizontalSpace = true;
                  gd.horizontalAlignment = SWT.BEGINNING;

@@ -106,12 +106,12 @@ public final class PerspectiveLabelProvider extends LabelProvider implements
                 String def = PlatformUI.getWorkbench().getPerspectiveRegistry()
                         .getDefaultPerspective();
                 if (desc.getId().equals(def)) {
-                    label = NLS.bind(WorkbenchMessages.PerspectivesPreference_defaultLabel, label );
+                    label = NLS.bind(WorkbenchMessages.get().PerspectivesPreference_defaultLabel, label );
                 }
             }
             return label;
         }
-        return WorkbenchMessages.PerspectiveLabelProvider_unknown;
+        return WorkbenchMessages.get().PerspectiveLabelProvider_unknown;
     }
 
     /**

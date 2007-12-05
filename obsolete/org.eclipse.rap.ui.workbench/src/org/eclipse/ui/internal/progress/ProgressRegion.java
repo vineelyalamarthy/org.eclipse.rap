@@ -255,7 +255,7 @@ public class ProgressRegion implements IWindowTrim {
 	}
 
 	public String getDisplayName() {
-		return WorkbenchMessages.TrimCommon_Progress_TrimName;
+		return WorkbenchMessages.get().TrimCommon_Progress_TrimName;
 	}
 
 	/* (non-Javadoc)

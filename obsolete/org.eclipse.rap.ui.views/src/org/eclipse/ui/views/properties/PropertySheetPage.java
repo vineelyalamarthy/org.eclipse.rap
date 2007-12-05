@@ -357,8 +357,8 @@ public class PropertySheetPage extends Page implements IPropertySheetPage, IAdap
 
         // Restore Default Value
         defaultsAction = new DefaultsAction(viewer, "defaults"); //$NON-NLS-1$
-        defaultsAction.setText(PropertiesMessages.Defaults_text);
-        defaultsAction.setToolTipText(PropertiesMessages.Defaults_toolTip);
+        defaultsAction.setText(PropertiesMessages.get().Defaults_text);
+        defaultsAction.setToolTipText(PropertiesMessages.get().Defaults_toolTip);
         defaultsAction
                 .setImageDescriptor(ViewsPlugin.getViewImageDescriptor("elcl16/defaults_ps.gif")); //$NON-NLS-1$
         defaultsAction
@@ -367,16 +367,16 @@ public class PropertySheetPage extends Page implements IPropertySheetPage, IAdap
 
         // Show Advanced Properties
         filterAction = new FilterAction(viewer, "filter"); //$NON-NLS-1$
-        filterAction.setText(PropertiesMessages.Filter_text);
-        filterAction.setToolTipText(PropertiesMessages.Filter_toolTip);
+        filterAction.setText(PropertiesMessages.get().Filter_text);
+        filterAction.setToolTipText(PropertiesMessages.get().Filter_toolTip);
         filterAction
                 .setImageDescriptor(ViewsPlugin.getViewImageDescriptor("elcl16/filter_ps.gif")); //$NON-NLS-1$
         filterAction.setChecked(false);
 
         // Show Categories
         categoriesAction = new CategoriesAction(viewer, "categories"); //$NON-NLS-1$
-        categoriesAction.setText(PropertiesMessages.Categories_text);
-        categoriesAction.setToolTipText(PropertiesMessages.Categories_toolTip);
+        categoriesAction.setText(PropertiesMessages.get().Categories_text);
+        categoriesAction.setToolTipText(PropertiesMessages.get().Categories_toolTip);
         categoriesAction
                 .setImageDescriptor(ViewsPlugin.getViewImageDescriptor("elcl16/tree_mode.gif")); //$NON-NLS-1$
         categoriesAction.setChecked(true);

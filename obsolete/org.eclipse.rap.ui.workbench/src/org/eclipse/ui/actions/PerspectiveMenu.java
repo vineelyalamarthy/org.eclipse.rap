@@ -69,7 +69,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
      * 
      * @since 1.0
      */
-    private static final String NO_TARGETS_MSG = WorkbenchMessages.Workbench_showInNoPerspectives;
+    private static final String NO_TARGETS_MSG = WorkbenchMessages.get().Workbench_showInNoPerspectives;
 
     /**
      * The map of perspective identifiers (String) to actions
@@ -85,7 +85,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
      * 
      * @since 1.0
      */
-    private Action openOtherAction = new Action(WorkbenchMessages.PerspectiveMenu_otherItem) {
+    private Action openOtherAction = new Action(WorkbenchMessages.get().PerspectiveMenu_otherItem) {
         public final void runWithEvent(final Event event) {
             runOther(new SelectionEvent(event));
         }

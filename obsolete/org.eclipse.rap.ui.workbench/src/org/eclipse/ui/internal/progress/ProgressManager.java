@@ -443,7 +443,7 @@ public class ProgressManager extends ProgressProvider implements
 					if (!noDialog) {
 						final IJobChangeEvent finalEvent = event;
 						WorkbenchJob showJob = new WorkbenchJob(
-								ProgressMessages.ProgressManager_showInDialogName) {
+								ProgressMessages.get().ProgressManager_showInDialogName) {
 							/*
 							 * (non-Javadoc)
 							 * 
@@ -935,7 +935,7 @@ public class ProgressManager extends ProgressProvider implements
 			final ProgressMonitorJobsDialog dialog) {
 
 		final WorkbenchJob updateJob = new WorkbenchJob(
-				ProgressMessages.ProgressManager_openJobName) {
+				ProgressMessages.get().ProgressManager_openJobName) {
 			/*
 			 * (non-Javadoc)
 			 * 
