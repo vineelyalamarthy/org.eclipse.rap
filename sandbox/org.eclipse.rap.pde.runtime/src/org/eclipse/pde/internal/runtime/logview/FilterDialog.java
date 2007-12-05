@@ -142,12 +142,12 @@ public class FilterDialog extends TrayDialog {
 		okButton = createButton(
 				parent,
 				IDialogConstants.OK_ID,
-				IDialogConstants.OK_LABEL,
+				IDialogConstants.get().OK_LABEL,
 				true);
 		createButton(
 			parent,
-			IDialogConstants.CANCEL_ID,
-			IDialogConstants.CANCEL_LABEL,
+			IDialogConstants.get().CANCEL_ID,
+			IDialogConstants.get().CANCEL_LABEL,
 			false);
 	}
 	

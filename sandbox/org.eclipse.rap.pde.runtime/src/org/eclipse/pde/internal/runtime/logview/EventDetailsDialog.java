@@ -557,7 +557,7 @@ public class EventDetailsDialog extends TrayDialog {
 
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK button only by default
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.get().OK_LABEL, true);
 	}
 
 	private void createDetailsSection(Composite parent) {
