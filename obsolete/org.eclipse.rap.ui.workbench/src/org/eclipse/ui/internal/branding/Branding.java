@@ -86,7 +86,7 @@ public final class Branding extends AbstractBranding {
   }
 
   ///////////////////////////
-  // IBranding implementation
+  // AbstractBranding implementation
   
   public String getServletName() {
     return servletName;
