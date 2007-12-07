@@ -118,6 +118,11 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 	 * @return IJobChangeListener
 	 */
 	private IJobChangeListener createCloseListener() {
+	  // RAP: Obtain localized message here as within the JobChangeAdapter#done
+	  //      method there is no session context available
+	  final String closeJobDialogMsg 
+	    = ProgressMessages.get().ProgressMonitorFocusJobDialog_CLoseDialogJob;
+	  // end RAP specific
 		return new JobChangeAdapter() {
 			/*
 			 * (non-Javadoc)
@@ -146,8 +151,8 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 					return;
 				}
 				
-  				WorkbenchJob closeJob = new WorkbenchJob( display,
-  						ProgressMessages.get().ProgressMonitorFocusJobDialog_CLoseDialogJob) {
+          WorkbenchJob closeJob = new WorkbenchJob( display,
+  						closeJobDialogMsg) {
   					/*
   					 * (non-Javadoc)
   					 * 
