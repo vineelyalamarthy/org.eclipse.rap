@@ -443,17 +443,23 @@ public class SaveableHelper {
 	 */
 	public static boolean waitForBackgroundSaveJobs(final List modelsToSave) {
 		// block if any of the saveables is still saving in the background
-		try {
-			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress() {
-				public void run(IProgressMonitor monitor) throws InterruptedException {
-					Job.getJobManager().join(new DynamicFamily(modelsToSave), monitor);
-				}
-			});
-		} catch (InvocationTargetException e) {
-			StatusUtil.handleStatus(e, StatusManager.SHOW | StatusManager.LOG);
-		} catch (InterruptedException e) {
-			return true;
-		}
+	  
+	  // FIXME [rh] disabled code that would lead to "Context is disposed"-exceptions
+	  //       when closing dirty editors. Ee-activate when Display#readAndDispath() 
+	  //       is in place
+//		try {
+//			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress() {
+//				public void run(IProgressMonitor monitor) throws InterruptedException {
+//					Job.getJobManager().join(new DynamicFamily(modelsToSave), monitor);
+//				}
+//			});
+//		} catch (InvocationTargetException e) {
+//			StatusUtil.handleStatus(e, StatusManager.SHOW | StatusManager.LOG);
+//		} catch (InterruptedException e) {
+//			return true;
+//		}
+	  // end of HACK 
+	  
 		// remove saveables that are no longer dirty from the list
 		for (Iterator it = modelsToSave.iterator(); it.hasNext();) {
 			Saveable model = (Saveable) it.next();
