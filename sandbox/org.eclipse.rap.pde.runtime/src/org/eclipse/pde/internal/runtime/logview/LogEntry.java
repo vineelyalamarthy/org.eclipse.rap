@@ -123,13 +123,13 @@ public class LogEntry extends PlatformObject implements IWorkbenchAdapter {
 	private String getSeverityText(int severity) {
 		switch (severity) {
 			case IStatus.ERROR :
-				return PDERuntimeMessages.LogView_severity_error;
+				return PDERuntimeMessages.get().LogView_severity_error;
 			case IStatus.WARNING :
-				return PDERuntimeMessages.LogView_severity_warning;
+				return PDERuntimeMessages.get().LogView_severity_warning;
 			case IStatus.INFO :
-				return PDERuntimeMessages.LogView_severity_info;
+				return PDERuntimeMessages.get().LogView_severity_info;
 			case IStatus.OK :
-				return PDERuntimeMessages.LogView_severity_ok;
+				return PDERuntimeMessages.get().LogView_severity_ok;
 		}
 		return "?"; //$NON-NLS-1$
 	}

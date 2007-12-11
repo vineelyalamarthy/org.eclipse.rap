@@ -413,12 +413,12 @@ public class RegistryBrowser extends ViewPart implements BundleListener, IRegist
 				});
 			}
 		};
-		fRefreshAction.setText(PDERuntimeMessages.RegistryView_refresh_label);
-		fRefreshAction.setToolTipText(PDERuntimeMessages.RegistryView_refresh_tooltip);
+		fRefreshAction.setText(PDERuntimeMessages.get().RegistryView_refresh_label);
+		fRefreshAction.setToolTipText(PDERuntimeMessages.get().RegistryView_refresh_tooltip);
 		fRefreshAction.setImageDescriptor(PDERuntimePluginImages.DESC_REFRESH);
 		fRefreshAction.setDisabledImageDescriptor(PDERuntimePluginImages.DESC_REFRESH_DISABLED);
 		
-		fShowPluginsAction = new Action(PDERuntimeMessages.RegistryView_showRunning_label){
+		fShowPluginsAction = new Action(PDERuntimeMessages.get().RegistryView_showRunning_label){
 			public void run() {
 				RegistryBrowserContentProvider cp = (RegistryBrowserContentProvider) fTreeViewer.getContentProvider();
 				cp.setShowRunning(fShowPluginsAction.isChecked());
@@ -478,9 +478,9 @@ public class RegistryBrowser extends ViewPart implements BundleListener, IRegist
 				fTreeViewer.collapseAll();
 			}
 		};
-		fCollapseAllAction.setText(PDERuntimeMessages.RegistryView_collapseAll_label);
+		fCollapseAllAction.setText(PDERuntimeMessages.get().RegistryView_collapseAll_label);
 		fCollapseAllAction.setImageDescriptor(PDERuntimePluginImages.DESC_COLLAPSE_ALL);
-		fCollapseAllAction.setToolTipText(PDERuntimeMessages.RegistryView_collapseAll_tooltip);
+		fCollapseAllAction.setToolTipText(PDERuntimeMessages.get().RegistryView_collapseAll_tooltip);
 	}
 	
 	public void updateTitle(){

@@ -226,9 +226,9 @@ public class RegistryBrowserContentProvider implements ITreeContentProvider {
 	
 	public String getTitleSummary(){
 		if (fViewer == null || fViewer.getTree() == null)
-			return NLS.bind(PDERuntimeMessages.RegistryView_titleSummary, (new String[] {"0", "0"})); //$NON-NLS-1$ //$NON-NLS-2$
+			return NLS.bind(PDERuntimeMessages.get().RegistryView_titleSummary, (new String[] {"0", "0"})); //$NON-NLS-1$ //$NON-NLS-2$
 		
-		return NLS.bind(PDERuntimeMessages.RegistryView_titleSummary, (new String[] {new Integer(fViewer.getTree().getItemCount()).toString(), new Integer(fPluginsTotal).toString()}));
+		return NLS.bind(PDERuntimeMessages.get().RegistryView_titleSummary, (new String[] {new Integer(fViewer.getTree().getItemCount()).toString(), new Integer(fPluginsTotal).toString()}));
 	}
 	
 	private Object[] getManifestHeaderArray(Bundle bundle, String headerKey) {

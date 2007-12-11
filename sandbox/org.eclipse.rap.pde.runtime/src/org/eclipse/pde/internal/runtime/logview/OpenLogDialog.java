@@ -49,7 +49,7 @@ public final class OpenLogDialog extends TrayDialog {
      */
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
-        newShell.setText(PDERuntimeMessages.OpenLogDialog_title); 
+        newShell.setText(PDERuntimeMessages.get().OpenLogDialog_title); 
         readConfiguration();
     }
 
@@ -213,11 +213,11 @@ public final class OpenLogDialog extends TrayDialog {
                     InterruptedException {
                 monitor
                         .beginTask(
-                                PDERuntimeMessages.OpenLogDialog_message, IProgressMonitor.UNKNOWN); 
+                                PDERuntimeMessages.get().OpenLogDialog_message, IProgressMonitor.UNKNOWN); 
                 try {
                     readLargeFile(writer);
                 } catch (IOException e) {
-                    writer.println(PDERuntimeMessages.OpenLogDialog_cannotDisplay); 
+                    writer.println(PDERuntimeMessages.get().OpenLogDialog_cannotDisplay); 
                 }
             }
         };
@@ -235,11 +235,11 @@ public final class OpenLogDialog extends TrayDialog {
                     InterruptedException {
                 monitor
                         .beginTask(
-                                PDERuntimeMessages.OpenLogDialog_message, IProgressMonitor.UNKNOWN); 
+                                PDERuntimeMessages.get().OpenLogDialog_message, IProgressMonitor.UNKNOWN); 
                 try {
                     readFile(writer);
                 } catch (IOException e) {
-                    writer.println(PDERuntimeMessages.OpenLogDialog_cannotDisplay); 
+                    writer.println(PDERuntimeMessages.get().OpenLogDialog_cannotDisplay); 
                 }
             }
         };

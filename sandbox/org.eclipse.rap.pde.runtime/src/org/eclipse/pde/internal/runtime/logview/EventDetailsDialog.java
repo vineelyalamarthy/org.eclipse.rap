@@ -363,7 +363,7 @@ public class EventDetailsDialog extends TrayDialog {
 		if (stack != null) {
 			stackTraceText.setText(stack);
 		} else {
-			stackTraceText.setText(PDERuntimeMessages.EventDetailsDialog_noStack);
+			stackTraceText.setText(PDERuntimeMessages.get().EventDetailsDialog_noStack);
 		}
 		LogSession session = entry.getSession();
 		if (session != null && session.getSessionData() != null)
@@ -535,7 +535,7 @@ public class EventDetailsDialog extends TrayDialog {
 		gd.horizontalSpan = 3;
 		gd.verticalSpan = 1;
 		backButton.setLayoutData(gd);
-		backButton.setToolTipText(PDERuntimeMessages.EventDetailsDialog_previous);
+		backButton.setToolTipText(PDERuntimeMessages.get().EventDetailsDialog_previous);
 		backButton.setImage(imgPrevEnabled);
 		
 		nextButton = createButton(container, IDialogConstants.NEXT_ID, "", false); //$NON-NLS-1$
@@ -543,7 +543,7 @@ public class EventDetailsDialog extends TrayDialog {
 		gd.horizontalSpan = 3;
 		gd.verticalSpan = 1;
 		nextButton.setLayoutData(gd);
-		nextButton.setToolTipText(PDERuntimeMessages.EventDetailsDialog_next);
+		nextButton.setToolTipText(PDERuntimeMessages.get().EventDetailsDialog_next);
 		nextButton.setImage(imgNextEnabled);
 		
 		copyButton = createButton(container, COPY_ID, "", false); //$NON-NLS-1$
@@ -552,7 +552,7 @@ public class EventDetailsDialog extends TrayDialog {
 		gd.verticalSpan = 1;
 		copyButton.setLayoutData(gd);
 		copyButton.setImage(imgCopyEnabled);
-		copyButton.setToolTipText(PDERuntimeMessages.EventDetailsDialog_copy);
+		copyButton.setToolTipText(PDERuntimeMessages.get().EventDetailsDialog_copy);
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
@@ -580,21 +580,21 @@ public class EventDetailsDialog extends TrayDialog {
 		textContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label label = new Label(textContainer, SWT.NONE);
-		label.setText(PDERuntimeMessages.EventDetailsDialog_date); 
+		label.setText(PDERuntimeMessages.get().EventDetailsDialog_date); 
 		dateLabel = new Label(textContainer, SWT.NULL);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		dateLabel.setLayoutData(gd);
 
 		label = new Label(textContainer, SWT.NONE);
-		label.setText(PDERuntimeMessages.EventDetailsDialog_severity); 
+		label.setText(PDERuntimeMessages.get().EventDetailsDialog_severity); 
 		severityImageLabel = new Label(textContainer, SWT.NULL);
 		severityLabel = new Label(textContainer, SWT.NULL);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		severityLabel.setLayoutData(gd);
 
 		label = new Label(textContainer, SWT.NONE);
-		label.setText(PDERuntimeMessages.EventDetailsDialog_message); 
+		label.setText(PDERuntimeMessages.get().EventDetailsDialog_message); 
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		label.setLayoutData(gd);
 		msgText = new Text(textContainer, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
@@ -617,7 +617,7 @@ public class EventDetailsDialog extends TrayDialog {
 		container.setLayoutData(gd);
 
 		Label label = new Label(container, SWT.NULL);
-		label.setText(PDERuntimeMessages.EventDetailsDialog_exception); 
+		label.setText(PDERuntimeMessages.get().EventDetailsDialog_exception); 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		label.setLayoutData(gd);
@@ -645,7 +645,7 @@ public class EventDetailsDialog extends TrayDialog {
 		line.setLayoutData(gd);
 		
 		Label label = new Label(container, SWT.NONE);
-		label.setText(PDERuntimeMessages.EventDetailsDialog_session); 
+		label.setText(PDERuntimeMessages.get().EventDetailsDialog_session); 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		label.setLayoutData(gd);
 		sessionDataText = new Text(container, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL );

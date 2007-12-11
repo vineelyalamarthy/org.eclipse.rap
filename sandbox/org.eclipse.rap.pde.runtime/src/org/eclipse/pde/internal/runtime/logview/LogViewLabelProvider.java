@@ -75,7 +75,7 @@ public class LogViewLabelProvider
 			if (entry.getMessage() != null) {
 				String message = entry.getMessage();
 				if (message.length() > MAX_LABEL_LENGTH) {
-					String warning = PDERuntimeMessages.LogViewLabelProvider_truncatedMessage;
+					String warning = PDERuntimeMessages.get().LogViewLabelProvider_truncatedMessage;
 					StringBuffer sb = new StringBuffer(message.substring(0, MAX_LABEL_LENGTH - warning.length()));
 					sb.append(warning);
 					return sb.toString();

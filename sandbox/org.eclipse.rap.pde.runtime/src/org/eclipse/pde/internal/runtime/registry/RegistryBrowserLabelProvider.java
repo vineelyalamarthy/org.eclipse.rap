@@ -168,13 +168,13 @@ public class RegistryBrowserLabelProvider extends LabelProvider {
 		if (element instanceof IBundleFolder) {
 			switch (((IBundleFolder) element).getFolderId()) {
 				case IBundleFolder.F_IMPORTS :
-					return PDERuntimeMessages.RegistryView_folders_imports;
+					return PDERuntimeMessages.get().RegistryView_folders_imports;
 				case IBundleFolder.F_LIBRARIES :
-					return PDERuntimeMessages.RegistryView_folders_libraries;
+					return PDERuntimeMessages.get().RegistryView_folders_libraries;
 				case IBundleFolder.F_EXTENSION_POINTS :
-					return PDERuntimeMessages.RegistryView_folders_extensionPoints;
+					return PDERuntimeMessages.get().RegistryView_folders_extensionPoints;
 				case IBundleFolder.F_EXTENSIONS :
-					return PDERuntimeMessages.RegistryView_folders_extensions;
+					return PDERuntimeMessages.get().RegistryView_folders_extensions;
 				case IBundleFolder.F_LOCATION:
 					Bundle bundle = ((IBundleFolder) element).getBundle();
 					URL bundleEntry = bundle.getEntry("/"); //$NON-NLS-1$
@@ -196,7 +196,7 @@ public class RegistryBrowserLabelProvider extends LabelProvider {
 				String name = ((IExtension) element).getLabel();
 				String id = ((IExtension) element).getExtensionPointUniqueIdentifier();
 				if (name != null && name.length() > 0)
-					return NLS.bind(PDERuntimeMessages.RegistryBrowserLabelProvider_nameIdBind, id, name);
+					return NLS.bind(PDERuntimeMessages.get().RegistryBrowserLabelProvider_nameIdBind, id, name);
 				return id;
 			}
 
@@ -208,7 +208,7 @@ public class RegistryBrowserLabelProvider extends LabelProvider {
 			String id = ((IExtensionPoint)element).getUniqueIdentifier();
 			String name = ((IExtensionPoint)element).getLabel();
 			if (name != null && name.length() > 0)
-				return NLS.bind(PDERuntimeMessages.RegistryBrowserLabelProvider_nameIdBind, id, name);
+				return NLS.bind(PDERuntimeMessages.get().RegistryBrowserLabelProvider_nameIdBind, id, name);
 			return id;
 		}
 		if (element instanceof IBundlePrerequisite)

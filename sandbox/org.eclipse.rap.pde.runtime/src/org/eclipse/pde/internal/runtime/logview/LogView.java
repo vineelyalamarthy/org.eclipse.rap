@@ -231,7 +231,7 @@ public class LogView extends ViewPart implements ILogListener {
 	}
 
 	private Action createActivateViewAction() {
-		Action action = new Action(PDERuntimeMessages.LogView_activate) { //       	
+		Action action = new Action(PDERuntimeMessages.get().LogView_activate) { //       	
 			public void run() {
 //				fMemento.putString(P_ACTIVATE, isChecked() ? "true" : "false"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -241,20 +241,20 @@ public class LogView extends ViewPart implements ILogListener {
 	}
 
 	private Action createClearAction() {
-		Action action = new Action(PDERuntimeMessages.LogView_clear) { 
+		Action action = new Action(PDERuntimeMessages.get().LogView_clear) { 
 			public void run() {
 				handleClear();
 			}
 		};
 		action.setImageDescriptor(PDERuntimePluginImages.DESC_CLEAR);
 		action.setDisabledImageDescriptor(PDERuntimePluginImages.DESC_CLEAR_DISABLED);
-		action.setToolTipText(PDERuntimeMessages.LogView_clear_tooltip); 
-		action.setText(PDERuntimeMessages.LogView_clear); 
+		action.setToolTipText(PDERuntimeMessages.get().LogView_clear_tooltip); 
+		action.setText(PDERuntimeMessages.get().LogView_clear); 
 		return action;
 	}
 
 	private Action createCopyAction() {
-		Action action = new Action(PDERuntimeMessages.LogView_copy) { 
+		Action action = new Action(PDERuntimeMessages.get().LogView_copy) { 
 			public void run() {
 				copyToClipboard(fTreeViewer.getSelection());
 			}
@@ -265,12 +265,12 @@ public class LogView extends ViewPart implements ILogListener {
 	}
 
 	private Action createDeleteLogAction() {
-		Action action = new Action(PDERuntimeMessages.LogView_delete) { 
+		Action action = new Action(PDERuntimeMessages.get().LogView_delete) { 
 			public void run() {
 				doDeleteLog();
 			}
 		};
-		action.setToolTipText(PDERuntimeMessages.LogView_delete_tooltip); 
+		action.setToolTipText(PDERuntimeMessages.get().LogView_delete_tooltip); 
 		action.setImageDescriptor(PDERuntimePluginImages.DESC_REMOVE_LOG);
 		action.setDisabledImageDescriptor(PDERuntimePluginImages.DESC_REMOVE_LOG_DISABLED);
 		action.setEnabled(fInputFile.exists() && fInputFile.equals(Platform.getLogFileLocation().toFile()));
@@ -278,12 +278,12 @@ public class LogView extends ViewPart implements ILogListener {
 	}
 
 	private Action createExportAction() {
-		Action action = new Action(PDERuntimeMessages.LogView_export) { 
+		Action action = new Action(PDERuntimeMessages.get().LogView_export) { 
 			public void run() {
 				handleExport();
 			}
 		};
-		action.setToolTipText(PDERuntimeMessages.LogView_export_tooltip); 
+		action.setToolTipText(PDERuntimeMessages.get().LogView_export_tooltip); 
 		action.setImageDescriptor(PDERuntimePluginImages.DESC_EXPORT);
 		action.setDisabledImageDescriptor(PDERuntimePluginImages.DESC_EXPORT_DISABLED);
 		action.setEnabled(fInputFile.exists());
@@ -291,24 +291,24 @@ public class LogView extends ViewPart implements ILogListener {
 	}
 
 	private Action createFilterAction() {
-		Action action = new Action(PDERuntimeMessages.LogView_filter) { 
+		Action action = new Action(PDERuntimeMessages.get().LogView_filter) { 
 			public void run() {
 				handleFilter();
 			}
 		};
-		action.setToolTipText(PDERuntimeMessages.LogView_filter); 
+		action.setToolTipText(PDERuntimeMessages.get().LogView_filter); 
 		action.setImageDescriptor(PDERuntimePluginImages.DESC_FILTER);
 		action.setDisabledImageDescriptor(PDERuntimePluginImages.DESC_FILTER_DISABLED);
 		return action;
 	}
 
 	private Action createImportLogAction() {
-		Action action = new Action(PDERuntimeMessages.LogView_import) { 
+		Action action = new Action(PDERuntimeMessages.get().LogView_import) { 
 			public void run() {
 				handleImport();
 			}
 		};
-		action.setToolTipText(PDERuntimeMessages.LogView_import_tooltip); 
+		action.setToolTipText(PDERuntimeMessages.get().LogView_import_tooltip); 
 		action.setImageDescriptor(PDERuntimePluginImages.DESC_IMPORT);
 		action.setDisabledImageDescriptor(PDERuntimePluginImages.DESC_IMPORT_DISABLED);
 		return action;
@@ -334,11 +334,11 @@ public class LogView extends ViewPart implements ILogListener {
 				}
 			};
 		}
-		action.setText(PDERuntimeMessages.LogView_view_currentLog);
+		action.setText(PDERuntimeMessages.get().LogView_view_currentLog);
 		action.setImageDescriptor(PDERuntimePluginImages.DESC_OPEN_LOG);
 		action.setDisabledImageDescriptor(PDERuntimePluginImages.DESC_OPEN_LOG_DISABLED);
 		action.setEnabled(fInputFile.exists());
-		action.setToolTipText(PDERuntimeMessages.LogView_view_currentLog_tooltip); 
+		action.setToolTipText(PDERuntimeMessages.get().LogView_view_currentLog_tooltip); 
 		return action;
 	}
 
@@ -346,18 +346,18 @@ public class LogView extends ViewPart implements ILogListener {
 		fPropertiesAction = new EventDetailsDialogAction(fTree.getShell(), fTreeViewer);
 		fPropertiesAction.setImageDescriptor(PDERuntimePluginImages.DESC_PROPERTIES);
 		fPropertiesAction.setDisabledImageDescriptor(PDERuntimePluginImages.DESC_PROPERTIES_DISABLED);
-		fPropertiesAction.setToolTipText(PDERuntimeMessages.LogView_properties_tooltip); 
+		fPropertiesAction.setToolTipText(PDERuntimeMessages.get().LogView_properties_tooltip); 
 		fPropertiesAction.setEnabled(false);
 	}
 
 	private Action createReadLogAction() {
-		Action action = new Action(PDERuntimeMessages.LogView_readLog_restore) { 
+		Action action = new Action(PDERuntimeMessages.get().LogView_readLog_restore) { 
 			public void run() {
 				fInputFile = Platform.getLogFileLocation().toFile();
 				reloadLog();
 			}
 		};
-		action.setToolTipText(PDERuntimeMessages.LogView_readLog_restore_tooltip); 
+		action.setToolTipText(PDERuntimeMessages.get().LogView_readLog_restore_tooltip); 
 		action.setImageDescriptor(PDERuntimePluginImages.DESC_READ_LOG);
 		action.setDisabledImageDescriptor(PDERuntimePluginImages.DESC_READ_LOG_DISABLED);
 		return action;
@@ -390,7 +390,7 @@ public class LogView extends ViewPart implements ILogListener {
 
 	private void createColumns(Tree tree) {
 		fColumn1 = new TreeColumn(tree, SWT.LEFT);
-		fColumn1.setText(PDERuntimeMessages.LogView_column_message); 
+		fColumn1.setText(PDERuntimeMessages.get().LogView_column_message); 
 //		fColumn1.setWidth(fMemento.getInteger(P_COLUMN_1).intValue());
 		fColumn1.setWidth(300);
 		fColumn1.addSelectionListener(new SelectionAdapter() {
@@ -410,7 +410,7 @@ public class LogView extends ViewPart implements ILogListener {
 		});
 
 		fColumn2 = new TreeColumn(tree, SWT.LEFT);
-		fColumn2.setText(PDERuntimeMessages.LogView_column_plugin); 
+		fColumn2.setText(PDERuntimeMessages.get().LogView_column_plugin); 
 //		fColumn2.setWidth(fMemento.getInteger(P_COLUMN_2).intValue());
 		fColumn2.setWidth(150);
 		fColumn2.addSelectionListener(new SelectionAdapter() {
@@ -430,7 +430,7 @@ public class LogView extends ViewPart implements ILogListener {
 		});
 
 		fColumn3 = new TreeColumn(tree, SWT.LEFT);
-		fColumn3.setText(PDERuntimeMessages.LogView_column_date);
+		fColumn3.setText(PDERuntimeMessages.get().LogView_column_date);
 //		fColumn3.setWidth(fMemento.getInteger(P_COLUMN_3).intValue());
 		fColumn3.setWidth(150);
 		fColumn3.addSelectionListener(new SelectionAdapter() {
@@ -494,7 +494,7 @@ public class LogView extends ViewPart implements ILogListener {
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor)
 				throws InvocationTargetException, InterruptedException {
-					monitor.beginTask(PDERuntimeMessages.LogView_operation_importing, IProgressMonitor.UNKNOWN); 
+					monitor.beginTask(PDERuntimeMessages.get().LogView_operation_importing, IProgressMonitor.UNKNOWN); 
 					readLogFile();
 				}
 			};
@@ -504,8 +504,8 @@ public class LogView extends ViewPart implements ILogListener {
 			} catch (InvocationTargetException e) {
 			} catch (InterruptedException e) {
 			} finally {
-				fReadLogAction.setText(PDERuntimeMessages.LogView_readLog_reload); 
-				fReadLogAction.setToolTipText(PDERuntimeMessages.LogView_readLog_reload); 
+				fReadLogAction.setText(PDERuntimeMessages.get().LogView_readLog_reload); 
+				fReadLogAction.setToolTipText(PDERuntimeMessages.get().LogView_readLog_reload); 
 				asyncRefresh(false);
 				resetDialogButtons();
 			}
@@ -558,14 +558,14 @@ public class LogView extends ViewPart implements ILogListener {
 	     FilterDialog dialog = new FilterDialog(PDERuntimePlugin.getActiveWorkbenchShell(), null);
 //		FilterDialog dialog = new FilterDialog(PDERuntimePlugin.getActiveWorkbenchShell(), fMemento);
 		dialog.create();
-		dialog.getShell().setText(PDERuntimeMessages.LogView_FilterDialog_title); 
+		dialog.getShell().setText(PDERuntimeMessages.get().LogView_FilterDialog_title); 
 		if (dialog.open() == Window.OK)
 			reloadLog();
 	}
 
 	private void doDeleteLog() {
-		String title = PDERuntimeMessages.LogView_confirmDelete_title; 
-		String message = PDERuntimeMessages.LogView_confirmDelete_message; 
+		String title = PDERuntimeMessages.get().LogView_confirmDelete_title; 
+		String message = PDERuntimeMessages.get().LogView_confirmDelete_message; 
 		if (!MessageDialog.openConfirm(fTree.getShell(), title, message))
 			return;
 		if (fInputFile.delete() || fLogs.size() > 0) {
@@ -596,7 +596,7 @@ public class LogView extends ViewPart implements ILogListener {
 	protected void reloadLog() {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-				monitor.beginTask(PDERuntimeMessages.LogView_operation_reloading, IProgressMonitor.UNKNOWN);
+				monitor.beginTask(PDERuntimeMessages.get().LogView_operation_reloading, IProgressMonitor.UNKNOWN);
 				readLogFile();
 			}
 		};
@@ -606,8 +606,8 @@ public class LogView extends ViewPart implements ILogListener {
 		} catch (InvocationTargetException e) {
 		} catch (InterruptedException e) {
 		} finally {
-			fReadLogAction.setText(PDERuntimeMessages.LogView_readLog_restore); 
-			fReadLogAction.setToolTipText(PDERuntimeMessages.LogView_readLog_restore); 
+			fReadLogAction.setText(PDERuntimeMessages.get().LogView_readLog_restore); 
+			fReadLogAction.setToolTipText(PDERuntimeMessages.get().LogView_readLog_restore); 
 			asyncRefresh(false);
 			resetDialogButtons();
 		}
@@ -1076,7 +1076,7 @@ public class LogView extends ViewPart implements ILogListener {
 	
 	protected Job getOpenLogFileJob() {
 		final Shell shell = getViewSite().getShell();
-		return new Job(PDERuntimeMessages.OpenLogDialog_message) {
+		return new Job(PDERuntimeMessages.get().OpenLogDialog_message) {
 			protected IStatus run(IProgressMonitor monitor) {
 				boolean failed = false;
 				if (fInputFile.length() <= LogReader.MAX_FILE_LENGTH) {
