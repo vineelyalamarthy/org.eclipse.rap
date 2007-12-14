@@ -100,6 +100,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
         var id = wm.findIdByWidget(this);
         var req = org.eclipse.swt.Request.getInstance();
         req.addParameter(id + ".finished", e.getData());
+        req.addParameter(id + ".lastFileUploaded", this.getLastFileUploaded());
         req.addParameter(id + ".uploadParcial", this.getUploadParcial());
         req.addParameter(id + ".uploadTotal", this.getUploadTotal());
         req.send();
