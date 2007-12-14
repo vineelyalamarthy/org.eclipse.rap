@@ -8,7 +8,6 @@
  * Contributors:
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
-
 package org.eclipse.ui.internal.progress;
 
 import org.eclipse.rwt.lifecycle.UICallBack;
@@ -16,7 +15,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 
-public class ProgressUtil {
+public final class ProgressUtil {
   
   private ProgressUtil() {
     // prevent instance creation
