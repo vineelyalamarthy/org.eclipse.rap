@@ -9,6 +9,9 @@
  *     Tiago Rodrigues (Critical Software S.A.) - initial implementation
  *     Joel Oliveira (Critical Software S.A.) - initial commit
  ******************************************************************************/
+appearances = {
+// BEGIN TEMPLATE //
+    
     /*
     ---------------------------------------------------------------------------
       UPLOAD
@@ -20,9 +23,11 @@
         return {
           border : states.rwt_BORDER ? "text.BORDER.border" : "text.border",
           font : "widget.font",
-          padding : [ 2, 3, 2, 3 ],
           textColor : states.disabled ? "widget.graytext" : "undefined",
           backgroundColor : "list.background"
         };
       }
     }
+    
+// END TEMPLATE //
+};

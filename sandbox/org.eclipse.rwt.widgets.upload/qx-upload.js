@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.custom.UploadField",
   	this._text = new qx.ui.form.TextField();
   	this._text.set({readOnly:true,left:0,marginTop:3,width:"1*"});
     this._text.setBorder( new qx.ui.core.Border( 1, "solid", "#c0c0c0" ) );
-//    this._text.setAppearance( "upload-field" );
+    this._text.setAppearance( "upload-field" );
   	this.add(this._text);
 
   	this._button = new qx.ui.custom.UploadButton(this.getName(), text, icon, iconHeight, flash);
