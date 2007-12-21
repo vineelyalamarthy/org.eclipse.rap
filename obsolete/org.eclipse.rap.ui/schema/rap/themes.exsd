@@ -82,7 +82,7 @@ An RWT theme is used to customize the look and feel of applications built with t
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         RAP 1.0M4
+         RAP 1.0
       </documentation>
    </annotation>
 
@@ -111,7 +111,6 @@ An RWT theme is used to customize the look and feel of applications built with t
       </appInfo>
       <documentation>
          
-
       </documentation>
    </annotation>
 
@@ -122,7 +121,6 @@ An RWT theme is used to customize the look and feel of applications built with t
       <documentation>
          A template for valid theme files can be found in the &lt;code&gt;src/&lt;/code&gt; directory of the RWT plug-in (&lt;code&gt;org.eclipse.rap.rwt&lt;/code&gt;). The file is called &lt;code&gt;theme-template.properties&lt;/code&gt;.
 The RAP demo plugin &lt;code&gt;org.eclipse.rap.demo&lt;/code&gt; contains an example of a theme extension.
-
       </documentation>
    </annotation>
 

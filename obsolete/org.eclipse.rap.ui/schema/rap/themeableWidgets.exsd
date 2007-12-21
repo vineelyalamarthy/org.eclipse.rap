@@ -92,7 +92,7 @@ None of these files are mandatory, files which are found are respected, but file
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         RAP 1.0M4
+         RAP 1.0
       </documentation>
    </annotation>
 
