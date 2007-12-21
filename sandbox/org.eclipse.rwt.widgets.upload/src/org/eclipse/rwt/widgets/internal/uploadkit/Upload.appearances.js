@@ -21,10 +21,11 @@ appearances = {
     "upload-field" : {
       style : function( states ) {
         return {
-          border : states.rwt_BORDER ? "text.BORDER.border" : "text.border",
+          border : "text.BORDER.border",
           font : "widget.font",
-          textColor : states.disabled ? "widget.graytext" : "undefined",
-          backgroundColor : "list.background"
+          padding : THEME_VALUE( "text.SINGLE.padding" ),
+          textColor : states.disabled ? "widget.graytext" : "widget.foreground",
+          backgroundColor : "widget.background"
         };
       }
     }

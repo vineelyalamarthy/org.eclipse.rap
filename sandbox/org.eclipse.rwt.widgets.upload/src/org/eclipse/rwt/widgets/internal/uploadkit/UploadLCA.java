@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Widget;
 
 /**
  * Class that interfaces between the Java and the JavaScript.
- * 
+ *
  * @author tjarodrigues
  */
 public class UploadLCA extends AbstractWidgetLCA {
@@ -30,7 +30,7 @@ public class UploadLCA extends AbstractWidgetLCA {
 
     /**
      * Preserves the property values between the Java and the JavaScript.
-     * 
+     *
      * @param widget The <code>Widget</code>.
      */
     public final void preserveValues(final Widget widget) {
@@ -41,7 +41,7 @@ public class UploadLCA extends AbstractWidgetLCA {
 
     /**
      * Reads data from the <code>Widget</code>.
-     * 
+     *
      * @param widget The <code>Widget</code>.
      */
     public final void readData(final Widget widget) {
@@ -52,14 +52,20 @@ public class UploadLCA extends AbstractWidgetLCA {
         final String uploadParcial = WidgetLCAUtil.readPropertyValue(u, "uploadParcial");
         final String uploadTotal = WidgetLCAUtil.readPropertyValue(u, "uploadTotal");
         if ((finished != null) || (uploadParcial != null) || (uploadTotal != null)) {
-            u.fireUploadEvent(new UploadEvent(Boolean.getBoolean(finished), Integer.parseInt(uploadParcial), Integer
-                    .parseInt(uploadTotal)));
+            // allows the changes to be visible on the client side
+            ProcessActionRunner.add( new Runnable() {
+                public void run() {
+                    u.fireUploadEvent(new UploadEvent(Boolean.valueOf(finished).booleanValue(), Integer.parseInt(uploadParcial), Integer
+                            .parseInt(uploadTotal)));
+                }
+            } );
+
         }
     }
 
     /**
      * Creates the initial <code>Widget</code> rendering.
-     * 
+     *
      * @param widget The <code>Widget</code>.
      * @throws IOException If the <code>Widget</code> JavaScript is not found.
      */
@@ -75,7 +81,7 @@ public class UploadLCA extends AbstractWidgetLCA {
 
     /**
      * Renders the <code>Widget</code> changes in the JavaScript.
-     * 
+     *
      * @param widget The <code>Widget</code>.
      * @throws IOException If the <code>Widget</code> JavaScript is not found.
      */
@@ -88,7 +94,7 @@ public class UploadLCA extends AbstractWidgetLCA {
 
     /**
      * Renders the <code>Widget</code> dispose in the JavaScript.
-     * 
+     *
      * @param widget The <code>Widget</code>.
      * @throws IOException If the <code>Widget</code> JavaScript is not found.
      */
@@ -99,7 +105,7 @@ public class UploadLCA extends AbstractWidgetLCA {
 
     /**
      * Resets the handler calls.
-     * 
+     *
      * @param typePoolId The Pool ID.
      * @throws IOException If can't reset the style flags.
      */
@@ -110,7 +116,7 @@ public class UploadLCA extends AbstractWidgetLCA {
 
     /**
      * Returns the <code>Widget</code> Pool ID.
-     * 
+     *
      * @param widget The <code>Widget</code>.
      * @return <code>Widget</code> class name.
      */

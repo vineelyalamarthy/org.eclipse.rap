@@ -17,6 +17,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
 
     this._servlet = servlet;
     this._isStarted = false;
+    this._showProgress = showProgress;
 
     this.initHeight();
     this.initOverflow();
@@ -41,7 +42,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
 
     this.add(topLayout);
 
-    if (showProgress) {
+    if (this._showProgress) {
         var bottomLayout = new qx.ui.layout.CanvasLayout();
         bottomLayout.set({left:0,height:'auto',marginTop:2});
         bottomLayout.setOverflow("hidden");
@@ -54,13 +55,30 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
         this._progressBar.setAppearance( "progressbar-bar" );
 
         this.add(bottomLayout);
-
+        
         this._uploadForm.addEventListener("sending", this._monitorUpload, this);
-        this._uploadForm.addEventListener("completed", this._cleanUp, this);
     }
+    
+    this._uploadForm.addEventListener("completed", this._cleanUp, this);
 
     this.addEventListener("upload", this._fireEvent, this);
   },
+  
+  destruct : function() {   
+    this._uploadButton.removeEventListener("click", this._uploadFile);
+    
+    if (this._progressBar != null) {
+        this._uploadForm.removeEventListener("sending", this._monitorUpload);
+    }
+    
+    this._uploadForm.removeEventListener("completed", this._cleanUp);
+
+    this.removeEventListener("upload", this._fireEvent);
+           
+    this._uploadForm = null;
+    this._uploadField = null;
+    this._progressBar = null;
+  },        
 
   events: {
     "upload" : "qx.event.type.DataEvent"
@@ -107,12 +125,22 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     },
 
     _cleanUp : function () {
-        this.setLastFileUploaded(this._uploadField.getValue());
-        this._progressBar.setWidth("0%");
-        this._uploadField.setValue("");
-        this._isStarted = false;
-
-        this.createDispatchDataEvent("upload", "true");
+        if (this._isStarted == true) {
+            var filename = this._uploadField.getValue();
+            
+            if (filename.indexOf("\\") != -1) {
+                filename = filename.substr(filename.lastIndexOf("\\") + 1);
+            } else if (filename.indexOf("/") != -1) {
+                filename = filename.substr(filename.lastIndexOf("/") + 1);
+            }                
+            
+            this.setLastFileUploaded(filename);
+            this._progressBar.setWidth("0%");
+            this._uploadField.setValue("");
+            this._isStarted = false;
+    
+            this.createDispatchDataEvent("upload", true);
+        }
     },
 
     _uploadFile : function () {
@@ -154,13 +182,13 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
                     if (percentCompleted != null) {
                         this._progressBar.setWidth(percentCompleted.firstChild.data + "%");
 
+                        this.createDispatchDataEvent("upload", false);
+                        
                         qx.client.Timer.once(this._monitorUpload, this, 100);
                     }
                     else {
-                        // Finished!
+                        // Finished
                     }
-
-                    this.createDispatchDataEvent("upload", "false");
                 }
             }
             else {

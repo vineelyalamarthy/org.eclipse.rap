@@ -15,9 +15,9 @@ import org.eclipse.swt.widgets.Event;
 
 /**
  * Represents an Upload Event.
- * 
+ *
  * @author tjarodrigues
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class UploadEvent extends Event {
 
@@ -28,7 +28,7 @@ public class UploadEvent extends Event {
 
   /**
    * Checks if the Upload has finished.
-   * 
+   *
    * @return <code>True</code> if the Upload has finished, <code>False</code>
    *         otherwise.
    */
@@ -38,7 +38,7 @@ public class UploadEvent extends Event {
 
   /**
    * Gets the parcial amount of data uploaded.
-   * 
+   *
    * @return The parcial amount of data uploaded.
    */
   public final int getUploadedParcial() {
@@ -47,7 +47,7 @@ public class UploadEvent extends Event {
 
   /**
    * Gets the total file size.
-   * 
+   *
    * @return The total file size.
    */
   public final int getUploadedTotal() {
@@ -56,7 +56,7 @@ public class UploadEvent extends Event {
 
   /**
    * Creates a new instance of the Upload Event.
-   * 
+   *
    * @param finished Indicates if the upload is finished.
    * @param uploadedParcial The parcial amount of data uploaded.
    * @param uploadedTotal The total file size.
@@ -68,5 +68,15 @@ public class UploadEvent extends Event {
     this.finished = finished;
     this.uploadedParcial = uploadedParcial;
     this.uploadedTotal = uploadedTotal;
+  }
+
+  /**
+   * Creates a String representation of the Upload Event.
+   * @return The String representation of the Upload Event.
+   */
+  public String toString() {
+    return "UploadEvent {finished=" + this.finished +
+      " uploadedParcial=" + this.uploadedParcial +
+      " uploadedTotal=" + this.uploadedTotal + "}";
   }
 }
