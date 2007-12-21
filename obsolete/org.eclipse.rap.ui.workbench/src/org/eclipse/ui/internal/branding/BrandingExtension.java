@@ -52,7 +52,7 @@ public final class BrandingExtension {
     = "attribute"; //$NON-NLS-1$
   private static final String ATT_NAME 
     = "name"; //$NON-NLS-1$
-  private static final String ATT_CONENT 
+  private static final String ATT_CONTENT 
     = "content"; //$NON-NLS-1$
   private static final String ATT_REL 
     = "rel"; //$NON-NLS-1$
@@ -146,7 +146,7 @@ public final class BrandingExtension {
       String tagName = header.getName();
       if( TAG_META.equals( tagName ) ) {
         attributes.put( ATT_NAME, header.getAttribute( ATT_NAME ) );
-        attributes.put( ATT_CONENT, header.getAttribute( ATT_CONENT ) );
+        attributes.put( ATT_CONTENT, header.getAttribute( ATT_CONTENT ) );
       } else if( TAG_LINK.equals( tagName ) ) {
         attributes.put( ATT_REL, header.getAttribute( ATT_REL ) );
       }
