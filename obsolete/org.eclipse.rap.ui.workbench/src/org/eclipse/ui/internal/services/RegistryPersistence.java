@@ -586,12 +586,12 @@ public abstract class RegistryPersistence implements IDisposable,
 				}
 			}
 		};
+	    // TODO : [fappel] check why dispose is not called on workbench
+        //                 shutdown in case of session invalidation
         ISessionStore session = ContextProvider.getSession();
         session.addSessionStoreListener( new SessionStoreListener() {
           public void beforeDestroy( final SessionStoreEvent event ) {
-            final IExtensionRegistry registry = Platform.getExtensionRegistry();
-            registry.removeRegistryChangeListener(registryChangeListener);
-            registryListenerAttached = false;
+            dispose();
           }
         } );
 	}

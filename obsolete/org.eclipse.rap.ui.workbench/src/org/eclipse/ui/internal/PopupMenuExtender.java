@@ -16,6 +16,8 @@ import java.util.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.viewers.*;
+import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.service.*;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.menus.WindowMenuService;
@@ -109,6 +111,15 @@ public class PopupMenuExtender implements IMenuListener2,
 		readStaticActionsFor(id);
 				
 		Platform.getExtensionRegistry().addRegistryChangeListener(this);
+        
+		// TODO : [fappel] check why dispose is not called on workbench
+		//                 shutdown in case of session invalidation
+		ISessionStore session = ContextProvider.getSession();
+        session.addSessionStoreListener( new SessionStoreListener() {
+          public void beforeDestroy( final SessionStoreEvent event ) {
+            dispose();
+          }
+        } );
 	}
 
 	// getMenuId() added by Dan Rubel (dan_rubel@instantiations.com)

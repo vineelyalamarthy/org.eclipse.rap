@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.SessionSingletonBase;
+import org.eclipse.rwt.lifecycle.UICallBack;
 import org.eclipse.rwt.service.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -166,7 +167,12 @@ public class AnimationManager extends SessionSingletonBase {
      */
     void setAnimated(final boolean bool) {
         animated = bool;
-        animationUpdateJob.schedule(100);
+        Runnable scheduler = new Runnable() {
+          public void run() {
+            animationUpdateJob.schedule(100);
+          }
+        };
+        UICallBack.runNonUIThreadWithFakeContext( display, scheduler );
     }
 
     /**
