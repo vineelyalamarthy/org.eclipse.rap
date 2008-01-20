@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.operation.ModalContext;
@@ -908,7 +909,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 			if (!fork) {
 //				lockedUI = true;
 			}
-			ModalContext.run(runnable, fork, null/* , getProgressMonitor() */ , getShell()
+			ModalContext.run(runnable, fork, new NullProgressMonitor()/* , getProgressMonitor() */ , getShell()
 					.getDisplay());
 //			lockedUI = false;
 		} finally {
