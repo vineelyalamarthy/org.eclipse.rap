@@ -10,12 +10,16 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.progress;
 
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.*;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.internal.service.ContextProvider;
-import org.eclipse.rwt.service.*;
+import org.eclipse.rwt.lifecycle.UICallBack;
+import org.eclipse.rwt.service.ISessionStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -151,7 +155,7 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 					return;
 				}
 				
-          WorkbenchJob closeJob = new WorkbenchJob( display,
+                final WorkbenchJob closeJob = new WorkbenchJob( display,
   						closeJobDialogMsg) {
   					/*
   					 * (non-Javadoc)
@@ -168,7 +172,11 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
     					}
     				};
     				closeJob.setSystem(true);
-    				closeJob.schedule();
+    				UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
+    				    public void run() {
+    				      closeJob.schedule();
+    				    }
+    				} );
 				}
       };
 	}
@@ -414,23 +422,28 @@ class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 		  // still under investigation
 		  final ISessionStore session = RWT.getSessionStore();		    
 		  final JobChangeAdapter doneListener[] = new JobChangeAdapter[ 1 ];
-  		  final SessionStoreListener invalidateHandler
-  		    = new SessionStoreListener()
+  		  final HttpSessionBindingListener invalidateHandler
+  		    = new HttpSessionBindingListener()
   		  {
-  		    public void beforeDestroy( final SessionStoreEvent event ) {
-  		      job.removeJobChangeListener( listener );
-  		      if( doneListener[ 0 ] != null ) {
-  		        job.removeJobChangeListener( doneListener[ 0 ] );
-  		      }
-  		      job.cancel();
+            public void valueBound( final HttpSessionBindingEvent event ) {
+            }
+            public void valueUnbound( final HttpSessionBindingEvent event ) {
+              job.removeJobChangeListener( listener );
+              if( doneListener[ 0 ] != null ) {
+                job.removeJobChangeListener( doneListener[ 0 ] );
+              }
+              job.cancel();
               job.addJobChangeListener( new JobCanceler() );
-  		    }
+            }
   		  };
-  		  session.addSessionStoreListener( invalidateHandler );
+  		  final String watchDogKey = String.valueOf( job.hashCode() );
+          if( session.getAttribute( watchDogKey ) == null ) {
+  		    session.setAttribute( watchDogKey, invalidateHandler );
+  		  }
           doneListener[ 0 ] = new JobChangeAdapter() {
   		    public void done( IJobChangeEvent event ) {
   		      job.removeJobChangeListener( this );
-  		      session.removeSessionStoreListener( invalidateHandler );
+  		      session.removeAttribute( watchDogKey );
   		    }
   		  };
           job.addJobChangeListener( doneListener[ 0 ] );

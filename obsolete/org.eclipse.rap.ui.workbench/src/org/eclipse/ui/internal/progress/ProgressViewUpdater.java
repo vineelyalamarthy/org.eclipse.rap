@@ -12,11 +12,14 @@ package org.eclipse.ui.internal.progress;
 
 import java.util.*;
 
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.SessionSingletonBase;
-import org.eclipse.rwt.service.*;
+import org.eclipse.rwt.service.ISessionStore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.WorkbenchJob;
 
@@ -195,14 +198,19 @@ public class ProgressViewUpdater
         // Ensure that job is removed in case of session timeout.
         // Note that this is still under investigation.
         ISessionStore session = RWT.getSessionStore();
-        session.addSessionStoreListener( new SessionStoreListener() {
-          public void beforeDestroy( final SessionStoreEvent event ) {
-            if( updateJob != null ) {
-              updateJob.cancel();
-              updateJob.addJobChangeListener( new JobCanceler() );
+        String watchDogKey = getClass().getName() + ".watchDog";
+        if( session.getAttribute( watchDogKey ) == null ) {
+          session.setAttribute( watchDogKey, new HttpSessionBindingListener() {
+            public void valueBound( final HttpSessionBindingEvent event ) {
             }
-          }
-        } );
+            public void valueUnbound( final HttpSessionBindingEvent event ) {
+              if( updateJob != null ) {
+                updateJob.cancel();
+                updateJob.addJobChangeListener( new JobCanceler() );
+              }
+            }
+          } );
+        }
     }
 
     /**

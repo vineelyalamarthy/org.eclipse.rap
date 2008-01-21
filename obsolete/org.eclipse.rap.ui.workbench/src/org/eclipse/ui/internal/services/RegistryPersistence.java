@@ -13,12 +13,15 @@ package org.eclipse.ui.internal.services;
 
 import java.util.*;
 
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
 import org.eclipse.core.commands.*;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.expressions.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.rwt.internal.service.ContextProvider;
-import org.eclipse.rwt.service.*;
+import org.eclipse.rwt.service.ISessionStore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.internal.WorkbenchPlugin;
@@ -570,6 +573,8 @@ public abstract class RegistryPersistence implements IDisposable,
 	 */
 	protected boolean registryListenerAttached = false;
 
+	private boolean disposed = false;
+	
 	/**
 	 * Constructs a new instance of {@link RegistryPersistence}. A registry
 	 * change listener is created.
@@ -589,9 +594,14 @@ public abstract class RegistryPersistence implements IDisposable,
 	    // TODO : [fappel] check why dispose is not called on workbench
         //                 shutdown in case of session invalidation
         ISessionStore session = ContextProvider.getSession();
-        session.addSessionStoreListener( new SessionStoreListener() {
-          public void beforeDestroy( final SessionStoreEvent event ) {
-            dispose();
+        String watchDogKey = String.valueOf( hashCode() );
+        session.setAttribute( watchDogKey, new HttpSessionBindingListener() {    
+          public void valueBound( final HttpSessionBindingEvent event ) {
+          }
+          public void valueUnbound( final HttpSessionBindingEvent event ) {
+            if( !disposed ) {
+              dispose();
+            }
           }
         } );
 	}
@@ -600,9 +610,12 @@ public abstract class RegistryPersistence implements IDisposable,
      * Detaches the registry change listener from the registry.
      */
 	public void dispose() {
+	    disposed = true;
 		final IExtensionRegistry registry = Platform.getExtensionRegistry();
-		registry.removeRegistryChangeListener(registryChangeListener);
-		registryListenerAttached = false;
+		if( registry != null ) {
+		  registry.removeRegistryChangeListener(registryChangeListener);
+		  registryListenerAttached = false;
+		}
 	}
 
 	/**

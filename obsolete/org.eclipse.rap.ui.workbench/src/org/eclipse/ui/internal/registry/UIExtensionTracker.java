@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.registry;
 
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.dynamichelpers.ExtensionTracker;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler;
@@ -39,11 +42,14 @@ public class UIExtensionTracker extends ExtensionTracker {
 	public UIExtensionTracker(Display display) {
 		this.display = display;
 		ISessionStore session = ContextProvider.getSession();
-		session.addSessionStoreListener( new SessionStoreListener() {
-              public void beforeDestroy( final SessionStoreEvent event ) {
-                UIExtensionTracker.this.close();
-              }
-        } );
+	    String watchDogKey = String.valueOf( hashCode() );
+	    session.setAttribute( watchDogKey,new HttpSessionBindingListener() {    
+	      public void valueBound( final HttpSessionBindingEvent event ) {
+	      }
+	      public void valueUnbound( final HttpSessionBindingEvent event ) {
+	        UIExtensionTracker.this.close();
+	      }
+	    } );
 	}
 
 	protected void applyRemove(final IExtensionChangeHandler handler, final IExtension removedExtension, final Object[] objects) {

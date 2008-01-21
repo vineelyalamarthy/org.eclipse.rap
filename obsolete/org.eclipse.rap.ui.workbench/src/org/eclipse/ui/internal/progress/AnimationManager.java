@@ -12,12 +12,15 @@ package org.eclipse.ui.internal.progress;
 
 import java.util.*;
 
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.rwt.lifecycle.UICallBack;
-import org.eclipse.rwt.service.*;
+import org.eclipse.rwt.service.ISessionStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Control;
@@ -33,7 +36,7 @@ public class AnimationManager extends SessionSingletonBase {
 
     boolean animated = false;
 
-    private IJobProgressManagerListener listener;
+    private final IJobProgressManagerListener listener;
 
     IAnimationProcessor animationProcessor;
 
@@ -42,7 +45,7 @@ public class AnimationManager extends SessionSingletonBase {
     Display display;
 
     public static AnimationManager getInstance() {
-      AnimationManager instance 
+      AnimationManager instance
         = ( AnimationManager )getInstance( AnimationManager.class );
       if( instance.display == null ) {
         instance.display = Display.getCurrent();
@@ -56,33 +59,33 @@ public class AnimationManager extends SessionSingletonBase {
 
     /**
      * Get the background color to be used.
-     * 
+     *
      * @param control
      *            The source of the display.
      * @return Color
      */
-    static Color getItemBackgroundColor(Control control) {
+    static Color getItemBackgroundColor(final Control control) {
         return control.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND);
     }
 
     AnimationManager() {
-       // This is a helping flag used to avoid a memory leak due to 
+       // This is a helping flag used to avoid a memory leak due to
        // thread management.
        // Note that this is still under investigation.
        // see comment in JobManagerAdapter
         final boolean[] done = new boolean[ 1 ];
-      
+
         animationProcessor = new ProgressAnimationProcessor(this);
 
-        animationUpdateJob 
+        animationUpdateJob
           = new WorkbenchJob(ProgressMessages.get().AnimationManager_AnimationStart){
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.eclipse.ui.progress.UIJob#runInUIThread(org.eclipse.core.runtime.IProgressMonitor)
              */
-            public IStatus runInUIThread(IProgressMonitor monitor) {
+            public IStatus runInUIThread(final IProgressMonitor monitor) {
 
                 if (animated) {
 					animationProcessor.animationStarted();
@@ -91,12 +94,12 @@ public class AnimationManager extends SessionSingletonBase {
 				}
                 return Status.OK_STATUS;
             }
-            
-            // This is a helping mechanism used to avoid a memory leak due to 
+
+            // This is a helping mechanism used to avoid a memory leak due to
             // thread management.
             // Note that this is still under investigation.
             // see comment in JobManagerAdapter
-            public Object getAdapter( Class adapter ) {
+            public Object getAdapter( final Class adapter ) {
               Object result;
               if( adapter == IJobMarker.class ) {
                 result = new IJobMarker() {
@@ -109,33 +112,37 @@ public class AnimationManager extends SessionSingletonBase {
               }
               return result;
             }
-            
+
         };
         animationUpdateJob.setSystem(true);
-        
+
         listener = getProgressListener();
         ProgressManager.getInstance().addListener(listener);
 
-        // This is a helping mechanism used to avoid a memory leak due to 
+        // This is a helping mechanism used to avoid a memory leak due to
         // thread management.
         // Note that this is still under investigation.
         // see comment in JobManagerAdapter
         ISessionStore session = RWT.getSessionStore();
-        session.addSessionStoreListener( new SessionStoreListener() {
-          public void beforeDestroy( final SessionStoreEvent event ) {
-            if( animationUpdateJob != null ) {
-              animationUpdateJob.cancel();
-              animationUpdateJob.addJobChangeListener( new JobCanceler() );
-//              dispose();
-              done[ 0 ] = true;
+        String watchDogKey = getClass().getName() + ".watchDog";
+        if( session.getAttribute( watchDogKey ) == null ) {
+          session.setAttribute( watchDogKey, new HttpSessionBindingListener() {
+            public void valueBound( final HttpSessionBindingEvent event ) {
             }
-          }
-        } );
+            public void valueUnbound( final HttpSessionBindingEvent event ) {
+              if( animationUpdateJob != null ) {
+                animationUpdateJob.cancel();
+                animationUpdateJob.addJobChangeListener( new JobCanceler() );
+                done[ 0 ] = true;
+              }
+            }
+          } );
+        }
     }
 
     /**
      * Add an item to the list
-     * 
+     *
      * @param item
      */
     void addItem(final AnimationItem item) {
@@ -144,7 +151,7 @@ public class AnimationManager extends SessionSingletonBase {
 
     /**
      * Remove an item from the list
-     * 
+     *
      * @param item
      */
     void removeItem(final AnimationItem item) {
@@ -153,7 +160,7 @@ public class AnimationManager extends SessionSingletonBase {
 
     /**
      * Return whether or not the current state is animated.
-     * 
+     *
      * @return boolean
      */
     boolean isAnimated() {
@@ -162,7 +169,7 @@ public class AnimationManager extends SessionSingletonBase {
 
     /**
      * Set whether or not the receiver is animated.
-     * 
+     *
      * @param boolean
      */
     void setAnimated(final boolean bool) {
@@ -189,19 +196,19 @@ public class AnimationManager extends SessionSingletonBase {
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.eclipse.ui.internal.progress.IJobProgressManagerListener#addJob(org.eclipse.ui.internal.progress.JobInfo)
              */
-            public void addJob(JobInfo info) {
+            public void addJob(final JobInfo info) {
                 incrementJobCount(info);
             }
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.eclipse.ui.internal.progress.IJobProgressManagerListener#refreshJobInfo(org.eclipse.ui.internal.progress.JobInfo)
              */
-            public void refreshJobInfo(JobInfo info) {
+            public void refreshJobInfo(final JobInfo info) {
                 int state = info.getJob().getState();
                 if (state == Job.RUNNING) {
 					addJob(info);
@@ -212,7 +219,7 @@ public class AnimationManager extends SessionSingletonBase {
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.eclipse.ui.internal.progress.IJobProgressManagerListener#refreshAll()
              */
             public void refreshAll() {
@@ -227,23 +234,23 @@ public class AnimationManager extends SessionSingletonBase {
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.eclipse.ui.internal.progress.IJobProgressManagerListener#remove(org.eclipse.ui.internal.progress.JobInfo)
              */
-            public void removeJob(JobInfo info) {
+            public void removeJob(final JobInfo info) {
                 decrementJobCount(info.getJob());
             }
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.eclipse.ui.internal.progress.IJobProgressManagerListener#showsDebug()
              */
             public boolean showsDebug() {
                 return false;
             }
 
-            private void incrementJobCount(JobInfo info) {
+            private void incrementJobCount(final JobInfo info) {
                 //Don't count the animate job itself
                 if (isNotTracked(info)) {
 					return;
@@ -257,7 +264,7 @@ public class AnimationManager extends SessionSingletonBase {
             /*
              * Decrement the job count for the job
              */
-            private void decrementJobCount(Job job) {
+            private void decrementJobCount(final Job job) {
                 jobs.remove(job);
                 if (jobs.isEmpty()) {
 					setAnimated(false);
@@ -267,7 +274,7 @@ public class AnimationManager extends SessionSingletonBase {
             /**
              * If this is one of our jobs or not running then don't bother.
              */
-            private boolean isNotTracked(JobInfo info) {
+            private boolean isNotTracked(final JobInfo info) {
                 //We always track errors
                 Job job = info.getJob();
                 return job.getState() != Job.RUNNING
@@ -276,28 +283,28 @@ public class AnimationManager extends SessionSingletonBase {
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.eclipse.ui.internal.progress.IJobProgressManagerListener#addGroup(org.eclipse.ui.internal.progress.GroupInfo)
              */
-            public void addGroup(GroupInfo info) {
+            public void addGroup(final GroupInfo info) {
                 //Don't care about groups
             }
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.eclipse.ui.internal.progress.IJobProgressManagerListener#removeGroup(org.eclipse.ui.internal.progress.GroupInfo)
              */
-            public void removeGroup(GroupInfo group) {
+            public void removeGroup(final GroupInfo group) {
                 //Don't care about groups
             }
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.eclipse.ui.internal.progress.IJobProgressManagerListener#refreshGroup(org.eclipse.ui.internal.progress.GroupInfo)
              */
-            public void refreshGroup(GroupInfo info) {
+            public void refreshGroup(final GroupInfo info) {
                 //Don't care about groups
             }
         };
@@ -305,7 +312,7 @@ public class AnimationManager extends SessionSingletonBase {
 
     /**
      * Get the preferred width for widgets displaying the animation.
-     * 
+     *
      * @return int. Return 0 if there is no image data.
      */
     int getPreferredWidth() {

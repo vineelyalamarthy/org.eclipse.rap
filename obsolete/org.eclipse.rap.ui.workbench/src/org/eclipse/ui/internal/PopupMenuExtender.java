@@ -13,11 +13,14 @@ package org.eclipse.ui.internal;
 
 import java.util.*;
 
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.rwt.internal.service.ContextProvider;
-import org.eclipse.rwt.service.*;
+import org.eclipse.rwt.service.ISessionStore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.menus.WindowMenuService;
@@ -115,11 +118,14 @@ public class PopupMenuExtender implements IMenuListener2,
 		// TODO : [fappel] check why dispose is not called on workbench
 		//                 shutdown in case of session invalidation
 		ISessionStore session = ContextProvider.getSession();
-        session.addSessionStoreListener( new SessionStoreListener() {
-          public void beforeDestroy( final SessionStoreEvent event ) {
+		String watchDogKey = String.valueOf( hashCode() );
+        session.setAttribute( watchDogKey,new HttpSessionBindingListener() {    
+          public void valueBound( final HttpSessionBindingEvent event ) {
+          }
+          public void valueUnbound( final HttpSessionBindingEvent event ) {
             dispose();
           }
-        } );
+		} );
 	}
 
 	// getMenuId() added by Dan Rubel (dan_rubel@instantiations.com)
@@ -468,8 +474,12 @@ public class PopupMenuExtender implements IMenuListener2,
 		if (menuService != null) {
 			menuService.releaseContributions(menu);
 		}
-		Platform.getExtensionRegistry().removeRegistryChangeListener(this);
-		menu.removeMenuListener(this);
+		if( Platform.getExtensionRegistry() != null ) {
+		  Platform.getExtensionRegistry().removeRegistryChangeListener(this);
+		}
+		if( menu != null ) {
+		  menu.removeMenuListener(this);
+		}
 	}
 
 	/*

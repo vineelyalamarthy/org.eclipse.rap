@@ -14,12 +14,15 @@ package org.eclipse.ui.internal.progress;
 import java.lang.reflect.Field;
 import java.util.*;
 
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.*;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.internal.service.ContextProvider;
 import org.eclipse.rwt.lifecycle.UICallBack;
-import org.eclipse.rwt.service.*;
+import org.eclipse.rwt.service.ISessionStore;
 import org.eclipse.swt.widgets.Display;
 
 
@@ -183,22 +186,39 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
   
   private void bindToSession( final Object keyToRemove ) {
     ISessionStore session = RWT.getSessionStore();
-    SessionStoreListener listener = new SessionStoreListener() {
-      public void beforeDestroy( SessionStoreEvent event ) {
-        synchronized( lock ) {
-          providers.remove( keyToRemove );
-          jobs.remove( keyToRemove );
+    HttpSessionBindingListener watchDog = new HttpSessionBindingListener() {
+      public void valueBound( final HttpSessionBindingEvent event ) {
+      }
+      public void valueUnbound( final HttpSessionBindingEvent event ) {
+        try {
+          handleWatchDog( keyToRemove );
+        } finally {
+          synchronized( lock ) {
+            providers.remove( keyToRemove );
+            jobs.remove( keyToRemove );
+          }
         }
-        //////////////////////////////////////////////////////////////////////
+      }
+
+      private void handleWatchDog( final Object keyToRemove ) {
+        // ////////////////////////////////////////////////////////////////////
         // TODO [fappel]: Very ugly hack to avoid a memory leak.
-        //                As a job can not be removed from the
-        //                running set directly, I use reflection. Jobs
-        //                can be catched in the set on session timeouts.
-        //                Don't know a proper solution jet.
-        //                Note that this is still under investigation.
+        // As a job can not be removed from the
+        // running set directly, I use reflection. Jobs
+        // can be catched in the set on session timeouts.
+        // Don't know a proper solution yet.
+        // Note that this is still under investigation.
         if( keyToRemove instanceof Job ) {
-          ( ( Job )keyToRemove ).cancel();
-          ( ( Job )keyToRemove ).addJobChangeListener( new JobCanceler() );
+          final Job jobToRemove = ( Job )keyToRemove;
+          Display display = ( Display )jobs.get( jobToRemove );
+          if( display != null ) {
+            UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
+              public void run() {
+                jobToRemove.cancel();
+                jobToRemove.addJobChangeListener( new JobCanceler() );
+              }
+            } );
+          }
           try {
             IJobManager jobManager = Job.getJobManager();
             Class clazz = jobManager.getClass();
@@ -225,8 +245,7 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
           }
         }
       }
-      //////////////////////////////////////////////////////////////////////
     };
-    session.addSessionStoreListener( listener );
+    session.setAttribute( String.valueOf( watchDog.hashCode() ), watchDog );
   }
 }
