@@ -26,15 +26,17 @@ import org.eclipse.rwt.service.ISessionStore;
 import org.eclipse.swt.widgets.Display;
 
 
-class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
+public class JobManagerAdapter
+  extends ProgressProvider
+  implements IJobChangeListener
+{
   
   private static JobManagerAdapter _instance;
-  private final Map providers;
   private final Map jobs;
   private final ProgressManager defaultProgressManager;
   final Object lock;
 
-  static synchronized JobManagerAdapter getInstance() {
+  public static synchronized JobManagerAdapter getInstance() {
     if( _instance == null ) {
       _instance = new JobManagerAdapter();
     }
@@ -55,24 +57,12 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
       String msg = "Could not initialize synchronization lock.";
       throw new IllegalStateException( msg );
     }
-    providers = new HashMap();
     jobs = new HashMap();
     defaultProgressManager = new ProgressManager();
     Job.getJobManager().setProgressProvider( this );
     Job.getJobManager().addJobChangeListener( this );
   }
   
-  // TODO [fappel]: unset? 
-  public void setProgressProvider( final ProgressManager progressManager ) {
-    synchronized( lock ) {
-      if( ContextProvider.hasContext() ) {
-        Display display = Display.getCurrent();
-        providers.put( display, progressManager );
-        bindToSession( display );
-      }
-    }
-  }
-
   
   ///////////////////////////////
   // ProgressProvider
@@ -169,18 +159,22 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
   
   private ProgressManager findProgressManager( final Job job ) {
     synchronized( lock ) {
-      ProgressManager result;
+      final ProgressManager result[] = new ProgressManager[ 1 ];
       Display display = ( Display )jobs.get( job );
       if( display != null ) {
-        result = ( ProgressManager )providers.get( display );
-        if( result == null ) {
+        UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
+          public void run() {
+            result[ 0 ] = ProgressManager.getInstance();
+          }
+        } );
+        if( result[ 0 ] == null ) {
           String msg = "ProgressManager must not be null.";
           throw new IllegalStateException( msg );
         }
       } else {
-        result = defaultProgressManager;
+        result[ 0 ] = defaultProgressManager;
       }
-      return result;
+      return result[ 0 ];
     }
   }
   
@@ -194,7 +188,6 @@ class JobManagerAdapter extends ProgressProvider implements IJobChangeListener {
           handleWatchDog( keyToRemove );
         } finally {
           synchronized( lock ) {
-            providers.remove( keyToRemove );
             jobs.remove( keyToRemove );
           }
         }

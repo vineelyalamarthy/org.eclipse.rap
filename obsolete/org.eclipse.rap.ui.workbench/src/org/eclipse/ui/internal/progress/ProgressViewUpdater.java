@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.SessionSingletonBase;
+import org.eclipse.rwt.lifecycle.UICallBack;
 import org.eclipse.rwt.service.ISessionStore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.WorkbenchJob;
@@ -253,7 +254,11 @@ public class ProgressViewUpdater
     void scheduleUpdate() {
         if (ProgressUtil.isWorkbenchRunning( display )) {
             //Add in a 100ms delay so as to keep priority low
-            updateJob.schedule(100);
+          UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
+            public void run() {
+              updateJob.schedule(100);
+            }
+          } );
         }
     }
 

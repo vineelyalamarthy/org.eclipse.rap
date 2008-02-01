@@ -59,17 +59,25 @@ public class ProgressManager extends ProgressProvider implements
 
 	Display display;
 	public static class ProgressManagerProvider extends SessionSingletonBase {
-      protected static ProgressManager getInstance() {
+      public static ProgressManager getInstance() {
         ProgressManager instance 
           = ( ProgressManager )getInstance( ProgressManager.class );
 	    if( instance.display == null ) {
-	        JobManagerAdapter jobManager = JobManagerAdapter.getInstance();
-	        jobManager.setProgressProvider( instance );
 	        Dialog.setBlockedHandler(new WorkbenchDialogBlockedHandler());
-
 	        instance.display = Display.getCurrent();
 	        // TODO [fappel]: find a better place for initialization...
 	        ProgressInfoItem.init();
+
+	        URL iconsRoot = ProgressManagerUtil.getIconsRoot();
+	        try {
+	            instance.setUpImage(iconsRoot, SLEEPING_JOB, SLEEPING_JOB_KEY);
+	            instance.setUpImage(iconsRoot, WAITING_JOB, WAITING_JOB_KEY);
+	            instance.setUpImage(iconsRoot, BLOCKED_JOB, BLOCKED_JOB_KEY);
+	            // Let the error manager set up its own icons
+	            instance.setUpImages(iconsRoot);
+	        } catch (MalformedURLException e) {
+	            ProgressManagerUtil.logException(e);
+	        }
         }
         return instance;
 	  }
@@ -339,17 +347,6 @@ public class ProgressManager extends ProgressProvider implements
 	 */
 	ProgressManager() {
 		createChangeListener();
-		URL iconsRoot = ProgressManagerUtil.getIconsRoot();
-		try {
-			setUpImage(iconsRoot, SLEEPING_JOB, SLEEPING_JOB_KEY);
-			setUpImage(iconsRoot, WAITING_JOB, WAITING_JOB_KEY);
-			setUpImage(iconsRoot, BLOCKED_JOB, BLOCKED_JOB_KEY);
-
-			// Let the error manager set up its own icons
-			setUpImages(iconsRoot);
-		} catch (MalformedURLException e) {
-			ProgressManagerUtil.logException(e);
-		}
 	}
 
 	/**

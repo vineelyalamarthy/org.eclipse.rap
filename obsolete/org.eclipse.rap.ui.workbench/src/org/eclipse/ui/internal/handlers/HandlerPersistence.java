@@ -97,8 +97,10 @@ final class HandlerPersistence extends RegistryPersistence {
 	}
 
 	public final void dispose() {
+	  if( !disposed ) {
 		super.dispose();
 		clearActivations(handlerService);
+	  }
 	}
 
 	protected final boolean isChangeImportant(final IRegistryChangeEvent event) {

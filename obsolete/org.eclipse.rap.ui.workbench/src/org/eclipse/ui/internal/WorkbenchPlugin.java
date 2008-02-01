@@ -24,6 +24,7 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.branding.BrandingExtension;
 import org.eclipse.ui.internal.misc.StatusUtil;
+import org.eclipse.ui.internal.progress.JobManagerAdapter;
 import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.servlet.EntryPointExtension;
 import org.eclipse.ui.internal.servlet.HttpServiceTracker;
@@ -854,6 +855,8 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 		 * likely to cause a deadlock in class loader code.  Please see Bug 86450
 		 * for more information.
 		 */
+        
+        JobManagerAdapter.getInstance();
 
     }
 

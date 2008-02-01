@@ -573,7 +573,7 @@ public abstract class RegistryPersistence implements IDisposable,
 	 */
 	protected boolean registryListenerAttached = false;
 
-	private boolean disposed = false;
+	protected boolean disposed = false;
 	
 	/**
 	 * Constructs a new instance of {@link RegistryPersistence}. A registry

@@ -28,6 +28,7 @@ import org.eclipse.jface.window.*;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.rwt.internal.lifecycle.UICallBackServiceHandler;
 import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.internal.service.ServiceContext;
 import org.eclipse.rwt.service.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -86,6 +87,11 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
       this.display = display;
     }
     public void beforeDestroy( final SessionStoreEvent event ) {
+      // TODO: [fappel] this is a preliminary implementation to avoid
+      //                problems with shutdown. Should be revised after
+      //                readAndDispatch is in place.
+      ServiceContext context = ContextProvider.getContext();
+      ContextProvider.releaseContextHolder();
       Runnable runnable = new Runnable() {
         public void run() {
           if( Workbench.getInstance().started ) {
@@ -97,6 +103,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
       UICallBackServiceHandler.runNonUIThreadWithFakeContext( display,
                                                               runnable,
                                                               true );
+      ContextProvider.setContext( context );
     }
   }
   // end session timeout shutdown handler

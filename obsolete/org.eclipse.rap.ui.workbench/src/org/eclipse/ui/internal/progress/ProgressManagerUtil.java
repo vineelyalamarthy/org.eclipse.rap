@@ -23,8 +23,7 @@ import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.WorkbenchWindow;
@@ -54,8 +53,10 @@ public class ProgressManagerUtil {
 	static final QualifiedName INFRASTRUCTURE_PROPERTY = new QualifiedName(WorkbenchPlugin.PI_WORKBENCH,"INFRASTRUCTURE_PROPERTY");//$NON-NLS-1$
 	
 
-	private static String ellipsis = ProgressMessages.get().ProgressFloatingWindow_EllipsisValue;
-
+//	private static String ellipsis = ProgressMessages.get().ProgressFloatingWindow_EllipsisValue;
+    private static String getEllipsis() {
+      return ProgressMessages.get().ProgressFloatingWindow_EllipsisValue;
+    }
 	/**
 	 * Return a status for the exception.
 	 * 
@@ -149,7 +150,7 @@ public class ProgressManagerUtil {
 		  return textValue;
 		}
 		int length = textValue.length();
-		int ellipsisWidth = Graphics.textExtent(font, ellipsis, 0).x;
+		int ellipsisWidth = Graphics.textExtent(font, getEllipsis(), 0).x;
 		// Find the second space seperator and start from there
 		int secondWord = findSecondWhitespace(textValue, font, maxWidth);
 		int pivot = ((length - secondWord) / 2) + secondWord;
@@ -161,7 +162,7 @@ public class ProgressManagerUtil {
 		  int l1 = Graphics.textExtent(font, s1, 0).x;
 		  int l2 = Graphics.textExtent(font, s2, 0).x;
 		  if (l1 + ellipsisWidth + l2 < maxWidth) {
-		    return s1 + ellipsis + s2;
+		    return s1 + getEllipsis() + s2;
 		  }
 		  start--;
 		  end++;
@@ -298,22 +299,27 @@ public class ProgressManagerUtil {
 	 */
 	public static Shell getModalShellExcluding(Shell shell) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
-		Shell[] shells = workbench.getDisplay().getShells();
-		int modal = SWT.APPLICATION_MODAL;
+		Display display = workbench.getDisplay();
+		// TODO [fappel]: display == null should not be possible after a proper
+		//                read and dispatch implementation is in place.
+		if( display != null ) {
+          Shell[] shells = display.getShells();
+          int modal = SWT.APPLICATION_MODAL;
 		// TODO [fappel]: fix this
 //		int modal = SWT.APPLICATION_MODAL | SWT.SYSTEM_MODAL
 //				| SWT.PRIMARY_MODAL;
-		for (int i = 0; i < shells.length; i++) {
-			if (shells[i].equals(shell)) {
-				break;
-			}
-			// Do not worry about shells that will not block the user.
-			if (shells[i].isVisible()) {
-				int style = shells[i].getStyle();
-				if ((style & modal) != 0) {
-					return shells[i];
-				}
-			}
+    		for (int i = 0; i < shells.length; i++) {
+    			if (shells[i].equals(shell)) {
+    				break;
+    			}
+    			// Do not worry about shells that will not block the user.
+    			if (shells[i].isVisible()) {
+    				int style = shells[i].getStyle();
+    				if ((style & modal) != 0) {
+    					return shells[i];
+    				}
+    			}
+    		}
 		}
 		return null;
 	}

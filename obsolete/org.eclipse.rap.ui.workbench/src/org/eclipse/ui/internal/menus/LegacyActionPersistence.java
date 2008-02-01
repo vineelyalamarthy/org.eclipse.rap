@@ -536,8 +536,10 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 
 
 	public final void dispose() {
+	  if( !disposed ) {
 		super.dispose();
 		clear();
+	  }
 	}
 
 	private void clear() {
