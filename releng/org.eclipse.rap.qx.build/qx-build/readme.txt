@@ -21,3 +21,8 @@ NOTE:
   - class/qx/theme/icon/CrystalClear.js
   - class/qx/xml/Namespace.js
   - class/qx/ui/table
+  
+  Amended the JSON license to reflect the license that Eclipse has been 
+  permitted to use for this code, which is the JSON License with the following 
+  term removed: "The software shall be used for Good not Evil."
+  File: qx-build/source/class/qx/io/Json.js
