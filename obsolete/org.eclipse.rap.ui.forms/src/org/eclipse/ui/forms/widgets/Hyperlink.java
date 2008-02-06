@@ -30,7 +30,7 @@ import org.eclipse.ui.internal.forms.widgets.FormUtil;
  * @since 1.0
  */
 public class Hyperlink extends AbstractHyperlink {
-	private String text;
+	private String text = "";
 //	private static final String ELLIPSIS = "..."; //$NON-NLS-1$	
 	private boolean underlined;
 	// The tooltip is used for two purposes - the application can set
