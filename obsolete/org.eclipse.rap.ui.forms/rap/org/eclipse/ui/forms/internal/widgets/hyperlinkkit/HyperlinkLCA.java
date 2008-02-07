@@ -17,12 +17,9 @@ import org.eclipse.rwt.internal.lifecycle.JSConst;
 import org.eclipse.rwt.lifecycle.*;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.internal.graphics.ResourceFactory;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.forms.internal.widgets.IHyperlinkAdapter;
 import org.eclipse.ui.forms.widgets.Hyperlink;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 
 /* (intentionally non-JavaDoc'ed)
  * This class serves as the LCA for org.eclipse.ui.forms.widgets.TreeNode and  
@@ -37,7 +34,6 @@ public class HyperlinkLCA extends AbstractWidgetLCA {
   private static final String PROP_ACTIVE_BACKGROUND = "activeBackground";
   private static final String PROP_INACTIVE_FOREGROUND = "inactiveForeground";
   private static final String PROP_INACTIVE_BACKGROUND = "inactiveBackground";
-  private static final String PROP_IMAGE = "image";
   
   private static final JSListenerInfo SELECTION_LISTENER
     = new JSListenerInfo( "click", 
@@ -73,7 +69,6 @@ public class HyperlinkLCA extends AbstractWidgetLCA {
                       getActiveForeground( hyperlink ) );
     adapter.preserve( PROP_INACTIVE_BACKGROUND, hyperlink.getBackground() );
     adapter.preserve( PROP_INACTIVE_FOREGROUND, hyperlink.getForeground() );
-    preserveImage( widget );
   }
   
   public void renderInitialization( final Widget widget ) throws IOException {
@@ -86,9 +81,6 @@ public class HyperlinkLCA extends AbstractWidgetLCA {
     Hyperlink hyperlink = ( Hyperlink )widget;
     ControlLCAUtil.writeChanges( hyperlink );
     writeText( hyperlink );
-    if( widget instanceof ImageHyperlink ) {
-      writeImage( ( ImageHyperlink ) widget );
-    }
     writeSelectionListener( hyperlink );
     writeInactiveForeground( hyperlink );
     writeInactiveBackground( hyperlink );
@@ -123,29 +115,6 @@ public class HyperlinkLCA extends AbstractWidgetLCA {
     }
   }
 
-  static void writeImage( final ImageHyperlink imageHyperlink ) throws IOException {
-    Image image = imageHyperlink.getImage();
-    if( WidgetLCAUtil.hasChanged( imageHyperlink, PROP_IMAGE, image, null ) ) {
-      String imagePath;
-      if( image == null ) {
-        imagePath = "";
-      } else {
-        imagePath = ResourceFactory.getImagePath( image );
-      }
-      JSWriter writer = JSWriter.getWriterFor( imageHyperlink );
-      writer.set( JSConst.QX_FIELD_ICON, imagePath );
-    }
-  }
-  
-  static void preserveImage( Widget widget ) {
-    if( widget instanceof ImageHyperlink ) {
-      IWidgetAdapter adapter = WidgetUtil.getAdapter( widget );
-      adapter.preserve( PROP_IMAGE, ( ( ImageHyperlink ) widget ).getImage() );
-    }
-
-  }
-
-  
   private static void writeSelectionListener( final Hyperlink hyperlink ) 
     throws IOException 
   {
