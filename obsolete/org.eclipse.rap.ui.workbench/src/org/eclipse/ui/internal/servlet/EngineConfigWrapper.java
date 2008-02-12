@@ -237,16 +237,10 @@ final class EngineConfigWrapper implements IEngineConfig {
       String themeId = elements[ i ].getAttribute( "id" );
       String themeFile = elements[ i ].getAttribute( "file" );
       String themeName = elements[ i ].getAttribute( "name" );
-      String themeAppearanceExt = elements[ i ].getAttribute( "appearance_ext" );
       try {
         final Bundle bundle = Platform.getBundle( contributorName );
         URL url = bundle.getResource( themeFile );
         InputStream inStream = url.openStream();
-        InputStream inStreamAppExt = null;
-        if( themeAppearanceExt != null ) {
-          URL urlAppExt = bundle.getResource( themeAppearanceExt );
-          inStreamAppExt = urlAppExt.openStream();
-        }
         if( inStream != null ) {
           try {
             ResourceLoader resLoader = new ResourceLoader() {
@@ -264,7 +258,6 @@ final class EngineConfigWrapper implements IEngineConfig {
             ThemeManager.getInstance().registerTheme( themeId,
                                                       themeName,
                                                       inStream,
-                                                      inStreamAppExt,
                                                       resLoader );
           } finally {
             inStream.close();
