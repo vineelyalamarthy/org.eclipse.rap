@@ -74,16 +74,6 @@ An RWT theme is used to customize the look and feel of applications built with t
                </appInfo>
             </annotation>
          </attribute>
-         <attribute name="appearance_ext" type="string">
-            <annotation>
-               <documentation>
-                  a relative path of a &lt;code&gt;.appearances.js&lt;/code&gt; file that contains appearance definitions
-               </documentation>
-               <appInfo>
-                  <meta.attribute kind="resource"/>
-               </appInfo>
-            </annotation>
-         </attribute>
       </complexType>
    </element>
 
