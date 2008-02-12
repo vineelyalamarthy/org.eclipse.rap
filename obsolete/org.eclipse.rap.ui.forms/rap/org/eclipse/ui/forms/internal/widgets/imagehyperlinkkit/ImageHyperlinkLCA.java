@@ -23,20 +23,27 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 
 
 public class ImageHyperlinkLCA extends HyperlinkLCA {
-  
+
   private static final String PROP_IMAGE = "image";
-  
+
   public void renderChanges( Widget widget ) throws IOException {
     super.renderChanges( widget );
-    writeImage( ( ImageHyperlink ) widget );
+    writeImage( ( ImageHyperlink )widget );
   }
-  
+
   public void preserveValues( Widget widget ) {
     super.preserveValues( widget );
-    preserveImage( widget );
+    preserveImage( ( ImageHyperlink )widget );
   }
-  
-  static void writeImage( final ImageHyperlink imageHyperlink ) throws IOException {
+
+  private static void preserveImage( final ImageHyperlink imageHyperlink ) {
+    IWidgetAdapter adapter = WidgetUtil.getAdapter( imageHyperlink );
+    adapter.preserve( PROP_IMAGE, imageHyperlink.getImage() );
+  }
+
+  private static void writeImage( final ImageHyperlink imageHyperlink )
+    throws IOException
+  {
     Image image = imageHyperlink.getImage();
     if( WidgetLCAUtil.hasChanged( imageHyperlink, PROP_IMAGE, image, null ) ) {
       String imagePath;
@@ -49,12 +56,4 @@ public class ImageHyperlinkLCA extends HyperlinkLCA {
       writer.set( JSConst.QX_FIELD_ICON, imagePath );
     }
   }
-  
-
-  static void preserveImage( Widget widget ) {
-    IWidgetAdapter adapter = WidgetUtil.getAdapter( widget );
-    adapter.preserve( PROP_IMAGE, ( ( ImageHyperlink ) widget ).getImage() );
-  }
-  
 }
-
