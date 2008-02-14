@@ -59,7 +59,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	private boolean contentProviderIsLazy;
 
 	private boolean contentProviderIsTreeBased;
-	
+
 	/**
 	 * The row object reused
 	 */
@@ -76,7 +76,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * <code>MULTI, H_SCROLL, V_SCROLL,</code> and <code>BORDER</code>. The
 	 * viewer has no input, no content provider, a default label provider, no
 	 * sorter, and no filters.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent control
 	 */
@@ -89,7 +89,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * parent. The tree control is created using the given SWT style bits. The
 	 * viewer has no input, no content provider, a default label provider, no
 	 * sorter, and no filters.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent control
 	 * @param style
@@ -102,7 +102,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	/**
 	 * Creates a tree viewer on the given tree control. The viewer has no input,
 	 * no content provider, a default label provider, no sorter, and no filters.
-	 * 
+	 *
 	 * @param tree
 	 *            the tree control
 	 */
@@ -121,18 +121,18 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ColumnViewer#getColumnViewerOwner(int)
 	 */
 	protected Widget getColumnViewerOwner(int columnIndex) {
-      if (columnIndex < 0 || ( columnIndex > 0 && columnIndex >= getTree().getColumnCount() ) ) {
-        return null;
-    }
+		if (columnIndex < 0 || ( columnIndex > 0 && columnIndex >= getTree().getColumnCount() ) ) {
+			return null;
+		}
 
-    if (getTree().getColumnCount() == 0)// Hang it off the table if it
-        return getTree();
+		if (getTree().getColumnCount() == 0)// Hang it off the table if it
+			return getTree();
 
-    return getTree().getColumn(columnIndex);
+		return getTree().getColumn(columnIndex);
 	}
 
 	/*
@@ -164,10 +164,22 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ColumnViewer#getItemAt(org.eclipse.swt.graphics.Point)
 	 */
 	protected Item getItemAt(Point p) {
+		TreeItem[] selection = tree.getSelection();
+
+		if( selection.length == 1 ) {
+			int columnCount = tree.getColumnCount();
+			
+			for( int i = 0; i < columnCount; i++ ) {
+				if( selection[0].getBounds(i).contains(p) ) {
+					return selection[0];
+				}
+			}
+		}
+
 		return getTree().getItem(p);
 	}
 
@@ -221,7 +233,7 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	/**
 	 * Returns this tree viewer's tree control.
-	 * 
+	 *
 	 * @return the tree control
 	 */
 	public Tree getTree() {
@@ -230,13 +242,13 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.AbstractTreeViewer#hookControl(org.eclipse.swt.widgets.Control)
 	 */
 	protected void hookControl(Control control) {
 		super.hookControl(control);
 		Tree treeControl = (Tree) control;
-		
+
 		if ((treeControl.getStyle() & SWT.VIRTUAL) != 0) {
 			treeControl.addDisposeListener(new DisposeListener() {
 				public void widgetDisposed(DisposeEvent e) {
@@ -244,7 +256,6 @@ public class TreeViewer extends AbstractTreeViewer {
 					unmapAllElements();
 				}
 			});
-//			 TODO: review when SWT.SetData is here and VIRTUAL
 			treeControl.addListener(SWT.SetData, new Listener() {
 
 				public void handleEvent(Event event) {
@@ -297,6 +308,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		if (contentProviderIsLazy) {
 			// force repaints to happen
 //			getControl().update();
+		  getControl().redraw();
 		}
 	}
 
@@ -326,7 +338,7 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.AbstractTreeViewer#getChild(org.eclipse.swt.widgets.Widget,
 	 *      int)
 	 */
@@ -354,10 +366,11 @@ public class TreeViewer extends AbstractTreeViewer {
 		}
 		return super.getRawChildren(parent);
 	}
-	
+
 	void preservingSelection(Runnable updateCode, boolean reveal) {
 		if (preservingSelection){
-			// avoid preserving the selection if called reentrantly
+			// avoid preserving the selection if called reentrantly,
+			// see bug 172640
 			updateCode.run();
 			return;
 		}
@@ -374,7 +387,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * number of children of the given element or tree path. To set the number
 	 * of children of the invisible root of the tree, you can pass the input
 	 * object or an empty tree path.
-	 * 
+	 *
 	 * @param elementOrTreePath
 	 *            the element, or tree path
 	 * @param count
@@ -408,7 +421,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * This method should be called by implementers of ILazyTreeContentProvider
 	 * to populate this viewer.
 	 * </p>
-	 * 
+	 *
 	 * @param parentElementOrTreePath
 	 *            the parent of the element that should be updated, or the tree
 	 *            path to that parent
@@ -416,7 +429,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 *            the index in the parent's children
 	 * @param element
 	 *            the new element
-	 * 
+	 *
 	 * @see #setChildCount(Object, int)
 	 * @see ILazyTreeContentProvider
 	 * @see ILazyTreePathContentProvider
@@ -429,67 +442,67 @@ public class TreeViewer extends AbstractTreeViewer {
 			return;
 		Item[] selectedItems = getSelection(getControl());
 		TreeSelection selection = (TreeSelection) getSelection();
-				Widget[] itemsToDisassociate;
-				if (parentElementOrTreePath instanceof TreePath) {
+		Widget[] itemsToDisassociate;
+		if (parentElementOrTreePath instanceof TreePath) {
 			TreePath elementPath = ((TreePath) parentElementOrTreePath)
 					.createChildPath(element);
-					itemsToDisassociate = internalFindItems(elementPath);
-				} else {
-					itemsToDisassociate = internalFindItems(element);
-				}
-				if (internalIsInputOrEmptyPath(parentElementOrTreePath)) {
-					if (index < tree.getItemCount()) {
-						TreeItem item = tree.getItem(index);
+			itemsToDisassociate = internalFindItems(elementPath);
+		} else {
+			itemsToDisassociate = internalFindItems(element);
+		}
+		if (internalIsInputOrEmptyPath(parentElementOrTreePath)) {
+			if (index < tree.getItemCount()) {
+				TreeItem item = tree.getItem(index);
 				selection = adjustSelectionForReplace(selectedItems, selection, item, element, getRoot());
 				// disassociate any different item that represents the
-						// same element under the same parent (the tree)
-						for (int i = 0; i < itemsToDisassociate.length; i++) {
-							if (itemsToDisassociate[i] instanceof TreeItem) {
-								TreeItem itemToDisassociate = (TreeItem)itemsToDisassociate[i];
+				// same element under the same parent (the tree)
+				for (int i = 0; i < itemsToDisassociate.length; i++) {
+					if (itemsToDisassociate[i] instanceof TreeItem) {
+						TreeItem itemToDisassociate = (TreeItem) itemsToDisassociate[i];
 						if (itemToDisassociate != item
 								&& itemToDisassociate.getParentItem() == null) {
 							int indexToDisassociate = getTree().indexOf(
 									itemToDisassociate);
-									disassociate(itemToDisassociate);
+							disassociate(itemToDisassociate);
 							getTree().clear(indexToDisassociate, true);
-								}
-							}
-						}
-						Object oldData = item.getData();
-						updateItem(item, element);
-						if (!TreeViewer.this.equals(oldData, element)) {
-							item.clearAll(true);
 						}
 					}
-				} else {
-					Widget[] parentItems = internalFindItems(parentElementOrTreePath);
-					for (int i = 0; i < parentItems.length; i++) {
-						TreeItem parentItem = (TreeItem) parentItems[i];
-						if (index < parentItem.getItemCount()) {
-							TreeItem item = parentItem.getItem(index);
+				}
+				Object oldData = item.getData();
+				updateItem(item, element);
+				if (!TreeViewer.this.equals(oldData, element)) {
+					item.clearAll(true);
+				}
+			}
+		} else {
+			Widget[] parentItems = internalFindItems(parentElementOrTreePath);
+			for (int i = 0; i < parentItems.length; i++) {
+				TreeItem parentItem = (TreeItem) parentItems[i];
+				if (index < parentItem.getItemCount()) {
+					TreeItem item = parentItem.getItem(index);
 					selection = adjustSelectionForReplace(selectedItems, selection, item, element, parentItem.getData());
 					// disassociate any different item that represents the
-							// same element under the same parent (the tree)
-							for (int j = 0; j < itemsToDisassociate.length; j++) {
-								if (itemsToDisassociate[j] instanceof TreeItem) {
-									TreeItem itemToDisassociate = (TreeItem)itemsToDisassociate[j];
+					// same element under the same parent (the tree)
+					for (int j = 0; j < itemsToDisassociate.length; j++) {
+						if (itemsToDisassociate[j] instanceof TreeItem) {
+							TreeItem itemToDisassociate = (TreeItem) itemsToDisassociate[j];
 							if (itemToDisassociate != item
 									&& itemToDisassociate.getParentItem() == parentItem) {
 								int indexToDisaccociate = parentItem
 										.indexOf(itemToDisassociate);
-										disassociate(itemToDisassociate);
+								disassociate(itemToDisassociate);
 								parentItem.clear(indexToDisaccociate, true);
-									}
-								}
-							}
-							Object oldData = item.getData();
-							updateItem(item, element);
-							if (!TreeViewer.this.equals(oldData, element)) {
-								item.clearAll(true);
-					}
-				}
 							}
 						}
+					}
+					Object oldData = item.getData();
+					updateItem(item, element);
+					if (!TreeViewer.this.equals(oldData, element)) {
+						item.clearAll(true);
+					}
+				}
+			}
+		}
 		// Restore the selection if we are not already in a nested preservingSelection:
 		if (!preservingSelection) {
 			setSelectionToWidget(selection, false);
@@ -497,15 +510,15 @@ public class TreeViewer extends AbstractTreeViewer {
 			ISelection newSelection = getSelection();
 			if (!newSelection.equals(selection)) {
 				handleInvalidSelection(selection, newSelection);
-					}
-				}
 			}
+		}
+	}
 
 	/**
 	 * Fix for bug 185673: If the currently replaced item was selected, add it
 	 * to the selection that is being restored. Only do this if its getData() is
 	 * currently null
-	 * 
+	 *
 	 * @param selectedItems
 	 * @param selection
 	 * @param item
@@ -518,7 +531,7 @@ public class TreeViewer extends AbstractTreeViewer {
 				|| parentElement == null) {
 			// Don't do anything - we are not seeing an instance of bug 185673
 			return selection;
-	}
+		}
 		for (int i = 0; i < selectedItems.length; i++) {
 			if (item == selectedItems[i]) {
 				// The current item was selected, but its data is null.
@@ -647,7 +660,7 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.AbstractTreeViewer#internalRefreshStruct(org.eclipse.swt.widgets.Widget,
 	 *      java.lang.Object, boolean)
 	 */
@@ -683,7 +696,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	/**
 	 * Traverses the visible (expanded) part of the tree and updates child
 	 * counts.
-	 * 
+	 *
 	 * @param parent the parent of the widget, or <code>null</code> if the widget is the tree
 	 * @param widget
 	 * @param element
@@ -743,7 +756,7 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ColumnViewer#getRowPartFromItem(org.eclipse.swt.widgets.Widget)
 	 */
 	protected ViewerRow getViewerRowFromItem(Widget item) {
@@ -752,13 +765,13 @@ public class TreeViewer extends AbstractTreeViewer {
 		} else {
 			cachedRow.setItem((TreeItem) item);
 		}
-		
+
 		return cachedRow;
 	}
 
 	/**
 	 * Create a new ViewerRow at rowIndex
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param rowIndex
@@ -783,7 +796,7 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.AbstractTreeViewer#internalInitializeTree(org.eclipse.swt.widgets.Control)
 	 */
 	protected void internalInitializeTree(Control widget) {
@@ -798,7 +811,7 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.AbstractTreeViewer#updatePlus(org.eclipse.swt.widgets.Item,
 	 *      java.lang.Object)
 	 */
@@ -818,8 +831,8 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	/**
 	 * Removes the element at the specified index of the parent.  The selection is updated if required.
-	 * 
-	 * @param parentOrTreePath the parent element, the input element, or a tree path to the parent element 
+	 *
+	 * @param parentOrTreePath the parent element, the input element, or a tree path to the parent element
 	 * @param index child index
 	 * @since 1.0
 	 */
@@ -872,12 +885,12 @@ public class TreeViewer extends AbstractTreeViewer {
 												.size()]), getComparer()),
 								false);
 					}
-					
+
 				}
 			}
 		});
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.AbstractTreeViewer#handleTreeExpand(org.eclipse.swt.events.TreeEvent)
 	 */
@@ -897,7 +910,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		}
 		super.handleTreeExpand(event);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.AbstractTreeViewer#setContentProvider(org.eclipse.jface.viewers.IContentProvider)
 	 */
@@ -907,12 +920,12 @@ public class TreeViewer extends AbstractTreeViewer {
 		contentProviderIsTreeBased = provider instanceof ILazyTreePathContentProvider;
 		super.setContentProvider(provider);
 	}
-	
+
 	/**
 	 * For a TreeViewer with a tree with the VIRTUAL style bit set, inform the
 	 * viewer about whether the given element or tree path has children. Avoid
 	 * calling this method if the number of children has already been set.
-	 * 
+	 *
 	 * @param elementOrTreePath
 	 *            the element, or tree path
 	 * @param hasChildren
@@ -948,7 +961,7 @@ public class TreeViewer extends AbstractTreeViewer {
 							item.clear(0, true);
 						} else {
                             virtualLazyUpdateChildCount(item, item.getItemCount());
-                        }                            
+                        }
 					}
 				}
 			}
@@ -1016,7 +1029,7 @@ public class TreeViewer extends AbstractTreeViewer {
 			busy = oldBusy;
 		}
 	}
-	
+
 	/**
 	 * Update the item with the current child count.
 	 * @param item
@@ -1056,7 +1069,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	protected int doGetColumnCount() {
 		return tree.getColumnCount();
 	}
-	
+
 	/**
 	 * Sets a new selection for this viewer and optionally makes it visible.
 	 * <p>
@@ -1064,7 +1077,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * {@link Tree} does not provide an API to only select an item without
 	 * scrolling it into view</b>
 	 * </p>
-	 * 
+	 *
 	 * @param selection
 	 *            the new selection
 	 * @param reveal
@@ -1074,15 +1087,15 @@ public class TreeViewer extends AbstractTreeViewer {
 	public void setSelection(ISelection selection, boolean reveal) {
 		super.setSelection(selection, reveal);
 	}
-	
+
 	public void editElement(Object element, int column) {
 		if( element instanceof TreePath ) {
 			setSelection(new TreeSelection((TreePath) element));
 			TreeItem[] items = tree.getSelection();
-			
+
 			if( items.length == 1 ) {
 				ViewerRow row = getViewerRowFromItem(items[0]);
-				
+
 				if (row != null) {
 					ViewerCell cell = row.getCell(column);
 					if (cell != null) {
