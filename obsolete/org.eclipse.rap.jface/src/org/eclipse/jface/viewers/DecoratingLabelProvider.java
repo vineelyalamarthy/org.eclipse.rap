@@ -81,20 +81,20 @@ public class DecoratingLabelProvider extends LabelProvider implements
      */
     public Image getImage(Object element) {
         Image image = provider.getImage(element);
-//        if (decorator != null) {
-//        	if (decorator instanceof LabelDecorator) {
-//				LabelDecorator ld2 = (LabelDecorator) decorator;
-//	            Image decorated = ld2.decorateImage(image, element, getDecorationContext());
-//	            if (decorated != null) {
-//	                return decorated;
-//	            }
-//			} else {
-//	            Image decorated = decorator.decorateImage(image, element);
-//	            if (decorated != null) {
-//	                return decorated;
-//	            }
-//			}
-//        }
+        if (decorator != null) {
+        	if (decorator instanceof LabelDecorator) {
+				LabelDecorator ld2 = (LabelDecorator) decorator;
+	            Image decorated = ld2.decorateImage(image, element, getDecorationContext());
+	            if (decorated != null) {
+	                return decorated;
+	            }
+			} else {
+	            Image decorated = decorator.decorateImage(image, element);
+	            if (decorated != null) {
+	                return decorated;
+	            }
+			}
+        }
         return image;
     }
 
@@ -374,17 +374,17 @@ public class DecoratingLabelProvider extends LabelProvider implements
 				String text = labelDecorator.decorateText(settings.getText(), element, getDecorationContext());
 	            if (text != null && text.length() > 0)
 	            	settings.setText(text);
-//	            Image image = labelDecorator.decorateImage(settings.getImage(), element, getDecorationContext());
-//	            if (image != null)
-//	            	settings.setImage(image);
+	            Image image = labelDecorator.decorateImage(settings.getImage(), element, getDecorationContext());
+	            if (image != null)
+	            	settings.setImage(image);
 	            
 			} else {
 				String text = decorator.decorateText(settings.getText(), element);
 	            if (text != null && text.length() > 0)
 	            	settings.setText(text);
-//	            Image image = decorator.decorateImage(settings.getImage(), element);
-//	            if (image != null)
-//	            	settings.setImage(image);
+	            Image image = decorator.decorateImage(settings.getImage(), element);
+	            if (image != null)
+	            	settings.setImage(image);
 			}
     		if(decorator instanceof IColorDecorator){
     			IColorDecorator colorDecorator = (IColorDecorator) decorator;

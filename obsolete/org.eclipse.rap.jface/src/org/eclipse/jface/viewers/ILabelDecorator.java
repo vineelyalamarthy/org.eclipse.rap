@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2006 IBM Corporation and others.
+ * Copyright (c) 2000, 2008 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.jface.viewers;
 
+import org.eclipse.swt.graphics.Image;
+
 
 /**
  * A label decorator decorates the label text and image for some element.
@@ -17,6 +19,7 @@ package org.eclipse.jface.viewers;
  * for example by a label provider.
  *
  * @see ILabelProvider
+ * @since 1.0
  */
 public interface ILabelDecorator extends IBaseLabelProvider {
     /**
@@ -36,8 +39,9 @@ public interface ILabelDecorator extends IBaseLabelProvider {
      * @return the decorated image, or <code>null</code> if no decoration is to be applied
      *
      * @see org.eclipse.jface.resource.CompositeImageDescriptor
+     * @since 1.1
      */
-//    public Image decorateImage(Image image, Object element);
+    public Image decorateImage(Image image, Object element);
 
     /**
      * Returns a text label that is based on the given text label,

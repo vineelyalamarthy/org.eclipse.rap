@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2007 IBM Corporation and others.
+ * Copyright (c) 2000, 2008 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,9 +20,11 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.rwt.SessionSingletonBase;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.branding.BrandingExtension;
+import org.eclipse.ui.internal.decorators.DecoratorManager;
 import org.eclipse.ui.internal.misc.StatusUtil;
 import org.eclipse.ui.internal.progress.JobManagerAdapter;
 import org.eclipse.ui.internal.registry.*;
@@ -55,7 +57,25 @@ import org.osgi.framework.*;
  */
 public class WorkbenchPlugin extends AbstractUIPlugin {
 	
-	private static final String LEFT_TO_RIGHT = "ltr"; //$NON-NLS-1$
+  private final static class DecoratorManagerStore extends SessionSingletonBase
+  {
+    private final DecoratorManager decoratorManager;
+    
+    private DecoratorManagerStore() {
+      decoratorManager = new DecoratorManager();
+    }
+    
+    public static DecoratorManagerStore getInstance() {
+      Class clazz = DecoratorManagerStore.class;
+      return ( DecoratorManagerStore )getInstance( clazz );
+    }
+    
+    public DecoratorManager getDecoratorManager() {
+      return decoratorManager;
+    }
+  }
+
+    private static final String LEFT_TO_RIGHT = "ltr"; //$NON-NLS-1$
 	private static final String RIGHT_TO_LEFT = "rtl";//$NON-NLS-1$
 	private static final String ORIENTATION_COMMAND_LINE = "-dir";//$NON-NLS-1$
 	private static final String ORIENTATION_PROPERTY = "eclipse.orientation";//$NON-NLS-1$
@@ -69,7 +89,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
     private EditorRegistry editorRegistry;
 
     // Manager for the DecoratorManager
-//    private DecoratorManager decoratorManager;
+    private DecoratorManager decoratorManager;
 
     // Theme registry
 //    private ThemeRegistry themeRegistry;
@@ -802,12 +822,13 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * @return DecoratorManager the decorator manager
      * for the receiver.
      */
-//    public DecoratorManager getDecoratorManager() {
+    public DecoratorManager getDecoratorManager() {
 //        if (this.decoratorManager == null) {
 //            this.decoratorManager = new DecoratorManager();
 //        }
 //        return decoratorManager;
-//    }
+      return DecoratorManagerStore.getInstance().getDecoratorManager();
+    }
 
     /**
      * Get the http service tracker to register new servlets or resources

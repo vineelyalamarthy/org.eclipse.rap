@@ -1,11 +1,14 @@
 /*******************************************************************************
- * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH. All rights
- * reserved. This program and the accompanying materials are made available
- * under the terms of the Eclipse Public License v1.0 which accompanies this
- * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
- * Contributors: Innoopract Informationssysteme GmbH - initial API and
- * implementation
+ * Copyright (c) 2002-2008 Innoopract Informationssysteme GmbH.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
+
 package org.eclipse.ui.internal.servlet;
 
 import java.io.IOException;
@@ -29,7 +32,6 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.*;
-
 
 
 final class ResourceManagerFactory implements IResourceManagerFactory {
@@ -167,6 +169,10 @@ final class ResourceManagerFactory implements IResourceManagerFactory {
         //                approach could be to take track of the namespaces that
         //                have already been registered
       }
+    }
+
+    public InputStream getRegisteredContent( final String name ) {
+      return resourceManager.getRegisteredContent( name );
     }
   }
 
