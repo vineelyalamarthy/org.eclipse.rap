@@ -82,28 +82,11 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
   private static final class ShutdownHandler
     implements SessionStoreListener
   {
-    private final Display display;
-    private ShutdownHandler( final Display display ) {
-      this.display = display;
-    }
     public void beforeDestroy( final SessionStoreEvent event ) {
-      // TODO: [fappel] this is a preliminary implementation to avoid
-      //                problems with shutdown. Should be revised after
-      //                readAndDispatch is in place.
-      ServiceContext context = ContextProvider.getContext();
-      ContextProvider.releaseContextHolder();
-      Runnable runnable = new Runnable() {
-        public void run() {
-          if( Workbench.getInstance().started ) {
-            Workbench.getInstance().sessionInvalidated = true;
-            Workbench.getInstance().close();
-          }
-        }
-      };
-      UICallBackServiceHandler.runNonUIThreadWithFakeContext( display,
-                                                              runnable,
-                                                              true );
-      ContextProvider.setContext( context );
+      if( Workbench.getInstance().started ) {
+        Workbench.getInstance().sessionInvalidated = true;
+        Workbench.getInstance().close();
+      }
     }
   }
   // end session timeout shutdown handler
@@ -384,7 +367,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 				// run the workbench event loop
 					
 				ISessionStore session = ContextProvider.getSession();
-				ShutdownHandler shutdownHandler = new ShutdownHandler( display );
+				ShutdownHandler shutdownHandler = new ShutdownHandler();
                 session.addSessionStoreListener( shutdownHandler );
 				returnCode[0] = workbench.runUI();
 //			}
@@ -2287,7 +2270,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //				if (synchronizer != null)
 //					synchronizer.started();
 				// the event loop
-//				runEventLoop(handler, display);
+				runEventLoop(handler, display);
 //			}
 
 		} catch (final Exception e) {
@@ -2306,7 +2289,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 			// occurred
 			// Needs to be false to ensure PlatformUI.isWorkbenchRunning()
 			// returns false.
-//			runEventLoop = false;
+			runEventLoop = false;
 
 //			if (!display.isDisposed()) {
 //				display.removeListener(SWT.Close, closeListener);
@@ -2320,18 +2303,18 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/*
 	 * Runs an event loop for the workbench.
 	 */
-//	private void runEventLoop(Window.IExceptionHandler handler, Display display) {
-//		runEventLoop = true;
-//		while (runEventLoop) {
-//			try {
-//				if (!display.readAndDispatch()) {
-//					getAdvisor().eventLoopIdle(display);
-//				}
-//			} catch (Throwable t) {
-//				handler.handleException(t);
-//			}
-//		}
-//	}
+	private void runEventLoop(Window.IExceptionHandler handler, Display display) {
+		runEventLoop = true;
+		while (runEventLoop) {
+			try {
+				if (!display.readAndDispatch()) {
+					getAdvisor().eventLoopIdle(display);
+				}
+			} catch (Throwable t) {
+				handler.handleException(t);
+			}
+		}
+	}
 
 	/*
 	 * Saves the current state of the workbench so it can be restored later on

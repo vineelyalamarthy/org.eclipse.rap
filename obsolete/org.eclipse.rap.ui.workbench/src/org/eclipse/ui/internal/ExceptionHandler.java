@@ -41,8 +41,6 @@ public final class ExceptionHandler implements Window.IExceptionHandler {
      * @see org.eclipse.jface.window.Window.IExceptionHandler#handleException
      */
     public void handleException(Throwable t) {
-    	// XXX [bm] needs some investigation
-    	t.printStackTrace();
         try {
             // Ignore ThreadDeath error as its normal to get this when thread dies
             if (t instanceof ThreadDeath) {

@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.*;
-import org.eclipse.rwt.lifecycle.LifeCycleControl;
-import org.eclipse.rwt.lifecycle.LifeCycleControl.LifeCycleLock;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
@@ -214,7 +212,6 @@ public abstract class Window implements IShellProvider {
      * @see #setBlockOnOpen
      */
     private boolean block = false;
-    private LifeCycleLock lock;
 
     /**
      * Internal class for informing this window when fonts change.
@@ -321,10 +318,6 @@ public abstract class Window implements IShellProvider {
         shell.dispose();
         shell = null;
         contents = null;
-        
-        if( block ) {
-          LifeCycleControl.resume( lock );
-        }
 
         return true;
     }
@@ -792,8 +785,9 @@ public abstract class Window implements IShellProvider {
         // open the window
         shell.open();
 
+		// run the event loop if specified
         if( block ) {
-          LifeCycleControl.block( lock );
+			    runEventLoop(shell);
         }
 
         return returnCode;
@@ -805,27 +799,27 @@ public abstract class Window implements IShellProvider {
      * @param loopShell
      *            the shell
      */
-//    private void runEventLoop(Shell loopShell) {
-//
-//        //Use the display provided by the shell if possible
-//        Display display;
-//        if (shell == null) {
-//            display = Display.getCurrent();
-//        } else {
-//            display = loopShell.getDisplay();
-//        }
-//
-//        while (loopShell != null && !loopShell.isDisposed()) {
-//            try {
-//                if (!display.readAndDispatch()) {
-//                    display.sleep();
-//                }
-//            } catch (Throwable e) {
-//                exceptionHandler.handleException(e);
-//            }
-//        }
-//        display.update();
-//    }
+	private void runEventLoop(Shell loopShell) {
+
+		//Use the display provided by the shell if possible
+		Display display;
+		if (shell == null) {
+			display = Display.getCurrent();
+		} else {
+			display = loopShell.getDisplay();
+		}
+
+		while (loopShell != null && !loopShell.isDisposed()) {
+			try {
+				if (!display.readAndDispatch()) {
+					display.sleep();
+				}
+			} catch (Throwable e) {
+				exceptionHandler.handleException(e);
+			}
+		}
+//		display.update();
+	}
 
     /**
      * Sets whether the <code>open</code> method should block until the window
@@ -838,7 +832,6 @@ public abstract class Window implements IShellProvider {
      */
     public void setBlockOnOpen(boolean shouldBlock) {
         block = shouldBlock;
-        lock = block ? new LifeCycleLock() : null;
     }
 
     /**

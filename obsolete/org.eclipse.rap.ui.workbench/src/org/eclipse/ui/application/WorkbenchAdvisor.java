@@ -353,7 +353,7 @@ public abstract class WorkbenchAdvisor {
 	 */
 	public void eventLoopIdle(Display display) {
 		// default: yield cpu until new events enter the queue
-//		display.sleep();
+		display.sleep();
 	}
 
 	/**

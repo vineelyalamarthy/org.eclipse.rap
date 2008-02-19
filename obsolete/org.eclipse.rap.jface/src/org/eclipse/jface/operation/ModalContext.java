@@ -13,9 +13,7 @@ package org.eclipse.jface.operation;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.*;
-import org.eclipse.rwt.lifecycle.LifeCycleControl;
 import org.eclipse.rwt.lifecycle.UICallBack;
-import org.eclipse.rwt.lifecycle.LifeCycleControl.LifeCycleLock;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -75,6 +73,11 @@ public class ModalContext {
         private Display display;
 
         /**
+         * Indicates whether to continue event queue dispatching.
+         */
+        private volatile boolean continueEventDispatching = true;
+        
+        /**
          * The thread that forked this modal context thread.
          * 
          * @since 1.0
@@ -82,7 +85,6 @@ public class ModalContext {
         private Thread callingThread;
 
         private String callBackId = this.getClass().getName() + this.hashCode();
-        private LifeCycleLock lock;
         
         /**
          * Creates a new modal context.
@@ -100,7 +102,6 @@ public class ModalContext {
             progressMonitor = new AccumulatingProgressMonitor(monitor, display);
             this.display = display;
             this.callingThread = Thread.currentThread();
-            this.lock = new LifeCycleLock();
         }
 
         
@@ -138,14 +139,20 @@ public class ModalContext {
             	if (runnable instanceof IThreadListener) {
 					((IThreadListener)runnable).threadChange(callingThread);
 				}
-            	
                 // Make sure that all events in the asynchronous event queue
                 // are dispatched.
                 display.syncExec(new Runnable() {
                     public void run() {
-                      LifeCycleControl.resume( lock );
+                        // do nothing
                     }
                 });
+
+                // Stop event dispatching
+                continueEventDispatching = false;
+
+                // Force the event loop to return from sleep () so that
+                // it stops event dispatching.
+                display.asyncExec(null);              
               } finally {
                 UICallBack.deactivate( callBackId );
               }
@@ -156,7 +163,33 @@ public class ModalContext {
          * Processes events or waits until this modal context thread terminates.
          */
         public void block() {
-          LifeCycleControl.block( lock );
+            if (display == Display.getCurrent()) {
+                while (continueEventDispatching) {
+                	// Run the event loop.  Handle any uncaught exceptions caused
+                	// by UI events.
+                   	try {
+                    	if (!display.readAndDispatch()) {
+							display.sleep();
+						}
+                	}
+                   	// ThreadDeath is a normal error when the thread is dying.  We must
+                   	// propagate it in order for it to properly terminate.
+                	catch (ThreadDeath e) {
+                   		throw (e);
+                	}
+                	// For all other exceptions, log the problem.
+                	catch (Throwable e) {
+                		System.err.println("Unhandled event loop exception during blocked modal context."); //$NON-NLS-1$
+             			e.printStackTrace();
+                	}
+                }
+            } else {
+                try {
+                    join();
+                } catch (InterruptedException e) {
+                    throwable = e;
+                }
+            }
         }
     }
 
