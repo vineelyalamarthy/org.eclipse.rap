@@ -13,14 +13,13 @@ package org.eclipse.jface.viewers;
 
 import java.util.*;
 import java.util.List;
-import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.jface.util.SafeRunnable;
-import org.eclipse.swt.SWT;
+
+import org.eclipse.jface.util.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.*;
+
 
 /**
  * Abstract base implementation for structure-oriented viewers (trees, lists,
@@ -1139,53 +1138,34 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	/*
 	 * (non-Javadoc) Method declared on Viewer.
 	 */
-	protected void hookControl(Control control) {
-		super.hookControl(control);
-		
-	    SelectionEvent.addListener( control, new SelectionAdapter() {
-	        public void widgetSelected( SelectionEvent event ) {
-	          handleSelect( event );
-	        } 
-	      } );
-	    
-//		OpenStrategy handler = new OpenStrategy(control);
-//	    handler.addSelectionListener(new SelectionListener() {
-	    // TODO: hack to avoid OpenStrategy
-	    control.addListener(SWT.DefaultSelection, new Listener() {
+    protected void hookControl(Control control) {
+      super.hookControl(control);
+      OpenStrategy handler = new OpenStrategy(control);
+      handler.addSelectionListener(new SelectionListener() {
+          public void widgetSelected(SelectionEvent e) {
+              // On Windows, selection events may happen during a refresh.
+              // Ignore these events if we are currently in preservingSelection().
+              // See bug 184441.
+              if (!inChange) {
+                  handleSelect(e);
+              }
+          }
 
-			public void handleEvent(Event event) {
-				if(event.type == SWT.DefaultSelection) {
-					SelectionEvent e = new SelectionEvent(event.widget, (Item)event.item, 0);
-					handleDoubleSelect(e);
-				}
-			}
-	    	
-	    });
-//		handler.addSelectionListener(new SelectionListener() {
-//			public void widgetSelected(SelectionEvent e) {
-//				// On Windows, selection events may happen during a refresh.
-//				// Ignore these events if we are currently in preservingSelection().
-//				// See bug 184441.
-//				if (!inChange) {
-//					handleSelect(e);
-//				}
-//			}
-//
-//			public void widgetDefaultSelected(SelectionEvent e) {
-//				handleDoubleSelect(e);
-//			}
-//		});
-//		handler.addPostSelectionListener(new SelectionAdapter() {
-//			public void widgetSelected(SelectionEvent e) {
-//				handlePostSelect(e);
-//			}
-//		});
-//		handler.addOpenListener(new IOpenEventListener() {
-//			public void handleOpen(SelectionEvent e) {
-//				StructuredViewer.this.handleOpen(e);
-//			}
-//		});
-	}
+          public void widgetDefaultSelected(SelectionEvent e) {
+              handleDoubleSelect(e);
+          }
+      });
+      handler.addPostSelectionListener(new SelectionAdapter() {
+          public void widgetSelected(SelectionEvent e) {
+              handlePostSelect(e);
+          }
+      });
+      handler.addOpenListener(new IOpenEventListener() {
+          public void handleOpen(SelectionEvent e) {
+              StructuredViewer.this.handleOpen(e);
+          }
+      });
+  }
 
 	/**
 	 * Returns whether this viewer has any filters.
