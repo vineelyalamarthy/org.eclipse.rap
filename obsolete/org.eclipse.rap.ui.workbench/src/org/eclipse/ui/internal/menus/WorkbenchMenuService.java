@@ -23,6 +23,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.*;
+import org.eclipse.ui.activities.*;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.internal.expressions.AlwaysEnabledExpression;
@@ -44,7 +45,6 @@ import org.eclipse.ui.services.IServiceLocator;
  * 
  * @since 1.0
  */
-// TODO [bm] activities
 public final class WorkbenchMenuService extends InternalMenuService {
 
 	/**
@@ -53,23 +53,22 @@ public final class WorkbenchMenuService extends InternalMenuService {
 	 * 
 	 * @since 1.0
 	 */
-	// TODO: [bm] activities
 	private final class ContributionItemUpdater implements
-			IPropertyChangeListener /*, IIdentifierListener */ {
+			IPropertyChangeListener, IIdentifierListener {
 
 		private final IContributionItem item;
-//		private IIdentifier identifier;
+		private IIdentifier identifier;
 		private boolean lastExpressionResult = true;
 
-		private ContributionItemUpdater(IContributionItem item
-				/*, IIdentifier identifier */) {
+		private ContributionItemUpdater(IContributionItem item,
+				IIdentifier identifier) {
 			this.item = item;
-//			if (identifier != null) {
-//				this.identifier = identifier;
-//				this.identifier.addIdentifierListener(this);
+			if (identifier != null) {
+				this.identifier = identifier;
+				this.identifier.addIdentifierListener(this);
 				updateVisibility(); // force initial visibility to fall in line
 //				// with activity enablement
-//			}
+			}
 		}
 
 		/*
@@ -90,10 +89,8 @@ public final class WorkbenchMenuService extends InternalMenuService {
 		}
 
 		private void updateVisibility() {
-//			boolean visible = identifier != null ? (identifier.isEnabled() && lastExpressionResult)
-//					: lastExpressionResult;
-			// TODO: [bm] activities
-			boolean visible = lastExpressionResult;
+			boolean visible = identifier != null ? (identifier.isEnabled() && lastExpressionResult)
+					: lastExpressionResult;
 			item.setVisible(visible);
 
 			IContributionManager parent = null;
@@ -114,15 +111,15 @@ public final class WorkbenchMenuService extends InternalMenuService {
 		 * 
 		 * @see org.eclipse.ui.activities.IIdentifierListener#identifierChanged(org.eclipse.ui.activities.IdentifierEvent)
 		 */
-//		public void identifierChanged(IdentifierEvent identifierEvent) {
-//			updateVisibility();
-//		}
+		public void identifierChanged(IdentifierEvent identifierEvent) {
+			updateVisibility();
+		}
 
 		/**
 		 * Dispose of this updater
 		 */
 		public void dispose() {
-//			identifier.removeIdentifierListener(this);
+			identifier.removeIdentifierListener(this);
 		}
 	}
 
@@ -149,7 +146,7 @@ public final class WorkbenchMenuService extends InternalMenuService {
 	 */
 	private IServiceLocator serviceLocator;
 
-//	private IActivityManagerListener activityManagerListener;
+	private IActivityManagerListener activityManagerListener;
 
 	/**
 	 * Constructs a new instance of <code>MenuService</code> using a menu
@@ -161,32 +158,31 @@ public final class WorkbenchMenuService extends InternalMenuService {
 		evaluationService = (IEvaluationService) serviceLocator
 				.getService(IEvaluationService.class);
 		evaluationService.addServiceListener(getServiceListener());
-//		((IWorkbench) serviceLocator.getService(IWorkbench.class))
-//				.getActivitySupport().getActivityManager()
-//				.addActivityManagerListener(getActivityManagerListener());
+		((IWorkbench) serviceLocator.getService(IWorkbench.class))
+				.getActivitySupport().getActivityManager()
+				.addActivityManagerListener(getActivityManagerListener());
 	}
 
 	/**
 	 * @return
 	 */
-	// TODO: [bm] activities
-//	private IActivityManagerListener getActivityManagerListener() {
-//		if (activityManagerListener == null) {
-//			activityManagerListener = new IActivityManagerListener() {
-//
-//				public void activityManagerChanged(
-//						ActivityManagerEvent activityManagerEvent) {
-//					if (activityManagerEvent.haveEnabledActivityIdsChanged()) {
-//						updateManagers(); // called after all identifiers have
-//						// been update - now update the
-//						// managers
-//					}
-//
-//				}
-//			};
-//		}
-//		return activityManagerListener;
-//	}
+	private IActivityManagerListener getActivityManagerListener() {
+		if (activityManagerListener == null) {
+			activityManagerListener = new IActivityManagerListener() {
+
+				public void activityManagerChanged(
+						ActivityManagerEvent activityManagerEvent) {
+					if (activityManagerEvent.haveEnabledActivityIdsChanged()) {
+						updateManagers(); // called after all identifiers have
+						// been update - now update the
+						// managers
+					}
+
+				}
+			};
+		}
+		return activityManagerListener;
+	}
 
 	/**
 	 * @return
@@ -625,14 +621,13 @@ public final class WorkbenchMenuService extends InternalMenuService {
 					+ (id == null ? "no id" : id)); //$NON-NLS-1$
 			return;
 		}
-		// TODO: [bm] activities
-//		IIdentifier identifier = null;
-//		if (identifierID != null) {
-//			identifier = PlatformUI.getWorkbench().getActivitySupport()
-//					.getActivityManager().getIdentifier(identifierID);
-//		}
-		ContributionItemUpdater listener = new ContributionItemUpdater(item
-				/*, identifier*/);
+		IIdentifier identifier = null;
+		if (identifierID != null) {
+			identifier = PlatformUI.getWorkbench().getActivitySupport()
+					.getActivityManager().getIdentifier(identifierID);
+		}
+		ContributionItemUpdater listener = new ContributionItemUpdater(item,
+				identifier);
 
 		if (visibleWhen != AlwaysEnabledExpression.INSTANCE) {
 			IEvaluationReference ref = evaluationService.addEvaluationListener(

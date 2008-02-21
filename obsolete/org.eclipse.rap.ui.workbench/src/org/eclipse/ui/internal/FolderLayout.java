@@ -13,6 +13,7 @@ package org.eclipse.ui.internal;
 
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.views.IViewDescriptor;
 
 /**
@@ -73,17 +74,17 @@ public class FolderLayout implements IFolderLayout {
             if (descriptor == null) {
                 throw new PartInitException("View descriptor not found: " + viewId); //$NON-NLS-1$
             }
-//            if (WorkbenchActivityHelper.filterItem(descriptor)) {
-//                //create a placeholder instead.
-//                addPlaceholder(viewId);
-//                LayoutHelper.addViewActivator(pageLayout, viewId);
-//            } else {
+            if (WorkbenchActivityHelper.filterItem(descriptor)) {
+                //create a placeholder instead.
+                addPlaceholder(viewId);
+                LayoutHelper.addViewActivator(pageLayout, viewId);
+            } else {
 
                 ViewPane newPart = LayoutHelper.createView(pageLayout
                         .getViewFactory(), viewId);
                 linkPartToPageLayout(viewId, newPart);
                 folder.add(newPart);
-//            }
+            }
         } catch (PartInitException e) {
             // cannot safely open the dialog so log the problem
             WorkbenchPlugin.log(getClass(), "addView(String)", e); //$NON-NLS-1$

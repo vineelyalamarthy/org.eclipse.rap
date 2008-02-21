@@ -17,11 +17,15 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
-import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.IPerspectiveRegistry;
+import org.eclipse.ui.*;
+import org.eclipse.ui.activities.ITriggerPoint;
+import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.internal.WorkbenchMessages;
+import org.eclipse.ui.internal.activities.ws.*;
 import org.eclipse.ui.model.PerspectiveLabelProvider;
 
 /**
@@ -42,7 +46,7 @@ public class SelectPerspectiveDialog extends Dialog implements
 
     private IPerspectiveRegistry perspReg;
 
-//    private ActivityViewerFilter activityViewerFilter = new ActivityViewerFilter();
+    private ActivityViewerFilter activityViewerFilter = new ActivityViewerFilter();
 
     private Button showAllButton;
 
@@ -113,9 +117,9 @@ public class SelectPerspectiveDialog extends Dialog implements
 
         createViewer(composite);
         layoutTopControl(list.getControl());
-//        if (needsShowAllButton()) {
-//            createShowAllButton(composite);
-//        }
+        if (needsShowAllButton()) {
+            createShowAllButton(composite);
+        }
         // Return results.
         return composite;
     }
@@ -123,34 +127,34 @@ public class SelectPerspectiveDialog extends Dialog implements
     /**
      * @return whether a show-all button is needed.  A show all button is needed only if the list contains filtered items.
      */
-//    private boolean needsShowAllButton() {
-//        return activityViewerFilter.getHasEncounteredFilteredItem();
-//    }
+    private boolean needsShowAllButton() {
+        return activityViewerFilter.getHasEncounteredFilteredItem();
+    }
 
     /**
      * Create a show all button in the parent.
      * 
      * @param parent the parent <code>Composite</code>.
      */
-//    private void createShowAllButton(Composite parent) {
-//        showAllButton = new Button(parent, SWT.CHECK);
-//        showAllButton
-//                .setText(ActivityMessages.Perspective_showAll);
-//        showAllButton.addSelectionListener(new SelectionAdapter() {
-//
-//            /* (non-Javadoc)
-//             * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-//             */
-//            public void widgetSelected(SelectionEvent e) {
-//                if (showAllButton.getSelection()) {
-//                    list.resetFilters();
-//                } else {
-//                    list.addFilter(activityViewerFilter);
-//                }
-//            }
-//        });
-//
-//    }
+    private void createShowAllButton(Composite parent) {
+        showAllButton = new Button(parent, SWT.CHECK);
+        showAllButton
+                .setText(ActivityMessages.get().Perspective_showAll);
+        showAllButton.addSelectionListener(new SelectionAdapter() {
+
+            /* (non-Javadoc)
+             * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+             */
+            public void widgetSelected(SelectionEvent e) {
+                if (showAllButton.getSelection()) {
+                    list.resetFilters();
+                } else {
+                    list.addFilter(activityViewerFilter);
+                }
+            }
+        });
+
+    }
 
     /**
      * Create a new viewer in the parent.
@@ -164,7 +168,7 @@ public class SelectPerspectiveDialog extends Dialog implements
         list.getTable().setFont(parent.getFont());
         list.setLabelProvider(new PerspectiveLabelProvider());
         list.setContentProvider(new PerspContentProvider());
-//        list.addFilter(activityViewerFilter);
+        list.addFilter(activityViewerFilter);
         list.setComparator(new ViewerComparator());
         list.setInput(perspReg);
         list.addSelectionChangedListener(this);
@@ -238,11 +242,11 @@ public class SelectPerspectiveDialog extends Dialog implements
      * @see org.eclipse.jface.dialogs.Dialog#okPressed()
      */
     protected void okPressed() {
-//        ITriggerPoint triggerPoint = PlatformUI.getWorkbench()
-//                .getActivitySupport().getTriggerPointManager().getTriggerPoint(
-//                        WorkbenchTriggerPoints.OPEN_PERSPECITVE_DIALOG);
-//        if (WorkbenchActivityHelper.allowUseOf(triggerPoint, getSelection())) {
+        ITriggerPoint triggerPoint = PlatformUI.getWorkbench()
+                .getActivitySupport().getTriggerPointManager().getTriggerPoint(
+                        WorkbenchTriggerPoints.OPEN_PERSPECITVE_DIALOG);
+        if (WorkbenchActivityHelper.allowUseOf(triggerPoint, getSelection())) {
 			super.okPressed();
-//		}
+		}
     }
 }

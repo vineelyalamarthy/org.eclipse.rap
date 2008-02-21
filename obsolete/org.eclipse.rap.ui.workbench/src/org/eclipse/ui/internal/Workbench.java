@@ -35,12 +35,14 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
+import org.eclipse.ui.activities.IWorkbenchActivitySupport;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.StartupThreading.StartupRunnable;
+import org.eclipse.ui.internal.activities.ws.WorkbenchActivitySupport;
 import org.eclipse.ui.internal.browser.WorkbenchBrowserSupport;
 import org.eclipse.ui.internal.commands.*;
 import org.eclipse.ui.internal.handlers.HandlerService;
@@ -1230,7 +1232,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //		}
 
 		// Initialize the activity support.
-//		workbenchActivitySupport = new WorkbenchActivitySupport();
+		workbenchActivitySupport = new WorkbenchActivitySupport();
 //		activityHelper = ActivityPersistanceHelper.getInstance();
 
 		initializeDefaultServices();
@@ -2643,7 +2645,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 		// Bring down all of the services.
 		serviceLocator.dispose();
 
-//		workbenchActivitySupport.dispose();
+		workbenchActivitySupport.dispose();
 //		WorkbenchHelpSystem.disposeIfNecessary();
 
 		// shutdown the rest of the workbench
@@ -2793,7 +2795,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 		return ProgressManager.getInstance();
 	}
 
-//	private WorkbenchActivitySupport workbenchActivitySupport;
+	private WorkbenchActivitySupport workbenchActivitySupport;
 
 //	private WorkbenchCommandSupport workbenchCommandSupport;
 
@@ -2829,9 +2831,9 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 */
 //	private ContextManager contextManager;
 
-//	public IWorkbenchActivitySupport getActivitySupport() {
-//		return workbenchActivitySupport;
-//	}
+	public IWorkbenchActivitySupport getActivitySupport() {
+		return workbenchActivitySupport;
+	}
 
 //	public IWorkbenchCommandSupport getCommandSupport() {
 //		return workbenchCommandSupport;

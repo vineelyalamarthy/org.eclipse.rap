@@ -78,6 +78,7 @@ public final class BrandingExtension {
   {
     String contributor = element.getContributor().getName();
     String defEntryPointId = element.getAttribute( ATT_DEFAULT_ENTRYPOINT_ID );
+    String id = element.getAttribute( ATT_ID );
     String body = element.getAttribute( ATT_BODY );
     String title = element.getAttribute( ATT_TITLE );
     String servletName = element.getAttribute( ATT_SERVLET_NAME );
@@ -85,6 +86,7 @@ public final class BrandingExtension {
     String themeId = element.getAttribute( ATT_THEME_ID );
     String exitMessage = element.getAttribute( ATT_EXIT_CONFIRMATION );
     Branding branding = new Branding( contributor );
+    branding.setId( id );
     branding.setBody( readBody( contributor, body ) );
     branding.setTitle( title );
     branding.setThemeId( themeId );

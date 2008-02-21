@@ -14,6 +14,7 @@ import java.util.*;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.views.*;
 
 /**
@@ -89,9 +90,9 @@ public class ViewContentProvider implements ITreeContentProvider {
                 ArrayList filtered = new ArrayList();
                 for (int i = 0; i < views.length; i++) {
                     Object o = views[i];
-//                    if (WorkbenchActivityHelper.filterItem(o)) {
-//						continue;
-//					}
+                    if (WorkbenchActivityHelper.filterItem(o)) {
+						continue;
+					}
                     filtered.add(o);
                 }
 //                return removeIntroView(filtered).toArray();

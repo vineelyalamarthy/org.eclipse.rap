@@ -34,6 +34,7 @@ public final class Branding extends AbstractBranding {
   private String body;
   private String exitMessage;
   private String themeId;
+  private String brandingId;
   
   public Branding( final String contributor ) {
     this.contributor = contributor;
@@ -84,7 +85,11 @@ public final class Branding extends AbstractBranding {
   public void setThemeId( final String themeId ) {
     this.themeId = themeId;
   }
-
+  
+  void setId( final String brandingId ) {
+    this.brandingId = brandingId;
+  }
+  
   ///////////////////////////
   // AbstractBranding implementation
   
@@ -139,6 +144,10 @@ public final class Branding extends AbstractBranding {
   
   public String getThemeId() {
     return themeId;
+  }
+  
+  public String getId() {
+    return brandingId;
   }
 
   public void registerResources() throws IOException {

@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.views.IViewDescriptor;
 import org.eclipse.ui.views.IViewRegistry;
@@ -164,9 +165,9 @@ public class ShowViewMenu extends ContributionItem {
 //			}
 			IAction action = getAction(id);
 			if (action != null) {
-//				if (WorkbenchActivityHelper.filterItem(action)) {
-//					continue;
-//				}
+				if (WorkbenchActivityHelper.filterItem(action)) {
+					continue;
+				}
 				actions.add(action);
 			}
 		}

@@ -11,6 +11,7 @@
 package org.eclipse.ui.internal;
 
 import org.eclipse.ui.*;
+import org.eclipse.ui.activities.*;
 import org.eclipse.ui.views.IViewDescriptor;
 
 /**
@@ -60,81 +61,81 @@ class LayoutHelper {
         final IPerspectiveDescriptor partPerspective = pageLayout
                 .getDescriptor();
 
-//        IWorkbenchActivitySupport support = PlatformUI.getWorkbench()
-//                .getActivitySupport();
+        IWorkbenchActivitySupport support = PlatformUI.getWorkbench()
+                .getActivitySupport();
 
         IViewDescriptor descriptor = viewFactory.getViewRegistry().find(viewId);
         if (!(descriptor instanceof IPluginContribution)) {
 			return;
 		}
 
-//        IIdentifier identifier = support.getActivityManager().getIdentifier(
-//                WorkbenchActivityHelper
-//                        .createUnifiedId((IPluginContribution) descriptor));
-//
-//        identifier.addIdentifierListener(new IIdentifierListener() {
-//
-//            /* (non-Javadoc)
-//             * @see org.eclipse.ui.activities.IIdentifierListener#identifierChanged(org.eclipse.ui.activities.IdentifierEvent)
-//             */
-//            public void identifierChanged(IdentifierEvent identifierEvent) {
-//                if (identifierEvent.hasEnabledChanged()) {
-//                    IIdentifier thisIdentifier = identifierEvent
-//                            .getIdentifier();
-//                    if (thisIdentifier.isEnabled()) {
-//                        // show view
-//                        thisIdentifier.removeIdentifierListener(this);
-//                        IWorkbenchPage activePage = partPage
-//                                .getWorkbenchWindow().getActivePage();
-//                        if (partPage == activePage
-//                                && partPerspective == activePage
-//                                        .getPerspective()) {
-//                            // show immediately.
-//                            try {
-//                                partPage.showView(viewId);
-//                            } catch (PartInitException e) {
-//                                WorkbenchPlugin.log(getClass(), "identifierChanged", e); //$NON-NLS-1$
-//                            }
-//                        } else { // show when the perspective becomes active							
-//                            partPage.getWorkbenchWindow()
-//                                    .addPerspectiveListener(
-//                                            new IPerspectiveListener() {
-//
-//                                                /* (non-Javadoc)
-//                                                 * @see org.eclipse.ui.IPerspectiveListener#perspectiveActivated(org.eclipse.ui.IWorkbenchPage, org.eclipse.ui.IPerspectiveDescriptor)
-//                                                 */
-//                                                public void perspectiveActivated(
-//                                                        IWorkbenchPage page,
-//                                                        IPerspectiveDescriptor newPerspective) {
-//                                                    if (partPerspective == newPerspective) {
-//                                                        partPage
-//                                                                .getWorkbenchWindow()
-//                                                                .removePerspectiveListener(
-//                                                                        this);
-//                                                        try {
-//                                                            page
-//                                                                    .showView(viewId);
-//                                                        } catch (PartInitException e) {
-//                                                            WorkbenchPlugin.log(getClass(), "perspectiveActivated", e); //$NON-NLS-1$
-//                                                        }
-//                                                    }
-//                                                }
-//
-//                                                /* (non-Javadoc)
-//                                                 * @see org.eclipse.ui.IPerspectiveListener#perspectiveChanged(org.eclipse.ui.IWorkbenchPage, org.eclipse.ui.IPerspectiveDescriptor, java.lang.String)
-//                                                 */
-//                                                public void perspectiveChanged(
-//                                                        IWorkbenchPage page,
-//                                                        IPerspectiveDescriptor perspective,
-//                                                        String changeId) {
-//                                                    // no-op
-//                                                }
-//                                            });
-//                        }
-//                    }
-//                }
-//            }
-//        });
+        IIdentifier identifier = support.getActivityManager().getIdentifier(
+                WorkbenchActivityHelper
+                        .createUnifiedId((IPluginContribution) descriptor));
+
+        identifier.addIdentifierListener(new IIdentifierListener() {
+
+            /* (non-Javadoc)
+             * @see org.eclipse.ui.activities.IIdentifierListener#identifierChanged(org.eclipse.ui.activities.IdentifierEvent)
+             */
+            public void identifierChanged(IdentifierEvent identifierEvent) {
+                if (identifierEvent.hasEnabledChanged()) {
+                    IIdentifier thisIdentifier = identifierEvent
+                            .getIdentifier();
+                    if (thisIdentifier.isEnabled()) {
+                        // show view
+                        thisIdentifier.removeIdentifierListener(this);
+                        IWorkbenchPage activePage = partPage
+                                .getWorkbenchWindow().getActivePage();
+                        if (partPage == activePage
+                                && partPerspective == activePage
+                                        .getPerspective()) {
+                            // show immediately.
+                            try {
+                                partPage.showView(viewId);
+                            } catch (PartInitException e) {
+                                WorkbenchPlugin.log(getClass(), "identifierChanged", e); //$NON-NLS-1$
+                            }
+                        } else { // show when the perspective becomes active							
+                            partPage.getWorkbenchWindow()
+                                    .addPerspectiveListener(
+                                            new IPerspectiveListener() {
+
+                                                /* (non-Javadoc)
+                                                 * @see org.eclipse.ui.IPerspectiveListener#perspectiveActivated(org.eclipse.ui.IWorkbenchPage, org.eclipse.ui.IPerspectiveDescriptor)
+                                                 */
+                                                public void perspectiveActivated(
+                                                        IWorkbenchPage page,
+                                                        IPerspectiveDescriptor newPerspective) {
+                                                    if (partPerspective == newPerspective) {
+                                                        partPage
+                                                                .getWorkbenchWindow()
+                                                                .removePerspectiveListener(
+                                                                        this);
+                                                        try {
+                                                            page
+                                                                    .showView(viewId);
+                                                        } catch (PartInitException e) {
+                                                            WorkbenchPlugin.log(getClass(), "perspectiveActivated", e); //$NON-NLS-1$
+                                                        }
+                                                    }
+                                                }
+
+                                                /* (non-Javadoc)
+                                                 * @see org.eclipse.ui.IPerspectiveListener#perspectiveChanged(org.eclipse.ui.IWorkbenchPage, org.eclipse.ui.IPerspectiveDescriptor, java.lang.String)
+                                                 */
+                                                public void perspectiveChanged(
+                                                        IWorkbenchPage page,
+                                                        IPerspectiveDescriptor perspective,
+                                                        String changeId) {
+                                                    // no-op
+                                                }
+                                            });
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**

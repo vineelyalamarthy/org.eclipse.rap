@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.dynamichelpers.*;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.ui.*;
+import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.internal.*;
 import org.eclipse.ui.internal.util.SessionSingletonEventManager;
 import org.eclipse.ui.internal.util.Util;
@@ -1395,9 +1396,9 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 					// we don't want to return duplicates
 					if (!allRelated.contains(related[i])) {
 						// if it's not filtered, add it to the list
-//						if (!WorkbenchActivityHelper.filterItem(related[i])) {
+						if (!WorkbenchActivityHelper.filterItem(related[i])) {
 							allRelated.add(related[i]);
-//						}
+						}
 					}
 				}
 				
@@ -1417,9 +1418,9 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 						// we don't want to return duplicates
 						if (!allRelated.contains(related[i])) {
 							// if it's not filtered, add it to the list
-//							if (!WorkbenchActivityHelper.filterItem(related[i])) {
+							if (!WorkbenchActivityHelper.filterItem(related[i])) {
 								allRelated.add(related[i]);
-//							}
+							}
 						}
 					}
 					nonDefaultFileEditors.addAll(Arrays.asList(mapping.getEditors()));
@@ -1434,9 +1435,9 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 				// we don't want to return duplicates
 				if (!allRelated.contains(related[i])) {
 					// if it's not filtered, add it to the list
-//					if (!WorkbenchActivityHelper.filterItem(related[i])) {
+					if (!WorkbenchActivityHelper.filterItem(related[i])) {
 						allRelated.add(related[i]);
-//					}
+					}
 				}
 			}
 
@@ -1450,9 +1451,9 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 					// we don't want to return duplicates
 					if (!allRelated.contains(related[i])) {
 						// if it's not filtered, add it to the list
-//						if (!WorkbenchActivityHelper.filterItem(related[i])) {
+						if (!WorkbenchActivityHelper.filterItem(related[i])) {
 							allRelated.add(related[i]);
-//						}
+						}
 					}
 				}
 			}
@@ -1461,8 +1462,7 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 		// add all non-default editors to the list
 		for (Iterator i = nonDefaultFileEditors.iterator(); i.hasNext();) {
 			IEditorDescriptor editor = (IEditorDescriptor) i.next();
-//			if (!allRelated.contains(editor) && !WorkbenchActivityHelper.filterItem(editor)) {
-			if (!allRelated.contains(editor)) {
+			if (!allRelated.contains(editor) && !WorkbenchActivityHelper.filterItem(editor)) {
 				allRelated.add(editor);
 			}
 		}
@@ -1491,9 +1491,9 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 			// we don't want to return duplicates
 			if (!allRelated.contains(related[i])) {
 				// if it's not filtered, add it to the list
-//				if (!WorkbenchActivityHelper.filterItem(related[i])) {
+				if (!WorkbenchActivityHelper.filterItem(related[i])) {
 					allRelated.add(related[i]);
-//				}
+				}
 				
 			}
 		}
@@ -1505,9 +1505,9 @@ public class EditorRegistry extends SessionSingletonEventManager implements IEdi
 				// we don't want to return duplicates
 				if (!allRelated.contains(related[i])) {
 					// if it's not filtered, add it to the list
-//					if (!WorkbenchActivityHelper.filterItem(related[i])) {
+					if (!WorkbenchActivityHelper.filterItem(related[i])) {
 						allRelated.add(related[i]);
-//					}
+					}
 				}
 			}
 		}

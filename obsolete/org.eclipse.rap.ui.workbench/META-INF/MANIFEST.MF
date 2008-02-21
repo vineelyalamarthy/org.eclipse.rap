@@ -40,6 +40,7 @@ Export-Package: org.eclipse.ui;
    org.eclipse.jface.resource,
    org.eclipse.swt.widgets,
    org.eclipse.ui",
+ org.eclipse.ui.activities,
  org.eclipse.ui.application;
   uses:="org.eclipse.ui.presentations,
    org.eclipse.ui.statushandlers,
@@ -57,6 +58,8 @@ Export-Package: org.eclipse.ui;
  org.eclipse.ui.handlers,
  org.eclipse.ui.internal,
  org.eclipse.ui.internal.actions,
+ org.eclipse.ui.internal.activities;x-internal:=true,
+ org.eclipse.ui.internal.activities.ws;x-internal:=true,
  org.eclipse.ui.internal.branding,
  org.eclipse.ui.internal.browser,
  org.eclipse.ui.internal.commands,

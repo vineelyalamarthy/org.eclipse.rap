@@ -22,6 +22,7 @@ import java.util.*;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.*;
+import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.internal.presentations.PresentationFactoryUtil;
 import org.eclipse.ui.internal.registry.ActionSetRegistry;
 import org.eclipse.ui.internal.registry.IActionSetDescriptor;
@@ -161,7 +162,7 @@ public class PageLayout implements IPageLayout {
             try {
 				IViewDescriptor viewDescriptor = viewFactory.getViewRegistry()
 						.find(ViewFactory.extractPrimaryId(id));
-//				if (!WorkbenchActivityHelper.filterItem(viewDescriptor)) {
+				if (!WorkbenchActivityHelper.filterItem(viewDescriptor)) {
 					IViewReference ref = viewFactory.createView(ViewFactory
 							.extractPrimaryId(id), ViewFactory
 							.extractSecondaryId(id));
@@ -175,7 +176,7 @@ public class PageLayout implements IPageLayout {
 							&& ratio <= IPageLayout.RATIO_MAX) {
 						rec.fastViewWidthRatio = ratio;
 					}
-//				}
+				}
 			} catch (PartInitException e) {
 				WorkbenchPlugin.log(getClass(), "addFastView", e); //$NON-NLS-1$
 			}
@@ -490,9 +491,9 @@ public class PageLayout implements IPageLayout {
         }
 		IViewDescriptor viewDescriptor = viewFactory.getViewRegistry()
 		        .find(ViewFactory.extractPrimaryId(partID));
-//		if (WorkbenchActivityHelper.filterItem(viewDescriptor)) {
-//			return null;
-//		}
+		if (WorkbenchActivityHelper.filterItem(viewDescriptor)) {
+			return null;
+		}
 		return LayoutHelper.createView(getViewFactory(), partID);
     }
 

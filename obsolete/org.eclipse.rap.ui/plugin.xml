@@ -31,8 +31,11 @@
    <extension-point id="acceleratorScopes" name="%ExtPoint.acceleratorScopes" schema="schema/acceleratorScopes.exsd"/>
    <extension-point id="acceleratorSets" name="%ExtPoint.acceleratorSets" schema="schema/acceleratorSets.exsd"/>
    <extension-point id="actionDefinitions" name="%ExtPoint.actionDefinitions" schema="schema/actionDefinitions.exsd"/>
-   <extension-point id="activities" name="%ExtPoint.activities" schema="schema/activities.exsd"/>
-   <extension-point id="activitySupport" name="%ExtPoint.activitySupport" schema="schema/activitySupport.exsd"/>
+   -->
+   <extension-point id="org.eclipse.ui.activities" name="%ExtPoint.activities" schema="schema/activities.exsd"/>
+   <extension-point id="org.eclipse.ui.activitySupport" name="%ExtPoint.activitySupport" schema="schema/activitySupport.exsd"/>
+   <!--
+   Not yet supported extension points
    <extension-point id="bindings" name="%ExtPoint.bindings" schema="schema/bindings.exsd"/>
    <extension-point id="contexts" name="%ExtPoint.contexts" schema="schema/contexts.exsd"/>
    
@@ -1526,19 +1529,23 @@
       <encoding name="UTF-16LE"/>
       <encoding name="US-ASCII"/>
    </extension>
+-->
    
    <extension
          point="org.eclipse.ui.activitySupport">
+<!--
       <triggerPoint id="org.eclipse.ui.newWizards">
          <hint
                id="interactive"
                value="true"/>
       </triggerPoint>
+-->
       <triggerPoint id="org.eclipse.ui.openPerspectiveDialog">
          <hint
                id="interactive"
                value="true"/>
       </triggerPoint>
+<!--
       <triggerPoint id="org.eclipse.ui.importWizards">
          <hint
                id="interactive"
@@ -1549,9 +1556,10 @@
                id="interactive"
                value="true"/>
       </triggerPoint>    
+-->
    </extension>
  
-
+<!--
    <extension
          point="org.eclipse.ui.preferenceTransfer">
       <settingsTransfer
@@ -1570,7 +1578,6 @@
    -->
    <extension
            point="org.eclipse.core.expressions.propertyTesters">
-        <!--
         <propertyTester
               class="org.eclipse.ui.internal.activities.ActivityPropertyTester"
               id="org.eclipse.ui.activityPropertyTester"
@@ -1578,7 +1585,6 @@
               properties="isActivityEnabled,isCategoryEnabled"
               type="org.eclipse.ui.IWorkbench">
         </propertyTester>
-        -->
         <propertyTester
               class="org.eclipse.ui.internal.OpenPerspectivePropertyTester"
               id="org.eclipse.ui.openPerspectivePropertyTester"

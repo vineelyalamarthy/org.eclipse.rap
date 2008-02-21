@@ -19,6 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
+import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.internal.WorkbenchMessages;
 import org.eclipse.ui.internal.dialogs.SelectPerspectiveDialog;
 
@@ -161,9 +162,9 @@ public abstract class PerspectiveMenu extends ContributionItem {
                     .next();
             final IAction action = getAction(descriptor.getId());
             if (action != null) {
-//                if (WorkbenchActivityHelper.filterItem(action)) {
-//					continue;
-//				}
+                if (WorkbenchActivityHelper.filterItem(action)) {
+					continue;
+				}
                 actions.add(action);
             }
         }
@@ -223,9 +224,9 @@ public abstract class PerspectiveMenu extends ContributionItem {
         for (int i = 0; i < ids.length; i++) {
             IPerspectiveDescriptor desc = reg.findPerspectiveWithId(ids[i]);
             if (desc != null && !list.contains(desc)) {
-//                if (WorkbenchActivityHelper.filterItem(desc)) {
-//					continue;
-//				}
+                if (WorkbenchActivityHelper.filterItem(desc)) {
+					continue;
+				}
                 list.add(desc);
             }
         }

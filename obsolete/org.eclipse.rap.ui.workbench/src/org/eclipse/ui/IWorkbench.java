@@ -13,6 +13,7 @@ package org.eclipse.ui;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.activities.IWorkbenchActivitySupport;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
@@ -452,9 +453,9 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return an interface to manage activities at the workbench level.
 	 *         Guaranteed not to be <code>null</code>.
-	 * @since 1.0
+	 * @since 1.1
 	 */
-//	IWorkbenchActivitySupport getActivitySupport();
+	IWorkbenchActivitySupport getActivitySupport();
 
 	/**
 	 * Returns an interface to manage commands at the workbench level.
