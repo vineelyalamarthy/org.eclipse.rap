@@ -13,9 +13,7 @@ package org.eclipse.jface.wizard;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.*;
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.operation.ModalContext;
@@ -81,7 +79,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 	private String pageDescription;
 
 	// The progress monitor
-//	private ProgressMonitorPart progressMonitorPart;
+	private ProgressMonitorPart progressMonitorPart;
 
 //	private Cursor waitCursor;
 
@@ -115,7 +113,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 
 	private static final String FOCUS_CONTROL = "focusControl"; //$NON-NLS-1$
 
-//	private boolean lockedUI = false;
+	private boolean lockedUI = false;
 
 	private ListenerList pageChangedListeners = new ListenerList();
 
@@ -306,10 +304,10 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 				savedState.put(FOCUS_CONTROL, focusControl);
 			}
 			// Attach the progress monitor part to the cancel button
-//			if (needsProgressMonitor) {
-//				progressMonitorPart.attachToCancelComponent(cancelButton);
-//				progressMonitorPart.setVisible(true);
-//			}
+			if (needsProgressMonitor) {
+				progressMonitorPart.attachToCancelComponent(cancelButton);
+				progressMonitorPart.setVisible(true);
+			}
 		}
 		return savedState;
 	}
@@ -539,15 +537,15 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 		// Insert a progress monitor
 		GridLayout pmlayout = new GridLayout();
 		pmlayout.numColumns = 1;
-//		progressMonitorPart = createProgressMonitorPart(composite, pmlayout);
-//		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-//		progressMonitorPart.setLayoutData(gridData);
-//		progressMonitorPart.setVisible(false);
+		progressMonitorPart = createProgressMonitorPart(composite, pmlayout);
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		progressMonitorPart.setLayoutData(gridData);
+		progressMonitorPart.setVisible(false);
 		// Build the separator line
 		Label separator = new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR);
 		separator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-//		applyDialogFont(progressMonitorPart);
+		applyDialogFont(progressMonitorPart);
 		return composite;
 	}
 
@@ -558,72 +556,72 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 	 * @param pmlayout
 	 * @return ProgressMonitorPart
 	 */
-//	protected ProgressMonitorPart createProgressMonitorPart(
-//			Composite composite, GridLayout pmlayout) {
-//		return new ProgressMonitorPart(composite, pmlayout, SWT.DEFAULT) {
-//			String currentTask = null;
-//
-//			/*
-//			 * (non-Javadoc)
-//			 * 
-//			 * @see org.eclipse.jface.wizard.ProgressMonitorPart#setBlocked(org.eclipse.core.runtime.IStatus)
-//			 */
-//			public void setBlocked(IStatus reason) {
-//				super.setBlocked(reason);
-//				if (!lockedUI) {
-//					getBlockedHandler().showBlocked(getShell(), this, reason,
-//							currentTask);
-//				}
-//			}
-//
-//			/*
-//			 * (non-Javadoc)
-//			 * 
-//			 * @see org.eclipse.jface.wizard.ProgressMonitorPart#clearBlocked()
-//			 */
-//			public void clearBlocked() {
-//				super.clearBlocked();
-//				if (!lockedUI) {
-//					getBlockedHandler().clearBlocked();
-//				}
-//			}
-//
-//			/*
-//			 * (non-Javadoc)
-//			 * 
-//			 * @see org.eclipse.jface.wizard.ProgressMonitorPart#beginTask(java.lang.String,
-//			 *      int)
-//			 */
-//			public void beginTask(String name, int totalWork) {
-//				super.beginTask(name, totalWork);
-//				currentTask = name;
-//			}
-//
-//			/*
-//			 * (non-Javadoc)
-//			 * 
-//			 * @see org.eclipse.jface.wizard.ProgressMonitorPart#setTaskName(java.lang.String)
-//			 */
-//			public void setTaskName(String name) {
-//				super.setTaskName(name);
-//				currentTask = name;
-//			}
-//
-//			/*
-//			 * (non-Javadoc)
-//			 * 
-//			 * @see org.eclipse.jface.wizard.ProgressMonitorPart#subTask(java.lang.String)
-//			 */
-//			public void subTask(String name) {
-//				super.subTask(name);
-//				// If we haven't got anything yet use this value for more
-//				// context
-//				if (currentTask == null) {
-//					currentTask = name;
-//				}
-//			}
-//		};
-//	}
+	protected ProgressMonitorPart createProgressMonitorPart(
+			Composite composite, GridLayout pmlayout) {
+		return new ProgressMonitorPart(composite, pmlayout, SWT.DEFAULT) {
+			String currentTask = null;
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.wizard.ProgressMonitorPart#setBlocked(org.eclipse.core.runtime.IStatus)
+			 */
+			public void setBlocked(IStatus reason) {
+				super.setBlocked(reason);
+				if (!lockedUI) {
+					getBlockedHandler().showBlocked(getShell(), this, reason,
+							currentTask);
+				}
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.wizard.ProgressMonitorPart#clearBlocked()
+			 */
+			public void clearBlocked() {
+				super.clearBlocked();
+				if (!lockedUI) {
+					getBlockedHandler().clearBlocked();
+				}
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.wizard.ProgressMonitorPart#beginTask(java.lang.String,
+			 *      int)
+			 */
+			public void beginTask(String name, int totalWork) {
+				super.beginTask(name, totalWork);
+				currentTask = name;
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.wizard.ProgressMonitorPart#setTaskName(java.lang.String)
+			 */
+			public void setTaskName(String name) {
+				super.setTaskName(name);
+				currentTask = name;
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.wizard.ProgressMonitorPart#subTask(java.lang.String)
+			 */
+			public void subTask(String name) {
+				super.subTask(name);
+				// If we haven't got anything yet use this value for more
+				// context
+				if (currentTask == null) {
+					currentTask = name;
+				}
+			}
+		};
+	}
 
 	/**
 	 * Creates the container that holds all pages.
@@ -742,9 +740,9 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 	 * @return the progress monitor, or <code>null</code> if this wizard
 	 *         dialog does not have one
 	 */
-//	protected IProgressMonitor getProgressMonitor() {
-//		return progressMonitorPart;
-//	}
+	protected IProgressMonitor getProgressMonitor() {
+		return progressMonitorPart;
+	}
 
 	/**
 	 * Returns the wizard this dialog is currently displaying.
@@ -907,11 +905,11 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 		activeRunningOperations++;
 		try {
 			if (!fork) {
-//				lockedUI = true;
+				lockedUI = true;
 			}
-			ModalContext.run(runnable, fork, new NullProgressMonitor()/* , getProgressMonitor() */ , getShell()
+			ModalContext.run(runnable, fork, getProgressMonitor(), getShell()
 					.getDisplay());
-//			lockedUI = false;
+			lockedUI = false;
 		} finally {
 			activeRunningOperations--;
 			// Stop if this is the last one
@@ -1182,8 +1180,8 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2,
 	private void stopped(Object savedState) {
 		if (getShell() != null) {
 			if (wizard.needsProgressMonitor()) {
-//				progressMonitorPart.setVisible(false);
-//				progressMonitorPart.removeFromCancelComponent(cancelButton);
+				progressMonitorPart.setVisible(false);
+				progressMonitorPart.removeFromCancelComponent(cancelButton);
 			}
 			Map state = (Map) savedState;
 			restoreUIState(state);
