@@ -27,8 +27,7 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
-import org.eclipse.ui.forms.widgets.ILayoutExtension;
-import org.eclipse.ui.forms.widgets.SizeCache;
+import org.eclipse.ui.forms.widgets.*;
 import org.eclipse.ui.internal.forms.IMessageToolTipManager;
 
 /**
@@ -329,8 +328,7 @@ public class FormHeading extends Canvas {
 		private int messageType;
 		private CLabel messageLabel;
 		private IMessage[] messages;
-//		private Hyperlink messageHyperlink;
-		private Label messageHyperlink;
+		private Hyperlink messageHyperlink;
 		private ListenerList listeners;
 		private Color fg;
 		private int fontHeight = -1;
@@ -360,7 +358,6 @@ public class FormHeading extends Canvas {
 //				gc.setFont(c.getFont());
 //				fontHeight = gc.getFontMetrics().getHeight();
 //				gc.dispose();
-				//TODO (jb) fontHeight = FontSizeEstimation.getCharHeight( getFont() );
 				fontHeight = Graphics.getCharHeight( getFont() );
 			}
 			return fontHeight;
@@ -397,7 +394,7 @@ public class FormHeading extends Canvas {
 			ensureControlExists();
 			if (needHyperlink()) {
 				messageHyperlink.setText(newMessage);
-//				messageHyperlink.setHref(messages);
+				messageHyperlink.setHref(messages);
 			} else {
 				messageLabel.setText(newMessage);
 			}
@@ -454,8 +451,8 @@ public class FormHeading extends Canvas {
 				listeners = new ListenerList();
 			listeners.add(listener);
 			ensureControlExists();
-//			if (messageHyperlink != null)
-//				messageHyperlink.addHyperlinkListener(listener);
+			if (messageHyperlink != null)
+				messageHyperlink.addHyperlinkListener(listener);
 			if (listeners.size() == 1)
 				updateForeground();
 		}
@@ -463,8 +460,8 @@ public class FormHeading extends Canvas {
 		private void removeMessageHyperlinkListener(IHyperlinkListener listener) {
 			if (listeners != null) {
 				listeners.remove(listener);
-//				if (messageHyperlink != null)
-//					messageHyperlink.removeHyperlinkListener(listener);
+				if (messageHyperlink != null)
+					messageHyperlink.removeHyperlinkListener(listener);
 				if (listeners.isEmpty())
 					listeners = null;
 				ensureControlExists();
@@ -478,20 +475,19 @@ public class FormHeading extends Canvas {
 				if (messageLabel != null)
 					messageLabel.setVisible(false);
 				if (messageHyperlink == null) {
-//				  messageHyperlink = new Hyperlink(FormHeading.this, SWT.NULL);
-					messageHyperlink = new Label(FormHeading.this, SWT.NULL);
-//					messageHyperlink.setUnderlined(true);
+				  messageHyperlink = new Hyperlink(FormHeading.this, SWT.NULL);
+					messageHyperlink.setUnderlined(true);
 					messageHyperlink.setText(message);
-//					messageHyperlink.setHref(messages);
+					messageHyperlink.setHref(messages);
 					Object[] llist = listeners.getListeners();
 					for (int i = 0; i < llist.length; i++)
-//						messageHyperlink
-//								.addHyperlinkListener((IHyperlinkListener) llist[i]);
+						messageHyperlink
+								.addHyperlinkListener((IHyperlinkListener) llist[i]);
 					if (messageToolTipManager != null)
 						messageToolTipManager.createToolTip(messageHyperlink, false);
 				} else if (!messageHyperlink.getVisible()) {
 					messageHyperlink.setText(message);
-//					messageHyperlink.setHref(messages);
+					messageHyperlink.setHref(messages);
 					messageHyperlink.setVisible(true);
 				}
 			} else {
