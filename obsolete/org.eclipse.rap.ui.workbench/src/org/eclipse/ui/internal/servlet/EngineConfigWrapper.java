@@ -197,14 +197,25 @@ final class EngineConfigWrapper implements IEngineConfig {
     IConfigurationElement[] widgetExts = ep.getConfigurationElements();
     for( int i = 0; i < widgetExts.length; i++ ) {
       String contributorName = widgetExts[ i ].getContributor().getName();
-//      String widgetId = widgetExts[ i ].getAttribute( "id" );
-//      String widgetName = widgetExts[ i ].getAttribute( "name" );
       String widgetClass = widgetExts[ i ].getAttribute( "class" );
       try {
         final Bundle bundle = Platform.getBundle( contributorName );
+        ResourceLoader resLoader = new ResourceLoader() {
+          
+          public InputStream getResourceAsStream( final String resourceName )
+            throws IOException
+          {
+            InputStream result = null;
+            URL url = bundle.getResource( resourceName );
+            if( url != null ) {
+              result = url.openStream();
+            }
+            return result;
+          }
+        };
         Class widget;
         widget = bundle.loadClass( widgetClass );
-        ThemeManager.getInstance().addThemeableWidget( widget );
+        ThemeManager.getInstance().addThemeableWidget( widget, resLoader );
       } catch( final Throwable e ) {
         String text =   "Could not register themeable widget ''{0}''.";
         Object[] param = new Object[] { widgetClass };
@@ -244,8 +255,9 @@ final class EngineConfigWrapper implements IEngineConfig {
         if( inStream != null ) {
           try {
             ResourceLoader resLoader = new ResourceLoader() {
+              
               public InputStream getResourceAsStream( final String resourceName )
-              throws IOException
+                throws IOException
               {
                 InputStream result = null;
                 URL url = bundle.getResource( resourceName );
