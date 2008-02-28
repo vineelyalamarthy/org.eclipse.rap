@@ -28,7 +28,7 @@ import com.w4t.engine.service.*;
 import com.w4t.engine.util.*;
 import com.w4t.internal.tablecell.BorderedSpacingHelper_Test;
 import com.w4t.internal.tablecell.DefaultSpacingHelper_Test;
-import com.w4t.javascript.JSSyntax_Test;
+//import com.w4t.javascript.JSSyntax_Test;
 import com.w4t.markupembedderkit.MarkupEmbedderRenderer_Test;
 import com.w4t.types.WebColor_Test;
 import com.w4t.util.*;
@@ -111,7 +111,10 @@ public class AllTests_Suite {
     suite.addTestSuite( WindowManager_Test.class );
     
     suite.addTestSuite( JSLibrary_Test.class );
-    suite.addTestSuite( JSSyntax_Test.class );
+    // 2008-02-28: Disabled JS syntax test due to copyright problems with rhino 
+    // library (QC https://dev.eclipse.org/ipzilla/show_bug.cgi?id=69) that
+    // were detecte now.
+//    suite.addTestSuite( JSSyntax_Test.class );
     suite.addTestSuite( WebForm_Test.class );
     suite.addTestSuite( WebFormRenderer_Test.class );
     suite.addTestSuite( TriggerTimeStamp_Test.class );
