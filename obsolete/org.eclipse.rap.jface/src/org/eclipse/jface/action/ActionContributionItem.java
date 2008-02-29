@@ -140,20 +140,16 @@ public class ActionContributionItem extends ContributionItem {
 	private void actionPropertyChange(final PropertyChangeEvent e) {
 	    // This code should be removed. Avoid using free asyncExec
 	    if( isVisible() && widget != null ) {
-//	      Display display = widget.getDisplay();
-//	      if( display.getThread() == Thread.currentThread() ) {
-//	        update( e.getProperty() );
-//	      } else {
-//	        display.asyncExec( new Runnable() {
-	//
-//	          public void run() {
-//	            update( e.getProperty() );
-//	          }
-//	        } );
-//	      }
-	      // TODO [rh] replacement for commented code above. Revise when asyncExec
-	      //      and related methods are available on Display
-	      update( e.getProperty() );
+	      Display display = widget.getDisplay();
+	      if( display.getThread() == Thread.currentThread() ) {
+	        update( e.getProperty() );
+	      } else {
+	        display.asyncExec( new Runnable() {	
+	          public void run() {
+	            update( e.getProperty() );
+	          }
+	        } );
+	      }
 	    }
 	}
 
