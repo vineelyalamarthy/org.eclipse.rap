@@ -115,7 +115,7 @@ public final class BrandingExtension {
     BrandingManager.register( branding );
   }
 
-  private static void registerServletName( String servletName ) {
+  private static void registerServletName( final String servletName ) {
     WorkbenchPlugin workbench = WorkbenchPlugin.getDefault();
     HttpServiceTracker httpServiceTracker = workbench.getHttpServiceTracker();
     httpServiceTracker.addServletAlias( servletName );
