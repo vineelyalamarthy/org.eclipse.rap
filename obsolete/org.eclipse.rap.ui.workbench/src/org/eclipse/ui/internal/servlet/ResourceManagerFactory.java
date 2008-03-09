@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.equinox.http.registry.HttpContextExtensionService;
 import org.eclipse.rwt.Adaptable;
 import org.eclipse.rwt.internal.resources.JsConcatenator;
 import org.eclipse.rwt.internal.resources.ResourceManagerImpl;
@@ -152,12 +153,8 @@ final class ResourceManagerFactory implements IResourceManagerFactory {
       String contextRoot = ContextProvider.getWebAppBase();
       IPath path = new Path( name ).removeLastSegments( 1 );
       IPath location = new Path( contextRoot ).append( path );
-//      BundleContext context = Activator.getDefault().getContext();
-      BundleContext context = WorkbenchPlugin.getDefault().getBundleContext();
-      String serviceName = HttpService.class.getName();
-      ServiceReference reference = context.getServiceReference( serviceName );
-      HttpService httpService = ( HttpService )context.getService( reference );
-      final HttpContext httpContext = httpService.createDefaultHttpContext();
+      HttpService httpService = getHttpService();
+      HttpContext httpContext = getHttpContext();
       HttpContext wrapper = new HttpContextWrapper( httpContext );
       try {
         httpService.registerResources( "/" + path.toString(),
@@ -169,6 +166,28 @@ final class ResourceManagerFactory implements IResourceManagerFactory {
         //                approach could be to take track of the namespaces that
         //                have already been registered
       }
+    }
+
+    private HttpContext getHttpContext() {
+      String contextExtension = HttpContextExtensionService.class.getName();
+      BundleContext context = WorkbenchPlugin.getDefault().getBundleContext();
+      ServiceReference ref = context.getServiceReference( contextExtension );
+      HttpContextExtensionService service
+        = ( HttpContextExtensionService )context.getService( ref );
+      String id = HttpServiceTracker.ID_HTTP_CONTEXT;
+      return service.getHttpContext( getHttpServiceRef(), id );
+    }
+
+    private HttpService getHttpService() {
+      ServiceReference reference = getHttpServiceRef();
+      BundleContext context = WorkbenchPlugin.getDefault().getBundleContext();
+      return ( HttpService )context.getService( reference );
+    }
+
+    private ServiceReference getHttpServiceRef() {
+      BundleContext context = WorkbenchPlugin.getDefault().getBundleContext();
+      String serviceName = HttpService.class.getName();
+      return context.getServiceReference( serviceName );
     }
 
     public InputStream getRegisteredContent( final String name ) {

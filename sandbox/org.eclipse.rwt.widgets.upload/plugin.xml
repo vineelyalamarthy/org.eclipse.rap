@@ -13,9 +13,11 @@
         <resource class="org.eclipse.rwt.widgets.internal.uploadkit.UploadResource"/>
     </extension>
     <extension point="org.eclipse.equinox.http.registry.servlets">
-        <servlet alias="/upload"
-            class="org.eclipse.rwt.widgets.upload.servlet.FileUploadServlet"
-            load-on-startup="false">
+        <servlet
+              alias="/upload"
+              class="org.eclipse.rwt.widgets.upload.servlet.FileUploadServlet"
+              httpcontextId="org.eclipse.rap.httpcontext"
+              load-on-startup="false">
         </servlet>
     </extension>
 </plugin>
