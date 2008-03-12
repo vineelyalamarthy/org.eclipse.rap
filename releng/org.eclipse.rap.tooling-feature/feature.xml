@@ -4,7 +4,6 @@
       label="%featureName"
       version="1.1.0.qualifier"
       provider-name="%providerName">
-   <install-handler library="" handler=""/>
 
    <description>
       %description
