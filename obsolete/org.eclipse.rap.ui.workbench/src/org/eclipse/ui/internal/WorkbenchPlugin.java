@@ -850,9 +850,9 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
         
         // initialise the servlet names -> ensure that the http registry
         // bundle was loaded befort the service tracker gets opened.
-        String httpRegistry = "org.eclipse.equinox.http.registry";
-        Bundle servlet = Platform.getBundle( httpRegistry );
-        servlet.start( Bundle.START_ACTIVATION_POLICY );
+        String id = "org.eclipse.equinox.http.registry";
+        Bundle httpRegistry = Platform.getBundle( id );
+        httpRegistry.start( Bundle.START_ACTIVATION_POLICY );
         httpServiceTracker = new HttpServiceTracker(context);
         BrandingExtension.read();
         httpServiceTracker.open();
