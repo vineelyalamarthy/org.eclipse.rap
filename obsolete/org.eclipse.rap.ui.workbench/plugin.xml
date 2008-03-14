@@ -31,5 +31,10 @@
      <listener class="org.eclipse.rwt.internal.lifecycle.CurrentPhase$Listener"/>
   </extension>
   
+  <extension id="preferences" 
+             point="org.eclipse.core.runtime.preferences">
+    <scope name="session" 
+           class="org.eclipse.ui.internal.preferences.SessionPreferencesFactory"/>
+  </extension>
   
 </plugin>

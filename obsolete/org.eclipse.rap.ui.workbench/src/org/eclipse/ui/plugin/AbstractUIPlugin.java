@@ -22,7 +22,9 @@ import org.eclipse.jface.resource.*;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WWinPluginAction;
+import org.eclipse.ui.internal.preferences.SessionScope;
 import org.eclipse.ui.internal.util.BundleUtility;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.osgi.framework.*;
 
 /**
@@ -113,7 +115,7 @@ public abstract class AbstractUIPlugin extends Plugin {
     /**
      * Storage for preferences.
      */
-//    private ScopedPreferenceStore preferenceStore;
+    private ScopedPreferenceStore preferenceStore;
 
     /**
      * The registry for all graphic images; <code>null</code> if not yet
@@ -260,16 +262,18 @@ public abstract class AbstractUIPlugin extends Plugin {
      * will have to access the compatibility layer themselves.
      * </p>
      *
-     * @return the preference store 
+     * @return the preference store
+     * @since 1.1  
      */
-//    public IPreferenceStore getPreferenceStore() {
-//        // Create the preference store lazily.
-//        if (preferenceStore == null) {
-//            preferenceStore = new ScopedPreferenceStore(new InstanceScope(),getBundle().getSymbolicName());
-//
-//        }
-//        return preferenceStore;
-//    }
+    public IPreferenceStore getPreferenceStore() {
+      // Create the preference store lazily.
+      if (preferenceStore == null) {
+        String pluginId = getBundle().getSymbolicName();
+        preferenceStore 
+          = new ScopedPreferenceStore( new SessionScope(), pluginId );
+      }
+      return preferenceStore;
+    }
 
     /**
      * Returns the Platform UI workbench.  

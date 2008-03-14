@@ -8,6 +8,7 @@
    <extension-point id="entrypoint" name="%ExtPoint.rap.entrypoint" schema="schema/rap/entrypoint.exsd"/>
    <extension-point id="phaselistener" name="%ExtPoint.rap.phaselistener" schema="schema/rap/phaselistener.exsd"/>
    <extension-point id="resources" name="%ExtPoint.rap.resources" schema="schema/rap/resources.exsd"/>
+   <extension-point id="settingstores" name="%ExtPoint.rap.settingstores" schema="schema/rap/settingstores.exsd"/>
    <extension-point id="themes" name="%ExtPoint.rap.themes" schema="schema/rap/themes.exsd"/>
    <extension-point id="themeableWidgets" name="%ExtPoint.rap.themeableWidgets" schema="schema/rap/themeableWidgets.exsd"/>
     
@@ -1755,6 +1756,17 @@
             </with>
          </enabledWhen>
       </handler>
+   </extension>
+   <extension
+         point="org.eclipse.rap.ui.settingstores">
+      <factory
+            class="org.eclipse.ui.internal.preferences.WorkbenchFileSettingStoreFactory"
+            id="file">
+      </factory>
+      <factory
+            class="org.eclipse.rwt.service.RWTFileSettingStoreFactory"
+            id="rwtfile">
+      </factory>
    </extension>
    <!--
    <extension

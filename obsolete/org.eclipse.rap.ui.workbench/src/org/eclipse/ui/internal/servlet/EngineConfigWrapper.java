@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2002-2007 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2002-2008 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,15 +18,19 @@ import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.rwt.internal.*;
+import org.eclipse.rwt.internal.engine.RWTServletContextListener;
 import org.eclipse.rwt.internal.lifecycle.*;
-import org.eclipse.rwt.internal.resources.*;
+import org.eclipse.rwt.internal.resources.ResourceManager;
+import org.eclipse.rwt.internal.resources.ResourceRegistry;
 import org.eclipse.rwt.internal.service.*;
 import org.eclipse.rwt.internal.theme.ResourceLoader;
 import org.eclipse.rwt.internal.theme.ThemeManager;
 import org.eclipse.rwt.lifecycle.PhaseListener;
 import org.eclipse.rwt.resources.IResource;
+import org.eclipse.rwt.service.ISettingStoreFactory;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.internal.preferences.WorkbenchFileSettingStoreFactory;
 import org.osgi.framework.Bundle;
 
 
@@ -63,6 +67,9 @@ final class EngineConfigWrapper implements IEngineConfig {
   //  which needed to be loaded at page startup
   private static final String ID_RESOURCES
     = "org.eclipse.rap.ui.resources";
+  // extension point id for registration of a setting store factories
+  private static final String ID_SETTING_STORES
+    = "org.eclipse.rap.ui.settingstores";
 
   private final EngineConfig engineConfig;
 
@@ -71,6 +78,7 @@ final class EngineConfigWrapper implements IEngineConfig {
     registerPhaseListener();
     registerRWTLifeCycle();
     registerResourceManagerFactory();
+    registerSettingStoreFactory();
     registerWorkbenchEntryPoint();
     registerThemeableWidgets();
     registerThemes();
@@ -132,6 +140,41 @@ final class EngineConfigWrapper implements IEngineConfig {
 
   private static void registerResourceManagerFactory() {
     ResourceManager.register( new ResourceManagerFactory() );
+  }
+  
+  private static void registerSettingStoreFactory() {
+    // determine which factory to use via an environment setting / config.ini
+    ISettingStoreFactory result = null;
+    String factoryId 
+      = System.getProperty( RWTServletContextListener.SETTING_STORE_FACTORY_PARAM );
+    if( factoryId != null ) {
+      IExtensionRegistry registry = Platform.getExtensionRegistry();
+      IExtensionPoint point = registry.getExtensionPoint( ID_SETTING_STORES );
+      IConfigurationElement[] elements = point.getConfigurationElements();
+      for( int i = 0; i < elements.length; i++ ) {
+        String id = elements[ i ].getAttribute( "id" );
+        if( factoryId.equals( id ) ) {
+          try {
+            Object obj = elements[ i ].createExecutableExtension( "class" );
+            if( obj instanceof ISettingStoreFactory ) {
+              result = ( ISettingStoreFactory )obj;
+            }
+          } catch( CoreException cex ) {
+            WorkbenchPlugin.log( cex.getStatus() );
+          }
+        }
+      }
+      if( result == null ) {
+        String msg =   "Warning: could not find the factory with id '" 
+                     + factoryId
+                     + "' in org.eclipse.rap.ui.settingstores";
+        WorkbenchPlugin.log( WorkbenchPlugin.getStatus( new Throwable( msg ) ) );
+      }
+    }
+    if( result == null ) {
+      result = new WorkbenchFileSettingStoreFactory(); // default
+    }
+    SettingStoreManager.register( result );
   }
 
   private static void registerFactories() {
