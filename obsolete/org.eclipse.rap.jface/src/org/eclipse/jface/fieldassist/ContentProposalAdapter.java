@@ -675,10 +675,12 @@ public class ContentProposalAdapter {
             // Now set up a listener to monitor any changes in size.
             getShell().addListener(SWT.Resize, new Listener() {
                 public void handleEvent(Event e) {
-                    popupSize = getShell().getSize();
-                    if (infoPopup != null) {
-                        infoPopup.adjustBounds();
-                    }
+                  if( getShell() != null ) {
+                      popupSize = getShell().getSize();
+                      if (infoPopup != null) {
+                          infoPopup.adjustBounds();
+                      }
+                  }
                 }
             });
         }
@@ -1626,7 +1628,7 @@ public class ContentProposalAdapter {
                     return;
                 }
 
-//                switch (e.type) {
+                switch (e.type) {
 //                case SWT.Traverse:
 //                case SWT.KeyDown:
 //                    if (DEBUG) {
@@ -1715,18 +1717,18 @@ public class ContentProposalAdapter {
 //                // See also https://bugs.eclipse.org/bugs/show_bug.cgi?id=183650
 //                // We should not autoactivate if the content change was caused
 //                // by the popup itself.
-//                case SWT.Modify:
-//                    if (triggerKeyStroke == null && autoActivateString == null 
-//                            && !modifyingControlContent) {
-//                        if (DEBUG) {
-//                            dump("Modify event triggers autoactivation", e); //$NON-NLS-1$
-//                        }
-//                        autoActivate();
-//                    }
-//                    break;
-//                default:
-//                    break;
-//                }
+                case SWT.Modify:
+                    if (triggerKeyStroke == null && autoActivateString == null 
+                            && !modifyingControlContent) {
+                        if (DEBUG) {
+                            dump("Modify event triggers autoactivation", e); //$NON-NLS-1$
+                        }
+                        autoActivate();
+                    }
+                    break;
+                default:
+                    break;
+                }
             }
 
             /**

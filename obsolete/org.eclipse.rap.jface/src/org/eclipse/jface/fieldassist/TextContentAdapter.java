@@ -79,11 +79,15 @@ public class TextContentAdapter implements IControlContentAdapter {
 	 * @see org.eclipse.jface.fieldassist.IControlContentAdapter#getInsertionBounds(org.eclipse.swt.widgets.Control)
 	 */
 	public Rectangle getInsertionBounds(Control control) {
-//		Text text = (Text) control;
+		Text text = (Text) control;
 //		Point caretOrigin = text.getCaretLocation();
+		Point caretOrigin = new Point( 0, 0 );
 //		return new Rectangle(caretOrigin.x, caretOrigin.y, 1, text
 //				.getLineHeight());
-		return null;
+		return new Rectangle(caretOrigin.x, 
+		                     caretOrigin.y,
+		                     1, 
+		                     text.getBounds().height );
 	}
 
 	/*
