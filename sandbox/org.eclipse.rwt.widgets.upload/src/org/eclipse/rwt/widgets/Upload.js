@@ -12,12 +12,13 @@
 qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
   extend: qx.ui.layout.VerticalBoxLayout,
 
-  construct : function( servlet, showProgress ) {
+  construct : function( servlet, flags ) {
     this.base( arguments );
 
     this._servlet = servlet;
     this._isStarted = false;
-    this._showProgress = showProgress;
+    this._showProgress = ( flags & 1 ) > 0;
+    this._showUploadButton = ( flags & 2 ) > 0;
 
     this.initHeight();
     this.initOverflow();
@@ -29,16 +30,26 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     this._uploadForm = new qx.ui.custom.UploadForm("uploadForm", this._servlet);
     this._uploadForm.set({top:0,left:0,width:"1*"});
     topLayout.add(this._uploadForm);
-
+    
     // Browse File Button
     this._uploadField = new qx.ui.custom.UploadField("uploadFile", "Browse");
     this._uploadField.set({left:0,right:0});
+    this._uploadField.addEventListener( "changeValue", this._onChangeValue, this );
+    // workaround adjust browse button position
+    this._uploadField._button.set({top:3,right:0});
+
     this._uploadForm.add(this._uploadField);
+    
 
     // Upload Button
-    this._uploadButton = new qx.ui.form.Button("Upload");
-    this._uploadButton.addEventListener("click", this._uploadFile, this);
-    topLayout.add(this._uploadButton);
+    if( this._showUploadButton ) {
+      this._uploadButton = new qx.ui.form.Button("Upload");
+      this._uploadButton.addEventListener("click", this._uploadFile, this);
+      topLayout.add(this._uploadButton);
+
+      // workaround adjust browse button position
+      this._uploadButton.set({top:3});
+    }
 
     this.add(topLayout);
 
@@ -60,12 +71,20 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     }
     
     this._uploadForm.addEventListener("completed", this._cleanUp, this);
-
     this.addEventListener("upload", this._fireEvent, this);
+    this.addEventListener( "changeEnabled", this._onEnabled, this );
+    this._uploadField._button.addEventListener( "click", this._onFocus, this );
+    
   },
   
   destruct : function() {   
-    this._uploadButton.removeEventListener("click", this._uploadFile);
+    this._uploadField._button.removeEventListener( "click", this._onFocus );
+    this.removeEventListener( "changeEnabled", this._onEnabled );
+    this._uploadField.removeEventListener( "changeValue", this._onChangeValue );
+    
+    if( this._showUploadButton ) {
+      this._uploadButton.removeEventListener("click", this._uploadFile);
+    }
     
     if (this._progressBar != null) {
         this._uploadForm.removeEventListener("sending", this._monitorUpload);
@@ -135,7 +154,9 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
             }                
             
             this.setLastFileUploaded(filename);
-            this._progressBar.setWidth("0%");
+            if( this._showProgress ) {
+              this._progressBar.setWidth("0%");
+            }
             this._uploadField.setValue("");
             this._isStarted = false;
     
@@ -195,6 +216,55 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
                 this.debug("HTTP Response NOK: "+ this._req.statusText);
             }
         }
+    },
+
+    _onChangeValue : function( evt ) {
+      var wm = org.eclipse.swt.WidgetManager.getInstance();
+      var id = wm.findIdByWidget( this );
+      var req = org.eclipse.swt.Request.getInstance();
+      req.addParameter( id + ".path", evt.getData() );
+    },
+    
+    _performUpload : function() {
+      this._uploadFile();
+    },
+    
+    /*
+     * This is a workaround as enablement does not work with the base
+     * file upload widgets.
+     */
+    _onEnabled : function( evt ) {
+      qx.ui.core.Widget.flushGlobalQueues();
+      if( evt.getData() ) {
+        this._uploadField._button._input.style.height
+          = this._uploadField.getHeight();        
+      } else {
+        this._uploadField._button._input.style.height = "0px";
+      }
+    },
+    
+    /*
+     * This is a workaround as the underlying file upload takes the focus
+     * despite the hidefocus style settings.
+     */
+    _onFocus : function( evt ) {
+      var input = this._uploadField._button._input;
+      this._uploadField._button._input.onblur = function() {
+        input.onblur = null;
+        input.onfocus = function() { input.blur(), input.onfocus = null };
+      };
+    },
+    
+    // TODO [fappel]: would a property be the better solution?
+    setBrowseButtonText : function( browseButtonText ) {
+      this._uploadField._button.setLabel( browseButtonText );
+    },
+    
+    // TODO [fappel]: would a property be the better solution?
+    setUploadButtonText : function( uploadButtonText ) {
+      if( this._showUploadButton ) {
+        this._uploadButton.setLabel( uploadButtonText );
+      }
     }
   }
-});
+} );

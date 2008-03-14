@@ -117,9 +117,9 @@ public class FileUploadServlet extends HttpServlet implements Servlet {
     try {
       // Iterate over all uploaded files
       final List uploadedItems = upload.parseRequest( request );
-      final Iterator i = uploadedItems.iterator();
-      while( i.hasNext() ) {
-        fileItem = ( FileItem )i.next();
+      final Iterator iterator = uploadedItems.iterator();
+      while( iterator.hasNext() ) {
+        fileItem = ( FileItem )iterator.next();
         if( !fileItem.isFormField() && fileItem.getSize() > 0 ) {
           final String myFullFileName = fileItem.getName();
           final String slashType =   myFullFileName.lastIndexOf( "\\" ) > 0
