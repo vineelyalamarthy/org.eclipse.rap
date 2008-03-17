@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.rap.ui.entrypoint">
+      <entrypoint
+            class="org.eclipse.rap.maildemo.ext.Application"
+            id="org.eclipse.rap.maildemo.ext.entrypoint1"
+            parameter="mailext">
+      </entrypoint>
+   </extension>
+   <extension
+         point="org.eclipse.rap.ui.branding">
+      <branding
+            defaultEntrypointId="org.eclipse.rap.maildemo.ext.entrypoint1"
+            id="org.eclipse.rap.maildemo.ext.branding1"
+            servletName="mailext"
+            themeId="theme1"
+            title="Maildemo with a banner">
+      </branding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.eclipse.rap.maildemo.ext.Perspective2"
+            id="org.eclipse.rap.maildemo.ext.perspective1"
+            name="Inverted Perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Mail"
+            id="org.eclipse.rap.maildemo.category">
+      </category>
+      <command
+            name="Open Youtube video"
+            description="Opens a Youtube video"
+            categoryId="org.eclipse.rap.maildemo.category"
+            id="org.eclipse.rap.maildemo.youtube.open">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.rap.ui.themes">
+      <theme
+            file="demoTheme/theme.properties"
+            id="theme1"
+            name="theme1">
+      </theme>
+   </extension>
+</plugin>

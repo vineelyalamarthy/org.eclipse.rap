@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ext Plug-in
+Bundle-SymbolicName: org.eclipse.rap.maildemo.ext;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.rap.maildemo.ext.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.rap.maildemo,
+ org.eclipse.rap.ui
+Eclipse-LazyStart: true
