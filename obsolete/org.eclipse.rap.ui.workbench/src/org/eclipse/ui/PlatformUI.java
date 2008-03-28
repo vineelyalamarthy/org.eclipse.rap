@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.internal.WorkbenchMessages;
+import org.eclipse.ui.testing.TestableObject;
 
 
 /**
@@ -175,9 +176,9 @@ public final class PlatformUI {
      * @return the testable object facade
      * @since 1.0
      */
-//    public static TestableObject getTestableObject() {
-//        return Workbench.getWorkbenchTestable();
-//    }
+    public static TestableObject getTestableObject() {
+        return Workbench.getWorkbenchTestable();
+    }
 
     /**
      * Returns the preference store used for publicly settable workbench preferences.

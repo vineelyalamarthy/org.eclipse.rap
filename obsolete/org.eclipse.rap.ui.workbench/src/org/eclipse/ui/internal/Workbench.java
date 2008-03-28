@@ -26,9 +26,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.window.*;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.rwt.internal.lifecycle.UICallBackServiceHandler;
 import org.eclipse.rwt.internal.service.ContextProvider;
-import org.eclipse.rwt.internal.service.ServiceContext;
 import org.eclipse.rwt.service.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -50,6 +48,7 @@ import org.eclipse.ui.internal.menus.WorkbenchMenuService;
 import org.eclipse.ui.internal.progress.ProgressManager;
 import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.services.*;
+import org.eclipse.ui.internal.testing.WorkbenchTestable;
 import org.eclipse.ui.internal.util.SessionSingletonEventManager;
 import org.eclipse.ui.internal.util.Util;
 import org.eclipse.ui.menus.IMenuService;
@@ -172,7 +171,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * 
 	 * @since 1.0
 	 */
-//	private static WorkbenchTestable testableObject;
+	private WorkbenchTestable testableObject;
 
 	/**
 	 * Signals that the workbench should create a splash implementation when
@@ -570,12 +569,12 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * @return the testable object facade
 	 * @since 1.0
 	 */
-//	public static WorkbenchTestable getWorkbenchTestable() {
-//		if (testableObject == null) {
-//			testableObject = new WorkbenchTestable();
-//		}
-//		return testableObject;
-//	}
+	public static WorkbenchTestable getWorkbenchTestable() {
+		if (getInstance().testableObject == null) {
+			getInstance().testableObject = new WorkbenchTestable();
+		}
+		return getInstance().testableObject;
+	}
 
 	/*
 	 * (non-Javadoc) Method declared on IWorkbench.
@@ -2263,7 +2262,7 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 //					}
 //				});
 //
-//				getWorkbenchTestable().init(display, this);
+				getWorkbenchTestable().init(display, this);
 
 				// allow ModalContext to spin the event loop
 //				ModalContext.setAllowReadAndDispatch(true);
