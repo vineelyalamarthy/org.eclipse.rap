@@ -472,12 +472,30 @@ public class FilteredTree extends Composite {
 		                    public void run() {
 		                    	if (!filterText.isDisposed()){
 									if (getInitialText().equals(filterText.getText().trim())){
-										filterText.selectAll();
+//										filterText.selectAll();
+									  // workaround since Text#selectAll doesn't work
+									  filterText.setText( "" );
 									}
 		                    	}
 		                    }
 						});
 					}
+					
+					// workaround since Text#selectAll doesn't work
+				    public void focusLost( final FocusEvent event ) {
+                      Display display = filterText.getDisplay();
+                      display.asyncExec(new Runnable() {
+                          public void run() {
+                              if (!filterText.isDisposed()){
+                                  if ("".equals(filterText.getText().trim())){
+//                                    filterText.selectAll();
+                                    // workaround since Text#selectAll doesn't work
+                                    filterText.setText( getInitialText() );
+                                  }
+                              }
+                          }
+                      });
+				    }
 				});
 		
 //        filterText.addKeyListener(new KeyAdapter() {

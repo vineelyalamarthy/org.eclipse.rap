@@ -424,20 +424,20 @@ public abstract class ActionFactory {
      * Workbench action (id "export"): Opens the export wizard. This action
      * maintains its enablement state.
      */
-//    public static final ActionFactory EXPORT = new ActionFactory("export") {//$NON-NLS-1$
-//        
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            IWorkbenchAction action = new ExportResourcesAction(window);
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+    public static final ActionFactory EXPORT = new ActionFactory("export") {//$NON-NLS-1$
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            IWorkbenchAction action = new ExportResourcesAction(window);
+            action.setId(getId());
+            return action;
+        }
+    };
 
     /**
      * Workbench action (id "find"): Find. This action is a
@@ -533,20 +533,20 @@ public abstract class ActionFactory {
      * Workbench action (id "import"): Opens the import wizard. This action
      * maintains its enablement state.
      */
-//    public static final ActionFactory IMPORT = new ActionFactory("import") {//$NON-NLS-1$
-//        
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            IWorkbenchAction action = new ImportResourcesAction(window);
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+    public static final ActionFactory IMPORT = new ActionFactory("import") {//$NON-NLS-1$
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            IWorkbenchAction action = new ImportResourcesAction(window);
+            action.setId(getId());
+            return action;
+        }
+    };
 
     /**
      * Workbench action (id "lockToolBar"): Lock/unlock the workbench window

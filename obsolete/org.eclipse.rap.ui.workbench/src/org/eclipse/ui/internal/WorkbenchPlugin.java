@@ -31,9 +31,12 @@ import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.servlet.EntryPointExtension;
 import org.eclipse.ui.internal.servlet.HttpServiceTracker;
 import org.eclipse.ui.internal.util.BundleUtility;
+import org.eclipse.ui.internal.wizards.ExportWizardRegistry;
+import org.eclipse.ui.internal.wizards.ImportWizardRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.presentations.AbstractPresentationFactory;
 import org.eclipse.ui.views.IViewRegistry;
+import org.eclipse.ui.wizards.IWizardRegistry;
 import org.osgi.framework.*;
 
 /**
@@ -1111,9 +1114,9 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * @return the import wizard registry
      * @since 1.0
      */
-//    public IWizardRegistry getImportWizardRegistry() {
-//    	return ImportWizardRegistry.getInstance();
-//    }
+    public IWizardRegistry getImportWizardRegistry() {
+    	return ImportWizardRegistry.getInstance();
+    }
     
     /**
      * Return the export wizard registry.
@@ -1121,9 +1124,9 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * @return the export wizard registry
      * @since 1.0
      */
-//    public IWizardRegistry getExportWizardRegistry() {
-//    	return ExportWizardRegistry.getInstance();
-//    }
+    public IWizardRegistry getExportWizardRegistry() {
+    	return ExportWizardRegistry.getInstance();
+    }
     
     /**
      * FOR INTERNAL WORKBENCH USE ONLY. 
