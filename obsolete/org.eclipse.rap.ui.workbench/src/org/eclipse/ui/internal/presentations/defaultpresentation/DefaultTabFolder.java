@@ -73,35 +73,26 @@ public class DefaultTabFolder extends AbstractTabFolder {
     };
 
     // TODO: [fappel] initialization via theme listener
-    private static Color activeForeground = Graphics.getColor( 255, 255, 255 );
-    private static Color inactiveForeground = Graphics.getColor( 0, 0, 0 );
-    private static Color[] activeSelectedBackground = new Color[] {
-    	Graphics.getColor( 0, 128, 192 ),
-    	Graphics.getColor( 0, 128, 192 )
-    };
-    private static Color[] unselectedBackground = new Color[] {
-    	Graphics.getColor( 236, 233, 216 ),
-    	Graphics.getColor( 236, 233, 216 )
-    };
-    private static Color[] inactiveSelectedBackground = new Color[] {
-    	Graphics.getColor( 217, 227, 243 ),
-    	Graphics.getColor( 217, 227, 243 )
-    };
+    private static Color activeForeground = null;
+    private static Color inactiveForeground = null;
+    private static Color[] activeSelectedBackground = new Color[] { null, null };
+    private static Color[] unselectedBackground = new Color[] { null, null };
+    private static Color[] inactiveSelectedBackground = new Color[] { null, null };
     private static DefaultTabFolderColors colorsInactiveSelected
-    = new DefaultTabFolderColors( inactiveForeground,
-    		inactiveSelectedBackground,
-    		null,
-    		false );
+      = new DefaultTabFolderColors( inactiveForeground,
+                                    inactiveSelectedBackground,
+                                    null,
+                                    false );
     private static DefaultTabFolderColors colorsActiveSelected
-    = new DefaultTabFolderColors( activeForeground,
-    		activeSelectedBackground,
-    		null,
-    		false );
+      = new DefaultTabFolderColors( activeForeground,
+    	                            activeSelectedBackground,
+                                    null,
+                                    false );
     private static DefaultTabFolderColors colorsInactive
-    = new DefaultTabFolderColors( inactiveForeground,
-                                  inactiveSelectedBackground,
-    		null,
-    		false );
+      = new DefaultTabFolderColors( inactiveForeground,
+                                    inactiveSelectedBackground,
+                                    null,
+                                    false );
 
     private DefaultTabFolderColors[] activeShellColors = {
     		colorsInactiveSelected, colorsActiveSelected, colorsInactive
@@ -186,8 +177,13 @@ public class DefaultTabFolder extends AbstractTabFolder {
         viewToolBar.moveAbove(null);
 
         // TODO: hack around workbench themes
-        activeShellColors[1].background[0] = paneFolder.getControl().getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION);
-        inactiveShellColors[1].background[0] = paneFolder.getControl().getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION);
+        Display display = paneFolder.getControl().getDisplay();
+        activeShellColors[ 1 ].background[ 0 ]
+          = display.getSystemColor( SWT.COLOR_LIST_SELECTION );
+        activeShellColors[ 1 ].foreground
+          = display.getSystemColor( SWT.COLOR_LIST_SELECTION_TEXT );
+//      inactiveShellColors[1].background[ 0 ]
+//        = paneFolder.getControl().getDisplay().getSystemColor( SWT.COLOR_LIST_SELECTION );
     }
 
     /**
@@ -473,7 +469,6 @@ public class DefaultTabFolder extends AbstractTabFolder {
         DefaultTabFolderColors currentColors = shellActive ?
                 activeShellColors[getActive()]
                 : inactiveShellColors[getActive()];
-
         paneFolder.setSelectionForeground(currentColors.foreground);
         paneFolder.setSelectionBackground(currentColors.background, currentColors.percentages, currentColors.vertical);
     }
