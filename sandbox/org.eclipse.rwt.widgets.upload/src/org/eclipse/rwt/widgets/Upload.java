@@ -9,11 +9,13 @@
 package org.eclipse.rwt.widgets;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.eclipse.rwt.RWT;
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.rwt.widgets.internal.uploadkit.IUploadAdapter;
 import org.eclipse.rwt.widgets.upload.servlet.FileUploadServlet;
 import org.eclipse.swt.SWT;
@@ -21,7 +23,6 @@ import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.internal.graphics.TextSizeDetermination;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -125,7 +126,7 @@ public class Upload extends Composite {
    * 
    * @return Servlet name.
    */
-  public final String getServlet() {
+  public String getServlet() {
     return servlet;
   }
   
@@ -193,8 +194,7 @@ public class Upload extends Composite {
       if( ( flags & SHOW_PROGRESS & SHOW_UPLOAD_BUTTON ) > 0 ) {
         // progress bar and upload button visible
         width = computeBaseWidth();
-        Point textExtent
-          = TextSizeDetermination.textExtent( getFont(), "Upload", 0 );
+        Point textExtent = Graphics.textExtent( getFont(), "Upload", 0 );
         width += textExtent.x;
         
         height = computeBaseHeight();
@@ -207,8 +207,7 @@ public class Upload extends Composite {
       } else if( ( flags & SHOW_UPLOAD_BUTTON ) > 0 ) {
         // upload button visible
         width = computeBaseWidth();
-        Point textExtent
-          = TextSizeDetermination.textExtent( getFont(), "Upload", 0 );
+        Point textExtent = Graphics.textExtent( getFont(), "Upload", 0 );
         width += textExtent.x;
         
         height = computeBaseHeight();
@@ -234,11 +233,11 @@ public class Upload extends Composite {
   }
 
   private int computeBaseHeight() {
-    return TextSizeDetermination.getCharHeight( getFont() );
+    return Graphics.getCharHeight( getFont() );
   }
 
   private int computeBaseWidth() {
-    float avgCharWidth = TextSizeDetermination.getAvgCharWidth( getFont() );
+    float avgCharWidth = Graphics.getAvgCharWidth( getFont() );
     return ( int )( avgCharWidth * 50 );
   }
   
@@ -333,7 +332,7 @@ public class Upload extends Composite {
    * 
    * @return The name of the last uploaded file.
    */
-  public final String getLastFileUploaded() {
+  public String getLastFileUploaded() {
     return lastFileUploaded;
   }
   
@@ -360,7 +359,7 @@ public class Upload extends Composite {
    * 
    * @param lastFileUploaded The name of the last uploaded file.
    */
-  public final void setLastFileUploaded( final String lastFileUploaded ) {
+  public void setLastFileUploaded( final String lastFileUploaded ) {
     this.lastFileUploaded = lastFileUploaded;
   }
 
@@ -369,9 +368,7 @@ public class Upload extends Composite {
    * 
    * @param uploadAdapter The new listener.
    */
-  public final synchronized void addUploadListener(
-    final UploadAdapter uploadAdapter )
-  {
+  public void addUploadListener( final UploadAdapter uploadAdapter ) {
     uploadListeners.add( uploadAdapter );
   }
 
@@ -380,9 +377,7 @@ public class Upload extends Composite {
    * 
    * @param uploadAdapter The new listener.
    */
-  public final synchronized void removeUploadListener(
-    final UploadAdapter uploadAdapter )
-  {
+  public void removeUploadListener( final UploadAdapter uploadAdapter ) {
     uploadListeners.remove( uploadAdapter );
   }
 
@@ -391,19 +386,20 @@ public class Upload extends Composite {
    * 
    * @param uploadEvent The Upload Event to be fired.
    */
-  public final synchronized void fireUploadEvent(
-    final UploadEvent uploadEvent )
-  {
-    final Iterator listeners = uploadListeners.iterator();
-    while( listeners.hasNext() ) {
-      ( ( UploadAdapter )listeners.next() ).uploadFinished( uploadEvent );
+  public void fireUploadEvent( final UploadEvent uploadEvent ) {
+    // Take a snapshot of the listeners to allow UploadListeners to remove 
+    // themselves in their implementation
+    UploadAdapter[] lsnrs = new UploadAdapter[ uploadListeners.size() ];
+    uploadListeners.toArray( lsnrs );
+    for( int i = 0; i < lsnrs.length; i++ ) {
+      lsnrs[ i ].uploadFinished( uploadEvent );
     }
   }
 
   /**
    * {@inheritDoc}
    */
-  public final void dispose() {
+  public void dispose() {
     uploadListeners.clear();
     super.dispose();
   }
