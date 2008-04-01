@@ -5,7 +5,7 @@ appearances = {
     style : function( states ) {
       return {
         font: "widget.font",
-        cursor : "default",
+        cursor : "pointer",
         spacing : 4,
         width : "auto",
         height : "auto",

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2007-2008 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,7 @@
 
 qx.Class.define( "org.eclipse.ui.forms.widgets.Hyperlink", {
   extend : qx.ui.basic.Atom,
-  
+
   construct : function() {
     this.base( arguments );
     this.setAppearance( "hyperlink" );
@@ -26,23 +26,22 @@ qx.Class.define( "org.eclipse.ui.forms.widgets.Hyperlink", {
     // TODO [rh] workaoround for weird getLabelObject behavior
     this.setLabel( "" );
     // End of workaround
-    this.setCursor( qx.constant.Style.CURSOR_HAND );
-    this._inactiveForeground = null;
-    this._inactiveBackground = null;
-    this._activeForeground = null;
-    this._activeBackground = null;
+    this._savedBackgroundColor = null;
+    this._savedTextColor = null;
+    this._activeBackgroundColor = null;
+    this._activeTextColor = null;
     this._hover = false;
     this.addEventListener( "mousemove", this._onMouseMove, this );
     this.addEventListener( "mouseout", this._onMouseOut, this );
   },
-  
+
   destruct : function() {
     this.removeEventListener( "mousemove", this._onMouseMove, this );
     this.removeEventListener( "mouseout", this._onMouseOut, this );
   },
-  
+
   statics : {
-    
+
     // This event handler is added/removed by the server-side LCA
     onClick : function( evt ) {
       if( !org_eclipse_rap_rwt_EventUtil_suspend ) {
@@ -53,50 +52,39 @@ qx.Class.define( "org.eclipse.ui.forms.widgets.Hyperlink", {
         req.send();
       }
     }
-
   },
     
   members : {
-    
-    setInactiveForeground : function( value ) {
-      this._inactiveForeground = value;      
+
+    setActiveBackgroundColor : function( value ) {
+      this._activeBackgroundColor = value;
     },
-    
-    setInactiveBackground : function( value ) {
-      this._inactiveBackground = value;
+
+    setActiveTextColor : function( value ) {
+      this._activeTextColor = value;      
     },
-    
-    setActiveForeground : function( value ) {
-      this._activeForeground = value;      
-    },
-    
-    setActiveBackground : function( value ) {
-      this._activeBackground = value;
-    },
-    
+
     _onMouseMove : function( evt ) {
       if( !this._hover ) {
+        this._savedBackgroundColor = this.getBackgroundColor();
+        if( this._activeBackgroundColor != null ) {
+          this.setBackgroundColor( this._activeBackgroundColor );
+        }
+        this._savedTextColor = this.getTextColor();
+        if( this._activeTextColor != null ) {
+          this.setTextColor( this._activeTextColor );
+        }
         this._hover = true;
-        this._updateAppearanceState();
       }
     },
-      
-    _onMouseOut : function( evt ) {
-      this._hover = false;
-      this._updateAppearanceState();
-    },
-    
-    _updateAppearanceState : function() {
-      if( this._hover ) {
-        this.setBackgroundColor( this._activeBackground );
-        this.setTextColor( this._activeForeground );
-      } else {
-	      this.setBackgroundColor( this._inactiveBackground );
-	      this.setTextColor( this._inactiveForeground );
-      } 
-    }
-      
-  }
-  
-} );
 
+    _onMouseOut : function( evt ) {
+      if( this._hover ) {
+        this._hover = false;
+        this.setBackgroundColor( this._savedBackgroundColor );
+        this.setTextColor( this._savedTextColor );
+      }
+    }
+  }
+
+} );
