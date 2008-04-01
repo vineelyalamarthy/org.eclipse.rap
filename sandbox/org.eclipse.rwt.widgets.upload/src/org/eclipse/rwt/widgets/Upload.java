@@ -73,6 +73,15 @@ public class Upload extends Composite {
         }
       }
     }
+    public void fireUploadEvent( final UploadEvent uploadEvent ) {
+      // Take a snapshot of the listeners to allow UploadListeners to remove 
+      // themselves in their implementation
+      UploadAdapter[] lsnrs = new UploadAdapter[ uploadListeners.size() ];
+      uploadListeners.toArray( lsnrs );
+      for( int i = 0; i < lsnrs.length; i++ ) {
+        lsnrs[ i ].uploadFinished( uploadEvent );
+      }
+    }
   }
   
 
@@ -379,21 +388,6 @@ public class Upload extends Composite {
    */
   public void removeUploadListener( final UploadAdapter uploadAdapter ) {
     uploadListeners.remove( uploadAdapter );
-  }
-
-  /**
-   * Fires a new Upload Finished Event.
-   * 
-   * @param uploadEvent The Upload Event to be fired.
-   */
-  public void fireUploadEvent( final UploadEvent uploadEvent ) {
-    // Take a snapshot of the listeners to allow UploadListeners to remove 
-    // themselves in their implementation
-    UploadAdapter[] lsnrs = new UploadAdapter[ uploadListeners.size() ];
-    uploadListeners.toArray( lsnrs );
-    for( int i = 0; i < lsnrs.length; i++ ) {
-      lsnrs[ i ].uploadFinished( uploadEvent );
-    }
   }
 
   /**

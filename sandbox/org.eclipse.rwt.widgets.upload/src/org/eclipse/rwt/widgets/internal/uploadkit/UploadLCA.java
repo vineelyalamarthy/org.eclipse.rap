@@ -73,7 +73,8 @@ public class UploadLCA extends AbstractWidgetLCA {
             = new UploadEvent( Boolean.valueOf( finished ).booleanValue(),
                                Integer.parseInt( uploadParcial ),
                                Integer.parseInt( uploadTotal ) );
-          upload.fireUploadEvent( evt );
+          IUploadAdapter adapter = getAdapter( upload );
+          adapter.fireUploadEvent( evt );
         }
       } );
     }
