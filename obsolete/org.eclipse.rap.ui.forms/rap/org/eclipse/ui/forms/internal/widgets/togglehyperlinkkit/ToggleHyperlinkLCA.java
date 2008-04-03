@@ -78,7 +78,7 @@ public final class ToggleHyperlinkLCA extends AbstractWidgetLCA {
     ToggleHyperlink hyperlink = ( ToggleHyperlink )widget;
     JSWriter writer = JSWriter.getWriterFor( hyperlink );
     writer.newWidget( "org.eclipse.ui.forms.widgets.ToggleHyperlink" );
-    WidgetLCAUtil.writeCustomAppearance( widget );
+    WidgetLCAUtil.writeCustomVariant( widget );
     writeImages( hyperlink );
   }
 

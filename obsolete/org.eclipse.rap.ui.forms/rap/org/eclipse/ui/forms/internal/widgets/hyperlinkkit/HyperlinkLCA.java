@@ -75,7 +75,7 @@ public class HyperlinkLCA extends AbstractWidgetLCA {
     Hyperlink hyperlink = ( Hyperlink )widget;
     JSWriter writer = JSWriter.getWriterFor( hyperlink );
     writer.newWidget( "org.eclipse.ui.forms.widgets.Hyperlink" );
-    WidgetLCAUtil.writeCustomAppearance( widget );
+    WidgetLCAUtil.writeCustomVariant( widget );
   }
 
   public void renderChanges( final Widget widget ) throws IOException {
