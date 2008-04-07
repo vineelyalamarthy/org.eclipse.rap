@@ -12,12 +12,12 @@
 package org.eclipse.ui.internal.preferences;
 
 import org.eclipse.core.runtime.*;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.*;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.internal.util.ParamCheck;
 import org.eclipse.rwt.service.*;
 import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.osgi.service.prefs.Preferences;
 
 /**
  * This class is the link between the SessionPreferenceNode hierarchy 
@@ -27,6 +27,9 @@ final class SessionPreferenceNodeCore {
   
   private final SessionPreferencesNode node;
   private ListenerList prefListeners; // ListenerList is thread safe
+  private final ListenerList nodeListeners       
+    = new ListenerList( ListenerList.IDENTITY ); // thread safe
+
 
   /* tracks changes in RWT setting store and notifies the prefListeners */
   private ISettingStoreListener rwtListener;
@@ -87,6 +90,7 @@ final class SessionPreferenceNodeCore {
       prefListeners = null;
       setTrackRWTChanges( false );
     }
+    nodeListeners.clear();
   }
   
   synchronized String put( final String uniqueKey,
@@ -141,6 +145,40 @@ final class SessionPreferenceNodeCore {
        RWT.getSettingStore().removeSettingStoreListener( rwtListener );
      }
    }
+  }
+
+  public void addNodeChangeListener( final INodeChangeListener listener ) {
+    nodeListeners.add( listener );
+  }
+
+  public void removeNodeChangeListener( final INodeChangeListener listener ) {
+    nodeListeners.remove( listener );
+  }
+
+  public void fireNodeEvent( final Preferences child,
+                             final boolean wasAdded,
+                             final SessionPreferencesNode spn )
+  {
+    final NodeChangeEvent event = new NodeChangeEvent( spn, child );
+    Object[] listeners = nodeListeners.getListeners();
+    for( int i = 0; i < listeners.length; i++ ) {
+      final INodeChangeListener listener 
+        = ( INodeChangeListener )listeners[ i ];
+      ISafeRunnable op = new ISafeRunnable() {
+        public void handleException( final Throwable exception ) {
+          // logged by SafeRunner
+        }
+        public void run() throws Exception {
+          if( wasAdded ) {
+            listener.added( event );
+          } else {
+            listener.removed( event );
+          }
+        }
+      };
+      SafeRunner.run( op );
+    }
+
   }
   
 }

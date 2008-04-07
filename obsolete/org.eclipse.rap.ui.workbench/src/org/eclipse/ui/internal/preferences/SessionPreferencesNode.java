@@ -12,7 +12,6 @@ package org.eclipse.ui.internal.preferences;
 
 import java.util.*;
 
-import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IPreferenceNodeVisitor;
 import org.eclipse.osgi.util.NLS;
@@ -42,8 +41,6 @@ final class SessionPreferencesNode
   private String absolutePath;
   
   private final Map children = new HashMap();    // !thread safe
-  private final ListenerList nodeListeners       
-    = new ListenerList( ListenerList.IDENTITY ); // thread safe
   
   SessionPreferencesNode( final IEclipsePreferences parent, 
                           final String name ) {
@@ -73,7 +70,7 @@ final class SessionPreferencesNode
   public void addNodeChangeListener( final INodeChangeListener listener ) {
     checkRemoved();
     if( listener != null ) {
-      nodeListeners.add( listener );
+      getNodeCore().addNodeChangeListener( listener );
     }
   }
 
@@ -133,7 +130,6 @@ final class SessionPreferencesNode
 
       // the listeners are not needed anymore
       getNodeCore().clear();
-      nodeListeners.clear();
       children.clear();
       isRemoved = true;
     }
@@ -142,7 +138,7 @@ final class SessionPreferencesNode
   public void removeNodeChangeListener( final INodeChangeListener listener ) {
     checkRemoved();
     if( listener != null ) {
-      nodeListeners.remove( listener );
+      getNodeCore().removeNodeChangeListener( listener );
     }
   }
 
@@ -493,25 +489,7 @@ final class SessionPreferencesNode
   
   private void fireNodeEvent( final Preferences child,
                               final boolean wasAdded ) {
-    final NodeChangeEvent event = new NodeChangeEvent( this, child );
-    Object[] listeners = nodeListeners.getListeners();
-    for( int i = 0; i < listeners.length; i++ ) {
-      final INodeChangeListener listener 
-        = ( INodeChangeListener )listeners[ i ];
-      ISafeRunnable op = new ISafeRunnable() {
-        public void handleException( final Throwable exception ) {
-          // logged by SafeRunner
-        }
-        public void run() throws Exception {
-          if( wasAdded ) {
-            listener.added( event );
-          } else {
-            listener.removed( event );
-          }
-        }
-      };
-      SafeRunner.run( op );
-    }
+    getNodeCore().fireNodeEvent( child, wasAdded, this );
   }
   
   private SessionPreferenceNodeCore getNodeCore() {

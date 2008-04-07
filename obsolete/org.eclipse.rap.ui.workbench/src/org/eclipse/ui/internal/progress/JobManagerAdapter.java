@@ -115,7 +115,10 @@ public class JobManagerAdapter
           } );
         }
       } finally {
-        jobs.remove( event.getJob() );
+        Job job = event.getJob();
+        if( !job.shouldSchedule() ) {
+          jobs.remove( job );
+        }
       }
     }
     if( display != null ) {

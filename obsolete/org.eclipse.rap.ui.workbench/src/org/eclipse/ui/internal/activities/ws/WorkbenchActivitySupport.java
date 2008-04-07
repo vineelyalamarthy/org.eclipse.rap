@@ -375,6 +375,10 @@ public class WorkbenchActivitySupport implements IWorkbenchActivitySupport, IExt
 			PlatformUI.getWorkbench().getExtensionTracker().unregisterHandler(categoryImageBindingRegistry);
 		}
 		
+		if (mutableActivityManager != null) {
+		  mutableActivityManager.unhookRegistryListeners();
+		}
+		
 		PlatformUI.getWorkbench().getExtensionTracker().unregisterHandler(this);
 	}
 	

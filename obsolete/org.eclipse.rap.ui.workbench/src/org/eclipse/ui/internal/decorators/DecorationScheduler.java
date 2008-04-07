@@ -15,10 +15,10 @@ import java.util.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.*;
-import org.eclipse.rwt.internal.lifecycle.UICallBackServiceHandler;
-import org.eclipse.rwt.internal.service.ContextProvider;
-import org.eclipse.rwt.internal.service.ServiceContext;
+import org.eclipse.rwt.lifecycle.UICallBack;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.WorkbenchMessages;
 import org.eclipse.ui.progress.UIJob;
 import org.eclipse.ui.progress.WorkbenchJob;
@@ -29,7 +29,19 @@ import org.eclipse.ui.progress.WorkbenchJob;
  */
 public class DecorationScheduler {
 
-	static final ILabelProviderListener[] EMPTY_LISTENER_LIST = new ILabelProviderListener[0];
+  private final class DecorationJobScheduler implements Runnable {
+    public void run() {
+      decorationJob.schedule();
+    }
+  }
+  
+  private final class UpdateJobScheduler implements Runnable {
+    public void run() {
+      updateJob.schedule(UPDATE_DELAY);
+    }
+  }
+
+  static final ILabelProviderListener[] EMPTY_LISTENER_LIST = new ILabelProviderListener[0];
 
 	// When decorations are computed they are added to this cache via
 	// decorated() method
@@ -53,6 +65,8 @@ public class DecorationScheduler {
 	Job decorationJob;
 
 	UIJob updateJob;
+	
+	private Display display;
 
 	private Collection removedListeners = Collections
 			.synchronizedSet(new HashSet());
@@ -73,6 +87,7 @@ public class DecorationScheduler {
 	 */
 	DecorationScheduler(DecoratorManager manager) {
 		decoratorManager = manager;
+		display = Display.getCurrent();
 		createDecorationJob();
 	}
 
@@ -140,9 +155,14 @@ public class DecorationScheduler {
 				return;
 			}
 			if (decorationJob.getState() == Job.SLEEPING) {
-				decorationJob.wakeUp();
+	           UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
+                  public void run() {
+                    decorationJob.wakeUp();
+                  }
+                } );
 			}
-			decorationJob.schedule();
+	        UICallBack.runNonUIThreadWithFakeContext( display,new DecorationJobScheduler() );
+
 		}
 
 	}
@@ -237,8 +257,8 @@ public class DecorationScheduler {
 			updateJob = getUpdateJob();
 		}
 
-		// Give it a bit of a lag for other updates to occur
-		updateJob.schedule(UPDATE_DELAY);
+		UICallBack.runNonUIThreadWithFakeContext( display, new UpdateJobScheduler() );
+
 	}
 
 	/**
@@ -267,10 +287,6 @@ public class DecorationScheduler {
 	 * Create the Thread used for running decoration.
 	 */
 	private void createDecorationJob() {
-
-        final ServiceContext fakeContext
-          = UICallBackServiceHandler.getFakeContext( ContextProvider.getSession() );
-
 		decorationJob = new Job(
 				WorkbenchMessages.get().DecorationScheduler_CalculationJobName) {
 			/*
@@ -278,11 +294,18 @@ public class DecorationScheduler {
 			 * 
 			 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
 			 */
-			public IStatus run(IProgressMonitor monitor) {
+		    public IStatus run(final IProgressMonitor monitor) {
+		      final IStatus[] result = { null };
+		      UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
+                public void run() {
+                  result[ 0 ] = doRun( monitor );
+                }
+		      } );
+		      return result[ 0 ];
+		    }
+		    
+			public IStatus doRun(IProgressMonitor monitor) {
 			  
-			  try {
-                ContextProvider.setContext( fakeContext );
-
 				synchronized (DecorationScheduler.this) {
 					if (shutdown) {
 						return Status.CANCEL_STATUS;
@@ -295,7 +318,8 @@ public class DecorationScheduler {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						// Cancel and try again if there was an error
-						schedule();
+			            UICallBack.runNonUIThreadWithFakeContext( display, new DecorationJobScheduler() );
+
 						return Status.CANCEL_STATUS;
 					}
 				}
@@ -336,9 +360,6 @@ public class DecorationScheduler {
 				monitor.done();
 				return Status.OK_STATUS;
 				
-			    } finally {
-	              ContextProvider.releaseContextHolder();
-			    }
 			}
 
 			/**
@@ -408,9 +429,13 @@ public class DecorationScheduler {
 			 * @see org.eclipse.core.runtime.jobs.Job#shouldRun()
 			 */
 			public boolean shouldRun() {
-//              TODO [rst] REVISE!
-//				return PlatformUI.isWorkbenchRunning();
-				return true;
+			    final boolean[] result = { false };
+		        UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
+                  public void run() {
+                    result[ 0 ] = PlatformUI.isWorkbenchRunning();
+                  }
+		        });
+                return result[ 0 ];
 			}
 			
 			
@@ -418,7 +443,8 @@ public class DecorationScheduler {
 
 		decorationJob.setSystem(true);
 		decorationJob.setPriority(Job.DECORATE);
-		decorationJob.schedule();
+        UICallBack.runNonUIThreadWithFakeContext( display, new DecorationJobScheduler() );
+
 	}
 
 	/**
@@ -444,7 +470,12 @@ public class DecorationScheduler {
 		if (clearJob == null) {
 			clearJob = getClearJob();
 		}
-		clearJob.schedule();
+        UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
+          public void run() {
+            clearJob.schedule();
+          }
+        } );
+
 	}
 
 	private Job getClearJob() {
@@ -467,9 +498,13 @@ public class DecorationScheduler {
 			 * @see org.eclipse.core.runtime.jobs.Job#shouldRun()
 			 */
 			public boolean shouldRun() {
-//			  TODO [rst] REVISE!
-//				return PlatformUI.isWorkbenchRunning();
-			  return true;
+              final boolean[] result = { false };
+              UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
+                public void run() {
+                  result[ 0 ] = PlatformUI.isWorkbenchRunning();
+                }
+              });
+              return result[ 0 ];
 			}
 
 		};
@@ -558,7 +593,7 @@ public class DecorationScheduler {
 					removedListeners.clear();
 					listeners = EMPTY_LISTENER_LIST;
 				} else {
-					schedule(UPDATE_DELAY);// Reschedule if we are not done
+		            UICallBack.runNonUIThreadWithFakeContext( display, new UpdateJobScheduler() );
 				}
 				return Status.OK_STATUS;
 			}
@@ -593,9 +628,13 @@ public class DecorationScheduler {
 			 * @see org.eclipse.core.runtime.jobs.Job#shouldRun()
 			 */
 			public boolean shouldRun() {
-//			  TODO [rst] REVISE!
-//				return PlatformUI.isWorkbenchRunning();
-			  return true;
+              final boolean[] result = { false };
+              UICallBack.runNonUIThreadWithFakeContext( display, new Runnable() {
+                public void run() {
+                  result[ 0 ] = PlatformUI.isWorkbenchRunning();
+                }
+              });
+              return result[ 0 ];
 			}
 		};
 
