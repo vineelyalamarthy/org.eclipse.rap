@@ -147,7 +147,7 @@ public class FileUploadServlet extends HttpServlet implements Servlet {
     StringBuffer path = new StringBuffer();
     File tempDir = ( File )context.getAttribute( CONTEXT_TEMP_DIR );
     path.append( tempDir.getAbsolutePath() );
-    path.append( File.pathSeparator );
+    path.append( File.separatorChar );
     path.append( session.getId() );
     File result = new File ( path.toString() );
     if( !result.exists() ) {
