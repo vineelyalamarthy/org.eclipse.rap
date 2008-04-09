@@ -12,11 +12,7 @@ package org.eclipse.ui.internal.dialogs;
 
 import java.util.Iterator;
 
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.*;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IPluginContribution;
 import org.eclipse.ui.ISharedImages;

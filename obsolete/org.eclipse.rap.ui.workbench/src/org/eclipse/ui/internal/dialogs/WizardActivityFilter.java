@@ -10,10 +10,7 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.dialogs;
 
-import org.eclipse.jface.viewers.AbstractTreeViewer;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.model.AdaptableList;
 

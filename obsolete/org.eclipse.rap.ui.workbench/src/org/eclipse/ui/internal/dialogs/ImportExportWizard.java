@@ -14,9 +14,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.internal.IWorkbenchGraphicConstants;
-import org.eclipse.ui.internal.WorkbenchImages;
-import org.eclipse.ui.internal.WorkbenchMessages;
+import org.eclipse.ui.internal.*;
 
 /**
  * The import/export wizard allows users to choose whether to 

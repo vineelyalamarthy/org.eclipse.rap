@@ -843,21 +843,21 @@ public abstract class ActionFactory {
      * Workbench action (id "preferences"): Displays the Preferences dialog.
      * This action maintains its enablement state.
      */
-//    public static final ActionFactory PREFERENCES = new ActionFactory(
-//            "preferences") {//$NON-NLS-1$
-//        
-//        /* (non-Javadoc)
-//         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
-//         */
-//        public IWorkbenchAction create(IWorkbenchWindow window) {
-//            if (window == null) {
-//                throw new IllegalArgumentException();
-//            }
-//            IWorkbenchAction action = new OpenPreferencesAction(window);
-//            action.setId(getId());
-//            return action;
-//        }
-//    };
+    public static final ActionFactory PREFERENCES = new ActionFactory(
+            "preferences") {//$NON-NLS-1$
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.ui.actions.ActionFactory#create(org.eclipse.ui.IWorkbenchWindow)
+         */
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            IWorkbenchAction action = new OpenPreferencesAction(window);
+            action.setId(getId());
+            return action;
+        }
+    };
 
     /**
      * Workbench action (id "previous"): Previous. This action is a

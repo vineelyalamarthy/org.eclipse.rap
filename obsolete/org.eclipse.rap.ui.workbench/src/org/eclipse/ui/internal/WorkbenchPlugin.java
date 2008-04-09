@@ -18,6 +18,7 @@ import java.util.HashSet;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.rwt.SessionSingletonBase;
@@ -25,6 +26,7 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.*;
 import org.eclipse.ui.internal.branding.BrandingExtension;
 import org.eclipse.ui.internal.decorators.DecoratorManager;
+import org.eclipse.ui.internal.dialogs.WorkbenchPreferenceManager;
 import org.eclipse.ui.internal.misc.StatusUtil;
 import org.eclipse.ui.internal.progress.JobManagerAdapter;
 import org.eclipse.ui.internal.registry.*;
@@ -128,7 +130,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
     public static char PREFERENCE_PAGE_CATEGORY_SEPARATOR = '/';
 
     // Other data.
-//    private WorkbenchPreferenceManager preferenceManager;
+    private WorkbenchPreferenceManager preferenceManager;
 
     private ViewRegistry viewRegistry;
 
@@ -503,8 +505,11 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      */
     private Object createExtension(String extensionPointId, String elementName,
             String targetID) {
+//        IExtensionPoint extensionPoint = Platform.getExtensionRegistry()
+//                .getExtensionPoint(PI_WORKBENCH, extensionPointId);
         IExtensionPoint extensionPoint = Platform.getExtensionRegistry()
-                .getExtensionPoint(PI_WORKBENCH, extensionPointId);
+                  .getExtensionPoint(PlatformUI.PLUGIN_EXTENSION_NAME_SPACE, 
+                                     extensionPointId);
         if (extensionPoint == null) {
             WorkbenchPlugin
                     .log("Unable to find extension. Extension point: " + extensionPointId + " not found"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -616,21 +621,21 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
      * @return PreferenceManager the preference manager for
      * the receiver.
      */
-//    public PreferenceManager getPreferenceManager() {
-//        if (preferenceManager == null) {
-//            preferenceManager = new WorkbenchPreferenceManager(
-//                    PREFERENCE_PAGE_CATEGORY_SEPARATOR);
-//
-//            //Get the pages from the registry
-//            PreferencePageRegistryReader registryReader = new PreferencePageRegistryReader(
-//                    getWorkbench());
-//            registryReader
-//                    .loadFromRegistry(Platform.getExtensionRegistry());
-//            preferenceManager.addPages(registryReader.getTopLevelNodes());
-//           
-//        }
-//        return preferenceManager;
-//    }
+    public PreferenceManager getPreferenceManager() {
+        if (preferenceManager == null) {
+            preferenceManager = new WorkbenchPreferenceManager(
+                    PREFERENCE_PAGE_CATEGORY_SEPARATOR);
+
+            //Get the pages from the registry
+            PreferencePageRegistryReader registryReader = new PreferencePageRegistryReader(
+                    getWorkbench());
+            registryReader
+                    .loadFromRegistry(Platform.getExtensionRegistry());
+            preferenceManager.addPages(registryReader.getTopLevelNodes());
+           
+        }
+        return preferenceManager;
+    }
 
     /**
      * Returns the shared images for the workbench.

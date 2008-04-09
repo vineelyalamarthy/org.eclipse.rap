@@ -22,6 +22,7 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.operation.ModalContext;
+import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.window.*;
@@ -49,8 +50,7 @@ import org.eclipse.ui.internal.progress.ProgressManager;
 import org.eclipse.ui.internal.registry.*;
 import org.eclipse.ui.internal.services.*;
 import org.eclipse.ui.internal.testing.WorkbenchTestable;
-import org.eclipse.ui.internal.util.SessionSingletonEventManager;
-import org.eclipse.ui.internal.util.Util;
+import org.eclipse.ui.internal.util.*;
 import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.services.IDisposable;
@@ -1129,9 +1129,9 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	/*
 	 * (non-Javadoc) Method declared on IWorkbench.
 	 */
-//	public PreferenceManager getPreferenceManager() {
-//		return WorkbenchPlugin.getDefault().getPreferenceManager();
-//	}
+	public PreferenceManager getPreferenceManager() {
+		return WorkbenchPlugin.getDefault().getPreferenceManager();
+	}
 
 	/*
 	 * (non-Javadoc) Method declared on IWorkbench.
@@ -3052,22 +3052,20 @@ public final class Workbench extends SessionSingletonEventManager implements IWo
 	 * @see IWorkbenchPreferenceConstants#PRESENTATION_FACTORY_ID
 	 */
 	public String getPresentationId() {
-//		if (factoryID != null) {
-//			return factoryID;
-//		}
-//
-//		factoryID = PrefUtil.getAPIPreferenceStore().getString(
-//				IWorkbenchPreferenceConstants.PRESENTATION_FACTORY_ID);
-//
-//		// Workaround for bug 58975 - New preference mechanism does not properly
-//		// initialize defaults
-//		// Ensure that the UI plugin has started too.
-//		if (factoryID == null || factoryID.equals("")) { //$NON-NLS-1$
-//			factoryID = IWorkbenchConstants.DEFAULT_PRESENTATION_ID;
-//		}
-//		return factoryID;
-		// TODO: support for presentations
-		return "org.eclipse.ui.presentations.default";
+		if (factoryID != null) {
+			return factoryID;
+		}
+
+		factoryID = PrefUtil.getAPIPreferenceStore().getString(
+				IWorkbenchPreferenceConstants.PRESENTATION_FACTORY_ID);
+
+		// Workaround for bug 58975 - New preference mechanism does not properly
+		// initialize defaults
+		// Ensure that the UI plugin has started too.
+		if (factoryID == null || factoryID.equals("")) { //$NON-NLS-1$
+			factoryID = IWorkbenchConstants.DEFAULT_PRESENTATION_ID;
+		}
+		return factoryID;
 	}
 
 	/**

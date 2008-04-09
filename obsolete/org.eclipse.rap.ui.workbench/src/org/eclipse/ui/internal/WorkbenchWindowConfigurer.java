@@ -21,6 +21,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.application.*;
+import org.eclipse.ui.internal.StartupThreading.StartupRunnable;
 import org.eclipse.ui.internal.provisional.application.IActionBarConfigurer2;
 import org.eclipse.ui.internal.provisional.presentations.IActionBarPresentationFactory;
 import org.eclipse.ui.presentations.AbstractPresentationFactory;
@@ -558,24 +559,24 @@ public final class WorkbenchWindowConfigurer implements
      * factory default presentation factory is used.
      */
     private AbstractPresentationFactory createDefaultPresentationFactory() {
-//        final String factoryId = ((Workbench) window.getWorkbench())
-//                .getPresentationId();
-//
-//        if (factoryId != null && factoryId.length() > 0) {
-//            final AbstractPresentationFactory [] factory = new AbstractPresentationFactory[1];
-////            StartupThreading.runWithoutExceptions(new StartupRunnable() {
-//
-////				public void runWithException() throws Throwable {
-//					factory[0] = WorkbenchPlugin.getDefault()
-//							.getPresentationFactory(factoryId);
-////				}
-////			});
-//            
-//            if (factory[0] != null) {
-//                return factory[0];
-//            }
-//        }
-//        // presentation ID must be a bogus value, reset it to the default
+        final String factoryId = ((Workbench) window.getWorkbench())
+                .getPresentationId();
+
+        if (factoryId != null && factoryId.length() > 0) {
+            final AbstractPresentationFactory [] factory = new AbstractPresentationFactory[1];
+            StartupThreading.runWithoutExceptions(new StartupRunnable() {
+
+				public void runWithException() throws Throwable {
+					factory[0] = WorkbenchPlugin.getDefault()
+							.getPresentationFactory(factoryId);
+				}
+			});
+            
+            if (factory[0] != null) {
+                return factory[0];
+            }
+        }
+        // presentation ID must be a bogus value, reset it to the default
 //        PrefUtil.getAPIPreferenceStore().setValue(
 //				IWorkbenchPreferenceConstants.PRESENTATION_FACTORY_ID,
 //				IWorkbenchConstants.DEFAULT_PRESENTATION_ID);

@@ -111,5 +111,6 @@ Export-Package: org.eclipse.ui;
  org.eclipse.ui.services,
  org.eclipse.ui.statushandlers,
  org.eclipse.ui.testing,
- org.eclipse.ui.views;uses:="org.eclipse.jface.resource,org.eclipse.core.runtime,org.eclipse.ui"
+ org.eclipse.ui.views;uses:="org.eclipse.jface.resource,org.eclipse.core.runtime,org.eclipse.ui",
+ org.eclipse.ui.wizards
 Eclipse-LazyStart: true

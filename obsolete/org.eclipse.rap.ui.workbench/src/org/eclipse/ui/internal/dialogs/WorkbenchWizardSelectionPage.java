@@ -12,9 +12,7 @@ package org.eclipse.ui.internal.dialogs;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.wizard.IWizardNode;
-import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.jface.wizard.WizardSelectionPage;
+import org.eclipse.jface.wizard.*;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.activities.ITriggerPoint;
 import org.eclipse.ui.activities.WorkbenchActivityHelper;

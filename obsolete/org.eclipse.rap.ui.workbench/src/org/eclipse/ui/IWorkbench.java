@@ -12,6 +12,7 @@ package org.eclipse.ui;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
+import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.activities.IWorkbenchActivitySupport;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
@@ -176,7 +177,7 @@ public interface IWorkbench extends IAdaptable, IServiceLocator {
 	 * 
 	 * @return the workbench preference manager
 	 */
-//	public PreferenceManager getPreferenceManager();
+	public PreferenceManager getPreferenceManager();
 
 	/**
 	 * Returns the preference store for the workbench.

@@ -30,6 +30,9 @@
    <extension-point id="org.eclipse.ui.activitySupport" name="%ExtPoint.activitySupport" schema="schema/activitySupport.exsd"/>
    <extension-point id="org.eclipse.ui.exportWizards" name="%ExtPoint.exportWizards" schema="schema/exportWizards.exsd"/>
    <extension-point id="org.eclipse.ui.importWizards" name="%ExtPoint.importWizards" schema="schema/importWizards.exsd"/>
+   <extension-point id="org.eclipse.ui.preferencePages" name="%ExtPoint.preferencePages" schema="schema/preferencePages.exsd"/>
+   <extension-point id="org.eclipse.ui.keywords" name="%ExtPoint.keywords" schema="schema/keywords.exsd"/>
+   <extension-point id="org.eclipse.ui.presentationFactories" name="%ExtPoint.presentationFactories" schema="schema/presentationFactories.exsd"/>
 
    <!--
    Not yet supported extension points
@@ -48,11 +51,8 @@
    <extension-point id="fontDefinitions" name="%ExtPoint.fontDefinitions" schema="schema/fontDefinitions.exsd"/>
    <extension-point id="helpSupport" name="%ExtPoint.helpSupport" schema="schema/helpSupport.exsd"/>
    <extension-point id="intro" name="%ExtPoint.intro" schema="schema/intro.exsd"/>
-   <extension-point id="keywords" name="%ExtPoint.keywords" schema="schema/keywords.exsd"/>
    <extension-point id="newWizards" name="%ExtPoint.newWizards" schema="schema/newWizards.exsd"/>
-   <extension-point id="preferencePages" name="%ExtPoint.preferencePages" schema="schema/preferencePages.exsd"/>
    <extension-point id="preferenceTransfer" name="%ExtPoint.preferenceTransfer" schema="schema/preferenceTransfer.exsd"/>
-   <extension-point id="presentationFactories" name="%ExtPoint.presentationFactories" schema="schema/presentationFactories.exsd"/>
    <extension-point id="propertyPages" name="%ExtPoint.propertyPages" schema="schema/propertyPages.exsd"/>
    <extension-point id="splashHandlers" name="%ExtPoint.splashHandlers" schema="schema/splashHandlers.exsd"/>
    <extension-point id="startup" name="%ExtPoint.startup" schema="schema/startup.exsd"/>
@@ -1506,6 +1506,18 @@
             id="10.DefaultSection">
       </section>
    </extension>
+
+-->
+   <extension
+         point="org.eclipse.ui.presentationFactories">
+      <factory
+            name="%Presentation.default.name"
+            class="org.eclipse.ui.presentations.WorkbenchPresentationFactory"
+            id="org.eclipse.ui.presentations.default">
+      </factory>
+   </extension>
+<!--
+   
    <extension
          point="org.eclipse.ui.presentationFactories">
       <factory

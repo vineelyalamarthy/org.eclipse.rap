@@ -13,6 +13,7 @@ package org.eclipse.ui.internal;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.ui.internal.util.PrefUtil;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -91,15 +92,15 @@ public final class UIPlugin extends AbstractUIPlugin {
 
         // set a callback allowing the workbench plugin to obtain
         // and save the UI plugin's preference store
-//        PrefUtil.setUICallback(new PrefUtil.ICallback() {
-//            public IPreferenceStore getPreferenceStore() {
-//                return UIPlugin.this.getPreferenceStore();
-//            }
-//
-//            public void savePreferences() {
-//                UIPlugin.this.savePluginPreferences();
-//            }
-//        });
+        PrefUtil.setUICallback(new PrefUtil.ICallback() {
+            public IPreferenceStore getPreferenceStore() {
+                return UIPlugin.this.getPreferenceStore();
+            }
+
+            public void savePreferences() {
+                UIPlugin.this.savePluginPreferences();
+            }
+        });
         ResourceTranslatorHelper.registerAlgorithm();
     }
 

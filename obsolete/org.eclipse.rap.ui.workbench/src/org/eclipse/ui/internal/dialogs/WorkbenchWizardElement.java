@@ -10,24 +10,16 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.dialogs;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.*;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.ui.IPluginContribution;
-import org.eclipse.ui.IWorkbenchWizard;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.SelectionEnabler;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.ISelectionConversionService;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
 import org.eclipse.ui.internal.registry.RegistryReader;
-import org.eclipse.ui.model.IWorkbenchAdapter;
-import org.eclipse.ui.model.IWorkbenchAdapter2;
-import org.eclipse.ui.model.WorkbenchAdapter;
+import org.eclipse.ui.model.*;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.wizards.IWizardCategory;
 import org.eclipse.ui.wizards.IWizardDescriptor;

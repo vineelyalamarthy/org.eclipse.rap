@@ -10,10 +10,7 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.dialogs;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.*;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -21,9 +18,7 @@ import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardNode;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.ui.IPluginContribution;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWizard;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.WorkbenchMessages;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 
