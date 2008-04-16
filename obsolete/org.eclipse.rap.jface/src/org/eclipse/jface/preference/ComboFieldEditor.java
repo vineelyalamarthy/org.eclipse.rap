@@ -164,9 +164,8 @@ public class ComboFieldEditor extends FieldEditor {
 			fCombo.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent evt) {
 					String oldValue = fValue;
-//					String name = fCombo.getText();
-					// TODO [bm]
-//					fValue = getValueForName(name);
+					String name = fCombo.getText();
+					fValue = getValueForName(name);
 					setPresentsDefaultValue(false);
 					fireValueChanged(VALUE, oldValue, fValue);					
 				}
@@ -178,15 +177,15 @@ public class ComboFieldEditor extends FieldEditor {
 	/*
 	 * Given the name (label) of an entry, return the corresponding value.
 	 */
-//	private String getValueForName(String name) {
-//		for (int i = 0; i < fEntryNamesAndValues.length; i++) {
-//			String[] entry = fEntryNamesAndValues[i];
-//			if (name.equals(entry[0])) {
-//				return entry[1];
-//			}
-//		}
-//		return fEntryNamesAndValues[0][0];
-//	}
+	private String getValueForName(String name) {
+		for (int i = 0; i < fEntryNamesAndValues.length; i++) {
+			String[] entry = fEntryNamesAndValues[i];
+			if (name.equals(entry[0])) {
+				return entry[1];
+			}
+		}
+		return fEntryNamesAndValues[0][0];
+	}
 	
 	/*
 	 * Set the name in the combo widget to match the specified value.
@@ -195,13 +194,13 @@ public class ComboFieldEditor extends FieldEditor {
 		fValue = value;
 		for (int i = 0; i < fEntryNamesAndValues.length; i++) {
 			if (value.equals(fEntryNamesAndValues[i][1])) {
-//				fCombo.setText(fEntryNamesAndValues[i][0]);
+				fCombo.setText(fEntryNamesAndValues[i][0]);
 				return;
 			}
 		}
 		if (fEntryNamesAndValues.length > 0) {
 			fValue = fEntryNamesAndValues[0][1];
-//			fCombo.setText(fEntryNamesAndValues[0][0]);
+			fCombo.setText(fEntryNamesAndValues[0][0]);
 		}
 	}
 }
