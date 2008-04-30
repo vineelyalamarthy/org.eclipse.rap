@@ -122,14 +122,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rap.core.databinding"
+         id="org.eclipse.core.databinding"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rap.core.databinding.beans"
+         id="org.eclipse.core.databinding.beans"
          download-size="0"
          install-size="0"
          version="0.0.0"
