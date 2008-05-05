@@ -8,7 +8,7 @@
 		<servlet-class>org.eclipse.equinox.servletbridge.BridgeServlet</servlet-class>
     
     <!-- the OSGi console is useful for trouble shooting but will fill up your 
-             appserver log quickly -->
+             appserver log quickly, so deactivate on production use -->
     <!--
 		<init-param>
 			<param-name>commandline</param-name>
