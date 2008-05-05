@@ -16,14 +16,14 @@
         adjusted to your needs.
         -->
     <property name="servletbridge.dir"
-              value="c:/eclipse/rap/org.eclipse.equinox.servletbridge" />
+              value="C:/eclipse/workspaces/rap/org.eclipse.equinox.servletbridge" />
     <!-- 
 		On windows be cautious about long file names for ${build.dir}
 		These long path problems were resolved in JRE 1.5.0_08
 		-->
     <property name="build.dir" value="${proj.dir}/build" />
     <property name="templates.dir" value="${proj.dir}/templates" />
-    <property name="webapp.name" value="rapdemo" />
+    <property name="webapp.name" value="demo" />
     <property name="features" value="org.eclipse.rap.demo.feature" />
     <!--
 		If you are using this script in a head-less build define the following properties:

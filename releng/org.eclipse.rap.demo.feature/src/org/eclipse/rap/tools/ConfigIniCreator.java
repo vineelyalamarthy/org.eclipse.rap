@@ -32,7 +32,7 @@ public class ConfigIniCreator {
     // replace this with the absolute path to the plugin directory of
     // the deployment build for example
     // File file = new File( "C:\\projects\\org.eclipse.rap\\org.eclipse.rap.demo.feature\\build\\rapdemo\\WEB-INF\\eclipse\\plugins" );
-    File file = new File( "Path to the plugin directory of your build" );
+    File file = new File( "C:\\eclipse\\workspaces\\rap\\org.eclipse.rap.demo.feature\\build\\demo\\WEB-INF\\eclipse\\plugins" );
     ////////////////////////////////////////////////////////////////////////////
     
     String[] list = file.list();
@@ -45,13 +45,17 @@ public class ConfigIniCreator {
           && !list[ i ].startsWith( "org.eclipse.osgi_" ) )
       {
         buffer.append( list[ i ] );
-        if( list[ i ].startsWith( "org.eclipse.equinox.common_" ) ) {
-          buffer.append( "@2:start" );
-        } else {
-          buffer.append( "@start" );
+        if( !list[ i ].startsWith( "org.eclipse.rap.rwt.q07_" ) ) {
+          if( list[ i ].startsWith( "org.eclipse.equinox.common_" ) ) {
+            buffer.append( "@2:start" );
+          } else {
+            buffer.append( "@start" );
+          }
         }
         if( i + 1 < list.length ) {
           buffer.append( "," );
+        } else {
+          buffer.append( ",org.eclipse.equinox.servletbridge.extensionbundle" );          
         }
       }
     }
