@@ -293,32 +293,23 @@ final class EngineConfigWrapper implements IEngineConfig {
       String themeName = elements[ i ].getAttribute( "name" );
       try {
         final Bundle bundle = Platform.getBundle( contributorName );
-        URL url = bundle.getResource( themeFile );
-        InputStream inStream = url.openStream();
-        if( inStream != null ) {
-          try {
-            ResourceLoader resLoader = new ResourceLoader() {
+        ResourceLoader resLoader = new ResourceLoader() {
 
-              public InputStream getResourceAsStream( final String resourceName )
-                throws IOException
-              {
-                InputStream result = null;
-                URL url = bundle.getResource( resourceName );
-                if( url != null ) {
-                  result = url.openStream();
-                }
-                return result;
-              }
-            };
-            ThemeManager.getInstance().registerTheme( themeId,
-                                                      themeName,
-                                                      inStream,
-                                                      url.toString(),
-                                                      resLoader );
-          } finally {
-            inStream.close();
+          public InputStream getResourceAsStream( final String resourceName )
+            throws IOException
+          {
+            InputStream result = null;
+            URL url = bundle.getResource( resourceName );
+            if( url != null ) {
+              result = url.openStream();
+            }
+            return result;
           }
-        }
+        };
+        ThemeManager.getInstance().registerTheme( themeId,
+                                                  themeName,
+                                                  themeFile,
+                                                  resLoader );
       } catch( final Throwable e ) {
         String text = "Could not register custom theme ''{0}'' "
                       + "from file ''{1}''.";
