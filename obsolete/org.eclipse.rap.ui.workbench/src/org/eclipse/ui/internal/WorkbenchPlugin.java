@@ -11,12 +11,14 @@
 
 package org.eclipse.ui.internal;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashSet;
 
 import org.eclipse.core.runtime.*;
+import org.eclipse.equinox.http.registry.HttpContextExtensionService;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -40,6 +42,7 @@ import org.eclipse.ui.presentations.AbstractPresentationFactory;
 import org.eclipse.ui.views.IViewRegistry;
 import org.eclipse.ui.wizards.IWizardRegistry;
 import org.osgi.framework.*;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * This class represents the TOP of the workbench UI world
@@ -856,14 +859,26 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
         super.start(context);
         bundleContext = context;
         
-        // initialise the servlet names -> ensure that the http registry
-        // bundle was loaded befort the service tracker gets opened.
-        String id = "org.eclipse.equinox.http.registry";
-        Bundle httpRegistry = Platform.getBundle( id );
-        httpRegistry.start( Bundle.START_ACTIVATION_POLICY );
-        httpServiceTracker = new HttpServiceTracker(context);
-        BrandingExtension.read();
-        httpServiceTracker.open();
+        // RAP [fappel]: ensure that the rap http context was loaded before
+        //               the mapping of servlets from branding takes place
+        String serviceName = HttpContextExtensionService.class.getName();
+        ServiceTracker httpContextExtensionServiceTracker
+          = new ServiceTracker( context, serviceName, null )
+        {
+          public Object addingService( final ServiceReference reference ) {
+            Object result = super.addingService( reference );
+            httpServiceTracker = new HttpServiceTracker(context);
+            try {
+              BrandingExtension.read();
+            } catch( final IOException ioe ) {
+              WorkbenchPlugin.log( "Unable to read branding extension", ioe ); //$NON-NLS-1$
+            }
+            httpServiceTracker.open();
+            return result;
+          }
+        };
+        httpContextExtensionServiceTracker.open();
+
 
         
 //        JFaceUtil.initializeJFace();
