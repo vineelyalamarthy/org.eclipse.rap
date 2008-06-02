@@ -45,7 +45,9 @@ public class ExamplesPlugin extends AbstractUIPlugin {
 	//The shared instance.
 	private static ExamplesPlugin plugin;
 	
-	private FormColors formColors;
+// RAP [fappel]: formColors contain reference to Display instance
+//               and must not be stored in application store
+//	private FormColors formColors;
 
   public static ExamplesPlugin getDefault() {
     return plugin;
@@ -57,22 +59,28 @@ public class ExamplesPlugin extends AbstractUIPlugin {
 	}
 	
 	public void stop( BundleContext context ) throws Exception {
-    try {
-      if( formColors != null ) {
-        formColors.dispose();
-        formColors = null;
-      }
-    } finally {
+// RAP [fappel]: formColors contain reference to Display instance
+//    and must not be stored in application store
+//    try {
+//      if( formColors != null ) {
+//        formColors.dispose();
+//        formColors = null;
+//      }
+//    } finally {
+//      super.stop( context );
+//    }
       super.stop( context );
-    }
   }
 
   public FormColors getFormColors( Display display ) {
-    if( formColors == null ) {
-      formColors = new FormColors( display );
-      formColors.markShared();
-    }
-    return formColors;
+// RAP [fappel]: formColors contain reference to Display instance
+//    and must not be stored in application store
+//    if( formColors == null ) {
+//      formColors = new FormColors( display );
+//      formColors.markShared();
+//    }
+//    return formColors;
+      return new FormColors( display );
   }
 
 	public ImageRegistry getImageRegistry() {
