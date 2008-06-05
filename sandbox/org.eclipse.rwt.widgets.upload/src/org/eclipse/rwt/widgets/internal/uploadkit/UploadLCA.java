@@ -50,33 +50,36 @@ public class UploadLCA extends AbstractWidgetLCA {
    */
   public final void readData( final Widget widget ) {
     final Upload upload = ( Upload )widget;
-    String lastFileUploaded
-      = WidgetLCAUtil.readPropertyValue( upload, "lastFileUploaded" );
-    upload.setLastFileUploaded( lastFileUploaded );
+    String lastFileUploaded = WidgetLCAUtil.readPropertyValue( upload,
+                                                               "lastFileUploaded" );
     String path = WidgetLCAUtil.readPropertyValue( upload, "path" );
-    getAdapter( upload ).setPath( path );
-    
-    final String finished
-      = WidgetLCAUtil.readPropertyValue( upload, "finished" );
-    final String uploadParcial
-      = WidgetLCAUtil.readPropertyValue( upload, "uploadParcial" );
-    final String uploadTotal
-      = WidgetLCAUtil.readPropertyValue( upload, "uploadTotal" );
-    if(    ( finished != null )
+    final IUploadAdapter adapter = getAdapter( upload );
+    adapter.setPath( path );
+    adapter.setLastFileUploaded( lastFileUploaded );
+    final String finished = WidgetLCAUtil.readPropertyValue( upload, "finished" );
+    final String uploadParcial = WidgetLCAUtil.readPropertyValue( upload,
+                                                                  "uploadParcial" );
+    final String uploadTotal = WidgetLCAUtil.readPropertyValue( upload,
+                                                                "uploadTotal" );
+    if( ( finished != null )
         || ( uploadParcial != null )
         || ( uploadTotal != null ) )
     {
-      // allows the changes to be visible on the client side
+      // At the moment, the event must be fire directly via the ProcessActionRunner
+      // because delayed execution doesn't work at the moment for custom events.
+      // If this changes one day, processEvent() can be called directly.
       ProcessActionRunner.add( new Runnable() {
+        
         public void run() {
-          UploadEvent evt
-            = new UploadEvent( Boolean.valueOf( finished ).booleanValue(),
-                               Integer.parseInt( uploadParcial ),
-                               Integer.parseInt( uploadTotal ) );
-          IUploadAdapter adapter = getAdapter( upload );
-          adapter.fireUploadEvent( evt );
+          UploadEvent evt = new UploadEvent( upload,
+                                             Boolean.valueOf( finished )
+                                             .booleanValue(),
+                                             Integer.parseInt( uploadParcial ),
+                                             Integer.parseInt( uploadTotal ) );
+          evt.processEvent();
+
         }
-      } );
+      });
     }
   }
 
@@ -91,8 +94,12 @@ public class UploadLCA extends AbstractWidgetLCA {
   {
     final JSWriter writer = JSWriter.getWriterFor( widget );
     final Upload upload = ( Upload )widget;
+    
+    final String servletPath = getAdapter( upload ).getServletPath();
+    
     writer.newWidget( "org.eclipse.rwt.widgets.Upload", new Object[] {
-      upload.getServlet(), new Integer( getAdapter( upload ).getFlags() )
+      servletPath, 
+      new Integer( getAdapter( upload ).getFlags() ) 
     } );
     writer.set( "appearance", "composite" );
     writer.set( "overflow", "hidden" );
@@ -114,9 +121,10 @@ public class UploadLCA extends AbstractWidgetLCA {
     ////////////////////////////////////////////////////////////////////////////
     // TODO [fappel]: check whether this is useful and if so, whether preserve
     //                works properly
+    final String lastFileUploaded = upload.getLastFileUploaded();
     writer.set( PROP_LASTFILEUPLOADED,
                 JS_PROP_LASTFILEUPLOADED,
-                upload.getLastFileUploaded() );
+                lastFileUploaded );
     ////////////////////////////////////////////////////////////////////////////
     
     writer.set( PROP_BROWSE_BUTTON_TEXT,
@@ -132,6 +140,10 @@ public class UploadLCA extends AbstractWidgetLCA {
       writer.call( upload, "_performUpload", null );
     }
     
+    if( adapter.isResetUpload() ) {
+      writer.call( upload, "_resetUpload", null );
+      adapter.setResetUpload( false );
+    }
   }
 
   /**

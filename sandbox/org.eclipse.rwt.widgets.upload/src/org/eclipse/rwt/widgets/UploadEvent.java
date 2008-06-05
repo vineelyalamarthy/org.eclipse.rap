@@ -11,24 +11,31 @@
  ******************************************************************************/
 package org.eclipse.rwt.widgets;
 
-import org.eclipse.swt.widgets.Event;
+import org.eclipse.rwt.Adaptable;
+import org.eclipse.swt.events.TypedEvent;
+import org.eclipse.swt.widgets.Widget;
 
 /**
  * Represents an Upload Event.
  *
  * @author tjarodrigues
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class UploadEvent extends Event {
-
-  private static final long serialVersionUID = 487892668094315935L;
+public class UploadEvent extends TypedEvent {
+  
+  /**
+   * Hopefully, this isn't occupied by another custom event type
+   */
+  private static final int UPLOAD_FINISHED = 101;
+  private static final int UPLOAD_IN_PROGRESS = 102;
+  private static final Class LISTENER = UploadListener.class;
   private final boolean finished;
   private final int uploadedParcial;
   private final int uploadedTotal;
 
   /**
    * Checks if the Upload has finished.
-   *
+   * 
    * @return <code>True</code> if the Upload has finished, <code>False</code>
    *         otherwise.
    */
@@ -60,23 +67,59 @@ public class UploadEvent extends Event {
    * @param finished Indicates if the upload is finished.
    * @param uploadedParcial The parcial amount of data uploaded.
    * @param uploadedTotal The total file size.
+   * @param widget The sender of the event, must not be null
    */
-  public UploadEvent( final boolean finished,
+  public UploadEvent( final Widget widget,
+                      final boolean finished,
                       final int uploadedParcial,
                       final int uploadedTotal )
   {
+    super( widget, finished
+                           ? UPLOAD_FINISHED
+                           : UPLOAD_IN_PROGRESS );
     this.finished = finished;
     this.uploadedParcial = uploadedParcial;
     this.uploadedTotal = uploadedTotal;
   }
+  
+  protected void dispatchToObserver( final Object listener ) {
+    switch( getID() ) {
+      case UPLOAD_IN_PROGRESS:
+        ( ( UploadListener )listener ).uploadInProgress( this );
+      break;
+      case UPLOAD_FINISHED:
+        ( ( UploadListener )listener ).uploadFinished( this );
+      break;
+      default:
+        throw new IllegalStateException( "Invalid event handler type." );
+    }
+  }
 
-  /**
-   * Creates a String representation of the Upload Event.
-   * @return The String representation of the Upload Event.
-   */
-  public String toString() {
-    return "UploadEvent {finished=" + this.finished +
-      " uploadedParcial=" + this.uploadedParcial +
-      " uploadedTotal=" + this.uploadedTotal + "}";
+  protected Class getListenerType() {
+    return LISTENER;
+  }
+
+  protected boolean allowProcessing() {
+    return true;
+  }
+
+  public static void addListener( final Adaptable adaptable, 
+                                  final UploadListener listener )
+  {
+    addListener( adaptable, LISTENER, listener );
+  }
+
+  public static void removeListener( final Adaptable adaptable, 
+                                     final UploadListener listener )
+  {
+    removeListener( adaptable, LISTENER, listener );
+  }
+  
+  public static boolean hasListener( final Adaptable adaptable ) {
+    return hasListener( adaptable, LISTENER );
+  }
+  
+  public static Object[] getListeners( final Adaptable adaptable ) {
+    return getListener( adaptable, LISTENER );
   }
 }

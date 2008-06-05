@@ -23,6 +23,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * This is a File Upload Servlet that is used with AJAX to monitor the progress
  * of the uploaded file. It will return an XML object containing the meta
  * information as well as the percent complete.
+ * @deprecated is replaced by {@link FileUploadServiceHandler} and will be deleted
+ * in a future version.
  */
 public class FileUploadServlet extends HttpServlet implements Servlet {
   private static final long serialVersionUID = 2740693677625051632L;

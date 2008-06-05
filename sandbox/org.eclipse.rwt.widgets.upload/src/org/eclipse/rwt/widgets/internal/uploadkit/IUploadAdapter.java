@@ -11,12 +11,12 @@
 
 package org.eclipse.rwt.widgets.internal.uploadkit;
 
-import org.eclipse.rwt.widgets.UploadEvent;
-
-
 public interface IUploadAdapter {
   boolean performUpload();
   int getFlags();
-  void setPath( String path );
-  void fireUploadEvent( UploadEvent uploadEvent );
+  void setPath( final String path );
+  void setLastFileUploaded( final String lastFileUploaded );
+  String getServletPath();
+  boolean isResetUpload();
+  void setResetUpload(boolean resetUpload);
 }

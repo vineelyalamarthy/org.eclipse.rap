@@ -19,36 +19,40 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     this._isStarted = false;
     this._showProgress = ( flags & 1 ) > 0;
     this._showUploadButton = ( flags & 2 ) > 0;
+    this._fireProgressEvents = ( flags & 4 ) > 0;
 
     this.initHeight();
     this.initOverflow();
 
     var topLayout = new qx.ui.layout.HorizontalBoxLayout();
-    topLayout.set({left:0,right:0,height:'auto'});
+    topLayout.set({left:0,right:0,height:"1*"});
 
     // Upload Form
     this._uploadForm = new qx.ui.custom.UploadForm("uploadForm", this._servlet);
-    this._uploadForm.set({top:0,left:0,width:"1*"});
+    // Make the widget use the entire assigned space
+    this._uploadForm.set({top:0,left:0,width:"1*", height:"100%"});
     topLayout.add(this._uploadForm);
     
+
     // Browse File Button
     this._uploadField = new qx.ui.custom.UploadField("uploadFile", "Browse");
     this._uploadField.set({left:0,right:0});
     this._uploadField.addEventListener( "changeValue", this._onChangeValue, this );
+    
     // workaround adjust browse button position
-    this._uploadField._button.set({top:3,right:0});
+    this._uploadField._button.set({top:0,right:0});
+    this._uploadField._text.set({marginTop:0});
 
     this._uploadForm.add(this._uploadField);
     
+	this._uploadField.setHeight("100%");
+	this._uploadField._text.setHeight("100%");
 
     // Upload Button
     if( this._showUploadButton ) {
       this._uploadButton = new qx.ui.form.Button("Upload");
       this._uploadButton.addEventListener("click", this._uploadFile, this);
       topLayout.add(this._uploadButton);
-
-      // workaround adjust browse button position
-      this._uploadButton.set({top:3});
     }
 
     this.add(topLayout);
@@ -66,8 +70,10 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
         this._progressBar.setAppearance( "progressbar-bar" );
 
         this.add(bottomLayout);
-        
-        this._uploadForm.addEventListener("sending", this._monitorUpload, this);
+    }
+    
+    if (this._fireProgressEvents) {
+	    this._uploadForm.addEventListener("sending", this._monitorUpload, this);
     }
     
     this._uploadForm.addEventListener("completed", this._cleanUp, this);
@@ -154,10 +160,18 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
             }                
             
             this.setLastFileUploaded(filename);
-            if( this._showProgress ) {
-              this._progressBar.setWidth("0%");
+            // Stefan Röck: The field shouldn't be cleaned automatically, this can
+            // still be achvied by calling reset()
+            //this._uploadField.setValue("");
+            //if( this._showProgress ) {
+            //  this._progressBar.setWidth("0%");
+            // }
+            
+            // make sure, that the progressbar (if visible) is filled completely after 
+            // uploading finished
+            if (this._showProgress) {
+              this._progressBar.setWidth("100%");
             }
-            this._uploadField.setValue("");
             this._isStarted = false;
     
             this.createDispatchDataEvent("upload", true);
@@ -201,7 +215,10 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
 
                     // Started, get the status of the upload
                     if (percentCompleted != null) {
-                        this._progressBar.setWidth(percentCompleted.firstChild.data + "%");
+                        
+                        if (this._showProgress) {
+	                        this._progressBar.setWidth(percentCompleted.firstChild.data + "%");
+                        }
 
                         this.createDispatchDataEvent("upload", false);
                         
@@ -223,10 +240,20 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
       var id = wm.findIdByWidget( this );
       var req = org.eclipse.swt.Request.getInstance();
       req.addParameter( id + ".path", evt.getData() );
+      req.send();
     },
     
     _performUpload : function() {
       this._uploadFile();
+    },
+    
+    _resetUpload : function() {
+      if (this._progressBar) {
+         this._progressBar.setWidth("0%");
+      }
+      if (this._uploadField) {
+        this._uploadField.setValue("");
+      }
     },
     
     /*
