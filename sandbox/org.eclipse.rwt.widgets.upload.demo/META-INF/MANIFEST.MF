@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Uploadtest Plug-in
+Bundle-SymbolicName: org.eclipse.rwt.widgets.upload.demo;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Vendor: CAS Software AG
+Require-Bundle: org.eclipse.rap.ui,
+ org.eclipse.rwt.widgets.upload
+Bundle-ClassPath: lib/commons-fileupload-1.2.1.jar,
+ lib/commons-io-1.4.jar,
+ .
+Export-Package: org.apache.commons.fileupload,
+ org.apache.commons.fileupload.disk,
+ org.apache.commons.fileupload.servlet
+Import-Package: javax.servlet;version="2.4.0",
+ javax.servlet.http;version="2.4.0"
