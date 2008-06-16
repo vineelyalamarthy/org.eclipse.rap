@@ -7,6 +7,8 @@ import java.util.List;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.lifecycle.*;
 import org.eclipse.rwt.service.ISessionStore;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.internal.widgets.WidgetTreeVisitor;
 import org.eclipse.swt.internal.widgets.WidgetTreeVisitor.AllWidgetTreeVisitor;
 import org.eclipse.swt.widgets.*;
@@ -59,6 +61,7 @@ public class WidgetIdGenerator implements PhaseListener {
       };
       setCustomId( widget, generateCustomId( attributes ) );
     }
+    
     if( widget instanceof TreeItem ) {
       TreeItem item = ( TreeItem )widget;
       Object[] attributes = new Object[] {
@@ -68,21 +71,96 @@ public class WidgetIdGenerator implements PhaseListener {
       };
       setCustomId( widget, generateCustomId( attributes ) );
     }
+    
+    if( widget instanceof Table ) {
+      Object[] attributes = new Object[] {
+        Table.class.getName()
+      };
+      setCustomId( widget, generateCustomId( attributes ) );
+    }
+    
+    if( widget instanceof TableItem ) {
+      TableItem item = ( TableItem )widget;
+      Object[] attributes = new Object[] {
+        item.getText(),
+        TableItem.class.getName()
+      };
+      setCustomId( widget, generateCustomId( attributes ) );
+    }
+    
+    if( widget instanceof org.eclipse.swt.widgets.List ) {
+      org.eclipse.swt.widgets.List list
+        = ( org.eclipse.swt.widgets.List )widget;
+      setCustomId( widget, generateCustomId( list.getItems() ) );
+    }
+    
+    if( widget instanceof Text ) {
+      Text text = ( Text )widget;
+      Object[] attributes = new Object[] {
+        Text.class.getName(),
+        text.getText()
+      };
+      setCustomId( widget, generateCustomId( attributes ) );
+    }
+    
     if( widget instanceof Button ) {
       Button button = ( Button )widget;
-      Object[] attributes = new Object[] { 
+      Object[] attributes = new Object[] {
         button.getText(),
         button.getToolTipText(),
         Button.class.getName()
       };
       setCustomId( widget, generateCustomId( attributes ) );
     }
+    
     if( widget instanceof ToolItem ) {
       ToolItem item = ( ToolItem )widget;
+      Object[] attributes = new Object[]{
+        item.getText(),
+        item.getToolTipText(),
+        ToolItem.class.getName()
+      };
+      setCustomId( widget, generateCustomId( attributes ) );
+    }
+    
+    if( widget instanceof CTabItem ) {
+      CTabItem item = ( CTabItem )widget;
       Object[] attributes = new Object[] {
         item.getText(),
         item.getToolTipText(),
         ToolItem.class.getName()
+      };
+      setCustomId( widget, generateCustomId( attributes ) );
+    }
+    
+    if( widget instanceof CTabFolder ) {
+      CTabFolder folder = ( CTabFolder )widget;
+      CTabItem[] items = folder.getItems();
+      Object[] attributes = new Object[ items.length * 2 + 1 ];
+      for( int i = 0; i < items.length; i++ ) {
+        attributes[ i * 2 ] = items[ i ].getText();
+        attributes[ i * 2 + 1 ] = items[ i ].getToolTipText();
+      }
+      attributes[ attributes.length - 1 ] = CTabFolder.class.getName();
+      setCustomId( widget, generateCustomId( attributes ) );
+    }
+    
+    if( widget instanceof Menu ) {
+      Menu menu = ( Menu )widget;
+      MenuItem[] items = menu.getItems();
+      Object[] attributes = new Object[ items.length * 2 + 1 ];
+      for( int i = 0; i < items.length; i++ ) {
+        attributes[ i * 2 ] = items[ i ].getText();
+      }
+      attributes[ attributes.length - 1 ] = Menu.class.getName();
+      setCustomId( widget, generateCustomId( attributes ) );
+    }
+ 
+    if( widget instanceof MenuItem ) {
+      MenuItem item = ( MenuItem )widget;
+      Object[] attributes = new Object[]{
+        item.getText(),
+        MenuItem.class.getName()
       };
       setCustomId( widget, generateCustomId( attributes ) );
     }
