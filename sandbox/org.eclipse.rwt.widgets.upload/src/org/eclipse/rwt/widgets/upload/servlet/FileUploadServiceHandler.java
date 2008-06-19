@@ -27,9 +27,15 @@ import org.eclipse.rwt.service.IServiceHandler;
 
 
 /**
+ * Handles file uploads and upload progress updates. 
+ * <p> 
+ * Implementation note: uploaded files are currently stored in the  
+ * java.io.tmpdir. See 
+ * {@link #handleFileUpload(HttpServletRequest, FileUploadStorageItem)} on
+ * how to change this.
  * 
- * @author stefan.roeck */
-
+ * @author stefan.roeck 
+ */
 public class FileUploadServiceHandler implements IServiceHandler {
 
   private static final String REQUEST_WIDGET_ID = "widgetId";
@@ -71,6 +77,9 @@ public class FileUploadServiceHandler implements IServiceHandler {
     if (fileUploadStorageitem != null) {
       
       // Create file upload factory and upload servlet
+      // You could use new DiskFileItemFactory(threshold, location)
+      // to configure a custom in-memory threshold and storage location.
+      // By default the upload files are stored in the java.io.tmpdir
       FileItemFactory factory = new DiskFileItemFactory();
       ServletFileUpload upload = new ServletFileUpload( factory );
       
