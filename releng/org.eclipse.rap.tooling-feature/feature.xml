@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rap.tooling"
       label="%featureName"
-      version="1.1.0.qualifier"
+      version="1.1.1.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -20,7 +20,7 @@
    <url>
       <update label="%updateSiteName" url="http://download.eclipse.org/technology/rap/update-site"/>
    </url>
-   
+
    <requires>
       <import plugin="org.eclipse.help"/>
       <import plugin="org.eclipse.ui"/>
@@ -61,7 +61,6 @@
          id="org.eclipse.rap.ui.intro"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="true"/>
+         version="0.0.0"/>
 
 </feature>
