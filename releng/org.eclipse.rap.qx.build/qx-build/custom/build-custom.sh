@@ -1,8 +1,9 @@
 #!/bin/sh
 VERSION=0.7.0
 REVISION=9276
-QOOXDOO=../../../qooxdoo/qooxdoo
-TOOL=${QOOXDOO}/frontend/framework/tool
+#QOOXDOO=../../../qooxdoo/qooxdoo
+# point to the directory that contains the generator.py
+TOOL=../../../qx-0.7.2/qooxdoo/frontend/framework/tool
 TEMP=./temp
 # use this when building directly from qx repository
 # SOURCE=${QOOXDOO}/frontend/framework/source   

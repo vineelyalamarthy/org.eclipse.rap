@@ -1,0 +1,25 @@
+### Eclipse Workspace Patch 1.0
+#P org.eclipse.rap.tools
+Index: qx-build/source/class/qx/ui/form/Button.js
+===================================================================
+RCS file: /cvsroot/technology/org.eclipse.rap/org.eclipse.rap.tools/qx-build/source/class/qx/ui/form/Button.js,v
+retrieving revision 1.3
+diff -u -r1.3 Button.js
+--- qx-build/source/class/qx/ui/form/Button.js	7 Aug 2007 16:30:45 -0000	1.3
++++ qx-build/source/class/qx/ui/form/Button.js	16 Jul 2008 11:23:52 -0000
+@@ -232,6 +232,7 @@
+         case "Space":
+           this.removeState("abandoned");
+           this.addState("pressed");
++          e.stopPropagation();
+       }
+     },
+ 
+@@ -256,6 +257,7 @@
+             this.removeState("abandoned");
+             this.removeState("pressed");
+             this.execute();
++            e.stopPropagation();
+           }
+       }
+     }
