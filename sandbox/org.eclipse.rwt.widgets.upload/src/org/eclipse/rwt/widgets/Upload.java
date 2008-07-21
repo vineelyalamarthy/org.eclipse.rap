@@ -180,6 +180,17 @@ public class Upload extends Control {
     this (parent, style, null, flags);
   }
   
+  /**
+   * Convenience constructor for creating an upload widget without upload 
+   * button and progress bar. Same as {@link Upload(parent,int,int)} with 0 as
+   * value for the flags parameter.
+   */
+  public Upload( final Composite parent,
+                 final int style )
+  {
+    this( parent, style, null, 0 );
+  }
+  
 
   /**
    * Gets the servlet.
