@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -157,8 +157,14 @@ qx.Class.define("qx.ui.core.Parent",
      * @type member
      * @return {void}
      */
-    activateFocusRoot : function() {
-      this.setFocusHandler(new qx.event.handler.FocusHandler(this));
+    activateFocusRoot : function()
+    {
+      if (this._focusHandler) {
+        return;
+      }
+
+      this._focusHandler = new qx.event.handler.FocusHandler(this);
+      this.setFocusHandler(this._focusHandler);
     },
 
 
@@ -1477,7 +1483,7 @@ qx.Class.define("qx.ui.core.Parent",
   destruct : function()
   {
     this._disposeObjectDeep("_children", 1);
-    this._disposeObjects("_layoutImpl");
+    this._disposeObjects("_layoutImpl", "_focusHandler");
     this._disposeFields("_childrenQueue", "_childrenQueue", "_remappingChildTable",
       "_remappingChildTarget", "_cachedVisibleChildren");
   }

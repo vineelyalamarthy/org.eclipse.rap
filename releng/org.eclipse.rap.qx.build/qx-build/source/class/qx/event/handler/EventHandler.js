@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -96,7 +96,7 @@ qx.Class.define("qx.event.handler.EventHandler",
     mouseEventTypes : [
       "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click",
       "dblclick", "contextmenu",
-      qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll"
+      qx.core.Variant.isSet("qx.client", "gecko") ? "DOMMouseScroll" : "mousewheel"
     ],
 
     keyEventTypes : [ "keydown", "keypress", "keyup" ],
@@ -643,43 +643,6 @@ qx.Class.define("qx.event.handler.EventHandler",
       var vFocusRoot = this.getFocusRoot();
       var vTarget = this.getCaptureWidget() || (vFocusRoot == null ? null : vFocusRoot.getActiveChild());
 
-      if (vTarget == null || !vTarget.getEnabled()) {
-        return false;
-      }
-
-      var vDomEventTarget = vTarget.getElement();
-
-      // Hide Menus
-      switch(vKeyIdentifier)
-      {
-        case "Escape":
-        case "Tab":
-          if (qx.Class.isDefined("qx.ui.menu.Manager")) {
-            qx.ui.menu.Manager.getInstance().update(vTarget, vType);
-          }
-
-          break;
-      }
-
-      // TODO: Move this to KeyEvent?
-      // Prohibit CTRL+A
-      if (!this.getAllowClientSelectAll())
-      {
-        if (vDomEvent.ctrlKey && vKeyIdentifier == "A")
-        {
-          switch(vDomTarget.tagName.toLowerCase())
-          {
-            case "input":
-            case "textarea":
-            case "iframe":
-              break;
-
-            default:
-              qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
-          }
-        }
-      }
-
       // Create Event Object
       var vKeyEventObject = new qx.event.type.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode, vCharCode, vKeyIdentifier);
 
@@ -688,8 +651,39 @@ qx.Class.define("qx.event.handler.EventHandler",
         this._checkKeyEventMatch(vKeyEventObject);
       }
 
-      try
+      if (vTarget != null && vTarget.getEnabled())
       {
+        // Hide Menus
+        switch(vKeyIdentifier)
+        {
+          case "Escape":
+          case "Tab":
+            if (qx.Class.isDefined("qx.ui.menu.Manager")) {
+              qx.ui.menu.Manager.getInstance().update(vTarget, vType);
+            }
+
+            break;
+        }
+
+        // TODO: Move this to KeyEvent?
+        // Prohibit CTRL+A
+        if (!this.getAllowClientSelectAll())
+        {
+          if (vDomEvent.ctrlKey && vKeyIdentifier == "A")
+          {
+            switch(vDomTarget.tagName.toLowerCase())
+            {
+              case "input":
+              case "textarea":
+              case "iframe":
+                break;
+
+              default:
+                qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
+            }
+          }
+        }
+
         // Starting Objects Internal Event Dispatcher
         // This handles the real event action
         vTarget.dispatchEvent(vKeyEventObject);
@@ -699,17 +693,9 @@ qx.Class.define("qx.event.handler.EventHandler",
           qx.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);
         }
       }
-      catch(ex)
-      {
-        this.error("Failed to dispatch key event", ex);
-        this.createDispatchDataEvent("error", ex);
-      }
 
       // Cleanup Event Object
       vKeyEventObject.dispose();
-
-      // Flush Queues
-      qx.ui.core.Widget.flushGlobalQueues();
     },
 
 
@@ -935,8 +921,6 @@ qx.Class.define("qx.event.handler.EventHandler",
             vRoot.setActiveChild(vTarget);
           }
         }
-
-        var vDomEventTarget = vTarget.getElement();
 
         // Find related target object
         switch(vType)

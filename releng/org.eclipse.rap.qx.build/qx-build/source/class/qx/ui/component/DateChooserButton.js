@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
       if (value instanceof qx.ui.core.Widget && qx.util.Validation.isValidFunction(value.setValue) && qx.util.Validation.isValidFunction(value.getValue)) {
         return true;
       } else {
-        throw new error("TargetWidget must be an instance of qx.ui.core.Widget and has setValue and getValue methods");
+        throw new Error("TargetWidget must be an instance of qx.ui.core.Widget and has setValue and getValue methods");
       }
     },
 
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     _changeLocale : function(dateFormatSize)
     {
       if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
-        throw new error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
+        throw new Error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
       }
 
       var date = null;
@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     _executeHandler : function(e)
     {
       if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
-        throw new error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
+        throw new Error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
       }
 
       var date = null;
@@ -369,7 +369,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      */
     _chooserSelectHandler : function(e)
     {
-      target = this.getTargetWidget();
+      var target = this.getTargetWidget();
       target.setValue(this._dateFormat.format(this._chooser.getDate()));
       this._chooserWindow.close();
       target.focus();
@@ -389,6 +389,8 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     var chooserWindowParent = this._chooserWindow.getParent();
     if (chooserWindowParent)
       chooserWindowParent.remove(this._chooserWindow);
+
+    qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._changeLocaleHandler, this);
 
     this._disposeObjects("_dateFormat", "_chooser", "_chooserWindow");
   }

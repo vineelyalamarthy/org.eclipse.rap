@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -23,6 +23,7 @@
 #module(core)
 #module(oo)
 #require(qx.core.Setting)
+#require(qx.lang.Object)
 
 ************************************************************************ */
 
@@ -180,8 +181,6 @@ qx.Class.define("qx.Class",
       // Members, properties, events and mixins are only allowed for non-static classes
       if (config.extend)
       {
-        var superclass = config.extend;
-
         // Attach properties
         if (config.properties) {
           this.__addProperties(clazz, config.properties, true);
@@ -1281,7 +1280,6 @@ qx.Class.define("qx.Class",
      */
     __addMembers : function(clazz, members, patch, base)
     {
-      var superproto = clazz.superclass.prototype;
       var proto = clazz.prototype;
       var key, member;
 
@@ -1292,6 +1290,10 @@ qx.Class.define("qx.Class",
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
+          if (proto[key] !== undefined && key.charAt(0) == "_" && key.charAt(1) == "_") {
+            throw new Error('Overwriting private member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
+          }
+
           if (patch !== true && proto[key] !== undefined) {
             throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
           }
@@ -1302,8 +1304,9 @@ qx.Class.define("qx.Class",
         if (base !== false && member instanceof Function)
         {
           // Configure extend (named base here)
-          if (superproto[key]) {
-            member.base = superproto[key];
+          // Hint: proto[key] is not yet overwritten here
+          if (proto[key]) {
+            member.base = proto[key];
           }
 
           member.self = clazz;
@@ -1340,7 +1343,7 @@ qx.Class.define("qx.Class",
         // directly used by this class. It is allowed however, to have an interface
         // included multiple times by extends in the interfaces etc.
         if (this.hasOwnInterface(clazz, iface)) {
-          throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '" by class: ' + this.getByMixin(clazz, mixin).classname + '!');
+          throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '!');
         }
 
         // Check interface and wrap members

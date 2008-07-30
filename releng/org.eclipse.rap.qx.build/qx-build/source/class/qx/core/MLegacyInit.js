@@ -14,6 +14,8 @@ qx.Mixin.define("qx.core.MLegacyInit",
      */
     defineInitialize : function(func)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please sub class qx.application.Gui");
+
       if (!this.getApplication()) {
         this.setApplication(new qx.application.Gui);
       }
@@ -35,13 +37,15 @@ qx.Mixin.define("qx.core.MLegacyInit",
      */
     defineMain : function(func)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please sub class qx.application.Gui");
+
       if (!this.getApplication()) {
         this.setApplication(new qx.application.Gui);
       }
 
       this.getApplication().main = function()
       {
-        qx.application.Gui.prototype.main();
+        qx.application.Gui.prototype.main.call(this);
         if (this.initialize) {
           this.initialize();
         }
@@ -64,6 +68,8 @@ qx.Mixin.define("qx.core.MLegacyInit",
      */
     defineFinalize : function(func)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please sub class qx.application.Gui");
+
       if (!this.getApplication()) {
         this.setApplication(new qx.application.Gui);
       }
@@ -85,13 +91,15 @@ qx.Mixin.define("qx.core.MLegacyInit",
      */
     defineClose : function(func)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please sub class qx.application.Gui");
+
       if (!this.getApplication()) {
         this.setApplication(new qx.application.Gui);
       }
 
       this.getApplication().close = function()
       {
-        qx.application.Gui.prototype.close();
+        qx.application.Gui.prototype.close.call(this);
         func.call(this);
       }
     },
@@ -108,13 +116,15 @@ qx.Mixin.define("qx.core.MLegacyInit",
      */
     defineTerminate : function(func)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please sub class qx.application.Gui");
+
       if (!this.getApplication()) {
         this.setApplication(new qx.application.Gui);
       }
 
       this.getApplication().terminate = function()
       {
-        qx.application.Gui.prototype.terminate();
+        qx.application.Gui.prototype.terminate.call(this);
         func.call(this);
       }
     }

@@ -1,9 +1,12 @@
 #!/bin/sh
-VERSION=0.7.0
-REVISION=9276
+#
+# This script must be run with qx-build/custom as working directory.
+
+VERSION=0.7.3
+REVISION=11170
 #QOOXDOO=../../../qooxdoo/qooxdoo
 # point to the directory that contains the generator.py
-TOOL=../../../qx-0.7.2/qooxdoo/frontend/framework/tool
+TOOL=../../../qx-0.7.3/qooxdoo/frontend/framework/tool
 TEMP=./temp
 # use this when building directly from qx repository
 # SOURCE=${QOOXDOO}/frontend/framework/source   
@@ -107,7 +110,7 @@ rm ${TEMP}/class/qx/io/Json.js
 
 
 echo "  REPLACING SOURCES WITH OVERRIDES"
-cp -r ${SOURCE_REPLACE}/* ${TEMP}
+test -d ${SOURCE_REPLACE} && cp -r ${SOURCE_REPLACE}/* ${TEMP}
 
 
 # *** command line switches to optimize generated output ***

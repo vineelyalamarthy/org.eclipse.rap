@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -76,7 +76,7 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Translate a plural message
      *
-     * Depending on the third argument the plursl or the singular form is chosen.
+     * Depending on the third argument the plural or the singular form is chosen.
      *
      * @type static
      * @param singularMessageId {String} message id of the singular form (may contain format strings)
@@ -101,8 +101,6 @@ qx.Class.define("qx.locale.Manager",
 
     /**
      * Translate a message with translation hint
-     *
-     * Depending on the third argument the plursl or the singular form is chosen.
      *
      * @type static
      * @param hint {String} hint for the translator of the message. Will be included in the .pot file.
@@ -248,8 +246,6 @@ qx.Class.define("qx.locale.Manager",
     _applyLocale : function(value, old)
     {
       this._locale = value;
-
-      var pos = value.indexOf("_");
       this._language = this._extractLanguage(value);
       this._updateObjects();
     },

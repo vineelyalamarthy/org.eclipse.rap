@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -159,7 +159,7 @@ qx.Class.define("qx.xml.Element",
         var doc = element.ownerDocument || element;
         doc.setProperty("SelectionLanguage", "XPath");
         doc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");
-        return qx.xml.Element.selectNodes(element, '//ns:' + tagname);
+        return qx.xml.Element.selectNodes(element, 'descendant-or-self::ns:' + tagname);
       }
     }),
 

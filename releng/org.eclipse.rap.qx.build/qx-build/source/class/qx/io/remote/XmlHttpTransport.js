@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
      2006 Derrell Lipman
 
    License:
@@ -242,32 +242,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
         return output;
       };
 
-      /*
-         XmlHttpTransport makes IE crash when a HTTP response with a statusCode != 200
-         arrives. The problem is propably some manipulation on the XmlHttpRequest object
-         during the handling of onreadystatechange. This problem needs further
-         investigation.
-
-         http://bugzilla.qooxdoo.org/show_bug.cgi?id=190
-
-         The following workaround calls the handler code with a zero timeout in order
-         to avoid those problems, because onreadystatechange can then return instantly.
-      */
-      var onreadyStateChangeCallback = qx.lang.Function.bind(this._onreadystatechange, this);
-      if (qx.core.Variant.isSet("qx.client", "mshtml") && this.getAsynchronous())
-      {
-        vRequest.onreadystatechange = function(e)
-        {
-          var self = this;
-          window.setTimeout(function(e) {
-            onreadyStateChangeCallback(e);
-          }, 0);
-        };
-      }
-      else
-      {
-        vRequest.onreadystatechange = onreadyStateChangeCallback
-      }
+      vRequest.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
 
       // --------------------------------------
       //   Opening connection
@@ -304,7 +279,8 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
       // --------------------------------------
       //   Sending data
       // --------------------------------------
-      try {
+      try
+      {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (qx.core.Setting.get("qx.ioRemoteDebugData"))
@@ -894,8 +870,9 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
     if (vRequest)
     {
       // Clean up state change handler
-      // Note that for IE the proper way to do this is to set it to a 
+      // Note that for IE the proper way to do this is to set it to a
       // dummy function, not null (Google on "onreadystatechange dummy IE unhook")
+      // http://groups.google.com/group/Google-Web-Toolkit-Contributors/browse_thread/thread/7e7ee67c191a6324
       vRequest.onreadystatechange = qx.io.remote.XmlHttpTransport.__dummy;
       // Aborting
       switch(vRequest.readyState)

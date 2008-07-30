@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -273,10 +273,15 @@ qx.Class.define("qx.ui.popup.Popup",
         var doc = qx.ui.core.ClientDocument.getInstance();
         var docWidth = doc.getClientWidth();
         var docHeight = doc.getClientHeight();
-        var restrictToPageLeft = this.getRestrictToPageLeft();
-        var restrictToPageRight = this.getRestrictToPageRight();
-        var restrictToPageTop = this.getRestrictToPageTop();
-        var restrictToPageBottom = this.getRestrictToPageBottom();
+
+        var scrollTop = qx.bom.Viewport.getScrollTop();
+        var scrollLeft = qx.bom.Viewport.getScrollLeft();
+
+        var restrictToPageLeft = this.getRestrictToPageLeft() + scrollLeft;
+        var restrictToPageRight = this.getRestrictToPageRight() - scrollLeft;
+        var restrictToPageTop = this.getRestrictToPageTop() + scrollTop;
+        var restrictToPageBottom = this.getRestrictToPageBottom() - scrollTop;
+
         var left = (this._wantedLeft == null) ? this.getLeft() : this._wantedLeft;
         var top = this.getTop();
         var width = this.getBoxWidth();
@@ -478,14 +483,11 @@ qx.Class.define("qx.ui.popup.Popup",
 
       if (el)
       {
-        var loc = qx.html.Location;
-        this.setLocation(
-          loc.getClientAreaLeft(el) -
-          (qx.core.Variant.isSet("qx.client", "gecko") ? qx.html.Style.getBorderLeft(el) : 0) +
-          (offsetX || 0), loc.getClientAreaTop(el) -
-          (qx.core.Variant.isSet("qx.client", "gecko") ? qx.html.Style.getBorderTop(el) : 0) +
-          (offsetY || 0)
-        );
+       var elementPos = qx.bom.element.Location.get(el);
+       this.setLocation(
+         elementPos.left + (offsetX || 0),
+         elementPos.top + (offsetY || 0)
+       );
       }
       else
       {
@@ -514,15 +516,16 @@ qx.Class.define("qx.ui.popup.Popup",
   },
 
 
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
+    qx.ui.popup.PopupManager.getInstance().remove(this);
+
     this._disposeFields("_showTimeStamp", "_hideTimeStamp");
   }
 });

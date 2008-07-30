@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -22,6 +22,7 @@
 /* ************************************************************************
 
 #embed(qx.static/image/blank.gif)
+#embed(qx.static/html/blank.html)
 
 ************************************************************************ */
 
@@ -54,8 +55,9 @@ qx.Class.define("qx.ui.embed.Iframe",
 
     this.initSelectable();
     this.initTabIndex();
+    this.initScrolling();
 
-    if (vSource != undefined) {
+    if (vSource != null) {
       this.setSource(vSource);
     }
   },
@@ -142,10 +144,9 @@ qx.Class.define("qx.ui.embed.Iframe",
     source :
     {
       check : "String",
-      init : "",
       apply : "_applySource",
-      event : "changeSource"
-
+      event : "changeSource",
+      nullable : true
     },
 
     /**
@@ -156,6 +157,15 @@ qx.Class.define("qx.ui.embed.Iframe",
       check : "String",
       init : "",
       apply : "_applyFrameName"
+    },
+
+
+    /** Whether the iframe's content pane should have scroll bars */
+    scrolling :
+    {
+      check : ["yes", "no", "auto"],
+      init  : "auto",
+      apply : "_applyScrolling"
     }
   },
 
@@ -287,8 +297,32 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     reload : function()
     {
-      if (this.isCreated() && this.getContentWindow()) {
-        this.getContentWindow().location.replace(this.getContentWindow().location.href);
+      if (this.isCreated() && this.getContentWindow())
+      {
+        this._isLoaded = false;
+
+        var currentSource = this.queryCurrentUrl() || this.getSource();
+
+        try
+        {
+          /*
+          Some gecko users might have an exception here:
+            Exception... "Component returned failure code: 0x805e000a
+            [nsIDOMLocation.replace]"  nsresult: "0x805e000a (<unknown>)"
+          */
+          try
+          {
+            this.getContentWindow().location.replace(currentSource);
+          }
+          catch(ex)
+          {
+            this.warn("Could not reload iframe using location.replace()!", ex);
+            this.getIframeNode().src = currentSource;
+          }
+        }
+        catch(ex) {
+          this.warn("Iframe source could not be set! This may be related to AdBlock Plus Firefox Extension.");
+        }
       }
     },
 
@@ -390,7 +424,6 @@ qx.Class.define("qx.ui.embed.Iframe",
       frameEl.vspace = "0";
 
       frameEl.border = "0";
-      frameEl.scrolling = "auto";
       frameEl.unselectable = "on";
       frameEl.allowTransparency = "true";
 
@@ -457,6 +490,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       var blockerNode = this.setBlockerNode(this._generateBlockerElement());
 
       this._syncSource();
+      this._syncScrolling();
 
       value.appendChild(iframeNode);
       value.appendChild(blockerNode);
@@ -520,21 +554,61 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       var currentSource = this.getSource();
 
-      if (qx.util.Validation.isInvalidString(currentSource)) {
+      if (currentSource == null || currentSource === "") {
         currentSource = qx.io.Alias.getInstance().resolve("static/html/blank.html");
       }
 
       this._isLoaded = false;
 
-      // the guru says ...
-      // it is better to use 'replace' than 'src'-attribute, since 'replace' does not interfer
-      // with the history (which is taken care of by the history manager), but there
-      // has to be a loaded document
-      if (this.getContentWindow()) {
-        this.getContentWindow().location.replace(currentSource);
-      } else {
-        this.getIframeNode().src = currentSource;
+      try
+      {
+        // the guru says ...
+        // it is better to use 'replace' than 'src'-attribute, since 'replace' does not interfer
+        // with the history (which is taken care of by the history manager), but there
+        // has to be a loaded document
+        if (this.getContentWindow())
+        {
+          /*
+          Some gecko users might have an exception here:
+            Exception... "Component returned failure code: 0x805e000a
+            [nsIDOMLocation.replace]"  nsresult: "0x805e000a (<unknown>)"
+          */
+          try
+          {
+            this.getContentWindow().location.replace(currentSource);
+          }
+          catch(ex)
+          {
+            this.getIframeNode().src = currentSource;
+          }
+        }
+        else
+        {
+          this.getIframeNode().src = currentSource;
+        }
       }
+      catch(ex) {
+        this.warn("Iframe source could not be set! This may be related to AdBlock Plus Firefox Extension.");
+      }
+    },
+
+
+    // property apply
+    _applyScrolling : function(value, old)
+    {
+      if (this.isCreated()) {
+        this._syncScrolling();
+      }
+    },
+
+
+    /**
+     * Sync scrolling property to the iframe DOM node.
+     *
+     * @type member
+     */
+    _syncScrolling : function() {
+      this.getIframeNode().setAttribute("scrolling", this.getScrolling());
     },
 
 
@@ -572,7 +646,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     _onload : function()
     {
-      if (!this._inLoaded)
+      if (!this._isLoaded)
       {
         this._isLoaded = true;
         this.createDispatchEvent("load");

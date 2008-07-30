@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
      2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
@@ -249,7 +249,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
         return {
           border          : "toolbar",
           backgroundColor : "toolbar-background",
-          backgroundImage : "widget/gradient/toolbar_gradient.png"
+          backgroundImage : "widget/gradient/toolbar_gradient.png",
+          padding : 1
         }
       }
     },
@@ -417,7 +418,6 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         var margin, width, height, padding, border;
-        var clazz = qx.ui.core.Border;
 
         if (states.checked || states.over)
         {
@@ -501,9 +501,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var paddingTop, paddingBottom, paddingLeft, paddingRight;
-        var marginTop, marginBottom, marginRight, marginLeft;
-        var backgroundColor, zIndex, border;
+        var marginTop, marginBottom;
 
         marginTop    = 0;
         marginBottom = 0;
@@ -526,7 +524,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
 
         if (states.checked) {
-          vReturn = {
+          var vReturn = {
             textColor       : "tab-view-text",
             backgroundImage : states.barTop ? "widget/gradient/tabbutton_gradient.png" : "widget/gradient/tabbutton_reverse_gradient.png",
             backgroundColor : "tab-view-button-checked",
@@ -1666,18 +1664,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border;
-
-        if (states.editing) {
-          border = new qx.ui.core.Border(2, "solid", "table-focus-indicator-active");
-        } else if (states.tableHasFocus) {
-          border = new qx.ui.core.Border(3, "solid", "table-focus-indicator-active");
-        } else {
-          border = new qx.ui.core.Border(3, "solid", "table-focus-indicator");
-        }
-
         return {
-          border : border
+          border : new qx.ui.core.Border(2, "solid", "table-focus-indicator")
         };
       }
     },
@@ -1697,7 +1685,6 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         return {
-          border : qx.ui.core.Border.fromConfig({ bottom : [ 1, "solid", "table-header-border" ] }),
           backgroundColor : "table-header"
         };
       }
@@ -1707,32 +1694,16 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        if (states.pressed || states.checked || states.abandoned)
-        {
-          var border  = "general";
-          var padding = [ 3, 2, 1, 4 ];
-        }
-        else if (states.over)
-        {
-          var border  = "general";
-          var padding = [ 2, 3 ];
-        }
-        else
-        {
-          var border  = "undefined";
-          var padding = [ 3, 4 ];
-        }
+        var border = qx.ui.core.Border.fromConfig({
+          bottom : [ 1, "solid", "table-header-border" ]
+        });
 
         return {
           cursor                : "default",
-          spacing               : 4,
-          width                 : "auto",
-          border                : border,
-          padding               : padding,
           verticalChildrenAlign : "middle",
-          backgroundColor       : states.abandoned ? "button" : "table-header-cell",
-          backgroundImage       : "widget/gradient/button_gradient.png",
-          icon                  : "widget/table/selectColumnOrder.png"
+          icon                  : "widget/table/selectColumnOrder.png",
+          padding               : [ 0, 4, 0, 3 ],
+          border                : border
         };
       }
     },
@@ -1741,7 +1712,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border, backgroundColor, paddingBottom;
+        var border, backgroundColor;
 
         if (states.mouseover)
         {
@@ -1764,38 +1735,20 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
 
         return {
-          paddingLeft           : 2,
-          paddingRight          : 2,
+          paddingLeft           : 6,
+          paddingRight          : 6,
+          paddingTop            : 4,
+          paddingBottom         : 3,
           spacing               : 2,
           overflow              : "hidden",
           iconPosition          : "right",
           verticalChildrenAlign : "middle",
           border                : border,
           backgroundColor       : backgroundColor,
-          backgroundImage       : "widget/gradient/button_gradient.png",
           icon                  : states.sorted ?
             (states.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png")
-            : null
-        };
-      }
-    },
-
-    "table-row" :
-    {
-      style : function(states)
-      {
-        return {
-          font                     : "default",
-          bgcolFocusedSelected     : "table-row-background-focused-selected",
-          bgcolFocusedSelectedBlur : "table-row-background-focused-selected-blur",
-          bgcolFocused             : "table-row-background-focused",
-          bgcolFocusedBlur         : "table-row-background-focused-blur",
-          bgcolSelected            : "table-row-background-selected",
-          bgcolSelectedBlur        : "table-row-background-selected-blur",
-          bgcolEven                : "table-row-background-even",
-          bgcolOdd                 : "table-row-background-odd",
-          colSelected              : "table-row-selected",
-          colNormal                : "table-row"
+            : null,
+          horizontalChildrenAlign : "left"
         };
       }
     },

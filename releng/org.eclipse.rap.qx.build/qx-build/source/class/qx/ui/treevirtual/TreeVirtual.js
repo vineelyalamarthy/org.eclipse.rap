@@ -103,15 +103,16 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       custom = { };
     }
 
-    if (custom.treeColumn === undefined)
-    {
-      custom.treeColumn = 0;
-    }
-
     if (! custom.dataModel)
     {
       custom.dataModel =
         new qx.ui.treevirtual.SimpleTreeDataModel();
+    }
+
+    if (custom.treeColumn === undefined)
+    {
+      custom.treeColumn = 0;
+      custom.dataModel.setTreeColumn(custom.treeColumn);
     }
 
     if (! custom.treeDataCellRenderer)
@@ -198,29 +199,9 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     // Move the focus with the mouse
     this.setFocusCellOnMouseMove(true);
 
-    // Change focus colors.  Make them less obtrusive.
-    this.setRowColors(
-      {
-        bgcolFocused     : "#f0f0f0",
-        bgcolFocusedBlur : "#f0f0f0"
-      });
-
     // Set the cell focus color
     var lightblue = "rgb(" + qx.util.ExtendedColor.toRgb("lightblue") + ")";
     this.setCellFocusAttributes({ backgroundColor : lightblue });
-
-    /*
-    // Use this instead, to help determine which does what
-    this.setRowColors(
-    {
-      bgcolFocusedSelected     : "cyan",
-      bgcolFocusedSelectedBlur : "green",
-      bgcolFocused             : "yellow",
-      bgcolFocusedBlur         : "blue",
-      bgcolSelected            : "red",
-      bgcolSelectedBlur        : "pink",
-    });
-    */
 
     // Get the list of pane scrollers
     var scrollers = this._getPaneScrollerArr();
@@ -279,14 +260,18 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      *   MULTIPLE_INTERVAL
      *     Allow any set of selected items, whether contiguous or not.
+     *
+     *   MULTIPLE_INTERVAL_TOGGLE
+     *     Like MULTIPLE_INTERVAL, but clicking on an item toggles its selection state.
      */
 
     SelectionMode :
     {
-      NONE             : qx.ui.table.selection.Model.NO_SELECTION,
-      SINGLE           : qx.ui.table.selection.Model.SINGLE_SELECTION,
-      SINGLE_INTERVAL  : qx.ui.table.selection.Model.SINGLE_INTERVAL_SELECTION,
-      MULTIPLE_INTERVAL: qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION
+      NONE                    : qx.ui.table.selection.Model.NO_SELECTION,
+      SINGLE                  : qx.ui.table.selection.Model.SINGLE_SELECTION,
+      SINGLE_INTERVAL         : qx.ui.table.selection.Model.SINGLE_INTERVAL_SELECTION,
+      MULTIPLE_INTERVAL       : qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION,
+      MULTIPLE_INTERVAL_TOGGLE: qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE
     }
   },
 
@@ -607,7 +592,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     {
       var _this = this;
       var components = [];
-      var nodeId;
+      var nodeId, node;
 
       if (typeof(nodeReference) == "object")
       {
@@ -644,35 +629,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
       addHierarchy(nodeId);
       return components;
-    },
-
-
-    /**
-     * Allow setting the tree row colors.
-     *
-     * @type member
-     * @param colors {Map}
-     *   The value of each property in the map is a string containing either a
-     *   number (e.g. "#518ad3") or color name ("white") representing the
-     *   color for that type of display.  The map may contain any or all of
-     *   the following properties:
-     *      <ul>
-     *        <li>bgcolFocusedSelected</li>
-     *        <li>bgcolFocusedSelectedBlur</li>
-     *        <li>bgcolFocused</li>
-     *        <li>bgcolFocusedBlur</li>
-     *        <li>bgcolSelected</li>
-     *        <li>bgcolSelectedBlur</li>
-     *        <li>bgcolEven</li>
-     *        <li>bgcolOdd</li>
-     *        <li>colSelected</li>
-     *        <li>colNormal</li>
-     *      </ul>
-     * @return {void}
-     */
-    setRowColors : function(colors)
-    {
-      this.getDataRowRenderer().setRowColors(colors);
     },
 
 
@@ -822,7 +778,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             if (node.parentNodeId)
             {
               // Find out what rendered row our parent node is at
-              var rowIndex = dm.getNodeRowMap()[node.parentNodeId];
+              var rowIndex = dm.getRowFromNode(node.parentNodeId);
 
               // Set the focus to our parent
               this.setFocusedCell(this._focusedCol, rowIndex, true);
@@ -1032,8 +988,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     setState : function(nodeReference, attributes)
     {
-      throw new Error("setState() is deprecated: " +
-                      "Replace with nodeSetState() in mixin MNode");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Replace with nodeSetState() in mixin MNode");
     },
 
 
@@ -1056,7 +1011,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     toggleOpened : function(nodeReference)
     {
-      throw new Error("toggleOpened() is deprecated. " +
+       qx.log.Logger.deprecatedMethodWarning(arguments.callee,
                       "Replace with nodeToggleOpened() or consider using " +
                       "new method nodeSetOpened(), both in mixin " +
                       "MNode.");
@@ -1081,8 +1036,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     getFirstChild : function(nodeReference)
     {
-      throw new Error("getFirstChild is deprecated. " +
-                      "Replace with familyGetFirstChild in mixin MFamily");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Replace with familyGetFirstChild in mixin MFamily");
     },
 
 
@@ -1127,8 +1081,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     getNextSibling : function(nodeReference)
     {
-      throw new Error("getNextSibling is deprecated. " +
-                      "Replace with familyGetNextSibling in mixin MFamily");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Replace with familyGetNextSibling in mixin MFamily");
     },
 
 
@@ -1150,8 +1103,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     getPrevSibling : function(nodeReference)
     {
-      throw new Error("getPrevSibling is deprecated. " +
-                      "Replace with familyGetPrevSibling in mixin MFamily");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Replace with familyGetPrevSibling in mixin MFamily");
     }
   }
 });

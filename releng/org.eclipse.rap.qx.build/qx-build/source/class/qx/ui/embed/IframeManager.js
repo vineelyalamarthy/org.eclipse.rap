@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Til Schneider (til132)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
@@ -42,6 +42,8 @@ qx.Class.define("qx.ui.embed.IframeManager",
 
   construct : function() {
     this.base(arguments);
+
+    this._blocked = {};
   },
 
 
@@ -70,12 +72,11 @@ qx.Class.define("qx.ui.embed.IframeManager",
      */
     handleMouseDown : function(evt)
     {
-      var iframeMap = this.getAll();
+      var iframeMap = this._blockData = qx.lang.Object.copy(this.getAll());
+      // console.debug("Blocking frames: " + qx.lang.Object.getLength(iframeMap));
 
-      for (var key in iframeMap)
-      {
-        var iframe = iframeMap[key];
-        iframe.block();
+      for (var key in iframeMap) {
+        iframeMap[key].block();
       }
     },
 
@@ -89,12 +90,11 @@ qx.Class.define("qx.ui.embed.IframeManager",
      */
     handleMouseUp : function(evt)
     {
-      var iframeMap = this.getAll();
+      var iframeMap = this._blockData;
+      // console.debug("Releasing frames: " + qx.lang.Object.getLength(iframeMap));
 
-      for (var key in iframeMap)
-      {
-        var iframe = iframeMap[key];
-        iframe.release();
+      for (var key in iframeMap) {
+        iframeMap[key].release();
       }
     }
   }

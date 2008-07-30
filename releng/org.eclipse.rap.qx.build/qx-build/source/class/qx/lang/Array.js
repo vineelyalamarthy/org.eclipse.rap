@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -145,7 +145,7 @@ qx.Class.define("qx.lang.Array",
      *
      * @type static
      * @param arr {Array} the array
-     * @return {var} the first element of the array
+     * @return {var|null} the first element of the array
      */
     getFirst : function(arr) {
       return arr[0];
@@ -296,6 +296,30 @@ qx.Class.define("qx.lang.Array",
      */
     contains : function(arr, obj) {
       return arr.indexOf(obj) != -1;
+    },
+
+
+    /**
+     * Check whether the two array have the same content. Checks only the
+     * equality of the arrays' content.
+     *
+     * @param array1 {Array} first array
+     * @param array2 {Array} second array
+     * @return {Boolean} Whether the two arrays are equal
+     */
+    equals : function(array1, array2)
+    {
+      if (array1.length !== array2.length) {
+        return false;
+      }
+      for (var i=0, l=array1.length; i<l; i++)
+      {
+        if (array1[i] !== array2[i]) {
+          return false;
+        }
+      }
+      return true;
     }
+
   }
 });

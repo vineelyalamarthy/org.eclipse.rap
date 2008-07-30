@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -193,7 +193,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
      */
     __oninterval : function(e)
     {
-      this.warn("Cannot preload: " + qx.lang.Object.getKeysAsString(this._list));
+      this.debug("Cannot preload: " + qx.lang.Object.getKeysAsString(this._list));
 
       this._stopped = true;
       this._timer.stop();
@@ -261,7 +261,12 @@ qx.Class.define("qx.io.image.PreloaderSystem",
 
   destruct : function()
   {
-    this._disposeObjects("_timer");
+    if (this._timer)
+    {
+      this._timer.removeEventListener("interval", this.__oninterval, this);
+      this._disposeObjects("_timer");
+    }
+
     this._disposeFields("_list");
   }
 });

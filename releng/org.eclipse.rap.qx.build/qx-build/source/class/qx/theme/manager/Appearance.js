@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -170,6 +170,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           this.warn("Missing appearance entry: " + id);
         }
+
         return null;
       }
 
@@ -226,9 +227,9 @@ qx.Class.define("qx.theme.manager.Appearance",
         result = {};
 
         // Copy base data, but exclude overwritten local and included stuff
-        if (entry.base && theme.supertheme)
+        if (entry.base)
         {
-          var base = this.styleFromTheme(theme.supertheme, id, states);
+          var base = this.styleFromTheme(entry.base, id, states);
 
           if (entry.include)
           {

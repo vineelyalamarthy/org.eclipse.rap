@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -286,8 +286,7 @@ qx.Class.define("qx.ui.basic.Label",
 // TODO [rh] unused     
 //    setHtml : function(html)
 //    {
-//      this.warn("Deprecated: please use setText() instead.");
-//      this.printStackTrace();
+//      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "please use setText() instead.");
 //      this.setText(html);
 //    },
 
@@ -301,8 +300,7 @@ qx.Class.define("qx.ui.basic.Label",
 // TODO [rh] unused     
 //    getHtml : function()
 //    {
-//      this.warn("Deprecated: please use getText() instead.");
-//      this.printStackTrace();
+//      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "please use getText() instead.");
 //      return this.getText();
 //    },
 
@@ -424,7 +422,7 @@ qx.Class.define("qx.ui.basic.Label",
       switch (mode)
       {
         case "text":
-          var escapedText = qx.xml.String.escape(text).replace(/(^ | $)/g, "&nbsp;").replace(/  /g, "&nbsp;&nbsp;");
+          var escapedText = qx.html.String.escape(text).replace(/(^ | $)/g, "&nbsp;").replace(/  /g, "&nbsp;&nbsp;");
           this._isHtml = escapedText !== text;
           this._content = escapedText;
           break;

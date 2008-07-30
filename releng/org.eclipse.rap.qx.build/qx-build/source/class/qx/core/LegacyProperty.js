@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -229,6 +229,8 @@ qx.Class.define("qx.core.LegacyProperty",
      */
     addProperty : function(config, proto)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Legacy properties are deprecated");
+
       if (typeof config !== "object") {
         throw new Error("AddProperty: Param should be an object!");
       }

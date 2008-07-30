@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -52,11 +52,7 @@ qx.Class.define("qx.application.Basic",
      *
      * @type member
      */
-    main : function() {
-      // this is needed to verify that the application developer has called the
-      // overridden main method
-      this._initializedMain = true;
-    },
+    main : function() {},
 
 
     /**

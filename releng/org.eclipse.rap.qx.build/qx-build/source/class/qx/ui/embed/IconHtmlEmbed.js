@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -139,11 +139,21 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
     _syncHtml : function()
     {
       var vHtml = [];
+      var vIsPng = /\.png$/i.test(this.getIcon());
+      var vSource;
 
       if (qx.util.Validation.isValidString(this.getIcon()))
       {
         vHtml.push("<img src=\"");
-        vHtml.push(qx.io.Alias.getInstance().resolve(qx.core.Variant.isSet("qx.client", "mshtml") ? "static/image/blank.gif" : this.getIcon()));
+
+        if (qx.core.Variant.isSet("qx.client", "mshtml") && vIsPng) {
+          vSource = "static/image/blank.gif";
+        } else {
+          vSource = this.getIcon();
+        }
+
+        vHtml.push(qx.io.Alias.getInstance().resolve(vSource));
+
         vHtml.push("\" style=\"vertical-align:middle;");
 
         if (this.getSpacing() != null)
@@ -169,11 +179,14 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
 
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
-          vHtml.push("filter:");
-          vHtml.push("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='");
-          vHtml.push(qx.io.Alias.getInstance().resolve(this.getIcon()));
-          vHtml.push("',sizingMethod='scale')");
-          vHtml.push(";");
+          if (vIsPng)
+          {
+            vHtml.push("filter:");
+            vHtml.push("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='");
+            vHtml.push(qx.io.Alias.getInstance().resolve(this.getIcon()));
+            vHtml.push("',sizingMethod='scale')");
+            vHtml.push(";");
+          }
         }
 
         vHtml.push("\"/>");

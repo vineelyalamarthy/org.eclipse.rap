@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
      2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
@@ -425,7 +425,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         var margin, width, height, padding, border;
-        var clazz = qx.ui.core.Border;
 
         if (states.checked || states.over)
         {
@@ -528,7 +527,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         var paddingTop, paddingBottom, paddingLeft, paddingRight;
         var marginTop, marginBottom, marginRight, marginLeft;
-        var backgroundColor, zIndex, border;
+        var backgroundColor, border;
 
         marginTop = 0;
         marginBottom = 0;
@@ -1247,7 +1246,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           height          : 15,
           padding         : 2,
           backgroundColor : states.selected ? "selected" : "undefined",
-          textColor       : states.selected ? "text-selected" : "undefined"
+          textColor       : states.disabled ? "text-disabled" : (states.selected ? "text-selected" : "undefined")
         };
       }
     },
@@ -1730,18 +1729,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var border;
-
-        if (states.editing) {
-          border = new qx.ui.core.Border(2, "solid", "table-focus-indicator-active");
-        } else if (states.tableHasFocus) {
-          border = new qx.ui.core.Border(3, "solid", "table-focus-indicator-active");
-        } else {
-          border = new qx.ui.core.Border(3, "solid", "table-focus-indicator");
-        }
-
         return {
-          border : border
+          border : new qx.ui.core.Border(2, "solid", "table-focus-indicator")
         };
       }
     },
@@ -1852,27 +1841,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor       : backgroundColor,
           icon                  : states.sorted ?
             (states.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png")
-            : null
-        };
-      }
-    },
-
-    "table-row" :
-    {
-      style : function(states)
-      {
-        return {
-          font                     : "default",
-          bgcolFocusedSelected     : "table-row-background-focused-selected",
-          bgcolFocusedSelectedBlur : "table-row-background-focused-selected-blur",
-          bgcolFocused             : "table-row-background-focused",
-          bgcolFocusedBlur         : "table-row-background-focused-blur",
-          bgcolSelected            : "table-row-background-selected",
-          bgcolSelectedBlur        : "table-row-background-selected-blur",
-          bgcolEven                : "table-row-background-even",
-          bgcolOdd                 : "table-row-background-odd",
-          colSelected              : "table-row-selected",
-          colNormal                : "table-row"
+            : null,
+          horizontalChildrenAlign : "left"
         };
       }
     },

@@ -1,13 +1,6 @@
-### Eclipse Workspace Patch 1.0
-#P org.eclipse.rap.tools
-Index: qx-build/source/class/qx/ui/form/TextField.js
-===================================================================
-RCS file: /cvsroot/technology/org.eclipse.rap/org.eclipse.rap.tools/qx-build/source/class/qx/ui/form/TextField.js,v
-retrieving revision 1.3
-diff -u -r1.3 TextField.js
---- qx-build/source/class/qx/ui/form/TextField.js	7 Aug 2007 16:30:45 -0000	1.3
-+++ qx-build/source/class/qx/ui/form/TextField.js	4 Oct 2007 16:06:05 -0000
-@@ -1002,7 +1002,9 @@
+--- qx-build/source/class/qx/ui/form/TextField.js	2008-01-31 17:40:35.000000000 +0100
++++ qx-build/source/class/qx/ui/form/TextField.js	2008-07-21 17:31:39.000000000 +0200
+@@ -1004,7 +1004,9 @@
        "default" : function(vStart)
        {
          this._visualPropertyCheck();
@@ -18,7 +11,7 @@ diff -u -r1.3 TextField.js
        }
      }),
  
-@@ -1035,7 +1037,7 @@
+@@ -1042,7 +1044,7 @@
        "default" : function()
        {
          this._visualPropertyCheck();
@@ -27,16 +20,16 @@ diff -u -r1.3 TextField.js
        }
      }),
  
-@@ -1071,7 +1073,7 @@
+@@ -1078,7 +1080,7 @@
  
          var el = this._inputElement;
  
--        if (qx.util.Validation.isValidString(el.value)) {
-+        if (qx.util.Validation.isValidString(el.value) && this.isSeeable()) {
+-        if ( qx.util.Validation.isValidString(el.value) && this.getVisibility() ) {
++        if ( qx.util.Validation.isValidString(el.value) && this.isSeeable() ) {
            el.selectionEnd = el.selectionStart + vLength;
          }
        }
-@@ -1105,7 +1107,7 @@
+@@ -1112,7 +1114,7 @@
          this._visualPropertyCheck();
  
          var el = this._inputElement;
@@ -45,7 +38,7 @@ diff -u -r1.3 TextField.js
        }
      }),
  
-@@ -1143,6 +1145,9 @@
+@@ -1150,6 +1152,9 @@
        "default" : function(vText)
        {
          this._visualPropertyCheck();
@@ -55,7 +48,7 @@ diff -u -r1.3 TextField.js
  
          var el = this._inputElement;
  
-@@ -1237,10 +1242,11 @@
+@@ -1244,10 +1249,11 @@
        "default" : function(vStart, vEnd)
        {
          this._visualPropertyCheck();

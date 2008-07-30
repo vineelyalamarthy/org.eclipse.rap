@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -123,10 +123,6 @@ qx.Class.define("qx.core.Variant",
         if (data === undefined) {
           throw new Error('Variant "' + key + '" is not defined.');
         }
-
-        if (data.defaultValue === undefined) {
-          throw new Error('Variant "' + key + '" is not supported by API.');
-        }
       }
 
       if (data.value !== undefined) {
@@ -150,7 +146,7 @@ qx.Class.define("qx.core.Variant",
         {
           if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
           {
-            if ((key.split(".")).length !== 2) {
+            if ((key.split(".")).length < 2) {
               throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
             }
           }
@@ -181,21 +177,24 @@ qx.Class.define("qx.core.Variant",
      */
     __loadUrlVariants : function()
     {
-      if (qx.core.Setting.get("qx.allowUrlSettings") != true) {
-        return
+      if (qx.core.Setting.get("qx.allowUrlVariants") != true) {
+        return;
       }
 
       var urlVariants = document.location.search.slice(1).split("&");
+
       for (var i=0; i<urlVariants.length; i++)
       {
         var variant = urlVariants[i].split(":");
         if (variant.length != 3 || variant[0] != "qxvariant") {
           continue;
         }
+
         var key = variant[1];
         if (!this.__variants[key]) {
           this.__variants[key] = {};
         }
+
         this.__variants[key].value = decodeURIComponent(variant[2]);
       }
     },
@@ -387,6 +386,8 @@ qx.Class.define("qx.core.Variant",
     statics.define("qx.compatibility", [ "on", "off" ], "on");
     statics.define("qx.eventMonitorNoListeners", [ "on", "off" ], "off");
     statics.define("qx.aspects", [ "on", "off" ], "off");
+    statics.define("qx.deprecationWarnings", [ "on", "off" ], "on");
+
     statics.__init();
   }
 });

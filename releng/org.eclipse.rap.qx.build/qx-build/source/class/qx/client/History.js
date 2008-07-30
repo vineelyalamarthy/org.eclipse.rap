@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -92,6 +92,7 @@ qx.Class.define("qx.client.History",
 
       this._titles = {};
       this._state = decodeURIComponent(this.__getHash());
+      this._locationState = decodeURIComponent(this.__getHash());
 
       this.__waitForIFrame(function()
       {
@@ -172,8 +173,8 @@ qx.Class.define("qx.client.History",
      * qooxdoo versions
      * @deprecated
      */
-    init : function()
-    {
+    init : function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "This method call is no longer needed.");
     },
 
 
@@ -294,13 +295,24 @@ qx.Class.define("qx.client.History",
     {
       "mshtml" : function()
       {
+        // the location only changes if the user manually changes the fragment
+        // identifier.
+        var locationState = decodeURIComponent(this.__getHash());
+        if (locationState != this._locationState)
+        {
+          this._locationState = locationState;
+          this.__storeState(locationState);
+          return locationState;
+        }
+
         var doc = this._iframe.contentWindow.document;
         var elem = doc.getElementById("state");
-        return elem ? decodeURIComponent(elem.innerText) : "";
+        var iframeState = elem ? decodeURIComponent(elem.innerText) : "";
+
+        return iframeState;
       },
 
-      "default" : function()
-      {
+      "default" : function() {
         return decodeURIComponent(this.__getHash());
       }
     }),

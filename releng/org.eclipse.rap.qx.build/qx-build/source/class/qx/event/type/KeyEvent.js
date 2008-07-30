@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -220,8 +220,7 @@ qx.Class.define("qx.event.type.KeyEvent",
      * @deprecated Will be removed with qooxdoo 0.7
      */
     getKeyCode : function() {
-      this.warn("Deprecated: please use getKeyIdentifier() instead.");
-      this.printStackTrace();
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use getKeyIdentifier() instead.");
       return this._keyCode;
     }
   },

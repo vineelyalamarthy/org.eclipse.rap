@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -89,7 +89,8 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
     currentAction :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      event : "changeCurrentAction"
     },
 
 
@@ -245,6 +246,9 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     getDropTarget : qx.core.Variant.select("qx.client",
     {
+      // This hack is no longer needed for Firefox 2.0
+      // We should verify, which Firefox version needed this hack.
+      /*
       "gecko" : function(e)
       {
         var vCurrent = e.getTarget();
@@ -259,7 +263,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
           vCurrent = qx.event.handler.EventHandler.getTargetObject(null, vCurrent);
         }
 
-        while (vCurrent != null && vCurrent != this.__dragCache.sourceWidget)
+        while (vCurrent != null)
         {
           if (!vCurrent.supportsDrop(this.__dragCache)) {
             return null;
@@ -274,6 +278,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
 
         return null;
       },
+      */
 
       "default" : function(e)
       {
@@ -332,6 +337,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
 
         var doc = qx.ui.core.ClientDocument.getInstance();
         doc.add(this.__feedbackWidget);
+        this.__feedbackWidget.setZIndex(1e8);
       }
     },
 

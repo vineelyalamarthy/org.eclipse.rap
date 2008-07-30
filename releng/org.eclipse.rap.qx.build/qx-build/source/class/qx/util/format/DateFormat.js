@@ -115,27 +115,27 @@ qx.Class.define("qx.util.format.DateFormat",
 
 
     /**
-     * (int) The threshold until when a year should be assumed to belong to the
+     * {Integer} The threshold until when a year should be assumed to belong to the
      * 21st century (e.g. 12 -> 2012). Years over this threshold but below 100 will be
      * assumed to belong to the 20th century (e.g. 88 -> 1988). Years over 100 will be
      * used unchanged (e.g. 1792 -> 1792).
      */
     ASSUME_YEAR_2000_THRESHOLD : 30,
 
-    /** {string} The date format used for logging. */
+    /** {String} The date format used for logging. */
     LOGGING_DATE_TIME_FORMAT : "yyyy-MM-dd HH:mm:ss",
 
-    /** {string} The am marker. */
+    /** {String} The am marker. */
     AM_MARKER : "am",
 
-    /** {string} The pm marker. */
+    /** {String} The pm marker. */
     PM_MARKER : "pm",
 
-    /** {string[]} The medium (three letter) timezone names. */
+    /** {String[]} The medium (three letter) timezone names. */
     MEDIUM_TIMEZONE_NAMES : [ "GMT" // TODO: fill up
     ],
 
-    /** {string[]} The full timezone names. */
+    /** {String[]} The full timezone names. */
     FULL_TIMEZONE_NAMES : [ "Greenwich Mean Time" // TODO: fill up
     ]
   },
@@ -523,7 +523,6 @@ qx.Class.define("qx.util.format.DateFormat",
             // Check whether the currChar belongs to that wildcard
             if (currChar == currWildcardChar)
             {
-
               // It does -> Raise the size
               currWildcardSize++;
 
@@ -645,7 +644,6 @@ qx.Class.define("qx.util.format.DateFormat",
         return ;
       }
 
-      var DateFormat = qx.util.format.DateFormat;
       var format = this._format;
 
       // Initialize the rules
@@ -773,12 +771,15 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.hour = parseInt(value, 10) % 12;
       };
 
+      var ignoreManipulator = function(dateValues, value) {
+        return;
+      };
+
       var shortMonthNames = qx.locale.Date.getMonthNames("abbreviated", this._locale);
       for (var i=0; i<shortMonthNames.length; i++) {
         shortMonthNames[i] = qx.lang.String.escapeRegexpChars(shortMonthNames[i].toString());
       }
 
-      var self = this;
       var shortMonthNamesManipulator = function(dateValues, value) {
         value = qx.lang.String.escapeRegexpChars(value);
         dateValues.month = shortMonthNames.indexOf(value);
@@ -1016,6 +1017,22 @@ qx.Class.define("qx.util.format.DateFormat",
         regex   : "(\\d\\d?\\d?)",
         field   : "ms"
       });
+
+      // TODO: Needs implementation
+      this._parseRules.push(
+      {
+        pattern     : "Z",
+        regex       : "((\\+|\\-)\\d\\d:?\\d\\d)",
+        manipulator : ignoreManipulator
+      });
+
+      // TODO: Needs implementation
+      this._parseRules.push(
+      {
+        pattern     : "z",
+        regex       : "([a-zA-Z]+)",
+        manipulator : ignoreManipulator
+      });
     }
   },
 
@@ -1029,6 +1046,6 @@ qx.Class.define("qx.util.format.DateFormat",
   */
 
   destruct : function() {
-    this._disposeFields("_format", "_locale", "__formatTree", "_parseFeed");
+    this._disposeFields("_format", "_locale", "__formatTree", "_parseFeed", "_parseRules");
   }
 });

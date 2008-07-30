@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
      2006 Derrell Lipman
 
    License:
@@ -262,6 +262,15 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         this.getTree().dispatchEvent(new qx.event.type.DataEvent("treeClose", this), true);
       }
 
+      // If we get closed and the current selection is inside of this node.
+      // set the selection to this folder
+      if (this.getOpen())
+      {
+        if(qx.lang.Array.contains(this.getItems(true, true), this.getTree().getSelectedElement())) {
+          this.getTree().getManager().setSelectedItem(this);
+        }
+      }
+
       this.setOpen(false);
     },
 
@@ -323,6 +332,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         this._horizontalLayout.setParent(this);
         this._horizontalLayout.setAnonymous(true);
         this._horizontalLayout.setAppearance(this instanceof qx.ui.tree.Tree ? "tree" : "tree-folder");
+        this.setAppearance("widget");
 
         // Move the row fields into the horizontal layout
         for (var i=0; i<this._treeRowStructureFields.length; i++) {
@@ -338,6 +348,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         // Create a veritcal box layout for all of this folder's children
         this._containerObject = new qx.ui.layout.VerticalBoxLayout;
         this._containerObject.setWidth(null);
+        this._containerObject.setHeight("auto");
         this._containerObject.setAnonymous(true);
 
         // it should be faster to first handle display,
@@ -347,9 +358,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         // opened again invisible.
         this._containerObject.setDisplay(this.getOpen());
         this._containerObject.setParent(this);
-
-        // remap remove* functions
-        this.remapChildrenHandlingTo(this._containerObject);
       }
     },
 
@@ -512,9 +520,68 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       }
     },
 
-    _remappingChildTable : [ "remove", "removeAt", "removeAll" ],
+
+    /**
+     * Store the current selection and select the root node.
+     */
+    __saveSelectionBeforeRemove : function()
+    {
+      var tree = this.getTree();
+      if (tree)
+      {
+        this.__oldSelection = tree.getSelectedElement();
+        tree.setSelectedElement(tree);
+      }
+    },
 
 
+    /**
+     * Restore the tree selection. If the old selection has been removed from
+     * the tree, the root node will be selected.
+     */
+    __restoreSelectionAfterRemove : function()
+    {
+      var tree = this.getTree();
+      if (tree)
+      {
+        if (!this.__oldSelection || !this.__oldSelection.getTree()) {
+          tree.setSelectedElement(tree);
+        } else {
+          tree.setSelectedElement(this.__oldSelection);
+        }
+      }
+    },
+
+
+    // overridden
+    remove : function(varargs)
+    {
+      if (this._containerObject) {
+        this.__saveSelectionBeforeRemove();
+        this._containerObject.remove.apply(this._containerObject, arguments);
+        this.__restoreSelectionAfterRemove();
+      }
+    },
+
+    // overridden
+    removeAt : function(vIndex)
+    {
+      if (this._containerObject) {
+        this.__saveSelectionBeforeRemove();
+        this._containerObject.removeAt(vIndex);
+        this.__restoreSelectionAfterRemove();
+      }
+    },
+
+    // overridden
+    removeAll : function()
+    {
+      if (this._containerObject) {
+        this.__saveSelectionBeforeRemove();
+        this._containerObject.removeAll();
+        this.__restoreSelectionAfterRemove();
+      }
+    },
 
 
     /*
@@ -813,9 +880,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       switch(vOriginalTarget)
       {
         case this._indentObject:
-          if (this._indentObject.getElement().firstChild == e.getDomTarget())
-          {
-            this.getTree().getManager().handleMouseDown(this, e);
+          if (this._indentObject.getElement().firstChild == e.getDomTarget()) {
             this.toggle();
           }
 
@@ -848,6 +913,11 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      */
     _onmouseup : function(e)
     {
+      // no explicit base call!
+      if (e._treeProcessed) {
+        return;
+      }
+
       var vOriginalTarget = e.getOriginalTarget();
 
       switch(vOriginalTarget)
@@ -860,8 +930,9 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         default:
           if (!this.getTree().getUseDoubleClick()) {
             this.open();
+            this.getTree().getManager().handleMouseUp(this, e);
+            e._treeProcessed = true;
           }
-          this.getTree().getManager().handleMouseUp(e.getTarget(), e);
       }
     },
 

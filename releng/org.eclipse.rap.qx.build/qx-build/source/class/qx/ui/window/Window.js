@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -808,14 +808,17 @@ qx.Class.define("qx.ui.window.Window",
       switch(value)
       {
         case "minimized":
+          this._disableResize = true;
           this._minimize();
           break;
 
         case "maximized":
+          this._disableResize = true;
           this._maximize();
           break;
 
         default:
+          delete this._disableResize;
           switch(old)
           {
             case "maximized":
@@ -1004,7 +1007,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _applyMaxWidth : function(value, old)
     {
-      this.base(arguments);
+      this.base(arguments, value);
       this._maximizeButtonManager();
     },
 
@@ -1019,7 +1022,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _applyMaxHeight : function(value, old)
     {
-      this.base(arguments);
+      this.base(arguments, value);
       this._maximizeButtonManager();
     },
 
@@ -1364,19 +1367,18 @@ qx.Class.define("qx.ui.window.Window",
       var pa = this.getParent();
       var pl = pa.getElement();
 
-      var l = qx.html.Location.getPageAreaLeft(pl);
-      var t = qx.html.Location.getPageAreaTop(pl);
-      var r = qx.html.Location.getPageAreaRight(pl);
-      var b = qx.html.Location.getPageAreaBottom(pl);
+      // compute locations
+      var paLoc = qx.bom.element.Location.get(pl, "scroll");
+      var elLoc = qx.bom.element.Location.get(el);
 
       this._dragSession =
       {
-        offsetX                   : e.getPageX() - qx.html.Location.getPageBoxLeft(el) + l,
-        offsetY                   : e.getPageY() - qx.html.Location.getPageBoxTop(el) + t,
-        parentAvailableAreaLeft   : l + 5,
-        parentAvailableAreaTop    : t + 5,
-        parentAvailableAreaRight  : r - 5,
-        parentAvailableAreaBottom : b - 5
+        offsetX                   : e.getPageX() - elLoc.left + paLoc.left,
+        offsetY                   : e.getPageY() - elLoc.top + paLoc.top,
+        parentAvailableAreaLeft   : paLoc.left + 5,
+        parentAvailableAreaTop    : paLoc.top + 5,
+        parentAvailableAreaRight  : paLoc.right - 5,
+        parentAvailableAreaBottom : paLoc.bottom - 5
       };
 
       // handle frame and translucently
@@ -1398,11 +1400,11 @@ qx.Class.define("qx.ui.window.Window",
             qx.ui.core.Widget.flushGlobalQueues();
           }
 
-          f._renderRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
-          f._renderRuntimeTop(qx.html.Location.getPageBoxTop(el) - t);
+          f._renderRuntimeLeft(elLoc.left - paLoc.left);
+          f._renderRuntimeTop(elLoc.top - paLoc.top);
 
-          f._renderRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
-          f._renderRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
+          f._renderRuntimeWidth(el.offsetWidth);
+          f._renderRuntimeHeight(el.offsetHeight);
 
           f.setZIndex(this.getZIndex() + 1);
 

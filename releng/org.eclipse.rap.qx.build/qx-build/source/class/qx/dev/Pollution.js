@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -171,7 +171,7 @@ qx.Class.define("qx.dev.Pollution",
           // MS IE 7 crashes when doing typeof(window.external), catch here
           if (qx.core.Variant.isSet("qx.client", "mshtml|opera"))
           {
-            if ((clientInfos.getMajor() >= 7) && (objectName == "window") && (key == "external")) {
+            if ((qx.core.Client.getInstance().getMajor() >= 7) && (objectName == "window") && (key == "external")) {
               continue;
             }
           }

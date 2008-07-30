@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -437,9 +437,8 @@ qx.Class.define("qx.ui.component.ColorPopup",
     {
       this._createColorSelector();
 
-      this._colorSelectorWindow.setTop(qx.html.Location.getPageBoxTop(this._selectorButton.getElement()) + 10);
-      this._colorSelectorWindow.setLeft(qx.html.Location.getPageBoxLeft(this._selectorButton.getElement()) + 100);
-
+      this._colorSelectorWindow.setTop(qx.bom.element.Location.getTop(this._selectorButton.getElement()) + 10);
+      this._colorSelectorWindow.setLeft(qx.bom.element.Location.getLeft(this._selectorButton.getElement()) + 100);
       this.hide();
 
       this._colorSelectorWindow.open();

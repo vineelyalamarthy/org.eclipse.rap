@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -93,7 +93,7 @@ qx.Class.define("qx.core.Target",
 
         // Event validation is only available in modern classes
         if (this.constructor.classname && !qx.Class.supportsEvent(this.constructor, type)) {
-          this.warn("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
+          this.warn("Objects of class '" + this.constructor.classname + "' does not support the event '" + type + "'", new Error());
         }
       }
 
@@ -256,7 +256,7 @@ qx.Class.define("qx.core.Target",
       this._dispatchEvent(evt, dispose);
 
       // Read default prevented
-      var defaultPrevented = evt._defaultPrevented;
+      var defaultPrevented = evt.getDefaultPrevented();
 
       // enable dispose for event?
       dispose && evt.dispose();

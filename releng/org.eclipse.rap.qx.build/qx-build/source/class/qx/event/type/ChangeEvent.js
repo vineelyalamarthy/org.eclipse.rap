@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -41,7 +41,7 @@ qx.Class.define("qx.event.type.ChangeEvent",
  /**
   * @param type {String} the type name of the event
   * @param value {var} additional value which should be passed to the event listener
-  * @param value {var} additional old value which should be passed to the event listener
+  * @param old {var} additional old value which should be passed to the event listener
   */
   construct : function(type, value, old)
   {
@@ -84,6 +84,7 @@ qx.Class.define("qx.event.type.ChangeEvent",
      * @deprecated use {@link #getValue} instead
      */
     getData : function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use getValue() instead!");
       return this.getValue();
     }
   },

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -25,7 +25,6 @@
 #use(qx.core.Init)
 #require(qx.core.LegacyProperty)
 #require(qx.core.Property)
-#resource(qx.static:static)
 
 ************************************************************************ */
 
@@ -133,22 +132,24 @@ qx.Class.define("qx.core.Object",
      * this method and free these resources.
      *
      * @type static
+     * @param unload {Boolean?false} Whether the dispose is fired through the page unload event
      * @return {void}
      */
-    dispose : function()
+    dispose : function(unload)
     {
       if (this.__disposed) {
         return;
       }
 
       this.__disposed = true;
+      this.__unload = unload || false;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
+        if (!unload && qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
         {
           var disposeStart = new Date;
-          console.debug("Disposing qooxdoo application...");
+          qx.core.Log.debug("Disposing qooxdoo application...");
         }
       }
 
@@ -167,13 +168,8 @@ qx.Class.define("qx.core.Object",
           }
           catch(ex)
           {
-            try
-            {
-              console.warn("Could not dispose: " + vObject + ": " + ex);
-            }
-            catch(exc)
-            {
-              throw new Error("Could not dispose: " + vObject + ": " + ex);
+            if (qx.core.Variant.isSet("qx.debug", "on")) {
+              qx.core.Log.warn("Could not dispose: " + vObject + ": ", ex);
             }
           }
         }
@@ -181,12 +177,12 @@ qx.Class.define("qx.core.Object",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
+        if (!unload && qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
         {
           // check dom
           var elems = document.all ? document.all : document.getElementsByTagName("*");
 
-          console.debug("Checking " + elems.length + " elements for object references...");
+          qx.core.Log.debug("Checking " + elems.length + " elements for object references...");
 
           for (var i=0, l=elems.length; i<l; i++)
           {
@@ -198,15 +194,15 @@ qx.Class.define("qx.core.Object",
               {
                 if (typeof elem[key] == "object")
                 {
-                  if (elem[key] instanceof qx.core.Object || elem[key] instanceof Array) {
-
+                  if (elem[key] instanceof qx.core.Object || elem[key] instanceof Array)
+                  {
                     var name = "unknown object";
 
                     if (elem[key] instanceof qx.core.Object) {
                       name = elem[key].classname + "[" + elem[key].toHashCode() + "]";
                     }
 
-                    console.debug("Attribute '" + key + "' references " + name + " in DOM element: " + elem.tagName);
+                    qx.core.Log.debug("Attribute '" + key + "' references " + name + " in DOM element: " + elem.tagName);
                   }
                 }
               }
@@ -217,20 +213,31 @@ qx.Class.define("qx.core.Object",
             }
           }
 
-          console.debug("Disposing done in " + (new Date() - disposeStart) + "ms");
+          qx.core.Log.debug("Disposing done in " + (new Date() - disposeStart) + "ms");
         }
       }
     },
 
 
     /**
-     * Returns whether a global dispose (page unload) is currently taking place.
+     * Returns whether a global dispose is currently taking place.
      *
      * @type static
      * @return {Boolean} whether a global dispose is taking place.
      */
     inGlobalDispose : function() {
-      return this.__disposed;
+      return this.__disposed || false;
+    },
+
+
+    /**
+     * Returns whether a global unload (page unload) is currently taking place.
+     *
+     * @type static
+     * @return {Boolean} whether a global unload is taking place.
+     */
+    isPageUnload : function() {
+      return this.__unload || false;
     }
   },
 
@@ -314,6 +321,17 @@ qx.Class.define("qx.core.Object",
     },
 
 
+    /**
+     * Returns the key of the object used in the objects DB
+     * received by {@link #getDb()}.
+     *
+     * @type member
+     * @internal
+     * @return {Integer} The key in the db for the current object.
+     */
+    getDbKey: function() {
+      return this.__dbKey;
+    },
 
 
     /*
@@ -475,7 +493,7 @@ qx.Class.define("qx.core.Object",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-          console.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
+          qx.core.Log.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
 
@@ -510,14 +528,33 @@ qx.Class.define("qx.core.Object",
       // Additional checks
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
+        if (!qx.core.Object.isPageUnload())
         {
-          for (var vKey in this)
+          if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
           {
-            if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
+            var vValue;
+            for (var vKey in this)
             {
-              console.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + this[vKey]);
-              delete this[vKey];
+              vValue = this[vKey];
+
+              // Check for Objects but respect values attached to the prototype itself
+              if (vValue !== null && typeof vValue === "object")
+              {
+                // Check prototype value
+                // undefined is the best, but null may be used as a placeholder for
+                // private variables (hint: checks in qx.Class.define). We accept both.
+                if (this.constructor.prototype[vKey] != null) {
+                  continue;
+                }
+
+                // Allow class, interface, mixin and theme aliases
+                if (qx.Class.getByName(vValue.name) == vValue || qx.Interface.getByName(vValue.name) == vValue || qx.Mixin.getByName(vValue.name) == vValue || qx.Theme.getByName(vValue.name) == vValue) {
+                  continue;
+                }
+
+                qx.core.Log.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + vValue);
+                delete this[vKey];
+              }
             }
           }
         }
@@ -556,7 +593,7 @@ qx.Class.define("qx.core.Object",
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-              console.debug(this.classname + " has no own field " + name);
+              qx.core.Log.debug(this.classname + " has no own field " + name);
             }
           }
 
@@ -592,7 +629,7 @@ qx.Class.define("qx.core.Object",
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-              console.debug(this.classname + " has no own field " + name);
+              qx.core.Log.debug(this.classname + " has no own field " + name);
             }
           }
 
@@ -632,7 +669,7 @@ qx.Class.define("qx.core.Object",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-            console.debug(this.classname + " has no own field " + name);
+            qx.core.Log.debug(this.classname + " has no own field " + name);
           }
         }
 
@@ -641,8 +678,8 @@ qx.Class.define("qx.core.Object",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
-          console.debug("Dispose Deep: " + name);
+        if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
+          qx.core.Log.debug("Dispose Deep: " + name);
         }
       }
 
@@ -667,8 +704,8 @@ qx.Class.define("qx.core.Object",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
-            console.debug("Sending dispose to " + obj.classname);
+          if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+            qx.core.Log.debug("Sending dispose to " + obj.classname);
           }
         }
 
@@ -692,8 +729,8 @@ qx.Class.define("qx.core.Object",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
-                  console.debug("- Deep processing item '" + i + "'");
+                if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                  qx.core.Log.debug("- Deep processing item '" + i + "'");
                 }
               }
 
@@ -702,8 +739,8 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
-                console.debug("- Resetting key (object) '" + key + "'");
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                qx.core.Log.debug("- Resetting key (object) '" + key + "'");
               }
             }
 
@@ -713,8 +750,8 @@ qx.Class.define("qx.core.Object",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
-                console.debug("- Resetting key (function) '" + key + "'");
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                qx.core.Log.debug("- Resetting key (function) '" + key + "'");
               }
             }
 
@@ -740,8 +777,8 @@ qx.Class.define("qx.core.Object",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
-                  console.debug("- Deep processing key '" + key + "'");
+                if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                  qx.core.Log.debug("- Deep processing key '" + key + "'");
                 }
               }
 
@@ -750,8 +787,8 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
-                console.debug("- Resetting key (object) '" + key + "'");
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                qx.core.Log.debug("- Resetting key (object) '" + key + "'");
               }
             }
 
@@ -761,8 +798,8 @@ qx.Class.define("qx.core.Object",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
-                console.debug("- Resetting key (function) '" + key + "'");
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 3) {
+                qx.core.Log.debug("- Resetting key (function) '" + key + "'");
               }
             }
 

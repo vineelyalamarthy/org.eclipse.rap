@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -73,13 +73,15 @@ qx.Class.define("qx.event.type.MouseEvent",
 
     buttons : qx.core.Variant.select("qx.client",
     {
-      "mshtml" :   {
+      "mshtml" :
+      {
         left   : 1,
         right  : 2,
         middle : 4
       },
 
-      "default" : {
+      "default" :
+      {
         left   : 0,
         right  : 2,
         middle : 1
@@ -233,23 +235,12 @@ qx.Class.define("qx.event.type.MouseEvent",
      */
     getPageX : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : qx.lang.Object.select(qx.core.Client.getInstance().isInQuirksMode() ? "quirks" : "standard",
-      {
-        "quirks" : function() {
-          return this.getDomEvent().clientX + document.documentElement.scrollLeft;
-        },
-
-        "standard" : function() {
-          return this.getDomEvent().clientX + document.body.scrollLeft;
-        }
-      }),
-
-      "gecko" : function() {
-        return this.getDomEvent().pageX;
+      "mshtml" : function() {
+        return this.getDomEvent().clientX + qx.bom.Viewport.getScrollLeft(window);
       },
 
-     "default": function() {
-        return this.getDomEvent().clientX;
+      "default" : function() {
+        return this.getDomEvent().pageX;
       }
     }),
 
@@ -262,23 +253,12 @@ qx.Class.define("qx.event.type.MouseEvent",
      */
     getPageY : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : qx.lang.Object.select(qx.core.Client.getInstance().isInQuirksMode() ? "quirks" : "standard",
-      {
-        "quirks" : function() {
-          return this.getDomEvent().clientY + document.documentElement.scrollTop;
-        },
-
-        "standard" : function() {
-          return this.getDomEvent().clientY + document.body.scrollTop;
-        }
-      }),
-
-      "gecko" : function() {
-        return this.getDomEvent().pageY;
+      "mshtml" : function() {
+        return this.getDomEvent().clientY + qx.bom.Viewport.getScrollTop(window);
       },
 
-      "default": function() {
-        return this.getDomEvent().clientY;
+      "default" : function() {
+        return this.getDomEvent().pageY;
       }
     }),
 
@@ -290,35 +270,13 @@ qx.Class.define("qx.event.type.MouseEvent",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * @signature function()
-     */
-    getClientX : qx.core.Variant.select("qx.client",
-    {
-      "mshtml|gecko" : function() {
-        return this.getDomEvent().clientX;
-      },
+    getClientX : function() {
+      return this.getDomEvent().clientX;
+    },
 
-      "default" : function() {
-        return this.getDomEvent().clientX + (document.body && document.body.scrollLeft != null ? document.body.scrollLeft : 0);
-      }
-    }),
-
-    /**
-     * @signature function()
-     */
-    getClientY : qx.core.Variant.select("qx.client",
-    {
-      "mshtml|gecko" : function() {
-        return this.getDomEvent().clientY;
-      },
-
-      "default" : function() {
-        return this.getDomEvent().clientY + (document.body && document.body.scrollTop != null ? document.body.scrollTop : 0);
-      }
-    }),
-
-
+    getClientY : function() {
+      return this.getDomEvent().clientY;
+    },
 
 
 
@@ -404,49 +362,44 @@ qx.Class.define("qx.event.type.MouseEvent",
     },
 
 
+    __buttons : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" :
+      {
+        1 : "left",
+        2 : "right",
+        4 : "middle"
+      },
+
+      "default" :
+      {
+        0 : "left",
+        2 : "right",
+        1 : "middle"
+      }
+    }),
+
+
     /**
-     * TODOC
+     * During mouse events caused by the depression or release of a mouse button,
+     * this method can be used to check which mouse button changed state.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} One of "left", "right", "middle" or "none"
      */
     _computeButton : function()
     {
-      var e = this.getDomEvent();
-
-      if (e.which != null)
+      switch(this.getDomEvent().type)
       {
-        switch(e.which)
-        {
-          case 1:
-            return qx.event.type.MouseEvent.C_BUTTON_LEFT;
+        case "click":
+        case "dblclick":
+          return "left";
 
-          case 3:
-            return qx.event.type.MouseEvent.C_BUTTON_RIGHT;
+        case "contextmenu":
+          return "right";
 
-          case 2:
-            return qx.event.type.MouseEvent.C_BUTTON_MIDDLE;
-
-          default:
-            return qx.event.type.MouseEvent.C_BUTTON_NONE;
-        }
-      }
-      else
-      {
-        switch(e.button)
-        {
-          case 1:
-            return qx.event.type.MouseEvent.C_BUTTON_LEFT;
-
-          case 2:
-            return qx.event.type.MouseEvent.C_BUTTON_RIGHT;
-
-          case 4:
-            return qx.event.type.MouseEvent.C_BUTTON_MIDDLE;
-
-          default:
-            return qx.event.type.MouseEvent.C_BUTTON_NONE;
-        }
+        default:
+          return this.__buttons[this.getDomEvent().button] || "none";
       }
     },
 
@@ -467,11 +420,11 @@ qx.Class.define("qx.event.type.MouseEvent",
      */
     _computeWheelDelta : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function() {
+      "default" : function() {
         return this.getDomEvent().wheelDelta / 120;
       },
 
-      "default" : function() {
+      "gecko" : function() {
         return -(this.getDomEvent().detail / 3);
       }
     })

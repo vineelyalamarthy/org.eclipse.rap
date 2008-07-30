@@ -271,20 +271,7 @@ qx.Class.define("qx.ui.component.DateChooser",
      * {string} The format for the date year
      * label at the top center.
      */
-    MONTH_YEAR_FORMAT : qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy"),
-
-
-    /**
-     * {qx.util.format.DateFormat} The format for the weekday
-     * labels (the headers of the date table).
-     */
-    WEEKDAY_FORMAT    : new qx.util.format.DateFormat("EE"),
-
-
-    /**
-     * {qx.util.format.DateFormat} The format for the week labels.
-     */
-    WEEK_FORMAT       : new qx.util.format.DateFormat("ww")
+    MONTH_YEAR_FORMAT : qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy")
   },
 
 
@@ -375,8 +362,6 @@ qx.Class.define("qx.ui.component.DateChooser",
      */
     _applyDate : function(value, old)
     {
-      var DateChooser = qx.ui.component.DateChooser;
-
       if ((value != null) && (this.getShownMonth() != value.getMonth() || this.getShownYear() != value.getFullYear()))
       {
         // The new date is in another month -> Show that month
@@ -642,6 +627,7 @@ qx.Class.define("qx.ui.component.DateChooser",
       // Show the day names
       var firstDayOfWeek = helpDate.getDay();
       var firstSundayInMonth = (1 + 7 - firstDayOfWeek) % 7;
+      var weekDayFormat = new qx.util.format.DateFormat("EE");
 
       for (var i=0; i<7; i++)
       {
@@ -650,7 +636,7 @@ qx.Class.define("qx.ui.component.DateChooser",
         var dayLabel = this._weekdayLabelArr[i];
 
         helpDate.setDate(firstSundayInMonth + day);
-        dayLabel.setText(DateChooser.WEEKDAY_FORMAT.format(helpDate));
+        dayLabel.setText(weekDayFormat.format(helpDate));
 
         if (qx.locale.Date.isWeekend(day)) {
           dayLabel.addState("weekend");
@@ -664,9 +650,11 @@ qx.Class.define("qx.ui.component.DateChooser",
       var nrDaysOfLastMonth = (7 + firstDayOfWeek - startOfWeek) % 7;
       helpDate.setDate(helpDate.getDate() - nrDaysOfLastMonth);
 
+      var weekFormat = new qx.util.format.DateFormat("ww");
+
       for (var week=0; week<6; week++)
       {
-        this._weekLabelArr[week].setText(DateChooser.WEEK_FORMAT.format(helpDate));
+        this._weekLabelArr[week].setText(weekFormat.format(helpDate));
 
         for (var i=0; i<7; i++)
         {
@@ -719,6 +707,8 @@ qx.Class.define("qx.ui.component.DateChooser",
 
   destruct : function()
   {
+    qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._updateDatePane, this);
+
     this._disposeObjects("_lastYearBt", "_lastMonthBt", "_nextMonthBt", "_nextYearBt", "_monthYearLabel");
 
     this._disposeObjectDeep("_weekdayLabelArr", 1);

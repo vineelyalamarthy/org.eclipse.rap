@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -63,10 +63,11 @@ qx.Class.define("qx.ui.core.ClientDocument",
     this._document.body.style.position = "";
 
     // Disable IE background image cache
-    // TODO: Optimize this => Only needed in IE6
-    try {
-      document.execCommand("BackgroundImageCache", false, true);
-    } catch(err) {};
+    if( qx.core.Variant.isSet("qx.client", "mshtml") && (qx.core.Client.getInstance().getMajor() < 7) ){
+      try {
+        document.execCommand("BackgroundImageCache", false, true);
+      } catch(err) {};
+    }
 
     // Cache current size
     this._cachedInnerWidth = this._document.body.offsetWidth;
@@ -245,7 +246,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.core.Parent} TODOC
      * @signature function()
      */
     getParent : qx.lang.Function.returnNull,
@@ -255,7 +256,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.popup.ToolTip} TODOC
      * @signature function()
      */
     getToolTip : qx.lang.Function.returnNull,

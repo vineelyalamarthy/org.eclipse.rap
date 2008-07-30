@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -55,10 +55,15 @@ qx.Class.define("qx.core.Init",
   {
     this.base(arguments);
 
+    // Bind event handlers
+    this._onloadWrapped = qx.lang.Function.bind(this._onload, this);
+    this._onbeforeunloadWrapped = qx.lang.Function.bind(this._onbeforeunload, this);
+    this._onunloadWrapped = qx.lang.Function.bind(this._onunload, this);
+
     // Attach DOM events
-    qx.html.EventRegistration.addEventListener(window, "load", qx.lang.Function.bind(this._onload, this));
-    qx.html.EventRegistration.addEventListener(window, "beforeunload", qx.lang.Function.bind(this._onbeforeunload, this));
-    qx.html.EventRegistration.addEventListener(window, "unload", qx.lang.Function.bind(this._onunload, this));
+    qx.html.EventRegistration.addEventListener(window, "load", this._onloadWrapped);
+    qx.html.EventRegistration.addEventListener(window, "beforeunload", this._onbeforeunloadWrapped);
+    qx.html.EventRegistration.addEventListener(window, "unload", this._onunloadWrapped);
   },
 
 
@@ -146,6 +151,12 @@ qx.Class.define("qx.core.Init",
      */
     _onload : function(e)
     {
+      if (this._onloadDone) {
+        return;
+      }
+
+      this._onloadDone = true;
+
       this.createDispatchEvent("load");
 
       this.debug("qooxdoo " + qx.core.Version.toString());
@@ -197,64 +208,12 @@ qx.Class.define("qx.core.Init",
       }
 
       // Debug info
-      this.debug("application: " + this.getApplication().classname);
+      this.debug("application: " + this.getApplication().classname + "[" + this.getApplication().toHashCode() + "]");
 
       // Send onload
       var start = new Date;
 
-      // This is a common migration error for 0.7
-      // this code may be removed once the main qooxdoo user base
-      // has migrated to 0.7
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        var app = this.getApplication();
-
-        if (app.initialize)
-        {
-          this.warn(
-            "The 'initialize' method is no longer called automatically! Please call it manually " +
-            "from the end of the constructor or the start of the 'main' method."
-          );
-        }
-
-        if (app.finalize)
-        {
-          this.warn(
-            "The 'finalize' method is no longer called automatically! It is save to call it at the " +
-            "end of the 'main' method."
-          );
-        }
-
-        var msg = "The overridden 'main' method has to be called. Please add " +
-            "the following command at beginning of your 'main' method: " +
-            "'this.base(arguments)'. The same is true over overridden " +
-            "'terminate' and 'close' methods."
-        var exception;
-
-        try {
-          app.main();
-        } catch(ex) {
-          exception = ex;
-        }
-
-        if (!app._initializedMain)
-        {
-          if (exception) {
-            this.error(msg)
-          } else {
-            throw new Error(msg);
-          }
-        }
-
-        if (exception) {
-          throw exception;
-        }
-      }
-      else
-      {
-        this.getApplication().main();
-      }
-
+      this.getApplication().main();
       this.info("main runtime: " + (new Date - start) + "ms");
     },
 
@@ -299,7 +258,7 @@ qx.Class.define("qx.core.Init",
       }
 
       // Dispose all qooxdoo objects
-      qx.core.Object.dispose();
+      qx.core.Object.dispose(true);
     }
   },
 
@@ -314,10 +273,25 @@ qx.Class.define("qx.core.Init",
 
   settings :
   {
-    "qx.application" : "qx.application.Gui",
-    "qx.isSource" : true
+    "qx.application" : "qx.application.Gui"
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // Detach DOM events
+    qx.html.EventRegistration.removeEventListener(window, "load", this._onloadWrapped);
+    qx.html.EventRegistration.removeEventListener(window, "beforeunload", this._onbeforeunloadWrapped);
+    qx.html.EventRegistration.removeEventListener(window, "unload", this._onunloadWrapped);
+  },
 
 
 

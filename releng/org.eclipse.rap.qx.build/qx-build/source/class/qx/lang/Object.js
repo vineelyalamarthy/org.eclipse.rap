@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -52,12 +52,12 @@ qx.Class.define("qx.lang.Object",
 
 
     /**
-     * Check whether the number of objects in the maps is at least "lenght"
+     * Check whether the number of objects in the maps is at least "length"
      *
      * @type static
      * @param map {Object} the map to check
      * @param length {Integer} minimum number of objects in the map
-     * @return {Boolean} whether the map contains at least "lenght" objects.
+     * @return {Boolean} whether the map contains at least "length" objects.
      */
     hasMinLength : function(map, length)
     {
@@ -225,6 +225,7 @@ qx.Class.define("qx.lang.Object",
      * @deprecated
      */
     carefullyMergeWith : function(target, source) {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
       return qx.lang.Object.mergeWith(target, source, false);
     },
 

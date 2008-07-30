@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
      2006 Derrell Lipman
      2006 STZ-IDA, Germany, http://www.stz-ida.de
 
@@ -217,7 +217,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
       // --------------------------------------
       //   Sending data
       // --------------------------------------
-      vData = this.getData();
+      var vData = this.getData();
 
       if (vData != null) {
         vUrl += "&" + qx.io.remote.ScriptTransport.ScriptTransport_DATA_PARAM + "=" + encodeURIComponent(vData);

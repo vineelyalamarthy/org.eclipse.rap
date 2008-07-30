@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -30,33 +30,33 @@ qx.Theme.define("qx.theme.classic.font.Default",
     "default" :
     {
       size : 11,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
+      family : [ "Lucida Grande", "Tahoma", "Verdana", "Liberation Sans", "Bitstream Vera Sans" ]
     },
 
     "bold" :
     {
       size : 11,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
+      family : [ "Lucida Grande", "Tahoma", "Verdana", "Liberation Sans", "Bitstream Vera Sans" ],
       bold : true
     },
 
     "large" :
     {
       size : 13,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
+      family : [ "Lucida Grande", "Tahoma", "Verdana", "Liberation Sans", "Bitstream Vera Sans" ]
     },
 
     "bold-large" :
     {
       size : 13,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
+      family : [ "Lucida Grande", "Tahoma", "Verdana", "Liberation Sans", "Bitstream Vera Sans" ],
       bold : true
     },
 
     "monospace" :
     {
       size : 11,
-      family : ["Consolas", "Bitstream Vera Sans Mono", "Courier New", "monospace"]
+      family : ["Consolas", "Liberation Sans Mono", "Bitstream Vera Sans Mono", "Courier New", "monospace"]
     }
   }
 });

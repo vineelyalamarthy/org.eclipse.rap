@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * Create a new instance of qx.nls.Date
+ * Create a new instance of qx.locale.Date
  */
 qx.Class.define("qx.locale.Date",
 {
@@ -215,6 +215,13 @@ qx.Class.define("qx.locale.Date",
         throw new Error('format must be one of "short", "medium", "long", "full"');
       }
 
+      var key = "cldr_time_format_" + size;
+      var localizedFormat = qx.locale.Manager.getInstance().translate(key, [], locale);
+
+      if (localizedFormat != key) {
+        return localizedFormat;
+      }
+
       switch(size)
       {
         case "short":
@@ -308,7 +315,6 @@ qx.Class.define("qx.locale.Date",
         "VI" : 0,
         "ZA" : 0,
         "ZW" : 0,
-        "ET" : 0,
         "MW" : 0,
         "NG" : 0,
         "TJ" : 0

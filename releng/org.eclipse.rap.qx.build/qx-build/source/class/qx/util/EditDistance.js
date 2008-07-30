@@ -7,7 +7,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -42,7 +42,7 @@ qx.Class.define("qx.util.EditDistance",
      *
      * @type static
      * @param dataA {Array} incoming source data
-     * @param dataA {Array} incoming target data
+     * @param dataB {Array} incoming target data
      * @return {Integer[][]} outgoing matrix
      */
     __computeLevenshteinDistance : function(dataA, dataB)
@@ -91,7 +91,7 @@ qx.Class.define("qx.util.EditDistance",
      * @type static
      * @param distance {Integer[][]} Precomputed matrix for the data fields
      * @param dataA {Array} incoming source data
-     * @param dataA {Array} incoming target data
+     * @param dataB {Array} incoming target data
      * @return {Map[]} Array of maps describing the operations needed
      */
     __computeEditOperations : function(distance, dataA, dataB)
@@ -159,7 +159,7 @@ qx.Class.define("qx.util.EditDistance",
      *
      * @type static
      * @param dataA {Array} incoming source data
-     * @param dataA {Array} incoming target data
+     * @param dataB {Array} incoming target data
      * @return {Map[]} Array of maps describing the operations needed
      */
     getEditOperations : function(dataA, dataB)

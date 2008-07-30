@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -92,7 +92,6 @@
  *     an error if the value passed to it is invalid.
  *   </td></tr>
  * </table>
- *
  *
  * *Property groups*
  *
@@ -301,7 +300,9 @@ qx.Class.define("qx.core.Property",
           {
             for (var name in this.$$inheritable)
             {
-              if (properties[name])
+              // Whether the property is available in this class
+              // and whether it is inheritable in this class as well
+              if (properties[name] && widget[refresh[name]])
               {
                 if (qx.core.Variant.isSet("qx.debug", "on"))
                 {
@@ -453,6 +454,12 @@ qx.Class.define("qx.core.Property",
 
         if (themeable)
         {
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (!this.$$method.style[a[i]]) {
+              throw new Error("Cannot add the non themable property '" + a[i] + "' to the themable property group '"+ name +"'");
+            }
+          }
           styler.push("this.", this.$$method.style[a[i]], "(a[", i, "]);");
           unstyler.push("this.", this.$$method.unstyle[a[i]], "();");
         }
@@ -504,7 +511,7 @@ qx.Class.define("qx.core.Property",
 
       // Fill dispose value
       if (config.dispose === undefined && typeof config.check === "string") {
-        config.dispose = this.__dispose[config.check] || qx.Class.isDefined(config.check);
+        config.dispose = this.__dispose[config.check] || qx.Class.isDefined(config.check) || qx.Interface.isDefined(config.check);
       }
 
       var method = this.$$method;
@@ -597,6 +604,11 @@ qx.Class.define("qx.core.Property",
       var msg = "Error in property " + property + " of class " + classname + " in method " + this.$$method[variant][property] + " with incoming value '" + value + "': ";
 
       obj.printStackTrace();
+
+      // Additional object error before throwing exception because gecko
+      // often has issues to throw the error correctly in the debug console otherwise
+      obj.error(msg + (this.__errors[id] || "Unknown reason: " + id));
+
       throw new Error(msg + (this.__errors[id] || "Unknown reason: " + id));
     },
 
@@ -727,7 +739,6 @@ qx.Class.define("qx.core.Property",
     {
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
-      var value = args ? args[0] : undefined;
       var code = [];
 
       var incomingValue = variant === "set" || variant === "style" || (variant === "init" && config.init === undefined);

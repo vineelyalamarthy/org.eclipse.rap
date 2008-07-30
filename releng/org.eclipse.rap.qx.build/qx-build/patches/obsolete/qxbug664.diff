@@ -1,7 +1,5 @@
-Index: branches/legacy_0_7_x/qooxdoo/frontend/framework/source/class/qx/io/remote/XmlHttpTransport.js
-===================================================================
---- branches/legacy_0_7_x/qooxdoo/frontend/framework/source/class/qx/io/remote/XmlHttpTransport.js	(revision 10231)
-+++ branches/legacy_0_7_x/qooxdoo/frontend/framework/source/class/qx/io/remote/XmlHttpTransport.js	(working copy)
+--- qx-build/source/class/qx/io/remote/XmlHttpTransport.js	(revision 10231)
++++ qx-build/source/class/qx/io/remote/XmlHttpTransport.js	(working copy)
 @@ -110,6 +110,16 @@
       */
      createRequestObject : function() {

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.embed.LinkEmbed",
       vHtml.push(this.getHtml());
       vHtml.push("</a>");
 
-      this.getElement().innerHTML = vHtml.join("");
+      this._getTargetNode().innerHTML = vHtml.join("");
     }
   }
 });

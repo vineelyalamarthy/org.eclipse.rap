@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -227,7 +227,7 @@ qx.Class.define("qx.client.Timer",
 
 
     /**
-     * Start the timer with a giben interval
+     * Start the timer with a given interval
      *
      * @type member
      * @param interval {Integer} Time in milliseconds between two callback calls.

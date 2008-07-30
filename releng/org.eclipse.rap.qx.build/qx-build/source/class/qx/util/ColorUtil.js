@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -239,6 +239,22 @@ qx.Class.define("qx.util.ColorUtil",
      */
     rgbToRgbString : function(rgb) {
       return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+    },
+
+
+    /**
+     * Converts a RGB array to an hex6 string
+     *
+     * @type static
+     * @param rgb {Array} an array with red, green and blue
+     * @return {String} a hex6 string
+     */
+    rgbToHexString : function(rgb) {
+      return(
+        qx.lang.String.pad(rgb[0].toString(16).toUpperCase(), 2) +
+        qx.lang.String.pad(rgb[1].toString(16).toUpperCase(), 2) +
+        qx.lang.String.pad(rgb[2].toString(16).toUpperCase(), 2)
+      );
     },
 
 

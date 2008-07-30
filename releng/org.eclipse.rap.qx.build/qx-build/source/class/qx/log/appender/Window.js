@@ -51,7 +51,21 @@ qx.Class.define("qx.log.appender.Window",
     this.base(arguments);
 
     this._id = qx.log.appender.Window.register(this);
-    this._name = (name == null) ? "qx_log" + (new Date()).getTime() : name;
+
+    this._name = name;
+    if (this._name == null) {
+      // No name was provided -> Use a name that includes a hash of the URL, so
+      // every running application gets its own log window.
+      // NOTE: We use a hash, because IE doesn't like when a whole URL is included
+      //       in the name
+      var url = window.location.href;
+      var hash = 0;
+      for (var i = 0; i < url.length; i++) {
+        hash = (hash + url.charCodeAt(i)) % 10000000;
+      }
+
+      this._name = "qx_log_" + hash;
+    }
 
     this._errorsPreventingAutoCloseCount = 0;
 
@@ -199,6 +213,13 @@ qx.Class.define("qx.log.appender.Window",
      */
     openWindow : function()
     {
+      // If window open is already running
+      if (this._inLogWindowCallback) {
+        return;
+      }
+
+      this._inLogWindowCallback = true;
+
       if (this._logWindow && !this._logWindow.closed)
       {
         // The window is already open -> Nothing to do
@@ -226,6 +247,13 @@ qx.Class.define("qx.log.appender.Window",
       //     this._logElem is not created yet. These events will be added to the
       //     this._logEventQueue and logged after this._logElem is created.
       this._logWindow = window.open("", this._name, params);
+
+      qx.client.Timer.once(this._openWindowCallback, this, 200);
+    },
+
+    _openWindowCallback : function()
+    {
+      delete this._inLogWindowCallback;
 
       if (!this._logWindow || this._logWindow.closed)
       {
@@ -365,7 +393,7 @@ qx.Class.define("qx.log.appender.Window",
     {
       if (!this._logWindow || this._logWindow.closed)
       {
-        if (!this._logWindow || !this._logEventQueue) {
+        if (!this._logEventQueue) {
           this._logEventQueue = [];
         }
 
@@ -425,7 +453,7 @@ qx.Class.define("qx.log.appender.Window",
         }
 
         // Scroll to bottom
-        this._logWindow.scrollTop = this._logElem.offsetHeight;
+        this._logLinesDiv.scrollTop = this._logLinesDiv.scrollHeight;
       }
     },
 
@@ -511,5 +539,8 @@ qx.Class.define("qx.log.appender.Window",
     catch(ex) {};
 
     this._autoCloseWindow();
+
+    this._disposeFields("_markerBtn", "_filterInput", "_logLinesDiv",
+      "_logEventQueue", "_filterTextWords", "_divDataSets");
   }
 });

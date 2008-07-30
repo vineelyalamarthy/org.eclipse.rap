@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -192,7 +192,8 @@ qx.Class.define("qx.ui.form.TextField",
       init : "",
       nullable : true,
       event : "changeValue",
-      apply : "_applyValue"
+      apply : "_applyValue",
+      dispose : true // in the case we use i18n text here
     },
 
     /**
@@ -653,6 +654,7 @@ qx.Class.define("qx.ui.form.TextField",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       UTILITIES
@@ -823,7 +825,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this.base(arguments);
 
-        if (!this._firstInputFixApplied) {
+        if (!this._firstInputFixApplied && this._inputElement) {
           qx.client.Timer.once(this._ieFirstInputFix, this, 1);
         }
       },
@@ -920,8 +922,8 @@ qx.Class.define("qx.ui.form.TextField",
       CROSS-BROWSER SELECTION HANDLING
 
       Microsoft Documentation:
-      http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/createrange.asp
-      http://msdn.microsoft.com/workshop/author/dhtml/reference/objects/obj_textrange.asp
+      http://msdn2.microsoft.com/en-us/library/ms536394.aspx
+      http://msdn2.microsoft.com/en-us/library/ms535872.aspx
     ---------------------------------------------------------------------------
     */
 
@@ -1002,9 +1004,7 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function(vStart)
       {
         this._visualPropertyCheck();
-        if( this.isSeeable() ) {
-          this._inputElement.selectionStart = vStart;
-        } 
+        this._inputElement.selectionStart = vStart;
       }
     }),
 
@@ -1024,20 +1024,25 @@ qx.Class.define("qx.ui.form.TextField",
 
         var vSelectionRange = this.__getSelectionRange();
 
+        // Check if the document.selection is the text range inside the input element
         if (!this._inputElement.contains(vSelectionRange.parentElement())) {
           return -1;
         }
 
         var vRange = this.__getRange();
+        var len = this._inputElement.value.length;
 
-        vRange.setEndPoint("EndToStart", vSelectionRange);
-        return vRange.text.length;
+        // Weird Internet Explorer statement
+        vRange.moveToBookmark(vSelectionRange.getBookmark());
+        vRange.moveEnd('character', len);
+
+        return len - vRange.text.length;
       },
 
       "default" : function()
       {
         this._visualPropertyCheck();
-        return this.isSeeable() ? this._inputElement.selectionStart : 0;
+        return this._inputElement.selectionStart;
       }
     }),
 
@@ -1073,7 +1078,7 @@ qx.Class.define("qx.ui.form.TextField",
 
         var el = this._inputElement;
 
-        if (qx.util.Validation.isValidString(el.value) && this.isSeeable()) {
+        if ( qx.util.Validation.isValidString(el.value) && this.getVisibility() ) {
           el.selectionEnd = el.selectionStart + vLength;
         }
       }
@@ -1107,7 +1112,7 @@ qx.Class.define("qx.ui.form.TextField",
         this._visualPropertyCheck();
 
         var el = this._inputElement;
-        return this.isSeeable() ? ( el.selectionEnd - el.selectionStart ) : 0;
+        return el.selectionEnd - el.selectionStart;
       }
     }),
 
@@ -1145,9 +1150,6 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function(vText)
       {
         this._visualPropertyCheck();
-        if( !this.isSeeable() ) {
-          return;
-        }
 
         var el = this._inputElement;
 
@@ -1242,11 +1244,10 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function(vStart, vEnd)
       {
         this._visualPropertyCheck();
-        if( this.isSeeable() ) {
-          var el = this._inputElement;
-          el.selectionStart = vStart;
-          el.selectionEnd = vEnd;
-        }
+
+        var el = this._inputElement;
+        el.selectionStart = vStart;
+        el.selectionEnd = vEnd;
       }
     })
   },

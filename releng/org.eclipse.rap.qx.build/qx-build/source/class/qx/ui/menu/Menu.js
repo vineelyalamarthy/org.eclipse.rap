@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -25,6 +25,11 @@
 ************************************************************************ */
 
 /**
+ *
+ * If you create a new menu using {@link qx.ui.menu.Menu}, do not forget
+ * to add it to the client document using its <i>addToDocument()</i> method,
+ * or the menu will not be positioned correctly in the application.
+ *
  * @appearance menu
  */
 qx.Class.define("qx.ui.menu.Menu",
@@ -50,11 +55,8 @@ qx.Class.define("qx.ui.menu.Menu",
     this.add(l);
 
     // Timer
-    this._openTimer = new qx.client.Timer(this.getOpenInterval());
-    this._openTimer.addEventListener("interval", this._onopentimer, this);
-
-    this._closeTimer = new qx.client.Timer(this.getCloseInterval());
-    this._closeTimer.addEventListener("interval", this._onclosetimer, this);
+    this.initOpenInterval();
+    this.initCloseInterval();
 
     // Event Listeners
     this.addEventListener("mouseover", this._onmouseover);
@@ -182,20 +184,22 @@ qx.Class.define("qx.ui.menu.Menu",
       init : false
     },
 
-    /** Interval in ms after the menu should be openend */
+    /** Interval in ms after which sub menus should be openend */
     openInterval :
     {
       check : "Integer",
       themeable : true,
-      init : 250
+      init : 250,
+      apply : "_applyOpenInterval"
     },
 
-    /** Interval in ms after the menu should be closed  */
+    /** Interval in ms after which sub menus should be closed  */
     closeInterval :
     {
       check : "Integer",
       themeable : true,
-      init : 250
+      init : 250,
+      apply : "_applyCloseInterval"
     },
 
     /** Horizontal offset in pixels of the sub menu  */
@@ -382,13 +386,31 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
+    _applyOpenInterval : function(value, old)
+    {
+      if (!this._openTimer) {
+        this._openTimer = new qx.client.Timer(value);
+        this._openTimer.addEventListener("interval", this._onopentimer, this);
+      } else {
+        this._openTimer.setInterval(value);
+      }
+    },
+
+
+    // property apply
+    _applyCloseInterval : function(value, old)
+    {
+      if (!this._closeTimer) {
+        this._closeTimer = new qx.client.Timer(this.getCloseInterval());
+        this._closeTimer.addEventListener("interval", this._onclosetimer, this);
+      } else {
+        this._closeTimer.setInterval(value);
+      }
+    },
+
+
+    // property apply
     _applyHoverItem : function(value, old)
     {
       if (old) {
@@ -401,17 +423,9 @@ qx.Class.define("qx.ui.menu.Menu",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyOpenItem : function(value, old)
     {
-      var vMakeActive = false;
-
       if (old)
       {
         var vOldSub = old.getMenu();
@@ -436,8 +450,8 @@ qx.Class.define("qx.ui.menu.Menu",
           var pl = value.getElement();
           var el = this.getElement();
 
-          vSub.setTop(qx.html.Location.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
-          vSub.setLeft(qx.html.Location.getPageBoxLeft(el) + qx.html.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
+          vSub.setTop(qx.bom.element.Location.getTop(pl) + this.getSubMenuVerticalOffset());
+          vSub.setLeft(qx.bom.element.Location.getLeft(el) + qx.html.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
 
           vSub.show();
         }
@@ -701,6 +715,7 @@ qx.Class.define("qx.ui.menu.Menu",
     _invalidateMaxLabelWidth : function()
     {
       this._cachedMaxLabelWidth = null;
+      this._cachedMaxArrowWidth = null;
 
       this._invalidateShortcutPosition();
       this._invalidateMaxLabelWidthIncShortcut();
@@ -721,19 +736,6 @@ qx.Class.define("qx.ui.menu.Menu",
 
       this._invalidateArrowPosition();
       this._invalidateMaxContentWidth();
-      this._invalidateMenuButtonNeededWidth();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _invalidateMaxLabelWidth : function()
-    {
-      this._cachedMaxArrowWidth = null;
       this._invalidateMenuButtonNeededWidth();
     },
 

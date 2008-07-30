@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -199,8 +199,6 @@ qx.Class.define("qx.ui.listview.ListViewPane",
       }
 
       // this.debug("Rows: " + vRowCount);
-
-      var vData = this._data;
       var vCell;
 
       // Sync cells: Add new ones and configure them
@@ -408,7 +406,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     getListViewTarget : function(e)
     {
       var vEventTop = e.getPageY();
-      var vPaneTop = qx.html.Location.getPageInnerTop(this.getElement());
+      var vPaneTop = qx.bom.element.Location.getTop(this.getElement(), "border");
       var vItemNo = Math.floor(this._currentScrollTop / this._rowHeight) + Math.floor((vEventTop - vPaneTop) / this._rowHeight);
 
       return this._data[vItemNo];

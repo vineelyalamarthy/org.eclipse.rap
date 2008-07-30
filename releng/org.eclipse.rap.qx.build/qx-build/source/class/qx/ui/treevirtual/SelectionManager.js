@@ -114,6 +114,21 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         // Get the table model
         var tableModel = table.getTableModel();
 
+        // If the cell hasn't been focused automatically...
+        if (evt instanceof qx.event.type.MouseEvent)
+        {
+          if (! table.getFocusCellOnMouseMove())
+          {
+            // ... then focus it now so we can determine the node to open/close
+            var scrollers = table._getPaneScrollerArr();
+
+            for (var i=0; i<scrollers.length; i++)
+            {
+              scrollers[i]._focusCellAtPagePos(evt.getPageX(), evt.getPageY());
+            }
+          }
+        }
+
         // Get the node to which this event applies
         var node = tableModel.getValue(treeCol, table.getFocusedRow());
 
@@ -129,7 +144,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
           var columnPositions = tcm._getColToXPosMap();
 
           // Calculate the position of the beginning of the tree column
-          var left = qx.html.Location.getClientBoxLeft(table.getElement());
+          var left = qx.bom.element.Location.getLeft(table.getElement());
 
           for (i=0; i<columnPositions[treeCol].visX; i++) {
             left += tcm.getColumnWidth(columnPositions[i].visX);

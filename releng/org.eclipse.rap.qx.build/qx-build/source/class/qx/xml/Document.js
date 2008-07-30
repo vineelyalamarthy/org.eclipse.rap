@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -24,7 +24,7 @@
  *
  * Tested with IE6, Firefox 2.0, WebKit/Safari 3.0 and Opera 9
  *
- * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/81f3de54-3b79-46dc-8e01-73ca2d94cdb5.asp
+ * http://msdn2.microsoft.com/en-us/library/ms535918.aspx
  * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
  */
 qx.Class.define("qx.xml.Document",
@@ -89,7 +89,7 @@ qx.Class.define("qx.xml.Document",
 
         if (qualifiedName && vObject)
         {
-          xmlStr = new qx.util.StringBuilder();
+          var xmlStr = new qx.util.StringBuilder();
           xmlStr.add("<?xml version='1.0' encoding='UTF-8'?>\n<");
           xmlStr.add(qualifiedName);
 

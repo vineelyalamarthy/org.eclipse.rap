@@ -14,6 +14,7 @@
 
    Authors:
      * Derrell Lipman (derrell)
+     * David Perez Carmona (david-perez)
 
 ************************************************************************ */
 
@@ -161,9 +162,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     },
 
     // overridden
-    /**
-     * @return {Object}
-     */
     _getCellStyle : function(cellInfo)
     {
       var node = cellInfo.value;
@@ -171,7 +169,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       // Return the style for the div for the cell.  If there's cell-specific
       // style information provided, append it.
       var html =
-        cellInfo.style +
+        this.base(arguments, cellInfo) +
         qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE +
         (node.cellStyle ? node.cellStyle + ";" : "");
       return html;
@@ -202,22 +200,22 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         }
 
       if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
-        {
-          html +=
-            ';width:' +
-            urlAndToolTip.imageWidth +
-            'px' +
-            ';height:' +
-            urlAndToolTip.imageHeight +
-            'px';
-        }
+      {
+        html +=
+          ';width:' +
+          urlAndToolTip.imageWidth +
+          'px' +
+          ';height:' +
+          urlAndToolTip.imageHeight +
+          'px';
+      }
 
       var tooltip = urlAndToolTip.tooltip;
 
       if (tooltip != null)
-        {
-          html += Stdcr.IMG_TITLE_START + tooltip;
-        }
+      {
+        html += Stdcr.IMG_TITLE_START + tooltip;
+      }
 
       html += Stdcr.IMG_END;
 
@@ -225,23 +223,32 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     },
 
 
+    /**
+     * Adds extra content just before the icon.
+     * @param cellInfo {Map} The information about the cell.
+     *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     * @return {Map} with the HTML and width in pixels of the rendered content.
+     */
+    _addExtraContentBeforeIcon : function(cellInfo)
+    {
+      return { html: '', width: 0 };
+    },
 
     // overridden
-    /**
-     * @return {String}
-     */
     _getContentHtml : function(cellInfo)
     {
       var html = "";
       var node = cellInfo.value;
       var imageUrl;
-      var _this = this;
 
       // Generate the indentation.  Obtain icon determination values once
       // rather than each time through the loop.
       var bUseTreeLines = this.getUseTreeLines();
       var bExcludeFirstLevelTreeLines = this.getExcludeFirstLevelTreeLines();
       var bAlwaysShowOpenCloseSymbol = this.getAlwaysShowOpenCloseSymbol();
+
+      // Horizontal position
+      var pos = 0;
 
       for (var i=0; i<node.level; i++)
       {
@@ -255,7 +262,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           imageWidth  : 19,
           imageHeight : 16
         });
+        pos += 19;
       }
+
+      var extra = this._addExtraContentBeforeIcon(cellInfo);
+      html += extra.html;
+      pos += extra.width;
 
       // Add the node's icon
       imageUrl = (node.bSelected ? node.iconSelected : node.icon);
@@ -293,7 +305,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         '<div style="position:absolute;' +
         'left:' +
         ((node.level * 19) + 16 + 2 + 2) +
-        ';' +
+        'px;' +
         'top:0' +
         (node.labelStyle ? ";" + node.labelStyle : "") +
         ';">' +
@@ -365,18 +377,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
           ! node.bHideOpenClose)
       {
-        // Yup.  Determine if this node has any children
-        var child = null;
-
-        for (child in node.children)
-        {
-          // If we find even one, we're done here.
-          break;
-        }
-
         // Does this node have any children, or do we always want the
         // open/close symbol to be shown?
-        if (child !== null || bAlwaysShowOpenCloseSymbol)
+        if (node.children.length > 0 || bAlwaysShowOpenCloseSymbol)
         {
           // If we're not showing tree lines...
           if (!bUseTreeLines)
@@ -411,15 +414,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           // parent?
           if (bLastChild)
           {
-            // Yup.  Return an ending plus or minus, or blank if node.bOpened
-            // so indicates.
+            // Yup.  Return an ending plus or minus.
             return (node.bOpened
                     ? this.WIDGET_TREE_URI + "end_minus.gif"
                     : this.WIDGET_TREE_URI + "end_plus.gif");
           }
 
-          // Otherwise, return a crossing plus or minus, or a blank if
-          // node.bOpened so indicates.
+          // Otherwise, return a crossing plus or minus.
           return (node.bOpened
                   ? this.WIDGET_TREE_URI + "cross_minus.gif"
                   : this.WIDGET_TREE_URI + "cross_plus.gif");
@@ -433,8 +434,26 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         // If this is a child of the root node...
         if (node.parentNodeId == 0)
         {
-          // then return a blank.
-          return this.STATIC_IMAGE_URI + "blank.gif";
+          // If this is the only child...
+          if (bLastChild && node.bFirstChild)
+          {
+            // ... then return a blank.
+            return this.STATIC_IMAGE_URI + "blank.gif";
+          }
+
+          // Otherwise, if this is the last child...
+          if (bLastChild)
+          {
+            // ... then return an end line.
+            return this.WIDGET_TREE_URI + "end.gif";
+          }
+
+          // Otherwise if this is the first child...
+          if (node.bFirstChild)
+          {
+            // ... then return a start line.
+            return this.WIDGET_TREE_URI + "start.gif";
+          }
         }
 
         // If this is a last child, return and ending line; otherwise cross.

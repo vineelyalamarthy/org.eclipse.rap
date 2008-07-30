@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -266,10 +266,10 @@ qx.Class.define("qx.theme.manager.Meta",
 
 
     /**
-     * Returns a list of all registered color themes
+     * Returns a list of all registered border themes
      *
      * @type static
-     * @return {Theme[]} list of color themes
+     * @return {Theme[]} list of border themes
      */
     getBorderThemes : function() {
       return this.__queryThemes("borders");
@@ -288,10 +288,10 @@ qx.Class.define("qx.theme.manager.Meta",
 
 
     /**
-     * Returns a list of all registered color themes
+     * Returns a list of all registered widget themes
      *
      * @type static
-     * @return {Theme[]} list of color themes
+     * @return {Theme[]} list of widget themes
      */
     getWidgetThemes : function() {
       return this.__queryThemes("widgets");
@@ -299,10 +299,10 @@ qx.Class.define("qx.theme.manager.Meta",
 
 
     /**
-     * Returns a list of all registered color themes
+     * Returns a list of all registered icon themes
      *
      * @type static
-     * @return {Theme[]} list of color themes
+     * @return {Theme[]} list of icon themes
      */
     getIconThemes : function() {
       return this.__queryThemes("icons");
@@ -310,13 +310,13 @@ qx.Class.define("qx.theme.manager.Meta",
 
 
     /**
-     * Returns a list of all registered color themes
+     * Returns a list of all registered appearance themes
      *
      * @type static
-     * @return {Theme[]} list of color themes
+     * @return {Theme[]} list of appearance themes
      */
     getAppearanceThemes : function() {
-      return this.__queryThemes("appearance");
+      return this.__queryThemes("appearances");
     }
   },
 

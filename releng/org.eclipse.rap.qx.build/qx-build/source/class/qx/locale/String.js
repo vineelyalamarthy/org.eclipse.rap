@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -57,7 +57,7 @@ qx.Class.define("qx.locale.String",
      * @param locale {String} optional locale to be used
      * @return {qx.locale.LocalizedString} alternative quotation start sign
      */
-    getQuotationStart : function(locale) {
+    getAlternateQuotationStart : function(locale) {
       return new qx.locale.LocalizedString("cldr_alternateQuotationStart", [], locale);
     },
 
@@ -69,7 +69,7 @@ qx.Class.define("qx.locale.String",
      * @param locale {String} optional locale to be used
      * @return {qx.locale.LocalizedString} alternative quotation end sign
      */
-    getQuotationEnd : function(locale) {
+    getAlternateQuotationEnd : function(locale) {
       return new qx.locale.LocalizedString("cldr_alternateQuotationEnd", [], locale);
     }
   }

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -124,10 +124,6 @@ qx.Class.define("qx.core.Setting",
         throw new Error('Setting "' + key + '" is not defined.');
       }
 
-      if (cache.defaultValue === undefined) {
-        throw new Error('Setting "' + key + '" is not supported by API.');
-      }
-
       if (cache.value !== undefined) {
         return cache.value;
       }
@@ -149,7 +145,7 @@ qx.Class.define("qx.core.Setting",
       {
         for (var key in qxsettings)
         {
-          if ((key.split(".")).length !== 2) {
+          if ((key.split(".")).length < 2) {
             throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
           }
 
@@ -180,21 +176,24 @@ qx.Class.define("qx.core.Setting",
       if (this.get("qx.allowUrlSettings") != true) {
         return
       }
+
       var urlSettings = document.location.search.slice(1).split("&");
+
       for (var i=0; i<urlSettings.length; i++)
       {
         var setting = urlSettings[i].split(":");
         if (setting.length != 3 || setting[0] != "qxsetting") {
           continue;
         }
+
         var key = setting[1];
         if (!this.__settings[key]) {
           this.__settings[key] = {};
         }
+
         this.__settings[key].value = decodeURIComponent(setting[2]);
       }
     }
-
   },
 
 
@@ -206,8 +205,12 @@ qx.Class.define("qx.core.Setting",
   *****************************************************************************
   */
 
-  defer : function(statics) {
-    statics.define("qx.allowUrlSettings", true);
+  defer : function(statics)
+  {
+    statics.define("qx.allowUrlSettings", false);
+    statics.define("qx.allowUrlVariants", false);
+    statics.define("qx.resourceUri", "./resource");
+    statics.define("qx.isSource", true);
     statics.__init();
   }
 });

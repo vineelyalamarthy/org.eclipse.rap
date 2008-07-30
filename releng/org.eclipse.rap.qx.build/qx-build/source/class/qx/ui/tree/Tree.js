@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
      2006 Derrell Lipman
 
    License:
@@ -259,6 +259,7 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     useDoubleClick : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use getUseDoubleClick instead");
       return this.getUseDoubleClick();
     },
 
@@ -267,6 +268,7 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     useTreeLines : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use getUseTreeLines instead");
       return this.getUseTreeLines();
     },
 
@@ -275,6 +277,7 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     hideNode : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use getHideNode instead");
       return this.getHideNode();
     },
 
@@ -588,7 +591,7 @@ qx.Class.define("qx.ui.tree.Tree",
     _onkeydown : function(e)
     {
       var vManager = this.getManager();
-      var vSelectedItem = vManager.getSelectedItem();
+      vManager.getSelectedItem();
     },
 
 
@@ -625,6 +628,11 @@ qx.Class.define("qx.ui.tree.Tree",
 
               if (vParent instanceof qx.ui.tree.TreeFolder)
               {
+                // The first node (if hidden) should be ignored for selection
+                if (vParent instanceof qx.ui.tree.Tree && vParent.getHideNode()) {
+                  return;
+                }
+
                 if (!(vParent instanceof qx.ui.tree.Tree)) {
                   vParent.close();
                 }
@@ -772,7 +780,7 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     getHierarchy : function(vArr)
     {
-      if (!this.hideNode() && this._labelObject) {
+      if (!this.getHideNode() && this._labelObject) {
         vArr.unshift(this._labelObject.getText());
       }
 

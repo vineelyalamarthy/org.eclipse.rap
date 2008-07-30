@@ -39,12 +39,39 @@
  *
  * When calling a server-side method, the parameters and return values are
  * converted automatically. Supported types are int (and Integer), double
- * (and Double), String, Date, Map, and JavaBeans. Beans must habe a default
+ * (and Double), String, Date, Map, and JavaBeans. Beans must have a default
  * constructor on the server side and are represented by simple JavaScript
  * objects on the client side (used as associative arrays with keys matching
- * the server-side properties). Beans can also be nested, but be careful to not
+ * the server-side properties). Beans can also be nested, but be careful not to
  * create circular references! There are no checks to detect these (which would
  * be expensive), so you as the user are responsible for avoiding them.
+ *
+ * A simple example:
+ * <pre class='javascript'>
+ *   function callRpcServer ()
+ *   {
+ *     var rpc = new qx.io.remote.Rpc();
+ *     rpc.setTimeout(10000);
+ *     rpc.setUrl("http://127.0.0.1:8007");
+ *     rpc.setServiceName("qooxdoo.admin");
+ *
+ *     // call a remote procedure -- takes no arguments, returns a string
+ *     var that = this;
+ *     this.RpcRunning = rpc.callAsync(
+ *       function(result, ex, id)
+ *       {
+ *         that.RpcRunning = null;
+ *         if (ex == null) {
+ *             alert(result);
+ *         } else {
+ *             alert("Async(" + id + ") exception: " + ex);
+ *         }
+ *       },
+ *       "fss.getBaseDir");
+ *   }
+ * </pre>
+ * __fss.getBaseDir__ is the remote procedure in this case, potential arguments
+ * would be listed after the procedure name.
  */
 qx.Class.define("qx.io.remote.Rpc",
 {
@@ -456,7 +483,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
       req.addEventListener("failed", function(evt)
       {
-        var code = evt.getData().getStatusCode();
+        var code = evt.getStatusCode();
         ex = makeException(qx.io.remote.Rpc.origin.transport,
                            code,
                            qx.io.remote.Exchange.statusCodeToString(code));
@@ -466,7 +493,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
       req.addEventListener("timeout", function(evt)
       {
-this.debug("TIMEOUT OCCURRED");
+        this.debug("TIMEOUT OCCURRED");
         ex = makeException(qx.io.remote.Rpc.origin.local,
                            qx.io.remote.Rpc.localError.timeout,
                            "Local time-out expired");
@@ -485,7 +512,7 @@ this.debug("TIMEOUT OCCURRED");
 
       req.addEventListener("completed", function(evt)
       {
-        response = evt.getData().getContent();
+        response = evt.getContent();
         id = response["id"];
 
         if (id != this.getSequenceNumber())

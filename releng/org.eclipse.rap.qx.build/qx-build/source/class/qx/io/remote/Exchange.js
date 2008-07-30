@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
      2006 Derrell Lipman
      2006 STZ-IDA, Germany, http://www.stz-ida.de
 
@@ -341,9 +341,6 @@ qx.Class.define("qx.io.remote.Exchange",
             }
 
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
-            // TODO [rh] this fixes bug #618, the same change is also in qx trunk
-            //      as of 2007-09-05 
-//            throw new Error("Unknown status code: " + vStatusCode);
             return false;
         }
       }
@@ -836,8 +833,6 @@ qx.Class.define("qx.io.remote.Exchange",
      */
     _applyState : function(value, old)
     {
-      var vRequest = this.getRequest();
-
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.ioRemoteDebug")) {

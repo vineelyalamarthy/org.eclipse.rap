@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -350,7 +350,7 @@ qx.Class.define("qx.ui.basic.Atom",
     _updateIcon : function()
     {
       var icon = this.getIcon();
-      
+
       // NOTE: We have to check whether the properties "icon" and "disabledIcon"
       //       exist, because some child classes remove them.
       if (this._iconObject && this.getIcon && this.getDisabledIcon)

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
      2006 Derrell Lipman
 
    License:
@@ -316,7 +316,9 @@ qx.Class.define("qx.io.remote.RequestQueue",
     {
       var vActive = this._active;
 
-      if (vActive.length == 0) {
+      if (vActive.length == 0)
+      {
+        this._timer.stop();
         return;
       }
 

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -61,6 +61,12 @@ qx.Class.define("qx.ui.core.Widget",
 
     // Create data structures
     this._layoutChanges = {};
+
+    // Auto-generate HTML id's?
+    if (qx.core.Setting.get("qx.widgetDebugId"))
+    {
+      this._generateHtmlId();
+    }
   },
 
 
@@ -254,9 +260,15 @@ qx.Class.define("qx.ui.core.Widget",
         qx.ui.core.Widget._removeAutoFlush();
       }
 
-      if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getApplication().getUiReady()) {
+      if (qx.ui.core.Widget._inFlushGlobalQueues) {
         return;
       }
+
+      var app = qx.core.Init.getInstance().getApplication();
+      if (app.getUiReady && !app.getUiReady()) {
+        return;
+      }
+
 
       // Also used for inline event handling to seperate 'real' events
       qx.ui.core.Widget._inFlushGlobalQueues = true;
@@ -1098,7 +1110,10 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.Widget.SCROLLBAR_SIZE = c ? c : 16;
 
       document.body.removeChild(t);
-    }
+    },
+
+    _idCounter : 0
+
   },
 
 
@@ -1382,6 +1397,18 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * Mapping to native style property background-repeat.
+     */
+    backgroundRepeat :
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyBackgroundRepeat",
+      themeable : true
+    },
+
+
+    /**
      * Describes how to handle content that is too large to fit inside the widget.
      *
      * Overflow modes:
@@ -1448,7 +1475,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      MANAGMENT PROPERTIES
+      MANAGEMENT PROPERTIES
     ---------------------------------------------------------------------------
     */
 
@@ -1537,13 +1564,16 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : false,
-      apply : "_applyCapture"
+      apply : "_applyCapture",
+      event : "changeCapture"
     },
 
 
     /** Contains the support drop types for drag and drop support */
-    dropDataTypes : {
-      nullable : true
+    dropDataTypes :
+    {
+      nullable : true,
+      dispose : true
     },
 
 
@@ -1563,6 +1593,26 @@ qx.Class.define("qx.ui.core.Widget",
       init : "widget",
       apply : "_applyAppearance",
       event : "changeAppearance"
+    },
+
+
+    /*
+     * The method which this.supportsDrop() calls to determine whether the
+     * widget supports a particular drop operation.
+     *
+     * This is a property so that a mixin can modify it.  Otherwise, the mixin
+     * would have to override the supportsDrop() method, requiring the mixin
+     * to be applied with patch() instead of include().  All normal mixins
+     * should be able to be simply include()ed, and not have to be patch()ed.
+     *
+     * If this property is null, then the default supportsDrop() action
+     * defined herein shall be used.
+     */
+    supportsDropMethod :
+    {
+      check : "Function",
+      nullable : true,
+      init : null
     },
 
 
@@ -2560,9 +2610,11 @@ qx.Class.define("qx.ui.core.Widget",
           }
 
           this._beforeRemoveDom();
-
-          this._oldParent._getTargetNode().removeChild(elem);
-
+          try {
+            this._oldParent._getTargetNode().removeChild(elem);
+          } catch(e) {
+            // ignore exception
+          }
           this._afterRemoveDom();
 
           if (this.getVisibility()) {
@@ -2654,7 +2706,16 @@ qx.Class.define("qx.ui.core.Widget",
             this._beforeRemoveDom();
 
             // DOM action
-            vParent._getTargetNode().removeChild(this.getElement());
+            var parentNode = this.getElement().parentNode;
+            if (parentNode)
+            {
+              parentNode.removeChild(this.getElement())
+
+              // DOM element check
+              if (parentNode && parentNode !== vParent._getTargetNode()) {
+                this.warn("Unexpected parent node: " + parentNode);
+              }
+            }
 
             // After Remove DOM Event
             this._afterRemoveDom();
@@ -2687,7 +2748,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {var} TODOC
      */
     _computeDisplayable : function() {
-      return this.getDisplay() && this._hasParent && this.getParent()._isDisplayable ? true : false;
+      return this.getDisplay() && this.getParent() && this.getParent()._isDisplayable ? true : false;
     },
 
 
@@ -5071,7 +5132,7 @@ qx.Class.define("qx.ui.core.Widget",
         for (var i=0, l=data.length; i<l; i++)
         {
           if (!this[unstyler[data[i]]]) {
-            throw new Error(this.classname + ' has no themeable property "' + prop + '"');
+            throw new Error(this.classname + ' has no themeable property "' + data[i] + '"');
           }
         }
       }
@@ -5415,6 +5476,23 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Generate a stable (across runs!) id string and set it in HTML.
+     * This is interesting for application testing that uses the element
+     * id to locate the widget.
+     *
+     * @type member
+     * @return {void}
+     */
+    _generateHtmlId : function()
+    {
+      //var id = this.classname + "#" + this.toHashCode(); // not stable across machines
+      var id = this.classname + "." + qx.ui.core.Widget._idCounter++;
+
+      this.debug("setting autogenerated HTML id to " + id);
+      this.setHtmlProperty("id", id);
+    },
+
 
 
 
@@ -5435,6 +5513,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     setHtmlAttribute : function(propName, value)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use setHtmlProperty instead");
+
       if (!this._htmlAttributes) {
         this._htmlAttributes = {};
       }
@@ -5459,6 +5539,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     removeHtmlAttribute : function(propName)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use removeHtmlProperty instead");
+
       if (!this._htmlAttributes) {
         return;
       }
@@ -6247,6 +6329,11 @@ qx.Class.define("qx.ui.core.Widget",
       value ? this.setStyleProperty("backgroundImage", "url(" + value + ")") : this.removeStyleProperty("backgroundImage");
     },
 
+    _applyBackgroundRepeat : function(value, old)
+    {
+      value ? this.setStyleProperty("backgroundRepeat", value) : this.removeStyleProperty("backgroundRepeat");
+    },
+
 
 
 
@@ -6334,9 +6421,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _applyOverflow : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(value, old)
+      "default" : function(value, old)
       {
-        // Mshtml conforms here to CSS3 Spec. Eventually there will be multiple
+        // Mshtml and WebKit conform to CSS3 Spec. Eventually there will be multiple
         // browsers which support these new overflowX overflowY properties.
         var pv = value;
         var pn = "overflow";
@@ -6403,7 +6490,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.addToQueue("overflow");
       },
 
-      "default" : function(value, old)
+      "opera" : function(value, old)
       {
         // Opera/Khtml Mode...
         // hopefully somewhat of this is supported in the near future.
@@ -6632,7 +6719,6 @@ qx.Class.define("qx.ui.core.Widget",
     renderBorder : function(changes)
     {
       var value = this.__borderObject;
-      var mgr = qx.theme.manager.Border.getInstance();
 
       if (value)
       {
@@ -7019,7 +7105,7 @@ qx.Class.define("qx.ui.core.Widget",
     getScrollWidth : function()
     {
       this._visualPropertyCheck();
-      return this.getElement().scrollWidth;
+      return this._getTargetNode().scrollWidth;
     },
 
 
@@ -7032,7 +7118,7 @@ qx.Class.define("qx.ui.core.Widget",
     getScrollHeight : function()
     {
       this._visualPropertyCheck();
-      return this.getElement().scrollHeight;
+      return this._getTargetNode().scrollHeight;
     },
 
 
@@ -7119,10 +7205,34 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param dragCache {var} TODOC
+     *
+     * @param dragCache {var}
+     *   An object describing the event, containing at least these members:
+     *     <ul>
+     *       <li>startScreenX</li>
+     *       <li>startScreenY</li>
+     *       <li>pageX</li>
+     *       <li>pageY</li>
+     *       <li>sourceWidget</li>
+     *       <li>sourceTopLevel</li>
+     *       <li>dragHandlerActive</li>
+     *       <li>hasFiredDragStart</li>
+     *     </ul>
+     *
+     * @return {Boolean}
+     *   <i>true</i> if the widget can accept this drop operation;
+     *   <i>false</i> otherwise.
      */
     supportsDrop : function(dragCache) {
-      return true;
+      // Is there a user-supplied supportsDropMethod?
+      var supportsDropMethod = this.getSupportsDropMethod();
+      if (supportsDropMethod !== null) {
+        // Yup.  Let it determine whether a drop is allowed.
+        return supportsDropMethod.call(this, dragCache);
+      }
+
+      // Default behavior is to allow drop only if not dropping onto self
+      return (this != dragCache.sourceWidget);
     }
   },
 
@@ -7136,7 +7246,8 @@ qx.Class.define("qx.ui.core.Widget",
   */
 
   settings : {
-    "qx.widgetQueueDebugging" : false
+    "qx.widgetQueueDebugging" : false,
+    "qx.widgetDebugId"        : false   // true: auto-generate HTML id's
   },
 
 
@@ -7289,6 +7400,7 @@ qx.Class.define("qx.ui.core.Widget",
         };
       }
     }
+
   },
 
 

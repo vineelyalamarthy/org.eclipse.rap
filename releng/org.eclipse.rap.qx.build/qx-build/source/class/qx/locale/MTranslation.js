@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -45,9 +45,9 @@ qx.Mixin.define("qx.locale.MTranslation",
      */
     tr : function(messageId, varargs)
     {
-      var nlsManager = qx.locale.Manager;
-      if (nlsManager) {
-        return nlsManager.tr.apply(nlsManager, arguments);
+      var localeManager = qx.locale.Manager;
+      if (localeManager) {
+        return localeManager.tr.apply(localeManager, arguments);
       }
 
       throw new Error("To enable localization please include qx.locale.Manager into your build!");
@@ -69,9 +69,9 @@ qx.Mixin.define("qx.locale.MTranslation",
      */
     trn : function(singularMessageId, pluralMessageId, count, varargs)
     {
-      var nlsManager = qx.locale.Manager;
-      if (nlsManager) {
-        return nlsManager.trn.apply(nlsManager, arguments);
+      var localeManager = qx.locale.Manager;
+      if (localeManager) {
+        return localeManager.trn.apply(localeManager, arguments);
       }
 
       throw new Error("To enable localization please include qx.locale.Manager into your build!");
@@ -87,9 +87,9 @@ qx.Mixin.define("qx.locale.MTranslation",
      */
     marktr : function(messageId)
     {
-      var nlsManager = qx.locale.Manager;
-      if (nlsManager) {
-        return nlsManager.marktr.apply(nlsManager, arguments);
+      var localeManager = qx.locale.Manager;
+      if (localeManager) {
+        return localeManager.marktr.apply(localeManager, arguments);
       }
 
       throw new Error("To enable localization please include qx.locale.Manager into your build!");

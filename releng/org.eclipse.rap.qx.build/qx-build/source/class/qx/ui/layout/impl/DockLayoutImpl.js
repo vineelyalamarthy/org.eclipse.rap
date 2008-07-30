@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -647,8 +647,6 @@ qx.Class.define("qx.ui.layout.impl.DockLayoutImpl",
     {
       "mshtml|opera" : function(vChild, vJobs)
       {
-        var vWidget = this.getWidget();
-
         vChild._resetRuntimeRight();
         vChild._resetRuntimeBottom();
 

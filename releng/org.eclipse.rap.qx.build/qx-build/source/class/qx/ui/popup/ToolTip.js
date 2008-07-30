@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 #module(ui_tooltip)
-#use(qx.ui.popup.ToolTipManager)
 
 ************************************************************************ */
 
@@ -249,10 +248,10 @@ qx.Class.define("qx.ui.popup.ToolTip",
         var doc = qx.ui.core.ClientDocument.getInstance();
         var docWidth = doc.getClientWidth();
         var docHeight = doc.getClientHeight();
-        var restrictToPageLeft   = parseInt(this._restrictToPageLeft);
-        var restrictToPageRight  = parseInt(this._restrictToPageRight);
-        var restrictToPageTop    = parseInt(this._restrictToPageTop);
-        var restrictToPageBottom = parseInt(this._restrictToPageBottom);
+        var restrictToPageLeft   = parseInt(this.getRestrictToPageLeft());
+        var restrictToPageRight  = parseInt(this.getRestrictToPageRight());
+        var restrictToPageTop    = parseInt(this.getRestrictToPageTop());
+        var restrictToPageBottom = parseInt(this.getRestrictToPageBottom());
         var left   = (this._wantedLeft == null) ? this.getLeft() : this._wantedLeft;
         var top    = this.getTop();
         var width  = this.getBoxWidth();
@@ -450,7 +449,15 @@ qx.Class.define("qx.ui.popup.ToolTip",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
+    var mgr = qx.ui.popup.ToolTipManager.getInstance();
+    mgr.remove(this);
+
+    if (mgr.getCurrentToolTip() == this) {
+      mgr.resetCurrentToolTip();
+    }
+
     this._disposeObjects("_showTimer", "_hideTimer");
   }
 });

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -123,35 +123,22 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       if (vMenu)
       {
         // Caching common stuff
-        var vMenuParent = vMenu.getParent();
-        var vMenuParentElement = vMenuParent.getElement();
         var vButtonElement = this.getElement();
-        var vButtonHeight = qx.html.Dimension.getBoxHeight(vButtonElement);
+        var buttonPos = qx.bom.element.Location.get(vButtonElement);
 
         // Apply X-Location
-        var vMenuParentLeft = qx.html.Location.getPageBoxLeft(vMenuParentElement);
-        var vButtonLeft = qx.html.Location.getPageBoxLeft(vButtonElement);
-        var vScrollLeft = qx.html.Scroll.getLeftSum(vButtonElement);
-
-        vMenu.setLeft(vButtonLeft - vMenuParentLeft - vScrollLeft);
+        vMenu.setLeft(buttonPos.left);
 
         // Apply Y-Location
-        var vScrollTop = qx.html.Scroll.getTopSum(vButtonElement);
         switch(this.getDirection())
         {
           case "up":
-            var vBodyHeight = qx.html.Dimension.getInnerHeight(document.body);
-            var vMenuParentBottom = qx.html.Location.getPageBoxBottom(vMenuParentElement);
-            var vButtonBottom = qx.html.Location.getPageBoxBottom(vButtonElement);
-
-            vMenu.setBottom(vButtonHeight + (vBodyHeight - vButtonBottom) - (vBodyHeight - vMenuParentBottom) - vScrollTop);
+            vMenu.setBottom(buttonPos.top);
             vMenu.setTop(null);
             break;
 
           case "down":
-            var vButtonTop = qx.html.Location.getPageBoxTop(vButtonElement);
-
-            vMenu.setTop(vButtonTop + vButtonHeight - vScrollTop);
+            vMenu.setTop(buttonPos.bottom);
             vMenu.setBottom(null);
             break;
         }

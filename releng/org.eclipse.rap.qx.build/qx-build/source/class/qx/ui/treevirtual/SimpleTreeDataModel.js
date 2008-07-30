@@ -33,17 +33,43 @@
  *   // USER-PROVIDED ATTRIBUTES
  *   // ------------------------
  *   type           : qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
- *   parentNodeId   : 23,    // index in _nodeArr of the parent node
+ *   parentNodeId   : 23,    // index of the parent node in _nodeArr
+ *
  *   label          : "My Documents",
- *   bSelected      : true,  // true if node is selected; false otherwise
+ *   bSelected      : true,  // true if node is selected; false otherwise.
  *   bOpened        : true,  // true (-), false (+)
  *   bHideOpenClose : false, // whether to hide the open/close button
  *   icon           : "images/folder.gif",
  *   iconSelected   : "images/folder_selected.gif",
- *   children       : [ ],   // each value is an index into _nodeArr
  *
  *   cellStyle      : "background-color:cyan"
  *   labelStyle     : "background-color:red;color:white"
+ *
+ *   // USER-PROVIDED COLUMN DATA
+ *   columnData     : [
+ *                      null, // null at index of tree column (typically 0)
+ *                      "text of column 1",
+ *                      "text of column 2"
+ *                    ],
+ *
+ *   // APPLICATION-, MIXIN-, and SUBCLASS-PROVIDED CUSTOM DATA
+ *   data           : {
+ *                      application :
+ *                      {
+ *                          // application-specific user data goes in here
+ *                          foo: "bar",
+ *                          ...
+ *                      },
+ *                      MDragAndDropSupport :
+ *                      {
+ *                          // Data required for the Drag & Drop mixin.
+ *                          // When a mixin is included, its constructor
+ *                          // should create this object, named according
+ *                          // to the mixin or subclass name (empty or
+ *                          // otherwise)
+ *                      },
+ *                      ... // Additional mixins or subclasses.
+ *                    },
  *
  *   // INTERNALLY-CALCULATED ATTRIBUTES
  *   // --------------------------------
@@ -51,7 +77,8 @@
  *   // caller, but are automatically calculated.  Some are used internally,
  *   // while others may be of use to event listeners.
  *
- *   nodeId         : 42,   // The index in _nodeArr, useful to event listeners
+ *   nodeId         : 42,   // The index in _nodeArr, useful to event listeners.
+ *   children       : [ ],  // each value is an index into _nodeArr
  *
  *   level          : 2,    // The indentation level of this tree node
  *
@@ -84,20 +111,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     this._nodeArr = []; // tree nodes, organized with hierarchy
 
     this._nodeRowMap = []; // map nodeArr index to rowArr index.  The
+                           // index of this array is the index of
+                           // _nodeArr, and the values in this array are
+                           // the indexes into _rowArr.
 
-    // index of this array is the index of
-    // _nodeArr, and the values in this array are
-    // the indexes into _rowArr.
     this._treeColumn = 0; // default column for tree nodes
 
     this._selections = {}; // list of indexes of selected nodes
 
-    this._nodeArr.push( // the root node, needed to store its children
-    {
-      label    : "<virtual root>",
-      bOpened  : true,
-      children : []
-    });
+    // the root node, needed to store its children
+    this._nodeArr.push(this.self(arguments).__getEmptyTree());
   },
 
 
@@ -113,6 +136,17 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
   {
     // The tree to which this data model is attached
     __tree : null,
+
+    // An empty tree contains only this one node
+    __getEmptyTree : function()
+    {
+      return {
+               label    : "<virtual root>",
+               nodeId   : 0,
+               bOpened  : true,
+               children : []
+             };
+    },
 
     // We currently support these types of tree nodes
     Type :
@@ -259,8 +293,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       }
 
       // convert from rowArr to nodeArr, and get the requested node
-      var node =
-        this._nodeArr[this._rowArr[rowIndex][this._treeColumn].nodeId];
+      var node = this.getNodeFromRow(rowIndex);
 
       if (node.columnData[columnIndex] != value)
       {
@@ -374,7 +407,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       {
         // mask off the opened bit but retain the hide open/close button bit
         bOpened = false;
-        bHideOpenClose = false;
+        bHideOpenCloseButton = false;
       }
 
       // Determine the node id of this new node
@@ -384,6 +417,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       var node =
       {
         type           : type,
+        nodeId         : nodeId,
         parentNodeId   : parentNodeId,
         label          : label,
         bSelected      : false,
@@ -604,10 +638,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
               continue;
             }
 
-            // Listeners will need to know a node's id when they receive an
-            // event.
-            child.nodeId = childNodeId;
-
             // (Re-)assign this node's level
             child.level = level;
 
@@ -719,7 +749,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       if (nodeArr instanceof Array)
       {
         // Determine the set of selected nodes
-        for (i=0; i<nodeArr.length; i++)
+        for (var i=0; i<nodeArr.length; i++)
         {
           if (nodeArr[i].selected)
           {
@@ -754,6 +784,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     getData : function()
     {
       return this._nodeArr;
+    },
+
+
+    /**
+     * Clears the tree of all nodes
+     *
+     * @return {void}
+     */
+    clearData : function ()
+    {
+      this._clearSelections();
+      this.setData([ this.self(arguments).__getEmptyTree() ]);
     },
 
 
@@ -822,7 +864,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      */
     setState : function(nodeReference, attributes)
     {
-      var nodeId;
+      var nodeId, node;
 
       if (typeof(nodeReference) == "object")
       {
@@ -898,12 +940,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             // It's still boolean.  Toggle the state
             node.bOpened = !node.bOpened;
 
-            // Get the selection model
-            var sm = tree.getSelectionModel();
-
-            // Determine if this node was selected
-            var rowIndex = this.getNodeRowMap()[node.nodeId];
-
             // Clear the old selections in the tree
             tree.getSelectionModel()._clearSelection();
           }
@@ -927,6 +963,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * Return the mapping of nodes to rendered rows.  This function is intended
      * for use by the cell renderer, not by users of this class.
+     * It is also useful to select a node.
      *
      * @type member
      *
@@ -937,6 +974,35 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     {
       return this._nodeRowMap;
     },
+
+    /**
+     * This operation maps nodes to rowIndexes.  It does the opposite job to {@link #getNodeFromRow}.
+     *
+     * @type member
+     *
+     * @param nodeId {Integer}
+     *   The id of the node (as would have been returned by addBranch(),
+     *   addLeaf(), etc.) to get the row index for.
+     */
+    getRowFromNodeId : function(nodeId)
+    {
+      return this._nodeRowMap[nodeId];
+    },
+
+    /**
+     * This operation maps rowIndexes to nodes.  It does the opposite job to {@link #getRowFromNodeId}.
+     * This function is useful to map selection (row based) to nodes.
+     *
+     * @type member
+     *
+     * @param rowIndex {Integer} zero-based row index.
+     * @return {Object} node associated to <tt>rowIndex</tt>.
+     */
+    getNodeFromRow : function(rowIndex)
+    {
+      return this._nodeArr[this._rowArr[rowIndex][this._treeColumn].nodeId];
+    },
+
 
     /**
      * Clear all selections in the data model.  This method does not clear

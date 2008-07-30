@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -1271,7 +1271,6 @@ qx.Class.define("qx.ui.layout.GridLayout",
     mergeCells : function(vStartCol, vStartRow, vColLength, vRowLength)
     {
       var vSpans = this._spans;
-      var vLength = vSpans.length;
 
       // Find end cols/rows
       var vEndCol = vStartCol + vColLength - 1;

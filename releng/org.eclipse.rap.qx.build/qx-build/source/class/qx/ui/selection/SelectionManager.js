@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -575,8 +575,6 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      */
     setItemSelected : function(vItem, vSelected)
     {
-      var hc = this.getItemHashCode(vItem);
-
       switch(this.getMultiSelection())
       {
           // Multiple item selection is allowed
@@ -1026,6 +1024,10 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      */
     handleMouseDown : function(vItem, e)
     {
+      // stop propagation of the event here to prevent
+      // reaction of subwidgets
+      e.stopPropagation();
+
       // Only allow left and right button
       if (!e.isLeftButtonPressed() && !e.isRightButtonPressed()) {
         return;
@@ -1659,7 +1661,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      * @type member
      * @abstract
      * @param vItem {var} TODOC
-     * @return {void}
+     * @return {var}
      * @throws the abstract function warning.
      */
     getAbove : function(vItem) {
@@ -1673,7 +1675,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      * @type member
      * @abstract
      * @param vItem {var} TODOC
-     * @return {void}
+     * @return {var}
      * @throws the abstract function warning.
      */
     getUnder : function(vItem) {
@@ -1705,7 +1707,6 @@ qx.Class.define("qx.ui.selection.SelectionManager",
       var vParentClientHeight = vBoundedWidget.getClientHeight();
 
       // Find next item
-      var newItem;
       var nextItem = this.getLeadItem();
 
       if (!nextItem) {
@@ -1771,7 +1772,6 @@ qx.Class.define("qx.ui.selection.SelectionManager",
       // this.debug("ClientHeight-1: " + vBoundedWidget._getTargetNode().clientHeight);
       // this.debug("ClientHeight-2: " + vBoundedWidget.getElement().clientHeight);
       // Find next item
-      var newItem;
       var nextItem = this.getLeadItem();
 
       if (!nextItem) {

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -45,7 +45,9 @@ qx.Class.define("qx.locale.Locale",
      * @param config {Map} config structure
      * @return {void}
      */
-    define : function(name, config) {
+    define : function(name, config)
+    {
+      qx.Class.createNamespace(name, config);
       qx.locale.Manager.getInstance().addTranslationFromClass(name, config);
     }
   }

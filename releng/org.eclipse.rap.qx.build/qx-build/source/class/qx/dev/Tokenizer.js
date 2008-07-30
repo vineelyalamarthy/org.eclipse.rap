@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -45,7 +45,7 @@ qx.Class.define("qx.dev.Tokenizer",
      */
     tokenizeJavaScript : function(javaScriptText)
     {
-      keywords = {
+      var keywords = {
         "break" : 1,
         "case" : 1,
         "catch" : 1,
@@ -102,14 +102,13 @@ qx.Class.define("qx.dev.Tokenizer",
       var re_tab = /\t/
       var re_nl = /\r\n|\r|\n/
       var re_space = /\s/
-      var re_symbol = /\S/
       var re_token = /\/\/.*?[\n\r$]|\/\*(?:.|\n|\r)*?\*\/|\w+\b|[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?|["][^"]*["]|['][^']*[']|\n|\r|./g
 
       var tokens = [];
 
       var a = javaScriptText.match(re_token);
 
-      for (i = 0; i < a.length; i++)
+      for (var i = 0; i < a.length; i++)
       {
         var token = a[i];
         if (token.match(re_line_comment)) {
