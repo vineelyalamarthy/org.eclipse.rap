@@ -1,0 +1,105 @@
+--- qx-build/source/class/qx/ui/form/ComboBox.js	2008-08-05 10:29:38.000000000 +0200
++++ qx-build/source/class/qx/ui/form/ComboBox.js	2008-08-05 10:31:50.000000000 +0200
+@@ -379,20 +379,21 @@
+         this._field.setValue(value);
+       }
+ 
+-      // only do this if we called setValue seperatly
+-      // and not from the property "selected".
+-      if (!this._fromSelected)
+-      {
+-        // inform selected property
+-        var vSelItem = this._list.findStringExact(value);
+-
+-        // ignore disabled items
+-        if (vSelItem != null && !vSelItem.getEnabled()) {
+-          vSelItem = null;
+-        }
+-
+-        this.setSelected(vSelItem);
+-      }
++//      [rst] Disable auto-selection behavior
++//      // only do this if we called setValue seperatly
++//      // and not from the property "selected".
++//      if (!this._fromSelected)
++//      {
++//        // inform selected property
++//        var vSelItem = this._list.findStringExact(value);
++//
++//        // ignore disabled items
++//        if (vSelItem != null && !vSelItem.getEnabled()) {
++//          vSelItem = null;
++//        }
++//
++//        this.setSelected(vSelItem);
++//      }
+ 
+       // reset hint
+       delete this._fromValue;
+@@ -538,11 +539,19 @@
+ 
+       this.setValue(this._field.getComputedValue());
+ 
+-      // be sure that the found item is in view
+-      if (this.getPopup().isSeeable() && this.getSelected()) {
+-        this.getSelected().scrollIntoView();
++      // [rst] clear selection on input change
++      // TODO [rst] trigger selection change
++      var vSelected = this.getSelected();
++      if( vSelected && vSelected.getLabel() != this.getValue() ) {
++      	this.resetSelected();
+       }
+ 
++//      [rst] Disable auto-selection behavior
++//      // be sure that the found item is in view
++//      if (this.getPopup().isSeeable() && this.getSelected()) {
++//        this.getSelected().scrollIntoView();
++//      }
++
+       delete this._fromInput;
+     },
+ 
+@@ -901,13 +910,14 @@
+       {
+         this._list._onkeypress(e);
+ 
+-        var vSelected = this._manager.getSelectedItem();
+-
+-        if (!vVisible) {
+-          this.setSelected(vSelected);
+-        } else if (vSelected) {
+-          this._field.setValue(vSelected.getLabel());
+-        }
++//        [rst] Disable auto-selection behavior
++//        var vSelected = this._manager.getSelectedItem();
++//
++//        if (!vVisible) {
++//          this.setSelected(vSelected);
++//        } else if (vSelected) {
++//          this._field.setValue(vSelected.getLabel());
++//        }
+       }
+     },
+ 
+@@ -927,13 +937,14 @@
+       {
+         this._list._onkeyinput(e);
+ 
+-        var vSelected = this._manager.getSelectedItem();
+-
+-        if (!vVisible) {
+-          this.setSelected(vSelected);
+-        } else if (vSelected) {
+-          this._field.setValue(vSelected.getLabel());
+-        }
++//        [rst] Disable auto-selection behavior
++//        var vSelected = this._manager.getSelectedItem();
++//
++//        if (!vVisible) {
++//          this.setSelected(vSelected);
++//        } else if (vSelected) {
++//          this._field.setValue(vSelected.getLabel());
++//        }
+       }
+     },
+ 

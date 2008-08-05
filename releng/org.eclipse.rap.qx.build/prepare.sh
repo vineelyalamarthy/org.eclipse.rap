@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 #
-# This scipt has been used to create the folders
+# This script has been used to create the folders
 # qx-build/source/ and
 # qx-build/source-replace
 # in this project.
@@ -22,50 +22,141 @@ VERSION=0.7.3
 
 ZIP_FILE=qx-$VERSION.zip
 
-# make sure we're in the project root
-if [ "`pwd`" != "$PROJECT" ]; then
-  echo "pwd is $PROJECT, good."
-else
-  echo "cd to $PROJECT first"
+# print usage info
+print_usage() {
+  echo "Usage: $0 <target> [args]"
+  echo "possible targets are:"
+  echo "  unzip             extract zip archive"
+  echo "  source            create or overwrite source folder"
+  echo "  patch <file>+     apply given patch files"
+  echo "  patch-all         apply all patches in patches dir"
+  echo "  source-replace    create source-replace overlay folder"
+  echo "  clean             delete temporary folders"
+  echo "  all               clean, unzip, source, patch-all, source-replace, clean"
+}
+
+# print failure notice and exit
+fail() {
+  echo "failed"
   exit 1
-fi
+}
+
+# make sure we're in the project root
+ensure_pwd() {
+  if [ "` basename $PWD`" != "$PROJECT" ]; then
+    echo "cd to $PROJECT first"
+    fail
+  fi
+  echo "working directory is $PROJECT, good."
+}
 
 # make sure the zip file exists
-if [ -f "$ZIP_FILE" ]; then
+ensure_zipfile() {
+  if [ ! -f "$ZIP_FILE" ]; then
+    echo "place file $ZIP_FILE into the project root directory first"
+    fail
+  fi
   echo "Found $ZIP_FILE, good."
-else
-  echo "place file $ZIP_FILE into the project root directory first"
-  exit 1
-fi
+}
 
 # extract zip file into a directory named qx-VERSION/
-echo extracting ...
-rm -rf qx-$VERSION
-unzip -q -d qx-$VERSION "$ZIP_FILE" || exit 1
+extract_zipfile() {
+  echo extracting ...
+  rm -rf qx-$VERSION
+  unzip -q -d qx-$VERSION "$ZIP_FILE" || fail
+  echo ok
+}
 
-rsync -a --delete qx-$VERSION/source/class/ qx-build/source/class/
+# create or overwrite source folder
+create_source() {
+  echo creating source folder ...
+  rsync -a --delete qx-$VERSION/source/class/ qx-build/source/class/ || fail
+  echo ok
+}
+
+# Apply a single patch file
+apply_patch() {
+  echo applying "$1"
+  patch -p0 -b -B tmp-replace/ -i "$1" || fail
+}
 
 # Apply patches in qx-build/patches
-echo applying patches ...
-rm -rf tmp-replace
-echo --------------------
-for file in qx-build/patches/*.diff
-do
-  echo applying $file
-  patch -p0 -b -B tmp-replace/ -i $file
-done
-echo --------------------
+apply_all_patches() {
+  echo applying patches ...
+  rm -rf tmp-replace
+  echo --------------------
+  for file in qx-build/patches/$VERSION/*.diff; do
+    apply_patch "$file"
+  done
+  echo --------------------
+  echo ok
+}
 
-rsync -a --delete tmp-replace/qx-build/source/ qx-build/source-replace/
-rm -rf tmp-replace
+# create or overwrite source-replace folder
+create_source_replace() {
+  echo creating source-replace folder ...
+  rsync -a --delete tmp-replace/qx-build/source/ qx-build/source-replace/ || fail
+  rm -rf tmp-replace
+  # Now for every patched file, the original version is kept in the source-replace
+  # folder. Rsync helps to replace these original files with the patched ones in
+  # order to create the "overlay directory".
+  rsync -a --existing qx-build/source/ qx-build/source-replace || fail
+  echo ok
+}
 
-# Now for every patched file, the original version is kept in the source-replace
-# folder. Rsync helps to replace these original files with the patched ones in
-# order to create the "overlay directory".
+clean_up() {
+  echo cleaning up ...
+  rm -rf qx-$VERSION
+  echo ok
+}
 
-rsync -a --existing qx-build/source/ qx-build/source-replace
+TARGET=$1
+if [ $# -gt 0 ]; then
+  shift
+fi
 
-rsync -a --delete qx-$VERSION/source/class/ qx-build/source/class/
-rm -rf qx-$VERSION
-
-echo done
+case "$TARGET" in
+  "unzip")
+    ensure_pwd
+    ensure_zipfile
+    extract_zipfile
+    ;;
+  "source")
+    ensure_pwd
+    create_source
+    ;;
+  "patch")
+    ensure_pwd
+    while [ $# -ge 1 ]; do
+      apply_patch "$1"
+      shift
+    done
+  ;;
+  "patch-all")
+    ensure_pwd
+    apply_all_patches
+    ;;
+  "source_replace")
+    ensure_pwd
+    create_source_replace
+    ;;
+  "clean")
+    ensure_pwd
+    clean_up
+    ;;
+  "all")
+    ensure_pwd
+    clean_up
+    ensure_zipfile
+    extract_zipfile
+    create_source
+    apply_all_patches
+    create_source_replace
+    create_source
+    clean_up
+    ;;
+  *)
+    print_usage
+    exit 1
+    ;;
+esac

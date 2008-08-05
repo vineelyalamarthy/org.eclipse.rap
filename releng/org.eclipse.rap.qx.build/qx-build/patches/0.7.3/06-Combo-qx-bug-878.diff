@@ -1,0 +1,25 @@
+Index: qx-build/source/class/qx/ui/form/ComboBox.js
+===================================================================
+RCS file: /cvsroot/technology/org.eclipse.rap/org.eclipse.rap.tools/qx-build/source/class/qx/ui/form/ComboBox.js,v
+retrieving revision 1.4
+diff -u -r1.4 ComboBox.js
+--- qx-build/source/class/qx/ui/form/ComboBox.js	30 Jul 2008 16:31:20 -0000	1.4
++++ qx-build/source/class/qx/ui/form/ComboBox.js	31 Jul 2008 09:25:46 -0000
+@@ -785,6 +785,8 @@
+           {
+             this._openPopup();
+           }
++          // [rst] Workaround for http://bugzilla.qooxdoo.org/show_bug.cgi?id=878
++          e.stopPropagation();
+ 
+           return;
+ 
+@@ -802,6 +804,8 @@
+ 
+             this._closePopup();
+             this.setFocused(true);
++            // [rst] Workaround for http://bugzilla.qooxdoo.org/show_bug.cgi?id=878
++            e.stopPropagation();
+           }
+ 
+           return;
