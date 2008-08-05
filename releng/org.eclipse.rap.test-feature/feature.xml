@@ -25,13 +25,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.rap.w4t.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.rap.rwt.q07.test"
          download-size="0"
          install-size="0"
