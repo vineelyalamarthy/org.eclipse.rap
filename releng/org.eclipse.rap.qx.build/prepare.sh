@@ -53,10 +53,19 @@ ensure_pwd() {
 # make sure the zip file exists
 ensure_zipfile() {
   if [ ! -f "$ZIP_FILE" ]; then
-    echo "place file $ZIP_FILE into the project root directory first"
+    echo "missing zip file $ZIP_FILE, place this file into the project root directory first"
     fail
   fi
   echo "Found $ZIP_FILE, good."
+}
+
+# make sure the extracted folder exists
+ensure_extracted() {
+  if [ ! -d "qx-$VERSION/source/class/" ]; then
+    echo "missing directory qx-$VERSION/source/class/, call unzip before"
+    fail
+  fi
+  echo "Directory qx-$VERSION/source/class/ exists, good."
 }
 
 # extract zip file into a directory named qx-VERSION/
@@ -70,7 +79,7 @@ extract_zipfile() {
 # create or overwrite source folder
 create_source() {
   echo creating source folder ...
-  rsync -a --delete qx-$VERSION/source/class/ qx-build/source/class/ || fail
+  rsync -a --delete "qx-$VERSION/source/class/" qx-build/source/class/ || fail
   echo ok
 }
 
@@ -123,10 +132,12 @@ case "$TARGET" in
     ;;
   "source")
     ensure_pwd
+    ensure_extracted
     create_source
     ;;
   "patch")
     ensure_pwd
+    ensure_extracted
     while [ $# -ge 1 ]; do
       apply_patch "$1"
       shift
@@ -134,10 +145,12 @@ case "$TARGET" in
   ;;
   "patch-all")
     ensure_pwd
+    ensure_extracted
     apply_all_patches
     ;;
   "source_replace")
     ensure_pwd
+    ensure_extracted
     create_source_replace
     ;;
   "clean")
