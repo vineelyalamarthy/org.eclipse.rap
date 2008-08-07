@@ -70,6 +70,10 @@ qx.Class.define("qx.ui.form.TextField",
     this.addEventListener("blur", this._onblur);
     this.addEventListener("focus", this._onfocus);
     this.addEventListener("input", this._oninput);
+    // [rst] Catch backspace in readonly text fields to prevent browser default
+    // action (which commonly triggers a history step back)
+    // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=178320
+    this.addEventListener("keydown", this._onkeydown);
   },
 
 
@@ -916,6 +920,14 @@ qx.Class.define("qx.ui.form.TextField",
       this.setValue(vValue);
     },
 
+    // [rst] Catch backspace in readonly text fields to prevent browser default
+    // action (which commonly triggers a history step back)
+    // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=178320
+    _onkeydown : function( e ) {
+      if( e.getKeyIdentifier() == "Backspace" && this.getReadOnly() ) {
+        e.preventDefault();
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -1004,9 +1016,7 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function(vStart)
       {
         this._visualPropertyCheck();
-        if( this.isSeeable() ) {
-          this._inputElement.selectionStart = vStart;
-        } 
+        this._inputElement.selectionStart = vStart;
       }
     }),
 
@@ -1044,7 +1054,7 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function()
       {
         this._visualPropertyCheck();
-        return this.isSeeable() ? this._inputElement.selectionStart : 0;
+        return this._inputElement.selectionStart;
       }
     }),
 
@@ -1080,7 +1090,7 @@ qx.Class.define("qx.ui.form.TextField",
 
         var el = this._inputElement;
 
-        if ( qx.util.Validation.isValidString(el.value) && this.isSeeable() ) {
+        if ( qx.util.Validation.isValidString(el.value) && this.getVisibility() ) {
           el.selectionEnd = el.selectionStart + vLength;
         }
       }
@@ -1114,7 +1124,7 @@ qx.Class.define("qx.ui.form.TextField",
         this._visualPropertyCheck();
 
         var el = this._inputElement;
-        return this.isSeeable() ? ( el.selectionEnd - el.selectionStart ) : 0;
+        return el.selectionEnd - el.selectionStart;
       }
     }),
 
@@ -1152,9 +1162,6 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function(vText)
       {
         this._visualPropertyCheck();
-        if( !this.isSeeable() ) {
-          return;
-        }
 
         var el = this._inputElement;
 
@@ -1249,11 +1256,10 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function(vStart, vEnd)
       {
         this._visualPropertyCheck();
-        if( this.isSeeable() ) {
-          var el = this._inputElement;
-          el.selectionStart = vStart;
-          el.selectionEnd = vEnd;
-        }
+
+        var el = this._inputElement;
+        el.selectionStart = vStart;
+        el.selectionEnd = vEnd;
       }
     })
   },
