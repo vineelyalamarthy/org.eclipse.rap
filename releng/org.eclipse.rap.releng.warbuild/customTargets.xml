@@ -64,7 +64,7 @@
 	<!-- Steps to do before setup -->
 	<!-- ===================================================================== -->
 	<target name="preSetup">
-		
+		<antcall target="tidyup" />
 	</target>
 
 	<!-- ===================================================================== -->
@@ -156,6 +156,8 @@
 		
 		<mkdir dir="${outputDirectory}"/>
 		<zip destfile="${outputDirectory}/rapdemo.war" basedir="${warDirectory}" />
+		
+		<antcall target="tidyup" />
 	</target>
 
 	<!-- ===================================================================== -->
@@ -169,6 +171,11 @@
 	<!-- ===================================================================== -->
 	<target name="publish">
 	</target>
+
+   <target name="tidyup">
+        <delete file="${outputDirectory}/rapdemo.war"></delete>
+        <delete defaultexcludes="false" includeEmptyDirs="true" dir="${buildDirectory}" />
+    </target>
 
 	<!-- ===================================================================== -->
 	<!-- Default target                                                        -->
