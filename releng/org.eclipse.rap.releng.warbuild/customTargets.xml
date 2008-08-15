@@ -140,6 +140,22 @@
 	<!-- ===================================================================== -->
 	<target name="postBuild">
 		<antcall target="gatherLogs" />
+		
+		<property name="warDirectory" value="${buildDirectory}/war" />
+		<mkdir dir="${warDirectory}"/>
+	    <copy todir="${warDirectory}">
+	      <fileset dir="${builder}/templates" />
+	    </copy>
+		<mkdir dir="${warDirectory}/WEB-INF/lib" />
+		<copy todir="${warDirectory}/WEB-INF/lib">
+		  <fileset file="${buildDirectory}/plugins/org.eclipse.equinox.servletbridge/servletbridge.jar" />
+		</copy>
+		
+		<property name="featureZip" value="${buildDirectory}/${buildLabel}/${topLevelElementId}-${timestamp}.zip"/>
+		<unzip dest="${warDirectory}/WEB-INF" src="${featureZip}"/>
+		
+		<mkdir dir="${outputDirectory}"/>
+		<zip destfile="${outputDirectory}/demo.war" basedir="${warDirectory}" />
 	</target>
 
 	<!-- ===================================================================== -->

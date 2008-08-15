@@ -18,7 +18,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/j2sdk1.4.2_17"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}&#13;&#10;-buildfile &quot;${eclipse_home}/plugins/org.eclipse.pde.build_3.4.0.v20080604/scripts/build.xml&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dbuilder=&quot;${workspace_loc}/org.eclipse.rap.releng.warbuild&quot;&#13;&#10;-DbaseLocation=${eclipse_home}&#13;&#10;-DoutputDirectory=&quot;${workspace_loc}/org.eclipse.rap.releng.warbuild/build/target&quot;&#13;&#10;-Dbuild.base=&quot;${workspace_loc}/org.eclipse.rap.releng.warbuild/build/work&quot;&#13;&#10;-DtargetVersion=&quot;0.8.15&quot;&#13;&#10;-DbuildId=&quot;007&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dbuilder=&quot;${workspace_loc}/org.eclipse.rap.releng.warbuild&quot;&#13;&#10;-DbaseLocation=${eclipse_home}&#13;&#10;-DoutputDirectory=&quot;${workspace_loc}/org.eclipse.rap.releng.warbuild/build/deploy&quot;&#13;&#10;-Dbuild.base=&quot;${workspace_loc}/org.eclipse.rap.releng.warbuild/build/work&quot;&#13;&#10;-DtargetVersion=&quot;0.8.15&quot;&#13;&#10;-DbuildId=&quot;007&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="/home/benny/warbuild"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="org.eclipse.sdk.ide"/>
