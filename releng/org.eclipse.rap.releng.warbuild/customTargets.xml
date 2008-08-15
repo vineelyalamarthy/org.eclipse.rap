@@ -65,6 +65,7 @@
 	<!-- ===================================================================== -->
 	<target name="preSetup">
 		<antcall target="tidyup" />
+		<delete file="${outputDirectory}/rapdemo.war"></delete>
 	</target>
 
 	<!-- ===================================================================== -->
@@ -173,7 +174,6 @@
 	</target>
 
    <target name="tidyup">
-        <delete file="${outputDirectory}/rapdemo.war"></delete>
         <delete defaultexcludes="false" includeEmptyDirs="true" dir="${buildDirectory}" />
     </target>
 
