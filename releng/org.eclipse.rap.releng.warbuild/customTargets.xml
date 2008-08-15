@@ -155,7 +155,7 @@
 		<unzip dest="${warDirectory}/WEB-INF" src="${featureZip}"/>
 		
 		<mkdir dir="${outputDirectory}"/>
-		<zip destfile="${outputDirectory}/demo.war" basedir="${warDirectory}" />
+		<zip destfile="${outputDirectory}/rapdemo.war" basedir="${warDirectory}" />
 	</target>
 
 	<!-- ===================================================================== -->
