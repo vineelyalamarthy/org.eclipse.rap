@@ -70,6 +70,10 @@ qx.Class.define("qx.ui.form.TextField",
     this.addEventListener("blur", this._onblur);
     this.addEventListener("focus", this._onfocus);
     this.addEventListener("input", this._oninput);
+    // [rst] Catch backspace in readonly text fields to prevent browser default
+    // action (which commonly triggers a history step back)
+    // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=178320
+    this.addEventListener("keydown", this._onkeydown);
   },
 
 
@@ -897,7 +901,11 @@ qx.Class.define("qx.ui.form.TextField",
         this.setValue(vValue);
       }
 
-      this.setSelectionLength(0);
+      // RAP workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=201080
+      // The fix is to check parent != null before calling setSelectionLength.
+      if( this.getParent() != null ) {
+        this.setSelectionLength( 0 );
+      }
     },
 
 
@@ -916,6 +924,14 @@ qx.Class.define("qx.ui.form.TextField",
       this.setValue(vValue);
     },
 
+    // [rst] Catch backspace in readonly text fields to prevent browser default
+    // action (which commonly triggers a history step back)
+    // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=178320
+    _onkeydown : function( e ) {
+      if( e.getKeyIdentifier() == "Backspace" && this.getReadOnly() ) {
+        e.preventDefault();
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------

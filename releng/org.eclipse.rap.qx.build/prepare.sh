@@ -42,7 +42,7 @@ fail() {
 }
 
 # make sure we're in the project root
-ensure_pwd() {
+ensure_wd() {
   if [ "` basename $PWD`" != "$PROJECT" ]; then
     echo "cd to $PROJECT first"
     fail
@@ -56,7 +56,7 @@ ensure_zipfile() {
     echo "missing zip file $ZIP_FILE, place this file into the project root directory first"
     fail
   fi
-  echo "Found $ZIP_FILE, good."
+  echo "found $ZIP_FILE, good."
 }
 
 # make sure the extracted folder exists
@@ -65,7 +65,7 @@ ensure_extracted() {
     echo "missing directory qx-$VERSION/source/class/, call unzip before"
     fail
   fi
-  echo "Directory qx-$VERSION/source/class/ exists, good."
+  echo "directory qx-$VERSION/source/class/ exists, good."
 }
 
 # extract zip file into a directory named qx-VERSION/
@@ -79,7 +79,7 @@ extract_zipfile() {
 # create or overwrite source folder
 create_source() {
   echo creating source folder ...
-  rsync -a --delete "qx-$VERSION/source/class/" qx-build/source/class/ || fail
+  rsync -a -c --delete --exclude="CVS/" "qx-$VERSION/source/class/" qx-build/source/class/ || fail
   echo ok
 }
 
@@ -101,15 +101,15 @@ apply_all_patches() {
   echo ok
 }
 
-# create or overwrite source-replace folder
+# Create or overwrite source-replace folder
 create_source_replace() {
   echo creating source-replace folder ...
-  rsync -a --delete tmp-replace/qx-build/source/ qx-build/source-replace/ || fail
+  rsync -a -c --delete --exclude="CVS/" tmp-replace/qx-build/source/ qx-build/source-replace/ || fail
   rm -rf tmp-replace
   # Now for every patched file, the original version is kept in the source-replace
   # folder. Rsync helps to replace these original files with the patched ones in
   # order to create the "overlay directory".
-  rsync -a --existing qx-build/source/ qx-build/source-replace || fail
+  rsync -a -c --exclude="CVS/" --existing qx-build/source/ qx-build/source-replace || fail
   echo ok
 }
 
@@ -126,17 +126,17 @@ fi
 
 case "$TARGET" in
   "unzip")
-    ensure_pwd
+    ensure_wd
     ensure_zipfile
     extract_zipfile
     ;;
   "source")
-    ensure_pwd
+    ensure_wd
     ensure_extracted
     create_source
     ;;
   "patch")
-    ensure_pwd
+    ensure_wd
     ensure_extracted
     while [ $# -ge 1 ]; do
       apply_patch "$1"
@@ -144,21 +144,21 @@ case "$TARGET" in
     done
   ;;
   "patch-all")
-    ensure_pwd
+    ensure_wd
     ensure_extracted
     apply_all_patches
     ;;
   "source_replace")
-    ensure_pwd
+    ensure_wd
     ensure_extracted
     create_source_replace
     ;;
   "clean")
-    ensure_pwd
+    ensure_wd
     clean_up
     ;;
   "all")
-    ensure_pwd
+    ensure_wd
     clean_up
     ensure_zipfile
     extract_zipfile

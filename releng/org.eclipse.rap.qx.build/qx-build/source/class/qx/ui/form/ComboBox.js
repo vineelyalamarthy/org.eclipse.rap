@@ -379,20 +379,21 @@ qx.Class.define("qx.ui.form.ComboBox",
         this._field.setValue(value);
       }
 
-      // only do this if we called setValue seperatly
-      // and not from the property "selected".
-      if (!this._fromSelected)
-      {
-        // inform selected property
-        var vSelItem = this._list.findStringExact(value);
-
-        // ignore disabled items
-        if (vSelItem != null && !vSelItem.getEnabled()) {
-          vSelItem = null;
-        }
-
-        this.setSelected(vSelItem);
-      }
+//      [rst] Disable auto-selection behavior
+//      // only do this if we called setValue seperatly
+//      // and not from the property "selected".
+//      if (!this._fromSelected)
+//      {
+//        // inform selected property
+//        var vSelItem = this._list.findStringExact(value);
+//
+//        // ignore disabled items
+//        if (vSelItem != null && !vSelItem.getEnabled()) {
+//          vSelItem = null;
+//        }
+//
+//        this.setSelected(vSelItem);
+//      }
 
       // reset hint
       delete this._fromValue;
@@ -538,10 +539,18 @@ qx.Class.define("qx.ui.form.ComboBox",
 
       this.setValue(this._field.getComputedValue());
 
-      // be sure that the found item is in view
-      if (this.getPopup().isSeeable() && this.getSelected()) {
-        this.getSelected().scrollIntoView();
+      // [rst] clear selection on input change
+      // TODO [rst] trigger selection change
+      var vSelected = this.getSelected();
+      if( vSelected && vSelected.getLabel() != this.getValue() ) {
+      	this.resetSelected();
       }
+
+//      [rst] Disable auto-selection behavior
+//      // be sure that the found item is in view
+//      if (this.getPopup().isSeeable() && this.getSelected()) {
+//        this.getSelected().scrollIntoView();
+//      }
 
       delete this._fromInput;
     },
@@ -785,6 +794,8 @@ qx.Class.define("qx.ui.form.ComboBox",
           {
             this._openPopup();
           }
+          // [rst] Workaround for http://bugzilla.qooxdoo.org/show_bug.cgi?id=878
+          e.stopPropagation();
 
           return;
 
@@ -802,6 +813,8 @@ qx.Class.define("qx.ui.form.ComboBox",
 
             this._closePopup();
             this.setFocused(true);
+            // [rst] Workaround for http://bugzilla.qooxdoo.org/show_bug.cgi?id=878
+            e.stopPropagation();
           }
 
           return;
@@ -897,13 +910,14 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         this._list._onkeypress(e);
 
-        var vSelected = this._manager.getSelectedItem();
-
-        if (!vVisible) {
-          this.setSelected(vSelected);
-        } else if (vSelected) {
-          this._field.setValue(vSelected.getLabel());
-        }
+//        [rst] Disable auto-selection behavior
+//        var vSelected = this._manager.getSelectedItem();
+//
+//        if (!vVisible) {
+//          this.setSelected(vSelected);
+//        } else if (vSelected) {
+//          this._field.setValue(vSelected.getLabel());
+//        }
       }
     },
 
@@ -923,13 +937,14 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         this._list._onkeyinput(e);
 
-        var vSelected = this._manager.getSelectedItem();
-
-        if (!vVisible) {
-          this.setSelected(vSelected);
-        } else if (vSelected) {
-          this._field.setValue(vSelected.getLabel());
-        }
+//        [rst] Disable auto-selection behavior
+//        var vSelected = this._manager.getSelectedItem();
+//
+//        if (!vVisible) {
+//          this.setSelected(vSelected);
+//        } else if (vSelected) {
+//          this._field.setValue(vSelected.getLabel());
+//        }
       }
     },
 

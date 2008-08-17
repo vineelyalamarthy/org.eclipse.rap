@@ -50,11 +50,19 @@ qx.Class.define("qx.ui.basic.Label",
    * @param mnemonic {String} The mnemonic of the label (see property {@link #mnemonic}).
    * @param mode {String} The mode of the label (see property {@link #mode}).
    */
-  construct : function(text, mnemonic, mode)
+// TODO [rh] unused: replacement for below (no qx code calls 3-args ctor)   
+  construct : function(text)
+//  construct : function(text, mnemonic, mode)
   {
     this.base(arguments);
 
-    if (mode != null) {
+    if (text != null) {
+      this.setText(text);
+    }
+
+// TODO [rh] unused
+/*
+     if (mode != null) {
       this.setMode(mode);
     }
 
@@ -65,6 +73,7 @@ qx.Class.define("qx.ui.basic.Label",
     if (mnemonic != null) {
       this.setMnemonic(mnemonic);
     }
+*/
 
     // Property init
     this.initWidth();
@@ -179,7 +188,8 @@ qx.Class.define("qx.ui.basic.Label",
       apply : "_applyText",
       init : "",
       dispose : true,
-      event : "changeText",
+// TODO [rh] unused      
+//      event : "changeText",
       check : "Label"
     },
 
@@ -216,10 +226,10 @@ qx.Class.define("qx.ui.basic.Label",
     textOverflow :
     {
       check : "Boolean",
-      init : true,
-      apply : "_applyText"
+      init : true
+// TODO [rh] unused: removed as the corresponding impl was also removed    
+//      apply : "_applyText"
     },
-
 
     /**
      * Set how the label text should be interpreted
@@ -235,18 +245,20 @@ qx.Class.define("qx.ui.basic.Label",
     mode :
     {
       check : [ "html", "text", "auto" ],
-      init : "auto",
-      apply : "_applyText"
-    },
+      init : "auto"
+// TODO [rh] unused: replace with empty get/setMode functions      
+//      apply : "_applyText"
+    } // , TODO [rh] unused: removed trailing comma, see below
 
 
     /** A single character which will be underlined inside the text. */
-    mnemonic :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyMnemonic"
-    }
+// TODO [rh] unused    
+//    mnemonic :
+//    {
+//      check : "String",
+//      nullable : true,
+//      apply : "_applyMnemonic"
+//    }
   },
 
 
@@ -261,7 +273,8 @@ qx.Class.define("qx.ui.basic.Label",
   members :
   {
     _content : "",
-    _isHtml : false,
+    // TODO [rh] unused
+//    _isHtml : false,
 
     /**
      * Deprecated text setter.
@@ -270,11 +283,12 @@ qx.Class.define("qx.ui.basic.Label",
      *
      * @deprecated please use {@link #setText} instead.
      */
-    setHtml : function(html)
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "please use setText() instead.");
-      this.setText(html);
-    },
+// TODO [rh] unused     
+//    setHtml : function(html)
+//    {
+//      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "please use setText() instead.");
+//      this.setText(html);
+//    },
 
 
     /**
@@ -283,11 +297,12 @@ qx.Class.define("qx.ui.basic.Label",
      * @return {String} current value of the label.
      * @deprecated please use {@link #getText} instead.
      */
-    getHtml : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "please use getText() instead.");
-      return this.getText();
-    },
+// TODO [rh] unused     
+//    getHtml : function()
+//    {
+//      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "please use getText() instead.");
+//      return this.getText();
+//    },
 
 
 
@@ -384,7 +399,9 @@ qx.Class.define("qx.ui.basic.Label",
      * @param old {var} Previous value
      */
     _applyText : function(value, old) {
-      qx.locale.Manager.getInstance().connect(this._syncText, this, this.getText());
+//      qx.locale.Manager.getInstance().connect(this._syncText, this, this.getText());
+      // DONT USE 'value' as this func is misued by other properties than text
+      this._syncText( this.getText() ); 
     },
 
 
@@ -395,6 +412,7 @@ qx.Class.define("qx.ui.basic.Label",
      */
     _syncText : function(text)
     {
+      /*
       var mode = this.getMode();
 
       if (mode === "auto") {
@@ -414,10 +432,13 @@ qx.Class.define("qx.ui.basic.Label",
           this._content = text;
           break;
       }
-
+      */
+      
+          this._content = text;
+          
       if (this._isCreated) {
         this._renderContent();
-      }
+      } 
     },
 
 
@@ -428,6 +449,8 @@ qx.Class.define("qx.ui.basic.Label",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
+// TODO [rh] unused
+/*     
     _applyMnemonic : function(value, old)
     {
       this._mnemonicTest = value ? new RegExp("^(((<([^>]|" + value + ")+>)|(&([^;]|" + value + ")+;)|[^&" + value + "])*)(" + value + ")", "i") : null;
@@ -436,7 +459,7 @@ qx.Class.define("qx.ui.basic.Label",
         this._renderContent();
       }
     },
-
+*/
 
 
 
@@ -466,6 +489,9 @@ qx.Class.define("qx.ui.basic.Label",
       style.fontStyle = source.fontStyle || "";
 
       // apply html
+// TODO [rh] unused: replacement for below      
+      element.innerHTML = this._content;
+/*
       if (this._isHtml)
       {
         element.innerHTML = this._content;
@@ -475,6 +501,7 @@ qx.Class.define("qx.ui.basic.Label",
         element.innerHTML = "";
         qx.dom.Element.setTextContent(element, this._content);
       }
+*/
 
       // store values
       this._cachedPreferredInnerWidth = element.scrollWidth;
@@ -519,15 +546,36 @@ qx.Class.define("qx.ui.basic.Label",
      * @param inner {Integer} inner width of the label
      * @return {String} html Fragment of the label with overflow symbol
      */
-    __patchTextOverflow : function(html, inner) {
-      return (
-        "<div style='float:left;width:" + (inner-14) +
-        "px;overflow:hidden;white-space:nowrap'>" + html +
-        "</div><span style='float:left'>&hellip;</span>"
-      );
-    },
+// TODO [rh] unused as not called anymore from replaced _postApply     
+//    __patchTextOverflow : function(html, inner) {
+//      return (
+//        "<div style='float:left;width:" + (inner-14) +
+//        "px;overflow:hidden;white-space:nowrap'>" + html +
+//        "</div><span style='float:left'>&hellip;</span>"
+//      );
+//    },
 
 
+    // TODO [rh] replacement for original function below
+    _postApply : function() {
+      var html = this._content;
+      var element = this._getTargetNode();
+      if( html == null ) {
+        element.innerHTML = "";
+      } else {
+        var style = element.style;
+        if( !this.getWrap() ) {
+          if( this.getInnerWidth() < this.getPreferredInnerWidth() ) {
+            style.overflow = "hidden";
+          } else {
+            style.overflow = "";
+          }
+        }
+        element.innerHTML = html;
+      }
+    }
+
+    /*
     // overridden
     _postApply : function()
     {
@@ -552,7 +600,7 @@ qx.Class.define("qx.ui.basic.Label",
           html += " (" + this.getMnemonic() + ")";
         }
       }
-
+      
       var style = element.style;
 
       if (this.getTextOverflow() && !this.getWrap())
@@ -600,5 +648,6 @@ qx.Class.define("qx.ui.basic.Label",
         qx.dom.Element.setTextContent(element, html);
       }
     }
+      */
   }
 });

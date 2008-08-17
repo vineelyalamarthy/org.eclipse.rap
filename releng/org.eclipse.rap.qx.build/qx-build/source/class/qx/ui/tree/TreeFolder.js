@@ -933,6 +933,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
             this.getTree().getManager().handleMouseUp(this, e);
             e._treeProcessed = true;
           }
+          this.getTree().getManager().handleMouseUp(e.getTarget(), e);
       }
     },
 
