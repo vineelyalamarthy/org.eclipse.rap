@@ -1,0 +1,17 @@
+### Eclipse Workspace Patch 1.0
+#P org.eclipse.rap.tools
+Index: qx-build/source/class/qx/ui/tree/TreeFolder.js
+===================================================================
+RCS file: /cvsroot/technology/org.eclipse.rap/org.eclipse.rap.tools/qx-build/source/class/qx/ui/tree/TreeFolder.js,v
+retrieving revision 1.4
+diff -u -r1.4 TreeFolder.js
+--- qx-build/source/class/qx/ui/tree/TreeFolder.js	17 Aug 2008 14:54:44 -0000	1.4
++++ qx-build/source/class/qx/ui/tree/TreeFolder.js	19 Aug 2008 14:46:26 -0000
+@@ -881,6 +881,7 @@
+       {
+         case this._indentObject:
+           if (this._indentObject.getElement().firstChild == e.getDomTarget()) {
++            this.getTree().getManager().handleMouseDown(this, e);
+             this.toggle();
+           }
+ 

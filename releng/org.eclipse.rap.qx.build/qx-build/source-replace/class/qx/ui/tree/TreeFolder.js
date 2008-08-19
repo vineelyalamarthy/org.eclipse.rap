@@ -881,6 +881,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       {
         case this._indentObject:
           if (this._indentObject.getElement().firstChild == e.getDomTarget()) {
+            this.getTree().getManager().handleMouseDown(this, e);
             this.toggle();
           }
 
