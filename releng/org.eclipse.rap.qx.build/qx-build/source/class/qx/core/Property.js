@@ -802,8 +802,7 @@ qx.Class.define("qx.core.Property",
         }
 
         // Undefined check
-        // TODO [rh] unused: changed as in patch to http://bugzilla.qooxdoo.org/show_bug.cgi?id=599
-        if (qx.core.Variant.isSet("qx.debug", "on") && variant === "set") {
+        if (variant === "set") {
           code.push('if(value===undefined)prop.error(this,2,"'+name+'","'+variant+'",value);');
         }
       }
@@ -851,10 +850,9 @@ qx.Class.define("qx.core.Property",
         code.push('var inherit=prop.$$inherit;');
       }
 
-      // Generate checks only in debug mode
+      // Enable checks in debugging mode or then generating the setter
 
-      // TODO [rh] unused: changed as in patch to http://bugzilla.qooxdoo.org/show_bug.cgi?id=599
-      if (incomingValue && qx.core.Variant.isSet("qx.debug", "on"))
+      if (incomingValue && (qx.core.Variant.isSet("qx.debug", "on") || variant === "set"))
       {
         // Null check
         if (!config.nullable) {

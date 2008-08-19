@@ -104,18 +104,18 @@ apply_all_patches() {
 # Create or overwrite source-replace folder
 create_source_replace() {
   echo creating source-replace folder ...
-  rsync -a -c --delete --exclude="CVS/" tmp-replace/qx-build/source/ qx-build/source-replace/ || fail
-  rm -rf tmp-replace
+  rsync -a -c --existing qx-build/source/ tmp-replace/qx-build/source/ || fail
   # Now for every patched file, the original version is kept in the source-replace
   # folder. Rsync helps to replace these original files with the patched ones in
   # order to create the "overlay directory".
-  rsync -a -c --exclude="CVS/" --existing qx-build/source/ qx-build/source-replace || fail
+  rsync -a -c --exclude="CVS/" --delete tmp-replace/qx-build/source/class/ qx-build/source-replace/class/ || fail
   echo ok
 }
 
 clean_up() {
   echo cleaning up ...
   rm -rf qx-$VERSION
+  rm -rf tmp-replace/
   echo ok
 }
 
@@ -148,7 +148,7 @@ case "$TARGET" in
     ensure_extracted
     apply_all_patches
     ;;
-  "source_replace")
+  "source-replace")
     ensure_wd
     ensure_extracted
     create_source_replace
