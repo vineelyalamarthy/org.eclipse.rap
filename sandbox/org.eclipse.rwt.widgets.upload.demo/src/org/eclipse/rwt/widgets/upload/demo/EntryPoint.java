@@ -82,7 +82,6 @@ public class EntryPoint implements IEntryPoint{
         btnTest.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
         btnTest.addSelectionListener(new SelectionAdapter() {
 
-            @Override
             public void widgetSelected(SelectionEvent e){
                 final Shell newShell = new Shell(parent.getShell(), SWT.DIALOG_TRIM | SWT.RESIZE);
                 newShell.setLayout(new GridLayout(1, false));
@@ -92,7 +91,6 @@ public class EntryPoint implements IEntryPoint{
                 btnUpload.setText("Upload");
                 btnUpload.addSelectionListener(new SelectionAdapter() {
 
-                    @Override
                     public void widgetSelected(SelectionEvent e){
                         upload.performUpload();
                         handleUploadFinished(upload);
@@ -119,7 +117,6 @@ public class EntryPoint implements IEntryPoint{
         btnStartUpload.setEnabled(false);
         btnStartUpload.addSelectionListener(new SelectionAdapter() {
 
-            @Override
             public void widgetSelected(SelectionEvent e){
                 upload.performUpload();
         
@@ -153,7 +150,6 @@ public class EntryPoint implements IEntryPoint{
         btnReset.setText("Reset upload widget");
         btnReset.addSelectionListener(new SelectionAdapter() {
 
-            @Override
             public void widgetSelected(SelectionEvent e){
                 upload.reset();
                 uploadProgress.setText("");
