@@ -171,11 +171,12 @@ qx.Class.define("qx.ui.basic.Label",
       init : false
     },
 
-    cursor :
-    {
-      refine : true,
-      init : "default"
-    },
+// RAP [rst] qx bug 455 http://bugzilla.qooxdoo.org/show_bug.cgi?id=455
+//    cursor :
+//    {
+//      refine : true,
+//      init : "default"
+//    },
 
 
 
