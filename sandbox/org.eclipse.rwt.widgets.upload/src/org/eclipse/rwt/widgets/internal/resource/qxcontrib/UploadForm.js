@@ -20,437 +20,6 @@
 /* ************************************************************************
 
 #module(uploadwidget_ui_io)
-
-************************************************************************ */
-
-/**
- * An upload button which allows selection of a file through the browser fileselector.
- *
- */
-qx.Class.define("qx.ui.custom.UploadButton",
-{
-  extend : qx.ui.form.Button,
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(name, text, icon, iconWidth, iconHeight, flash)
-  {
-    this.base(arguments, text, icon, iconWidth, iconHeight, flash);
-
-  	if(name) {
-      this.setName(name);
-    }
- 
-  	this.addEventListener("appear", this._createInputFileTag);
-  },
-  
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * The name which is assigned to the form
-     */
-    name :
-    {
-      check : "String",
-      init : "",
-      apply : "_applyName"
-    },
-
-    /**
-     * The value which is assigned to the form
-     */
-    value :
-    {
-      check : "String",
-      init : "",
-      apply : "_applyValue",
-      event : "changeValue"
-    }
-  }, 
-  
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIERS
-    ---------------------------------------------------------------------------
-    */
-    
-    /**
-     * Modifies the value property of the hidden input type=file element.
-     * Only an empty string is accepted for clearing out the value of the
-     * selected file.
-     * 
-     * As a special case for IE the hidden input element is recreated because
-     * setting the value is generally not allowed in IE.
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyValue : function(value, old) {
-      if(this._valueInputOnChange) {
-        delete this._valueInputOnChange;
-      }
-      else {
-        if (!value || value == '') {
-          if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-            this._createInputFileTag();
-          }
-          else {
-            this._input.value = '';
-          }
-        }
-        else {
-          throw new Error("Unable to set value to non null or non empty!");
-        }
-      }
-    },
-
-
-    /**
-     * Modifies the name property of the hidden input type=file element.
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyName : function(value, old) {
-      if(this._input) {
-        this._input.name = propValue;
-      }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT-HANDLER
-    ---------------------------------------------------------------------------
-    */
-    
- 
-    /**
-     * Create an input type=file element, and set the onchange event handler which
-     * fires if the user selected a file with the fileselector.
-     *
-     * @type member
-     * @param e {Event|null} appear event
-     * @return {void}
-     */
-    _createInputFileTag : function(e) {
-      if(this._input) {
-        this._input.name += "_tmp_";
-        this._input.parentNode.removeChild(this._input);
-        this._input = null;
-      }
-    
-        this._input = document.createElement("input");
-    	var input = this._input;
-    	input.type = "file";
-    	input.name	= this.getName();
-    	input.style.position = "absolute";
-    	input.style.left 		= "-860px";
-    	input.style.height		= "27px";
-    	input.style.fontSize = "60px";
-    	input.style.clip	= "rect(auto, " + 860 + this.getWidthValue() + "px, auto, 860px)";
-    	input.style.zIndex 	= "100";
-    	input.style.cursor 	= "hand";
-    	input.style.cursor 	= "pointer";
-    	input.style.filter 	= "alpha(opacity=0)";
-    	input.style.opacity 	= "0";
-    	input.style.MozOutlinestyle 	= "none";
-    	input.style.hidefocus 				= "true";
-    
-    	var _this = this;
-    	input.onchange = function(ev) { return _this._onChange(ev); };
-    
-    	this.getElement().appendChild(input);
-    },
-
-    
-    /**
-     * Handle the onchange event of the hidden input type=file element
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _onChange : function(e) {
-      this._valueInputOnChange = true;
-      this.setValue(this._input.value);
-    }
-  },
-    
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this.removeEventListener("mouseover", this._onmouseover);
-    this.removeEventListener("mouseout", this._onmouseout);
-    this.removeEventListener("mousedown", this._onmousedown);
-    this.removeEventListener("mouseup", this._onmouseup);
-  	this.removeEventListener("appear", this._createInputFileTag);
-  
-    if(this._input) {
-      this._input.parentNode.removeChild(this._input);
-      this._input.onchange = null;
-      this._input = null;
-    } 
-  }
-});  
-/* ************************************************************************
-
-   qooxdoo - the new era of web development
-
-   http://qooxdoo.org
-
-   Copyright:
-     2007 Visionet GmbH, http://www.visionet.de
-
-   License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's top-level directory for details.
-
-   Authors:
-     * Dietrich Streifert (level420)
-
-************************************************************************ */
-
-/* ************************************************************************
-
-#module(uploadwidget_ui_io)
-
-************************************************************************ */
-
-/**
- * UploadField: A textfield which holds the filename of the file which
- * should be uploaded and a button which allows selecting the file via the native
- * file selector 
- *
- */
-qx.Class.define("qx.ui.custom.UploadField",
-{
-  extend : qx.ui.layout.BoxLayout,
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(name, text, icon, iconHeight, flash)
-  {
-    this.base(arguments);
-    
-  	if(name) {
-      this.setName(name);
-    }
-
-    this.initHeight();
-    this.initOverflow();
-
-  	this._text = new qx.ui.form.TextField();
-  	this._text.set({readOnly:true,left:0,marginTop:3,width:"1*"});
-    this._text.setAppearance( "upload-field" );
-  	this.add(this._text);
-
-  	this._button = new qx.ui.custom.UploadButton(this.getName(), text, icon, iconHeight, flash);
-  	this._button.set({right:0});
-    this._button.addEventListener("changeValue", this._onChangeValue, this);
-  	this.add(this._button);
-  },
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * The name which is assigned to the form
-     */
-    name :
-    {
-      check : "String",
-      init  : "",
-      apply : "_applyName"
-    },
-
-    /**
-     * The value which is assigned to the form
-     */
-    value :
-    {
-      check : "String",
-      init : "",
-      apply : "_applyValue",
-      event : "changeValue"
-    },
-    
-    /**
-     * refine the initial value of height to auto
-     */
-    height:
-    {
-      refine : true,
-      init   : "auto"
-    },
-    
-    /**
-     * refine the initial value of overflow to hidden
-     */
-    overflow :
-    {
-      refine : true,
-      init   : "hidden"
-    },
-    
-    /**
-     * refine the initial value of spacing to 4
-     */
-    spacing :
-    {
-      refine : true,
-      init   : 3
-    }
-  }, 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /*
-    ------------------------------------------------------------------------------------
-      Instance variables
-    ------------------------------------------------------------------------------------
-    */
-
-    _value : "",
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIERS
-    ---------------------------------------------------------------------------
-    */
-    
-    /**
-     * Value modifier. Sets the value of both the text field and
-     * the UploadButton. The setValue modifier of UploadButton
-     * throws an exception if the value is not an empty string.
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyValue : function(value, old) {
-      this._button.setValue(value);
-      this._text.setValue(value);
-    },
-
-
-    /**
-     * Upload parameter value modifier. Sets the name attribute of the
-     * the hidden input type=file element in UploadButton which should.
-     * This name is the form submission parameter name.
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyName : function(value, old) {
-      if(this._button) {
-        this._button.setName(value);
-      }
-    },
-
-
-    
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-    
-    /**
-     * If the user select a file by clicking the button, the value of
-     * the input type=file tag of the UploadButton changes and
-     * the text field is set with the value of the selected filename.
-     *
-     * @type member
-     * @param e {Event} change value event data
-     * @return {void}
-     */
-    _onChangeValue : function(e) {
-      var value = e.getData();
-      this._text.setValue(value);
-      this.setValue(value);
-    }
-  },    
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-  destruct : function()
-  {
-    this._disposeObjects("_button", "_text");
-  }
-});  
-/* ************************************************************************
-
-   qooxdoo - the new era of web development
-
-   http://qooxdoo.org
-
-   Copyright:
-     2007 Visionet GmbH, http://www.visionet.de
-
-   License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's top-level directory for details.
-
-   Authors:
-     * Dietrich Streifert (level420)
-
-************************************************************************ */
-
-/* ************************************************************************
-
-#module(uploadwidget_ui_io)
 #require(qx.xml.Document)
 
 ************************************************************************ */
@@ -463,7 +32,7 @@ qx.Class.define("qx.ui.custom.UploadField",
  * 
  *
  */
-qx.Class.define("qx.ui.custom.UploadForm",
+qx.Class.define("uploadwidget.UploadForm",
 {
   extend : qx.ui.layout.CanvasLayout,
 
@@ -495,6 +64,7 @@ qx.Class.define("qx.ui.custom.UploadForm",
 
     // Initialize Properties
     this.initHeight();
+    this.initWidth();
     this.initSelectable();
     this.initMethod();
 
@@ -564,7 +134,7 @@ qx.Class.define("qx.ui.custom.UploadForm",
      */
     method :
     {
-      check : [ qx.net.Http.METHOD_GET, qx.net.Http.METHOD_POST, qx.net.Http.METHOD_PUT, qx.net.Http.METHOD_HEAD, qx.net.Http.METHOD_DELETE ],
+      check : [ qx.net.Http.METHOD_GET, qx.net.Http.METHOD_POST ],
       init  : qx.net.Http.METHOD_POST,
       apply : "_applyMethod"
     },
@@ -573,6 +143,15 @@ qx.Class.define("qx.ui.custom.UploadForm",
      * refine the initial value of height to auto
      */
     height:
+    {
+      refine : true,
+      init   : "auto"
+    },
+
+    /**
+     * refine the initial value of width to auto
+     */
+    width:
     {
       refine : true,
       init   : "auto"
@@ -630,28 +209,29 @@ qx.Class.define("qx.ui.custom.UploadForm",
 
     /**
      * Create a hidden iframe which is used as target for the form submission.
+     * Don't need a src attribute, if it was set to javascript:void we get an insecure
+     * objects error in IE.
      *
      * @type member
      * @return {void}
      */
-    _createIFrameTarget : function() {
+    _createIFrameTarget : function()
+    {
       var frameName = "frame_" + (new Date).valueOf();
-    
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
         this._iframeNode = document.createElement('<iframe name="' + frameName + '"></iframe>');
       } else {
         this._iframeNode = document.createElement("iframe");
       }
-    
-      this._iframeNode.src = "javascript:void(0)";
+
       this._iframeNode.id = this._iframeNode.name = frameName;
-    
       this._iframeNode.style.display = "none";
-    
       this.setTarget(frameName);
-    
+
       document.body.appendChild(this._iframeNode);
-    
+
       this._iframeNode.onload = qx.lang.Function.bind(this._onLoad, this);
       this._iframeNode.onreadystatechange = qx.lang.Function.bind(this._onReadyStateChange, this);
     },
@@ -962,15 +542,27 @@ qx.Class.define("qx.ui.custom.UploadForm",
 
   destruct : function()
   {
-    document.body.removeChild(this._iframeNode);
-    this._iframeNode.onreadystatechange = null;
-    this._iframeNode.onload = null;
-    this._iframeNode = null;
+    if (this._iframeNode)
+    {
+      try
+      {
+        document.body.removeChild(this._iframeNode);
+        this._iframeNode.onreadystatechange = null;
+        this._iframeNode.onload = null;
+        this._iframeNode = null;
+      }
+      catch (exc)
+      {
+        this.warn("can't remove iframe node from dom.");
+      }
+    }
   
     this._parameters = null;
   
-    for (var id in this._hidden) {
-      if(this._hidden[id] && this._hidden[id].parentNode) {
+    for (var id in this._hidden)
+    {
+      if(this._hidden[id] && this._hidden[id].parentNode)
+      {
         this._hidden[id].parentNode.removeChild(this._hidden[id]);
       }
     }
@@ -978,3 +570,4 @@ qx.Class.define("qx.ui.custom.UploadForm",
     this._hidden = null;
   }
 });  
+

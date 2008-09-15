@@ -176,7 +176,6 @@ public class Upload extends Control {
                  final int style,
                  final int flags )
   {
-    // TODO: [sr] implement SWT.BORDER support
     this (parent, style, null, flags);
   }
   
@@ -208,6 +207,11 @@ public class Upload extends Control {
    * Returns the full file name of the last
    * uploaded file including the file path as
    * selected by the user on his local machine.
+   * <br>
+   * The full path including the directory and file
+   * drive are only returned, if the browser supports
+   * reading this properties. In Firefox 3, only 
+   * the filename is returned. 
    * @see Upload#getLastFileUploaded()
    */
   public String getPath() {

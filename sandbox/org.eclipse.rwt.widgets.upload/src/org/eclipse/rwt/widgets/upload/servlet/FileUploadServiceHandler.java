@@ -39,6 +39,7 @@ import org.eclipse.rwt.service.IServiceHandler;
 public class FileUploadServiceHandler implements IServiceHandler {
 
   private static final String REQUEST_WIDGET_ID = "widgetId";
+  private static final String REQUEST_PROCESS_ID = "processId";
   private static final String XML_HEAD = "<?xml version=\"1.0\" encoding=\"utf-8\"?><response>";
 
   /**
@@ -50,31 +51,49 @@ public class FileUploadServiceHandler implements IServiceHandler {
     
     final HttpServletRequest request = RWT.getRequest();
     final String widgetId = request.getParameter( REQUEST_WIDGET_ID );
+    final String uploadProcessId = request.getParameter( REQUEST_PROCESS_ID );
     final HttpSession session = request.getSession( false );
     
-    if( session != null && widgetId != null && !"".equals( widgetId ) )
+    if( session != null
+        && widgetId != null
+        && !"".equals( widgetId )
+        && uploadProcessId != null
+        && !"".equals( uploadProcessId ) )
     {
       final FileUploadStorage fileUploadStorage = FileUploadStorage.getInstance();
       final FileUploadStorageItem fileUploadStorageItem = fileUploadStorage.getUploadStorageItem( widgetId );
       
-      if (fileUploadStorageItem != null) {
-        if (ServletFileUpload.isMultipartContent(request)) {
-          // Handle post-request which contains the file to upload
-          handleFileUpload( request, fileUploadStorageItem );
-        } else {
-          // This is probably a request for updating the progress bar
-          handleUpdateProgress( fileUploadStorageItem );
-        }
+      // fileUploadStorageItem can be null, if Upload widget is dispsed!
+      if (ServletFileUpload.isMultipartContent(request)) {
+        // Handle post-request which contains the file to upload
+        handleFileUpload( request, fileUploadStorageItem, uploadProcessId );
+      } else {
+        // This is probably a request for updating the progress bar
+        handleUpdateProgress( fileUploadStorageItem, uploadProcessId );
       }
       
     }
   }
 
+  /**
+   * Treats the request as a post request which contains the file to be
+   * uploaded. Uses the apache commons fileupload library to
+   * extract the file from the request, attaches a {@link FileUploadListener} to 
+   * get notified about the progress and writes the file content
+   * to the given {@link FileUploadStorageItem}
+   * @param request Request object, must not be null
+   * @param fileUploadStorageitem Object where the file content is set to.
+   * If null, nothing happens.
+   * @param uploadProcessId Each upload action has a unique process identifier to
+   * match subsequent polling calls to get the progress correctly to the uploaded file.
+   *
+   */
   private void handleFileUpload( final HttpServletRequest request,
-                                 final FileUploadStorageItem fileUploadStorageitem )
+                                 final FileUploadStorageItem fileUploadStorageitem, 
+                                 final String uploadProcessId )
   {
     // Ignore upload requests which have no valid widgetId
-    if (fileUploadStorageitem != null) {
+    if (fileUploadStorageitem != null && uploadProcessId != null && !"".equals( uploadProcessId )) {
       
       // Create file upload factory and upload servlet
       // You could use new DiskFileItemFactory(threshold, location)
@@ -88,6 +107,7 @@ public class FileUploadServiceHandler implements IServiceHandler {
       // Upload servlet allows to set upload listener
       upload.setProgressListener( listener );
       fileUploadStorageitem.setProgressListener( listener );
+      fileUploadStorageitem.setUploadProcessId( uploadProcessId );
       
       FileItem fileItem = null;
       try {
@@ -109,10 +129,20 @@ public class FileUploadServiceHandler implements IServiceHandler {
         e.printStackTrace();
       }
     }
-    
   }
 
-  private void handleUpdateProgress( final FileUploadStorageItem fileUploadStorageitem )
+  /**
+   * Treats the request as a get request which is triggered by the
+   * browser to retrieve the progress state. Gets the registered 
+   * {@link FileUploadListener} from the given {@link FileUploadStorageItem}
+   * to check the current progress. The result is written to the response
+   * in an XML format.
+   * <br>
+   * <b>Note:</b> It is important that a valid response is written in any case
+   * to let the Browser know, when polling can be stopped. 
+   * @param uploadProcessId 
+   */
+  private void handleUpdateProgress( final FileUploadStorageItem fileUploadStorageitem, String uploadProcessId )
     throws IOException
   {
     final HttpServletResponse response = RWT.getResponse();
@@ -125,33 +155,61 @@ public class FileUploadServiceHandler implements IServiceHandler {
     response.setContentType( "text/xml" );
     response.setHeader( "Cache-Control", "no-cache" );
     
-    final FileUploadListener listener = fileUploadStorageitem.getProgressListener();
-    if( listener != null ) {
-      // Get the meta information
-      bytesRead = listener.getBytesRead();
-      contentLength = listener.getContentLength();
-      /*
-       * XML Response Code
-       */
-      buffy.append( "<bytes_read>" );
-      buffy.append( bytesRead );
-      buffy.append( "</bytes_read><content_length>" );
-      buffy.append( contentLength );
-      buffy.append( "</content_length>" );
-      // Check to see if we're done
-      if( contentLength != 0 ) {
-        if( bytesRead == contentLength ) {
-          buffy.append( "<finished />" );
-          // No reason to keep listener in session since we're done
-          fileUploadStorageitem.setProgressListener( null );
+    if( fileUploadStorageitem != null ) {
+      
+      if ( uploadProcessId != null && uploadProcessId.equals( fileUploadStorageitem.getUploadProcessId() )) {
+        
+        final FileUploadListener listener = fileUploadStorageitem.getProgressListener();
+        
+        if (listener != null) {
+          // Get the meta information
+          bytesRead = listener.getBytesRead();
+          contentLength = listener.getContentLength();
+          /*
+           * XML Response Code
+           */
+          buffy.append( "<bytes_read>" );
+          buffy.append( bytesRead );
+          buffy.append( "</bytes_read><content_length>" );
+          buffy.append( contentLength );
+          buffy.append( "</content_length>" );
+          // Check to see if we're done
+          // Even files with a size of 0 have a content length > 0
+          if( contentLength != 0 ) {
+            if( bytesRead == contentLength ) {
+              buffy.append( "<finished />" );
+              // No reason to keep listener in session since we're done
+              fileUploadStorageitem.setProgressListener( null );
+            } else {
+              // Calculate the percent complete
+              buffy.append( "<percent_complete>" );
+              buffy.append( ( 100 * bytesRead / contentLength ) );
+              buffy.append( "</percent_complete>" );
+            }
+          } else {
+            // Contentlength should not be 0, however, send finished to make sure
+            // the Browser side polling stops.
+            buffy.append( "<finished />" );
+          }
         } else {
-          // Calculate the percent complete
-          buffy.append( "<percent_complete>" );
-          buffy.append( ( 100 * bytesRead / contentLength ) );
-          buffy.append( "</percent_complete>" );
+          // if listener has been detached and process ids match, upload is ready
+          buffy.append( "<finished />" );
         }
+      } else {
+        //System.out.println("No match: " + uploadProcessId + " " + fileUploadStorageitem.getUploadProcessId());
+        // if the processId doesn't match, return nothing
+        // which causes the client script to send another
+        // request after waiting. This could happen,
+        // if the first GET-request was send, before the
+        // Upload-POST request arrived.
       }
+      
+    } else {
+      // if fileUploadStorageitem is null, the upload widget is disposed
+      // return "finished" to stop monitoring
+      buffy.append( "<finished />" );
     }
+    
     buffy.append( "</response>" );
     out.println( buffy.toString() );
     out.flush();

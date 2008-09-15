@@ -17,6 +17,9 @@ import java.io.InputStream;
 /**
  * This Pojo is used to store a file reference and a progress listener.
  * It is used for communication between service handler and rap application.
+ * Due to the asynchronous nature of ServiceHandler-requests and access from
+ * the UIThread to instances of this class, all members are access
+ * synchronized.
  * 
  * @author stefan.roeck
  */
@@ -24,28 +27,37 @@ public class FileUploadStorageItem {
   private InputStream fileInputStream;
   private FileUploadListener progressListener;
   private String contentType;
+  private String uploadProcessId;
   
-  public InputStream getFileInputStream() {
-    return fileInputStream;
+  public synchronized InputStream getFileInputStream() {
+    return this.fileInputStream;
   }
   
-  public void setFileInputStream( InputStream fileInputStream ) {
+  public synchronized void setFileInputStream( InputStream fileInputStream ) {
     this.fileInputStream = fileInputStream;
   }
   
-  public FileUploadListener getProgressListener() {
-    return progressListener;
+  public synchronized FileUploadListener getProgressListener() {
+    return this.progressListener;
   }
   
-  public void setProgressListener( FileUploadListener progressListener ) {
+  public synchronized void setProgressListener( FileUploadListener progressListener ) {
     this.progressListener = progressListener;
   }
 
-  public void setContentType( String contentType ) {
+  public synchronized void setContentType( String contentType ) {
     this.contentType = contentType;
   }
   
-  public String getContentType() {
-    return contentType;
+  public synchronized String getContentType() {
+    return this.contentType;
+  }
+
+  public synchronized void setUploadProcessId( String uploadProcessId ) {
+    this.uploadProcessId = uploadProcessId;
+  }
+  
+  public synchronized String getUploadProcessId() {
+    return this.uploadProcessId;
   }
 }

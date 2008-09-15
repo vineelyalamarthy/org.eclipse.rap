@@ -17,6 +17,18 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
 
     this._servlet = servlet;
     this._isStarted = false;
+    
+    /*
+     * Identifies a upload process at the server.
+     */
+    this._uploadProcessId = "";
+    
+    /*
+     * Is used to retry sending a progress polling
+     * request only once.
+     */
+    this._monitorRequestFailed = false;
+    
     this._showProgress = ( flags & 1 ) > 0;
     this._showUploadButton = ( flags & 2 ) > 0;
     this._fireProgressEvents = ( flags & 4 ) > 0;
@@ -28,14 +40,14 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     topLayout.set({left:0,right:0,height:"1*"});
 
     // Upload Form
-    this._uploadForm = new qx.ui.custom.UploadForm("uploadForm", this._servlet);
+    this._uploadForm = new uploadwidget.UploadForm("uploadForm", this._servlet);
     // Make the widget use the entire assigned space
     this._uploadForm.set({top:0,left:0,width:"1*", height:"100%"});
     topLayout.add(this._uploadForm);
     
 
     // Browse File Button
-    this._uploadField = new qx.ui.custom.UploadField("uploadFile", "Browse");
+    this._uploadField = new uploadwidget.UploadField("uploadFile", "Browse");
     this._uploadField.set({left:0,right:0});
     this._uploadField.addEventListener( "changeValue", this._onChangeValue, this );
     
@@ -80,7 +92,6 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     this.addEventListener("upload", this._fireEvent, this);
     this.addEventListener( "changeEnabled", this._onEnabled, this );
     this._uploadField._button.addEventListener( "click", this._onFocus, this );
-    
   },
   
   destruct : function() {   
@@ -92,7 +103,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
       this._uploadButton.removeEventListener("click", this._uploadFile);
     }
     
-    if (this._progressBar != null) {
+    if (this._fireProgressEvents) {
         this._uploadForm.removeEventListener("sending", this._monitorUpload);
     }
     
@@ -178,63 +189,94 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
         }
     },
 
+    /*
+     * Each upload process uses a unique id to allow the server
+     * to identify the incoming requests to return the correct upload 
+     * progress.
+     */
+    _generateUniqueUploadUrl : function () {
+        // generate a new id for this upload
+        this._uploadProcessId = new Date().valueOf();
+        
+        this._uploadForm.setUrl(this._getUniqueUploadUrl());
+    },
+    
+    /*
+     * Attaches the upload process id to the servlet url.
+     */
+    _getUniqueUploadUrl : function () {
+        var hasUrlParameter = this._servlet && this._servlet.indexOf("&");
+        var newUploadUrl;
+        if (hasUrlParameter != -1) {
+        	newUploadUrl = this._servlet + "&processId=" + this._uploadProcessId;
+        } else {
+        	newUploadUrl = this._servlet + "?processId=" + this._uploadProcessId;
+        }
+    	return newUploadUrl;
+    },
+
     _uploadFile : function () {
         if (this._uploadField.getValue() != "") {
             this._isStarted = true;
+            this._monitorRequestFailed = false;
+            this._generateUniqueUploadUrl();
             this._uploadForm.send();
         }
     },
-
+    
     _monitorUpload : function () {
-        qx.ui.core.Widget.flushGlobalQueues();
-
-        this._req = qx.net.HttpRequest.create();
-        this._req.onreadystatechange = qx.lang.Function.bind(this._processStateChange, this);
-        this._req.open("GET", this._servlet, true);
-        this._req.send(null);
+    	qx.ui.core.Widget.flushGlobalQueues();
+		var req = new qx.io.remote.Request( this._getUniqueUploadUrl(), qx.net.Http.METHOD_GET, qx.util.Mime.TEXT );
+		req.setAsynchronous( false );
+		req.addEventListener( "completed", this._handleCompleted, this );
+		req.send();
     },
+    
+    _handleCompleted : function( evt ) {
+    	var req = evt.getTarget().getImplementation().getRequest();
+     	if (req.status == 200) {
+  		    var xml = req.responseXML;
 
-    _processStateChange : function () {
-        if (this._req.readyState == 4) {
-            if (this._req.status == 200) {
-                var xml = this._req.responseXML;
+            var finished = xml.getElementsByTagName("finished")[0];
+            var percentCompleted = xml.getElementsByTagName("percent_complete")[0];
 
-                var notFinished = xml.getElementsByTagName("finished")[0];
-                var percentCompleted = xml.getElementsByTagName("percent_complete")[0];
+            // Check to see if it's even started yet
+            if ((finished == null) && (percentCompleted == null)) {
+                if (!this._monitorRequestFailed) {
+	                // Try refreshing once only to avoid endless loops
+	                this._monitorRequestFailed = true;
+	                qx.client.Timer.once(this._monitorUpload, this, 1000);
+                }
+            }
+            else if (finished == null) {
+                var bytesRead = xml.getElementsByTagName("bytes_read")[0];
+                var contentLength = xml.getElementsByTagName("content_length")[0];
 
-                // Check to see if it's even started yet
-                if ((notFinished == null) && (percentCompleted == null)) {
-                    qx.client.Timer.once(this._monitorUpload, this, 100);
+                this.setUploadParcial(bytesRead.firstChild.data);
+                this.setUploadTotal(contentLength.firstChild.data);
+
+                // Started, get the status of the upload
+                if (percentCompleted != null) {
+                    
+                    if (this._showProgress) {
+                        this._progressBar.setWidth(percentCompleted.firstChild.data + "%");
+                    }
+
+                    this.createDispatchDataEvent("upload", false);
+                    
+                    qx.client.Timer.once(this._monitorUpload, this, 1000);
                 }
                 else {
-                    var bytesRead = xml.getElementsByTagName("bytes_read")[0];
-                    var contentLength = xml.getElementsByTagName("content_length")[0];
-
-                    this.setUploadParcial(bytesRead.firstChild.data);
-                    this.setUploadTotal(contentLength.firstChild.data);
-
-                    // Started, get the status of the upload
-                    if (percentCompleted != null) {
-                        
-                        if (this._showProgress) {
-	                        this._progressBar.setWidth(percentCompleted.firstChild.data + "%");
-                        }
-
-                        this.createDispatchDataEvent("upload", false);
-                        
-                        qx.client.Timer.once(this._monitorUpload, this, 100);
-                    }
-                    else {
-                        // Finished
-                    }
+                    // Finished
                 }
             }
-            else {
-                this.debug("HTTP Response NOK: "+ this._req.statusText);
-            }
         }
+        else {
+            this.debug("HTTP Response NOK: "+ this._req.statusText);
+        }
+    	
     },
-
+    
     _onChangeValue : function( evt ) {
       var wm = org.eclipse.swt.WidgetManager.getInstance();
       var id = wm.findIdByWidget( this );

@@ -9,17 +9,17 @@
  *     Tiago Rodrigues (Critical Software S.A.) - initial implementation
  *     Joel Oliveira (Critical Software S.A.) - initial commit
  ******************************************************************************/
-package org.eclipse.rwt.widgets.internal.uploadkit;
+package org.eclipse.rwt.widgets.internal.resource;
 
 import org.eclipse.rwt.resources.IResource;
 import org.eclipse.rwt.resources.IResourceManager.RegisterOptions;
 
 /**
- * Resource definition for "UploadField.js".
+ * Resource definition for "Upload.js".
  * 
  * @author tjarodrigues
  */
-public class QxUploadResource implements IResource {
+public class UploadResource implements IResource {
 
   /**
    * Retrives the resource Charset.
@@ -54,7 +54,7 @@ public class QxUploadResource implements IResource {
    * @return Resource location <code>String</code>.
    */
   public final String getLocation() {
-    return "qx-upload.js";
+    return "org/eclipse/rwt/widgets/Upload.js";
   }
 
   /**

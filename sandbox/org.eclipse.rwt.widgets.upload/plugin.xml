@@ -9,8 +9,14 @@
         </widget>
     </extension>
     <extension point="org.eclipse.rap.ui.resources">
-        <resource class="org.eclipse.rwt.widgets.internal.uploadkit.QxUploadResource"/>
-        <resource class="org.eclipse.rwt.widgets.internal.uploadkit.UploadResource"/>
+        <resource class="org.eclipse.rwt.widgets.internal.resource.UploadButtonResource"/>
+        <resource class="org.eclipse.rwt.widgets.internal.resource.UploadResource"/>
+        <resource
+              class="org.eclipse.rwt.widgets.internal.resource.UploadFieldResource">
+        </resource>
+        <resource
+              class="org.eclipse.rwt.widgets.internal.resource.UploadFormResource">
+        </resource>
     </extension>
     <extension point="org.eclipse.equinox.http.registry.servlets">
         <servlet
