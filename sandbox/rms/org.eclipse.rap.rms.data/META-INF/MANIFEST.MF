@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Data Plug-in
+Bundle-SymbolicName: org.eclipse.rap.rms.data
+Bundle-Version: 1.0.0
+Export-Package: org.eclipse.rap.rms.data
+Require-Bundle: org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ui Plug-in
+Bundle-SymbolicName: org.eclipse.rap.rms.ui;singleton:=true
+Bundle-Version: 1.0.0
+Require-Bundle: org.eclipse.rap.rms.data,
+ org.eclipse.rap.ui,
+ org.eclipse.rap.ui.forms,
+ org.eclipse.core.runtime,
+ org.eclipse.rap.ui.views,
+ org.eclipse.rap.custom.viewers,
+ org.eclipse.rap.rwt.custom,
+ org.eclipse.core.databinding,
+ org.eclipse.core.databinding.beans,
+ org.eclipse.rap.jface.databinding
+Import-Package: javax.servlet;version="[2.3.0,2.5.0]",
+ javax.servlet.http;version="[2.3.0,2.5.0]"
+Bundle-Activator: org.eclipse.rap.rms.ui.internal.Activator
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
