@@ -152,8 +152,12 @@
 		  <fileset file="${buildDirectory}/plugins/org.eclipse.equinox.servletbridge/servletbridge.jar" />
 		</copy>
 		
-		<property name="featureZip" value="${buildDirectory}/${buildLabel}/${topLevelElementId}-${buildId}.zip"/>
-		<unzip dest="${warDirectory}/WEB-INF" src="${featureZip}"/>
+		<property name="featureDir" value="${buildDirectory}/${buildLabel}/"/>
+		<unzip dest="${warDirectory}/WEB-INF">
+		    <fileset dir="${featureDir}">
+		        <include name="**/*.zip"/>
+		    </fileset>
+	    </unzip>
 		
 		<mkdir dir="${outputDirectory}"/>
 		<zip destfile="${outputDirectory}/rapdemo.war" basedir="${warDirectory}" />
