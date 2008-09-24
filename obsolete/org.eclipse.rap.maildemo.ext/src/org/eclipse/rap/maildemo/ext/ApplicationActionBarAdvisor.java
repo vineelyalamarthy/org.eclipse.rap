@@ -1,10 +1,10 @@
 package org.eclipse.rap.maildemo.ext;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.rap.maildemo.*;
+import org.eclipse.rap.maildemo.MessagePopupAction;
+import org.eclipse.rap.maildemo.OpenViewAction;
+import org.eclipse.rap.maildemo.View;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 

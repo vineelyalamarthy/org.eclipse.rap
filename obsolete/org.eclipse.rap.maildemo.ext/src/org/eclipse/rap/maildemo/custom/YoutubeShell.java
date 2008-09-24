@@ -13,7 +13,6 @@ package org.eclipse.rap.maildemo.custom;
 
 import org.eclipse.rap.maildemo.ext.Activator;
 import org.eclipse.rwt.graphics.Graphics;
-import org.eclipse.rwt.lifecycle.WidgetUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -28,7 +27,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 
 public class YoutubeShell {
@@ -103,7 +101,7 @@ public class YoutubeShell {
 //    closeButton.setText( "close" ); // label overwrites our custom cursor
     closeButton.setBackground( bgColor );
     closeButton.setForeground( fgColor );
-    closeButton.setData( WidgetUtil.CUSTOM_APPEARANCE, "black-shell-button" );
+//    closeButton.setData( WidgetUtil.CUSTOM_APPEARANCE, "black-shell-button" );
     closeButton.setImage( closeImage );
     closeButton.setLayoutData( new GridData( SWT.RIGHT, SWT.BOTTOM, false, false ) );
     closeButton.addSelectionListener( new SelectionAdapter() {

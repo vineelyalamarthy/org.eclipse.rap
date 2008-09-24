@@ -29,8 +29,8 @@ public class BannerActions extends Composite {
         button.setData( WidgetUtil.CUSTOM_VARIANT, "bannerButton" );
         button.pack();
         button.addSelectionListener( new SelectionAdapter(){
-          @Override
-          public void widgetSelected( SelectionEvent e ) {
+
+        	public void widgetSelected( SelectionEvent e ) {
               command.run();
             }
         });
