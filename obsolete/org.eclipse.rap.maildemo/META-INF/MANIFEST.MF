@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Maildemo Plug-in
+Bundle-SymbolicName: org.eclipse.rap.maildemo; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.rap.maildemo.Activator
+Require-Bundle: org.eclipse.rap.ui
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Import-Package: javax.servlet;version="2.4.0",
+ javax.servlet.http;version="2.4.0"
+Export-Package: org.eclipse.rap.maildemo

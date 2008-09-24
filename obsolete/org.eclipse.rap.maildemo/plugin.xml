@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.rap.ui.entrypoint">
+      <entrypoint
+            class="org.eclipse.rap.maildemo.Application"
+            parameter="mail"
+            id="org.eclipse.rap.maildemo.Application">
+      </entrypoint>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="RAP Perspective"
+            class="org.eclipse.rap.maildemo.Perspective"
+            id="org.eclipse.rap.maildemo.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            name="Message"
+            icon="icons/sample2.gif"
+            class="org.eclipse.rap.maildemo.View"
+            id="org.eclipse.rap.maildemo.view">
+      </view>
+      <view
+            name="Mailboxes"
+            icon="icons/sample3.gif"
+            class="org.eclipse.rap.maildemo.NavigationView"
+            id="org.eclipse.rap.maildemo.navigationView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Mail"
+            id="org.eclipse.rap.maildemo.category">
+      </category>
+      <command
+            name="Open Mailbox"
+            description="Opens a mailbox"
+            categoryId="org.eclipse.rap.maildemo.category"
+            id="org.eclipse.rap.maildemo.open">
+      </command>
+      <command
+            name="Open Message Dialog"
+            description="Opens a message dialog"
+            categoryId="org.eclipse.rap.maildemo.category"
+            id="org.eclipse.rap.maildemo.openMessage">
+      </command>
+   </extension>
+
+</plugin>
