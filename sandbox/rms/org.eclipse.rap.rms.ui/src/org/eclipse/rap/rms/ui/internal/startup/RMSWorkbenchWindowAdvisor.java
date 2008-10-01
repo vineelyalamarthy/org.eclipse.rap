@@ -7,24 +7,11 @@ import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PerspectiveAdapter;
-import org.eclipse.ui.application.ActionBarAdvisor;
-import org.eclipse.ui.application.IActionBarConfigurer;
-import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
-import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.ui.*;
+import org.eclipse.ui.application.*;
 import org.eclipse.ui.internal.WorkbenchPage;
 
 
@@ -70,20 +57,17 @@ public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     setMainBannerSize( mainBanner );
     
     final Composite secondaryBanner = createSecondaryBanner( shell );
-    final WorkbenchPage page = ( WorkbenchPage )window.getActivePage();
-    setSecondaryBannerSize( secondaryBanner, page );
+    final WorkbenchPage wPage = ( WorkbenchPage )window.getActivePage();
+    setSecondaryBannerSize( secondaryBanner, wPage );
     
     shell.addControlListener( new ControlAdapter() {
       @Override
       public void controlResized( final ControlEvent evt ) {
         setMainBannerSize( mainBanner );
-        setSecondaryBannerSize( secondaryBanner, page );
-        setPageBounds( page );
+        setSecondaryBannerSize( secondaryBanner, wPage );
+        setPageBounds( wPage );
       }
     } );
-    
-    final Composite secondBanner = new Composite( shell, SWT.NONE );
-    secondBanner.setLayout( new FormLayout() );
     
     window.addPerspectiveListener( new PerspectiveAdapter() {
       public void perspectiveActivated( IWorkbenchPage page,
@@ -107,7 +91,7 @@ public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     Display display = Display.getCurrent();
     Point location = display.map( clientComposite.getParent(), 
                                   secondaryBanner.getShell(), 
-                                  new Point( 0, 0 ) );
+                                  new Point( 1, 1 ) );
     secondaryBanner.setBounds( location.x, 
                                location.y,
                                bounds.width, 
@@ -186,11 +170,11 @@ public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     WorkbenchPage wPage = ( WorkbenchPage )page;
     Composite clientComposite = wPage.getClientComposite();
     if( !introActive ) {
-      Rectangle bounds = clientComposite.getBounds();
-      clientComposite.setBounds( bounds.x + 100, 
-                                 bounds.y + 100,
-                                 bounds.width - 100, 
-                                 bounds.height - 100 );
+      Rectangle bounds = clientComposite.getParent().getBounds();
+      clientComposite.getParent().setBounds( bounds.x + 100, 
+                                             bounds.y + 100,
+                                             bounds.width - 100, 
+                                             bounds.height - 100 );
     } else {
       Composite parent = clientComposite.getParent();
       clientComposite.setBounds( parent.getClientArea() );
