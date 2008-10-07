@@ -1,10 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2008 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
@@ -98,10 +98,8 @@ public class YoutubeShell {
     comp.setLayout( compLayout );
     
     Button closeButton = new Button( comp, SWT.PUSH | SWT.FLAT | SWT.RIGHT );
-//    closeButton.setText( "close" ); // label overwrites our custom cursor
     closeButton.setBackground( bgColor );
     closeButton.setForeground( fgColor );
-//    closeButton.setData( WidgetUtil.CUSTOM_APPEARANCE, "black-shell-button" );
     closeButton.setImage( closeImage );
     closeButton.setLayoutData( new GridData( SWT.RIGHT, SWT.BOTTOM, false, false ) );
     closeButton.addSelectionListener( new SelectionAdapter() {

@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2008 Innoopract Informationssysteme GmbH.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Innoopract Informationssysteme GmbH - initial API and implementation
+ ******************************************************************************/
+
 package org.eclipse.rap.maildemo.ext;
 
 import org.eclipse.jface.action.IAction;
@@ -6,21 +17,11 @@ import org.eclipse.rwt.lifecycle.WidgetUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.application.ActionBarAdvisor;
-import org.eclipse.ui.application.IActionBarConfigurer;
-import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
-import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipse.ui.application.*;
+
 
 /**
  * Configures the initial size and appearance of a workbench window.
@@ -28,7 +29,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
   private static final Image IMAGE_BANNER_BG
-  = Activator.getImageDescriptor( "icons/banner_bg.png" ).createImage();
+    = Activator.getImageDescriptor( "icons/banner_bg.png" ).createImage();
   private static final Image IMAGE_BANNER_ROUNDED_RIGHT
     = Activator.getImageDescriptor( "icons/banner_rounded_right.png" ).createImage();
   private static final Image IMAGE_BANNER_ROUNDED_LEFT
@@ -59,13 +60,10 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
   public void preWindowOpen() {
     IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-    configurer.setInitialSize( new Point( 600, 400 ) );
-    configurer.setShowCoolBar( true );
+    configurer.setShowCoolBar( false );
     configurer.setShowStatusLine( false );
     configurer.setTitle( "RAP Mail Template" );
-    configurer.setShellStyle( SWT.NONE );
-    Rectangle bounds = Display.getDefault().getBounds();
-    configurer.setInitialSize( new Point( bounds.width, bounds.height ) );
+    configurer.setShellStyle( SWT.NO_TRIM );
   }
 
   public void postWindowOpen() {
@@ -78,17 +76,12 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
   public void createWindowContents( final Shell shell ) {
     shell.setLayout( new FormLayout() );
     createBanner( shell );
-    
-    Composite composite = new Composite( shell, SWT.NONE );
-    IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-    configurer.createCoolBarControl( composite );
-    
-    createPageComposite( shell );    
+    createPageComposite( shell );
   }
 
   private void createBanner( final Shell shell ) {
     banner = new Composite( shell, SWT.NONE );
-    // banner.setBackgroundMode( SWT.INHERIT_DEFAULT );
+    banner.setBackgroundMode( SWT.INHERIT_DEFAULT );
     banner.setBackgroundImage( IMAGE_BANNER_BG );
     FormData fdBanner = new FormData();
     banner.setLayoutData( fdBanner );
@@ -126,28 +119,38 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     fdRoundedCornerRight.top = new FormAttachment( 100, -5 );
     fdRoundedCornerRight.left = new FormAttachment( 100, -5 );
     roundedCornerRight.moveAbove( banner );
-    
-    bannerActionButtons( banner );
+
+    createBannerActionBar( banner );
     createPerspectiveSwitcher( banner );
     createSearch( banner );
   }
 
-  private void createSearch( final Composite banner ) {
-    new Search( banner );
+  private void createBannerActionBar( final Composite banner ) {
+    IAction[] commands = actionBarAdvisor.getActions();
+    BannerActionBar actionBar = new BannerActionBar( banner, commands );
+    FormData fdComposite = new FormData();
+    fdComposite.top = new FormAttachment( 0, 8 );
+    fdComposite.left = new FormAttachment( 0, 200 );
+    fdComposite.bottom = new FormAttachment( 0, 36 );
+    actionBar.setLayoutData( fdComposite );
   }
-
 
   private void createPerspectiveSwitcher( final Composite banner ) {
-    new PerspectiveSwitcher( banner );
-  }
-  
-
-  private void bannerActionButtons( final Composite banner ) {
-    IAction[] commands = actionBarAdvisor.getActions();
-    new BannerActions( banner, commands );
+    PerspectiveSwitcher switcher = new PerspectiveSwitcher( banner );
+    FormData fdActionBar = new FormData();
+    fdActionBar.top = new FormAttachment( 0, 45 );
+    fdActionBar.left = new FormAttachment( 0, 10 );
+    switcher.setLayoutData( fdActionBar );
   }
 
-  
+  private void createSearch( final Composite banner ) {
+    SearchBar search = new SearchBar( banner );
+    FormData fdSearch = new FormData();
+    fdSearch.top = new FormAttachment( 0, 10 );
+    fdSearch.left = new FormAttachment( 100, -175 );
+    search.setLayoutData( fdSearch );
+  }
+
   private void createPageComposite( final Shell shell ) {
     Composite contentTop = new Composite( shell, SWT.NONE );
     FormData fdContentTop = new FormData();
@@ -175,7 +178,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     fdRoundedCornerRight.top = new FormAttachment( 0, 98 );
     fdRoundedCornerRight.left = new FormAttachment( 100, -55 );
     roundedCornerRight.moveAbove( contentTop );
-    
+
     Composite content = new Composite( shell, SWT.NONE );
     content.setBackground( Graphics.getColor( 255, 255, 255 ) );
     FormData fdContent = new FormData();

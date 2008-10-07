@@ -1,4 +1,14 @@
-// Created on 11.02.2008
+/*******************************************************************************
+ * Copyright (c) 2008 Innoopract Informationssysteme GmbH.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Innoopract Informationssysteme GmbH - initial API and implementation
+ ******************************************************************************/
+
 package org.eclipse.rap.maildemo.ext;
 
 import org.eclipse.jface.action.IAction;
@@ -6,57 +16,49 @@ import org.eclipse.rwt.lifecycle.WidgetUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-/** 
- * provides a button bar that allows toggling between the buttons of the bar 
- * 
- * */
+
+/**
+ * Provides a button bar that allows toggling between the buttons of the bar.
+ */
 public class ActionBar extends Composite {
-  
-  private ActionHolder[] actionHolders = {};
-  
-  private class ActionHolder {
+
+  private static class ActionHolder {
     IAction action;
     Button button;
   }
   
+  private ActionHolder[] actionHolders = {};
+
   public ActionBar( final Composite parent,
                     final int style,
                     final IAction[] actions )
   {
     super( parent, style );
-    if( actions != null ) {
-      this.actionHolders = new ActionHolder[ actions.length ];
-      for( int i = 0; i < actions.length; i++ ) {
-        this.actionHolders[ i ] = new ActionHolder();
-        this.actionHolders[ i ].action = actions[ i ];
-      }
-    }
-    createControl();
-  }
-
-  private void createControl() {
     this.setLayout( new RowLayout() );
-    for( int i = 0; i < actionHolders.length; i++ ) {
-      createActionBarButton( i );
+    if( actions != null ) {
+      actionHolders = new ActionHolder[ actions.length ];
+      for( int i = 0; i < actions.length; i++ ) {
+        actionHolders[ i ] = new ActionHolder();
+        actionHolders[ i ].action = actions[ i ];
+      }
+      for( int i = 0; i < actionHolders.length; i++ ) {
+        createActionBarButton( i );
+      }
     }
   }
 
   private void createActionBarButton( final int i ) {
-
     final Button button = new Button( this, SWT.TOGGLE | SWT.FLAT );
     button.setText( actionHolders[ i ].action.getText() );
-    RowData rdButton = new RowData();
-    button.setLayoutData( rdButton );
     button.setData( WidgetUtil.CUSTOM_VARIANT, "actionbar" );
     actionHolders[ i ].button = button;
-    if( i == 0 ){
+    if( i == 0 ) {
       actionHolders[ i ].button.setSelection( true );
-    }  
+    }
     button.addSelectionListener( new SelectionAdapter() {
       public void widgetSelected( final SelectionEvent evt ) {
         for( int j = 0; j < actionHolders.length; j++ ) {
