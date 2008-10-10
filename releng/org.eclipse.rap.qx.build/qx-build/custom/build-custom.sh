@@ -6,7 +6,7 @@ VERSION=0.7.3
 REVISION=11170
 #QOOXDOO=../../../qooxdoo/qooxdoo
 # point to the directory that contains the generator.py
-TOOL=../../../qx-0.7.3/qooxdoo/frontend/framework/tool
+TOOL=../../../qx-0.7.3/qooxdoo-0.7.3-sdk/frontend/framework/tool
 TEMP=./temp
 # use this when building directly from qx repository
 # SOURCE=${QOOXDOO}/frontend/framework/source   
@@ -52,7 +52,6 @@ rm -r ${TEMP}/class/qx/ui/pageview/buttonview
 rm -r ${TEMP}/class/qx/ui/pageview/radioview
 rm -r ${TEMP}/class/qx/ui/component
 rm -r ${TEMP}/class/qx/ui/splitpane
-# rm -r ${TEMP}/class/qx/ui/table
 rm -r ${TEMP}/class/qx/ui/treevirtual
 rm ${TEMP}/class/qx/OO.js
 rm ${TEMP}/class/qx/core/MLegacyInit.js

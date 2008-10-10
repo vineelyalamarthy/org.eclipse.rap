@@ -9,6 +9,10 @@ This directory contains patches that we apply to the qooxdoo codebase.
   Patch as attached to http://bugzilla.qooxdoo.org/show_bug.cgi?id=599.
   Has been rejected by qooxdoo.
 
+* 12-qx-bug-323.diff
+  Backport of qx.Class.patch function. Was introduced in qooxdoo shortly
+  after 0.7.3 was release. Also contained in the '0.7.x legacy branch'.
+  Can be omitted when upgrading to 0.7.4. 
 
 === The "obsolete" directory ===
 
