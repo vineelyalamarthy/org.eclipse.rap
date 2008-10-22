@@ -11,25 +11,41 @@
 
 package org.eclipse.rap.maildemo.ext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.*;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.*;
 
 
 public class PerspectiveSwitcher extends Composite {
+  
+  private final IPerspectiveDescriptor[] demoPerspectives
+    = new IPerspectiveDescriptor[ 2 ];
 
   PerspectiveSwitcher( final Composite banner ) {
     super( banner, SWT.NONE );
     setLayout( new FillLayout() );
-    final IPerspectiveDescriptor[] perspectives
+    IPerspectiveDescriptor[] perspectives
       = getPerspectives( PlatformUI.getWorkbench() );
-    IAction[] actions = new IAction[ perspectives.length ];
+    List toShow = new ArrayList();
     for( int i = 0; i < perspectives.length; i++ ) {
+      String label = perspectives[ i ].getLabel();
+      if(    label.equals( "RAP Perspective" )
+          || label.equals( "Inverted Perspective" ) )
+      {
+        toShow.add( perspectives[ i ] );
+      }
+    }
+    toShow.toArray( demoPerspectives );
+    IAction[] actions = new IAction[ demoPerspectives.length ];
+    for( int i = 0; i < demoPerspectives.length; i++ ) {
       final int p = i;
-      actions[ i ] = new Action( perspectives[ i ].getLabel() ) {
+      actions[ i ] = new Action( demoPerspectives[ i ].getLabel() ) {
         public void run() {
           switchPerspective( p );
         }
@@ -40,10 +56,9 @@ public class PerspectiveSwitcher extends Composite {
 
   private void switchPerspective( final int perspectiveIndex ) {
     IWorkbench workbench = PlatformUI.getWorkbench();
-    final IPerspectiveDescriptor[] perspectives = getPerspectives( workbench );
     IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
     final IWorkbenchPage page = window.getActivePage();
-    page.setPerspective( perspectives[ perspectiveIndex ] );
+    page.setPerspective( demoPerspectives[ perspectiveIndex ] );
   }
 
   private IPerspectiveDescriptor[] getPerspectives( final IWorkbench workbench )
