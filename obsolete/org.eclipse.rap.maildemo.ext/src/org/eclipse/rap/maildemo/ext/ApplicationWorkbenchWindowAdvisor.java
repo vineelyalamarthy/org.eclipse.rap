@@ -60,7 +60,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
   public void preWindowOpen() {
     IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-    configurer.setShowCoolBar( false );
+    configurer.setShowCoolBar( true );
     configurer.setShowStatusLine( false );
     configurer.setTitle( "RAP Mail Template" );
     configurer.setShellStyle( SWT.NO_TRIM );
@@ -77,6 +77,11 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     shell.setLayout( new FormLayout() );
     createBanner( shell );
     createPageComposite( shell );
+    
+    // create coolbar control to avoid NPE during perspective switching 
+    Composite composite = new Composite( shell, SWT.NONE );
+    composite.setBounds( 0, 0, 0, 0 );
+    getWindowConfigurer().createCoolBarControl( composite );
   }
 
   private void createBanner( final Shell shell ) {
