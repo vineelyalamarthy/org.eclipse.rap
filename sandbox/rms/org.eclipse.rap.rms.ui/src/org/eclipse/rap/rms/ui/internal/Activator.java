@@ -4,30 +4,16 @@ package org.eclipse.rap.rms.ui.internal;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
+import java.util.*;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.*;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.rap.rms.data.DataModelRegistry;
-import org.eclipse.rap.rms.data.IDataModel;
-import org.eclipse.rap.rms.data.IPrincipal;
-import org.eclipse.rap.rms.data.IProject;
-import org.eclipse.rap.rms.data.ITask;
-import org.eclipse.rap.rms.data.ThrowableManager;
+import org.eclipse.rap.rms.data.*;
 import org.eclipse.rap.rms.data.ThrowableManager.IThrowableHandler;
 import org.eclipse.rap.rms.ui.Constants;
 import org.eclipse.rwt.RWT;
+import org.eclipse.rwt.service.ISessionStore;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
@@ -36,6 +22,8 @@ import org.osgi.framework.BundleContext;
 
 public class Activator extends AbstractUIPlugin {
 
+  private static final String IMAGE_REGISTRY
+    = Activator.class.getName() + "#ImageRegistry";
   public static final String IMG_FORM_BG = "formBg"; //$NON-NLS-1$
   public static final String IMG_FORM_HEAD_OVERVIEW = "formHeadOverView"; //$NON-NLS-1$
   public static final String IMG_FORM_HEAD_TASKS = "formHeadTasks"; //$NON-NLS-1$
@@ -334,6 +322,18 @@ public class Activator extends AbstractUIPlugin {
 
   public Image getImage( final String key ) {
     return getImageRegistry().get( key );
+  }
+  
+  @Override
+  public ImageRegistry getImageRegistry() {
+    ISessionStore session = RWT.getSessionStore();
+    ImageRegistry result
+      = ( ImageRegistry )session.getAttribute( IMAGE_REGISTRY );
+    if( result == null ) {
+      result = new ImageRegistry();
+      session.setAttribute( IMAGE_REGISTRY, result );
+    }
+    return result;
   }
 
   public static ImageDescriptor getImageDescriptor( final String path ) {
