@@ -40,7 +40,7 @@ fail() {
 
 # make sure we're in the right working directory
 ensure_wd() {
-  if [ "` basename $PWD`" != "$WORKING_DIR" ]; then
+  if [ "`basename \"$PWD\"`" != "$WORKING_DIR" ]; then
     echo "cd to $WORKING_DIR first"
     fail
   fi
