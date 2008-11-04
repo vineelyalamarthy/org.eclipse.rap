@@ -18,7 +18,9 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/technology/rap/update-site"/>
+      <update 
+          label="%updateSiteName"
+          url="http://download.eclipse.org/rt/rap/1.2/update"/>
    </url>
 
    <requires>
