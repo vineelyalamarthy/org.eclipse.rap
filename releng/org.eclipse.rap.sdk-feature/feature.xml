@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rap.sdk"
       label="%featureName"
-      version="1.1.0.qualifier"
+      version="1.2.0.qualifier"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/rap">
@@ -17,15 +17,16 @@
       %license
    </license>
 
-   <requires>
-      <import feature="org.eclipse.rap" version="1.1.0" match="equivalent"/>
-   </requires>
-   
    <includes
          id="org.eclipse.rap"
          version="0.0.0"/>
+
    <includes
          id="org.eclipse.rap.source"
          version="0.0.0"/>
+
+   <requires>
+      <import feature="org.eclipse.rap" version="1.1.0" match="equivalent"/>
+   </requires>
 
 </feature>
