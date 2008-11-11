@@ -70,11 +70,11 @@
       </head>
       <body>
         <span>
-        <a href="index.html">RWT Theming Reference</a>
-        <xsl:text> &gt; </xsl:text>
-        <xsl:value-of select="theme/element[@name!='*']/@name" />
-        <xsl:apply-templates select="theme/element[@name!='*']" />
+          <a href="index.html">RWT Theming Reference</a>
+          <xsl:text> &gt; </xsl:text>
+          <xsl:value-of select="theme/element[@name!='*']/@name" />
         </span>
+        <xsl:apply-templates select="theme/element[@name!='*']" />
       </body>
     </html>
   </xsl:template>
@@ -84,6 +84,7 @@
       <xsl:attribute name="name">
         <xsl:value-of select="@name" />
       </xsl:attribute>
+      <xsl:text> <!-- text must not be empty --> </xsl:text>
     </a>
     <h2><xsl:value-of select="@name" /></h2>
     <p><xsl:value-of select="@description" /></p>
@@ -145,10 +146,10 @@
     <li>
       <span class="css-name"><xsl:value-of select="@name" /></span>
       <xsl:text> (Type </xsl:text>
-      <xsl:value-of select="@type" />
+        <xsl:value-of select="@type" />
       <xsl:text>) </xsl:text>
       <p class="css-desc">
-      <xsl:value-of select="@description" />
+        <xsl:value-of select="@description" />
       </p>
     </li>
     <xsl:if test="not( @type )">
@@ -165,9 +166,9 @@
 
   <xsl:template match="style">
     <li>
-      <span class="css-name"><xsl:value-of select="@name" /></span><br/>
+      <span class="css-name"><xsl:value-of select="@name" /></span>
       <p class="css-desc">
-      <xsl:value-of select="@description" />
+        <xsl:value-of select="@description" />
       </p>
     </li>
     <xsl:if test="not( @description )">
@@ -179,9 +180,9 @@
 
   <xsl:template match="state">
     <li>
-      <span class="css-name"><xsl:value-of select="@name" /></span><br/>
+      <span class="css-name"><xsl:value-of select="@name" /></span>
       <p class="css-desc">
-      <xsl:value-of select="@description" />
+        <xsl:value-of select="@description" />
       </p>
     </li>
     <xsl:if test="not( @description )">
