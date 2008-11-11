@@ -114,6 +114,7 @@
   <!-- ===================================================================== -->
   <target name="postProcess">
     <antcall target="buildHelp" />
+    <antcall target="buildThemingRef" />
   </target>
 
   <target name="buildHelp">
@@ -150,6 +151,20 @@
       <link href="http://java.sun.com/j2se/1.4.2/docs/api"/>
       <link href="http://bundles.osgi.org/javadoc/r4" />
     </javadoc>
+  </target>
+
+  <target name="buildThemingRef"
+      description="creates the RWT theming reference">
+    <property name="tmpTarget" value="${buildDirectory}/target/" />
+    <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/rt"
+        package="org.eclipse.rap/org.eclipse.rap.rwt"
+        dest="${tmpTarget}" />
+    <ant dir="theming">
+      <property name="src.dir" value="${tmpTarget}/src"/>
+      <property name="tmp.dir" value="${tmpTarget}/tmp"/>
+      <property name="dest.dir"
+          value="${buildDirectory}/plugins/org.eclipse.rap.help/help/html/reference/theming" />
+    </ant>
   </target>
 
   <!-- ===================================================================== -->
