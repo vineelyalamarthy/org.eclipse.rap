@@ -1,5 +1,7 @@
 <project name="Build specific targets and properties" default="noDefault">
 
+  <property name="mapsCheckoutTag" value="HEAD" />
+
   <!-- ===================================================================== -->
   <!-- Run a given ${target} on all elements being built -->
   <!-- Add on <ant> task for each top level element being built. -->
@@ -26,7 +28,6 @@
   <!-- Replace values for mapsCheckoutTag as desired. -->
   <!-- ===================================================================== -->
   <target name="getMapFiles" depends="checkLocalMaps" unless="skipMaps">
-    <property name="mapsCheckoutTag" value="HEAD" />
     <cvs cvsRoot="${mapsRepo}"
         package="${mapsRoot}"
         dest="${buildDirectory}/maps"
@@ -125,11 +126,15 @@
     <property name="tmpTarget" value="${buildDirectory}/target/" />
 
     <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/rt"
-        package="org.eclipse.rap/runtime/org.eclipse.rap.ui" dest="${tmpTarget}" />
+        package="org.eclipse.rap/runtime.ui/org.eclipse.rap.ui"
+        dest="${tmpTarget}"
+        tag="${mapsCheckoutTag}" />
     <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/rt"
-        package="org.eclipse.rap/org.eclipse.rap.rwt" dest="${tmpTarget}" />
+        package="org.eclipse.rap/runtime.rwt/org.eclipse.rap.rwt"
+        dest="${tmpTarget}"
+        tag="${mapsCheckoutTag}" />
     <pde.convertSchemaToHTML
-        manifest="${tmpTarget}/org.eclipse.rap/runtime/org.eclipse.rap.ui/plugin.xml"
+        manifest="${tmpTarget}/org.eclipse.rap/runtime.ui/org.eclipse.rap.ui/plugin.xml"
         destination="${extPointDest}" />
 
     <javadoc
@@ -140,7 +145,8 @@
         windowtitle="Eclipse Rich Ajax Platform API Specification"
         packagenames="org.eclipse.rwt.*"
         excludePackageNames="org.eclipse.rwt.internal.*,org.eclipse.swt.internal.*">
-      <fileset dir="${tmpTarget}/org.eclipse.rap/org.eclipse.rap.rwt/src" defaultexcludes="yes">
+      <fileset dir="${tmpTarget}/org.eclipse.rap/runtime.rwt/org.eclipse.rap.rwt/src"
+          defaultexcludes="yes">
         <include name="org/eclipse/**/*.java"/>
           <exclude name="org/eclipse/**/internal/**/*.java"/>
         </fileset>
@@ -157,8 +163,9 @@
       description="creates the RWT theming reference">
     <property name="tmpTarget" value="${buildDirectory}/target/" />
     <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/rt"
-        package="org.eclipse.rap/org.eclipse.rap.rwt"
-        dest="${tmpTarget}" />
+        package="org.eclipse.rap/runtime.rwt/org.eclipse.rap.rwt"
+        dest="${tmpTarget}"
+        tag="${mapsCheckoutTag}" />
     <ant dir="theming">
       <property name="src.dir" value="${tmpTarget}/src" />
       <property name="dest.dir"
@@ -207,11 +214,12 @@
 
     <unzip src="${tooling-feature}" dest="${siteLocation}" />
 
-    <property name="sitePackagePrefix" value="org.eclipse.rap/org.eclipse.rap.tooling-site"/>
+    <property name="sitePackagePrefix"
+        value="org.eclipse.rap/releng/org.eclipse.rap.tooling-site"/>
     <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/rt"
         package="${sitePackagePrefix}"
         dest="${buildDirectory}/temp.updatesite"
-        tag="HEAD" />
+        tag="${mapsCheckoutTag}" />
         
     <!-- Copy to staging area -->
     <property name="UpdateSiteStagingLocation" value="${siteLocation}/site" />
