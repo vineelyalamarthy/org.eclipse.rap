@@ -166,7 +166,7 @@
         package="org.eclipse.rap/runtime.rwt/org.eclipse.rap.rwt"
         dest="${tmpTarget}"
         tag="${mapsCheckoutTag}" />
-    <ant dir="theming">
+    <ant dir="${basedir}/theming">
       <property name="src.dir" value="${tmpTarget}/src" />
       <property name="dest.dir"
           value="${buildDirectory}/plugins/org.eclipse.rap.help/help/html/reference/theming" />
