@@ -161,13 +161,18 @@
 
   <target name="buildThemingRef"
       description="creates the RWT theming reference">
-    <property name="tmpTarget" value="${buildDirectory}/target/" />
+    <property name="tmpTarget" value="${buildDirectory}/theming-tmp/" />
     <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/rt"
         package="org.eclipse.rap/runtime.rwt/org.eclipse.rap.rwt"
         dest="${tmpTarget}"
         tag="${mapsCheckoutTag}" />
-    <ant dir="${basedir}/theming">
-      <property name="src.dir" value="${tmpTarget}/src" />
+    <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/rt"
+        package="org.eclipse.rap/releng/org.eclipse.rap.releng.tooling"
+        dest="${tmpTarget}"
+        tag="${mapsCheckoutTag}" />
+    <ant dir="${tmpTarget}/org.eclipse.rap/releng/org.eclipse.rap.releng.tooling/theming">
+      <property name="src.dir"
+          value="${tmpTarget}/org.eclipse.rap/runtime.rwt/org.eclipse.rap.rwt/src" />
       <property name="dest.dir"
           value="${buildDirectory}/plugins/org.eclipse.rap.help/help/html/reference/theming" />
     </ant>
