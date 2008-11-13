@@ -87,13 +87,30 @@
       <xsl:text> <!-- text must not be empty --> </xsl:text>
     </a>
     <h2><xsl:value-of select="@name" /></h2>
-    <p><xsl:value-of select="@description" /></p>
+    <p><xsl:value-of select="description|@description" /></p>
+
+    <!-- Properties -->
+    <h3>Available CSS Properties</h3>
+    <xsl:if test="property">
+      <p>
+      Properties that can be defined for this element:
+      </p>
+      <ul>
+      <xsl:apply-templates select="property">
+        <xsl:sort select="@name" />
+      </xsl:apply-templates>
+    </ul>
+    </xsl:if>
+    <xsl:if test="not( property )">
+      <p><em>none</em></p>
+    </xsl:if>
 
     <!-- Styles -->
     <h3>Applicable SWT Styles</h3>
     <xsl:if test="style">
       <p>
-      SWT style flags that can be referred to in a selector for this element:
+      SWT style flags that can be referred to in a selector for this element
+      (as CSS attributes):
       </p>
       <ul>
       <xsl:apply-templates select="style">
@@ -109,7 +126,8 @@
     <h3>Applicable States</h3>
     <xsl:if test="state">
       <p>
-      States that can be referred to in a selector for this element:
+      Widget states that can be referred to in a selector for this element
+      (as CSS pseudo-classes):
       </p>
       <ul>
       <xsl:apply-templates select="state">
@@ -121,23 +139,6 @@
       <p><em>none</em></p>
     </xsl:if>
 
-    <!-- Properties -->
-    <h3>Available CSS Properties</h3>
-    <xsl:if test="property">
-      <p>
-      Properties that can be defined for this element:
-      </p>
-      <ul>
-      <xsl:apply-templates select="property">
-        <xsl:sort select="@type" />
-        <xsl:sort select="@name" />
-      </xsl:apply-templates>
-    </ul>
-    </xsl:if>
-    <xsl:if test="not( property )">
-      <p><em>none</em></p>
-    </xsl:if>
-
     <!-- Sub-elements -->
     <xsl:apply-templates select="element" />
   </xsl:template>
@@ -145,11 +146,10 @@
   <xsl:template match="property">
     <li>
       <span class="css-name"><xsl:value-of select="@name" /></span>
-      <xsl:text> (Type </xsl:text>
-        <xsl:value-of select="@type" />
-      <xsl:text>) </xsl:text>
+      <xsl:text> : </xsl:text>
+      <xsl:apply-templates select="@type" />
       <p class="css-desc">
-        <xsl:value-of select="@description" />
+        <xsl:value-of select="description|@description" />
       </p>
     </li>
     <xsl:if test="not( @type )">
@@ -157,7 +157,7 @@
         Type missing for property <xsl:value-of select="@name" />
       </xsl:message>
     </xsl:if>
-    <xsl:if test="not( @description )">
+    <xsl:if test="not( description|@description )">
       <xsl:message>
         Description missing for property <xsl:value-of select="@name" />
       </xsl:message>
@@ -166,12 +166,14 @@
 
   <xsl:template match="style">
     <li>
-      <span class="css-name"><xsl:value-of select="@name" /></span>
+      <span class="css-name">
+        <xsl:value-of select="concat( '[', @name, ']' )" />
+      </span>
       <p class="css-desc">
-        <xsl:value-of select="@description" />
+        <xsl:value-of select="description|@description" />
       </p>
     </li>
-    <xsl:if test="not( @description )">
+    <xsl:if test="not( description|@description )">
       <xsl:message>
         Description missing for style <xsl:value-of select="@name" />
       </xsl:message>
@@ -180,16 +182,47 @@
 
   <xsl:template match="state">
     <li>
-      <span class="css-name"><xsl:value-of select="@name" /></span>
+      <span class="css-name">
+        <xsl:value-of select="concat( ':', @name )" />
+      </span>
       <p class="css-desc">
-        <xsl:value-of select="@description" />
+        <xsl:value-of select="description|@description" />
       </p>
     </li>
-    <xsl:if test="not( @description )">
+    <xsl:if test="not( description|@description )">
       <xsl:message>
         Description missing for state <xsl:value-of select="@name" />
       </xsl:message>
     </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="@type">
+    <xsl:choose>
+    <xsl:when test=". = 'boxdim'">
+      <xsl:text>box dimension</xsl:text>
+    </xsl:when>
+    <xsl:when test=". = 'color'">
+      <xsl:text>color definition</xsl:text>
+    </xsl:when>
+    <xsl:when test=". = 'border'">
+      <xsl:text>border definition</xsl:text>
+    </xsl:when>
+    <xsl:when test=". = 'font'">
+      <xsl:text>font definition</xsl:text>
+    </xsl:when>
+    <xsl:when test=". = 'image'">
+      <xsl:text>image url</xsl:text>
+    </xsl:when>
+    <xsl:when test=". = 'dimension'">
+      <xsl:text>dimension</xsl:text>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:text>?</xsl:text>
+      <xsl:message>
+        Unknown type: <xsl:value-of select="." />
+      </xsl:message>
+    </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>
