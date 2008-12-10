@@ -1,19 +1,14 @@
 #!/bin/sh
 #
-# This script has been used to create the folders source/ and source-replace/.
+# This script is used to create the source/ folder that contains the qooxdoo
+# sources with all RAP-patches applied.
 #
-# * This IPZilla bug contains the approved qooxdoo sources:
-#   https://dev.eclipse.org/ipzilla/show_bug.cgi?id=2057
-#
-# * Get the 3rd attachment and copy the zip file into the qx-build directory:
-#   https://dev.eclipse.org/ipzilla/attachment.cgi?id=1216
-#
-# * Open a console and cd to the qx-build directory
+# * Open a console and cd to the org.eclipse.rap.qx.build project directory
 #
 # * Run this script
 #
 
-WORKING_DIR=qx-build
+WORKING_DIR=org.eclipse.rap.qx.build
 
 VERSION=0.7.4
 
