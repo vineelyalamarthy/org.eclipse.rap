@@ -1,6 +1,7 @@
 #!/bin/sh
 #
-# This script must be run with qx-build as working directory.
+# This script must be run from the org.eclipse.rap.rwt.qx.build project root as
+# working directory.
 
 VERSION=0.7.4
 REVISION=16878
