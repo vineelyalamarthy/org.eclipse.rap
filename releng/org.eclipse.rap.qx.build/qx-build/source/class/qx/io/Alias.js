@@ -42,8 +42,7 @@ qx.Class.define("qx.io.Alias",
     // Contains defined aliases (like icons/, widgets/, application/, ...)
     this._aliases = {};
 
-    // Define static alias from setting
-    this.add("static", qx.core.Setting.get("qx.resourceUri") + "/static");
+    this._addStatic();
   },
 
 
@@ -57,6 +56,20 @@ qx.Class.define("qx.io.Alias",
 
   members :
   {
+
+    /**
+     * Define static alias from setting, if the custom staticUri setting is set
+     * we use it as alias else we take default resourceUri + /static
+     *
+     * @type member
+     * @return {void}
+     */
+    _addStatic : function ()
+    {
+      this.add("static", qx.core.Setting.isSet("qx.staticUri") ? qx.core.Setting.get("qx.staticUri") : qx.core.Setting.get("qx.resourceUri") + "/static");
+    },
+
+
     /**
      * pre process incoming dynamic value
      *
@@ -73,7 +86,7 @@ qx.Class.define("qx.io.Alias",
       }
       else if (dynamics[value] === undefined)
       {
-        if (value.charAt(0) === "/" || value.charAt(0) === "." || value.indexOf("http://") === 0 || value.indexOf("https://") === "0" || value.indexOf("file://") === 0)
+        if (value.charAt(0) === "/" || value.charAt(0) === "." || value.indexOf("http://") === 0 || value.indexOf("https://") === 0 || value.indexOf("file://") === 0)
         {
           dynamics[value] = false;
           return value;
@@ -83,7 +96,47 @@ qx.Class.define("qx.io.Alias",
         var resolved = this._aliases[alias];
 
         if (resolved !== undefined) {
-          dynamics[value] = resolved + value.substring(alias.length);
+          var urlPrefix = "";
+
+          /*
+           * To avoid a "mixed content" warning in IE when the application is
+           * delivered via HTTPS a prefix has to be added. This will transform the
+           * relative URL to an absolute one in IE.
+           * Though this warning is only displayed in conjunction with images which
+           * are referenced as a CSS "background-image", every resource path is
+           * changed when the application is served with HTTPS.
+           */
+          if (qx.core.Variant.isSet("qx.client", "mshtml"))
+          {
+            if (window.location.protocol === "https:")
+            {
+              /*
+               * SPECIAL CASE
+               * It is valid to to begin a URL with "//" so this case has to
+               * be considered. If the to resolved URL begins with "//" the
+               * manager prefixes it with "https:" to avoid any problems for IE
+               */
+              if (resolved.match(/^\/\//) != null) {
+                urlPrefix = window.location.protocol;
+              }
+              /*
+               * If the resolved URL begins with "./" the final URL has to be
+               * put together using the document.URL property.
+               * IMPORTANT: this is only applicable for the source version
+               */
+              else if (resolved.match(/^\.\//) != null && qx.core.Setting.get("qx.isSource"))
+              {
+                resolved  = "/" + value.substring(0, alias.length);
+                urlPrefix = document.URL.substring(0, document.URL.lastIndexOf("/"));
+              }
+              else
+              {
+                urlPrefix = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+              }
+            }
+          }
+
+          dynamics[value] = urlPrefix + resolved + value.substring(alias.length);
         }
       }
 

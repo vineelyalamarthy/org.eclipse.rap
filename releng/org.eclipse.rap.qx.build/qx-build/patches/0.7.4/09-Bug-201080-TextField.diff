@@ -1,0 +1,15 @@
+--- qx-build/source/class/qx/ui/form/TextField.js	2008-12-08 11:41:57.000000000 +0100
++++ qx-build/source/class/qx/ui/form/TextField.js	2008-12-08 16:00:35.000000000 +0100
+@@ -912,7 +916,11 @@
+         this.setValue(vValue);
+       }
+ 
+-      this.setSelectionLength(0);
++      // RAP workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=201080
++      // The fix is to check parent != null before calling setSelectionLength.
++      if( this.getParent() != null ) {
++        this.setSelectionLength( 0 );
++      }
+     },
+ 
+ 

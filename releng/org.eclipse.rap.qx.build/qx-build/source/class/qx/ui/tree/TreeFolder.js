@@ -249,25 +249,34 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
     /**
      * Closes the current folder.
-     *
-     * @type member
-     * @return {void}
      */
     close : function()
     {
+      // never close a hidden root folder
+      var isTree = this instanceof qx.ui.tree.Tree;
+      if (isTree && this.isHideNode()) {
+        return;
+      }
+
+      // if the root node does not have a close button don't close the topmost folder
+      var tree = isTree ? this : this.getTree();
+      if (!tree.getRootOpenClose() && (isTree || tree.isHideNode() && this.getParentFolder() == tree)) {
+        return;
+      }
+
       // If there are listeners waiting for a treeClose event...
-      if (this.getTree().hasEventListeners("treeClose"))
+      if (tree.hasEventListeners("treeClose"))
       {
         // ... then issue the event
-        this.getTree().dispatchEvent(new qx.event.type.DataEvent("treeClose", this), true);
+        tree.dispatchEvent(new qx.event.type.DataEvent("treeClose", this), true);
       }
 
       // If we get closed and the current selection is inside of this node.
       // set the selection to this folder
       if (this.getOpen())
       {
-        if(qx.lang.Array.contains(this.getItems(true, true), this.getTree().getSelectedElement())) {
-          this.getTree().getManager().setSelectedItem(this);
+        if(qx.lang.Array.contains(this.getItems(true, true), tree.getSelectedElement())) {
+          tree.getManager().setSelectedItem(this);
         }
       }
 
@@ -682,9 +691,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * the current items subitems (and the subitems of each
      * subitem) are destroyed going top down the TreeFolder
      * hierarchy. The current item is left as is.
-     *
-     *
-     * @type member
      */
     destroyContent : function()
     {
@@ -765,16 +771,16 @@ qx.Class.define("qx.ui.tree.TreeFolder",
           // remove the item from the containerObject
           this._containerObject.remove(item);
 
+          var createDisposer = function(treeItem) {
+            return function() {
+              treeItem.dispose();
+            }
+          }
+
           // delay the dispose until return from current call stack.  if we
           // were called via an event, e.g. a mouse click, the global queue
           // will be flushed so we can't yet be disposed.
-          qx.client.Timer.once(function()
-                               {
-                                 item.dispose();
-                                 delete items[i]
-                               },
-                               this,
-                               0);
+          qx.client.Timer.once(createDisposer(item), this, 0);
         }
       }
     },
@@ -881,6 +887,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       {
         case this._indentObject:
           if (this._indentObject.getElement().firstChild == e.getDomTarget()) {
+            this.getTree().getManager().handleMouseDown(this, e);
             this.toggle();
           }
 
@@ -933,6 +940,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
             this.getTree().getManager().handleMouseUp(this, e);
             e._treeProcessed = true;
           }
+          this.getTree().getManager().handleMouseUp(e.getTarget(), e);
       }
     },
 
@@ -950,7 +958,18 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         return;
       }
 
-      this.toggle();
+      var vOriginalTarget = e.getOriginalTarget();
+
+      switch(vOriginalTarget)
+      {
+        case this._indentObject:
+        case this._containerObject:
+        case this:
+          break;
+
+        default:
+          this.toggle();
+      }
       e.stopPropagation();
     },
 

@@ -48,7 +48,6 @@ qx.Class.define("qx.core.Client",
       var vBrowserVendor = navigator.vendor;
       var vBrowserProduct = navigator.product;
       var vBrowserPlatform = navigator.platform;
-      var vBrowserModeHta = false;
       var vBrowser;
 
       var vEngine = null;
@@ -75,9 +74,12 @@ qx.Class.define("qx.core.Client",
       }
       else if (typeof vBrowserVendor === "string" && vBrowserVendor === "KDE" && /KHTML\/([0-9-\.]*)/.test(vBrowserUserAgent))
       {
-        vEngine = "khtml";
+        vEngine = "webkit";
         vBrowser = "konqueror";
-        vEngineVersion = RegExp.$1;
+
+        // Howto translate KDE Version to Webkit Version? Currently emulate Safari 3.0.x for all versions.
+        // vEngineVersion = RegExp.$1;
+        vEngineVersion = "420";
       }
       else if (vBrowserUserAgent.indexOf("AppleWebKit") != -1 && /AppleWebKit\/([^ ]+)/.test(vBrowserUserAgent))
       {
@@ -129,8 +131,6 @@ qx.Class.define("qx.core.Client",
         vEngine = "mshtml";
         vEngineVersion = RegExp.$1;
         vBrowser = "explorer";
-
-        vBrowserModeHta = !window.external;
       }
 
       if (vEngineVersion)
@@ -148,10 +148,6 @@ qx.Class.define("qx.core.Client",
       {
         case "gecko":
           vEngineBoxSizingAttr.push("-moz-box-sizing");
-          break;
-
-        case "khtml":
-          vEngineBoxSizingAttr.push("-khtml-box-sizing");
           break;
 
         case "webkit":
@@ -185,6 +181,7 @@ qx.Class.define("qx.core.Client",
       var vPlatformWindows = false;
       var vPlatformMacintosh = false;
       var vPlatformUnix = false;
+      var vPlatformIphone = false;
       var vPlatformOther = false;
 
       if (vBrowserPlatform.indexOf("Windows") != -1 || vBrowserPlatform.indexOf("Win32") != -1 || vBrowserPlatform.indexOf("Win64") != -1)
@@ -201,6 +198,11 @@ qx.Class.define("qx.core.Client",
       {
         vPlatformUnix = true;
         vPlatform = "unix";
+      }
+      else if (vBrowserPlatform.indexOf("iPhone") != -1 || vBrowserPlatform.indexOf("iPod") != -1)
+      {
+        vPlatformIphone = true;
+        vPlatform = "iphone";
       }
       else
       {
@@ -233,7 +235,6 @@ qx.Class.define("qx.core.Client",
       this._engineNameMshtml = vEngine === "mshtml";
       this._engineNameGecko = vEngine === "gecko";
       this._engineNameOpera = vEngine === "opera";
-      this._engineNameKhtml = vEngine === "khtml";
       this._engineNameWebkit = vEngine === "webkit";
 
       this._engineVersion = parseFloat(vEngineVersion);
@@ -254,8 +255,8 @@ qx.Class.define("qx.core.Client",
       this._browserPlatformWindows = vPlatformWindows;
       this._browserPlatformMacintosh = vPlatformMacintosh;
       this._browserPlatformUnix = vPlatformUnix;
+      this._browserPlatformIphone = vPlatformIphone;
       this._browserPlatformOther = vPlatformOther;
-      this._browserModeHta = vBrowserModeHta;
       this._browserLocale = vBrowserLocale;
       this._browserLocaleVariant = vBrowserLocaleVariant;
 
@@ -413,7 +414,7 @@ qx.Class.define("qx.core.Client",
      * @return {Boolean} if engine is khtml
      */
     isKhtml : function() {
-      return this._engineNameKhtml;
+      return this._engineNameWebkit;
     },
 
 
@@ -550,6 +551,17 @@ qx.Class.define("qx.core.Client",
 
 
     /**
+     * Returns whether the client platform is a iphone.
+     *
+     * @type member
+     * @return {Boolean} whether the client platform is a iphone.
+     */
+    runsOnIphone : function() {
+      return this._browserPlatformIphone;
+    },
+
+
+    /**
      * Returns whether the client supports VML (Vector Markup Language)
      *
      * @type member
@@ -650,6 +662,6 @@ qx.Class.define("qx.core.Client",
   defer : function(statics, members, properties)
   {
     statics.__init();
-    qx.core.Variant.define("qx.client", [ "gecko", "mshtml", "opera", "webkit", "khtml" ], qx.core.Client.getInstance().getEngine());
+    qx.core.Variant.define("qx.client", [ "gecko", "mshtml", "opera", "webkit" ], qx.core.Client.getInstance().getEngine());
   }
 });

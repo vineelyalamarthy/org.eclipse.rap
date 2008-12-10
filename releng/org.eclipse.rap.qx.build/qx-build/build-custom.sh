@@ -1,18 +1,17 @@
 #!/bin/sh
 #
-# This script must be run with qx-build/custom as working directory.
+# This script must be run with qx-build as working directory.
 
-VERSION=0.7.3
-REVISION=11170
-#QOOXDOO=../../../qooxdoo/qooxdoo
+VERSION=0.7.4
+REVISION=16878
+
 # point to the directory that contains the generator.py
-TOOL=../../../qx-0.7.3/qooxdoo-0.7.3-sdk/frontend/framework/tool
+TOOL=../../qx-0.7.4/qooxdoo/frontend/framework/tool
+
 TEMP=./temp
-# use this when building directly from qx repository
-# SOURCE=${QOOXDOO}/frontend/framework/source   
-SOURCE=../source
-SOURCE_REPLACE=../source-replace
+SOURCE=./source
 OUTPUT=./output
+
 OUTPUT_FILE=${OUTPUT}/qx.js
 OUTPUT_FILE_DEBUG=${OUTPUT}/qx-debug.js
 
@@ -23,9 +22,7 @@ rm -r -f ${TEMP}
 
 echo "  CREATING WORKING COPY"
 mkdir -p ${TEMP}/class
-mkdir -p ${TEMP}/resource/static
 cp -r ${SOURCE}/class/* ${TEMP}/class
-cp -r ${SOURCE}/resource/static/* ${TEMP}/resource/static
 
 
 echo "  DELETING REPOSITORY META DATA"
@@ -40,7 +37,6 @@ done
 
 
 echo "  STRIPPING DOWN SDK SOURCES"
-rm -r -f ${TEMP}/resource/static/stringbuilder
 rm -r ${TEMP}/class/qx/event/message
 rm -r ${TEMP}/class/qx/io/local
 rm -r ${TEMP}/class/qx/theme/classic
@@ -108,10 +104,6 @@ rm ${TEMP}/class/qx/io/remote/ScriptTransport.js
 rm ${TEMP}/class/qx/io/Json.js
 
 
-echo "  REPLACING SOURCES WITH OVERRIDES"
-test -d ${SOURCE_REPLACE} && cp -r ${SOURCE_REPLACE}/* ${TEMP}
-
-
 # *** command line switches to optimize generated output ***
 #  --use-variant=qx.debug:off \
 #  --add-new-lines \
@@ -129,8 +121,10 @@ test -d ${SOURCE_REPLACE} && cp -r ${SOURCE_REPLACE}/* ${TEMP}
 SETTINGS="--use-setting=qx.theme:org.eclipse.swt.theme.Default 
   --use-setting=qx.logAppender:qx.log.appender.Native 
   --add-require qx.log.Logger:qx.log.appender.Native
-  --use-variant=qx.compatibility:off
-  --use-variant=qx.client:gecko"
+  --use-variant=qx.compatibility:off"
+# TODO [rst] This setting kept the qx.js files from working in IE with 0.7.4
+#            What was the reason to add it here?
+#  --use-variant=qx.client:gecko"
 
 #  --include-without-dependencies=qx.client.NativeWindow 
 INCLUDES="--include=oo 
@@ -184,11 +178,6 @@ ${TOOL}/generator.py \
 
 echo "    Size of ${OUTPUT_FILE} is `stat -c %s ${OUTPUT_FILE}` bytes"
 echo "    Size of ${OUTPUT_FILE_DEBUG} is `stat -c %s ${OUTPUT_FILE_DEBUG}` bytes"
-
-
-echo "  COPYING RESOURCES"
-mkdir -p ${OUTPUT}/resource/static
-cp -r ${TEMP}/resource/static ${OUTPUT}/resource
 
 
 echo "  CLEANING WORKING DIRECTORY"

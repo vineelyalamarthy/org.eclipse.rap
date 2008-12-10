@@ -57,6 +57,10 @@ qx.Class.define("qx.client.Timer",
     }
 
     this.__oninterval = qx.lang.Function.bind(this._oninterval, this);
+
+    //Event instance to dispatch when interval fires
+    this.__event = new qx.event.type.Event("interval");
+
   },
 
 
@@ -290,8 +294,8 @@ qx.Class.define("qx.client.Timer",
      */
     _oninterval : function()
     {
-      if (this.getEnabled()) {
-        this.createDispatchEvent("interval");
+      if (this.getEnabled() && this.hasEventListeners("interval")) {
+        this.dispatchEvent(this.__event, false);
       }
     }
   },
@@ -311,6 +315,6 @@ qx.Class.define("qx.client.Timer",
       window.clearInterval(this.__intervalHandler);
     }
 
-    this._disposeFields("__intervalHandler", "__oninterval");
+    this._disposeFields("__intervalHandler", "__oninterval", "__event");
   }
 });

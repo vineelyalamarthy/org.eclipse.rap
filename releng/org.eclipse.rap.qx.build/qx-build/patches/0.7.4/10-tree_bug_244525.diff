@@ -1,0 +1,10 @@
+--- qx-build/source/class/qx/ui/tree/TreeFolder.js	2008-12-08 11:41:57.000000000 +0100
++++ qx-build/source/class/qx/ui/tree/TreeFolder.js	2008-12-08 16:03:06.000000000 +0100
+@@ -887,6 +887,7 @@
+       {
+         case this._indentObject:
+           if (this._indentObject.getElement().firstChild == e.getDomTarget()) {
++            this.getTree().getManager().handleMouseDown(this, e);
+             this.toggle();
+           }
+ 

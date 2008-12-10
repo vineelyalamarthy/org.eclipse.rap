@@ -86,9 +86,14 @@ qx.Class.define("qx.client.History",
       this._iframe.style.left = "-1000px";
       this._iframe.style.top = "-1000px";
 
-      document.body.appendChild(this._iframe);
-      var src = qx.io.Alias.getInstance().resolve("static/history/helper.html");
+      /*
+       * IMPORTANT NOTE FOR IE:
+       * Setting the source before adding the iframe to the document.
+       * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
+       */
+      var src = qx.io.Alias.getInstance().resolve("static/html/blank.html");
       this._iframe.src = src;
+      document.body.appendChild(this._iframe);
 
       this._titles = {};
       this._state = decodeURIComponent(this.__getHash());
@@ -337,7 +342,7 @@ qx.Class.define("qx.client.History",
           doc.open();
           doc.write(html);
           doc.close();
-        } catch (e) {
+        } catch (ex) {
           return false;
         }
         return true;

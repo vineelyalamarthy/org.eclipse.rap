@@ -91,7 +91,7 @@ qx.Class.define("qx.client.NativeWindow",
     },
 
 
-    /** The outer width of the window. */
+    /** The inner width of the window. */
     width :
     {
       check : "Number",
@@ -100,7 +100,7 @@ qx.Class.define("qx.client.NativeWindow",
     },
 
 
-    /** The outer height of the window. */
+    /** The inner height of the window. */
     height :
     {
       check : "Number",
@@ -216,9 +216,9 @@ qx.Class.define("qx.client.NativeWindow",
       init : true
     },
 
-    /** Location (left, right) of the window */
+    /** Location (left, top) of the window */
     location : {
-      group : [ "left", "right" ]
+      group : [ "left", "top" ]
     },
 
     /** Dimension (width, height) of the window */
@@ -528,7 +528,7 @@ qx.Class.define("qx.client.NativeWindow",
       ------------------------------------------------------------------------------
       */
 
-      if (this.getName() != null) {
+      if (this.getName() == "") {
         this.setName("qx_NativeWindow" + this.toHashCode());
       }
 
@@ -610,9 +610,13 @@ qx.Class.define("qx.client.NativeWindow",
      *
      * @type member
      * @return {void}
+     *
+     * @deprecated does not show any effect in FF3, IE7 and Safari 3.2.1. http://bugzilla.qooxdoo.org/show_bug.cgi?id=1007
      */
     centerToScreen : function() {
+      /*
       this._centerHelper((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight()) / 2);
+      */
     },
 
 
@@ -621,9 +625,13 @@ qx.Class.define("qx.client.NativeWindow",
      *
      * @type member
      * @return {void}
+     *
+     * @deprecated does not show any effect in FF3, IE7 and Safari 3.2.1. See http://bugzilla.qooxdoo.org/show_bug.cgi?id=1007
      */
     centerToScreenArea : function() {
+      /*
       this._centerHelper((screen.availWidth - this.getWidth()) / 2, (screen.availHeight - this.getHeight()) / 2);
+      */
     },
 
 
@@ -632,9 +640,13 @@ qx.Class.define("qx.client.NativeWindow",
      *
      * @type member
      * @return {void}
+     *
+     * @deprecated does not show any effect in FF3, IE7 and Safari 3.2.1. http://bugzilla.qooxdoo.org/show_bug.cgi?id=1007
      */
     centerToOpener : function() {
+      /*
       this._centerHelper(((qx.html.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.html.Location.getScreenBoxLeft(window.document.body), ((qx.html.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.html.Location.getScreenBoxTop(window.document.body));
+      */
     },
 
 

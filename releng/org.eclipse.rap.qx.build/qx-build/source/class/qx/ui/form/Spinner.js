@@ -706,6 +706,13 @@ qx.Class.define("qx.ui.form.Spinner",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Event handler method for text changes
+     *
+     * @type member
+     * @param e {qx.event.type.ChangeEvent} change event
+     * @return {void}
+     */
     _ontextchange : function(e) {
       this._last_value = e.getOldValue();
     },
@@ -979,8 +986,8 @@ qx.Class.define("qx.ui.form.Spinner",
     qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeparator(this._numberFormat._locale) + "");
           var decimalSepEsc =
     qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeparator(this._numberFormat._locale) + "");
-          parsable_str = str_val.replace(new RegExp(decimalSepEsc), ".");
-          parsable_str = parsable_str.replace(new RegExp(groupSepEsc, "g"), "");
+          parsable_str = str_val.replace(new RegExp(groupSepEsc, "g"), "");
+          parsable_str = parsable_str.replace(new RegExp(decimalSepEsc), ".");
         }
         else
         {

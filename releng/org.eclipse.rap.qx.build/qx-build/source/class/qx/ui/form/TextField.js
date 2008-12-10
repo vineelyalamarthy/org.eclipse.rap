@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -70,6 +71,10 @@ qx.Class.define("qx.ui.form.TextField",
     this.addEventListener("blur", this._onblur);
     this.addEventListener("focus", this._onfocus);
     this.addEventListener("input", this._oninput);
+    // [rst] Catch backspace in readonly text fields to prevent browser default
+    // action (which commonly triggers a history step back)
+    // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=178320
+    this.addEventListener("keydown", this._onkeydown);
   },
 
 
@@ -310,7 +315,7 @@ qx.Class.define("qx.ui.form.TextField",
         // Apply properties
         inp.disabled = this.getEnabled()===false;
         inp.readOnly = this.getReadOnly();
-        inp.value = this.getValue() ? this.getValue() : "";
+        inp.value = this.getValue() != null ? this.getValue().toString() : "";
 
         if (this.getMaxLength() != null) {
           inp.maxLength = this.getMaxLength();
@@ -761,6 +766,16 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
+    // overridden
+    _visualPropertyCheck : function()
+    {
+      this.base(arguments);
+      if (!this.getVisibility()) {
+        throw new Error(this.classname + ": Element must be visible!");
+      }
+    },
+
+
 
 
     /*
@@ -804,7 +819,7 @@ qx.Class.define("qx.ui.form.TextField",
       "mshtml" : function()
       {
         this._inValueProperty = true;
-        this._inputElement.value = this.getValue() === null ? "" : this.getValue();
+        this._inputElement.value = this.getValue() === null ? "" : this.getValue().toString();
         this._firstInputFixApplied = true;
         delete this._inValueProperty;
       },
@@ -897,7 +912,11 @@ qx.Class.define("qx.ui.form.TextField",
         this.setValue(vValue);
       }
 
-      this.setSelectionLength(0);
+      // RAP workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=201080
+      // The fix is to check parent != null before calling setSelectionLength.
+      if( this.getParent() != null ) {
+        this.setSelectionLength( 0 );
+      }
     },
 
 
@@ -916,6 +935,14 @@ qx.Class.define("qx.ui.form.TextField",
       this.setValue(vValue);
     },
 
+    // [rst] Catch backspace in readonly text fields to prevent browser default
+    // action (which commonly triggers a history step back)
+    // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=178320
+    _onkeydown : function( e ) {
+      if( e.getKeyIdentifier() == "Backspace" && this.getReadOnly() ) {
+        e.preventDefault();
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -956,7 +983,7 @@ qx.Class.define("qx.ui.form.TextField",
       "mshtml" : function()
       {
         this._visualPropertyCheck();
-        return this.getTopLevelWidget().getDocumentElement().selection.createRange();
+        return window.document.selection.createRange();
       },
 
       "default" : null
@@ -1001,6 +1028,19 @@ qx.Class.define("qx.ui.form.TextField",
         vRange.select();
       },
 
+      "gecko" : function(vStart)
+      {
+        this._visualPropertyCheck();
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try {
+          this._inputElement.selectionStart = vStart;
+        } catch (ex) {}
+      },
+
       "default" : function(vStart)
       {
         this._visualPropertyCheck();
@@ -1039,6 +1079,25 @@ qx.Class.define("qx.ui.form.TextField",
         return len - vRange.text.length;
       },
 
+      "gecko" : function()
+      {
+        this._visualPropertyCheck();
+        var el = this._inputElement;
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try
+        {
+          if (qx.util.Validation.isValidString(el.value)) {
+            return el.selectionStart;
+          }
+        } catch (ex) {
+          return 0;
+        }
+      },
+
       "default" : function()
       {
         this._visualPropertyCheck();
@@ -1072,13 +1131,29 @@ qx.Class.define("qx.ui.form.TextField",
         vSelectionRange.select();
       },
 
+      "gecko" : function(vLength)
+      {
+        this._visualPropertyCheck();
+        var el = this._inputElement;
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try
+        {
+          if (qx.util.Validation.isValidString(el.value)) {
+            el.selectionEnd = el.selectionStart + vLength;
+          }
+        } catch (ex) {}
+      },
+
       "default" : function(vLength)
       {
         this._visualPropertyCheck();
-
         var el = this._inputElement;
 
-        if ( qx.util.Validation.isValidString(el.value) && this.getVisibility() ) {
+        if (qx.util.Validation.isValidString(el.value)) {
           el.selectionEnd = el.selectionStart + vLength;
         }
       }
@@ -1107,10 +1182,23 @@ qx.Class.define("qx.ui.form.TextField",
         return vSelectionRange.text.length;
       },
 
+      "gecko" : function()
+      {
+        this._visualPropertyCheck();
+        var el = this._inputElement;
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try {
+          return el.selectionEnd - el.selectionStart;
+        } catch (ex) {}
+      },
+
       "default" : function()
       {
         this._visualPropertyCheck();
-
         var el = this._inputElement;
         return el.selectionEnd - el.selectionStart;
       }
@@ -1145,6 +1233,38 @@ qx.Class.define("qx.ui.form.TextField",
         // recover selection (to behave the same gecko does)
         this.setSelectionStart(vStart);
         this.setSelectionLength(vText.length);
+      },
+
+
+      "gecko" : function(vText)
+      {
+        this._visualPropertyCheck();
+        var el = this._inputElement;
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try
+        {
+          if (qx.util.Validation.isValidString(el.value))
+          {
+            var vOldText = el.value;
+            var vStart = el.selectionStart;
+
+            var vOldTextBefore = vOldText.substr(0, vStart);
+            var vOldTextAfter = vOldText.substr(el.selectionEnd);
+
+            var vValue = el.value = vOldTextBefore + vText + vOldTextAfter;
+
+            // recover selection
+            el.selectionStart = vStart;
+            el.selectionEnd = vStart + vText.length;
+
+            // apply new value to internal cache
+            this.setValue(vValue);
+          }
+        } catch (ex) {}
       },
 
       "default" : function(vText)
@@ -1241,11 +1361,27 @@ qx.Class.define("qx.ui.form.TextField",
         this.setSelectionLength(vEnd - vStart);
       },
 
+      "gecko" : function(vStart, vEnd)
+      {
+        this._visualPropertyCheck();
+        var el = this._inputElement;
+
+        // the try catch block is neccesary because FireFox raises an exception
+        // if the property "selectionStart" is read while the element or one of
+        // its parent elements is invisible
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
+        try
+        {
+          el.selectionStart = vStart;
+          el.selectionEnd = vEnd;
+        } catch (ex) {}
+      },
+
       "default" : function(vStart, vEnd)
       {
         this._visualPropertyCheck();
-
         var el = this._inputElement;
+
         el.selectionStart = vStart;
         el.selectionEnd = vEnd;
       }

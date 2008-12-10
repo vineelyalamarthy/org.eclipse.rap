@@ -45,6 +45,8 @@
 qx.Class.define("qx.ui.core.Widget",
 {
   extend : qx.core.Target,
+  include : qx.util.manager.MConnectedObject,
+
   type : "abstract",
 
 
@@ -279,6 +281,7 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.Widget.flushGlobalJobQueue();
       qx.ui.core.Widget.flushGlobalLayoutQueue();
       qx.ui.core.Widget.flushGlobalDisplayQueue();
+      qx.ui.core.Widget.flushGlobalDisposeQueue();
 
       delete qx.ui.core.Widget._inFlushGlobalQueues;
     },
@@ -358,6 +361,8 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
+
+      qx.ui.core.Widget._globalWidgetQueue = [];
     },
 
 
@@ -434,6 +439,8 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
+
+      qx.ui.core.Widget._globalElementQueue = [];
     },
 
 
@@ -496,19 +503,24 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalStateQueue : function()
     {
-      var vQueue = qx.ui.core.Widget._globalStateQueue, vLength, vWidget;
+      var Widget = qx.ui.core.Widget;
 
-      while ((vLength = vQueue.length) > 0)
+      // the queue may change while doing the flush so we work on a copy of
+      // the queue and loop while the queue has any entries.
+      while(Widget._globalStateQueue.length > 0)
       {
-        for (var i=0; i<vLength; i++)
+        var queue = qx.lang.Array.copy(Widget._globalStateQueue);
+        Widget._globalStateQueue = [];
+
+        for (var i=0, l=queue.length; i<l; i++)
         {
-          vWidget = vQueue[i];
-          vWidget._renderAppearance();
-
-          delete vWidget._isInGlobalStateQueue;
+          var widget = queue[i];
+          if (widget._isInGlobalStateQueue)
+          {
+            widget._renderAppearance();
+            delete widget._isInGlobalStateQueue;
+          }
         }
-
-        vQueue.splice(0, vLength);
       }
     },
 
@@ -586,6 +598,8 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
+
+      qx.ui.core.Widget._globalJobQueue = [];
     },
 
 
@@ -662,6 +676,8 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
+
+      qx.ui.core.Widget._globalLayoutQueue = [];
     },
 
 
@@ -785,6 +801,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
+
       // Work on lazy queues: Other widgets
       for (vKey in vLazyQueues)
       {
@@ -861,16 +878,97 @@ qx.Class.define("qx.ui.core.Widget",
         delete vLazyQueues[vKey];
       }
 
+
+      // reset queue if it is empty. This frees some browser memory
+      if (qx.lang.Object.isEmpty(vLazyQueues)) {
+        qx.ui.core.Widget._lazyGlobalDisplayQueues = {};
+      }
+
+
       // Reset display queue flag for widgets in fastQueue
       for (var i=0, l=vFastQueue.length; i<l; i++) {
         delete vFastQueue[i]._isInGlobalDisplayQueue;
       }
 
       // Remove fast queue entries
-      qx.lang.Array.removeAll(vFastQueue);
+      qx.ui.core.Widget._fastGlobalDisplayQueue = [];
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSE QUEUE
+
+      Contains the widgets which should be disposed
+    ---------------------------------------------------------------------------
+    */
+
+    _globalDisposeQueue : [],
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vWidget {var} TODOC
+     * @return {void}
+     */
+    addToGlobalDisposeQueue : function(vWidget)
+    {
+      if (!vWidget._isInGlobalDisposeQueue && !vWidget.isDisposed())
+      {
+        if (qx.ui.core.Widget._autoFlushTimeout == null) {
+          qx.ui.core.Widget._initAutoFlush();
+        }
+
+        qx.ui.core.Widget._globalDisposeQueue.push(vWidget);
+        vWidget._isInGlobalDisposeQueue = true;
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vWidget {var} TODOC
+     * @return {void}
+     */
+    removeFromGlobalDisposeQueue : function(vWidget)
+    {
+      if (vWidget._isInGlobalDisposeQueue)
+      {
+        qx.lang.Array.remove(qx.ui.core.Widget._globalDisposeQueue, vWidget);
+        delete vWidget._isInGlobalDisposeQueue;
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @return {void}
+     */
+    flushGlobalDisposeQueue : function()
+    {
+      var vQueue = qx.ui.core.Widget._globalDisposeQueue, vLength, vWidget;
+
+      while ((vLength = vQueue.length) > 0)
+      {
+        for (var i=0; i<vLength; i++)
+        {
+          vWidget = vQueue[i];
+
+          vWidget.dispose();
+          delete vWidget._isInGlobalDisposeQueue;
+        }
+
+        vQueue.splice(0, vLength);
+      }
+
+      qx.ui.core.Widget._globalDisposeQueue = [];
+    },
 
 
     /*
@@ -2612,7 +2710,7 @@ qx.Class.define("qx.ui.core.Widget",
           this._beforeRemoveDom();
           try {
             this._oldParent._getTargetNode().removeChild(elem);
-          } catch(e) {
+          } catch(ex) {
             // ignore exception
           }
           this._afterRemoveDom();
@@ -2994,7 +3092,16 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-
+    /**
+     * Removes the widget from its parent and disposes it.
+     * Use this function to free the widget's allocated memory and its associated
+     * DOM elements during the runtime of the application.
+     */
+    destroy : function ()
+    {
+      this.setParent(null);
+      qx.ui.core.Widget.addToGlobalDisposeQueue(this);
+    },
 
 
 
@@ -5224,31 +5331,17 @@ qx.Class.define("qx.ui.core.Widget",
     {
       "mshtml" : function(vStates) {},
 
-      "gecko" : function(vStates)
-      {
-        if (vStates.focused)
-        {
-          if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus()) {
-            this.setStyleProperty("MozOutline", "1px dotted invert");
-          }
-        }
-        else
-        {
-          this.removeStyleProperty("MozOutline");
-        }
-      },
-
       "default" : function(vStates)
       {
         if (vStates.focused)
         {
           if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus()) {
-            this.setStyleProperty("outline", "1px dotted invert");
+            this.setStyleProperty("outline", "1px dotted");
           }
         }
         else
         {
-          this.removeStyleProperty("outline");
+          this.setStyleProperty("outline", "none");
         }
       }
     }),
@@ -5983,7 +6076,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (old) {
         vMgr.setCaptureWidget(null);
-      } else if (value) {
+      }
+
+      if (value) {
         vMgr.setCaptureWidget(this);
       }
     },
@@ -6139,24 +6234,19 @@ qx.Class.define("qx.ui.core.Widget",
 
       "webkit" : function(value, old)
       {
-        if (value) {
+        if (value)
+        {
           this.removeStyleProperty("WebkitUserSelect");
-        } else {
-          this.setStyleProperty("WebkitUserSelect", "none");
-        }
-      },
-
-      "khtml" : function(value, old)
-      {
-        if (value) {
           this.removeStyleProperty("KhtmlUserSelect");
-        } else {
+        }
+        else
+        {
+          this.setStyleProperty("WebkitUserSelect", "none");
           this.setStyleProperty("KhtmlUserSelect", "none");
         }
       },
 
       // Opera currently has no support to prohibit user selection
-
       "default" : function(value, old)
       {
         if (value) {
@@ -6208,8 +6298,6 @@ qx.Class.define("qx.ui.core.Widget",
         {
           if (qx.core.Variant.isSet("qx.client", "gecko")) {
             this.removeStyleProperty("MozOpacity");
-          } else if (qx.core.Variant.isSet("qx.client", "khtml")) {
-            this.removeStyleProperty("KhtmlOpacity");
           }
 
           this.removeStyleProperty("opacity");
@@ -6222,8 +6310,6 @@ qx.Class.define("qx.ui.core.Widget",
           // and limit the max value to 0.99?
           if (qx.core.Variant.isSet("qx.client", "gecko")) {
             this.setStyleProperty("MozOpacity", value);
-          } else if (qx.core.Variant.isSet("qx.client", "khtml")) {
-            this.setStyleProperty("KhtmlOpacity", value);
           }
 
           this.setStyleProperty("opacity", value);
@@ -6801,7 +6887,7 @@ qx.Class.define("qx.ui.core.Widget",
               break;
 
             default:
-              cs[i] = es[i];
+              cs[i] = this._styleProperties[i];
               es[i] = "";
           }
         }
@@ -7338,6 +7424,7 @@ qx.Class.define("qx.ui.core.Widget",
                 statics._globalStateQueue.length > 0 ||
                 statics._globalJobQueue.length > 0 ||
                 statics._globalLayoutQueue.length > 0 ||
+                statics._globalDisposeQueue.length > 0 ||
                 statics._fastGlobalDisplayQueue.length > 0 ||
                 !qx.lang.Object.isEmpty(statics._lazyGlobalDisplayQueue))) {
             return;
@@ -7348,6 +7435,7 @@ qx.Class.define("qx.ui.core.Widget",
           var globalStateQueueLength = statics._globalStateQueue.length;
           var globalJobQueueLength = statics._globalJobQueue.length;
           var globalLayoutQueueLength = statics._globalLayoutQueue.length;
+          var globalDisposeQueueLength = statics._globalDisposeQueue.length;
           var fastGlobalDisplayQueueLength = statics._fastGlobalDisplayQueue.length;
           var lazyGlobalDisplayQueueLength = statics._lazyGlobalDisplayQueue ? statics._lazyGlobalDisplayQueue.length : 0;
 
@@ -7377,6 +7465,11 @@ qx.Class.define("qx.ui.core.Widget",
           var vLayoutDuration = (new Date).valueOf() - start;
 
           start = (new Date).valueOf();
+          statics.flushGlobalDisposeQueue();
+          var vDisposeDuration = (new Date).valueOf() - start;
+
+
+          start = (new Date).valueOf();
           statics.flushGlobalDisplayQueue();
           var vDisplayDuration = (new Date).valueOf() - start;
 
@@ -7391,9 +7484,10 @@ qx.Class.define("qx.ui.core.Widget",
             logger.debug("Element: " + vElementDuration + "ms (" + globalElementQueueLength + ")");
             logger.debug("Job: " + vJobDuration + "ms (" + globalJobQueueLength + ")");
             logger.debug("Layout: " + vLayoutDuration + "ms (" + globalLayoutQueueLength + ")");
+            logger.debug("Dispose: " + vDisposeDuration + "ms (" + globalDisposeQueueLength + ")");
             logger.debug("Display: " + vDisplayDuration + "ms (fast:" + fastGlobalDisplayQueueLength + ",lazy:" + lazyGlobalDisplayQueueLength + ")");
 
-            window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Display:" + vDisplayDuration;
+            window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Dispose:" + vDisposeDuration + " Display:" + vDisplayDuration;
           }
 
           delete statics._inFlushGlobalQueues;

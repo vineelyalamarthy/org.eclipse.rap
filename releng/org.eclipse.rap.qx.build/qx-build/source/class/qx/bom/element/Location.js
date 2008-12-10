@@ -35,11 +35,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(bom)
-
-************************************************************************ */
 
 /**
  * Query the location of an arbitrary DOM element in relation to its top
@@ -76,7 +71,7 @@ qx.Class.define("qx.bom.element.Location",
      * @return {Integer} Value of given style property
      */
     __num : function(elem, style) {
-      return parseInt(qx.bom.element.Style.get(elem, style, qx.bom.element.Style.COMPUTED_MODE, false)) || 0;
+      return parseInt(qx.bom.element.Style.get(elem, style, qx.bom.element.Style.COMPUTED_MODE, false), 10) || 0;
     },
 
 
@@ -94,9 +89,8 @@ qx.Class.define("qx.bom.element.Location",
 
       // Use faster getBoundingClientRect() if available
       // Hint: The viewport workaround here only needs to be applied for
-      // MSHTML currently. Gecko must always use the bottom code block -
-      // independently from the availbility of getBoundingClientRect()
-      if (qx.core.Variant.isSet("qx.client", "mshtml") && elem.getBoundingClientRect)
+      // MSHTML and gecko clients currently.
+      if (elem.getBoundingClientRect)
       {
         // Find window
         var win = qx.dom.Node.getWindow(elem);
@@ -209,7 +203,7 @@ qx.Class.define("qx.bom.element.Location",
         var top = body.offsetTop;
 
         // Correct substracted border (only in content-box mode)
-        if (qx.bom.element.Dimension.getBoxSizing(body) !== "border-box")
+        if (qx.bom.element.BoxSizing.get(body) !== "border-box")
         {
           left += this.__num(body, "borderLeftWidth");
           top += this.__num(body, "borderTopWidth");
@@ -365,9 +359,9 @@ qx.Class.define("qx.bom.element.Location",
 
           // Stop at the body
           var body = qx.dom.Node.getDocument(elem).body;
-          var dim = qx.bom.element.Dimension;
+          var box = qx.bom.element.BoxSizing;
 
-          if (dim.getBoxSizing(elem) !== "border-box")
+          if (box.get(elem) !== "border-box")
           {
             left -= this.__num(elem, "borderLeftWidth");
             top -= this.__num(elem, "borderTopWidth");
@@ -381,7 +375,7 @@ qx.Class.define("qx.bom.element.Location",
 
             // Mozilla does not add the borders to the offset
             // when using box-sizing=content-box
-            if (dim.getBoxSizing(elem) !== "border-box")
+            if (box.get(elem) !== "border-box")
             {
               left += this.__num(elem, "borderLeftWidth");
               top += this.__num(elem, "borderTopWidth");
@@ -437,7 +431,7 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimenions.
+     * the document dimensions.
      *
      * Supported modes:
      *
@@ -472,27 +466,31 @@ qx.Class.define("qx.bom.element.Location",
         var top = offset.top + body.top - scroll.top;
       }
 
-      // qx.core.Log.debug("Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
-      // qx.core.Log.debug("Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
+      // qx.log.Logger.debug(this, "Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
+      // qx.log.Logger.debug(this, "Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
 
       var right = left + elem.offsetWidth;
       var bottom = top + elem.offsetHeight;
 
       if (mode)
       {
+        // In this modes we want the size as seen from a child what means that we want the full width/height
+        // which may be higher than the outer width/height when the element has scrollbars.
+        if (mode == "padding" || mode == "scroll")
+        {
+          var overX = qx.bom.element.Overflow.getX(elem);
+          if (overX == "scroll" || overX == "auto") {
+            right += elem.scrollWidth - elem.offsetWidth + this.__num(elem, "borderLeftWidth") + this.__num(elem, "borderRightWidth");
+          }
+
+          var overY = qx.bom.element.Overflow.getY(elem);
+          if (overY == "scroll" || overY == "auto") {
+            bottom += elem.scrollHeight - elem.offsetHeight + this.__num(elem, "borderTopWidth") + this.__num(elem, "borderBottomWidth");
+          }
+        }
+
         switch(mode)
         {
-          case "margin":
-            left -= this.__num(elem, "marginLeft");
-            top -= this.__num(elem, "marginTop");
-            right += this.__num(elem, "marginRight");
-            bottom += this.__num(elem, "marginBottom");
-            break;
-
-          case "box":
-            // no modification needed
-            break;
-
           case "padding":
             left += this.__num(elem, "paddingLeft");
             top += this.__num(elem, "paddingTop");
@@ -503,8 +501,8 @@ qx.Class.define("qx.bom.element.Location",
           case "scroll":
             left -= elem.scrollLeft;
             top -= elem.scrollTop;
-            right += elem.scrollLeft;
-            bottom += elem.scrollTop;
+            right -= elem.scrollLeft;
+            bottom -= elem.scrollTop;
             // no break here
 
           case "border":
@@ -514,8 +512,12 @@ qx.Class.define("qx.bom.element.Location",
             bottom -= this.__num(elem, "borderBottomWidth");
             break;
 
-          default:
-            throw new Error("Invalid mode for location detection: " + mode);
+          case "margin":
+            left -= this.__num(elem, "marginLeft");
+            top -= this.__num(elem, "marginTop");
+            right += this.__num(elem, "marginRight");
+            bottom += this.__num(elem, "marginBottom");
+            break;
         }
       }
 
@@ -531,7 +533,7 @@ qx.Class.define("qx.bom.element.Location",
     /**
      * Computes the location of the given element in context of
      * the document dimensions. For supported modes please
-     * have a look at the {@see #get} method.
+     * have a look at the {@link qx.bom.element.Location#get} method.
      *
      * @type static
      * @param elem {Element} DOM element to query
@@ -547,7 +549,7 @@ qx.Class.define("qx.bom.element.Location",
     /**
      * Computes the location of the given element in context of
      * the document dimensions.For supported modes please
-     * have a look at the {@see #get} method.
+     * have a look at the {@link qx.bom.element.Location#get} method.
      *
      * @type static
      * @param elem {Element} DOM element to query
@@ -563,7 +565,7 @@ qx.Class.define("qx.bom.element.Location",
     /**
      * Computes the location of the given element in context of
      * the document dimenions.For supported modes please
-     * have a look at the {@see #get} method.
+     * have a look at the {@link qx.bom.element.Location#get} method.
      *
      * @type static
      * @param elem {Element} DOM element to query
@@ -579,7 +581,7 @@ qx.Class.define("qx.bom.element.Location",
     /**
      * Computes the location of the given element in context of
      * the document dimenions.For supported modes please
-     * have a look at the {@see #get} method.
+     * have a look at the {@link qx.bom.element.Location#get} method.
      *
      * @type static
      * @param elem {Element} DOM element to query
@@ -594,7 +596,7 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Returns the distance between two DOM elements. For supported modes please
-     * have a look at the {@see #get} method.
+     * have a look at the {@link qx.bom.element.Location#get} method.
      *
      * @type static
      * @param elem1 {Element} First element

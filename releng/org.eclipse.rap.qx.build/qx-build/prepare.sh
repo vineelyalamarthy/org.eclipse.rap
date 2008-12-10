@@ -15,7 +15,7 @@
 
 WORKING_DIR=qx-build
 
-VERSION=0.7.3
+VERSION=0.7.4
 
 ZIP_FILE=qx-$VERSION.zip
 
@@ -23,13 +23,11 @@ ZIP_FILE=qx-$VERSION.zip
 print_usage() {
   echo "Usage: $0 <target> [args]"
   echo "possible targets are:"
-  echo "  unzip             extract zip archive"
-  echo "  source            create or overwrite source folder"
+  echo "  source            overwrite source folder with contents from zip file"
   echo "  patch <file>+     apply given patch files"
   echo "  patch-all         apply all patches in patches dir"
-  echo "  source-replace    create source-replace overlay folder"
   echo "  clean             delete temporary folders"
-  echo "  all               clean, unzip, source, patch-all, source-replace, clean"
+  echo "  all               clean, source, patch-all, clean"
 }
 
 # print failure notice and exit
@@ -50,19 +48,10 @@ ensure_wd() {
 # make sure the zip file exists
 ensure_zipfile() {
   if [ ! -f "$ZIP_FILE" ]; then
-    echo "missing zip file $ZIP_FILE, place this file into the $WORKING_DIR directory first"
+    echo "missing zip file $ZIP_FILE, place this file into $WORKING_DIR first"
     fail
   fi
   echo "found $ZIP_FILE, good."
-}
-
-# make sure the extracted folder exists
-ensure_extracted() {
-  if [ ! -d "qx-$VERSION/source/class/" ]; then
-    echo "missing directory qx-$VERSION/source/class/, call unzip before"
-    fail
-  fi
-  echo "directory qx-$VERSION/source/class/ exists, good."
 }
 
 # extract zip file into a directory named qx-VERSION/
@@ -83,13 +72,12 @@ create_source() {
 # Apply a single patch file
 apply_patch() {
   echo applying "$1"
-  patch -p1 -b -B tmp-replace/ -i "$1" || fail
+  patch -p1 -i "$1" || fail
 }
 
 # Apply patches in qx-build/patches
 apply_all_patches() {
   echo applying patches ...
-  rm -rf tmp-replace
   echo --------------------
   for file in patches/$VERSION/*.diff; do
     apply_patch "$file"
@@ -98,21 +86,9 @@ apply_all_patches() {
   echo ok
 }
 
-# Create or overwrite source-replace folder
-create_source_replace() {
-  echo creating source-replace folder ...
-  rsync -a -c --existing source/ tmp-replace/source/ || fail
-  # Now for every patched file, the original version is kept in the source-replace
-  # folder. Rsync helps to replace these original files with the patched ones in
-  # order to create the "overlay directory".
-  rsync -rog -c --delete --exclude="CVS/" tmp-replace/source/class/ source-replace/class/ || fail
-  echo ok
-}
-
 clean_up() {
   echo cleaning up ...
   rm -rf qx-$VERSION
-  rm -rf tmp-replace/
   echo ok
 }
 
@@ -122,19 +98,14 @@ if [ $# -gt 0 ]; then
 fi
 
 case "$TARGET" in
-  "unzip")
+  "source")
     ensure_wd
     ensure_zipfile
     extract_zipfile
-    ;;
-  "source")
-    ensure_wd
-    ensure_extracted
     create_source
     ;;
   "patch")
     ensure_wd
-    ensure_extracted
     while [ $# -ge 1 ]; do
       apply_patch "$1"
       shift
@@ -142,13 +113,7 @@ case "$TARGET" in
   ;;
   "patch-all")
     ensure_wd
-    ensure_extracted
     apply_all_patches
-    ;;
-  "source-replace")
-    ensure_wd
-    ensure_extracted
-    create_source_replace
     ;;
   "clean")
     ensure_wd
@@ -161,8 +126,6 @@ case "$TARGET" in
     extract_zipfile
     create_source
     apply_all_patches
-    create_source_replace
-    create_source
     clean_up
     ;;
   *)

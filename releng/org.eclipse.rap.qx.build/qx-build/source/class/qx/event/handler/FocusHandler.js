@@ -154,16 +154,16 @@ qx.Class.define("qx.event.handler.FocusHandler",
         return t1 - t2;
       }
 
-      var y1 = qx.html.Location.getPageBoxTop(c1.getElement());
-      var y2 = qx.html.Location.getPageBoxTop(c2.getElement());
+      var y1 = qx.bom.element.Location.getTop(c1.getElement());
+      var y2 = qx.bom.element.Location.getTop(c2.getElement());
 
       if (y1 != y2) {
         return y1 - y2;
       }
 
       // Sort-Check #3: Left-Position
-      var x1 = qx.html.Location.getPageBoxLeft(c1.getElement());
-      var x2 = qx.html.Location.getPageBoxLeft(c2.getElement());
+      var x1 = qx.bom.element.Location.getLeft(c1.getElement());
+      var x2 = qx.bom.element.Location.getLeft(c2.getElement());
 
       if (x1 != x2) {
         return x1 - x2;
@@ -281,23 +281,21 @@ qx.Class.define("qx.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param parent {var} TODOC
      * @param widget {var} TODOC
      * @param arr {var} TODOC
-     * @return {void}
      */
     _getAllAfter : function(parent, widget, arr)
     {
       var children = parent.getChildren();
       var child;
-      var len = children.length;
+      var len = children.length || 0;
 
       for (var i=0; i<len; i++)
       {
         child = children[i];
 
-        if (!(child instanceof qx.ui.core.Parent) && !(child instanceof qx.ui.basic.Terminator)) {
+        if (child.isDisposed() || !(child instanceof qx.ui.core.Parent) && !(child instanceof qx.ui.basic.Terminator)) {
           continue;
         }
 

@@ -47,6 +47,8 @@ qx.Class.define("qx.util.manager.Value",
 
     // Create empty dynamic map
     this._dynamic = {};
+
+    this._connectedObjects = {};
   },
 
 
@@ -62,12 +64,53 @@ qx.Class.define("qx.util.manager.Value",
   members :
   {
     /**
+     * Disconnect all connections to the given object.
+     *
+     * @type member
+     * @param obj {qx.core.Object} The class, which should be disconnected.
+     */
+    disconnect : function(obj)
+    {
+      // If value is disposed, it's already disconnected
+      if (this.isDisposed()) {
+        return;
+      }
+
+      // Otherwise disconnect from this value
+      var objectHash = obj.toHashCode();
+      var connections = this._connectedObjects;
+      var reg = this._registry;
+
+      // Error checking
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!obj) {
+          throw new Error("Can not disconnect from an empty object");
+        }
+
+        if (!connections[objectHash]) {
+          throw new Error("disconnect: themed value " + this + " has no connection to object: " + obj);
+        }
+      }
+
+      // Disconnect all keys
+      var lKeys = connections[objectHash];
+      while (lKeys.length) {
+        delete reg[lKeys.pop()];
+      }
+
+      // Forget about object
+      delete connections[objectHash];
+    },
+
+
+    /**
      * Processing a value and handle callback execution on updates.
      *
      * @type member
-     * @param obj {Object} Any object
-     * @param callback {String} Name of callback function which handles the
-     *   apply of the resulting CSS valid value.
+     * @param callback {Function} The callback function which handles the
+     *   apply of the resulting dynamically resolved value.
+     * @param obj {Object} The context, the callback will be caled with.
      * @param value {var} Any acceptable value, but no booleans and no undefined
      * @return {void}
      */
@@ -83,6 +126,10 @@ qx.Class.define("qx.util.manager.Value",
           throw new Error("Can not connect to invalid object: " + obj);
         }
 
+        if (typeof obj.hasConnectionTo != "function") {
+          throw new Error("The Connected object '" + obj + "' must include the mixin 'qx.util.manager.MConnectedObject'!");
+        }
+
         if (value === undefined) {
           throw new Error("Undefined values are not allowed for connect: " + callback + "[" + obj + "]");
         }
@@ -93,7 +140,8 @@ qx.Class.define("qx.util.manager.Value",
       }
 
       // Store references for dynamic values
-      var key = "v" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
+      var objectHash = obj.toHashCode();
+      var key = "v" + objectHash + "$" + qx.core.Object.toHashCode(callback);
       var reg = this._registry;
 
       // Preprocess value (if function is defined)
@@ -111,6 +159,14 @@ qx.Class.define("qx.util.manager.Value",
           object   : obj,
           value    : value
         };
+
+        // remember, which objects have connections
+        if (!this._connectedObjects[objectHash]) {
+          this._connectedObjects[objectHash] = [];
+        }
+        this._connectedObjects[objectHash].push(key);
+        obj.hasConnectionTo(this);
+
       }
       else if (reg[key])
       {
@@ -175,6 +231,6 @@ qx.Class.define("qx.util.manager.Value",
   */
 
   destruct : function() {
-    this._disposeFields("_registry", "_dynamic");
+    this._disposeFields("_registry", "_dynamic", "_connectedObjects");
   }
 });

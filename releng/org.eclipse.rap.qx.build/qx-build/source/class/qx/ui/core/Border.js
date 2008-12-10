@@ -28,7 +28,7 @@
 qx.Class.define("qx.ui.core.Border",
 {
   extend : qx.core.Object,
-
+  include : qx.util.manager.MConnectedObject,
 
 
 
@@ -1111,4 +1111,5 @@ qx.Class.define("qx.ui.core.Border",
       }
     })
   }
+
 });

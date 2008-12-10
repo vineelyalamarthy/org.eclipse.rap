@@ -306,7 +306,8 @@ qx.Class.define("qx.ui.basic.Atom",
       var l = this._labelObject = new qx.ui.basic.Label(this.getLabel());
 
       l.setAnonymous(true);
-      l.setCursor("default");
+// RAP [rst] qx bug 455 http://bugzilla.qooxdoo.org/show_bug.cgi?id=455
+//      l.setCursor("default");
 
       this.addAt(l, this._iconObject ? 1 : 0);
     },

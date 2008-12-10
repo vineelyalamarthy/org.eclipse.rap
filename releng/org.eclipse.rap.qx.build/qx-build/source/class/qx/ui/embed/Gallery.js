@@ -488,9 +488,10 @@ qx.Class.define("qx.ui.embed.Gallery",
      */
     addFromPartialList : function(vPartialList)
     {
-      this.concat(vPartialList);
+      this._listSize = this._list.length + vPartialList.length;
 
       for (var i=0, a=vPartialList, l=a.length; i<l; i++) {
+        this._list.push(a[i]);
         this._frame.appendChild(this.createCell(a[i], i));
       }
     },
@@ -505,6 +506,8 @@ qx.Class.define("qx.ui.embed.Gallery",
      */
     addFromUpdatedList : function(vNewList)
     {
+      this._listSize = vNewList.length;
+
       for (var a=vNewList, l=a.length, i=this._list.length; i<l; i++) {
         this._frame.appendChild(this.createCell(a[i], i));
       }

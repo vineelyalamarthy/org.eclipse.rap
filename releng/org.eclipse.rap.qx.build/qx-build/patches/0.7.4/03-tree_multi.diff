@@ -1,0 +1,10 @@
+--- qx-build/source/class/qx/ui/tree/TreeFolder.js	2008-12-08 11:41:57.000000000 +0100
++++ qx-build/source/class/qx/ui/tree/TreeFolder.js	2008-12-08 15:27:25.000000000 +0100
+@@ -939,6 +939,7 @@
+             this.getTree().getManager().handleMouseUp(this, e);
+             e._treeProcessed = true;
+           }
++          this.getTree().getManager().handleMouseUp(e.getTarget(), e);
+       }
+     },
+ 

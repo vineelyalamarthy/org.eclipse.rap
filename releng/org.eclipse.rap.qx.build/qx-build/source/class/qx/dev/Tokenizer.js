@@ -92,17 +92,18 @@ qx.Class.define("qx.dev.Tokenizer",
         "implement" : 1
       }
 
-      var re_line_comment = /\/\/.*[\n\r$]/
-      var re_full_comment = /\/\*(?:.|[\n\r])*?\*\//
-      var re_ident = /[a-zA-Z_][a-zA-Z0-9_]*\b/
-      var re_integer = /[+-]?\d+/
-      var re_float = /[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?/
-      var re_doublequote = /["][^"]*["]/
-      var re_singlequote = /['][^']*[']/
-      var re_tab = /\t/
-      var re_nl = /\r\n|\r|\n/
-      var re_space = /\s/
-      var re_token = /\/\/.*?[\n\r$]|\/\*(?:.|\n|\r)*?\*\/|\w+\b|[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?|["][^"]*["]|['][^']*[']|\n|\r|./g
+      var re_line_comment = /^\/\/.*[\n\r$]$/;
+      var re_full_comment = /^\/\*(?:.|[\n\r])*?\*\/$/;
+      var re_ident = /^[a-zA-Z_][a-zA-Z0-9_]*\b$/;
+      var re_integer = /^[+-]?\d+$/;
+      var re_float = /^[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?$/;
+      var re_doublequote = /^["][^"]*["]$/;
+      var re_singlequote = /^['][^']*[']$/;
+      var re_tab = /^\t$/;
+      var re_nl = /^\r\n|\r|\n$/;
+      var re_space = /^\s$/;
+      var re_re = /^\/(?:\\.|[^\/])+\/[gimy]*$/;
+      var re_token = /\/\/.*?[\n\r$]|\/\*(?:.|\n|\r)*?\*\/|\/(?:\\.|[^\/])+\/[gimy]*|\w+\b|[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?|["][^"]*["]|['][^']*[']|\n|\r|./g
 
       var tokens = [];
 
@@ -116,6 +117,9 @@ qx.Class.define("qx.dev.Tokenizer",
         }
         else if (token.match(re_full_comment)) {
           tokens.push({type: "fullcomment", value: token});
+        }
+        else if (token.match(re_re)) {
+          tokens.push({type: "regexp", value: token});
         }
         else if (token.match(re_singlequote)) {
           tokens.push({type: "qstr", value: token});
@@ -186,6 +190,10 @@ qx.Class.define("qx.dev.Tokenizer",
         var token = tokens[i];
         var htmlValue = qx.html.String.escape(token.value);
         switch(token.type) {
+          case "regexp":
+            js.add("<span class='regexp'>", htmlValue, "</span>");
+            break;
+
           case "ident":
             js.add("<span class='ident'>", htmlValue, "</span>");
             break;

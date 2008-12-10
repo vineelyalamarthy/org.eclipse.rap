@@ -162,6 +162,13 @@ qx.Class.define("qx.event.handler.EventHandler",
         vDomEvent.preventDefault();
       }
 
+      try
+      {
+        // this allows us to prevent some key press events in IE and Firefox.
+        // See bug #1049
+        vDomEvent.keyCode = 0;
+      } catch(ex) {}
+
       vDomEvent.returnValue = false;
     },
 
@@ -461,8 +468,14 @@ qx.Class.define("qx.event.handler.EventHandler",
      * @param vCommand {var} TODOC
      * @return {void}
      */
-    removeCommand : function(vCommand) {
+    removeCommand : function(vCommand)
+    {
       delete this._commands[vCommand.toHashCode()];
+
+      // reset list if it is empty. This frees some browser memory
+      if (qx.lang.Object.isEmpty(this._commands)) {
+        this._commands = {};
+      }
     },
 
 
@@ -737,7 +750,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         {
           if (this._mouseIsDown && vDomEvent.button == 0)
           {
-            this._onmouseevent_post(vDomEvent, "mouseup");
+            this._onmouseevent_post(vDomEvent, "mouseup", vDomTarget);
             this._mouseIsDown = false;
           }
         }
@@ -751,12 +764,12 @@ qx.Class.define("qx.event.handler.EventHandler",
 
           // Fix MSHTML Mouseup, should be after a normal click or contextmenu event, like Mozilla does this
           if (vType == "mouseup" && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250) {
-            this._onmouseevent_post(vDomEvent, "mousedown");
+            this._onmouseevent_post(vDomEvent, "mousedown", vDomTarget);
           }
 
           // Fix MSHTML Doubleclick, should be after a normal click event, like Mozilla does this
           else if (vType == "dblclick" && this._lastMouseEventType == "mouseup" && ((new Date).valueOf() - this._lastMouseEventDate) < 250) {
-            this._onmouseevent_post(vDomEvent, "click");
+            this._onmouseevent_post(vDomEvent, "click", vDomTarget);
           }
 
           switch(vType)

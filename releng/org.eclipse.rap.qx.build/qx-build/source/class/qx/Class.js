@@ -1271,7 +1271,6 @@ qx.Class.define("qx.Class",
     /**
      * Attach members to a class
      *
-     * @type static
      * @param clazz {Class} clazz to add members to
      * @param members {Map} The map of members to attach
      * @param patch {Boolean ? false} Enable patching of
@@ -1313,13 +1312,12 @@ qx.Class.define("qx.Class",
           }
           else
           {
-          // Configure extend (named base here)
-          // Hint: proto[key] is not yet overwritten here
-          if (proto[key]) {
-            member.base = proto[key];
-          }
-
-          member.self = clazz;
+            // Configure extend (named base here)
+            // Hint: proto[key] is not yet overwritten here
+            if (proto[key]) {
+              member.base = proto[key];
+            }
+            member.self = clazz;
           }
 
           if (qx.core.Variant.isSet("qx.aspects", "on")) {
@@ -1407,7 +1405,6 @@ qx.Class.define("qx.Class",
     /**
      * Include all features of the mixin into the given class (recursive).
      *
-     * @type static
      * @param clazz {Class} A class previously defined where the mixin should be attached.
      * @param mixin {Mixin} Include all features of this mixin
      * @param patch {Boolean} Overwrite existing fields, functions and properties

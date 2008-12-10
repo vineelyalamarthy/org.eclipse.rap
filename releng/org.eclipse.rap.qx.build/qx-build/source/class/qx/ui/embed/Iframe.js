@@ -357,8 +357,10 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     block : function()
     {
-      if (this._blockerNode) {
-        this._blockerNode.style.display = "";
+      if (this._blockerNode &&
+         (!this._blockerNode.parentElement ||
+         (qx.core.Variant.isSet("qx.client", "gecko") && !this._blockerNode.parentNode))) {
+        this._getBlockerParent().appendChild(this._blockerNode);
       }
     },
 
@@ -370,12 +372,29 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     release : function()
     {
-      if (this._blockerNode) {
-        this._blockerNode.style.display = "none";
+      if (this._blockerNode &&
+         (this._blockerNode.parentElement ||
+         (qx.core.Variant.isSet("qx.client", "gecko") && this._blockerNode.parentNode))) {
+        this._getBlockerParent().removeChild(this._blockerNode);
       }
     },
 
 
+    /**
+     * Get the parent element of the blocker node. Respects extended border
+     * elements.
+     *
+     * @return {Element} the blocker's parent element
+     */
+    _getBlockerParent : function()
+    {
+      var el = this.getElement();
+      if (this._innerStyle) {
+        return el.firstChild;
+      } else {
+        return el;
+      }
+    },
 
 
 
@@ -396,7 +415,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         var nameStr = vFrameName ? 'name="' + vFrameName + '"' : '';
-        var frameEl = qx.ui.embed.Iframe._element = document.createElement('<iframe onload="parent.qx.ui.embed.Iframe.load(this)"' + nameStr + '></iframe>');
+        var frameEl = qx.ui.embed.Iframe._element = document.createElement('<iframe onload="parent.qx.ui.embed.Iframe.load(this)" ' + nameStr + '></iframe>');
       }
       else
       {
@@ -461,7 +480,6 @@ qx.Class.define("qx.ui.embed.Iframe",
       blockerStyle.width = "100%";
       blockerStyle.height = "100%";
       blockerStyle.zIndex = 1;
-      blockerStyle.display = "none";
 
       return blockerEl;
     },
