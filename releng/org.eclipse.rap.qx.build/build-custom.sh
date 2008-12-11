@@ -123,9 +123,6 @@ SETTINGS="--use-setting=qx.theme:org.eclipse.swt.theme.Default
   --use-setting=qx.logAppender:qx.log.appender.Native 
   --add-require qx.log.Logger:qx.log.appender.Native
   --use-variant=qx.compatibility:off"
-# TODO [rst] This setting kept the qx.js files from working in IE with 0.7.4
-#            What was the reason to add it here?
-#  --use-variant=qx.client:gecko"
 
 #  --include-without-dependencies=qx.client.NativeWindow 
 INCLUDES="--include=oo 
