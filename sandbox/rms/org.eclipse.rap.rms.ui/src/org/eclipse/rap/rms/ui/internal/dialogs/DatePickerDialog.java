@@ -59,7 +59,6 @@ public class DatePickerDialog extends Dialog implements SelectionListener {
   private CLabel selectionLabel = null;
   private Button[] days = new Button[ 42 ];
   private Point location;
-  private Object lock;
 
   
   public DatePickerDialog( final Shell parent, final int style ) {
