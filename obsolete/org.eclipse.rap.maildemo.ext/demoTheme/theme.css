@@ -1,0 +1,50 @@
+
+*[BORDER] {
+  border: none;
+}
+
+Shell[BORDER] {
+  border: 1px outset;
+}
+
+List, Text, Combo, Tree, Table {
+  background-color: #f9f9f9;
+}
+
+List-Item:selected, TableItem:selected, TreeItem:selected {
+  background-color: #1C5694;
+}
+
+List-Item:selected:inactive, TreeItem:selected:inactive {
+  background-color: #c0c0c0;
+}
+
+/* Perspective buttons */
+
+Button.actionbar {
+  color: black;
+  background-color: transparent;
+  border: 0px;
+  padding: 1px 5px;
+  font: bold 14px Arial, Helvetica, sans-serif;
+}
+
+Button.actionbar:hover {
+  background-color: #e6f2d4;
+}
+
+Button.actionbar:pressed {
+  background-color: white;
+}
+
+/* Banner buttons */
+
+Button.bannerButton {
+  color: #D2DCF3;
+  background-color: transparent;
+  border: 0px;
+}
+
+Button.bannerButton:hover {
+  color: #ffffff;
+}

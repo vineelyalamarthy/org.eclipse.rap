@@ -80,7 +80,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     
     // create coolbar control to avoid NPE during perspective switching 
     Composite composite = new Composite( shell, SWT.NONE );
-    composite.setBounds( 0, 0, 0, 0 );
+    composite.setVisible( false );
     getWindowConfigurer().createCoolBarControl( composite );
   }
 

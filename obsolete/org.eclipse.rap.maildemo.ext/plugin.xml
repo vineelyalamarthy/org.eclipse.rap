@@ -43,7 +43,7 @@
    <extension
          point="org.eclipse.rap.ui.themes">
       <theme
-            file="demoTheme/theme.properties"
+            file="demoTheme/theme.css"
             id="theme1"
             name="theme1">
       </theme>
