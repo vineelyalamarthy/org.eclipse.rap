@@ -78,7 +78,7 @@
      <extension
            point="org.eclipse.rap.ui.themes">
         <theme
-              file="theme/rms.properties"
+              file="theme/rms.css"
               id="org.eclipse.rap.rms.ui.RMSTheme"
               name="RMS Theme">
         </theme>
