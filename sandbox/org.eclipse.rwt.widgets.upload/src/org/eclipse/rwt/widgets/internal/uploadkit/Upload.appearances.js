@@ -20,12 +20,15 @@ appearances = {
 
     "upload-field" : {
       style : function( states ) {
+        var tv = new org.eclipse.swt.theme.ThemeValues( states );
         return {
-          border : "text.BORDER.border",
-          font : "widget.font",
-          padding : THEME_VALUE( "text.SINGLE.padding" ),
-          textColor : states.disabled ? "widget.graytext" : "widget.foreground",
-          backgroundColor : "widget.background"
+          border : tv.getCssBorder( "Text", "border" ),
+          font : tv.getCssFont( "Text", "font" ),
+          padding : tv.getCssBoxDimensions( "Text", "padding" ),
+          textColor : states.disabled
+                        ? tv.getColor( "widget.graytext" )
+                        : tv.getCssColor( "Text", "color" ),
+          backgroundColor : tv.getCssColor( "Text", "background-color" )
         };
       }
     }
