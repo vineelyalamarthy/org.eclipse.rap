@@ -27,7 +27,12 @@
 			<property name="ws" value="win32"/>
 			<property name="os" value="win32"/>
 		</ant>
-		<ant antfile="build.xml" dir="../org.mortbay.jetty" target="${target}">
+		<ant antfile="build.xml" dir="../org.mortbay.jetty.util" target="${target}">
+			<property name="arch" value="x86"/>
+			<property name="ws" value="win32"/>
+			<property name="os" value="win32"/>
+		</ant>
+		<ant antfile="build.xml" dir="../org.mortbay.jetty.server" target="${target}">
 			<property name="arch" value="x86"/>
 			<property name="ws" value="win32"/>
 			<property name="os" value="win32"/>
