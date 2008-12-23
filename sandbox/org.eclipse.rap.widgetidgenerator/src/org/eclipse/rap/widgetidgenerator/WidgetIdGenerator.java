@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.*;
  * @see WidgetIdGenerator#calculateAttributeHash(Object[])
  */
 public class WidgetIdGenerator implements PhaseListener {
+  
   private static final String WIDGET_IDS
     = WidgetIdGenerator.class.getName()+ "#ids";
   private static final long serialVersionUID = 1L;
@@ -194,6 +195,16 @@ public class WidgetIdGenerator implements PhaseListener {
    *                   is done automatically.</p> 
    */
   private Integer calculateAttributeHash( final Object[] attributes ) {
+    Set hashs = getUsedIds();
+    Integer result = new Integer( generateHash( attributes ) );
+    while( hashs.contains( result ) ) {
+      result = new Integer( generateHash( new Object[]{ result } ) );
+    }
+    hashs.add( result );
+    return result;
+  }
+
+  private int generateHash( final Object[] attributes ) {
     int hash = 17;
     for( int i = 0; i < attributes.length; i++ ) {
       if( attributes[ i ] != null ) {
@@ -202,13 +213,7 @@ public class WidgetIdGenerator implements PhaseListener {
         hash = 37 * hash + 0;
       }
     }
-    Set hashs = getUsedIds();
-    Integer result = new Integer( hash );
-    if( hashs.contains( result ) ) {
-      result = calculateAttributeHash( new Object[] { result } );
-    }
-    hashs.add( result );
-    return result;
+    return hash;
   }
 
   private Set getUsedIds() {
