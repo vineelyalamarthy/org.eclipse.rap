@@ -40,6 +40,8 @@ qx.Class.define("uploadwidget.UploadButton",
   construct : function(name, text, icon, iconWidth, iconHeight, flash)
   {
     this.base(arguments, text, icon, iconWidth, iconHeight, flash);
+    // This state is needed for proper button CSS themeing
+    this.addState( "rwt_PUSH" );
 
     if(name) {
       this.setName(name);

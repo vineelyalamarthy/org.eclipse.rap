@@ -63,6 +63,8 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     // Upload Button
     if( this._showUploadButton ) {
       this._uploadButton = new qx.ui.form.Button("Upload");
+      // This state is needed for proper button CSS themeing
+      this._uploadButton.addState( "rwt_PUSH" );
       this._uploadButton.addEventListener("click", this._uploadFile, this);
       topLayout.add(this._uploadButton);
     }
