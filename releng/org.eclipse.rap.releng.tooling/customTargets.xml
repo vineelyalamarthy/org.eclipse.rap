@@ -13,17 +13,6 @@
   </target>
 
   <!-- ===================================================================== -->
-  <!-- ===================================================================== -->
-  <target name="getBaseComponents" depends="checkLocalBase" unless="skipBase">
-    <get src="${eclipseBaseURL}" dest="${buildDirectory}/../temp-base.zip" />
-    <unzip dest="${base}" overwrite="true" src="${buildDirectory}/../temp-base.zip" />
-  </target>
-
-  <target name="checkLocalBase">
-    <available file="${base}" property="skipBase" />
-  </target>
-
-  <!-- ===================================================================== -->
   <!-- Check out map files from correct repository -->
   <!-- Replace values for mapsCheckoutTag as desired. -->
   <!-- ===================================================================== -->
@@ -37,12 +26,6 @@
   <target name="checkLocalMaps">
     <available property="skipMaps" file="${buildDirectory}/maps" />
   </target>
-
-  <target name="tagMapFiles" if="tagMaps">
-    <cvs dest="${buildDirectory}/maps/${mapsRoot}" command="tag ${mapsTagTag}" />
-  </target>
-
-  <!-- ===================================================================== -->
 
   <target name="clean" unless="noclean">
     <antcall target="allElements">
@@ -77,12 +60,6 @@
   </target>
 
   <!-- ===================================================================== -->
-  <!-- Steps to do before fetching the build elements -->
-  <!-- ===================================================================== -->
-  <target name="preFetch">
-  </target>
-
-  <!-- ===================================================================== -->
   <!-- Steps to do after fetching the build elements -->
   <!-- ===================================================================== -->
   <target name="postFetch">
@@ -91,11 +68,6 @@
     <copy file="${rapTarget}" tofile="${rapTargetDestFile}" />
   </target>
 
-  <!-- ===================================================================== -->
-  <!-- Steps to do before generating the build scripts. -->
-  <!-- ===================================================================== -->
-  <target name="preGenerate">
-  </target>
 
   <!-- ===================================================================== -->
   <!-- Steps to do after generating the build scripts. -->
@@ -104,11 +76,6 @@
     <antcall target="clean" />
   </target>
 
-  <!-- ===================================================================== -->
-  <!-- Steps to do before running the build.xmls for the elements being built. -->
-  <!-- ===================================================================== -->
-  <target name="preProcess">
-  </target>
 
   <!-- ===================================================================== -->
   <!-- Steps to do after running the build.xmls for the elements being built. -->
@@ -179,30 +146,6 @@
   </target>
 
   <!-- ===================================================================== -->
-  <!-- Steps to do before running assemble. -->
-  <!-- ===================================================================== -->
-  <target name="preAssemble">
-  </target>
-
-  <!-- ===================================================================== -->
-  <!-- Steps to do after  running assemble. -->
-  <!-- ===================================================================== -->
-  <target name="postAssemble">
-  </target>
-
-  <!-- ===================================================================== -->
-  <!-- Steps to do before running package. -->
-  <!-- ===================================================================== -->
-  <target name="prePackage">
-  </target>
-
-  <!-- ===================================================================== -->
-  <!-- Steps to do after  running package. -->
-  <!-- ===================================================================== -->
-  <target name="postPackage">
-  </target>
-
-  <!-- ===================================================================== -->
   <!-- Steps to do after the build is done. -->
   <!-- ===================================================================== -->
   <target name="postBuild">
@@ -243,41 +186,9 @@
         value="${targetVersion}.${buildId}" />
 
     <!-- zip update site -->
-    <zip destfile="${outputDirectory}/${buildLabel}-site.zip"
+    <zip destfile="${outputDirectory}/${buildLabel}.zip"
         basedir="${UpdateSiteStagingLocation}" />
 
-    <!-- pack200 -->
-    <!-- antcall target="pack" / -->
-  </target>
-
-  <target name="pack">
-    <java
-        jar="${baseLocation}/plugins/org.eclipse.equinox.launcher_1.0.1.R33x_v20080118.jar"
-        fork="true"
-        timeout="10800000"
-        jvm="${java15-home}/bin/java"
-        failonerror="true"
-        maxmemory="768m"
-        error="${buildDirectory}/errorlog.txt"
-        dir="${buildDirectory}"
-        output="${buildDirectory}/jarprocessorlog.txt">
-
-      <arg line="-consolelog -application org.eclipse.update.core.siteOptimizer" />
-      <arg line="-jarProcessor -verbose -outputDir ${outputDirectory} -processAll -pack ${outputDirectory}/${buildLabel}-site.zip" />
-    </java>
-  </target>
-
-  <!-- ===================================================================== -->
-  <!-- Steps to do to test the build results -->
-  <!-- ===================================================================== -->
-  <target name="test">
-  </target>
-
-  <!-- ===================================================================== -->
-  <!-- Steps to do to publish the build results -->
-  <!-- ===================================================================== -->
-  <target name="publish">
-    <!-- copydir dest="${outputDirectory}" src="${buildDirectory}/${buildLabel}" / -->
   </target>
 
   <!-- ===================================================================== -->
@@ -292,4 +203,19 @@
         dir="${buildDirectory}" />
     <echo>Deleting all build resources</echo>
   </target>
+
+  <!-- unused targets -->
+  <target name="preFetch"></target>
+  <target name="preGenerate"></target>
+  <target name="preProcess"></target>
+  <target name="preAssemble"></target>
+  <target name="postAssemble"></target>
+  <target name="prePackage"></target>
+  <target name="postPackage"></target>
+  <target name="test"></target>
+  <target name="publish"></target>
+  <target name="getBaseComponents" depends="checkLocalBase" unless="skipBase"></target>
+  <target name="checkLocalBase"></target>
+  <target name="tagMapFiles" if="tagMaps"></target>
+
 </project>

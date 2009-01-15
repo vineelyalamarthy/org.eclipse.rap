@@ -1,191 +1,134 @@
 <project name="Build specific targets and properties" default="noDefault">
 
-	<!-- ===================================================================== -->
-	<!-- Run a given ${target} on all elements being built -->
-	<!-- Add on <ant> task for each top level element being built. -->
-	<!-- ===================================================================== -->
-	<available property="allElementsFile" file="${builder}/allElements.xml" value="${builder}/allElements.xml"/>
-	<property name="allElementsFile" location="${eclipse.pdebuild.templates}/headless-build/allElements.xml"/>
+  <available property="allElementsFile" file="${builder}/allElements.xml" value="${builder}/allElements.xml" />
+  <property name="allElementsFile" location="${eclipse.pdebuild.templates}/headless-build/allElements.xml" />
 
-	<import file="${allElementsFile}" />
-	<target name="allElements">
-		<antcall target="allElementsDelegator" />
-	</target>
-	
-	<!-- ===================================================================== -->
-	<!-- ===================================================================== -->
-	<target name="getBaseComponents" depends="checkLocalBase" unless="skipBase">
-		<get src="${eclipseBaseURL}" dest="${buildDirectory}/../temp-base.zip" />
-		<unzip dest="${base}" overwrite="true" src="${buildDirectory}/../temp-base.zip" />
-	</target>
+  <import file="${allElementsFile}" />
+  <target name="allElements">
+    <antcall target="allElementsDelegator" />
+  </target>
 
-	<target name="checkLocalBase">
-		<available file="${base}" property="skipBase" />
-	</target>
+  <!-- ===================================================================== -->
+  <!-- Check out map files from correct repository -->
+  <!-- Replace values for mapsCheckoutTag as desired. -->
+  <!-- ===================================================================== -->
+  <target name="getMapFiles" depends="checkLocalMaps" unless="skipMaps">
+    <cvs cvsRoot="${mapsRepo}" package="${mapsRoot}" dest="${buildDirectory}/maps" tag="${mapsCheckoutTag}" />
+  </target>
 
-	<!-- ===================================================================== -->
-	<!-- Check out map files from correct repository -->
-	<!-- Replace values for mapsCheckoutTag as desired. -->
-	<!-- ===================================================================== -->
-	<target name="getMapFiles" depends="checkLocalMaps" unless="skipMaps">
-		<property name="mapsCheckoutTag" value="HEAD" />
-		<cvs cvsRoot="${mapsRepo}" package="${mapsRoot}" dest="${buildDirectory}/maps" tag="${mapsCheckoutTag}" />
-	</target>
+  <target name="checkLocalMaps">
+    <available property="skipMaps" file="${buildDirectory}/maps" />
+  </target>
 
-	<target name="checkLocalMaps">
-		<available property="skipMaps" file="${buildDirectory}/maps" />
-	</target>
+  <target name="clean" unless="noclean">
+    <antcall target="allElements">
+      <param name="target" value="cleanElement" />
+    </antcall>
+  </target>
 
-	<target name="tagMapFiles" if="tagMaps">
-		<cvs dest="${buildDirectory}/maps/${mapsRoot}" command="tag ${mapsTagTag}" />
-	</target>
+  <target name="gatherLogs">
+    <mkdir dir="${buildDirectory}/${buildLabel}/compilelogs" />
+    <antcall target="allElements">
+      <param name="target" value="gatherLogs" />
+    </antcall>
+    <unzip dest="${buildDirectory}/${buildLabel}/compilelogs" overwrite="true">
+      <fileset dir="${buildDirectory}/features">
+        <include name="**/*.log.zip" />
+      </fileset>
+    </unzip>
+  </target>
 
-	<!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Steps to do before setup -->
+  <!-- ===================================================================== -->
+  <target name="preSetup">
+    <antcall target="tidyup" />
+    <delete file="${outputDirectory}/rapdemo.war">
+    </delete>
+  </target>
 
-	<target name="clean" unless="noclean">
-		<antcall target="allElements">
-			<param name="target" value="cleanElement" />
-		</antcall>
-	</target>
+  <!-- ===================================================================== -->
+  <!-- Steps to do after setup but before starting the build proper -->
+  <!-- ===================================================================== -->
+  <target name="postSetup">
+    <antcall target="getBaseComponents" />
+  </target>
 
-	<target name="gatherLogs">
-		<mkdir dir="${buildDirectory}/${buildLabel}/compilelogs" />
-		<antcall target="allElements">
-			<param name="target" value="gatherLogs" />
-		</antcall>
-		<unzip dest="${buildDirectory}/${buildLabel}/compilelogs" overwrite="true">
-			<fileset dir="${buildDirectory}/features">
-				<include name="**/*.log.zip" />
-			</fileset>
-		</unzip>
-	</target>
+  <!-- ===================================================================== -->
+  <!-- Steps to do after generating the build scripts. -->
+  <!-- ===================================================================== -->
+  <target name="postGenerate">
+    <antcall target="clean" />
+  </target>
 
-	<!-- ===================================================================== -->
-	<!-- Steps to do before setup -->
-	<!-- ===================================================================== -->
-	<target name="preSetup">
-		<antcall target="tidyup" />
-		<delete file="${outputDirectory}/rapdemo.war"></delete>
-	</target>
+  <!-- ===================================================================== -->
+  <!-- Steps to do after the build is done. -->
+  <!-- ===================================================================== -->
+  <target name="postBuild">
+    <antcall target="gatherLogs" />
 
-	<!-- ===================================================================== -->
-	<!-- Steps to do after setup but before starting the build proper -->
-	<!-- ===================================================================== -->
-	<target name="postSetup">
-		<antcall target="getBaseComponents" />
-	</target>
+    <property name="warDirectory" value="${buildDirectory}/war" />
+    <mkdir dir="${warDirectory}" />
+    <copy todir="${warDirectory}">
+      <fileset dir="${builder}/templates" />
+    </copy>
+    <mkdir dir="${warDirectory}/WEB-INF/lib" />
+    <copy todir="${warDirectory}/WEB-INF/lib">
+      <fileset file="${buildDirectory}/plugins/org.eclipse.equinox.servletbridge/servletbridge.jar" />
+    </copy>
 
-	<!-- ===================================================================== -->
-	<!-- Steps to do before fetching the build elements -->
-	<!-- ===================================================================== -->
-	<target name="preFetch">
-	</target>
+    <property name="featureDir" value="${buildDirectory}/${buildLabel}/" />
+    <unzip dest="${warDirectory}/WEB-INF">
+      <fileset dir="${featureDir}">
+        <include name="**/*.zip" />
+      </fileset>
+    </unzip>
 
-	<!-- ===================================================================== -->
-	<!-- Steps to do after fetching the build elements -->
-	<!-- ===================================================================== -->
-	<target name="postFetch">
-	</target>
+    <mkdir dir="${outputDirectory}" />
+    <zip destfile="${outputDirectory}/rapdemo.war" basedir="${warDirectory}" />
 
-	<!-- ===================================================================== -->
-	<!-- Steps to do before generating the build scripts. -->
-	<!-- ===================================================================== -->
-	<target name="preGenerate">
-	</target>
+    <antcall target="tidyup" />
+  </target>
 
-	<!-- ===================================================================== -->
-	<!-- Steps to do after generating the build scripts. -->
-	<!-- ===================================================================== -->
-	<target name="postGenerate">
-		<antcall target="clean" />
-	</target>
+  <target name="tidyup">
+    <delete defaultexcludes="false" includeEmptyDirs="true" dir="${buildDirectory}" />
+  </target>
 
-	<!-- ===================================================================== -->
-	<!-- Steps to do before running the build.xmls for the elements being built. -->
-	<!-- ===================================================================== -->
-	<target name="preProcess">
-	</target>
+  <!-- ===================================================================== -->
+  <!-- Default target                                                        -->
+  <!-- ===================================================================== -->
+  <target name="noDefault">
+    <echo message="You must specify a target when invoking this file" />
+  </target>
 
-	<!-- ===================================================================== -->
-	<!-- Steps to do after running the build.xmls for the elements being built. -->
-	<!-- ===================================================================== -->
-	<target name="postProcess">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before running assemble. -->
-	<!-- ===================================================================== -->
-	<target name="preAssemble">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after  running assemble. -->
-	<!-- ===================================================================== -->
-	<target name="postAssemble">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before running package. -->
-	<!-- ===================================================================== -->
-	<target name="prePackage">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after  running package. -->
-	<!-- ===================================================================== -->
-	<target name="postPackage">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after the build is done. -->
-	<!-- ===================================================================== -->
-	<target name="postBuild">
-		<antcall target="gatherLogs" />
-		
-		<property name="warDirectory" value="${buildDirectory}/war" />
-		<mkdir dir="${warDirectory}"/>
-	    <copy todir="${warDirectory}">
-	      <fileset dir="${builder}/templates" />
-	    </copy>
-		<mkdir dir="${warDirectory}/WEB-INF/lib" />
-		<copy todir="${warDirectory}/WEB-INF/lib">
-		  <fileset file="${buildDirectory}/plugins/org.eclipse.equinox.servletbridge/servletbridge.jar" />
-		</copy>
-		
-		<property name="featureDir" value="${buildDirectory}/${buildLabel}/"/>
-		<unzip dest="${warDirectory}/WEB-INF">
-		    <fileset dir="${featureDir}">
-		        <include name="**/*.zip"/>
-		    </fileset>
-	    </unzip>
-		
-		<mkdir dir="${outputDirectory}"/>
-		<zip destfile="${outputDirectory}/rapdemo.war" basedir="${warDirectory}" />
-		
-		<antcall target="tidyup" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do to test the build results -->
-	<!-- ===================================================================== -->
-	<target name="test">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do to publish the build results -->
-	<!-- ===================================================================== -->
-	<target name="publish">
-	</target>
-
-   <target name="tidyup">
-        <delete defaultexcludes="false" includeEmptyDirs="true" dir="${buildDirectory}" />
-    </target>
-
-	<!-- ===================================================================== -->
-	<!-- Default target                                                        -->
-	<!-- ===================================================================== -->
-	<target name="noDefault">
-		<echo message="You must specify a target when invoking this file" />
-	</target>
+  <!-- unused targets -->
+  <target name="tagMapFiles" if="tagMaps">
+  </target>
+  <target name="preProcess">
+  </target>
+  <target name="postProcess">
+  </target>
+  <target name="preAssemble">
+  </target>
+  <target name="postAssemble">
+  </target>
+  <target name="prePackage">
+  </target>
+  <target name="postPackage">
+  </target>
+  <target name="preFetch">
+  </target>
+  <target name="postFetch">
+  </target>
+  <target name="preGenerate">
+  </target>
+  <target name="getBaseComponents" depends="checkLocalBase" unless="skipBase">
+  </target>
+  <target name="checkLocalBase">
+  </target>
+  <target name="test">
+  </target>
+  <target name="publish">
+  </target>
 
 </project>
