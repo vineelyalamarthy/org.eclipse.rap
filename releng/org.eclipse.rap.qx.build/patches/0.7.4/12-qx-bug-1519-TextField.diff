@@ -1,0 +1,28 @@
+--- qx-build/source/class/qx/ui/form/TextField.js	10 Dec 2008 16:57:40 -0000	1.1
++++ qx-build/source/class/qx/ui/form/TextField.js	19 Jan 2009 10:45:33 -0000
+@@ -766,14 +766,17 @@
+     },
+ 
+ 
+-    // overridden
+-    _visualPropertyCheck : function()
+-    {
+-      this.base(arguments);
+-      if (!this.getVisibility()) {
+-        throw new Error(this.classname + ": Element must be visible!");
+-      }
+-    },
++// [rst] Disable qx patch for bug 1519, which causes problems in RAP
++//       See http://bugzilla.qooxdoo.org/show_bug.cgi?id=1519
++//
++//    // overridden
++//    _visualPropertyCheck : function()
++//    {
++//      this.base(arguments);
++//      if (!this.getVisibility()) {
++//        throw new Error(this.classname + ": Element must be visible!");
++//      }
++//    },
+ 
+ 
+ 

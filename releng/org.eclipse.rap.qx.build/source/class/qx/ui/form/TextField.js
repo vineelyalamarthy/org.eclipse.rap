@@ -766,14 +766,17 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
-    // overridden
-    _visualPropertyCheck : function()
-    {
-      this.base(arguments);
-      if (!this.getVisibility()) {
-        throw new Error(this.classname + ": Element must be visible!");
-      }
-    },
+// [rst] Disable qx patch for bug 1519, which causes problems in RAP
+//       See http://bugzilla.qooxdoo.org/show_bug.cgi?id=1519
+//
+//    // overridden
+//    _visualPropertyCheck : function()
+//    {
+//      this.base(arguments);
+//      if (!this.getVisibility()) {
+//        throw new Error(this.classname + ": Element must be visible!");
+//      }
+//    },
 
 
 

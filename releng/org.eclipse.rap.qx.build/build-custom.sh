@@ -7,7 +7,7 @@ VERSION=0.7.4
 REVISION=16878
 
 # point to the directory that contains the generator.py
-TOOL=../../qx-0.7.4/qooxdoo/frontend/framework/tool
+TOOL=../qx-0.7.4/qooxdoo/frontend/framework/tool
 
 TEMP=./temp
 SOURCE=./source
