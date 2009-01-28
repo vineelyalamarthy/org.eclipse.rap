@@ -158,9 +158,6 @@ public TextStyle (Font font, Color foreground, Color background) {
 //	if (font != null && font.isDisposed()) SWT.error (SWT.ERROR_INVALID_ARGUMENT);
 //	if (foreground != null && foreground.isDisposed()) SWT.error (SWT.ERROR_INVALID_ARGUMENT);
 //	if (background != null && background.isDisposed()) SWT.error (SWT.ERROR_INVALID_ARGUMENT);
-	if (font != null) SWT.error (SWT.ERROR_INVALID_ARGUMENT);
-	if (foreground != null) SWT.error (SWT.ERROR_INVALID_ARGUMENT);
-	if (background != null) SWT.error (SWT.ERROR_INVALID_ARGUMENT);
 	this.font = font;
 	this.foreground = foreground;
 	this.background = background;
