@@ -346,6 +346,20 @@ public class StyledText extends Canvas {
     checkWidget();
     return new Point( selection.x, selection.y );
   }
+  
+  /**
+   * Returns the selected text.
+   *
+   * @return selected text, or an empty String if there is no selection.
+   * @exception SWTException <ul>
+   *    <li>ERROR_WIDGET_DISPOSED - if the receiver has been disposed</li>
+   *    <li>ERROR_THREAD_INVALID_ACCESS - if not called from the thread that created the receiver</li>
+   * </ul>
+   */
+  public String getSelectionText() {
+      checkWidget();
+      return content.substring(selection.x, selection.y);
+  }
 
   /**
    * Sets the selection.
