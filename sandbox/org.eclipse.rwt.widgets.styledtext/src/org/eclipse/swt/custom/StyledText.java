@@ -846,15 +846,24 @@ public class StyledText extends Canvas {
   private void generateSelectionTag( final StringBuffer html,
                                      final int charId )
   {
-    if( selection.x != selection.y && selection.x == charId ) {
-      html.append( "</span>" );
-      html.append( "<span id=sel>" );
-      html.append( "<span id=sr" + charId + charStyle + ">" );
-    }
-    if( selection.x != selection.y && selection.y == charId ) {
-      html.append( "</span>" );
-      html.append( "</span>" );
-      html.append( "<span id=sr" + charId + charStyle + ">" );
+    if( selection.x != selection.y ) {
+      if( selection.x == charId ) {
+        html.append( "</span>" );
+        html.append( "<span id=sel>" );
+        html.append( "<span id=sr" + charId + charStyle + ">" );
+      }
+      if( selection.y == charId ) {
+        html.append( "</span>" );
+        html.append( "</span>" );
+        html.append( "<span id=sr" + charId + charStyle + ">" );
+      }
+    } else {
+      if( selection.x == charId ) {
+        html.append( "</span>" );
+        html.append( "<span id=sel>" );
+        html.append( "</span>" );
+        html.append( "<span id=sr" + charId + charStyle + ">" );
+      }
     }
   }
 

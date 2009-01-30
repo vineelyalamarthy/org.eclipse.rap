@@ -357,9 +357,7 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
       } else {
         this._selectionStart = selStart;
         this._selectionEnd = selEnd;
-        if( this._selectionStart != this._selectionEnd ) {
-          this._select();
-        }
+        this._select();
       }      
     },
     
