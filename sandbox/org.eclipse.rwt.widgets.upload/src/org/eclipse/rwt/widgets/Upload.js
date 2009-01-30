@@ -81,7 +81,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
         this._progressBar = new qx.ui.layout.CanvasLayout();
         this._progressBar.setParent( bottomLayout );
         this._progressBar.set({left:0,height:16});
-        this._progressBar.setAppearance( "progressbar-bar" );
+        this._progressBar.setAppearance( "progressbar-indicator" );
 
         this.add(bottomLayout);
     }
