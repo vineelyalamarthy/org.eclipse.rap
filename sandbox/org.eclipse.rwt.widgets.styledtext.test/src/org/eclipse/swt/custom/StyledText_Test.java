@@ -22,8 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class StyledText_Test extends TestCase {
 
-  private static final String TXT =
-    "Eclipse is an open source community.";
+  private static final String TXT = "Eclipse is an open source community.";
 
   public void testInitialValues() {
     Display display = new Display();
@@ -105,7 +104,7 @@ public class StyledText_Test extends TestCase {
     sr2.fontStyle = SWT.ITALIC;
     try {
       styledText.setStyleRange( sr2 );
-      fail( "Must not allow to set range out of bounds." );
+      fail( "Must not allow to set range out of text bounds." );
     } catch( IllegalArgumentException e ) {
       // expected
     }
