@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.rwt.widgets.styledtext.demo;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.rwt.lifecycle.IEntryPoint;
@@ -261,7 +262,13 @@ public class EntryPoint implements IEntryPoint {
           style.underline = underline.getSelection();
           style.strikeout = strikeout.getSelection();
 
-          styledText.setStyleRange( style );
+          try {
+            styledText.setStyleRange( style );
+          } catch( IllegalArgumentException ex ) {
+            String msg = "Invalid range. Range out of bounds 0 - "
+                         + styledText.getCharCount();
+            MessageDialog.openError( styledText.getShell(), "Error", msg );
+          }
         }
       }
     } );
