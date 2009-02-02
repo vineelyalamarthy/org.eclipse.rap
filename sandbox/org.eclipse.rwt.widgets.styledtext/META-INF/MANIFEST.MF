@@ -9,4 +9,5 @@ Require-Bundle: org.eclipse.rap.rwt,
  org.eclipse.rap.ui
 Export-Package: org.eclipse.swt.custom,
  org.eclipse.swt.graphics,
- org.eclipse.swt.internal.custom.styledtextkit;uses:="org.eclipse.rwt.resources,org.eclipse.rwt.lifecycle,org.eclipse.swt.widgets"
+ org.eclipse.swt.internal.custom;x-friends:="org.eclipse.rwt.widgets.styledtext.test",
+ org.eclipse.swt.internal.custom.styledtextkit;x-friends:="org.eclipse.rwt.widgets.styledtext.test"
