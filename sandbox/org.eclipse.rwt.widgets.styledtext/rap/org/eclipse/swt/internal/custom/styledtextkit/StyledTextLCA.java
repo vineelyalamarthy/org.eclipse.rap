@@ -99,17 +99,17 @@ public final class StyledTextLCA extends AbstractWidgetLCA {
       if( selStart != null && selEnd != null ) {
         final int start = Integer.parseInt( selStart );
         final int end = Integer.parseInt( selEnd );
-          styledText.setSelection( start, end );
-          int eventId = SelectionEvent.WIDGET_SELECTED;
-          Rectangle bounds = new Rectangle( start, end, 0, 0 );
-          SelectionEvent event = new SelectionEvent( styledText,
-                                                     null,
-                                                     eventId,
-                                                     bounds,
-                                                     null,
-                                                     true,
-                                                     0 );
-          event.processEvent();
+        styledText.setSelection( start, end );
+        int eventId = SelectionEvent.WIDGET_SELECTED;
+        Rectangle bounds = new Rectangle( start, end, 0, 0 );
+        SelectionEvent event = new SelectionEvent( styledText,
+                                                   null,
+                                                   eventId,
+                                                   bounds,
+                                                   null,
+                                                   true,
+                                                   0 );
+        event.processEvent();
       }
     }
     processMouseEvents( styledText );
