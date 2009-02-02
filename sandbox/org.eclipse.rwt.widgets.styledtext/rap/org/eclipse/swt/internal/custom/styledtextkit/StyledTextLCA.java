@@ -32,39 +32,39 @@ public final class StyledTextLCA extends AbstractWidgetLCA {
   private static final String QX_TYPE = "org.eclipse.swt.custom.StyledText";
 
   //Property names for preserveValues
-  private static final String PROP_HTML = "html";
-  private static final String PROP_SELECTION = "selection";
-  private static final String PROP_CARET_OFFSET = "caretOffset";
-  private static final String SELECTION_LISTENERS = "selectionListeners";
-  private static final String MOUSE_LISTENERS = "mouseListeners";
+  static final String PROP_HTML = "html";
+  static final String PROP_SELECTION = "selection";
+  static final String PROP_CARET_OFFSET = "caretOffset";
+  static final String SELECTION_LISTENERS = "selectionListeners";
+  static final String MOUSE_LISTENERS = "mouseListeners";
 
-  private static final String EVENT_WIDGET_SELECTED
+  static final String EVENT_WIDGET_SELECTED
     = "org.eclipse.swt.events.widgetSelected";
-  public static final String EVENT_MOUSE_UP
+  static final String EVENT_MOUSE_UP
     = "org.eclipse.swt.events.mouseUp";
-  public static final String EVENT_MOUSE_DOWN
+  static final String EVENT_MOUSE_DOWN
     = "org.eclipse.swt.events.mouseDown";
-  public static final String EVENT_MOUSE_UP_BUTTON
+  static final String EVENT_MOUSE_UP_BUTTON
     = "org.eclipse.swt.events.mouseUp.button";
-  public static final String EVENT_MOUSE_UP_X
+  static final String EVENT_MOUSE_UP_X
     = "org.eclipse.swt.events.mouseUp.x";
-  public static final String EVENT_MOUSE_UP_Y
+  static final String EVENT_MOUSE_UP_Y
     = "org.eclipse.swt.events.mouseUp.y";
-  public static final String EVENT_MOUSE_UP_TIME
+  static final String EVENT_MOUSE_UP_TIME
     = "org.eclipse.swt.events.mouseUp.time";
-  public static final String EVENT_MOUSE_DOWN_BUTTON
+  static final String EVENT_MOUSE_DOWN_BUTTON
     = "org.eclipse.swt.events.mouseDown.button";
-  public static final String EVENT_MOUSE_DOWN_X
+  static final String EVENT_MOUSE_DOWN_X
     = "org.eclipse.swt.events.mouseDown.x";
-  public static final String EVENT_MOUSE_DOWN_Y
+  static final String EVENT_MOUSE_DOWN_Y
     = "org.eclipse.swt.events.mouseDown.y";
-  public static final String EVENT_MOUSE_DOWN_TIME
+  static final String EVENT_MOUSE_DOWN_TIME
     = "org.eclipse.swt.events.mouseDown.time";
 
   //Default values
-  private static final String DEFAULT_HTML = "";
-  private static final Point DEFAULT_SELECTION = new Point( 0, 0 );
-  private static final Integer DEFAULT_CARET_OFFSET = new Integer( 0 );
+  static final String DEFAULT_HTML = "";
+  static final Point DEFAULT_SELECTION = new Point( 0, 0 );
+  static final Integer DEFAULT_CARET_OFFSET = new Integer( 0 );
 
   public void preserveValues( final Widget widget ) {
     StyledText styledText = ( StyledText )widget;
@@ -73,7 +73,7 @@ public final class StyledTextLCA extends AbstractWidgetLCA {
     boolean hasSelectionListeners = SelectionEvent.hasListener( styledText );
     adapter.preserve( SELECTION_LISTENERS,
                       Boolean.valueOf( hasSelectionListeners ) );
-    boolean hasMouseListeners = SelectionEvent.hasListener( styledText );
+    boolean hasMouseListeners = MouseEvent.hasListener( styledText );
     adapter.preserve( MOUSE_LISTENERS,
                       Boolean.valueOf( hasMouseListeners ) );
     adapter.preserve( PROP_HTML, getHtml( styledText ) );
