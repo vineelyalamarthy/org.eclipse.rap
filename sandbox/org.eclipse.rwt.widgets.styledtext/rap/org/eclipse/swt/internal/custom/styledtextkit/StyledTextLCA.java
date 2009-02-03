@@ -41,25 +41,25 @@ public final class StyledTextLCA extends AbstractWidgetLCA {
   static final String EVENT_WIDGET_SELECTED
     = "org.eclipse.swt.events.widgetSelected";
   static final String EVENT_MOUSE_UP
-    = "org.eclipse.swt.events.mouseUp";
+    = "org.eclipse.swt.events.styledtext.mouseUp";
   static final String EVENT_MOUSE_DOWN
-    = "org.eclipse.swt.events.mouseDown";
+    = "org.eclipse.swt.events.styledtext.mouseDown";
   static final String EVENT_MOUSE_UP_BUTTON
-    = "org.eclipse.swt.events.mouseUp.button";
+    = "org.eclipse.swt.events.styledtext.mouseUp.button";
   static final String EVENT_MOUSE_UP_X
-    = "org.eclipse.swt.events.mouseUp.x";
+    = "org.eclipse.swt.events.styledtext.mouseUp.x";
   static final String EVENT_MOUSE_UP_Y
-    = "org.eclipse.swt.events.mouseUp.y";
+    = "org.eclipse.swt.events.styledtext.mouseUp.y";
   static final String EVENT_MOUSE_UP_TIME
-    = "org.eclipse.swt.events.mouseUp.time";
+    = "org.eclipse.swt.events.styledtext.mouseUp.time";
   static final String EVENT_MOUSE_DOWN_BUTTON
-    = "org.eclipse.swt.events.mouseDown.button";
+    = "org.eclipse.swt.events.styledtext.mouseDown.button";
   static final String EVENT_MOUSE_DOWN_X
-    = "org.eclipse.swt.events.mouseDown.x";
+    = "org.eclipse.swt.events.styledtext.mouseDown.x";
   static final String EVENT_MOUSE_DOWN_Y
-    = "org.eclipse.swt.events.mouseDown.y";
+    = "org.eclipse.swt.events.styledtext.mouseDown.y";
   static final String EVENT_MOUSE_DOWN_TIME
-    = "org.eclipse.swt.events.mouseDown.time";
+    = "org.eclipse.swt.events.styledtext.mouseDown.time";
 
   //Default values
   static final String DEFAULT_HTML = "";
@@ -217,38 +217,30 @@ public final class StyledTextLCA extends AbstractWidgetLCA {
 
   private static void processMouseEvents( final Control control ) {
     if( WidgetLCAUtil.wasEventSent( control, EVENT_MOUSE_DOWN ) ) {
-      try {
-        MouseEvent event = new MouseEvent( control, MouseEvent.MOUSE_DOWN );
-        event.button
-          = readIntParam( control, EVENT_MOUSE_DOWN_BUTTON );
-        Point point = readXYParams( control,
-                                    EVENT_MOUSE_DOWN_X,
-                                    EVENT_MOUSE_DOWN_Y );
-        event.x = point.x;
-        event.y = point.y;
-        event.time = readIntParam( control,
-                                   EVENT_MOUSE_DOWN_TIME );
-        event.processEvent();
-      } catch( NumberFormatException nfe ) {
-        // do nothing
-      }
+      MouseEvent event = new MouseEvent( control, MouseEvent.MOUSE_DOWN );
+      event.button
+        = readIntParam( control, EVENT_MOUSE_DOWN_BUTTON );
+      Point point = readXYParams( control,
+                                  EVENT_MOUSE_DOWN_X,
+                                  EVENT_MOUSE_DOWN_Y );
+      event.x = point.x;
+      event.y = point.y;
+      event.time = readIntParam( control,
+                                 EVENT_MOUSE_DOWN_TIME );
+      event.processEvent();
     }
     if( WidgetLCAUtil.wasEventSent( control, EVENT_MOUSE_UP ) ) {
-      try {
-        MouseEvent event = new MouseEvent( control, MouseEvent.MOUSE_UP );
-        event.button = readIntParam( control,
-                                     EVENT_MOUSE_UP_BUTTON );
-        Point point = readXYParams( control,
-                                    EVENT_MOUSE_UP_X,
-                                    EVENT_MOUSE_UP_Y );
-        event.x = point.x;
-        event.y = point.y;
-        event.time = readIntParam( control,
-                                   EVENT_MOUSE_UP_TIME );
-        event.processEvent();
-      } catch( NumberFormatException nfe ) {
-        // do nothing
-      }
+      MouseEvent event = new MouseEvent( control, MouseEvent.MOUSE_UP );
+      event.button = readIntParam( control,
+                                   EVENT_MOUSE_UP_BUTTON );
+      Point point = readXYParams( control,
+                                  EVENT_MOUSE_UP_X,
+                                  EVENT_MOUSE_UP_Y );
+      event.x = point.x;
+      event.y = point.y;
+      event.time = readIntParam( control,
+                                 EVENT_MOUSE_UP_TIME );
+      event.processEvent();
     }
   }
 

@@ -46,61 +46,55 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
   },
   
   statics : {
-    EVENT_WIDGET_SELECTED : "org.eclipse.swt.events.widgetSelected",
-    EVENT_MOUSE_UP : "org.eclipse.swt.events.mouseUp",
-    EVENT_MOUSE_UP_BUTTON : "org.eclipse.swt.events.mouseUp.button",
-    EVENT_MOUSE_UP_X : "org.eclipse.swt.events.mouseUp.x",
-    EVENT_MOUSE_UP_Y : "org.eclipse.swt.events.mouseUp.y",
-    EVENT_MOUSE_UP_TIME : "org.eclipse.swt.events.mouseUp.time",
-    EVENT_MOUSE_DOWN : "org.eclipse.swt.events.mouseDown",
-    EVENT_MOUSE_DOWN_BUTTON : "org.eclipse.swt.events.mouseDown.button",
-    EVENT_MOUSE_DOWN_X : "org.eclipse.swt.events.mouseDown.x",
-    EVENT_MOUSE_DOWN_Y : "org.eclipse.swt.events.mouseDown.y",
-    EVENT_MOUSE_DOWN_TIME : "org.eclipse.swt.events.mouseDown.time"
+    EVENT_WIDGET_SELECTED   : "org.eclipse.swt.events.widgetSelected",
+    EVENT_MOUSE_UP          : "org.eclipse.swt.events.styledtext.mouseUp",
+    EVENT_MOUSE_UP_BUTTON   : "org.eclipse.swt.events.styledtext.mouseUp.button",
+    EVENT_MOUSE_UP_X        : "org.eclipse.swt.events.styledtext.mouseUp.x",
+    EVENT_MOUSE_UP_Y        : "org.eclipse.swt.events.styledtext.mouseUp.y",
+    EVENT_MOUSE_UP_TIME     : "org.eclipse.swt.events.styledtext.mouseUp.time",
+    EVENT_MOUSE_DOWN        : "org.eclipse.swt.events.styledtext.mouseDown",
+    EVENT_MOUSE_DOWN_BUTTON : "org.eclipse.swt.events.styledtext.mouseDown.button",
+    EVENT_MOUSE_DOWN_X      : "org.eclipse.swt.events.styledtext.mouseDown.x",
+    EVENT_MOUSE_DOWN_Y      : "org.eclipse.swt.events.styledtext.mouseDown.y",
+    EVENT_MOUSE_DOWN_TIME   : "org.eclipse.swt.events.styledtext.mouseDown.time"
   },
 
   members : {
     
-    _addEventListeners : function() {
-      try {
-        var doc = this.getContentDocument();
-        if( doc ) {
-          qx.html.EventRegistration.addEventListener(
-            doc, "mousedown", this.__handleMouseDownEvent );
-          qx.html.EventRegistration.addEventListener(
-            doc, "mouseup", this.__handleMouseUpEvent );
-          doc.body.style.backgroundColor = this.getBackgroundColor();  
-        }
-      } catch( ex ) {}  
+    _addEventListeners : function() {      
+      var doc = this.getContentDocument();
+      if( doc ) {
+        qx.html.EventRegistration.addEventListener(
+          doc, "mousedown", this.__handleMouseDownEvent );
+        qx.html.EventRegistration.addEventListener(
+          doc, "mouseup", this.__handleMouseUpEvent );
+        doc.body.style.backgroundColor = this.getBackgroundColor();  
+      }      
     },
     
-    _removeEventListeners : function() {
-      try {
-        var doc = this.getContentDocument();
-        if( doc ) {
-          qx.html.EventRegistration.removeEventListener(
-            doc, "mousedown", this.__handleMouseDownEvent );
-          qx.html.EventRegistration.removeEventListener(
-            doc, "mouseup", this.__handleMouseUpEvent );
-        }
-      } catch( ex ) {}
+    _removeEventListeners : function() {      
+      var doc = this.getContentDocument();
+      if( doc ) {
+        qx.html.EventRegistration.removeEventListener(
+          doc, "mousedown", this.__handleMouseDownEvent );
+        qx.html.EventRegistration.removeEventListener(
+          doc, "mouseup", this.__handleMouseUpEvent );
+      }
     },
     
     _setDocumentStyle : function( evt ) {
-      try {
-        var doc = this.getContentDocument();
-        if( doc ) {
-          var font = this.getFont();
-          doc.body.style.fontFamily = font.getFamily();
-          doc.body.style.fontSize = font.getSize();
-          doc.body.style.paddingTop = this.getPaddingTop();
-          doc.body.style.paddingRight = this.getPaddingRight();
-          doc.body.style.paddingBottom = this.getPaddingBottom();
-          doc.body.style.paddingLeft = this.getPaddingLeft();
-          doc.body.style.color = this.getTextColor();
-          doc.body.style.backgroundColor = this.getBackgroundColor();          
-        }
-      } catch( ex ) {}  
+      var doc = this.getContentDocument();
+      if( doc ) {
+        var font = this.getFont();
+        doc.body.style.fontFamily = font.getFamily();
+        doc.body.style.fontSize = font.getSize();
+        doc.body.style.paddingTop = this.getPaddingTop();
+        doc.body.style.paddingRight = this.getPaddingRight();
+        doc.body.style.paddingBottom = this.getPaddingBottom();
+        doc.body.style.paddingLeft = this.getPaddingLeft();
+        doc.body.style.color = this.getTextColor();
+        doc.body.style.backgroundColor = this.getBackgroundColor();          
+      }
     },
         
     _onLoad : function( evt ) {
@@ -202,8 +196,7 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
       },
 
       "default" : function( sel ) {
-        var doc = this.getContentDocument();
-        this.setFocused( true );        
+        var doc = this.getContentDocument();               
 
         if( qx.util.Validation.isValid( sel ) ) {
           try {
