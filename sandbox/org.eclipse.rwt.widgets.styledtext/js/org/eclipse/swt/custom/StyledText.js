@@ -330,10 +330,23 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
       }
     }),
     
+    _doSelect : function() {
+      var sel = this._getSelection();
+      if( !sel ) {
+        qx.client.Timer.once( function() {
+          // TODO: Check for infinite loop!
+          this._doSelect();
+        }, this, 200 );
+      } else {
+        this._select();
+      }
+    },
+    
     setHtml : function( value ) {      
       var doc = this.getContentDocument();
       if( !doc || !this._loaded ) {
         qx.client.Timer.once( function() {
+          // TODO: Check for infinite loop!
           this.setHtml( value );
         }, this, 200 );
       } else {        
@@ -345,12 +358,13 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
       var doc = this.getContentDocument();
       if( !doc || !this._loaded ) {
         qx.client.Timer.once( function() {
+          // TODO: Check for infinite loop!
           this.setSelection( selStart, selEnd );
         }, this, 200 );
       } else {
         this._selectionStart = selStart;
         this._selectionEnd = selEnd;
-        this._select();
+        this._doSelect();
       }      
     },
     
