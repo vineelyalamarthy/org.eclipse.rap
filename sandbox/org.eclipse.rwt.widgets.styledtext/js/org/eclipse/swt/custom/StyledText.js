@@ -319,7 +319,7 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
         }
       },
       
-      "default" : function( objId ) {
+      "default" : function() {
         var doc = this.getContentDocument();
         var elm = doc.getElementById( "sel" );
         if( elm ) {
@@ -341,7 +341,18 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
           this._doSelect();
         }, this, 200 );
       } else {
+        if( this._selectionStart == this._selectionEnd ) {
+          this._scrollToEnd();
+        }
         this._select();
+      }
+    },
+    
+    _scrollToEnd : function() {
+      var doc = this.getContentDocument();
+      var elm = doc.getElementById( "end" );
+      if( elm ) {
+        elm.scrollIntoView( true );
       }
     },
     
@@ -352,8 +363,8 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
           // TODO: Check for infinite loop!
           this.setHtml( value );
         }, this, 200 );
-      } else {        
-        doc.body.innerHTML = value;
+      } else {
+        doc.body.innerHTML = value + "<span id=end></span>";
       }
     },
     
@@ -366,7 +377,7 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
         }, this, 200 );
       } else {
         this._selectionStart = selStart;
-        this._selectionEnd = selEnd;
+        this._selectionEnd = selEnd;        
         this._doSelect();
       }      
     },
