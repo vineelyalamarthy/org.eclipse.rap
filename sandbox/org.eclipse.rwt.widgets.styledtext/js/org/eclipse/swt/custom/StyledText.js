@@ -103,7 +103,10 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
       this._loaded = true;
     },
     
-    _handleMouseDownEvent : function( evt ) {      
+    _handleMouseDownEvent : function( evt ) {
+      var widgetManager = org.eclipse.swt.WidgetManager.getInstance();
+      var id = widgetManager.findIdByWidget( this );
+      widgetManager.focus( id );
       this._selectionStart = this._caretOffset;
       this._selectionEnd = this._caretOffset;
       var eventId = org.eclipse.swt.custom.StyledText.EVENT_MOUSE_DOWN;      
