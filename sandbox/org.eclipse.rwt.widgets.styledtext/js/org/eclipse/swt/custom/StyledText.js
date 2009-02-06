@@ -347,22 +347,21 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
           // TODO: Check for infinite loop!
           this._doSelect();
         }, this, 200 );
-      } else {
-        this._scrollToEnd();
+      } else {        
+        this._scrollTo( 10000000, 1000000 );
         this._select();
       }
     },
     
-    _scrollToEnd : function() {
-      var doc = this.getContentDocument();
-      var elm = doc.getElementById( "end" );
-      if( elm ) {
-        elm.scrollIntoView( true );
+    _scrollTo : function( x, y ) {
+      var win = this.getContentWindow();      
+      if( win ) {
+        win.scrollTo( x, y );
       }
     },
     
     setHtml : function( value ) {
-      this._html = value + "<span id=end></span>";
+      this._html = value;      
       var doc = this.getContentDocument();
       if( doc ) {
         this._setDocumentContent();
