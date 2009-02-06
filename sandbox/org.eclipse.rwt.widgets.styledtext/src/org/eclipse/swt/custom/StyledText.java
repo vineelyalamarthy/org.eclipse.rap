@@ -808,8 +808,22 @@ public class StyledText extends Canvas {
     charStyle = "";
     html.append( "<span id=sr0" + charStyle + ">" );
     StyleRange[] styleRanges = getStyleRanges(); // this is expensive
+    int lastMatch = 0;
     for( int i = 0; i < content.length(); i++ ) {
-      generateStyleTag( html, styleRanges, i );
+      /*
+       * Optimizations to reduce the cost of searching the style ranges and
+       * generating the spans from from O(content)*O(ranges) to O(content)*2:
+       * 
+       * - the ranges are sorted from low to high and do not overlap
+       *   (this is guaranteed by the renderer)
+       * - begin by looking at the range that was matched previously 
+       *   (range #0 the first time)
+       * - exit from generateStyleTag(...) when a range is encountered that is
+       *   after charId (because all others will be after too)
+       * - generateStyleTag(...) returns the number of the lastMatch; begin the
+       *   next search with that style range
+       */
+      lastMatch = generateStyleTag( html, styleRanges, i, lastMatch );
       generateSelectionTag( html, i );
       if( content.charAt( i ) == '\n' ) {
         html.append( "</span>" );
@@ -823,25 +837,31 @@ public class StyledText extends Canvas {
     return html.toString();
   }
 
-  private void generateStyleTag( final StringBuffer html, 
+  private int generateStyleTag( final StringBuffer html, 
                                  final StyleRange[] styleRanges, 
-                                 final int charId ) {
-    for( int i = 0; i < styleRanges.length; i++ ) {
+                                 final int charId,
+                                 final int lastMatch ) {
+    int result = lastMatch;
+    int start = 0;
+    for( int i = lastMatch; i < styleRanges.length && start <= charId; i++ ) {
       StyleRange styleRange = styleRanges[ i ];
-      int start = styleRange.start;
+      start = styleRange.start;
       int length = styleRange.length;
 
       if( start + length == charId ) {
         html.append( "</span>" );
         charStyle = "";
         html.append( "<span id=sr" + charId + charStyle + ">" );
+        result = i;
       }
       if( start == charId ) {
         html.append( "</span>" );
         charStyle = createCharStyle( styleRange );
         html.append( "<span id=sr" + charId + charStyle + ">" );
+        result = i;
       }
     }
+    return result;
   }
 
   private void generateSelectionTag( final StringBuffer html,
