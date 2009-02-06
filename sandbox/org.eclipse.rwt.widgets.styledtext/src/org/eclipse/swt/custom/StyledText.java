@@ -763,13 +763,52 @@ public class StyledText extends Canvas {
                                                SWT.NONE );
     event.processEvent();
   }
+  
+  private String createCharStyle( final StyleRange styleRange ) {
+    StringBuffer result = new StringBuffer();
+    result.append( " style='" );
+    if( styleRange.foreground != null ) {
+        String foreground = toHtmlString( styleRange.foreground );
+        result.append( "color:" + foreground + ";" );
+    }
+    if( styleRange.background != null ) {
+        String background = toHtmlString( styleRange.background );
+        result.append( "background-color:" + background + ";" );
+    }
+    if( styleRange.fontStyle != SWT.NORMAL ) {
+        switch( styleRange.fontStyle ) {
+        case SWT.BOLD:
+            result.append( "font-weight:bold;" );
+            break;
+        case SWT.ITALIC:
+            result.append( "font-style:italic;" );
+            break;
+        case SWT.BOLD | SWT.ITALIC:
+            result.append( "font-weight:bold;font-style:italic;" );
+            break;
+        default:
+        }
+    }
+    boolean underline = styleRange.underline;
+    boolean strikeout = styleRange.strikeout;
+    if( underline && strikeout ) {
+        result.append( "text-decoration: underline line-through;" );
+    } else if( underline ) {
+        result.append( "text-decoration: underline;" );
+    } else if( strikeout ) {
+        result.append( "text-decoration: line-through;" );
+    }
+    result.append( "'" );
+    return result.toString();
+  }
 
   private String generateHtml() {
     StringBuffer html = new StringBuffer();
     charStyle = "";
     html.append( "<span id=sr0" + charStyle + ">" );
+    StyleRange[] styleRanges = getStyleRanges(); // this is expensive
     for( int i = 0; i < content.length(); i++ ) {
-      generateStyleTag( html, i );
+      generateStyleTag( html, styleRanges, i );
       generateSelectionTag( html, i );
       if( content.charAt( i ) == '\n' ) {
         html.append( "</span>" );
@@ -783,22 +822,13 @@ public class StyledText extends Canvas {
     return html.toString();
   }
 
-  private void generateStyleTag( final StringBuffer html, final int charId ) {
-    StyleRange[] styleRanges = getStyleRanges();
+  private void generateStyleTag( final StringBuffer html, 
+                                 final StyleRange[] styleRanges, 
+                                 final int charId ) {
     for( int i = 0; i < styleRanges.length; i++ ) {
-      int start = styleRanges[ i ].start;
-      int length = styleRanges[ i ].length;
-      int fontStyle = styleRanges[ i ].fontStyle;
-      String foreground = null;
-      if( styleRanges[ i ].foreground != null ) {
-        foreground = toHtmlString( styleRanges[ i ].foreground );
-      }
-      String background = null;
-      if( styleRanges[ i ].background != null ) {
-        background = toHtmlString( styleRanges[ i ].background );
-      }
-      boolean underline = styleRanges[ i ].underline;
-      boolean strikeout = styleRanges[ i ].strikeout;
+      StyleRange styleRange = styleRanges[ i ];
+      int start = styleRange.start;
+      int length = styleRange.length;
 
       if( start + length == charId ) {
         html.append( "</span>" );
@@ -807,37 +837,7 @@ public class StyledText extends Canvas {
       }
       if( start == charId ) {
         html.append( "</span>" );
-        StringBuffer style = new StringBuffer();
-        style.append( " style='" );
-        if( foreground != null ) {
-          style.append( "color:" + foreground + ";" );
-        }
-        if( background != null ) {
-          style.append( "background-color:" + background + ";" );
-        }
-        if( fontStyle != SWT.NORMAL ) {
-          switch( fontStyle ) {
-            case SWT.BOLD:
-              style.append( "font-weight:bold;" );
-            break;
-            case SWT.ITALIC:
-              style.append( "font-style:italic;" );
-            break;
-            case SWT.BOLD | SWT.ITALIC:
-              style.append( "font-weight:bold;font-style:italic;" );
-            break;
-            default:
-          }
-        }
-        if( underline && strikeout ) {
-          style.append( "text-decoration: underline line-through;" );
-        } else if( underline ) {
-          style.append( "text-decoration: underline;" );
-        } else if( strikeout ) {
-          style.append( "text-decoration: line-through;" );
-        }
-        style.append( "'" );
-        charStyle = style.toString();
+        charStyle = createCharStyle( styleRange );
         html.append( "<span id=sr" + charId + charStyle + ">" );
       }
     }
