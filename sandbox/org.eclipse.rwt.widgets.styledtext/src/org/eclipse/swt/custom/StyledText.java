@@ -695,7 +695,8 @@ public class StyledText extends Canvas {
         caretOffset = offset;
       }
       clearSelection( false );
-      this.html = generateHtml();
+      // [ev] this generates html on each click
+      // this.html = generateHtml(); 
     }
   }
 
