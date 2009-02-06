@@ -24,13 +24,13 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
       = qx.lang.Function.bind( this._handleMouseDownEvent, this );
     this.__handleMouseUpEvent
       = qx.lang.Function.bind( this._handleMouseUpEvent, this );
-    this._loaded = false;
     this._hasMouseListener = false;    
     this._hasSelectionListener = false;    
     this._readyToSendChanges = true;    
     this._selectionStart = 0;
     this._selectionEnd = 0;
     this._caretOffset = 0;
+    this._html = "";
     
     String.prototype.startsWith = function( str ) {
       return ( this.match( "^" + str ) == str );
@@ -82,7 +82,7 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
       }
     },
     
-    _setDocumentStyle : function( evt ) {
+    _setDocumentStyle : function() {
       var doc = this.getContentDocument();
       if( doc ) {
         var font = this.getFont();
@@ -96,11 +96,18 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
         doc.body.style.backgroundColor = this.getBackgroundColor();          
       }
     },
+    
+    _setDocumentContent : function() {
+      var doc = this.getContentDocument();
+      if( doc ) {
+        doc.body.innerHTML = this._html;
+      }
+    },  
         
     _onLoad : function( evt ) {
       this._setDocumentStyle();
-      this._addEventListeners();      
-      this._loaded = true;
+      this._setDocumentContent();
+      this._addEventListeners();
     },
     
     _handleMouseDownEvent : function( evt ) {
@@ -354,30 +361,21 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
       }
     },
     
-    setHtml : function( value ) {      
+    setHtml : function( value ) {
+      this._html = value + "<span id=end></span>";
       var doc = this.getContentDocument();
-      if( !doc || !this._loaded ) {
-        qx.client.Timer.once( function() {
-          // TODO: Check for infinite loop!
-          this.setHtml( value );
-        }, this, 200 );
-      } else {
-        doc.body.innerHTML = value + "<span id=end></span>";
+      if( doc ) {
+        this._setDocumentContent();
       }
     },
     
-    setSelection : function( selStart, selEnd ) {
+    setSelection : function( selStart, selEnd ) {      
+      this._selectionStart = selStart;
+      this._selectionEnd = selEnd;
       var doc = this.getContentDocument();
-      if( !doc || !this._loaded ) {
-        qx.client.Timer.once( function() {
-          // TODO: Check for infinite loop!
-          this.setSelection( selStart, selEnd );
-        }, this, 200 );
-      } else {
-        this._selectionStart = selStart;
-        this._selectionEnd = selEnd;        
+      if( doc ) {
         this._doSelect();
-      }      
+      }
     },
     
     setCaretOffset : function( value ) {
