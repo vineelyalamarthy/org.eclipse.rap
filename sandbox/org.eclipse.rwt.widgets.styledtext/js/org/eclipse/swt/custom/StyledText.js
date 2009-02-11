@@ -108,6 +108,7 @@ qx.Class.define( "org.eclipse.swt.custom.StyledText", {
       this._setDocumentStyle();
       this._setDocumentContent();
       this._addEventListeners();
+      this.release();
     },
     
     _handleMouseDownEvent : function( evt ) {
