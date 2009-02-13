@@ -1,0 +1,22 @@
+--- qx-build/source/class/qx/ui/layout/impl/HorizontalBoxLayoutImpl.js	10 Dec 2008 16:57:51 -0000	1.1
++++ qx-build/source/class/qx/ui/layout/impl/HorizontalBoxLayoutImpl.js	13 Feb 2009 10:31:24 -0000
+@@ -608,6 +608,7 @@
+ 
+       var vStart = Math.min(vIndex, vOldIndex);
+       var vStop = Math.max(vIndex, vOldIndex) + 1;
++      vStop = Math.min(vChildren.length, vStop);
+ 
+       for (var i=vStart; i<vStop; i++) {
+         vChildren[i].addToLayoutChanges("locationX");
+Index: source/class/qx/ui/layout/impl/VerticalBoxLayoutImpl.js
+===================================================================
+--- qx-build/source/class/qx/ui/layout/impl/VerticalBoxLayoutImpl.js	10 Dec 2008 16:57:51 -0000	1.1
++++ qx-build/source/class/qx/ui/layout/impl/VerticalBoxLayoutImpl.js	13 Feb 2009 10:31:25 -0000
+@@ -609,6 +609,7 @@
+ 
+       var vStart = Math.min(vIndex, vOldIndex);
+       var vStop = Math.max(vIndex, vOldIndex) + 1;
++      vStop = Math.min(vChildren.length, vStop);
+ 
+       for (var i=vStart; i<vStop; i++) {
+         vChildren[i].addToLayoutChanges("locationY");
