@@ -22,7 +22,7 @@
       <entrypoint
             class="org.eclipse.ui.forms.examples.internal.DefaultEntryPoint"
             id="org.eclipse.rap.ui.forms.examples.defaultEntrypoint"
-            parameter="default">
+            parameter="forms">
       </entrypoint>
    </extension>
    <extension
