@@ -608,6 +608,7 @@ qx.Class.define("qx.ui.layout.impl.HorizontalBoxLayoutImpl",
 
       var vStart = Math.min(vIndex, vOldIndex);
       var vStop = Math.max(vIndex, vOldIndex) + 1;
+      vStop = Math.min(vChildren.length, vStop);
 
       for (var i=vStart; i<vStop; i++) {
         vChildren[i].addToLayoutChanges("locationX");

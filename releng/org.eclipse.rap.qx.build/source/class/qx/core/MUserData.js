@@ -74,8 +74,8 @@ qx.Mixin.define("qx.core.MUserData",
       if (!this.__userData) {
         return null;
       }
-
-      return this.__userData[key];
+      var data = this.__userData[key]; 
+      return data === undefined ? null : data;
     }
   },
 
