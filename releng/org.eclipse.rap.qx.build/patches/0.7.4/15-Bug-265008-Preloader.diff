@@ -1,0 +1,11 @@
+--- qx-build/source/class/qx/io/image/Preloader.js	10 Dec 2008 16:57:51 -0000	1.1
++++ qx-build/source/class/qx/io/image/Preloader.js	26 Feb 2009 07:18:30 -0000
+@@ -277,7 +277,7 @@
+     if (this._element)
+     {
+       // terminate any downloading in progress and free memory for image
+-      this._element.src = "";
++      // this._element.src = "";
+ 
+       this._element.onload = this._element.onerror = null;
+     }
