@@ -27,24 +27,32 @@ import java.io.File;
  */
 public class ConfigIniCreator {
   
+  private static final String FRAMEWORK_BUNDLE = "org.eclipse.osgi_";
+  private static final String EXTENSIONBUNDLE
+    = "org.eclipse.equinox.servletbridge.extensionbundle";
+
   public static void main( final String[] arx ) {
     ////////////////////////////////////////////////////////////////////////////
     // replace this with the absolute path to the plugin directory of
     // the deployment build for example
     // File file = new File( "C:\\projects\\org.eclipse.rap\\org.eclipse.rap.demo.feature\\build\\rapdemo\\WEB-INF\\eclipse\\plugins" );
-    File file = new File( "C:\\eclipse\\workspaces\\rap\\org.eclipse.rap.demo.feature\\build\\demo\\WEB-INF\\eclipse\\plugins" );
+    File file = new File( "C:\\Users\\Ruediger\\RAP\\Presentations\\ECon 2009\\tutorial\\projects\\org.eclipse.rap.demo.feature\\build\\demo\\WEB-INF\\eclipse\\plugins" );
     ////////////////////////////////////////////////////////////////////////////
     
     String[] list = file.list();
     StringBuffer buffer = new StringBuffer();
     buffer.append( "#Eclipse Runtime Configuration File\n" );
-    
     buffer.append( "osgi.bundles=" );
     for( int i = 0; i < list.length; i++ ) {
-      if(    list[ i ].endsWith( ".jar" )
-          && !list[ i ].startsWith( "org.eclipse.osgi_" ) )
+      String fileName = list[ i ];
+      if( fileName.endsWith( ".jar" ) && !fileName.startsWith( FRAMEWORK_BUNDLE ) )
       {
-        buffer.append( list[ i ] );
+        // Remove version number
+        int underscorePos = fileName.lastIndexOf( "_" );
+        String bundleName = fileName.substring( 0, underscorePos );
+        // Append bundle name
+        buffer.append( "  " );
+        buffer.append( bundleName );
         if( !list[ i ].startsWith( "org.eclipse.rap.rwt.q07_" ) ) {
           if( list[ i ].startsWith( "org.eclipse.equinox.common_" ) ) {
             buffer.append( "@2:start" );
@@ -52,16 +60,14 @@ public class ConfigIniCreator {
             buffer.append( "@start" );
           }
         }
-        if( i + 1 < list.length ) {
-          buffer.append( "," );
-        } else {
-          buffer.append( ",org.eclipse.equinox.servletbridge.extensionbundle" );          
+        buffer.append( ",\\\n" );
+        if( i + 1 >= list.length ) {
+          buffer.append( EXTENSIONBUNDLE );
         }
       }
     }
     buffer.append( "\n" );
     buffer.append( "osgi.bundles.defaultStartLevel=4\n" );
-    
     // write the content to the console
     System.out.print( buffer );
   }
