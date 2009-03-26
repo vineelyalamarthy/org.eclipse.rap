@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2008, 2009 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -56,6 +56,7 @@ final class DateTimeDateLCA extends AbstractDateTimeLCADelegate {
       dateTime.setYear( Integer.parseInt( value ) );
     }
     ControlLCAUtil.processSelection( dateTime, null, true );
+    ControlLCAUtil.processMouseEvents( dateTime );
     ControlLCAUtil.processKeyEvents( dateTime );
   }
 
