@@ -1,0 +1,15 @@
+--- qx-build/source/class/qx/ui/embed/Iframe.js	10 Dec 2008 16:57:49 -0000	1.1
++++ qx-build/source/class/qx/ui/embed/Iframe.js	24 Apr 2009 09:55:09 -0000
+@@ -415,7 +415,11 @@
+       if (qx.core.Variant.isSet("qx.client", "mshtml"))
+       {
+         var nameStr = vFrameName ? 'name="' + vFrameName + '"' : '';
+-        var frameEl = qx.ui.embed.Iframe._element = document.createElement('<iframe onload="parent.qx.ui.embed.Iframe.load(this)" ' + nameStr + '></iframe>');
++        var frameEl = qx.ui.embed.Iframe._element = document.createElement(
++          "<iframe" + nameStr + "></iframe>");
++        frameEl.attachEvent("onload", function() {
++          qx.ui.embed.Iframe.load(frameEl);
++        });
+       }
+       else
+       {
