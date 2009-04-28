@@ -1,0 +1,18 @@
+--- qx-build/source/class/qx/ui/form/TextField.js	19 Jan 2009 10:58:55 -0000	1.2
++++ qx-build/source/class/qx/ui/form/TextField.js	28 Apr 2009 13:36:43 -0000
+@@ -699,12 +699,9 @@
+       // We need to remove the caret in all cases.
+       // This sometimes does not work in IE (caret keeps blinking)
+       // but key events are not handled by the text field anymore.
+-      if (!qx.event.handler.FocusHandler.mouseFocus)
+-      {
+-        try {
+-          this._inputElement.blur();
+-        } catch(ex) {}
+-      }
++      try {
++        this._inputElement.blur();
++      } catch(ex) {}
+     },
+ 
+ 
