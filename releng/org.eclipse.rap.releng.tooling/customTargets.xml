@@ -185,10 +185,33 @@
         token="1.0.0.200710060032"
         value="${targetVersion}.${buildId}" />
 
+    <!-- generate p2 metadata -->
+    <p2.generator
+      metadataRepository="file:${UpdateSiteStagingLocation}"
+      artifactRepository="file:${UpdateSiteStagingLocation}"
+      updateSite="${UpdateSiteStagingLocation}"
+      artifactrepositoryname="Rich Ajax Platform (RAP)"
+      metadatarepositoryname="Rich Ajax Platform (RAP)"
+      compress="true"
+      inplace="true"
+      rootversion="${targetVersion}"
+      root="Rich Ajax Platform (RAP)"
+      p2os="*"
+      updatesite="file:${UpdateSiteStagingLocation}/site.xml"
+    />
+    
     <!-- zip update site -->
     <zip destfile="${outputDirectory}/${buildLabel}.zip"
         basedir="${UpdateSiteStagingLocation}" />
 
+    <!-- run pack200 -->
+    <eclipse.jarProcessor
+      jar="${outputDirectory}/${buildLabel}.zip"
+      pack="true"
+      sign="false"
+      normalize="true"
+      verbose="true"
+    />
   </target>
 
   <!-- ===================================================================== -->
@@ -199,8 +222,8 @@
   </target>
 
   <target name="tidyup">
-    <delete defaultexcludes="false" includeEmptyDirs="true"
-        dir="${buildDirectory}" />
+    <!--delete defaultexcludes="false" includeEmptyDirs="true"
+        dir="${buildDirectory}" / -->
     <echo>Deleting all build resources</echo>
   </target>
 
