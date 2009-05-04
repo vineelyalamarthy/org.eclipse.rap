@@ -86,6 +86,7 @@ rm ${TEMP}/class/qx/ui/basic/VerticalSpacer.js
 rm ${TEMP}/class/qx/ui/layout/GridLayout.js
 rm ${TEMP}/class/qx/ui/layout/DockLayout.js
 rm ${TEMP}/class/qx/ui/layout/FlowLayout.js
+rm ${TEMP}/class/qx/ui/form/ComboBox.js
 rm ${TEMP}/class/qx/ui/form/ComboBoxEx.js
 rm ${TEMP}/class/qx/ui/form/RepeatButton.js
 rm ${TEMP}/class/qx/ui/embed/Flash.js
