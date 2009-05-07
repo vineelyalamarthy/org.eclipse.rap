@@ -398,21 +398,20 @@ qx.Class.define("qx.ui.form.ComboBox",
         this._field.setValue(value);
       }
 
-//      [rst] Disable auto-selection behavior
-//      // only do this if we called setValue seperatly
-//      // and not from the property "selected".
-//      if (!this._fromSelected)
-//      {
-//        // inform selected property
-//        var vSelItem = this._list.findStringExact(value);
-//
-//        // ignore disabled items
-//        if (vSelItem != null && !vSelItem.getEnabled()) {
-//          vSelItem = null;
-//        }
-//
-//        this.setSelected(vSelItem);
-//      }
+      // only do this if we called setValue seperatly
+      // and not from the property "selected".
+      if (!this._fromSelected)
+      {
+        // inform selected property
+        var vSelItem = this._list.findStringExact(value);
+
+        // ignore disabled items
+        if (vSelItem != null && !vSelItem.getEnabled()) {
+          vSelItem = null;
+        }
+
+        this.setSelected(vSelItem);
+      }
 
       // reset hint
       delete this._fromValue;
@@ -558,18 +557,10 @@ qx.Class.define("qx.ui.form.ComboBox",
 
       this.setValue(this._field.getComputedValue());
 
-      // [rst] clear selection on input change
-      // TODO [rst] trigger selection change
-      var vSelected = this.getSelected();
-      if( vSelected && vSelected.getLabel() != this.getValue() ) {
-      	this.resetSelected();
+      // be sure that the found item is in view
+      if (this.getPopup().isSeeable() && this.getSelected()) {
+        this.getSelected().scrollIntoView();
       }
-
-//      [rst] Disable auto-selection behavior
-//      // be sure that the found item is in view
-//      if (this.getPopup().isSeeable() && this.getSelected()) {
-//        this.getSelected().scrollIntoView();
-//      }
 
       delete this._fromInput;
     },
@@ -935,14 +926,13 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         this._list._onkeypress(e);
 
-//        [rst] Disable auto-selection behavior
-//        var vSelected = this._manager.getSelectedItem();
-//
-//        if (!vVisible) {
-//          this.setSelected(vSelected);
-//        } else if (vSelected) {
-//          this._field.setValue(vSelected.getLabel());
-//        }
+        var vSelected = this._manager.getSelectedItem();
+
+        if (!vVisible) {
+          this.setSelected(vSelected);
+        } else if (vSelected) {
+          this._field.setValue(vSelected.getLabel());
+        }
       }
     },
 
@@ -962,14 +952,13 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         this._list._onkeyinput(e);
 
-//        [rst] Disable auto-selection behavior
-//        var vSelected = this._manager.getSelectedItem();
-//
-//        if (!vVisible) {
-//          this.setSelected(vSelected);
-//        } else if (vSelected) {
-//          this._field.setValue(vSelected.getLabel());
-//        }
+        var vSelected = this._manager.getSelectedItem();
+
+        if (!vVisible) {
+          this.setSelected(vSelected);
+        } else if (vSelected) {
+          this._field.setValue(vSelected.getLabel());
+        }
       }
     },
 

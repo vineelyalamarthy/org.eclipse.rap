@@ -639,9 +639,6 @@ qx.Class.define("qx.ui.selection.SelectionManager",
               // Reset rendering as selected item
               this.renderItemSelectionState(vItem, false);
 
-              // Reset current selection hash
-              this._selectedItems.removeAll();
-
               // Dispatch change Event
               this._dispatchChange();
             }
