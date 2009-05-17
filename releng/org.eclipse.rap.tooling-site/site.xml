@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.rap.tooling_1.0.0.200710060032.jar" id="org.eclipse.rap.tooling" version="1.0.0.200710060032">
+   <feature url="features/org.eclipse.rap.tooling_1.0.0.qualifier.jar" id="org.eclipse.rap.tooling" version="1.0.0.qualifier">
       <category name="Rich Ajax Platform (RAP)"/>
    </feature>
    <category-def name="Rich Ajax Platform (RAP)" label="Rich Ajax Platform (RAP)"/>
