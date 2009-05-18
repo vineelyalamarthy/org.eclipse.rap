@@ -6,7 +6,7 @@
       <entrypoint
             class="org.eclipse.rwt.widgets.upload.demo.EntryPoint"
             id="de.cas.teamcrm.uploadtest.entrypoint"
-            parameter="default">
+            parameter="upload">
       </entrypoint>
    </extension>
 
