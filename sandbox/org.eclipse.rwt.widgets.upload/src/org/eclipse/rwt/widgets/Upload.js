@@ -97,7 +97,12 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
   },
   
   destruct : function() {   
-    this._uploadField._button.removeEventListener( "click", this._onFocus );
+  	// SR: Seems as if _uploadField's button has already been disposed in some cases,
+  	// e.g. if the user reloads the application pressing F5.
+  	// See 275144: [Upload] Contextual JS errors with the upload widget
+    if (this._uploadField._button) {
+    	this._uploadField._button.removeEventListener( "click", this._onFocus );
+    }
     this.removeEventListener( "changeEnabled", this._onEnabled );
     this._uploadField.removeEventListener( "changeValue", this._onChangeValue );
     
@@ -112,10 +117,6 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     this._uploadForm.removeEventListener("completed", this._cleanUp);
 
     this.removeEventListener("upload", this._fireEvent);
-           
-    this._uploadForm = null;
-    this._uploadField = null;
-    this._progressBar = null;
   },        
 
   events: {
@@ -283,7 +284,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
       var wm = org.eclipse.swt.WidgetManager.getInstance();
       var id = wm.findIdByWidget( this );
       var req = org.eclipse.swt.Request.getInstance();
-      req.addParameter( id + ".path", evt.getData() );
+      req.addParameter( id + ".path", evt.getValue() );
       req.send();
     },
     
@@ -303,10 +304,12 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     /*
      * This is a workaround as enablement does not work with the base
      * file upload widgets.
+     * TODO: [sr] disable/enable doesn't work with IE8.
      */
     _onEnabled : function( evt ) {
       qx.ui.core.Widget.flushGlobalQueues();
-      if( evt.getData() ) {
+
+      if( evt.getValue() ) {
         this._uploadField._button._input.style.height
           = this._uploadField.getHeight();        
       } else {

@@ -25,9 +25,7 @@ appearances = {
           border : tv.getCssBorder( "Text", "border" ),
           font : tv.getCssFont( "Text", "font" ),
           padding : tv.getCssBoxDimensions( "Text", "padding" ),
-          textColor : states.disabled
-                        ? tv.getColor( "widget.graytext" )
-                        : tv.getCssColor( "Text", "color" ),
+          textColor : tv.getCssColor( "Text", "color" ),
           backgroundColor : tv.getCssColor( "Text", "background-color" )
         };
       }
