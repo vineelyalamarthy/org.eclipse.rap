@@ -133,6 +133,21 @@ public class EntryPoint implements IEntryPoint{
             }
         });
         
+        final Button btnDispose = new Button(this.styleComp, SWT.PUSH);
+        btnDispose.setText("Dispose");
+        btnDispose.addSelectionListener(new SelectionAdapter() {
+
+            public void widgetSelected(SelectionEvent e){
+            	if (upload != null && !upload.isDisposed()) {
+            		upload.setEnabled(!upload.getEnabled());
+            		upload.dispose();
+            	} else {
+            		createNew();
+            	}
+            }
+        });
+        
+        
         new Label(this.styleComp, SWT.HORIZONTAL | SWT.SEPARATOR);
         
         this.uploadPathLabel = new Label(this.styleComp, SWT.NONE);
