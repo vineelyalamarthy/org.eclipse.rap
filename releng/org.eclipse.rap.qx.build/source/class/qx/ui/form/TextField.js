@@ -401,6 +401,9 @@ qx.Class.define("qx.ui.form.TextField",
      */
     _changeInnerHeight : function(value, old) {
       this._syncFieldHeight();
+// RAP [if] Centered text field vertically
+      this._centerFieldVertically();
+// RAPEND [if]
     },
 
 
@@ -424,8 +427,11 @@ qx.Class.define("qx.ui.form.TextField",
      */
     _syncFieldHeight : function()
     {
-      // Reduce height by 2 pixels (the manual or mshtml margin)
-      this._inputElement.style.height = (this.getInnerHeight() - 2) + "px";
+// RAP [if] Set the size of the textarea only
+      if( this._inputTag !== "input" ) {
+        // Reduce height by 2 pixels (the manual or mshtml margin)
+        this._inputElement.style.height = (this.getInnerHeight() - 2) + "px";
+      }
     },
 
 
@@ -843,13 +849,39 @@ qx.Class.define("qx.ui.form.TextField",
         if (!this._firstInputFixApplied && this._inputElement) {
           qx.client.Timer.once(this._ieFirstInputFix, this, 1);
         }
+// RAP [if] Centered text field vertically
+        this._centerFieldVertically();
+// RAPEND [if]
       },
 
       "default" : function() {
         this.base(arguments);
+// RAP [if] Centered text field vertically
+        this._centerFieldVertically();
+// RAPEND [if]
       }
     }),
 
+// RAP [if] Centered text field vertically
+    _centerFieldVertically : function() {
+      if( this._inputTag === "input" && this._inputElement ) {
+        var innerHeight = this.getInnerHeight();
+        var inputElementHeight = qx.html.Dimension.getBoxHeight( this._inputElement );
+        if( inputElementHeight != 0 ) {
+          if( qx.core.Variant.isSet( "qx.client", "mshtml" ) ) {
+            inputElementHeight -= 2;
+          }
+          var top = ( innerHeight - inputElementHeight ) / 2 - 1;
+          if( top < 0 ) {
+            top = 0;
+          }
+          top = Math.floor( top );
+          this._inputElement.style.position = "relative";
+          this._inputElement.style.top = top + "px";
+        }
+      }
+    },
+// RAPEND [if]
 
     _firstInputFixApplied : false,
 
