@@ -133,13 +133,23 @@ public class EntryPoint implements IEntryPoint{
             }
         });
         
+        final Button btnReset = new Button(this.styleComp, SWT.PUSH);
+        btnReset.setText("Reset upload widget");
+        btnReset.addSelectionListener(new SelectionAdapter() {
+
+            public void widgetSelected(SelectionEvent e){
+            	if (upload != null && !upload.isDisposed()) {
+            		upload.reset();
+            	}
+            }
+        });
+
         final Button btnDispose = new Button(this.styleComp, SWT.PUSH);
         btnDispose.setText("Dispose");
         btnDispose.addSelectionListener(new SelectionAdapter() {
 
             public void widgetSelected(SelectionEvent e){
             	if (upload != null && !upload.isDisposed()) {
-            		upload.setEnabled(!upload.getEnabled());
             		upload.dispose();
             	} else {
             		createNew();
@@ -275,11 +285,14 @@ public class EntryPoint implements IEntryPoint{
             public void uploadFinished(UploadEvent uploadEvent ){
                 EntryPoint.this.uploadProgressLabel.setText("upload finished");
                 EntryPoint.this.uploadProgressLabel.getParent().layout();
+                System.out.println("## total: " + uploadEvent.getUploadedTotal());
                 handleUploadFinished(EntryPoint.this.upload);
             }
 
             public void uploadInProgress(UploadEvent uploadEvent){
-                int percent = (int) ((float)uploadEvent.getUploadedParcial() / (float)uploadEvent.getUploadedTotal() * 100);
+            	System.out.println("## partial: " + uploadEvent.getUploadedParcial());
+            	System.out.println("## total: " + uploadEvent.getUploadedTotal());
+            	int percent = (int) ((float)uploadEvent.getUploadedParcial() / (float)uploadEvent.getUploadedTotal() * 100);
                 EntryPoint.this.uploadProgressLabel.setText(String.valueOf(percent) + " %");
                 EntryPoint.this.uploadProgressLabel.getParent().layout();
             }
