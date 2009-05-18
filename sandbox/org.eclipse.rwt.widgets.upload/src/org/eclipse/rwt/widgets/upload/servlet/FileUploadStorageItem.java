@@ -25,27 +25,20 @@ import java.io.InputStream;
  */
 public class FileUploadStorageItem {
   private InputStream fileInputStream;
-  private FileUploadListener progressListener;
   private String contentType;
   private String uploadProcessId;
+  private long bytesRead;
+  private long contentLength;
   
   public synchronized InputStream getFileInputStream() {
     return this.fileInputStream;
   }
   
-  public synchronized void setFileInputStream( InputStream fileInputStream ) {
+  public synchronized void setFileInputStream( final InputStream fileInputStream ) {
     this.fileInputStream = fileInputStream;
   }
   
-  public synchronized FileUploadListener getProgressListener() {
-    return this.progressListener;
-  }
-  
-  public synchronized void setProgressListener( FileUploadListener progressListener ) {
-    this.progressListener = progressListener;
-  }
-
-  public synchronized void setContentType( String contentType ) {
+  public synchronized void setContentType( final String contentType ) {
     this.contentType = contentType;
   }
   
@@ -53,11 +46,25 @@ public class FileUploadStorageItem {
     return this.contentType;
   }
 
-  public synchronized void setUploadProcessId( String uploadProcessId ) {
+  public synchronized void setUploadProcessId( final String uploadProcessId ) {
     this.uploadProcessId = uploadProcessId;
   }
   
   public synchronized String getUploadProcessId() {
     return this.uploadProcessId;
   }
+  
+  public synchronized void updateProgress(final long bytesRead, final long contentLength) {
+    this.bytesRead = bytesRead;
+    this.contentLength = contentLength;
+  }
+
+  public synchronized long getBytesRead() {
+    return bytesRead;
+  }
+  
+  public synchronized long getContentLength() {
+    return contentLength;
+  }
+
 }

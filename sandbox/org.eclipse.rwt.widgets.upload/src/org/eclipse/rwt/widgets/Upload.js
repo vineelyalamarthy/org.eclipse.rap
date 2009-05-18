@@ -132,22 +132,6 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     {
       check : "String",
       init  : ""
-    },
-    /**
-     * The parcial size of the file already uploaded.
-     */
-    uploadParcial :
-    {
-      check : "String",
-      init  : "0"
-    },
-    /**
-     * The total size of the uploaded file.
-     */
-    uploadTotal :
-    {
-      check : "String",
-      init : "0"
     }
   },
 
@@ -158,8 +142,6 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
         var req = org.eclipse.swt.Request.getInstance();
         req.addParameter(id + ".finished", e.getData());
         req.addParameter(id + ".lastFileUploaded", this.getLastFileUploaded());
-        req.addParameter(id + ".uploadParcial", this.getUploadParcial());
-        req.addParameter(id + ".uploadTotal", this.getUploadTotal());
         req.send();
     },
 
@@ -254,9 +236,6 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
             else if (finished == null) {
                 var bytesRead = xml.getElementsByTagName("bytes_read")[0];
                 var contentLength = xml.getElementsByTagName("content_length")[0];
-
-                this.setUploadParcial(bytesRead.firstChild.data);
-                this.setUploadTotal(contentLength.firstChild.data);
 
                 // Started, get the status of the upload
                 if (percentCompleted != null) {

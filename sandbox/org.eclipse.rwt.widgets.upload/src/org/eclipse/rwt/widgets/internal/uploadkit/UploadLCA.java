@@ -57,13 +57,12 @@ public class UploadLCA extends AbstractWidgetLCA {
     adapter.setPath( path );
     adapter.setLastFileUploaded( lastFileUploaded );
     final String finished = WidgetLCAUtil.readPropertyValue( upload, "finished" );
-    final String uploadParcial = WidgetLCAUtil.readPropertyValue( upload,
-                                                                  "uploadParcial" );
-    final String uploadTotal = WidgetLCAUtil.readPropertyValue( upload,
-                                                                "uploadTotal" );
-    if( ( finished != null )
-        || ( uploadParcial != null )
-        || ( uploadTotal != null ) )
+    
+    // TODO: [sr] handle if long
+    final int uploadPartial = ( int )adapter.getBytesRead();
+    final int uploadTotal = ( int )adapter.getContentLength();
+    
+    if( finished != null ) 
     {
       // At the moment, the event must be fire directly via the ProcessActionRunner
       // because delayed execution doesn't work at the moment for custom events.
@@ -74,8 +73,8 @@ public class UploadLCA extends AbstractWidgetLCA {
           UploadEvent evt = new UploadEvent( upload,
                                              Boolean.valueOf( finished )
                                              .booleanValue(),
-                                             Integer.parseInt( uploadParcial ),
-                                             Integer.parseInt( uploadTotal ) );
+                                             uploadPartial,
+                                             uploadTotal );
           evt.processEvent();
 
         }

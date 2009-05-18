@@ -19,4 +19,6 @@ public interface IUploadAdapter {
   String getServletPath();
   boolean isResetUpload();
   void setResetUpload(boolean resetUpload);
+  public long getBytesRead();
+  public long getContentLength();
 }

@@ -102,11 +102,18 @@ public class FileUploadServiceHandler implements IServiceHandler {
       FileItemFactory factory = new DiskFileItemFactory();
       ServletFileUpload upload = new ServletFileUpload( factory );
       
-      // Set file upload progress listener
-      final FileUploadListener listener = new FileUploadListener();
+      // Create a file upload progress listener
+      final ProgressListener listener = new ProgressListener() {
+
+        public void update( final long aBytesRead,
+                            final long aContentLength,
+                            final int anItem  ) {
+          fileUploadStorageitem.updateProgress( aBytesRead, aContentLength );
+        }
+        
+      };
       // Upload servlet allows to set upload listener
       upload.setProgressListener( listener );
-      fileUploadStorageitem.setProgressListener( listener );
       fileUploadStorageitem.setUploadProcessId( uploadProcessId );
       
       FileItem fileItem = null;
@@ -159,12 +166,9 @@ public class FileUploadServiceHandler implements IServiceHandler {
       
       if ( uploadProcessId != null && uploadProcessId.equals( fileUploadStorageitem.getUploadProcessId() )) {
         
-        final FileUploadListener listener = fileUploadStorageitem.getProgressListener();
-        
-        if (listener != null) {
           // Get the meta information
-          bytesRead = listener.getBytesRead();
-          contentLength = listener.getContentLength();
+          bytesRead = fileUploadStorageitem.getBytesRead();
+          contentLength = fileUploadStorageitem.getContentLength();
           /*
            * XML Response Code
            */
@@ -178,8 +182,6 @@ public class FileUploadServiceHandler implements IServiceHandler {
           if( contentLength != 0 ) {
             if( bytesRead == contentLength ) {
               buffy.append( "<finished />" );
-              // No reason to keep listener in session since we're done
-              fileUploadStorageitem.setProgressListener( null );
             } else {
               // Calculate the percent complete
               buffy.append( "<percent_complete>" );
@@ -191,10 +193,6 @@ public class FileUploadServiceHandler implements IServiceHandler {
             // the Browser side polling stops.
             buffy.append( "<finished />" );
           }
-        } else {
-          // if listener has been detached and process ids match, upload is ready
-          buffy.append( "<finished />" );
-        }
       } else {
         //System.out.println("No match: " + uploadProcessId + " " + fileUploadStorageitem.getUploadProcessId());
         // if the processId doesn't match, return nothing

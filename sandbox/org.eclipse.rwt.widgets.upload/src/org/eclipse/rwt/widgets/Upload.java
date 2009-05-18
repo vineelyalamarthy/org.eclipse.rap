@@ -106,6 +106,16 @@ public class Upload extends Control {
     public void setResetUpload( boolean resetUpload ) {
       Upload.this.resetUpload = resetUpload;
     }
+
+    public long getBytesRead() {
+      final FileUploadStorageItem uploadStorageItem = FileUploadStorage.getInstance().getUploadStorageItem( getWidgetId());
+      return uploadStorageItem != null ? uploadStorageItem.getBytesRead() : 0L;
+    }
+    
+    public long getContentLength() {
+      final FileUploadStorageItem uploadStorageItem = FileUploadStorage.getInstance().getUploadStorageItem( getWidgetId());
+      return uploadStorageItem != null ? uploadStorageItem.getContentLength() : 0L;
+    }
   }
   
 
@@ -220,31 +230,38 @@ public class Upload extends Control {
   }
   
   /**
-   * TODO [fappel] comment
+   * Triggers a file upload. This method immediately returns, if the user hasn't
+   * selected a file, yet. Otherwise, a upload is triggered on the Browser side.
+   * This method returns, if the upload has finished.
    */
   public void performUpload() {
     checkWidget();
     
-    if( isEnabled() && !uploadInProgresses[ 0 ] ) {
-      performUpload = true;
-      UploadListener listener =  new UploadAdapter() {
-        public void uploadFinished(UploadEvent event) {
-          uploadInProgresses[ 0 ] = false;
-        }
-      };
-      addUploadListener( listener );
-      uploadInProgresses[ 0 ] = true;
-      try {
-        while( uploadInProgresses[ 0 ] ) {
-          if( !getDisplay().readAndDispatch() ) {
-            getDisplay().sleep();
+    // Always check if user selected a file because otherwise the UploadWidget itself doesn't trigger a POST and therefore, the
+    // subsequent loop never terminates.
+    if (getPath() != null && !"".equals( getPath() )) {
+      if( isEnabled() && !uploadInProgresses[ 0 ] ) {
+        performUpload = true;
+        UploadListener listener =  new UploadAdapter() {
+          public void uploadFinished(UploadEvent event) {
+            uploadInProgresses[ 0 ] = false;
           }
+        };
+        addUploadListener( listener );
+        uploadInProgresses[ 0 ] = true;
+        try {
+          while( uploadInProgresses[ 0 ] && !isDisposed()) {
+            if( !getDisplay().readAndDispatch() ) {
+              getDisplay().sleep();
+            }
+          }
+        } finally {
+          uploadInProgresses[ 0 ] = false;
+          performUpload = false;
+          removeUploadListener( listener );
         }
-      } finally {
-        uploadInProgresses[ 0 ] = false;
-        performUpload = false;
-        removeUploadListener( listener );
-      }
+    }
+    
     }
   }
   
@@ -548,6 +565,7 @@ public class Upload extends Control {
     FileUploadStorageItem storageItem = FileUploadStorage.getInstance().getUploadStorageItem( getWidgetId() );
     storageItem.setContentType( null );
     storageItem.setFileInputStream( null );
+    storageItem.updateProgress( -1, -1 );
     
     resetUpload = true;
   }
