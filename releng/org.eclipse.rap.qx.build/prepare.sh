@@ -105,7 +105,7 @@ case "$TARGET" in
       apply_patch "$1"
       shift
     done
-  ;;
+    ;;
   "patch-all")
     ensure_wd
     apply_all_patches
