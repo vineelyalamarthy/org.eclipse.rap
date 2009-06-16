@@ -1371,10 +1371,13 @@ qx.Class.define("qx.ui.form.TextField",
 
       // to be sure we get the element selected
       this._inputElement.select();
-      // RAP [if] focus() leads to error in IE if the _inputElement is disabled.
+      // RAP [if] focus() leads to error in IE if the _inputElement is disabled
+      // or not visible.
       // 277444: JavaScript error in IE when using setSelection on a ComboViewer with setEnabled is false
       // https://bugs.eclipse.org/bugs/show_bug.cgi?id=277444
-      if( this.isEnabled() ) {
+      // 280420: [Combo] JavaScript error in IE when using setSelection on an invisible Combo
+      // https://bugs.eclipse.org/bugs/show_bug.cgi?id=280420
+      if( this.isEnabled() && this.isSeeable() ) {
         this._inputElement.focus();
       }
     },
