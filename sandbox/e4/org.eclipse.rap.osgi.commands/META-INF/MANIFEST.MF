@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RAP OSGi Commands
+Bundle-SymbolicName: org.eclipse.rap.osgi.commands;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-Activator: org.eclipse.rap.osgi.commands.Activator
+Bundle-ActivationPolicy: lazy
+Import-Package: javax.servlet;version="2.5.0",
+ javax.servlet.http;version="2.5.0",
+ org.eclipse.osgi.framework.console;version="1.0.0",
+ org.eclipse.rwt,
+ org.eclipse.rwt.branding,
+ org.eclipse.rwt.internal.branding,
+ org.eclipse.rwt.internal.lifecycle,
+ org.eclipse.rwt.internal.service,
+ org.eclipse.rwt.internal.util,
+ org.eclipse.rwt.lifecycle,
+ org.eclipse.rwt.service,
+ org.osgi.framework;version="1.5.0"
