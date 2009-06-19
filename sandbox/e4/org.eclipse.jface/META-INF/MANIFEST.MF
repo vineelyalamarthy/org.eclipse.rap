@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JFace Fake
+Bundle-SymbolicName: org.eclipse.jface
+Bundle-Version: 3.5.0.qualifier
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Require-Bundle: org.eclipse.rap.jface;bundle-version="1.2.0";visibility:=reexport

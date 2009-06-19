@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Rebula
+Bundle-SymbolicName: org.eclipse.nebula.widgets.gallery
+Bundle-Version: 3.4.0
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Require-Bundle: org.eclipse.rap.jface;bundle-version="1.2.0";visibility:=reexport
+Export-Package: org.eclipse.nebula.widgets.gallery
