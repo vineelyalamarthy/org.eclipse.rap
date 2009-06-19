@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Databinding Fake
+Bundle-Name: JFace Databinding Fake
 Bundle-SymbolicName: org.eclipse.jface.databinding
 Bundle-Version: 1.3.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
