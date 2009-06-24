@@ -127,7 +127,7 @@
       pattern="^org\.eclipse\.rap\.demo/.*">
     </activityPatternBinding>
   </extension>
-  
+
   <extension point="org.eclipse.ui.activities">
     <activity id="org.eclipse.rap.maildemo" name="Enable org.eclipse.rap.maildemo contributions">
       <enabledWhen>
@@ -146,7 +146,23 @@
       pattern="^org\.eclipse\.rap\.maildemo/.*">
     </activityPatternBinding>
   </extension>
-  
+
+   <!-- org.eclipse.rap.examples plugin -->
+   <extension point="org.eclipse.ui.activities">
+      <activity id="org.eclipse.rap.examples" name="Enable org.eclipse.rap.examples contributions">
+        <enabledWhen>
+          <with variable="org.eclipse.rap.demo.activities.entryPoint">
+            <iterate ifEmpty="true" operator="or">
+              <equals value="examples" />
+            </iterate>
+          </with>
+        </enabledWhen>
+      </activity>
+      <activityPatternBinding activityId="org.eclipse.rap.examples"
+            pattern="^org\.eclipse\.rap\.examples/.*">
+      </activityPatternBinding>
+   </extension>
+
   <!-- org.eclipse.rap.rms.ui plugin -->
   <extension point="org.eclipse.ui.activities">
     <activity id="org.eclipse.rap.rms.ui" name="Enable org.eclipse.rap.rms.ui contributions">
@@ -169,4 +185,5 @@
       pattern="^org\.eclipse\.rap\.ui\.views/.*">
     </activityPatternBinding>
   </extension>
+
 </plugin>

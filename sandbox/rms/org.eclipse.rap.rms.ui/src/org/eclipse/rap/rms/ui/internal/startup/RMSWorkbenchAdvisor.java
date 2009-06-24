@@ -20,7 +20,7 @@ public class RMSWorkbenchAdvisor extends WorkbenchAdvisor {
     IMutableActivityManager activitySupport
       = workbench.getActivitySupport().createWorkingCopy();
     Set<String> enabledActivityIds = new HashSet<String>();
-    enabledActivityIds.add( "org.eclipse.rap.rms.ui.internal.activity" );
+    enabledActivityIds.add( "org.eclipse.rap.rms.ui" );
     activitySupport.setEnabledActivityIds( enabledActivityIds );
   }
   
