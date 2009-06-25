@@ -231,8 +231,20 @@ qx.Class.define("uploadwidget.UploadButton",
      * @return {void}
      */
     _onChange : function(e) {
-      this._valueInputOnChange = true;
-      this.setValue(this._input.value);
+      // IE8 returns sth like "C:\fakepath\..." which should not be displayed.
+      // Cut off everyhting before the "\", like Firefox does automatically, to have
+      // an identical behaviour in all browsers.
+      var inputStr = this._input.value;
+      if (inputStr) {
+        if (inputStr.indexOf("\\") != -1) {
+            inputStr = inputStr.substr(inputStr.lastIndexOf("\\") + 1);
+        } else if (inputStr.indexOf("/") != -1) {
+            inputStr = inputStr.substr(inputStr.lastIndexOf("/") + 1);
+        }            
+        
+        this._valueInputOnChange = true;
+	    this.setValue(inputStr);
+      }
     }
 
   },
