@@ -19,10 +19,11 @@ import org.eclipse.swt.widgets.Widget;
  * Represents an Upload Event.
  *
  * @author tjarodrigues
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class UploadEvent extends TypedEvent {
   
+  private static final long serialVersionUID = 1L;
   /**
    * Hopefully, this isn't occupied by another custom event type
    */

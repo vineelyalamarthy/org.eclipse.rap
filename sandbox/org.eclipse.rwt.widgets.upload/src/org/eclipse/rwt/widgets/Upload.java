@@ -20,7 +20,6 @@ import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.internal.graphics.TextSizeDetermination;
 import org.eclipse.swt.widgets.*;
 
 /**
@@ -29,8 +28,6 @@ import org.eclipse.swt.widgets.*;
  * @author tjarodrigues
  * @author stefan.roeck 
  */
-// TODO [fappel] checkWidget() calls in methods
-// TODO [fappel] set text methods for browse and upload buttons
 public class Upload extends Control {
   /**
    * Displays a progress bar inside the widget.
@@ -50,7 +47,7 @@ public class Upload extends Control {
   public final static int SHOW_UPLOAD_BUTTON = 2;
   
   static {
-    // TODO: [sr] move to extension point if existant
+    // TODO: [sr] move to extension point if existent
     // Register FileUploadServiceHandler
     FileUploadServiceHandler.register();
   }
@@ -61,14 +58,13 @@ public class Upload extends Control {
   private boolean performUpload = false;
   private boolean resetUpload = false;
   private int flags;
-  private LCAAdapter lcaAdapter;
+  private UploadLCAAdapter uploadLCAAdapter;
   private String browseButtonText = "Browse";
   private String uploadButtonText = "Upload";
   private boolean[] uploadInProgresses = { false };
 
   // avoid exposure of upload internal stuff
-  // TODO [fappel]: think of a better name...
-  private final class LCAAdapter implements IUploadAdapter {
+  private final class UploadLCAAdapter implements IUploadAdapter {
     public boolean performUpload() {
       boolean result = Upload.this.performUpload;
       Upload.this.performUpload = false;
@@ -268,10 +264,10 @@ public class Upload extends Control {
   public Object getAdapter( final Class adapter ) {
     Object result;
     if( adapter == IUploadAdapter.class ) {
-      if( lcaAdapter == null ) {
-        lcaAdapter = new LCAAdapter();
+      if( uploadLCAAdapter == null ) {
+        uploadLCAAdapter = new UploadLCAAdapter();
       }
-      result = lcaAdapter;
+      result = uploadLCAAdapter;
     } else {
       result = super.getAdapter( adapter );
     }
@@ -295,7 +291,7 @@ public class Upload extends Control {
       {
         // progress bar and upload button visible
         width = computeBaseWidth();
-        final Point textExtent = TextSizeDetermination.stringExtent( getFont(), getUploadButtonText());
+        final Point textExtent = Graphics.stringExtent( getFont(), getUploadButtonText());
         width += textExtent.x;
         
         height = Math.max( computeBaseHeight(), 
@@ -313,7 +309,7 @@ public class Upload extends Control {
         // upload button visible
         width = computeBaseWidth();
         
-        Point textExtent = TextSizeDetermination.stringExtent( getFont(), getUploadButtonText());
+        final Point textExtent = Graphics.stringExtent( getFont(), getUploadButtonText());
         width += textExtent.x;
         
         height = Math.max( computeBaseHeight(), 
@@ -346,10 +342,10 @@ public class Upload extends Control {
    * TODO: [sr] Find a better solution to avoid this code duplication...
    */
   private Point computeBrowseButtonSize() {
-    int border = getButtonBorder();
+    final int border = getButtonBorder();
     int width = 0, height = 0;
     
-    Point extent = TextSizeDetermination.stringExtent( getFont(), getBrowseButtonText() );
+    final Point extent = Graphics.stringExtent( getFont(), getBrowseButtonText() );
     height = Math.max( height, extent.y );
     width += extent.x;
   
@@ -362,9 +358,9 @@ public class Upload extends Control {
   }
 
   private int getButtonBorder() {
-    ThemeManager themeMgr = ThemeManager.getInstance();
-    IControlThemeAdapter buttonThemeAdapter = ( IControlThemeAdapter )themeMgr.getThemeAdapter( Button.class );
-    int border = buttonThemeAdapter.getBorderWidth( this );
+    final ThemeManager themeMgr = ThemeManager.getInstance();
+    final IControlThemeAdapter buttonThemeAdapter = ( IControlThemeAdapter )themeMgr.getThemeAdapter( Button.class );
+    final int border = buttonThemeAdapter.getBorderWidth( this );
     return border;
   }
 
@@ -374,7 +370,7 @@ public class Upload extends Control {
   }
   
   /**
-   * TODO [fappel]: comment
+   * Set the text of the browse button.
    */
   public void setBrowseButtonText( final String browseButtonText ) {
     checkWidget();
@@ -385,7 +381,7 @@ public class Upload extends Control {
   }
   
   /**
-   * TODO [fappel]: comment
+   * Returns the text of the browse button.
    */
   public String getBrowseButtonText() {
     checkWidget();
@@ -393,7 +389,10 @@ public class Upload extends Control {
   }
 
   /**
-   * TODO [fappel]: comment
+   * Sets the text of the upload button. Only applies, if {@link #SHOW_UPLOAD_BUTTON}
+   * is set as style.
+   * @param Text for the upload button, must not be <code>null</code>.
+   * @see #Upload(Composite, int, int)
    */
   public void setUploadButtonText( final String uploadButtonText ) {
     checkWidget();
@@ -404,7 +403,7 @@ public class Upload extends Control {
   }
   
   /**
-   * TODO [fappel]: comment
+   * Returns the text of the upload button. Can return <code>null</code>.
    */
   public String getUploadButtonText() {
     checkWidget();
@@ -559,10 +558,12 @@ public class Upload extends Control {
    * are reset to the defaults.
    */
   public void reset() {
+    checkWidget();
+    
     this.lastFileUploaded = null;
     this.path = null;
     
-    FileUploadStorageItem storageItem = FileUploadStorage.getInstance().getUploadStorageItem( getWidgetId() );
+    final FileUploadStorageItem storageItem = FileUploadStorage.getInstance().getUploadStorageItem( getWidgetId() );
     storageItem.setContentType( null );
     storageItem.setFileInputStream( null );
     storageItem.updateProgress( -1, -1 );
