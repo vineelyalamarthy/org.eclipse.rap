@@ -1,0 +1,23 @@
+--- qx-build/source/class/qx/ui/form/Spinner.js	10 Dec 2008 16:57:40 -0000	1.1
++++ qx-build/source/class/qx/ui/form/Spinner.js	2 Jul 2009 14:26:50 -0000
+@@ -117,16 +117,18 @@
+     // ************************************************************************
+     //   UP-BUTTON
+     // ************************************************************************
+-    this._upbutton = new qx.ui.basic.Image;
++    this._upbutton = new qx.ui.form.Button;
+     this._upbutton.setAppearance("spinner-button-up");
++    this._upbutton.setTabIndex(-1);
+     this._upbutton.setHeight("1*");
+     this._buttonlayout.add(this._upbutton);
+ 
+     // ************************************************************************
+     //   DOWN-BUTTON
+     // ************************************************************************
+-    this._downbutton = new qx.ui.basic.Image;
++    this._downbutton = new qx.ui.form.Button;
+     this._downbutton.setAppearance("spinner-button-down");
++    this._downbutton.setTabIndex(-1);
+     this._downbutton.setHeight("1*");
+     this._buttonlayout.add(this._downbutton);
+ 

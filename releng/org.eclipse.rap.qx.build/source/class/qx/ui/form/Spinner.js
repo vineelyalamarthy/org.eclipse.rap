@@ -117,16 +117,18 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   UP-BUTTON
     // ************************************************************************
-    this._upbutton = new qx.ui.basic.Image;
+    this._upbutton = new qx.ui.form.Button;
     this._upbutton.setAppearance("spinner-button-up");
+    this._upbutton.setTabIndex(-1);
     this._upbutton.setHeight("1*");
     this._buttonlayout.add(this._upbutton);
 
     // ************************************************************************
     //   DOWN-BUTTON
     // ************************************************************************
-    this._downbutton = new qx.ui.basic.Image;
+    this._downbutton = new qx.ui.form.Button;
     this._downbutton.setAppearance("spinner-button-down");
+    this._downbutton.setTabIndex(-1);
     this._downbutton.setHeight("1*");
     this._buttonlayout.add(this._downbutton);
 
