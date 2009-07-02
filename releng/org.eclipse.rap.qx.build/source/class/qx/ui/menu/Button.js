@@ -43,27 +43,7 @@ qx.Class.define("qx.ui.menu.Button",
   construct : function(vLabel, vIcon, vCommand, vMenu)
   {
     this.base(arguments);
-
-
-
-    var io = this._iconObject = new qx.ui.basic.Image;
-    io.setWidth(16);
-    io.setAnonymous(true);
-
-    var lo = this._labelObject = new qx.ui.basic.Label;
-    lo.setAnonymous(true);
-    lo.setSelectable(false);
-
-    var so = this._shortcutObject = new qx.ui.basic.Label;
-    so.setAnonymous(true);
-    so.setSelectable(false);
-
-    var ao = this._arrowObject = new qx.ui.basic.Image;
-    ao.setAppearance("menu-button-arrow");
-    ao.setAnonymous(true);
-
-
-
+    
     if (vLabel != null) {
       this.setLabel(vLabel);
     }
@@ -174,11 +154,47 @@ qx.Class.define("qx.ui.menu.Button",
     ---------------------------------------------------------------------------
     */
 
+    _iconObject : null,
+    _labelObject : null,
+    _shortcutObject : null,
+    _arrowObject : null,
+
     _hasIcon : false,
     _hasLabel : false,
     _hasShortcut : false,
     _hasMenu : false,
 
+    initIconObject : function() {
+      if( !this._iconObject ) {
+        var io = this._iconObject = new qx.ui.basic.Image;
+        io.setWidth(16);
+        io.setAnonymous(true);
+      }
+    },
+    
+    initLabelObject : function() {
+      if( !this._labelObject ) {
+        var lo = this._labelObject = new qx.ui.basic.Label;
+        lo.setAnonymous(true);
+        lo.setSelectable(false);
+      }
+    },
+    
+    initShortcutObject : function() {
+      if( !this._shortcutObject ) {
+        var so = this._shortcutObject = new qx.ui.basic.Label;
+        so.setAnonymous(true);
+        so.setSelectable(false);
+      }
+    },
+    
+    initArrowObject : function() {
+      if( !this._arrowObject ) {
+        var ao = this._arrowObject = new qx.ui.basic.Image;
+        ao.setAppearance("menu-button-arrow");
+        ao.setAnonymous(true);
+      }
+    },
 
     /**
      * Returns <code>true</code> if the button instance has an icon
@@ -231,6 +247,7 @@ qx.Class.define("qx.ui.menu.Button",
      * @return {qx.ui.basic.Image} button icon
      */
     getIconObject : function() {
+      this.initIconObject();
       return this._iconObject;
     },
 
@@ -242,6 +259,7 @@ qx.Class.define("qx.ui.menu.Button",
      * @return {qx.ui.basic.Label} button label
      */
     getLabelObject : function() {
+      this.initLabelObject();
       return this._labelObject;
     },
 
@@ -253,6 +271,7 @@ qx.Class.define("qx.ui.menu.Button",
      * @return {qx.ui.basic.Label} button shortcut
      */
     getShortcutObject : function() {
+      this.initShortcutObject();
       return this._shortcutObject;
     },
 
@@ -264,6 +283,7 @@ qx.Class.define("qx.ui.menu.Button",
      * @return {qx.ui.basic.Image} button arrow
      */
     getArrowObject : function() {
+      this.initArrowObject();
       return this._arrowObject;
     },
 
@@ -327,6 +347,7 @@ qx.Class.define("qx.ui.menu.Button",
      */
     _applyIcon : function(value, old)
     {
+      this.initIconObject();
       this._iconObject.setSource(value);
 
       if (value && value !== "")
@@ -354,6 +375,7 @@ qx.Class.define("qx.ui.menu.Button",
      */
     _applyLabel : function(value, old)
     {
+      this.initLabelObject();
       this._labelObject.setText(value);
 
       if (value && value !== "")
@@ -382,7 +404,8 @@ qx.Class.define("qx.ui.menu.Button",
     _applyCommand : function(value, old)
     {
       var vHtml = value ? value.toString() : "";
-
+      
+      this.initShortcutObject();
       this._shortcutObject.setText(vHtml);
 
       if (qx.util.Validation.isValidString(vHtml))
@@ -417,6 +440,7 @@ qx.Class.define("qx.ui.menu.Button",
      */
     _applyMenu : function(value, old)
     {
+      this.initArrowObject();
       if (value)
       {
         this._hasMenu = true;
