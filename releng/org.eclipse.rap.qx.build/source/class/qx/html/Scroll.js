@@ -75,6 +75,52 @@ qx.Class.define("qx.html.Scroll",
       }
 
       return sum;
+    },
+
+
+    /**
+     * Disables browser-native scrolling
+     *
+     * @type static
+     * @param el {Element} html-element
+     * @return {void}
+     */
+    disableScrolling : function(el) 
+    {
+      this.enableScrolling(el);
+      el.scrollLeft = 0;
+      el.scrollTop = 0;
+      qx.html.EventRegistration.addEventListener(el, "scroll", this._onscroll);
+    },
+
+
+    /**
+     * Re-enables browser-native scrolling
+     *
+     * @type static
+     * @param el {Element} html-element
+     * @return {void}
+     */
+    enableScrolling : function(el) 
+    {;
+      qx.html.EventRegistration.removeEventListener(el, "scroll", this._onscroll);
+    },
+
+
+    /**
+     * Handler for the scroll-event
+     *
+     * @type static
+     * @param ev {event} scroll-event
+     * @return {void}
+     */    
+    _onscroll : function(ev) 
+    {
+      var el = ev.target || ev.srcElement;
+      if(ev.scrollLeft != 0 || ev.scrollTop != 0) {
+        el.scrollLeft = 0;
+        el.scrollTop = 0;
+      }
     }
   }
 });

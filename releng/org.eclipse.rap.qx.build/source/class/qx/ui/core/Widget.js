@@ -1210,7 +1210,66 @@ qx.Class.define("qx.ui.core.Widget",
       document.body.removeChild(t);
     },
 
-    _idCounter : 0
+    _idCounter : 0,
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLL-BLOCKER
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Disables browser-native scrolling
+     *
+     * @type static
+     * @param widget {widget} widget to diable scrolling for
+     * @return {void}
+     */
+    disableScrolling : function(widget)
+    {
+      var el = widget._getTargetNode();
+      if(el) {
+        qx.html.Scroll.disableScrolling(el);
+      } else {
+        widget.addEventListener("appear", this._blockScrollingOnAppear, this);
+      }
+    },
+    
+    /**
+     * Re-enables browser-native scrolling
+     *
+     * @type static
+     * @param widget {widget} widget to re-enable scrolling for
+     * @return {void}
+     */
+    enableScrolling : function(widget)
+    {
+      var el = widget._getTargetNode();
+      if(el) {
+        qx.html.Scroll.enableScrolling(el);
+      } else {
+        widget.removeEventListener("appear", this._blockScrollingOnAppear, this);
+      }     
+    },
+    
+    /**
+     * Handler needed for the delayed node-creation
+     *
+     * @type static
+     * @param ev {Event} The "appear"-event
+     * @return {void}
+     */
+    _blockScrollingOnAppear : function(ev)
+    {
+      var widget = ev.getTarget();
+      widget.removeEventListener("appear", this._blockScrollingOnAppear, this);
+      this.disableScrolling(widget);
+    }
 
   },
 
