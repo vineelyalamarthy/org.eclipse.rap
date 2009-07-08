@@ -1,8 +1,8 @@
 // Created on 30.09.2007
 package org.eclipse.rap.rms.ui.internal.datamodel;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -20,13 +20,11 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.rap.rms.data.IEntity;
 import org.eclipse.rap.rms.ui.internal.Activator;
 import org.eclipse.rap.rms.ui.internal.RMSMessages;
-import org.eclipse.rap.rms.ui.internal.dialogs.DatePickerDialog;
 import org.eclipse.rwt.RWT;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
@@ -35,27 +33,26 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 
 class PageUtil {
-  static final IConverter STRING_TO_DATE_CONVERTER
-    = new StringToDateConverter();
+//  static final IConverter STRING_TO_DATE_CONVERTER
+//    = new StringToDateConverter();
   static final IConverter DATE_TO_STRING_CONVERTER
     = new DateToStringConverter();
-//  private final static SimpleDateFormat DATE_FORMAT
-//    = new SimpleDateFormat( RMSMessages.get().PageUtil_DateFormat, RWT.getLocale() );
-//  = new SimpleDateFormat( "MMM d yyyy", RWT.getLocale() );
+
   private static final Status VALIDATION_SUCCESS
     = new Status( IStatus.OK, "org.eclipse.rap.rms.ui", "" ); //$NON-NLS-1$ //$NON-NLS-2$
   private static final Status VALIDATION_FAIL
@@ -69,45 +66,23 @@ class PageUtil {
   private static final Color COLOR_BG_SUCCESS
     = Display.getCurrent().getSystemColor( SWT.COLOR_WHITE );
 
-  
-  private static final class StringToDateConverter implements IConverter {
-    public Object convert( final Object fromObject ) {
-      String from = ( String )fromObject;
-      Date result = null;
-      if( from != null && !from.equals( "" ) ) { //$NON-NLS-1$
-        try {
-          result = new SimpleDateFormat( "MMM d yyyy", RWT.getLocale() ).parse( from );
-        } catch( final ParseException e ) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-      }
-      return result;
-    }
 
-    public Object getFromType() {
-      return String.class;
-    }
-
-    public Object getToType() {
-      return Date.class;
-    }
-  }
- 
   private static final class DateToStringConverter implements IConverter {
     public Object convert( final Object fromObject ) {
       Object result = null;
       if( fromObject != null ) {
         Date from = ( Date )fromObject;
-        result = new SimpleDateFormat( "MMM d yyyy", RWT.getLocale() ).format( from );
+        SimpleDateFormat dateFormat
+          = new SimpleDateFormat( "MMM d yyyy", RWT.getLocale() );
+        result = dateFormat.format( from );
       }
       return result;
     }
-    
+
     public Object getFromType() {
       return Date.class;
     }
-    
+
     public Object getToType() {
       return String.class;
     }
@@ -125,11 +100,11 @@ class PageUtil {
 
   static abstract class Validator implements IValidator {
     final Text text;
-    
+
     Validator( final Text text ) {
       this.text = text;
     }
-    
+
     public IStatus validate( final Object value ) {
       IStatus result = doValidate( value );
       if( result.isOK() ) {
@@ -141,12 +116,12 @@ class PageUtil {
       }
       return result;
     }
-    
+
     abstract IStatus doValidate( final Object value );
   }
-  
+
   final static class EMailValidator extends Validator {
-    private final static Pattern PATTERN 
+    private final static Pattern PATTERN
       = Pattern.compile( "\\w[-._\\w]*\\w@\\w[-._\\w]*\\w\\.\\w{2,4}" ); //$NON-NLS-1$
 
     EMailValidator( final Text text ) {
@@ -156,7 +131,7 @@ class PageUtil {
     @Override
     public IStatus doValidate( final Object value ) {
       IStatus result = VALIDATION_FAIL;
-      if(    value == null 
+      if(    value == null
           || "".equals( value )  //$NON-NLS-1$
           || PATTERN.matcher( ( String )value ).matches() )
       {
@@ -165,9 +140,9 @@ class PageUtil {
       return result;
     }
   }
-  
+
   final static class PhoneNumberValidator extends Validator {
-    PhoneNumberValidator( Text text ) {
+    PhoneNumberValidator( final Text text ) {
       super( text );
     }
 
@@ -180,7 +155,7 @@ class PageUtil {
           if( number.startsWith( "+" ) ) { //$NON-NLS-1$
             number = number.substring( 1 );
           }
-          Integer.parseInt( ( String )number );
+          Integer.parseInt( number );
         }
         result = VALIDATION_SUCCESS;
       } catch( final NumberFormatException e ) {
@@ -190,11 +165,17 @@ class PageUtil {
     }
   }
 
-  
+
   private PageUtil() {
     // prevent instance creation
   }
-  
+
+  static Date getDate( final DateTime widget ) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.set( widget.getYear(), widget.getMonth(), widget.getDay() );
+    return calendar.getTime();
+  }
+
   static Composite createBody( final ScrolledForm scrolledForm,
                                final String headImage )
   {
@@ -208,22 +189,23 @@ class PageUtil {
 
     final Composite result = new Composite( parentBody, SWT.NONE );
     result.setBackground( parentBody.getBackground() );
-    
+
     scrolledForm.addControlListener( new ControlAdapter() {
+      @Override
       public void controlResized( final ControlEvent evt ) {
         Rectangle bounds = scrolledForm.getBounds();
         int headerHeight = imgHeader.getBounds().height;
         int width = bounds.width - 16;
         lblHeaderImage.setBounds( 0, 0, width, headerHeight );
         header.setBounds( 0, 0, width, headerHeight );
-        
+
         int bodyHeight = bounds.height - headerHeight;
         Point size = result.getSize();
-        bodyHeight = size.y > bodyHeight ? size.x : bodyHeight; 
+        bodyHeight = size.y > bodyHeight ? size.x : bodyHeight;
         result.setBounds( 0, headerHeight, width, bodyHeight );
       }
     } );
-    
+
     ColumnLayout layout = new ColumnLayout();
     layout.topMargin = 0;
     layout.bottomMargin = 5;
@@ -234,10 +216,10 @@ class PageUtil {
     layout.maxNumColumns = 4;
     layout.minNumColumns = 1;
     result.setLayout( layout );
-
+    
     return result;
   }
-  
+
   static Composite createGeneralInfoSection( final ScrolledForm form,
                                              final FormToolkit toolkit,
                                              final Composite body,
@@ -253,32 +235,33 @@ class PageUtil {
                           3,
                           true );
   }
-  
+
   static Composite createSection( final ScrolledForm form,
                                   final FormToolkit toolkit,
                                   final Composite body,
                                   final String title,
-                                  final String desc, 
+                                  final String desc,
                                   final int numColumns,
                                   final boolean expanded )
   {
-    int style 
-      =   Section.TWISTIE 
-        | Section.TITLE_BAR 
-        | Section.DESCRIPTION
-        | Section.EXPANDED;
+    int style
+      = ExpandableComposite.TWISTIE
+      | ExpandableComposite.TITLE_BAR
+      | Section.DESCRIPTION
+      | ExpandableComposite.EXPANDED;
     Section section = toolkit.createSection( body, style );
     section.setExpanded( expanded );
     section.setText( title );
     section.setDescription( desc );
     Composite result = toolkit.createComposite( section );
     GridLayout layout = new GridLayout();
-    layout.marginWidth = layout.marginHeight = 0;
+    layout.marginWidth = 0;
+    layout.marginHeight = 0;
     layout.numColumns = numColumns;
     result.setLayout( layout );
     section.setClient( result );
-    section.getChildren()[ 1 ].setBackground( body.getBackground() );
     section.addExpansionListener( new ExpansionAdapter() {
+      @Override
       public void expansionStateChanged( final ExpansionEvent e ) {
         form.reflow( false );
       }
@@ -305,11 +288,11 @@ class PageUtil {
     result.setLayoutData( gdResult );
     return result;
   }
-  
-  static Combo createLabelCombo( final Container container,
-                                 final String labelContent,
-                                 final String value,
-                                 final String[] items )
+
+  static CCombo createLabelCombo( final Container container,
+                                  final String labelContent,
+                                  final String value,
+                                  final String[] items )
   {
     Composite client = container.client;
     FormToolkit toolkit = container.toolkit;
@@ -317,7 +300,7 @@ class PageUtil {
     GridData gdLabel = new GridData();
     gdLabel.widthHint = 100;
     label.setLayoutData( gdLabel );
-    Combo result = new Combo( client, SWT.READ_ONLY );
+    CCombo result = new CCombo( client, SWT.READ_ONLY | SWT.BORDER );
     result.setItems( items );
     if( value != null ) {
       result.setText( value );
@@ -328,7 +311,7 @@ class PageUtil {
     result.setLayoutData( gdResult );
     return result;
   }
-  
+
   static Text createLabelMultiText( final Container container,
                                     final String labelContent,
                                     final String value )
@@ -347,7 +330,7 @@ class PageUtil {
     result.setLayoutData( gdResult );
     return result;
   }
-  
+
   static Text createLabelTextButton( final Container container,
                                      final String labelContent,
                                      final String value,
@@ -360,13 +343,13 @@ class PageUtil {
     GridData gdLabel = new GridData();
     gdLabel.widthHint = 100;
     label.setLayoutData( gdLabel );
-    
+
     int style = SWT.SINGLE | SWT.READ_ONLY;
     Text result = toolkit.createText( client, value, style );
     GridData gdResult = new GridData();
     result.setLayoutData( gdResult );
-    
-    final Button button
+
+    Button button
       = toolkit.createButton( client, "", SWT.PUSH | SWT.FLAT ); //$NON-NLS-1$
     Image imgDatePicker
       = Activator.getDefault().getImage( imageName );
@@ -374,69 +357,45 @@ class PageUtil {
     Point size = button.computeSize( SWT.DEFAULT, SWT.DEFAULT );
     gdResult.widthHint = 295 - size.x;
     button.addSelectionListener( listener );
-    return result;        
+    return result;
   }
-  
-  static Text createDatePicker( final Container container,
-                                final String labelContent,
-                                final String date )
+
+  static DateTime createLabelDate( final Container container,
+                                   final String labelContent,
+                                   final Date date )
   {
-    final Composite client = container.client;
-    final FormToolkit toolkit = container.toolkit;
+    Composite client = container.client;
+    FormToolkit toolkit = container.toolkit;
     Label label = toolkit.createLabel( client, labelContent );
     GridData gdLabel = new GridData();
     gdLabel.widthHint = 100;
     label.setLayoutData( gdLabel );
-    int style = SWT.SINGLE | SWT.READ_ONLY;
-    final Text result = toolkit.createText( client, date, style );
+    DateTime result = new DateTime( client, SWT.BORDER | SWT.DATE );
+    if( date != null ) {
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime( date );
+      result.setDate( calendar.get( Calendar.YEAR ),
+                      calendar.get( Calendar.MONTH ),
+                      calendar.get( Calendar.DAY_OF_MONTH ) );
+    }
     GridData gdResult = new GridData();
+    gdResult.horizontalSpan = 2;
     result.setLayoutData( gdResult );
-    final Button button
-      = toolkit.createButton( client, "", SWT.PUSH | SWT.FLAT ); //$NON-NLS-1$
-    Image imgDatePicker
-      = Activator.getDefault().getImage( Activator.IMG_DATE_PICKER );
-    button.setImage( imgDatePicker );
-    Point size = button.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-    gdResult.widthHint = 295 - size.x;
-    button.addSelectionListener( new SelectionAdapter() {
-      @Override
-      public void widgetSelected( final SelectionEvent evt ) {
-        Point location = calculateDatePickerLocation( client, button );
-        DatePickerDialog datePicker = new DatePickerDialog( client.getShell() );
-        datePicker.setLocation( location );
-        Date selected = ( Date )STRING_TO_DATE_CONVERTER.convert( date );
-        datePicker.setSelectedDate( selected );
-        String selectedDate = ( String )datePicker.open();
-        if( selectedDate != null ) {
-          result.setText( selectedDate );
-        }
-      }
-    } );
-    return result;    
+    return result;
   }
 
-  private static Point calculateDatePickerLocation( final Composite client,
-                                                    final Button botton )
-  {
-    Point location 
-      = client.getDisplay().map( client, null, botton.getLocation() );
-    int x = location.x + 3;
-    int y = location.y + botton.getSize().y + 4;
-    return new Point( x, y );
-  }
-  
   static void bindCombo( final DataBindingContext bindingContext,
                          final IEntity entity,
-                         final Combo combo,
+                         final CCombo combo,
                          final String property )
   {
-    ISWTObservableValue observeCombo 
+    ISWTObservableValue observeCombo
       = SWTObservables.observeSelection( combo );
-    IObservableValue observeValue 
+    IObservableValue observeValue
       = BeansObservables.observeValue( entity, property );
     bind( bindingContext, observeCombo, observeValue, null, null );
   }
-  
+
   static void bindText( final DataBindingContext bindingContext,
                         final IEntity entity,
                         final Text text,
@@ -450,9 +409,9 @@ class PageUtil {
                         final Text text,
                         final String property,
                         final IValidator validator ) {
-    ISWTObservableValue observeText 
+    ISWTObservableValue observeText
       = SWTObservables.observeText( text, SWT.Modify );
-    IObservableValue observeValue 
+    IObservableValue observeValue
       = BeansObservables.observeValue( entity, property );
     UpdateValueStrategy targetToModel = new UpdateValueStrategy();
     targetToModel.setBeforeSetValidator( validator );
@@ -466,18 +425,16 @@ class PageUtil {
 
   static void bindDate( final DataBindingContext bindingContext,
                         final IEntity entity,
-                        final Text text,
+                        final DateTime dateTime,
                         final String property ) {
-    ISWTObservableValue observeText 
-      = SWTObservables.observeText( text, SWT.Modify );
-    IObservableValue observeValue 
+    ISWTObservableValue observeSelection
+      = SWTObservables.observeSelection( dateTime );
+    IObservableValue observeValue
       = BeansObservables.observeValue( entity, property );
     UpdateValueStrategy targetToModel = new UpdateValueStrategy();
-    targetToModel.setConverter( STRING_TO_DATE_CONVERTER );
     UpdateValueStrategy modelToTarget = new UpdateValueStrategy();
-    modelToTarget.setConverter( DATE_TO_STRING_CONVERTER );
     bind( bindingContext,
-          observeText,
+          observeSelection,
           observeValue,
           targetToModel,
           modelToTarget );
@@ -494,7 +451,7 @@ class PageUtil {
                               targetToModel,
                               modelToTarget );
   }
-  
+
   static DataBindingContext createBindingContext() {
     if( Realm.getDefault() == null ) {
       SWTObservables.getRealm( Display.getCurrent() );

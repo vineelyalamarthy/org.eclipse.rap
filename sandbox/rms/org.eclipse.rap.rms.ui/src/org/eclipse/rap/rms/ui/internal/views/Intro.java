@@ -410,7 +410,6 @@ public class Intro extends ViewPart {
     section.setExpanded( expanded );
     section.setText( title );
     section.setDescription( desc );
-    section.getChildren()[ 1 ].setBackground( COLOR_WHITE );
     Composite result = toolkit.createComposite( section );
     GridLayout layout = new GridLayout();
     layout.marginWidth = 0;

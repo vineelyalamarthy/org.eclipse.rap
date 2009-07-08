@@ -4,7 +4,6 @@ package org.eclipse.rap.rms.ui.internal.datamodel;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -18,16 +17,16 @@ import org.eclipse.rap.rms.ui.internal.RMSMessages;
 import org.eclipse.rap.rms.ui.internal.datamodel.PageUtil.Container;
 import org.eclipse.rap.rwt.custom.Gantt;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.forms.IManagedForm;
@@ -40,7 +39,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 public class ProjectGanttPage extends FormPage {
   private static final String GANTT = "Gantt";
   private final ProjectCopy project;
-  private Text txtDate;
+  private DateTime dtDate;
   private Composite body;
   private Composite timeSelection;
   private GanttViewer viewer;
@@ -175,17 +174,16 @@ public class ProjectGanttPage extends FormPage {
     fdTimeSelection.right = new FormAttachment( 100, 0 );
 
     timeSelection.setLayout( new GridLayout( 3, false ) );
-    IConverter dateToString = PageUtil.DATE_TO_STRING_CONVERTER;
-    String date = ( String )dateToString.convert( new Date() );
     Container container = new Container( toolkit, timeSelection );
-    txtDate = PageUtil.createDatePicker( container, RMSMessages.get().ProjectGanttPage_ChangeDate, date );
-    IConverter stringToDate = PageUtil.STRING_TO_DATE_CONVERTER;
-    Date now = ( Date )stringToDate.convert( date );
+    Date now = new Date();
+    dtDate = PageUtil.createLabelDate( container, 
+                                        RMSMessages.get().ProjectGanttPage_ChangeDate, 
+                                        now );
     viewer = createViewer( body, timeSelection, now );
-    txtDate.addModifyListener( new ModifyListener() {
-      public void modifyText( final ModifyEvent event ) {
+    dtDate.addSelectionListener( new SelectionAdapter() {
+      public void widgetSelected( final SelectionEvent event ) {
         createViewer();
-      }
+      };
     } );
   }
   
@@ -220,10 +218,7 @@ public class ProjectGanttPage extends FormPage {
 
   private void createViewer() {
     viewer.getControl().dispose();
-    viewer = null;
-    IConverter stringToDate = PageUtil.STRING_TO_DATE_CONVERTER;
-    Date selected = ( Date )stringToDate.convert( txtDate.getText() );
-    viewer = createViewer( body, timeSelection, selected );
+    viewer = createViewer( body, timeSelection, PageUtil.getDate( dtDate ) );
     body.layout();
   }
 }

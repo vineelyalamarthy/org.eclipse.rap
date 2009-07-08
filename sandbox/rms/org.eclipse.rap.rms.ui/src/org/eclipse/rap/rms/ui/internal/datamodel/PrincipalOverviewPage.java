@@ -10,7 +10,7 @@ import org.eclipse.rap.rms.ui.internal.RMSMessages;
 import org.eclipse.rap.rms.ui.internal.datamodel.PageUtil.Container;
 import org.eclipse.rap.rms.ui.internal.datamodel.PageUtil.EMailValidator;
 import org.eclipse.rap.rms.ui.internal.datamodel.PageUtil.PhoneNumberValidator;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
@@ -82,7 +82,7 @@ public class PrincipalOverviewPage extends FormPage {
                                                  principal.getPostCode(),
                                                  false );
     PageUtil.bindText( ctx, principal, txtPostCode, PrincipalCopy.POST_CODE );
-    Combo cboCountry = PageUtil.createLabelCombo( cInfo, 
+    CCombo cboCountry = PageUtil.createLabelCombo( cInfo, 
                                                   RMSMessages.get().PrincipalOverviewPage_Country, 
                                                   principal.getCountry(),
                                                   Activator.COUNTRIES );

@@ -28,6 +28,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -47,8 +48,8 @@ public class ProjectTasksPage extends FormPage {
   private final ProjectCopy project;
   private Text txtName;
   private Text txtDesc;
-  private Text txtStart;
-  private Text txtEnd;
+  private DateTime dtStart;
+  private DateTime dtEnd;
   private DataBindingContext ctx;
   private TaskCopy currentTask;
   private TableViewer taskViewer;
@@ -82,7 +83,6 @@ public class ProjectTasksPage extends FormPage {
           result = ( String )converter.convert( task.getEndDate() );
         break;
         default:
-          // TODO: [yao] use NLS#bind          
           Object[] param = new Object[] { new Integer( columnIndex ) };
           String msg
             = NLS.bind( RMSMessages.get().ProjectTasksPage_ColumnIndexNotSupported,
@@ -158,9 +158,15 @@ public class ProjectTasksPage extends FormPage {
                                               "", //$NON-NLS-1$
                                               Activator.IMG_NEW_TASK,
                                               newTask );
-    txtDesc = PageUtil.createLabelMultiText( cDetail, RMSMessages.get().ProjectTasksPage_Description, "" ); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
-    txtStart = PageUtil.createDatePicker( cDetail, RMSMessages.get().ProjectTasksPage_StartDate, "" ); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
-    txtEnd = PageUtil.createDatePicker( cDetail, RMSMessages.get().ProjectTasksPage_EndDate, "" ); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
+    txtDesc = PageUtil.createLabelMultiText( cDetail, 
+                                             RMSMessages.get().ProjectTasksPage_Description, 
+                                             "" ); //$NON-NLS-1$
+    dtStart = PageUtil.createLabelDate( cDetail, 
+                                        RMSMessages.get().ProjectTasksPage_StartDate, 
+                                        null );
+    dtEnd = PageUtil.createLabelDate( cDetail, 
+                                      RMSMessages.get().ProjectTasksPage_EndDate, 
+                                      null );
     // task list section
     Composite tasks
       = PageUtil.createSection( scrolledForm,
@@ -208,8 +214,8 @@ public class ProjectTasksPage extends FormPage {
     ctx = PageUtil.createBindingContext();
     txtName.setText( task.getName() );
     PageUtil.bindText( ctx, task, txtDesc, TaskCopy.DESCRIPTION );
-    PageUtil.bindDate( ctx, task, txtStart, TaskCopy.START_DATE );
-    PageUtil.bindDate( ctx, task, txtEnd, TaskCopy.END_DATE );
+    PageUtil.bindDate( ctx, task, dtStart, TaskCopy.START_DATE );
+    PageUtil.bindDate( ctx, task, dtEnd, TaskCopy.END_DATE );
   }
 
   private String[] initColumnProperties( final Table table ) {
