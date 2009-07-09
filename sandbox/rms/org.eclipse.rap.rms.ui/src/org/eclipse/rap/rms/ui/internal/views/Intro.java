@@ -21,6 +21,7 @@ import org.eclipse.rap.rms.ui.internal.startup.RMSPerspective;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -48,6 +49,7 @@ import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -57,21 +59,23 @@ import org.eclipse.ui.part.ViewPart;
 
 
 public class Intro extends ViewPart {
+
+  private static final String WAR_DOWNLOAD_NAME
+    = "rapdemo.war"; //$NON-NLS-1$
+  private static final String WAR_DOWNLOAD_LINK
+    = "http://rap.eclipsesource.com/download/rapdemo.war"; //$NON-NLS-1$
   private static final Color COLOR_LINK
     = Display.getCurrent().getSystemColor( SWT.COLOR_LIST_SELECTION );
-  private final static Color COLOR_WHITE
+  private static final Color COLOR_WHITE
     = Display.getCurrent().getSystemColor( SWT.COLOR_WHITE );
-  private final FormToolkit toolkit
-    = new FormToolkit( Display.getCurrent() );
 
-  
   private final class SwitchPerspective extends SelectionAdapter {
     private final ISelection selection;
     private final boolean openEditor;
     private final Action action;
     private SwitchPerspective( final ISelection selection,
-                                    final boolean openEditor,
-                                    final Action action )
+                               final boolean openEditor,
+                               final Action action )
     {
       this.selection = selection;
       this.openEditor = openEditor;
@@ -84,12 +88,12 @@ public class Intro extends ViewPart {
           String key = Constants.PRE_SELECTION;
           RWT.getServiceStore().setAttribute( key, selection );
         }
-        
+
         IWorkbench workbench = PlatformUI.getWorkbench();
         String id = RMSPerspective.class.getName();
         IWorkbenchPage page = getSite().getPage();
         workbench.showPerspective( id, page.getWorkbenchWindow() );
-        
+
         if( openEditor ) {
           IDataModel model = DataModelRegistry.getFactory();
           Iterator<IPrincipal> principals = model.getPrincipals().iterator();
@@ -117,17 +121,23 @@ public class Intro extends ViewPart {
   }
 
 
+  private final FormToolkit toolkit;
+
+  public Intro() {
+    toolkit = new FormToolkit( Display.getCurrent() );
+  }
+
   @Override
   public void createPartControl( final Composite parent ) {
     FormLayout formLayout = new FormLayout();
     parent.setLayout( formLayout );
-    
+
     Composite body = createBG( parent );
     body.setLayout( new FillLayout() );
     body.setBackground( COLOR_WHITE );
     createFormContent( body );
   }
-  
+
   @Override
   public void setFocus() {
   }
@@ -184,7 +194,7 @@ public class Intro extends ViewPart {
     SwitchPerspective action
       = new SwitchPerspective( null, false, null );
     btnSkipIntro.addSelectionListener( action );
-   
+
     Composite result = new Composite( parent, SWT.NONE );
     FormData fdResult = new FormData();
     fdResult.top = new FormAttachment( 0, 106 );
@@ -200,7 +210,7 @@ public class Intro extends ViewPart {
     ScrolledForm form = new ScrolledForm( parent, SWT.V_SCROLL | SWT.H_SCROLL );
     form.setBackground( COLOR_WHITE );
     form.setText( RMSMessages.get().Intro_Overview );
-    
+
     Composite body = form.getBody();
     body.setBackground( COLOR_WHITE );
     RowLayout fillLayout = new RowLayout( SWT.HORIZONTAL );
@@ -211,7 +221,7 @@ public class Intro extends ViewPart {
     createContentLayout( left );
     Composite right = new Composite( body, SWT.NONE );
     createContentLayout( right );
-    
+
     createActionSections( form, left );
     createLinkSections( form, right );
   }
@@ -219,14 +229,95 @@ public class Intro extends ViewPart {
   private void createLinkSections( final ScrolledForm form,
                                    final Composite right )
   {
-    Composite download 
+    final Composite downloads
       = createSection( form,
                        right,
                        RMSMessages.get().Intro_DownloadTitle,
                        RMSMessages.get().Intro_DownloadDesc,
-                       1, 
+                       1,
                        true );
-    
+    createDownloadLink( downloads,
+                        RMSMessages.get().Intro_DownloadWarLbl,
+                        WAR_DOWNLOAD_NAME,
+                        WAR_DOWNLOAD_LINK );
+    createDownloadLink( downloads,
+                        RMSMessages.get().Intro_DownloadRcpLbl,
+                        RMSMessages.get().Intro_DownloadRcpLink,
+                        null );
+    createSpacer( right );
+    Composite links
+      = createSection( form,
+                       right,
+                       RMSMessages.get().Intro_LinkTitle,
+                       RMSMessages.get().Intro_LinkDesc,
+                       1,
+                       false );
+    createLink( links,
+                RMSMessages.get().Intro_LinkRapLbl,
+                RMSMessages.get().Intro_LinkRapLink,
+                RMSMessages.get().Intro_LinkRapLink );
+  }
+
+  private static void createDownloadLink( final Composite parent,
+                                          final String linkDescription,
+                                          final String linkText,
+                                          final String linkUrl )
+  {
+    createSpacer( parent );
+
+    Label label = new Label( parent, SWT.WRAP );
+    label.setText( linkDescription );
+    label.setBackground( COLOR_WHITE );
+
+    Hyperlink link = new Hyperlink( parent, SWT.NONE );
+    link.setText( linkText );
+    link.setHref( linkUrl );
+    link.setBackground( COLOR_WHITE );
+    link.setForeground( COLOR_LINK );
+    GridData gdLink = new GridData();
+    gdLink.horizontalAlignment = GridData.BEGINNING;
+    link.setLayoutData( gdLink );
+    IHyperlinkListener hyperlinkListener = new HyperlinkAdapter() {
+      @Override
+      public void linkActivated( final HyperlinkEvent evt ) {
+        Hyperlink link = ( Hyperlink )evt.getSource();
+        Browser browser = ( Browser )link.getData( "browser" );
+        if( browser != null ) {
+          browser.dispose();
+        }
+        if( evt.getHref() != null ) {
+          browser = new Browser( parent, SWT.NONE );
+          link.setData( "browser", browser );
+          browser.setVisible( false );
+          GridData gridData = new GridData();
+          gridData.exclude = true;
+          browser.setLayoutData( gridData );
+          browser.setUrl( ( String )evt.getHref() );
+        }
+      }
+    };
+    link.addHyperlinkListener( hyperlinkListener );
+  }
+
+  private static void createLink( final Composite download,
+                                  final String linkDescription,
+                                  final String linkText,
+                                  final String linkUrl )
+  {
+    createSpacer( download );
+
+    Label label = new Label( download, SWT.WRAP );
+    label.setText( linkDescription );
+    label.setBackground( COLOR_WHITE );
+
+    Hyperlink link = new Hyperlink( download, SWT.NONE );
+    link.setText( linkText );
+    link.setHref( linkUrl );
+    link.setBackground( COLOR_WHITE );
+    link.setForeground( COLOR_LINK );
+    GridData gdLink = new GridData();
+    gdLink.horizontalAlignment = GridData.BEGINNING;
+    link.setLayoutData( gdLink );
     IHyperlinkListener hyperlinkListener = new HyperlinkAdapter() {
       @Override
       public void linkActivated( final HyperlinkEvent evt ) {
@@ -236,7 +327,7 @@ public class Intro extends ViewPart {
           int style =   IWorkbenchBrowserSupport.AS_EXTERNAL
                       | IWorkbenchBrowserSupport.LOCATION_BAR
                       | IWorkbenchBrowserSupport.NAVIGATION_BAR;
-          IWebBrowser browser 
+          IWebBrowser browser
             = browserSupport.createBrowser( style,
                                             "external browser", //$NON-NLS-1$
                                             "", //$NON-NLS-1$
@@ -244,62 +335,16 @@ public class Intro extends ViewPart {
           browser.openURL( new URL( evt.getLabel() ) );
         } catch( final Exception ex ) {
           String msg = RMSMessages.get().Intro_LinkNotAvailable;
-          MessageDialog.openInformation( form.getShell(),
+          MessageDialog.openInformation( download.getShell(),
                                          RMSMessages.get().Intro_TitleLinkNotAvailable,
                                          msg );
         }
       }
     };
-    createLink( download,
-                RMSMessages.get().Intro_DownloadWarLbl,
-                RMSMessages.get().Intro_DownloadWarLink,
-                hyperlinkListener );
-    createLink( download,
-                RMSMessages.get().Intro_DownloadRcpLbl,
-                RMSMessages.get().Intro_DownloadRcpLink,
-                hyperlinkListener );
-    
-    Label spacer = new Label( right, SWT.NONE );
-    spacer.setText( "  " ); //$NON-NLS-1$
-    spacer.setBackground( COLOR_WHITE );
-
-    Composite links
-      = createSection( form,
-                       right, 
-                       RMSMessages.get().Intro_LinkTitle,
-                       RMSMessages.get().Intro_LinkDesc,
-                       1,
-                       false );
-    createLink( links,
-                RMSMessages.get().Intro_LinkRapLbl,
-                RMSMessages.get().Intro_LinkRapLink,
-                hyperlinkListener );
-  }
-
-  private static void createLink( final Composite download,
-                                  final String linkDescription,
-                                  final String linkText,
-                                  final IHyperlinkListener hyperlinkListener )
-  {
-    Label spacer = new Label( download, SWT.NONE );
-    spacer.setText( "  " ); //$NON-NLS-1$
-    spacer.setBackground( COLOR_WHITE );
-    
-    Label label = new Label( download, SWT.WRAP );
-    label.setText( linkDescription );
-    label.setBackground( COLOR_WHITE );
-    
-    Hyperlink link = new Hyperlink( download, SWT.None );
-    link.setText( linkText );
-    link.setBackground( COLOR_WHITE );
-    link.setForeground( COLOR_LINK );
-    GridData gdLink = new GridData();
-    gdLink.horizontalAlignment = GridData.BEGINNING;
-    link.setLayoutData( gdLink );
     link.addHyperlinkListener( hyperlinkListener );
   }
 
-  private void createActionSections( final ScrolledForm form, 
+  private void createActionSections( final ScrolledForm form,
                                      final Composite left )
   {
     IDataModel model = DataModelRegistry.getFactory();
@@ -353,7 +398,7 @@ public class Intro extends ViewPart {
     composite.setLayout( layout );
     composite.setBackground( COLOR_WHITE );
   }
-  
+
   private Composite createImageLabelSection( final ScrolledForm form,
                                              final Composite client,
                                              final String title,
@@ -363,10 +408,10 @@ public class Intro extends ViewPart {
                                              final SelectionListener action,
                                              final boolean expanded )
   {
-    
+
     Composite result = createSection( form, client, title, desc, 2, expanded );
-    
-    // using a CLabel instead of a Label is a workaround for Safari 
+
+    // using a CLabel instead of a Label is a workaround for Safari
     CLabel image = new CLabel( result, SWT.NONE );
     Activator activator = Activator.getDefault();
     image.setImage( activator.getImage( imageName ) );
@@ -376,7 +421,7 @@ public class Intro extends ViewPart {
     gdImage.verticalSpan = 2;
     image.setLayoutData( gdImage );
     image.setBackground( COLOR_WHITE );
-    
+
     Label text = new Label( result, SWT.WRAP );
     text.setText( explanation );
     GridData gdText = new GridData();
@@ -384,7 +429,7 @@ public class Intro extends ViewPart {
     gdText.heightHint = 80;
     text.setLayoutData( gdText );
     text.setBackground( COLOR_WHITE );
-    
+
     Button button = new Button( result, SWT.NONE );
     button.setImage( activator.getImage( Activator.IMG_INTRO_SKIP ) );
     button.setText( RMSMessages.get().Intro_DoIt );
@@ -393,10 +438,10 @@ public class Intro extends ViewPart {
     gdButton.horizontalAlignment = GridData.END;
     button.setLayoutData( gdButton );
     button.addSelectionListener( action );
-    
+
     return result;
   }
-  
+
   private Composite createSection( final ScrolledForm form,
                                    final Composite client,
                                    final String title,
@@ -404,8 +449,10 @@ public class Intro extends ViewPart {
                                    final int numColumns,
                                    final boolean expanded )
   {
-    int style =   Section.TWISTIE | Section.TITLE_BAR 
-                | Section.DESCRIPTION | Section.EXPANDED;
+    int style =   ExpandableComposite.TWISTIE
+                | ExpandableComposite.TITLE_BAR
+                | Section.DESCRIPTION
+                | ExpandableComposite.EXPANDED;
     Section section = toolkit.createSection( client, style );
     section.setExpanded( expanded );
     section.setText( title );
@@ -418,10 +465,17 @@ public class Intro extends ViewPart {
     result.setLayout( layout );
     section.setClient( result );
     section.addExpansionListener( new ExpansionAdapter() {
-      public void expansionStateChanged( ExpansionEvent e ) {
+      @Override
+      public void expansionStateChanged( final ExpansionEvent e ) {
         form.reflow( false );
       }
     } );
     return result;
+  }
+
+  private static void createSpacer( final Composite parent ) {
+    Label spacer = new Label( parent, SWT.NONE );
+    spacer.setText( "  " ); //$NON-NLS-1$
+    spacer.setBackground( COLOR_WHITE );
   }
 }

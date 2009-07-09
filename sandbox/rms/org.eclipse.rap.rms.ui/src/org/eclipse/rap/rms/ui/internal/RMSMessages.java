@@ -162,7 +162,6 @@ public class RMSMessages {
   public String Intro_DownloadTitle;
   public String Intro_DownloadDesc;
   public String Intro_DownloadWarLbl;
-  public String Intro_DownloadWarLink;
   public String Intro_DownloadRcpLbl;
   public String Intro_DownloadRcpLink;
   public String Intro_LinkTitle;
