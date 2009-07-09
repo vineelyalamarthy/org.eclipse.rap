@@ -276,10 +276,10 @@ public class Intro extends ViewPart {
                 hyperlinkListener );
   }
 
-  private void createLink( final Composite download,
-                           final String linkDescription,
-                           final String linkText,
-                           final IHyperlinkListener hyperlinkListener )
+  private static void createLink( final Composite download,
+                                  final String linkDescription,
+                                  final String linkText,
+                                  final IHyperlinkListener hyperlinkListener )
   {
     Label spacer = new Label( download, SWT.NONE );
     spacer.setText( "  " ); //$NON-NLS-1$
