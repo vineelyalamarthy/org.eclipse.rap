@@ -1,0 +1,13 @@
+--- qx-build/source/class/qx/ui/form/Spinner.js	2 Jul 2009 14:41:30 -0000	1.2
++++ qx-build/source/class/qx/ui/form/Spinner.js	17 Jul 2009 13:21:00 -0000
+@@ -697,6 +697,10 @@
+         this.getManager().setValue(value);
+       }
+       this._textfield.selectAll();
++      // RAP [rst] See https://bugs.eclipse.org/bugs/show_bug.cgi?id=283546
++      e.preventDefault();
++      e.stopPropagation();
++      // END RAP
+     },
+ 
+ 

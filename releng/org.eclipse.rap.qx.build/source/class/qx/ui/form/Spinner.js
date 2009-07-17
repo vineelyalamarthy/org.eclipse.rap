@@ -697,6 +697,10 @@ qx.Class.define("qx.ui.form.Spinner",
         this.getManager().setValue(value);
       }
       this._textfield.selectAll();
+      // RAP [rst] See https://bugs.eclipse.org/bugs/show_bug.cgi?id=283546
+      e.preventDefault();
+      e.stopPropagation();
+      // END RAP
     },
 
 
