@@ -63,7 +63,7 @@ rm ${TEMP}/class/qx/html/Textile.js
 rm ${TEMP}/class/qx/xml/Document.js
 rm ${TEMP}/class/qx/xml/Element.js
 # rm ${TEMP}/class/qx/xml/Namespace.js
-rm ${TEMP}/class/qx/util/StringBuilder.js
+# rm ${TEMP}/class/qx/util/StringBuilder.js
 rm ${TEMP}/class/qx/util/EditDistance.js
 rm ${TEMP}/class/qx/util/format/DateFormat.js
 rm ${TEMP}/class/qx/util/format/Format.js
@@ -146,8 +146,9 @@ INCLUDES="--include=oo
   --include-without-dependencies=qx.ui.embed.Iframe 
   --include-without-dependencies=qx.html.Window 
   --include-without-dependencies=qx.ui.basic.ScrollBar 
-  --include-without-dependencies=qx.ui.basic.ScrollArea"
-  
+  --include-without-dependencies=qx.ui.basic.ScrollArea
+  --include-without-dependencies=qx.util.StringBuilder"
+
 echo "  GENERATING ${OUTPUT_FILE}"
 ${TOOL}/generator.py \
   --generate-compiled-script \
