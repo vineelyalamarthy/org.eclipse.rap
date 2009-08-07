@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.rap.demo.feature"
       label="RAP Demo Deployment Feature"
-      version="1.2.0.qualifier"
+      version="1.3.0.qualifier"
       provider-name="eclipse.org">
 
    <plugin
