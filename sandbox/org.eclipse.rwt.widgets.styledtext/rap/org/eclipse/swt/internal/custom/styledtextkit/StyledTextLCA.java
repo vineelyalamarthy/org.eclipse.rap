@@ -138,16 +138,6 @@ public final class StyledTextLCA extends AbstractWidgetLCA {
     writer.dispose();
   }
 
-  public void createResetHandlerCalls( final String typePoolId )
-    throws IOException
-  {
-    ControlLCAUtil.resetStyleFlags();
-  }
-
-  public String getTypePoolId( final Widget widget ) {
-    return null;
-  }
-
   private void writeHtml( final StyledText styledText )
     throws IOException
   {

@@ -155,33 +155,6 @@ public class UploadLCA extends AbstractWidgetLCA {
     final JSWriter writer = JSWriter.getWriterFor( widget );
     writer.dispose();
   }
-
-  /**
-   * Resets the handler calls.
-   * 
-   * @param typePoolId The Pool ID.
-   * @throws IOException If can't reset the style flags.
-   */
-  public final void createResetHandlerCalls( final String typePoolId )
-    throws IOException
-  {
-    ControlLCAUtil.resetChanges();
-    ControlLCAUtil.resetStyleFlags();
-  }
-
-  /**
-   * Returns the <code>Widget</code> Pool ID.
-   * 
-   * @param widget The <code>Widget</code>.
-   * @return <code>Widget</code> class name.
-   */
-  public final String getTypePoolId( final Widget widget ) {
-// TODO [fappel]: disable pooling temporarily as this causes javascript
-//                errors with qooxdoo 0.7. Hopefully this can be reactivated
-//                with qooxdoo 0.8    
-//    return UploadLCA.class.getName();
-    return null;
-  }
   
   private IUploadAdapter getAdapter( final Upload upload ) {
     return ( IUploadAdapter )upload.getAdapter( IUploadAdapter.class );
