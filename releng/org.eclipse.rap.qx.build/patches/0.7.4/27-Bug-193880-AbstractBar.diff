@@ -1,0 +1,12 @@
+--- qx-build/source/class/qx/ui/pageview/AbstractBar.js	10 Dec 2008 16:57:56 -0000	1.1
++++ qx-build/source/class/qx/ui/pageview/AbstractBar.js	24 Aug 2009 11:21:37 -0000
+@@ -80,6 +80,9 @@
+      */
+     _onmousewheel : function(e)
+     {
++      // prevents scrolling the parent
++      e.preventDefault();
++      e.stopPropagation();
+       // Make it a bit lazier than it could be
+       // Hopefully this is a better behaviour for fast scrolling users
+       var vDate = (new Date).valueOf();

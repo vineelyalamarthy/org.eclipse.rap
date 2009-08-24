@@ -80,6 +80,9 @@ qx.Class.define("qx.ui.pageview.AbstractBar",
      */
     _onmousewheel : function(e)
     {
+      // prevents scrolling the parent
+      e.preventDefault();
+      e.stopPropagation();
       // Make it a bit lazier than it could be
       // Hopefully this is a better behaviour for fast scrolling users
       var vDate = (new Date).valueOf();
