@@ -1709,9 +1709,9 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /** Contains the context menu object connected to the widget. (Need real implementation) */
+    // RAP : remove check, allow other menu implementation
     contextMenu :
     {
-      check : "qx.ui.menu.Menu",
       nullable : true
     },
 

@@ -58,9 +58,9 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
   properties :
   {
+    // RAP : remove check, allow other menu implementation
     menu :
     {
-      check : "qx.ui.menu.Menu",
       nullable : true,
       apply : "_applyMenu",
       event : "changeMenu"
