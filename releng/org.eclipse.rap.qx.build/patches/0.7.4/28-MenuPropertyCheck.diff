@@ -1,8 +1,3 @@
-Index: source/class/qx/ui/toolbar/MenuButton.js
-===================================================================
-RCS file: /cvsroot/rt/org.eclipse.rap/releng/org.eclipse.rap.qx.build/source/class/qx/ui/toolbar/MenuButton.js,v
-retrieving revision 1.1
-diff -u -r1.1 MenuButton.js
 --- qx-build/source/class/qx/ui/toolbar/MenuButton.js	10 Dec 2008 16:57:51 -0000	1.1
 +++ qx-build/source/class/qx/ui/toolbar/MenuButton.js	6 Aug 2009 11:35:22 -0000
 @@ -58,9 +58,9 @@
@@ -16,11 +11,7 @@ diff -u -r1.1 MenuButton.js
        nullable : true,
        apply : "_applyMenu",
        event : "changeMenu"
-Index: source/class/qx/ui/core/Widget.js
-===================================================================
-RCS file: /cvsroot/rt/org.eclipse.rap/releng/org.eclipse.rap.qx.build/source/class/qx/ui/core/Widget.js,v
-retrieving revision 1.3
-diff -u -r1.3 Widget.js
+
 --- qx-build/source/class/qx/ui/core/Widget.js	8 Jul 2009 13:31:34 -0000	1.3
 +++ qx-build/source/class/qx/ui/core/Widget.js	6 Aug 2009 11:35:20 -0000
 @@ -1709,9 +1709,9 @@
@@ -34,3 +25,16 @@ diff -u -r1.3 Widget.js
        nullable : true
      },
  
+--- qx-build/source/class/qx/ui/toolbar/ToolBar.js	26 Aug 2009 10:43:40 -0000	1.3
++++ qx-build/source/class/qx/ui/toolbar/ToolBar.js	26 Aug 2009 10:45:14 -0000
+@@ -75,9 +75,9 @@
+     },
+ 
+ 
++    // RAP : remove check, allow other menu implementation
+     openMenu :
+     {
+-      check : "qx.ui.menu.Menu",
+       event : "changeOpenMenu",
+       nullable : true
+     },
