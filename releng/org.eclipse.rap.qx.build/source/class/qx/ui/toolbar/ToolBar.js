@@ -74,9 +74,10 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       init : "auto"
     },
 
-    // RAP : remove check, allow other menu implementation
+
     openMenu :
     {
+      check : "qx.ui.menu.Menu",
       event : "changeOpenMenu",
       nullable : true
     },
