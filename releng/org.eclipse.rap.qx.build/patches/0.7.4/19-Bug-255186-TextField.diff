@@ -24,7 +24,7 @@
      },
  
  
-@@ -843,13 +849,39 @@
+@@ -846,13 +852,39 @@
          if (!this._firstInputFixApplied && this._inputElement) {
            qx.client.Timer.once(this._ieFirstInputFix, this, 1);
          }

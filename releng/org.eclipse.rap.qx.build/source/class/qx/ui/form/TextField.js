@@ -705,9 +705,12 @@ qx.Class.define("qx.ui.form.TextField",
       // We need to remove the caret in all cases.
       // This sometimes does not work in IE (caret keeps blinking)
       // but key events are not handled by the text field anymore.
-      try {
-        this._inputElement.blur();
-      } catch(ex) {}
+      if (!qx.event.handler.FocusHandler.mouseFocus)
+      {
+        try {
+          this._inputElement.blur();
+        } catch(ex) {}
+      }
     },
 
 

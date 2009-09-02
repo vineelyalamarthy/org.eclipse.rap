@@ -1,6 +1,6 @@
 --- qx-build/source/class/qx/ui/form/TextField.js	25 May 2009 11:24:29 -0000	1.5
 +++ qx-build/source/class/qx/ui/form/TextField.js	16 Jun 2009 09:23:44 -0000
-@@ -1371,10 +1371,13 @@
+@@ -1374,10 +1374,13 @@
  
        // to be sure we get the element selected
        this._inputElement.select();
