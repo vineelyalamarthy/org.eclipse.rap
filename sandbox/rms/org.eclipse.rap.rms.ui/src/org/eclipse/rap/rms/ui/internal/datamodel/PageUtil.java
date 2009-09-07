@@ -370,7 +370,8 @@ class PageUtil {
     GridData gdLabel = new GridData();
     gdLabel.widthHint = 100;
     label.setLayoutData( gdLabel );
-    DateTime result = new DateTime( client, SWT.BORDER | SWT.DATE );
+    int style = SWT.BORDER | SWT.DATE | SWT.DROP_DOWN;
+    DateTime result = new DateTime( client, style );
     if( date != null ) {
       Calendar calendar = Calendar.getInstance();
       calendar.setTime( date );
