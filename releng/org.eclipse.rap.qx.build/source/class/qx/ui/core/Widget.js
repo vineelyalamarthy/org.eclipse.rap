@@ -6205,11 +6205,15 @@ qx.Class.define("qx.ui.core.Widget",
         this.setHtmlProperty("tabIndex", value < 0 ? -1 : 1);
       },
 
-      "gecko" : function(value, old)
-      {
-        // CSS 3 draft userFocus property
-        this.setStyleProperty("MozUserFocus", (value < 0 ? "ignore" : "normal"));
-      },
+      // [if] Fix for bug:
+      // 288348: The focus stays on the browser location bar after clicking some
+      // of the widgets.
+      // https://bugs.eclipse.org/bugs/show_bug.cgi?id=288348
+//      "gecko" : function(value, old)
+//      {
+//        // CSS 3 draft userFocus property
+//        this.setStyleProperty("MozUserFocus", (value < 0 ? "ignore" : "normal"));
+//      },
 
       "default" : function(value, old)
       {
