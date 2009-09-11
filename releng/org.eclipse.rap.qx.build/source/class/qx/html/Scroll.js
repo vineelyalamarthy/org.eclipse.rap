@@ -116,8 +116,15 @@ qx.Class.define("qx.html.Scroll",
      */    
     _onscroll : function(ev) 
     {
-      var el = ev.target || ev.srcElement;
-      if(ev.scrollLeft != 0 || ev.scrollTop != 0) {
+      // RAP [if] Fix for bug 288737: Scroll bars are broken in Opera 10
+      // https://bugs.eclipse.org/bugs/show_bug.cgi?id=288737           
+      var el = null;
+      if(ev.target) {
+        el = (ev.target == ev.currentTarget) ? ev.target : null; 
+      } else if(ev.srcElement){
+        el = ev.srcElement;
+      }
+      if(el && (ev.scrollLeft != 0 || ev.scrollTop != 0)) {
         el.scrollLeft = 0;
         el.scrollTop = 0;
       }
