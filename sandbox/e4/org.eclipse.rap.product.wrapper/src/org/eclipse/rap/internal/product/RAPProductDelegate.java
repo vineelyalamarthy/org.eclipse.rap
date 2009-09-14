@@ -26,8 +26,8 @@ import org.osgi.framework.Bundle;
 
 public class RAPProductDelegate implements IProduct {
 
-  private static final String PI_RUNTIME = "org.eclipse.core.runtime"; //$NON-NLS-1$
-  private static final String PT_PRODUCTS = "products"; //$NON-NLS-1$
+  private static final String PI_RUNTIME = "org.eclipse.core.runtime";
+  private static final String PT_PRODUCTS = "products";
   private final Map products = new HashMap();
 
   public RAPProductDelegate() {
@@ -72,7 +72,7 @@ public class RAPProductDelegate implements IProduct {
     if( ContextProvider.hasContext() ) {
       result = getCurrentBranding().getId();
     } else {
-      result = "org.eclipse.rap.product";
+      result = ProductProvider.RAP_PRODUCT_ID;
     }
     return result;
   }
@@ -82,11 +82,8 @@ public class RAPProductDelegate implements IProduct {
   }
 
   private IConfigurationElement[] getProductExtensions() {
-    IConfigurationElement[] elements;
-    final IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
-    elements = extensionRegistry.getConfigurationElementsFor( PI_RUNTIME,
-                                                              PT_PRODUCTS );
-    return elements;
+    final IExtensionRegistry registry = Platform.getExtensionRegistry();
+    return registry.getConfigurationElementsFor( PI_RUNTIME, PT_PRODUCTS );
   }
 
   public synchronized String getProperty( final String key ) {
@@ -97,13 +94,13 @@ public class RAPProductDelegate implements IProduct {
     final IConfigurationElement[] elements = getProductExtensions();
     for( int i = 0; i < elements.length; i++ ) {
       final IConfigurationElement element = elements[ i ];
-      if( element.getName().equalsIgnoreCase( "product" ) ) { //$NON-NLS-1$
+      if( element.getName().equalsIgnoreCase( "product" ) ) {
         final IExtension extension = ( IExtension )element.getParent();
         final String id = extension.getUniqueIdentifier();
         final String simpleIdentifier = extension.getSimpleIdentifier();
         final ProductExtensionBranding productBranding = new ProductExtensionBranding( id,
                                                                                        element );
-        final String fullIdentifier = extension.getContributor().getName()
+        final String fullIdentifier =   extension.getContributor().getName()
                                       + "."
                                       + simpleIdentifier;
         products.put( fullIdentifier, productBranding );

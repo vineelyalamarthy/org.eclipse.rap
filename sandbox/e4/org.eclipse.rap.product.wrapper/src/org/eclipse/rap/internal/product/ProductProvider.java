@@ -19,10 +19,11 @@ import org.osgi.framework.ServiceReference;
 
 public class ProductProvider implements IProductProvider {
 
+  public static final String RAP_PRODUCT_ID = "org.eclipse.rap.product";
   static final String PROP_PRODUCT = "eclipse.product"; //$NON-NLS-1$
-  static final RAPProductDelegate productDelegate = new RAPProductDelegate();
+  static final IProduct productDelegate = new RAPProductDelegate();
 
-  // copy
+  // copy of org.eclipse.equinox.internal.app.Activator.getEnvironmentInfo
   private static EnvironmentInfo getEnvironmentInfo( final BundleContext bc ) {
     if( bc == null ) {
       return null;
@@ -45,9 +46,9 @@ public class ProductProvider implements IProductProvider {
     final BundleContext bundleContext = appBundle.getBundleContext();
     if( bundleContext != null ) {
       final EnvironmentInfo envInfo = getEnvironmentInfo( bundleContext );
-      envInfo.setProperty( PROP_PRODUCT, "org.eclipse.rap.product" );
+      envInfo.setProperty( PROP_PRODUCT, RAP_PRODUCT_ID );
       // force app admin to load our product provider
-      final IProduct product = Platform.getProduct();
+      Platform.getProduct();
     } else {
       throw new RuntimeException( "Could not instrument "
                                   + appBundleId
