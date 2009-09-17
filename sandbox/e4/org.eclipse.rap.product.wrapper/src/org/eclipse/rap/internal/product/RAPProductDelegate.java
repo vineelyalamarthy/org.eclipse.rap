@@ -82,7 +82,7 @@ public class RAPProductDelegate implements IProduct {
   }
 
   private IConfigurationElement[] getProductExtensions() {
-    final IExtensionRegistry registry = Platform.getExtensionRegistry();
+    IExtensionRegistry registry = Platform.getExtensionRegistry();
     return registry.getConfigurationElementsFor( PI_RUNTIME, PT_PRODUCTS );
   }
 
@@ -91,23 +91,23 @@ public class RAPProductDelegate implements IProduct {
   }
 
   private void registerProducts() {
-    final IConfigurationElement[] elements = getProductExtensions();
+    IConfigurationElement[] elements = getProductExtensions();
     for( int i = 0; i < elements.length; i++ ) {
-      final IConfigurationElement element = elements[ i ];
+      IConfigurationElement element = elements[ i ];
       if( element.getName().equalsIgnoreCase( "product" ) ) {
-        final IExtension extension = ( IExtension )element.getParent();
-        final String id = extension.getUniqueIdentifier();
-        final String simpleIdentifier = extension.getSimpleIdentifier();
-        final ProductExtensionBranding productBranding = new ProductExtensionBranding( id,
-                                                                                       element );
-        final String fullIdentifier =   extension.getContributor().getName()
-                                      + "."
-                                      + simpleIdentifier;
+        IExtension extension = ( IExtension )element.getParent();
+        String id = extension.getUniqueIdentifier();
+        String simpleIdentifier = extension.getSimpleIdentifier();
+        ProductExtensionBranding productBranding
+          = new ProductExtensionBranding( id, element );
+        String fullIdentifier =   extension.getContributor().getName()
+                                + "."
+                                + simpleIdentifier;
         products.put( fullIdentifier, productBranding );
         BrandingExtension.registerServletName( fullIdentifier );
-        BrandingManager.register( new RAPProductBranding( id,
-                                                          productBranding,
-                                                          fullIdentifier ) );
+        RAPProductBranding rapProductBranding
+          = new RAPProductBranding( id, productBranding, fullIdentifier );
+        BrandingManager.register( rapProductBranding );
       }
     }
   }

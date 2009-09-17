@@ -50,7 +50,7 @@ public class ProductProvider implements IProductProvider {
       // force app admin to load our product provider
       Platform.getProduct();
     } else {
-      throw new RuntimeException( "Could not instrument "
+      throw new RuntimeException(   "Could not instrument "
                                   + appBundleId
                                   + "to load RAP product" );
     }

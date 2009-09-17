@@ -19,9 +19,10 @@ public class EntrypointApplicationWrapper implements IEntryPoint {
     Object exitCode = null;
     int result = 0;
     try {
-      final IApplication application = ApplicationRegistry.getApplication();
-      final IApplicationContext context = new RAPApplicationContext( application );
+      IApplication application = ApplicationRegistry.getApplication();
+      IApplicationContext context = new RAPApplicationContext( application );
       exitCode = application.start( context );
+      // TODO [bm] implement restart, see IApplication constants
       if( exitCode instanceof Integer ) {
         result = ( ( Integer )exitCode ).intValue();
       }
