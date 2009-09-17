@@ -10,8 +10,11 @@
 package org.eclipse.rap.internal.application;
 
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.equinox.http.registry.HttpContextExtensionService;
 import org.eclipse.rap.internal.product.ProductProvider;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -26,6 +29,18 @@ public class Activator extends Plugin {
   public void start( final BundleContext context ) throws Exception {
     super.start( context );
     ApplicationRegistry.registerApplicationEntryPoints();
-    ProductProvider.injectProductProvider();
+    
+    // RAP [bm]: ensure that the rap http context was loaded before
+    //           the mapping of servlets takes place
+    String serviceName = HttpContextExtensionService.class.getName();
+    ServiceTracker httpContextExtensionServiceTracker
+      = new ServiceTracker( context, serviceName, null )
+    {
+      public Object addingService( final ServiceReference reference ) {
+        ProductProvider.injectProductProvider();
+        return super.addingService( reference );
+      }
+    };
+    httpContextExtensionServiceTracker.open();
   }
 }

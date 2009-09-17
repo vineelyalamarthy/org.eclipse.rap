@@ -9,106 +9,47 @@
  ******************************************************************************/
 package org.eclipse.rap.internal.product;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProduct;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.equinox.internal.app.ProductExtensionBranding;
-import org.eclipse.rap.ui.internal.branding.BrandingExtension;
-import org.eclipse.rwt.internal.branding.BrandingManager;
-import org.eclipse.rwt.internal.service.BrowserSurvey;
 import org.eclipse.rwt.internal.service.ContextProvider;
 import org.osgi.framework.Bundle;
 
 public class RAPProductDelegate implements IProduct {
 
-  private static final String PI_RUNTIME = "org.eclipse.core.runtime";
-  private static final String PT_PRODUCTS = "products";
-  private final Map products = new HashMap();
-
-  public RAPProductDelegate() {
-    registerProducts();
+  // [bm]: depending on if we have a session context,
+  // we need look like the real product or the fake delegate product
+  // * if we have a session, it's most likely that the application
+  //   asks for the real product
+  //
+  // * without context, it's likely that equinox asks us for the product during
+  //   startup and we need to "play" the rap product in order to get cached
+  public String getId() {
+    String productId;
+    if( ContextProvider.hasContext() ) {
+      productId = ProductProvider.getCurrentBranding().getId();
+    } else {
+      productId = ProductProvider.RAP_PRODUCT_ID;
+    }
+    return productId;
   }
 
   public synchronized String getApplication() {
-    return getCurrentBranding().getApplication();
-  }
-
-  private ProductExtensionBranding getCurrentBranding() {
-    ProductExtensionBranding result;
-    String servletName = null;
-    if( ContextProvider.hasContext() ) {
-      servletName = BrowserSurvey.getSerlvetName();
-    } else {
-      // no no no :)
-      // TODO [bm] equinox calls getApplication during startup, need to see if
-      // we can force equinox not to ask during startup
-    }
-    result = ( ProductExtensionBranding )products.get( servletName );
-    if( result == null ) {
-      result = new ProductExtensionBranding( servletName, null );
-    }
-    return result;
+    return ProductProvider.getCurrentBranding().getApplication();
   }
 
   public synchronized Bundle getDefiningBundle() {
-    return getCurrentBranding().getDefiningBundle();
+    return ProductProvider.getCurrentBranding().getDefiningBundle();
   }
 
   public synchronized String getDescription() {
-    return getCurrentBranding().getDescription();
-  }
-
-  /*
-   * TODO [bm]: depending if we have a context we return the real product or the
-   * fake delegate product
-   */
-  public synchronized String getId() {
-    String result;
-    if( ContextProvider.hasContext() ) {
-      result = getCurrentBranding().getId();
-    } else {
-      result = ProductProvider.RAP_PRODUCT_ID;
-    }
-    return result;
+    return ProductProvider.getCurrentBranding().getDescription();
   }
 
   public synchronized String getName() {
-    return getCurrentBranding().getName();
-  }
-
-  private IConfigurationElement[] getProductExtensions() {
-    IExtensionRegistry registry = Platform.getExtensionRegistry();
-    return registry.getConfigurationElementsFor( PI_RUNTIME, PT_PRODUCTS );
+    return ProductProvider.getCurrentBranding().getName();
   }
 
   public synchronized String getProperty( final String key ) {
-    return getCurrentBranding().getProperty( key );
+    return ProductProvider.getCurrentBranding().getProperty( key );
   }
 
-  private void registerProducts() {
-    IConfigurationElement[] elements = getProductExtensions();
-    for( int i = 0; i < elements.length; i++ ) {
-      IConfigurationElement element = elements[ i ];
-      if( element.getName().equalsIgnoreCase( "product" ) ) {
-        IExtension extension = ( IExtension )element.getParent();
-        String id = extension.getUniqueIdentifier();
-        String simpleIdentifier = extension.getSimpleIdentifier();
-        ProductExtensionBranding productBranding
-          = new ProductExtensionBranding( id, element );
-        String fullIdentifier =   extension.getContributor().getName()
-                                + "."
-                                + simpleIdentifier;
-        products.put( fullIdentifier, productBranding );
-        BrandingExtension.registerServletName( fullIdentifier );
-        RAPProductBranding rapProductBranding
-          = new RAPProductBranding( id, productBranding, fullIdentifier );
-        BrandingManager.register( rapProductBranding );
-      }
-    }
-  }
 }

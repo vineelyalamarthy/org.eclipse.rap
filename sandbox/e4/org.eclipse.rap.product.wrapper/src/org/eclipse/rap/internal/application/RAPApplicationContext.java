@@ -15,12 +15,11 @@ import java.util.Map;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.equinox.internal.app.CommandLineArgs;
+import org.eclipse.rap.internal.product.ProductProvider;
 import org.osgi.framework.Bundle;
 
 /*
  * Fake context for IApplications
- * 
- * TODO [bm]: getBranding* should be mapped to the product
  */
 final class RAPApplicationContext implements IApplicationContext {
 
@@ -44,26 +43,26 @@ final class RAPApplicationContext implements IApplicationContext {
   }
 
   public String getBrandingApplication() {
-    return null;
+    return ProductProvider.getCurrentBranding().getApplication();
   }
 
   public Bundle getBrandingBundle() {
-    return null;
+    return ProductProvider.getCurrentBranding().getDefiningBundle();
   }
 
   public String getBrandingDescription() {
-    return null;
+    return ProductProvider.getCurrentBranding().getDescription();
   }
 
   public String getBrandingId() {
-    return null;
+    return ProductProvider.getCurrentBranding().getId();
   }
 
   public String getBrandingName() {
-    return null;
+    return ProductProvider.getCurrentBranding().getName();
   }
 
   public String getBrandingProperty( final String key ) {
-    return null;
+    return ProductProvider.getCurrentBranding().getProperty( key );
   }
 }

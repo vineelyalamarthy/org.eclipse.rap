@@ -9,10 +9,23 @@
  ******************************************************************************/
 package org.eclipse.rap.internal.product;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProduct;
 import org.eclipse.core.runtime.IProductProvider;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.equinox.internal.app.IBranding;
+import org.eclipse.equinox.internal.app.ProductExtensionBranding;
 import org.eclipse.osgi.service.environment.EnvironmentInfo;
+import org.eclipse.rap.ui.internal.branding.BrandingExtension;
+import org.eclipse.rwt.internal.branding.BrandingManager;
+import org.eclipse.rwt.internal.service.BrowserSurvey;
+import org.eclipse.rwt.internal.service.ContextProvider;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -20,24 +33,24 @@ import org.osgi.framework.ServiceReference;
 public class ProductProvider implements IProductProvider {
 
   public static final String RAP_PRODUCT_ID = "org.eclipse.rap.product";
-  static final String PROP_PRODUCT = "eclipse.product"; //$NON-NLS-1$
-  static final IProduct productDelegate = new RAPProductDelegate();
+  
+  private static final String PI_RUNTIME = "org.eclipse.core.runtime";
+  private static final String PT_PRODUCTS = "products";
+  private static final String PROP_PRODUCT = "eclipse.product"; //$NON-NLS-1$
+  private static final Map products = new HashMap();
 
-  // copy of org.eclipse.equinox.internal.app.Activator.getEnvironmentInfo
-  private static EnvironmentInfo getEnvironmentInfo( final BundleContext bc ) {
-    if( bc == null ) {
-      return null;
-    }
-    final ServiceReference infoRef = bc.getServiceReference( EnvironmentInfo.class.getName() );
-    if( infoRef == null ) {
-      return null;
-    }
-    final EnvironmentInfo envInfo = ( EnvironmentInfo )bc.getService( infoRef );
-    if( envInfo == null ) {
-      return null;
-    }
-    bc.ungetService( infoRef );
-    return envInfo;
+  private static final IBranding NULL_BRANDING = new NullBranding();
+  
+  private final IProduct productDelegate = new RAPProductDelegate();
+
+  // gets called by bundle org.eclipse.equinox.app via reflection
+  // org.eclipse.equinox.internal.app.EclipseAppContainer#getBranding
+  public IProduct[] getProducts() {
+    return new IProduct[]{ productDelegate };
+  }
+
+  public String getName() {
+    return "RAP Product Delegate";
   }
 
   public static void injectProductProvider() {
@@ -54,17 +67,80 @@ public class ProductProvider implements IProductProvider {
                                   + appBundleId
                                   + "to load RAP product" );
     }
+    registerProducts();
   }
 
-  public String getName() {
-    return "RAP Product Delegate";
+
+  public static IBranding getCurrentBranding() {
+    IBranding result;
+    String servletName = null;
+    if( ContextProvider.hasContext() ) {
+      servletName = BrowserSurvey.getSerlvetName();
+    } else {
+      // no no no :)
+      // TODO [bm] equinox calls getApplication during startup, need to see if
+      // we can force equinox not to ask during startup
+    }
+    result = ( ProductExtensionBranding )products.get( servletName );
+    if( result == null ) {
+      // TODO [bm] we should return no product for servlets without product
+      //           but this is currently impossible as we always have our
+      //           delegate product active
+      result = NULL_BRANDING;
+    }
+    return result;
+  }
+  
+  private static void registerProducts() {
+    IExtension[] elements = getProductExtensions();
+    for( int i = 0; i < elements.length; i++ ) {
+      IExtension extension = elements[ i ];
+      IConfigurationElement element = extension.getConfigurationElements()[0];
+      if( element.getName().equalsIgnoreCase( "product" ) ) {
+        registerProduct( extension );
+      }
+    }
   }
 
-  // gets called by bundle org.eclipse.equinox.app via reflection
-  // org.eclipse.equinox.internal.app.EclipseAppContainer#getBranding
-  public IProduct[] getProducts() {
-    return new IProduct[]{
-      productDelegate
-    };
+  private static void registerProduct( IExtension extension ) {
+    String fullIdentifier = extension.getUniqueIdentifier();
+    String simpleIdentifier = extension.getSimpleIdentifier();
+    IConfigurationElement element = extension.getConfigurationElements()[0];
+    ProductExtensionBranding productBranding
+      = new ProductExtensionBranding( fullIdentifier, element );
+    products.put( simpleIdentifier, productBranding );
+    BrandingExtension.registerServletName( simpleIdentifier );
+    RAPProductBranding rapProductBranding
+      = new RAPProductBranding( fullIdentifier,
+                                productBranding,
+                                simpleIdentifier );
+    BrandingManager.register( rapProductBranding );
+  }
+
+  private static IExtension[] getProductExtensions() {
+    IExtensionRegistry registry = Platform.getExtensionRegistry();
+    String extensionPointId = PI_RUNTIME + '.' + PT_PRODUCTS;
+    IExtensionPoint extensionPoint
+      = registry.getExtensionPoint( extensionPointId );
+    return extensionPoint.getExtensions();
+  }
+  
+
+  // copy of org.eclipse.equinox.internal.app.Activator.getEnvironmentInfo
+  private static EnvironmentInfo getEnvironmentInfo( final BundleContext bc ) {
+    if( bc == null ) {
+      return null;
+    }
+    String envInfoClass = EnvironmentInfo.class.getName();
+    final ServiceReference infoRef = bc.getServiceReference( envInfoClass );
+    if( infoRef == null ) {
+      return null;
+    }
+    final EnvironmentInfo envInfo = ( EnvironmentInfo )bc.getService( infoRef );
+    if( envInfo == null ) {
+      return null;
+    }
+    bc.ungetService( infoRef );
+    return envInfo;
   }
 }

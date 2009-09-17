@@ -41,7 +41,7 @@ final class RAPProductBranding extends AbstractBranding {
   }
 
   public String getId() {
-    return id + ".product";
+    return id;
   }
 
   public String getServletName() {

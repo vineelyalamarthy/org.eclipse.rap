@@ -82,16 +82,18 @@ public class ApplicationRegistry {
   }
 
   public static void registerApplicationEntryPoints() {
-    IExtensionPoint point = getApplicationExtensionPoint();
-    IExtension[] elements = point.getExtensions();
+    IExtension[] elements = getApplicationExtensions();
     for( int i = 0; i < elements.length; i++ ) {
       IExtension extension = elements[ i ];
       registerApplication( extension );
     }
   }
 
-  private static IExtensionPoint getApplicationExtensionPoint() {
+  private static IExtension[] getApplicationExtensions() {
     IExtensionRegistry registry = Platform.getExtensionRegistry();
-    return registry.getExtensionPoint( PI_RUNTIME + '.' + PT_APPLICATIONS );
+    String extensionPointId = PI_RUNTIME + '.' + PT_APPLICATIONS;
+    IExtensionPoint extensionPoint
+      = registry.getExtensionPoint( extensionPointId );
+    return extensionPoint.getExtensions();
   }
 }
