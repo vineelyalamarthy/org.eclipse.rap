@@ -32,9 +32,9 @@ import org.osgi.framework.Bundle;
 public class ApplicationRegistry {
 
   private static Map appEntrypointMapping = new HashMap();
-  private static final String RUN = "run";
-  private static final String PI_RUNTIME = "org.eclipse.core.runtime";
-  private static final String PT_APPLICATIONS = "applications";
+  private static final String RUN = "run"; //$NON-NLS-1$
+  private static final String PI_RUNTIME = "org.eclipse.core.runtime"; //$NON-NLS-1$
+  private static final String PT_APPLICATIONS = "applications"; //$NON-NLS-1$
   private static final String PT_APP_VISIBLE = "visible"; //$NON-NLS-1$
 
   public static IApplication getApplication() {
@@ -56,7 +56,7 @@ public class ApplicationRegistry {
       = extension.getConfigurationElements()[0];
     String contributorName = configElement.getContributor().getName();
     IConfigurationElement[] runElement = configElement.getChildren( RUN );
-    String className = runElement[ 0 ].getAttribute( "class" );
+    String className = runElement[ 0 ].getAttribute( "class" ); //$NON-NLS-1$
     String applicationId = extension.getUniqueIdentifier();
     String isVisible = configElement.getAttribute( PT_APP_VISIBLE );
 
@@ -71,8 +71,8 @@ public class ApplicationRegistry {
         EntryPointExtension.bind( applicationId, applicationId );
       }
     } catch( final Exception e ) {
-      String text =   "Could not register entry point ''{0}'' "
-                    + "with request startup parameter ''{1}''.";
+      String text =   "Could not register entry point ''{0}'' " //$NON-NLS-1$
+                    + "with request startup parameter ''{1}''."; //$NON-NLS-1$
       Object[] params = new Object[]{ className, applicationId };
       String msg = MessageFormat.format( text, params );
       IStatus status = new Status( IStatus.ERROR, contributorName,
@@ -96,4 +96,9 @@ public class ApplicationRegistry {
       = registry.getExtensionPoint( extensionPointId );
     return extensionPoint.getExtensions();
   }
+  
+  private ApplicationRegistry() {
+    // prevent instantiation
+  }
+  
 }

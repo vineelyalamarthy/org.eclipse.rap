@@ -32,11 +32,12 @@ import org.osgi.framework.ServiceReference;
 
 public class ProductProvider implements IProductProvider {
 
-  public static final String RAP_PRODUCT_ID = "org.eclipse.rap.product";
+  public static final String RAP_PRODUCT_ID = "org.eclipse.rap.product"; //$NON-NLS-1$
   
-  private static final String PI_RUNTIME = "org.eclipse.core.runtime";
-  private static final String PT_PRODUCTS = "products";
+  private static final String PI_RUNTIME = "org.eclipse.core.runtime"; //$NON-NLS-1$
+  private static final String PT_PRODUCTS = "products"; //$NON-NLS-1$
   private static final String PROP_PRODUCT = "eclipse.product"; //$NON-NLS-1$
+  private static final String APP_BUNDLE_ID = "org.eclipse.equinox.app"; //$NON-NLS-1$
   private static final Map products = new HashMap();
 
   private static final IBranding NULL_BRANDING = new NullBranding();
@@ -50,12 +51,11 @@ public class ProductProvider implements IProductProvider {
   }
 
   public String getName() {
-    return "RAP Product Delegate";
+    return "RAP Product Delegate"; //$NON-NLS-1$
   }
 
   public static void injectProductProvider() {
-    final String appBundleId = "org.eclipse.equinox.app";
-    final Bundle appBundle = Platform.getBundle( appBundleId );
+    final Bundle appBundle = Platform.getBundle( APP_BUNDLE_ID );
     final BundleContext bundleContext = appBundle.getBundleContext();
     if( bundleContext != null ) {
       final EnvironmentInfo envInfo = getEnvironmentInfo( bundleContext );
@@ -63,9 +63,9 @@ public class ProductProvider implements IProductProvider {
       // force app admin to load our product provider
       Platform.getProduct();
     } else {
-      throw new RuntimeException(   "Could not instrument "
-                                  + appBundleId
-                                  + "to load RAP product" );
+      throw new RuntimeException(   "Could not instrument " //$NON-NLS-1$
+                                  + APP_BUNDLE_ID
+                                  + "to load RAP product" ); //$NON-NLS-1$
     }
     registerProducts();
   }
@@ -96,7 +96,7 @@ public class ProductProvider implements IProductProvider {
     for( int i = 0; i < elements.length; i++ ) {
       IExtension extension = elements[ i ];
       IConfigurationElement element = extension.getConfigurationElements()[0];
-      if( element.getName().equalsIgnoreCase( "product" ) ) {
+      if( element.getName().equalsIgnoreCase( "product" ) ) { //$NON-NLS-1$
         registerProduct( extension );
       }
     }
@@ -142,5 +142,10 @@ public class ProductProvider implements IProductProvider {
     }
     bc.ungetService( infoRef );
     return envInfo;
+  }
+  
+  
+  public ProductProvider() {
+    // prevent instantiation
   }
 }

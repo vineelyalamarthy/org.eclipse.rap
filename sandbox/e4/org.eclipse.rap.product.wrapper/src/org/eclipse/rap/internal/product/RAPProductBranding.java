@@ -9,21 +9,26 @@
  ******************************************************************************/
 package org.eclipse.rap.internal.product;
 
-import org.eclipse.equinox.internal.app.ProductExtensionBranding;
-import org.eclipse.rwt.branding.AbstractBranding;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
-/*
- * TODO [bm] needs to be extended to provide all ideas of the RAP branding
- */
+import org.eclipse.equinox.internal.app.IBranding;
+import org.eclipse.rwt.branding.AbstractBranding;
+import org.eclipse.rwt.internal.resources.ResourceManager;
+import org.eclipse.ui.branding.IProductConstants;
+import org.osgi.framework.Bundle;
+
+// TODO [bm] needs to be extended to provide all ideas of the RAP branding
 final class RAPProductBranding extends AbstractBranding {
 
   private final String id;
-  private final ProductExtensionBranding productBranding;
+  private final IBranding productBranding;
   private final String simpleIdentifier;
 
   // private final String windowImages;
-  RAPProductBranding( final String id,
-                      final ProductExtensionBranding productBranding,
+  public RAPProductBranding( final String id,
+                      final IBranding productBranding,
                       final String simpleIdentifier )
   {
     this.id = id;
@@ -36,8 +41,7 @@ final class RAPProductBranding extends AbstractBranding {
   }
 
   public String getFavIcon() {
-    // return ResourceManager.getInstance().getLocation( windowImages );
-    return "";
+    return getFavIconFromProduct();
   }
 
   public String getId() {
@@ -50,5 +54,26 @@ final class RAPProductBranding extends AbstractBranding {
 
   public String getTitle() {
     return productBranding.getName();
+  }
+  
+  public void registerResources() throws IOException {
+    String favIconPath = getFavIconFromProduct();
+    if( favIconPath != null ) {
+      Bundle bundle = productBranding.getDefiningBundle();
+      URL url = bundle.getResource( favIconPath );
+      InputStream iconStream = null;
+      try {
+        iconStream = url.openStream();
+        ResourceManager.getInstance().register( favIconPath, iconStream );
+      } finally {
+        if( iconStream != null ) {
+          iconStream.close();
+        }
+      }
+    }
+  }
+
+  private String getFavIconFromProduct() {
+    return productBranding.getProperty( IProductConstants.WINDOW_IMAGES );
   }
 }
