@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.eclipse.equinox.internal.app.IBranding;
 import org.eclipse.rwt.branding.AbstractBranding;
 import org.eclipse.rwt.internal.resources.ResourceManager;
 import org.eclipse.ui.branding.IProductConstants;
@@ -23,13 +22,13 @@ import org.osgi.framework.Bundle;
 final class RAPProductBranding extends AbstractBranding {
 
   private final String id;
-  private final IBranding productBranding;
+  private final EclipseBranding productBranding;
   private final String simpleIdentifier;
 
   // private final String windowImages;
   public RAPProductBranding( final String id,
-                      final IBranding productBranding,
-                      final String simpleIdentifier )
+                             final EclipseBranding productBranding,
+                             final String simpleIdentifier )
   {
     this.id = id;
     this.productBranding = productBranding;
@@ -73,6 +72,7 @@ final class RAPProductBranding extends AbstractBranding {
     }
   }
 
+  // TODO [bm] WINDOW_IMAGES can contain multiple pathes
   private String getFavIconFromProduct() {
     return productBranding.getProperty( IProductConstants.WINDOW_IMAGES );
   }

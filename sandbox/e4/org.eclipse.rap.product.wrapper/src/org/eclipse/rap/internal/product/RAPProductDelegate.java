@@ -17,8 +17,7 @@ public class RAPProductDelegate implements IProduct {
 
   // [bm]: depending on if we have a session context,
   // we need look like the real product or the fake delegate product
-  // * if we have a session, it's most likely that the application
-  //   asks for the real product
+  // * if we have a session, the application itself asks for the real product
   //
   // * without context, it's likely that equinox asks us for the product during
   //   startup and we need to "play" the rap product in order to get cached

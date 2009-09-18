@@ -19,8 +19,6 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProduct;
 import org.eclipse.core.runtime.IProductProvider;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.equinox.internal.app.IBranding;
-import org.eclipse.equinox.internal.app.ProductExtensionBranding;
 import org.eclipse.osgi.service.environment.EnvironmentInfo;
 import org.eclipse.rap.ui.internal.branding.BrandingExtension;
 import org.eclipse.rwt.internal.branding.BrandingManager;
@@ -40,8 +38,6 @@ public class ProductProvider implements IProductProvider {
   private static final String APP_BUNDLE_ID = "org.eclipse.equinox.app"; //$NON-NLS-1$
   private static final Map products = new HashMap();
 
-  private static final IBranding NULL_BRANDING = new NullBranding();
-  
   private final IProduct productDelegate = new RAPProductDelegate();
 
   // gets called by bundle org.eclipse.equinox.app via reflection
@@ -71,8 +67,8 @@ public class ProductProvider implements IProductProvider {
   }
 
 
-  public static IBranding getCurrentBranding() {
-    IBranding result;
+  public static EclipseBranding getCurrentBranding() {
+    EclipseBranding result;
     String servletName = null;
     if( ContextProvider.hasContext() ) {
       servletName = BrowserSurvey.getSerlvetName();
@@ -81,12 +77,12 @@ public class ProductProvider implements IProductProvider {
       // TODO [bm] equinox calls getApplication during startup, need to see if
       // we can force equinox not to ask during startup
     }
-    result = ( ProductExtensionBranding )products.get( servletName );
+    result = ( EclipseBranding )products.get( servletName );
     if( result == null ) {
       // TODO [bm] we should return no product for servlets without product
       //           but this is currently impossible as we always have our
       //           delegate product active
-      result = NULL_BRANDING;
+      result = new EclipseBranding( servletName, null );
     }
     return result;
   }
@@ -106,8 +102,8 @@ public class ProductProvider implements IProductProvider {
     String fullIdentifier = extension.getUniqueIdentifier();
     String simpleIdentifier = extension.getSimpleIdentifier();
     IConfigurationElement element = extension.getConfigurationElements()[0];
-    ProductExtensionBranding productBranding
-      = new ProductExtensionBranding( fullIdentifier, element );
+    EclipseBranding productBranding
+      = new EclipseBranding( fullIdentifier, element );
     products.put( simpleIdentifier, productBranding );
     BrandingExtension.registerServletName( simpleIdentifier );
     RAPProductBranding rapProductBranding
