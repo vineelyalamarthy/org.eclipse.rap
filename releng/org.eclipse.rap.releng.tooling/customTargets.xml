@@ -150,45 +150,8 @@
   <!-- ===================================================================== -->
   <target name="postBuild">
     <antcall target="gatherLogs" />
-    <antcall target="buildSite" />
     <antcall target="publish" />
     <antcall target="tidyup" />
-  </target>
-
-  <target name="buildSite">
-    <property name="siteLocation" value="${buildDirectory}/${buildLabel}" />
-    <property name="tooling-feature"
-      value="${buildDirectory}/${buildLabel}/org.eclipse.rap.tooling-${buildId}.zip" />
-
-    <unzip src="${tooling-feature}" dest="${siteLocation}" />
-
-    <property name="sitePackagePrefix"
-        value="org.eclipse.rap/releng/org.eclipse.rap.tooling-site"/>
-    <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/rt"
-        package="${sitePackagePrefix}"
-        dest="${buildDirectory}/temp.updatesite"
-        tag="${mapsCheckoutTag}" />
-        
-    <!-- Copy to staging area -->
-    <property name="UpdateSiteStagingLocation" value="${siteLocation}/site" />
-    <copy file="${buildDirectory}/temp.updatesite/${sitePackagePrefix}/site.xml"
-        todir="${UpdateSiteStagingLocation}" />
-    <copy file="${buildDirectory}/temp.updatesite/${sitePackagePrefix}/index.html"
-        todir="${UpdateSiteStagingLocation}" />
-    <copy file="${buildDirectory}/temp.updatesite/${sitePackagePrefix}/web/site.css"
-        todir="${UpdateSiteStagingLocation}/web" />
-    <copy file="${buildDirectory}/temp.updatesite/${sitePackagePrefix}/web/site.xsl"
-        todir="${UpdateSiteStagingLocation}/web" />
-
-    <!-- replace qualifiers -->
-    <replace file="${UpdateSiteStagingLocation}/site.xml"
-        token="1.0.0.qualifier"
-        value="${targetVersion}.${buildId}" />
-    
-    <!-- zip update site -->
-    <zip destfile="${outputDirectory}/${buildLabel}.zip"
-        basedir="${UpdateSiteStagingLocation}" />
-
   </target>
 
   <!-- ===================================================================== -->
@@ -196,6 +159,11 @@
   <!-- ===================================================================== -->
   <target name="noDefault">
     <echo message="You must specify a target when invoking this file" />
+  </target>
+
+  <target name="publish">
+    <copy file="${buildDirectory}/${buildLabel}/org.eclipse.rap.tooling-${buildId}.zip"
+        tofile="${outputDirectory}/${buildLabel}.zip" />
   </target>
 
   <target name="tidyup">
@@ -213,7 +181,6 @@
   <target name="prePackage"></target>
   <target name="postPackage"></target>
   <target name="test"></target>
-  <target name="publish"></target>
   <target name="getBaseComponents" depends="checkLocalBase" unless="skipBase"></target>
   <target name="checkLocalBase"></target>
   <target name="tagMapFiles" if="tagMaps"></target>
