@@ -7,7 +7,8 @@ VERSION=0.7.4
 REVISION=16878
 
 # point to the directory that contains the generator.py
-TOOL=../qx-0.7.4/qooxdoo/frontend/framework/tool
+# TOOL=../qx-0.7.4/qooxdoo/frontend/framework/tool
+TOOL=../qx-0.7.3/qooxdoo-0.7.3-sdk/frontend/framework/tool
 
 TEMP=./temp
 SOURCE=./source
@@ -62,7 +63,6 @@ rm ${TEMP}/class/qx/html/Form.js
 rm ${TEMP}/class/qx/html/Textile.js
 rm ${TEMP}/class/qx/xml/Document.js
 rm ${TEMP}/class/qx/xml/Element.js
-# rm ${TEMP}/class/qx/xml/Namespace.js
 rm ${TEMP}/class/qx/util/StringBuilder.js
 rm ${TEMP}/class/qx/util/EditDistance.js
 rm ${TEMP}/class/qx/util/format/DateFormat.js
@@ -86,6 +86,13 @@ rm ${TEMP}/class/qx/ui/basic/VerticalSpacer.js
 rm ${TEMP}/class/qx/ui/layout/GridLayout.js
 rm ${TEMP}/class/qx/ui/layout/DockLayout.js
 rm ${TEMP}/class/qx/ui/layout/FlowLayout.js
+rm ${TEMP}/class/qx/ui/menu/Button.js
+rm ${TEMP}/class/qx/ui/menu/ButtonLayoutImpl.js
+rm ${TEMP}/class/qx/ui/menu/CheckBox.js
+rm ${TEMP}/class/qx/ui/menu/Layout.js
+rm ${TEMP}/class/qx/ui/menu/Menu.js
+rm ${TEMP}/class/qx/ui/menu/MenuLayoutImpl.js
+rm ${TEMP}/class/qx/ui/menu/RadioButton.js
 rm ${TEMP}/class/qx/ui/form/ComboBox.js
 rm ${TEMP}/class/qx/ui/form/ComboBoxEx.js
 rm ${TEMP}/class/qx/ui/form/RepeatButton.js
