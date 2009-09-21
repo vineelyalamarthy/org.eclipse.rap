@@ -44,7 +44,7 @@ class ProjectWriter implements IEntityWriter {
     newProject.appendChild( assigments );
     Iterator<IAssignment> aIterator = this.project.getAssignments().iterator();
     while( aIterator.hasNext() ) {
-      IAssignment assignment = ( IAssignment )aIterator.next();
+      IAssignment assignment = aIterator.next();
       IEntityWriter assignmentAdapter
         = storageManager.getStorageAdapter( assignment, assigments );
       assignmentAdapter.save();
@@ -53,7 +53,7 @@ class ProjectWriter implements IEntityWriter {
     newProject.appendChild( tasks );
     Iterator<ITask> tIterator = this.project.getTasks().iterator();
     while( tIterator.hasNext() ) {
-      ITask task = ( ITask )tIterator.next();
+      ITask task = tIterator.next();
       IEntityWriter taskAdapter
         = storageManager.getStorageAdapter( task, tasks );
       taskAdapter.save();

@@ -25,7 +25,7 @@ class StorageManager implements IStorageManager {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       DocumentBuilder builder = factory.newDocumentBuilder();
       Document document = builder.newDocument();
-      Element root = ( Element )document.createElement( "Root" );
+      Element root = document.createElement( "Root" );
       document.appendChild( root );
       IEntityWriter dataModelAdapter = getStorageAdapter( dataModel, root );
       dataModelAdapter.save();
