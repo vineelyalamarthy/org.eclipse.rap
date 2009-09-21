@@ -382,6 +382,23 @@ qx.Class.define("qx.event.handler.EventHandler",
 
   members :
   {
+    _allowContextMenu : qx.lang.Function.returnFalse,
+
+    /**
+     * Sets a callback-function to decide if the native context- 
+     * menu is displayed. It will be called on DOM-events of the type 
+     * "contextmenu". The target-Widget of the event will be given as
+     * the first argument, the dom-target as the second. 
+     * It must return a boolean. Null is not allowed.
+     *
+     * @type member
+     * @param value {function} The callback function
+     * @return {void}
+     */    
+    setAllowContextMenu : function( fun ) {
+      this._allowContextMenu = fun;
+    },
+    
     /*
     ---------------------------------------------------------------------------
       STATE FLAGS
@@ -904,7 +921,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         }
 
         // Prevent the browser's native context menu
-        if (vType == "contextmenu" && !this.getAllowClientContextMenu()) {
+        if (vType == "contextmenu" && !this._allowContextMenu(vOriginalTarget, vDomTarget)) {
           qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
         }
 
