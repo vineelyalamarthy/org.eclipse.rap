@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/org.eclipse.rap.runtime.sdk_1.3.0.qualifier.jar" id="org.eclipse.rap.runtime.sdk" version="1.3.0.qualifier">
-      <category name="org.eclipse.rap.runtime.sdk"/>
-   </feature>
-   <category-def name="org.eclipse.rap.runtime.sdk" label="RAP Runtime SDK"/>
-</site>
