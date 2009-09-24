@@ -136,7 +136,8 @@ qx.Class.define("qx.ui.form.TextArea",
       "default" : function()
       {
         if (this._inputElement) {
-          this._inputElement.style.whiteSpace = this.getWrap() ? "normal" : "nowrap";
+          var wrapValue  = this.getWrap() ? "soft" : "off";
+          this._inputElement.setAttribute('wrap', wrapValue);
         }
       }
     }),

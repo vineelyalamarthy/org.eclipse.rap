@@ -1,0 +1,19 @@
+### Eclipse Workspace Patch 1.0
+#P org.eclipse.rap.qx.build
+Index: source/class/qx/ui/form/TextArea.js
+===================================================================
+RCS file: /cvsroot/rt/org.eclipse.rap/releng/org.eclipse.rap.qx.build/source/class/qx/ui/form/TextArea.js,v
+retrieving revision 1.1
+diff -u -r1.1 TextArea.js
+--- qx-build/source/class/qx/ui/form/TextArea.js	10 Dec 2008 16:57:40 -0000	1.1
++++ qx-build/source/class/qx/ui/form/TextArea.js	18 Sep 2009 10:58:55 -0000
+@@ -136,7 +136,8 @@
+       "default" : function()
+       {
+         if (this._inputElement) {
+-          this._inputElement.style.whiteSpace = this.getWrap() ? "normal" : "nowrap";
++          var wrapValue  = this.getWrap() ? "soft" : "off";
++          this._inputElement.setAttribute('wrap', wrapValue);
+         }
+       }
+     }),
