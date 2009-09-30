@@ -1249,7 +1249,7 @@ qx.Class.define("qx.event.handler.EventHandler",
     _onwindowblur : function(e)
     {
       // this.debug("Try Window blur...");
-      if (!this._focused || this._ignoreWindowBlur) {
+      if (!this._focused || this._ignoreWindowBlur || e.originalTarget != window) {
         return;
       }
 
