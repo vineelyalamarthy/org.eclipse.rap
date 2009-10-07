@@ -230,9 +230,10 @@ public class Upload extends Control {
    * selected a file, yet. Otherwise, a upload is triggered on the Browser side.
    * This method returns, if the upload has finished.
    */
-  public void performUpload() {
+  public boolean performUpload() {
     checkWidget();
     
+    boolean uploadPerformed = false;
     // Always check if user selected a file because otherwise the UploadWidget itself doesn't trigger a POST and therefore, the
     // subsequent loop never terminates.
     if (getPath() != null && !"".equals( getPath() )) {
@@ -251,6 +252,7 @@ public class Upload extends Control {
               getDisplay().sleep();
             }
           }
+          uploadPerformed = !uploadInProgresses[ 0 ];
         } finally {
           uploadInProgresses[ 0 ] = false;
           performUpload = false;
@@ -259,6 +261,7 @@ public class Upload extends Control {
     }
     
     }
+    return uploadPerformed;
   }
   
   public Object getAdapter( final Class adapter ) {
@@ -494,9 +497,15 @@ public class Upload extends Control {
   /**
    * After uploading has finished this method returns the uploaded file
    * and all available meta data, as file name, content type, etc.
+   * @throws SWTException SWT.ERROR_WIDGET_DISPOSED if widget is disposed.
    */
   public UploadItem getUploadItem() {
     checkWidget();
+    
+    // TODO: [sr] remove if implemented in Widget#checkWidget()
+    if (isDisposed()) {
+      SWT.error( SWT.ERROR_WIDGET_DISPOSED );
+    }
     
     final FileUploadStorage storage = FileUploadStorage.getInstance();
     final FileUploadStorageItem uploadedFile = storage.getUploadStorageItem( getWidgetId() );
