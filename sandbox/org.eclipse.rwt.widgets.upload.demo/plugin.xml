@@ -9,5 +9,23 @@
             parameter="upload">
       </entrypoint>
    </extension>
+   <extension
+         point="org.eclipse.rap.ui.themes">
+      <theme
+            file="theme/upload.css"
+            id="org.eclipse.rwt.widgets.upload.demo.theme"
+            name="Upload Theme">
+      </theme>
+   </extension>
+   <extension
+         point="org.eclipse.rap.ui.branding">
+      <branding
+            defaultEntrypointId="de.cas.teamcrm.uploadtest.entrypoint"
+            id="org.eclipse.rwt.widgets.upload.demo.branding"
+            servletName="theme"
+            themeId="org.eclipse.rwt.widgets.upload.demo.theme"
+            title="Themed Upload Widget demo">
+      </branding>
+   </extension>
 
 </plugin>

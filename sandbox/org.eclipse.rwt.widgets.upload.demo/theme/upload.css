@@ -1,0 +1,11 @@
+Button[PUSH] {
+	border: 1px solid #A4A4A4;
+	border-radius: 6px;
+	background-image: gradient(linear, left top, left bottom, from(#ffffff),
+		color-stop(48%, #f0f0f0), color-stop(52%, #e0e0e0), to(#cccccc) );
+}
+
+Text {
+	border: 1px solid #A4A4A4;
+	border-radius: 6px;
+}
