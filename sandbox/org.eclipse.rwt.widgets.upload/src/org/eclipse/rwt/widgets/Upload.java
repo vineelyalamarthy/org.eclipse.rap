@@ -285,7 +285,7 @@ public class Upload extends Control {
     Point browseButtonSize = computeBrowseButtonSize();
     
     int browseButtonHeight = browseButtonSize.y;
-    int progressHeight = 16;
+    int progressHeight = 20;
     
     int height = 0, width = 0;
     if( wHint == SWT.DEFAULT || hHint == SWT.DEFAULT ) {
@@ -333,7 +333,7 @@ public class Upload extends Control {
       height = hHint;
     }
 
-    return new Point( width, height );
+    return new Point( width, height +2);
   }
 
   private int computeBaseHeight() {

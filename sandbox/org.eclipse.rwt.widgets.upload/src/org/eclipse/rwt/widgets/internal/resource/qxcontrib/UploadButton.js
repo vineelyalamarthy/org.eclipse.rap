@@ -30,7 +30,7 @@
 qx.Class.define("uploadwidget.UploadButton",
 {
   extend : qx.ui.form.Button,
-
+  
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -42,7 +42,7 @@ qx.Class.define("uploadwidget.UploadButton",
     this.base(arguments, text, icon, iconWidth, iconHeight, flash);
     // This state is needed for proper button CSS themeing
     this.addState( "rwt_PUSH" );
-
+    this.setAppearance( "button" );
     if(name) {
       this.setName(name);
     }
@@ -105,7 +105,6 @@ qx.Class.define("uploadwidget.UploadButton",
     _applyElement : function (value, old)
     {
       this.base(arguments, value, old);
-
       this._createInputFileTag(value);
     },
 
@@ -192,7 +191,9 @@ qx.Class.define("uploadwidget.UploadButton",
       if(this._input)
       {
         this._input.name += "_tmp_";
-        this._input.parentNode.removeChild(this._input);
+        if (this._input.parentNode) {
+        	this._input.parentNode.removeChild(this._input);
+        }
         this._input = null;
       }
 
@@ -204,11 +205,10 @@ qx.Class.define("uploadwidget.UploadButton",
       input.style.top		= "-2px"; // make sure to cover the whole area
       input.style.left      = "-100px";
       input.style.height    = "27px";
-      input.style.fontSize  = "30px"; // previous value 60 was to small for some systems (depends on used font-family)
-      var clipRight = 100 + this.getWidthValue(); //use variable to avoid string concatenation instead of adding
+      input.style.fontSize  = "35px"; // previous value 60 was to small for some systems (depends on used font-family)
+      var clipRight = 300 + this.getWidthValue(); //use variable to avoid string concatenation instead of adding
       input.style.clip      = "rect(auto, " + clipRight + "px, auto, 100px)";
       input.style.zIndex    = "100";
-      input.style.cursor    = "hand";
       input.style.cursor    = "pointer";
       input.style.filter    = "alpha(opacity=0)";
       input.style.opacity   = "0";
@@ -259,7 +259,9 @@ qx.Class.define("uploadwidget.UploadButton",
   destruct : function()
   {
     if(this._input) {
-      this._input.parentNode.removeChild(this._input);
+      if (this._input.parentNode) {
+    	  this._input.parentNode.removeChild(this._input);
+      }    	  
       this._input.onchange = null;
       this._input = null;
     } 

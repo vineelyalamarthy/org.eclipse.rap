@@ -52,7 +52,7 @@ qx.Class.define("uploadwidget.UploadField",
 
 
   	this._text = new qx.ui.form.TextField();
-  	this._text.set({readOnly:true,left:0,marginTop:3,width:"1*"});
+  	this._text.set({readOnly:true,left:0,marginTop:0,paddingTop:0,width:"1*"});
   	this._text.setAppearance( "upload-field" );
   	this.add(this._text);
 

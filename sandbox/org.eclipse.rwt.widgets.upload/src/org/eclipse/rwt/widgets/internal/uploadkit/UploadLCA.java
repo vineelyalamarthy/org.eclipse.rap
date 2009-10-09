@@ -10,9 +10,11 @@ package org.eclipse.rwt.widgets.internal.uploadkit;
 
 import java.io.IOException;
 
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.rwt.lifecycle.*;
 import org.eclipse.rwt.widgets.Upload;
 import org.eclipse.rwt.widgets.UploadEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Widget;
 
 /**
@@ -22,8 +24,6 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class UploadLCA extends AbstractWidgetLCA {
   private static final String PROP_LASTFILEUPLOADED = "lastFileUploaded";
-  private static final String PROP_BROWSE_BUTTON_TEXT = "browseBtnTxt";
-  private static final String PROP_UPLOAD_BUTTON_TEXT = "uploadBtnTxt"; 
 
   private static final String JS_PROP_LASTFILEUPLOADED = "lastFileUploaded";
   private static final String JS_PROP_BROWSE_BUTTON_TEXT = "browseButtonText";
@@ -39,8 +39,8 @@ public class UploadLCA extends AbstractWidgetLCA {
     ControlLCAUtil.preserveValues( upload );
     IWidgetAdapter adapter = WidgetUtil.getAdapter( widget );
     adapter.preserve( PROP_LASTFILEUPLOADED, upload.getLastFileUploaded() );
-    adapter.preserve( PROP_BROWSE_BUTTON_TEXT, upload.getBrowseButtonText() );
-    adapter.preserve( PROP_UPLOAD_BUTTON_TEXT, upload.getUploadButtonText() );
+    adapter.preserve( JS_PROP_BROWSE_BUTTON_TEXT, upload.getBrowseButtonText() );
+    adapter.preserve( JS_PROP_UPLOAD_BUTTON_TEXT, upload.getUploadButtonText() );
   }
 
   /**
@@ -115,7 +115,7 @@ public class UploadLCA extends AbstractWidgetLCA {
     final Upload upload = ( Upload )widget;
     ControlLCAUtil.writeChanges( upload );
     final JSWriter writer = JSWriter.getWriterFor( widget );
-    IUploadAdapter adapter = getAdapter( upload );
+    IUploadAdapter uploadAdapter = getAdapter( upload );
     
     ////////////////////////////////////////////////////////////////////////////
     // TODO [fappel]: check whether this is useful and if so, whether preserve
@@ -126,22 +126,37 @@ public class UploadLCA extends AbstractWidgetLCA {
                 lastFileUploaded );
     ////////////////////////////////////////////////////////////////////////////
     
-    writer.set( PROP_BROWSE_BUTTON_TEXT,
-                JS_PROP_BROWSE_BUTTON_TEXT, 
-                upload.getBrowseButtonText() );
-    if( ( adapter.getFlags() & Upload.SHOW_UPLOAD_BUTTON ) > 0 ) {
-      writer.set( PROP_UPLOAD_BUTTON_TEXT,
-                  JS_PROP_UPLOAD_BUTTON_TEXT,
-                  upload.getUploadButtonText() );
+    
+    IWidgetAdapter adapter = WidgetUtil.getAdapter( widget );
+    boolean changed;
+    
+    changed = !adapter.isInitialized()
+      || WidgetLCAUtil.hasChanged( widget, JS_PROP_BROWSE_BUTTON_TEXT, upload.getBrowseButtonText() );
+    if( changed ) {
+      final Point textExtent = Graphics.stringExtent( upload.getFont(), upload.getBrowseButtonText());
+      final Object textWidth = Integer.valueOf( textExtent.x + 7);
+      writer.set( JS_PROP_BROWSE_BUTTON_TEXT, new Object[] {upload.getBrowseButtonText(), textWidth});
     }
     
-    if( adapter.performUpload() ) {
+    if( ( uploadAdapter.getFlags() & Upload.SHOW_UPLOAD_BUTTON ) > 0 ) {
+      changed = !adapter.isInitialized()
+      || WidgetLCAUtil.hasChanged( widget, JS_PROP_UPLOAD_BUTTON_TEXT, upload.getUploadButtonText() );
+    
+      if( changed ) {
+        final Point textExtent = Graphics.stringExtent( upload.getFont(), upload.getUploadButtonText());
+        final Object textWidth = Integer.valueOf( textExtent.x + 7);
+        writer.set( JS_PROP_UPLOAD_BUTTON_TEXT, new Object[] {upload.getUploadButtonText(), textWidth});
+      }
+      
+    }
+    
+    if( uploadAdapter.performUpload() ) {
       writer.call( upload, "_performUpload", null );
     }
     
-    if( adapter.isResetUpload() ) {
+    if( uploadAdapter.isResetUpload() ) {
       writer.call( upload, "_resetUpload", null );
-      adapter.setResetUpload( false );
+      uploadAdapter.setResetUpload( false );
     }
   }
 

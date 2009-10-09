@@ -52,7 +52,8 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     this._uploadField.addEventListener( "changeValue", this._onChangeValue, this );
     
     // workaround adjust browse button position
-    this._uploadField._button.set({top:0,right:0});
+    // Set default width for default text "Browse"
+    this._uploadField._button.set({top:0,right:0,height:"100%"});
     this._uploadField._text.set({marginTop:0});
 
     this._uploadForm.add(this._uploadField);
@@ -63,9 +64,11 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     // Upload Button
     if( this._showUploadButton ) {
       this._uploadButton = new qx.ui.form.Button("Upload");
+    	
       // This state is needed for proper button CSS themeing
       this._uploadButton.addState( "rwt_PUSH" );
       this._uploadButton.addEventListener("click", this._uploadFile, this);
+      this._uploadButton.set({height:"100%"});
       topLayout.add(this._uploadButton);
     }
 
@@ -309,14 +312,16 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     },
     
     // TODO [fappel]: would a property be the better solution?
-    setBrowseButtonText : function( browseButtonText ) {
+    setBrowseButtonText : function( browseButtonText, width ) {
       this._uploadField._button.setLabel( browseButtonText );
+      this._uploadField._button.setWidth( width );
     },
     
     // TODO [fappel]: would a property be the better solution?
-    setUploadButtonText : function( uploadButtonText ) {
+    setUploadButtonText : function( uploadButtonText, width ) {
       if( this._showUploadButton ) {
         this._uploadButton.setLabel( uploadButtonText );
+        this._uploadButton.setWidth( width );
       }
     }
   }
