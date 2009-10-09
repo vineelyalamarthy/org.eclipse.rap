@@ -410,10 +410,9 @@ qx.Class.define("qx.ui.popup.Popup",
     {
       var vPopups = qx.lang.Object.getValues(qx.ui.popup.PopupManager.getInstance().getAll());
 
-      if (qx.event.handler.EventHandler.getInstance().getMenuManager() != null)
+      if (qx.Class.isDefined("qx.ui.menu.Manager"))
       {
-        var manager = qx.event.handler.EventHandler.getInstance().getMenuManager();
-        var vMenus = qx.lang.Object.getValues(manager.getAll());
+        var vMenus = qx.lang.Object.getValues(qx.ui.menu.Manager.getInstance().getAll());
         var vAll = vPopups.concat(vMenus).sort(qx.util.Compare.byZIndex);
       }
       else
