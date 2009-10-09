@@ -1,0 +1,18 @@
+### Eclipse Workspace Patch 1.0
+#P org.eclipse.rap.qx.build
+Index: source/class/qx/event/handler/EventHandler.js
+===================================================================
+RCS file: /cvsroot/rt/org.eclipse.rap/releng/org.eclipse.rap.qx.build/source/class/qx/event/handler/EventHandler.js,v
+retrieving revision 1.3
+diff -u -r1.3 EventHandler.js
+--- source/class/qx/event/handler/EventHandler.js	30 Sep 2009 12:28:45 -0000	1.3
++++ source/class/qx/event/handler/EventHandler.js	8 Oct 2009 13:22:15 -0000
+@@ -980,7 +980,7 @@
+         // Needed for Tooltips, ...
+         qx.event.type.MouseEvent.storeEventState(vEventObject);
+ 
+-        if (vTargetIsEnabled)
++        if (vDispatchTarget.getEnabled())
+         {
+           // Dispatch Event through target (eventtarget-)object
+           var vEventWasProcessed = false;

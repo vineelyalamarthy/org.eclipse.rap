@@ -989,7 +989,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         // Needed for Tooltips, ...
         qx.event.type.MouseEvent.storeEventState(vEventObject);
 
-        if (vTargetIsEnabled)
+        if (vDispatchTarget.getEnabled())
         {
           // Dispatch Event through target (eventtarget-)object
           var vEventWasProcessed = false;
