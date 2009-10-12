@@ -134,7 +134,7 @@ public class UploadLCA extends AbstractWidgetLCA {
       || WidgetLCAUtil.hasChanged( widget, JS_PROP_BROWSE_BUTTON_TEXT, upload.getBrowseButtonText() );
     if( changed ) {
       final Point textExtent = Graphics.stringExtent( upload.getFont(), upload.getBrowseButtonText());
-      final Object textWidth = Integer.valueOf( textExtent.x + 7);
+      final Object textWidth = new Integer( textExtent.x + 7);
       writer.set( JS_PROP_BROWSE_BUTTON_TEXT, new Object[] {upload.getBrowseButtonText(), textWidth});
     }
     
@@ -144,7 +144,7 @@ public class UploadLCA extends AbstractWidgetLCA {
     
       if( changed ) {
         final Point textExtent = Graphics.stringExtent( upload.getFont(), upload.getUploadButtonText());
-        final Object textWidth = Integer.valueOf( textExtent.x + 7);
+        final Object textWidth = new Integer( textExtent.x + 7);
         writer.set( JS_PROP_UPLOAD_BUTTON_TEXT, new Object[] {upload.getUploadButtonText(), textWidth});
       }
       
