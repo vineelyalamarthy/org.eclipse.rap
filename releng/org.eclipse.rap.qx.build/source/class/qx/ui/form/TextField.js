@@ -868,7 +868,7 @@ qx.Class.define("qx.ui.form.TextField",
 // RAP [if] Centered text field vertically
     _centerFieldVertically : function() {
       if( this._inputTag === "input" && this._inputElement ) {
-        var innerHeight = qx.html.Dimension.getAreaHeight( this._getTargetNode() );
+        var innerHeight = this.getInnerHeight();
         var inputElementHeight = qx.html.Dimension.getBoxHeight( this._inputElement );
         if( inputElementHeight != 0 ) {
           if( qx.core.Variant.isSet( "qx.client", "mshtml" ) ) {
