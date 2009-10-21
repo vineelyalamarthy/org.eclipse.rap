@@ -868,7 +868,7 @@ qx.Class.define("qx.ui.form.TextField",
 // RAP [if] Centered text field vertically
     _centerFieldVertically : function() {
       if( this._inputTag === "input" && this._inputElement ) {
-        var innerHeight = qx.html.Dimension.getAreaHeight( this.getElement() );
+        var innerHeight = qx.html.Dimension.getAreaHeight( this._getTargetNode() );
         var inputElementHeight = qx.html.Dimension.getBoxHeight( this._inputElement );
         if( inputElementHeight != 0 ) {
           if( qx.core.Variant.isSet( "qx.client", "mshtml" ) ) {
@@ -882,7 +882,7 @@ qx.Class.define("qx.ui.form.TextField",
           // [if] Set padding instead of style.position of the _inputElement.
           // style.position leads to problems with DOM events in FF 3.0.x
           // see bug 292487 and bug 284356
-          this.setPaddingTop( top );
+          this.setStyleProperty( "paddingTop", top + "px" );
         }
       }
     },
