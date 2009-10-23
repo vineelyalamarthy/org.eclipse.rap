@@ -1,0 +1,34 @@
+### Eclipse Workspace Patch 1.0
+#P org.eclipse.rap.qx.build
+Index: source/class/qx/log/appender/Native.js
+===================================================================
+RCS file: /cvsroot/rt/org.eclipse.rap/releng/org.eclipse.rap.qx.build/source/class/qx/log/appender/Native.js,v
+retrieving revision 1.1
+diff -u -r1.1 Native.js
+--- source/class/qx/log/appender/Native.js	10 Dec 2008 16:57:45 -0000	1.1
++++ source/class/qx/log/appender/Native.js	15 Oct 2009 12:37:56 -0000
+@@ -47,7 +47,7 @@
+   {
+     this.base(arguments);
+ 
+-    if (typeof console != 'undefined' && console.debug && !console.emu) {
++    if (typeof console != 'undefined' && (console.debug || console.log) && !console.emu) {
+       this._appender = new qx.log.appender.FireBug;
+     } else {
+       this._appender = new qx.log.appender.Window;
+Index: source/class/qx/log/appender/FireBug.js
+===================================================================
+RCS file: /cvsroot/rt/org.eclipse.rap/releng/org.eclipse.rap.qx.build/source/class/qx/log/appender/FireBug.js,v
+retrieving revision 1.1
+diff -u -r1.1 FireBug.js
+--- source/class/qx/log/appender/FireBug.js	10 Dec 2008 16:57:47 -0000	1.1
++++ source/class/qx/log/appender/FireBug.js	15 Oct 2009 12:37:56 -0000
+@@ -73,6 +73,8 @@
+           case log.LEVEL_DEBUG:
+             if (console.debug) {
+               console.debug(msg);
++            } else if (console.log) {
++              console.log(msg);
+             }
+ 
+             break;

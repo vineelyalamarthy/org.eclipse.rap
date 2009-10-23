@@ -73,6 +73,8 @@ qx.Class.define("qx.log.appender.FireBug",
           case log.LEVEL_DEBUG:
             if (console.debug) {
               console.debug(msg);
+            } else if (console.log) {
+              console.log(msg);
             }
 
             break;
