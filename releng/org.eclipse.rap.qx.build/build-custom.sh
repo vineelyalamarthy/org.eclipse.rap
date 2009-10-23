@@ -7,7 +7,7 @@ VERSION=0.7.4
 REVISION=16878
 
 # point to the directory that contains the generator.py
-TOOL=../qx-0.7.4/qooxdoo/frontend/framework/tool
+TOOL=../qx-0.7.3/qooxdoo-0.7.3-sdk/frontend/framework/tool
 
 TEMP=./temp
 SOURCE=./source
@@ -52,7 +52,6 @@ rm -r ${TEMP}/class/qx/ui/splitpane
 rm -r ${TEMP}/class/qx/ui/treevirtual
 rm ${TEMP}/class/qx/OO.js
 rm ${TEMP}/class/qx/core/MLegacyInit.js
-rm ${TEMP}/class/qx/client/History.js
 rm ${TEMP}/class/qx/client/NativeWindow.js
 rm ${TEMP}/class/qx/dev/ObjectSummary.js
 rm ${TEMP}/class/qx/dev/Pollution.js
@@ -154,7 +153,8 @@ INCLUDES="--include=oo
   --include-without-dependencies=qx.ui.embed.Iframe 
   --include-without-dependencies=qx.html.Window 
   --include-without-dependencies=qx.ui.basic.ScrollBar 
-  --include-without-dependencies=qx.ui.basic.ScrollArea"
+  --include-without-dependencies=qx.ui.basic.ScrollArea
+  --include-without-dependencies=qx.client.History"
 
 echo "  GENERATING ${OUTPUT_FILE}"
 ${TOOL}/generator.py \
