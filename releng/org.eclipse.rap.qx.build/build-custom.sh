@@ -91,6 +91,7 @@ rm ${TEMP}/class/qx/ui/menu/Layout.js
 rm ${TEMP}/class/qx/ui/menu/Menu.js
 rm ${TEMP}/class/qx/ui/menu/MenuLayoutImpl.js
 rm ${TEMP}/class/qx/ui/menu/RadioButton.js
+rm ${TEMP}/class/qx/ui/menu/Manager.js
 rm ${TEMP}/class/qx/ui/form/ComboBox.js
 rm ${TEMP}/class/qx/ui/form/ComboBoxEx.js
 rm ${TEMP}/class/qx/ui/form/RepeatButton.js

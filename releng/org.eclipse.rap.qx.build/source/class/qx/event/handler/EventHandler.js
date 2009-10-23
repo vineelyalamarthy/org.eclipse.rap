@@ -22,7 +22,6 @@
 
 #module(ui_core)
 #optional(qx.event.handler.DragAndDropHandler)
-#optional(qx.ui.menu.Manager)
 #optional(qx.event.handler.FocusHandler)
 #optional(qx.ui.popup.PopupManager)
 #optional(qx.ui.popup.ToolTipManager)
@@ -398,6 +397,16 @@ qx.Class.define("qx.event.handler.EventHandler",
     setAllowContextMenu : function( fun ) {
       this._allowContextMenu = fun;
     },
+
+    _menuManager : null,
+    
+    setMenuManager : function( manager ) {
+      this._menuManager = manager;
+    },
+    
+    getMenuManager : function( manager ) {
+      return this._menuManager; 
+    },
     
     /*
     ---------------------------------------------------------------------------
@@ -688,8 +697,8 @@ qx.Class.define("qx.event.handler.EventHandler",
         {
           case "Escape":
           case "Tab":
-            if (qx.Class.isDefined("qx.ui.menu.Manager")) {
-              qx.ui.menu.Manager.getInstance().update(vTarget, vType);
+            if ( this._menuManager != null ) {
+              this._menuManager.update(vTarget, vType);
             }
 
             break;
@@ -1054,8 +1063,8 @@ qx.Class.define("qx.event.handler.EventHandler",
             qx.ui.popup.PopupManager.getInstance().update(vTarget);
           }
 
-          if (qx.Class.isDefined("qx.ui.menu.Manager")) {
-            qx.ui.menu.Manager.getInstance().update(vTarget, vType);
+          if ( this._menuManager != null ) {
+            this._menuManager.update(vTarget, vType);
           }
 
           if (qx.Class.isDefined("qx.ui.embed.IframeManager")) {
@@ -1066,8 +1075,8 @@ qx.Class.define("qx.event.handler.EventHandler",
 
         case "mouseup":
           // Mouseup event should always hide, independed of target, so don't send a target
-          if (qx.Class.isDefined("qx.ui.menu.Manager")) {
-            qx.ui.menu.Manager.getInstance().update(vTarget, vType);
+          if ( this._menuManager != null ) {
+            this._menuManager.update(vTarget, vType);
           }
 
           if (qx.Class.isDefined("qx.ui.embed.IframeManager")) {
@@ -1265,8 +1274,8 @@ qx.Class.define("qx.event.handler.EventHandler",
       }
 
       // Hide Menus
-      if (qx.Class.isDefined("qx.ui.menu.Manager")) {
-        qx.ui.menu.Manager.getInstance().update();
+      if ( this._menuManager ) {
+        this._menuManager.update();
       }
 
       // Cancel Drag Operations
