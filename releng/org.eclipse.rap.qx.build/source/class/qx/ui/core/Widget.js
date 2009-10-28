@@ -69,6 +69,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this._generateHtmlId();
     }
+    this.initHideFocus();
   },
 
 
@@ -1659,7 +1660,7 @@ qx.Class.define("qx.ui.core.Widget",
     hideFocus :
     {
       check : "Boolean",
-      init : false,
+      init : true,
       apply : "_applyHideFocus",
       themeable : true
     },
@@ -5787,7 +5788,8 @@ qx.Class.define("qx.ui.core.Widget",
       zIndex : true,
       filter : true,
       display : true,
-      visibility : true
+      visibility : true,
+      outline : true
     },
 
 

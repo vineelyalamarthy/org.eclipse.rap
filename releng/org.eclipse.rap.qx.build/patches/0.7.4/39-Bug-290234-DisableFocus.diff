@@ -1,0 +1,36 @@
+### Eclipse Workspace Patch 1.0
+#P org.eclipse.rap.qx.build
+Index: source/class/qx/ui/core/Widget.js
+===================================================================
+RCS file: /cvsroot/rt/org.eclipse.rap/releng/org.eclipse.rap.qx.build/source/class/qx/ui/core/Widget.js,v
+retrieving revision 1.5
+diff -u -r1.5 Widget.js
+--- source/class/qx/ui/core/Widget.js	8 Sep 2009 10:11:57 -0000	1.5
++++ source/class/qx/ui/core/Widget.js	27 Oct 2009 09:54:43 -0000
+@@ -69,6 +69,7 @@
+     {
+       this._generateHtmlId();
+     }
++    this.initHideFocus();
+   },
+ 
+ 
+@@ -1659,7 +1660,7 @@
+     hideFocus :
+     {
+       check : "Boolean",
+-      init : false,
++      init : true,
+       apply : "_applyHideFocus",
+       themeable : true
+     },
+@@ -5787,7 +5788,8 @@
+       zIndex : true,
+       filter : true,
+       display : true,
+-      visibility : true
++      visibility : true,
++      outline : true
+     },
+ 
+ 
