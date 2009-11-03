@@ -81,8 +81,8 @@ Index: source/class/qx/ui/popup/Popup.js
 RCS file: /cvsroot/rt/org.eclipse.rap/releng/org.eclipse.rap.qx.build/source/class/qx/ui/popup/Popup.js,v
 retrieving revision 1.1
 diff -u -r1.1 Popup.js
---- source/class/qx/ui/popup/Popup.js	10 Dec 2008 16:57:54 -0000	1.1
-+++ source/class/qx/ui/popup/Popup.js	8 Oct 2009 12:04:57 -0000
+--- qx-build/source/class/qx/ui/popup/Popup.js	10 Dec 2008 16:57:54 -0000	1.1
++++ qx-build/source/class/qx/ui/popup/Popup.js	8 Oct 2009 12:04:57 -0000
 @@ -410,9 +410,10 @@
      {
        var vPopups = qx.lang.Object.getValues(qx.ui.popup.PopupManager.getInstance().getAll());
