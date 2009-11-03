@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.core.Parent",
         this.removeEventListener("keypress", this._onfocuskeyevent);
 
         // Deactivate focus handling
-        this.setTabIndex(-1);
+        this.setTabIndex(null);
 
         // Don't hide focus outline
         this.setHideFocus(false);

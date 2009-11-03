@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.window.Window",
     var bm = this._minimizeButton = new qx.ui.form.Button;
 
     bm.setAppearance("window-captionbar-minimize-button");
-    bm.setTabIndex(-1);
+    bm.setTabIndex(null);
 
     bm.addEventListener("execute", this._onminimizebuttonclick, this);
     bm.addEventListener("mousedown", this._onbuttonmousedown, this);
@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.window.Window",
     var br = this._restoreButton = new qx.ui.form.Button;
 
     br.setAppearance("window-captionbar-restore-button");
-    br.setTabIndex(-1);
+    br.setTabIndex(null);
 
     br.addEventListener("execute", this._onrestorebuttonclick, this);
     br.addEventListener("mousedown", this._onbuttonmousedown, this);
@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.window.Window",
     var bx = this._maximizeButton = new qx.ui.form.Button;
 
     bx.setAppearance("window-captionbar-maximize-button");
-    bx.setTabIndex(-1);
+    bx.setTabIndex(null);
 
     bx.addEventListener("execute", this._onmaximizebuttonclick, this);
     bx.addEventListener("mousedown", this._onbuttonmousedown, this);
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.window.Window",
     var bc = this._closeButton = new qx.ui.form.Button;
 
     bc.setAppearance("window-captionbar-close-button");
-    bc.setTabIndex(-1);
+    bc.setTabIndex(null);
 
     bc.addEventListener("execute", this._onclosebuttonclick, this);
     bc.addEventListener("mousedown", this._onbuttonmousedown, this);

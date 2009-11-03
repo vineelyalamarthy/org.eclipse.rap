@@ -5936,7 +5936,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {var} TODOC
      */
     isFocusable : function() {
-      return this.getEnabled() && this.isSeeable() && this.getTabIndex() >= 0 && this.getTabIndex() != null;
+      return this.getEnabled() && this.isSeeable() && this.getTabIndex() != null;
     },
 
 
