@@ -1,6 +1,6 @@
 --- qx-build/source/class/qx/event/handler/EventHandler.js	30 Sep 2009 12:28:45 -0000	1.3
 +++ qx-build/source/class/qx/event/handler/EventHandler.js	8 Oct 2009 13:22:15 -0000
-@@ -980,7 +980,7 @@
+@@ -989,7 +989,7 @@
          // Needed for Tooltips, ...
          qx.event.type.MouseEvent.storeEventState(vEventObject);
  
