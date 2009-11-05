@@ -346,7 +346,7 @@ public class StyledText extends Canvas {
     checkWidget();
     return new Point( selection.x, selection.y );
   }
-  
+
   /**
    * Returns the selected text.
    *
@@ -696,7 +696,7 @@ public class StyledText extends Canvas {
       }
       clearSelection( false );
       // [ev] this generates html on each click
-      // this.html = generateHtml(); 
+      // this.html = generateHtml();
     }
   }
 
@@ -759,12 +759,13 @@ public class StyledText extends Canvas {
                                                null,
                                                SelectionEvent.WIDGET_SELECTED,
                                                bounds,
+                                               0,
                                                null,
                                                true,
                                                SWT.NONE );
     event.processEvent();
   }
-  
+
   private String createCharStyle( final StyleRange styleRange ) {
     StringBuffer result = new StringBuffer();
     result.append( " style='" );
@@ -813,10 +814,10 @@ public class StyledText extends Canvas {
       /*
        * Optimizations to reduce the cost of searching the style ranges and
        * generating the spans from from O(content)*O(ranges) to O(content)*2:
-       * 
+       *
        * - the ranges are sorted from low to high and do not overlap
        *   (this is guaranteed by the renderer)
-       * - begin by looking at the range that was matched previously 
+       * - begin by looking at the range that was matched previously
        *   (range #0 the first time)
        * - exit from generateStyleTag(...) when a range is encountered that is
        *   after charId (because all others will be after too)
@@ -837,8 +838,8 @@ public class StyledText extends Canvas {
     return html.toString();
   }
 
-  private int generateStyleTag( final StringBuffer html, 
-                                 final StyleRange[] styleRanges, 
+  private int generateStyleTag( final StringBuffer html,
+                                 final StyleRange[] styleRanges,
                                  final int charId,
                                  final int lastMatch ) {
     int result = lastMatch;

@@ -102,10 +102,13 @@ public final class StyledTextLCA extends AbstractWidgetLCA {
         styledText.setSelection( start, end );
         int eventId = SelectionEvent.WIDGET_SELECTED;
         Rectangle bounds = new Rectangle( start, end, 0, 0 );
+        // TODO: [if] stateMask is not supported because of the IFrame
+        int stateMask = 0;
         SelectionEvent event = new SelectionEvent( styledText,
                                                    null,
                                                    eventId,
                                                    bounds,
+                                                   stateMask,
                                                    null,
                                                    true,
                                                    0 );
