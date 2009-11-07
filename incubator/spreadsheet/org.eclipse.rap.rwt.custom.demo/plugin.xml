@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+        point="org.eclipse.rap.ui.branding">
+     <branding
+           defaultEntrypointId="org.eclipse.rap.rwt.custom.demo.spreadsheet"
+           id="org.eclipse.rap.rwt.custom.demo.spreadsheet"
+           servletName="spreadsheet"
+           themeId="org.eclipse.rap.rwt.custom.demo.theme"
+           title="Spreadsheet Demo">
+     </branding>
+  </extension>
+  <extension
+        point="org.eclipse.rap.ui.entrypoint">
+     <entrypoint
+           class="org.eclipse.rap.rwt.custom.demo.spreadsheet.SpreadSheetEntryPoint"
+           id="org.eclipse.rap.rwt.custom.demo.spreadsheet"
+           parameter="spreadsheet">
+     </entrypoint>
+  </extension>
+  <extension
+        point="org.eclipse.rap.ui.themes">
+     <theme
+           file="theme/theme.css"
+           id="org.eclipse.rap.rwt.custom.demo.theme"
+           name="Custom Demo Theme">
+     </theme>
+  </extension>
+  <extension
+        point="org.eclipse.ui.perspectives">
+     <perspective
+           class="org.eclipse.rap.rwt.custom.demo.spreadsheet.SpreadSheetPerspective"
+           id="org.eclipse.rap.rwt.custom.demo.perspectives.spreadsheet"
+           name="Spreadsheet Perspective">
+     </perspective>
+  </extension>
+  <extension
+        point="org.eclipse.ui.views">
+     <view
+            class="org.eclipse.rap.rwt.custom.demo.spreadsheet.SpreadSheetView"
+            id="org.eclipse.rap.rwt.custom.demo.views.spreadsheet"
+            name="Spreadsheet"
+            restorable="true">
+     </view>
+  </extension>
+</plugin>

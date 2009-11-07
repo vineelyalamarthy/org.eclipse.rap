@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: org.eclipse.rap.rwt.custom.test
+Bundle-Version: 0.0.0.qualifier
+Fragment-Host: org.eclipse.rap.rwt.custom;bundle-version="0.0.0.qualifier"
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Require-Bundle: org.junit;bundle-version="3.8.2"
