@@ -16,8 +16,10 @@ public final class GMapAPIResource implements IResource {
 
   private static final String KEY_SYSTEM_PROPERTY = "org.eclipse.rap.gmaps.key";
   // key for localhost rap development on port 9090
-  private static final String KEY_LOCALHOST = "ABQIAAAAjE6itH-9WA-8yJZ7sZwmpRQz5JJ2zPi3YI9JDWBFF"
-                                              + "6NSsxhe4BSfeni5VUSx3dQc8mIEknSiG9EwaQ";
+  private static final String KEY_LOCALHOST
+    = "ABQIAAAAjE6itH-9WA-8yJZ7sZwmpRQz5JJ2zPi3YI9JDWBFF"
+    + "6NSsxhe4BSfeni5VUSx3dQc8mIEknSiG9EwaQ";
+  
   private String location;
 
   public String getCharset() {

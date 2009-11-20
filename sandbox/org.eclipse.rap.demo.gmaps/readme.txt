@@ -7,5 +7,5 @@ work for the standard RAP deployment on localhost:9090.
 If you want to use it on another host/port, you need to generate your own API
 key. See http://www.google.com/apis/maps/signup.html
 
-To use the newly generated key the GMaps widget looks for it
+To use the newly generated key, the GMaps widget looks for it
 in the "org.eclipse.rap.gmaps.key" system property.
