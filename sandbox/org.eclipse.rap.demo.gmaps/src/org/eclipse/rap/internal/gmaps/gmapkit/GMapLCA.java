@@ -22,7 +22,7 @@ import org.eclipse.rwt.lifecycle.WidgetUtil;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
 
-public class GMapLCA extends AbstractWidgetLCA {
+public final class GMapLCA extends AbstractWidgetLCA {
 
   private static final String PARAM_CENTER = "centerLocation";
   private static final String JS_PROP_ADDRESS = "address";
@@ -32,7 +32,6 @@ public class GMapLCA extends AbstractWidgetLCA {
     ControlLCAUtil.preserveValues( ( Control )widget );
     IWidgetAdapter adapter = WidgetUtil.getAdapter( widget );
     adapter.preserve( PROP_ADDRESS, ( ( GMap )widget ).getAddress() );
-    
     // only needed for custom variants (theming)
     WidgetLCAUtil.preserveCustomVariant( widget );
   }
@@ -73,12 +72,5 @@ public class GMapLCA extends AbstractWidgetLCA {
   public void renderDispose( final Widget widget ) throws IOException {
     JSWriter writer = JSWriter.getWriterFor( widget );
     writer.dispose();
-  }
-
-  public void createResetHandlerCalls( String typePoolId ) throws IOException {
-  }
-
-  public String getTypePoolId( Widget widget ) {
-    return null;
   }
 }

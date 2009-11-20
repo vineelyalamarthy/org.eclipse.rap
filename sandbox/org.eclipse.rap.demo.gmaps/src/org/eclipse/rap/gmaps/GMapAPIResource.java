@@ -9,11 +9,10 @@ package org.eclipse.rap.gmaps;
  * Contributors:
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
-import org.eclipse.rwt.internal.util.HTML;
 import org.eclipse.rwt.resources.IResource;
 import org.eclipse.rwt.resources.IResourceManager.RegisterOptions;
 
-public class GMapAPIResource implements IResource {
+public final class GMapAPIResource implements IResource {
 
   private static final String KEY_SYSTEM_PROPERTY = "org.eclipse.rap.gmaps.key";
   // key for localhost rap development on port 9090
@@ -22,7 +21,7 @@ public class GMapAPIResource implements IResource {
   private String location;
 
   public String getCharset() {
-    return HTML.CHARSET_NAME_ISO_8859_1;
+    return "ISO-8859-1";
   }
 
   public ClassLoader getLoader() {

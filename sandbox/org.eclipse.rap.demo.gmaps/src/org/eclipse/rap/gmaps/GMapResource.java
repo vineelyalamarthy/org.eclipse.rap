@@ -9,14 +9,13 @@ package org.eclipse.rap.gmaps;
  * Contributors:
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  ******************************************************************************/
-import org.eclipse.rwt.internal.util.HTML;
 import org.eclipse.rwt.resources.IResource;
 import org.eclipse.rwt.resources.IResourceManager.RegisterOptions;
 
-public class GMapResource implements IResource {
+public final class GMapResource implements IResource {
 
   public String getCharset() {
-    return HTML.CHARSET_NAME_ISO_8859_1;
+    return "ISO-8859-1";
   }
 
   public ClassLoader getLoader() {
