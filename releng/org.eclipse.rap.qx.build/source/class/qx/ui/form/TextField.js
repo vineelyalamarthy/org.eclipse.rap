@@ -681,8 +681,11 @@ qx.Class.define("qx.ui.form.TextField",
     _visualizeFocus : function()
     {
       this.base(arguments);
-
-      if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
+      
+      // RAP [if] Fix for bug 295758
+      //if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
+      var isIE = qx.core.Variant.isSet( "qx.client", "mshtml" );
+      if ((!qx.event.handler.FocusHandler.mouseFocus || isIE) && this.getEnableElementFocus())
       {
         try {
           this._inputElement.focus();
@@ -705,12 +708,13 @@ qx.Class.define("qx.ui.form.TextField",
       // We need to remove the caret in all cases.
       // This sometimes does not work in IE (caret keeps blinking)
       // but key events are not handled by the text field anymore.
-      if (!qx.event.handler.FocusHandler.mouseFocus)
-      {
+      // RAP [if] Fix for bug 295758
+      //if (!qx.event.handler.FocusHandler.mouseFocus)
+      //{
         try {
           this._inputElement.blur();
         } catch(ex) {}
-      }
+      //}
     },
 
 
