@@ -1,0 +1,35 @@
+--- qx-build/source/class/qx/client/History.js	10 Dec 2008 16:57:53 -0000	1.1
++++ qx-build/source/class/qx/client/History.js	23 Nov 2009 09:25:43 -0000
+@@ -200,7 +200,9 @@
+         this._titles[state] = newTitle;
+       }
+       if (state != this._state) {
+-        top.location.hash = "#" + encodeURIComponent(state)
++        // RAP [if] Fix for bug 295816
++        //top.location.hash = "#" + encodeURIComponent(state)
++        window.location.hash = "#" + encodeURIComponent(state);
+         this.__storeState(state);
+       }
+     },
+@@ -285,7 +287,9 @@
+      */
+     __getHash : function()
+     {
+-      var href = top.location.href;
++      // RAP [if] Fix for bug 295816
++      //var href = top.location.href;
++      var href = window.location.href;
+       var idx = href.indexOf( "#" );
+       return idx >= 0 ? href.substring(idx+1) : "";
+     },
+@@ -353,7 +357,9 @@
+         // Opera needs to update the location, after the current thread has
+         // finished to remember the history
+         qx.client.Timer.once(function() {
+-          top.location.hash = "#" + encodeURIComponent(state);
++          // RAP [if] Fix for bug 295816
++          //top.location.hash = "#" + encodeURIComponent(state);
++          window.location.hash = "#" + encodeURIComponent(state);
+         }, this, 0);
+         return true;
+       }

@@ -200,7 +200,9 @@ qx.Class.define("qx.client.History",
         this._titles[state] = newTitle;
       }
       if (state != this._state) {
-        top.location.hash = "#" + encodeURIComponent(state)
+        // RAP [if] Fix for bug 295816
+        //top.location.hash = "#" + encodeURIComponent(state)
+        window.location.hash = "#" + encodeURIComponent(state);
         this.__storeState(state);
       }
     },
@@ -285,7 +287,9 @@ qx.Class.define("qx.client.History",
      */
     __getHash : function()
     {
-      var href = top.location.href;
+      // RAP [if] Fix for bug 295816
+      //var href = top.location.href;
+      var href = window.location.href;
       var idx = href.indexOf( "#" );
       return idx >= 0 ? href.substring(idx+1) : "";
     },
@@ -353,7 +357,9 @@ qx.Class.define("qx.client.History",
         // Opera needs to update the location, after the current thread has
         // finished to remember the history
         qx.client.Timer.once(function() {
-          top.location.hash = "#" + encodeURIComponent(state);
+          // RAP [if] Fix for bug 295816
+          //top.location.hash = "#" + encodeURIComponent(state);
+          window.location.hash = "#" + encodeURIComponent(state);
         }, this, 0);
         return true;
       }
