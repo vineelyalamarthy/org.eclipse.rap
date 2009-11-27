@@ -426,21 +426,18 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
         return;
       }
 
-      if(this.__dragCache == null)
+      // Store initial dragCache
+      this.__dragCache =
       {
-        // Store initial dragCache
-        this.__dragCache =
-        {
-          startScreenX      : e.getScreenX(),
-          startScreenY      : e.getScreenY(),
-          pageX             : e.getPageX(),
-          pageY             : e.getPageY(),
-          sourceWidget      : e.getTarget(),
-          sourceTopLevel    : e.getTarget().getTopLevelWidget(),
-          dragHandlerActive : false,
-          hasFiredDragStart : false
-        };
-      }
+        startScreenX      : e.getScreenX(),
+        startScreenY      : e.getScreenY(),
+        pageX             : e.getPageX(),
+        pageY             : e.getPageY(),
+        sourceWidget      : e.getTarget(),
+        sourceTopLevel    : e.getTarget().getTopLevelWidget(),
+        dragHandlerActive : false,
+        hasFiredDragStart : false
+      };
     },
 
 
@@ -704,8 +701,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
       this.getSourceWidget().dispatchEvent(new qx.event.type.DragEvent("dragend", e, this.getSourceWidget(), currentDestinationWidget), true);
 
       // Fire dragout event
-      // RAP : We create this event on the server-side:
-      //this._fireUserEvents(this.__dragCache && this.__dragCache.currentDropWidget, null, e);
+      this._fireUserEvents(this.__dragCache && this.__dragCache.currentDropWidget, null, e);
 
       // Call helper
       this._endDragCore();
