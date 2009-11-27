@@ -1,0 +1,45 @@
+--- qx-build/source/class/qx/event/handler/DragAndDropHandler.js	27 Nov 2009 20:25:57 -0000	1.3
++++ qx-build/source/class/qx/event/handler/DragAndDropHandler.js	27 Nov 2009 20:27:11 -0000
+@@ -426,18 +426,21 @@
+         return;
+       }
+ 
+-      // Store initial dragCache
+-      this.__dragCache =
++      if(this.__dragCache == null)
+       {
+-        startScreenX      : e.getScreenX(),
+-        startScreenY      : e.getScreenY(),
+-        pageX             : e.getPageX(),
+-        pageY             : e.getPageY(),
+-        sourceWidget      : e.getTarget(),
+-        sourceTopLevel    : e.getTarget().getTopLevelWidget(),
+-        dragHandlerActive : false,
+-        hasFiredDragStart : false
+-      };
++        // Store initial dragCache
++        this.__dragCache =
++        {
++          startScreenX      : e.getScreenX(),
++          startScreenY      : e.getScreenY(),
++          pageX             : e.getPageX(),
++          pageY             : e.getPageY(),
++          sourceWidget      : e.getTarget(),
++          sourceTopLevel    : e.getTarget().getTopLevelWidget(),
++          dragHandlerActive : false,
++          hasFiredDragStart : false
++        };
++      }
+     },
+ 
+ 
+@@ -701,7 +704,8 @@
+       this.getSourceWidget().dispatchEvent(new qx.event.type.DragEvent("dragend", e, this.getSourceWidget(), currentDestinationWidget), true);
+ 
+       // Fire dragout event
+-      this._fireUserEvents(this.__dragCache && this.__dragCache.currentDropWidget, null, e);
++      // RAP : We create this event on the server-side:
++      //this._fireUserEvents(this.__dragCache && this.__dragCache.currentDropWidget, null, e);
+ 
+       // Call helper
+       this._endDragCore();
