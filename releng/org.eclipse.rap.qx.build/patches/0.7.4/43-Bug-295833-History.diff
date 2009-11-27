@@ -1,0 +1,22 @@
+--- qx-build/source/class/qx/client/History.js	23 Nov 2009 12:47:29 -0000	1.2
++++ qx-build/source/class/qx/client/History.js	27 Nov 2009 14:22:22 -0000
+@@ -200,6 +200,8 @@
+         this._titles[state] = newTitle;
+       }
+       if (state != this._state) {
++        // RAP [if] Prevent the event dispatch
++        this._state = state;
+         // RAP [if] Fix for bug 295816
+         //top.location.hash = "#" + encodeURIComponent(state)
+         window.location.hash = "#" + encodeURIComponent(state);
+@@ -271,7 +273,9 @@
+ 
+       this._timer.addEventListener("interval", function(e) {
+         var newHash = this.__getState();
+-        if (newHash != this._state) {
++        // RAP [if] Ignore all non application states
++        //if (newHash != this._state) {
++        if( newHash != this._state && this._titles[newHash] != null ) {
+           this.__onHistoryLoad(newHash);
+         }
+       }, this);
