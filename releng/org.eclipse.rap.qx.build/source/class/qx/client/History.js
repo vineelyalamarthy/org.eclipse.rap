@@ -197,9 +197,11 @@ qx.Class.define("qx.client.History",
     {
       if (newTitle != null) {
         document.title = newTitle;
-        this._titles[state] = newTitle;
       }
+      this._titles[state] = document.title;
       if (state != this._state) {
+        // RAP [if] Prevent the event dispatch
+        this._state = state;
         // RAP [if] Fix for bug 295816
         //top.location.hash = "#" + encodeURIComponent(state)
         window.location.hash = "#" + encodeURIComponent(state);
@@ -271,7 +273,9 @@ qx.Class.define("qx.client.History",
 
       this._timer.addEventListener("interval", function(e) {
         var newHash = this.__getState();
-        if (newHash != this._state) {
+        // RAP [if] Ignore all non application states
+        //if (newHash != this._state) {
+        if( newHash != this._state && this._titles[newHash] != null ) {
           this.__onHistoryLoad(newHash);
         }
       }, this);
