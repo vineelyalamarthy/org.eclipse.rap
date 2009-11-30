@@ -1,0 +1,83 @@
+--- qx-build/source/class/qx/ui/core/Widget.js	3 Nov 2009 11:59:09 -0000	1.7
++++ qx-build/source/class/qx/ui/core/Widget.js	30 Nov 2009 08:56:48 -0000
+@@ -6400,6 +6400,22 @@
+     {
+       "mshtml" :
+       {
++        "default" : "default",
++        "wait" : "wait",
++        "crosshair" : "crosshair",
++        "help" : "help",
++        "move" : "move",
++        "text" : "text",
++        "pointer" : "pointer",
++        "e-resize" : "e-resize",
++        "n-resize" : "n-resize",
++        "w-resize" : "w-resize",
++        "s-resize" : "s-resize",
++        "ne-resize" : "ne-resize",
++        "se-resize" : "se-resize",
++        "nw-resize" : "nw-resize",
++        "sw-resize" : "sw-resize",
++        
+         "cursor" : "hand",
+         "ew-resize" : "e-resize",
+         "ns-resize" : "n-resize",
+@@ -6408,6 +6424,22 @@
+       },
+       "opera" :
+       {
++        "default" : "default",
++        "wait" : "wait",
++        "crosshair" : "crosshair",
++        "help" : "help",
++        "move" : "move",
++        "text" : "text",
++        "pointer" : "pointer",
++        "e-resize" : "e-resize",
++        "n-resize" : "n-resize",
++        "w-resize" : "w-resize",
++        "s-resize" : "s-resize",
++        "ne-resize" : "ne-resize",
++        "se-resize" : "se-resize",
++        "nw-resize" : "nw-resize",
++        "sw-resize" : "sw-resize",
++        
+         "col-resize" : "e-resize",
+         "row-resize" : "n-resize",
+         "ew-resize" : "e-resize",
+@@ -6415,14 +6447,32 @@
+         "nesw-resize" : "ne-resize",
+         "nwse-resize" : "nw-resize"
+       },
+-      "default" : {}
++      "default" :
++      {
++        "default" : "default",
++        "wait" : "wait",
++        "crosshair" : "crosshair",
++        "help" : "help",
++        "move" : "move",
++        "text" : "text",
++        "pointer" : "pointer",
++        "e-resize" : "e-resize",
++        "n-resize" : "n-resize",
++        "w-resize" : "w-resize",
++        "s-resize" : "s-resize",
++        "ne-resize" : "ne-resize",
++        "se-resize" : "se-resize",
++        "nw-resize" : "nw-resize",
++        "sw-resize" : "sw-resize"
++      }
+     }),
+ 
+ 
+     _applyCursor : function(value, old)
+     {
+       if (value) {
+-        this.setStyleProperty("cursor", this.__cursorMap[value] || value);
++        var url = "url( " + value + " ), default";
++        this.setStyleProperty("cursor", this.__cursorMap[value] || url);
+       } else {
+         this.removeStyleProperty("cursor");
+       }

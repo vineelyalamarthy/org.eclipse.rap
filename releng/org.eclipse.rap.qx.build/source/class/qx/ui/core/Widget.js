@@ -6400,6 +6400,22 @@ qx.Class.define("qx.ui.core.Widget",
     {
       "mshtml" :
       {
+        "default" : "default",
+        "wait" : "wait",
+        "crosshair" : "crosshair",
+        "help" : "help",
+        "move" : "move",
+        "text" : "text",
+        "pointer" : "pointer",
+        "e-resize" : "e-resize",
+        "n-resize" : "n-resize",
+        "w-resize" : "w-resize",
+        "s-resize" : "s-resize",
+        "ne-resize" : "ne-resize",
+        "se-resize" : "se-resize",
+        "nw-resize" : "nw-resize",
+        "sw-resize" : "sw-resize",
+        
         "cursor" : "hand",
         "ew-resize" : "e-resize",
         "ns-resize" : "n-resize",
@@ -6408,6 +6424,22 @@ qx.Class.define("qx.ui.core.Widget",
       },
       "opera" :
       {
+        "default" : "default",
+        "wait" : "wait",
+        "crosshair" : "crosshair",
+        "help" : "help",
+        "move" : "move",
+        "text" : "text",
+        "pointer" : "pointer",
+        "e-resize" : "e-resize",
+        "n-resize" : "n-resize",
+        "w-resize" : "w-resize",
+        "s-resize" : "s-resize",
+        "ne-resize" : "ne-resize",
+        "se-resize" : "se-resize",
+        "nw-resize" : "nw-resize",
+        "sw-resize" : "sw-resize",
+        
         "col-resize" : "e-resize",
         "row-resize" : "n-resize",
         "ew-resize" : "e-resize",
@@ -6415,14 +6447,32 @@ qx.Class.define("qx.ui.core.Widget",
         "nesw-resize" : "ne-resize",
         "nwse-resize" : "nw-resize"
       },
-      "default" : {}
+      "default" :
+      {
+        "default" : "default",
+        "wait" : "wait",
+        "crosshair" : "crosshair",
+        "help" : "help",
+        "move" : "move",
+        "text" : "text",
+        "pointer" : "pointer",
+        "e-resize" : "e-resize",
+        "n-resize" : "n-resize",
+        "w-resize" : "w-resize",
+        "s-resize" : "s-resize",
+        "ne-resize" : "ne-resize",
+        "se-resize" : "se-resize",
+        "nw-resize" : "nw-resize",
+        "sw-resize" : "sw-resize"
+      }
     }),
 
 
     _applyCursor : function(value, old)
     {
       if (value) {
-        this.setStyleProperty("cursor", this.__cursorMap[value] || value);
+        var url = "url( " + value + " ), default";
+        this.setStyleProperty("cursor", this.__cursorMap[value] || url);
       } else {
         this.removeStyleProperty("cursor");
       }
