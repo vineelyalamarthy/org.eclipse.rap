@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.rap.themeeditor.editor.source.CSSSourceEditor"
+            filenames="theme.css"
+            icon="icons/file_obj.gif"
+            id="org.eclipse.rap.themeeditor.editor.ThemeEditor"
+            name="RAP Theme Editor">
+      </editor>
+   </extension>
+
+   <extension
+         point="org.eclipse.core.filebuffers.documentSetup">
+      <participant
+         class="org.eclipse.rap.themeeditor.editor.source.CSSDocumentSetupParticipant"
+         extensions="css">
+      </participant>
+   </extension>
+</plugin>
