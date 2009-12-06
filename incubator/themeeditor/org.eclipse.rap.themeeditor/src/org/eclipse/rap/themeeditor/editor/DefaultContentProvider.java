@@ -1,4 +1,3 @@
-package org.eclipse.rap.themeeditor.editor.rule;
 /*******************************************************************************
  * Copyright (c) 2008 Mathias Schaeffner and others.
  * All rights reserved. This program and the accompanying materials
@@ -9,7 +8,7 @@ package org.eclipse.rap.themeeditor.editor.rule;
  * Contributors:
  *    Mathias Schaeffner - initial API and implementation
  *******************************************************************************/
-
+package org.eclipse.rap.themeeditor.editor;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -21,9 +20,6 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 public class DefaultContentProvider extends ArrayContentProvider
   implements ITreeContentProvider
 {
-
-  public DefaultContentProvider() {
-  }
 
   public Object[] getChildren( final Object parentElement ) {
     return new Object[ 0 ];

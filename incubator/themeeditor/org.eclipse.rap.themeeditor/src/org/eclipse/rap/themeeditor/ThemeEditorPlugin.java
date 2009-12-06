@@ -14,7 +14,7 @@ public class ThemeEditorPlugin extends AbstractUIPlugin {
   public static final String IMG_FIELD_PRIVATE = "field_private_obj.gif";
   public static final String IMG_PUBLIC = "public_co.gif";
 
-  public static final String PLUGIN_ID = "org.eclipse.rap.themeeditor.csseditor"; //$NON-NLS-1$
+  public static final String PLUGIN_ID = "org.eclipse.rap.themeeditor";
 
   private static ThemeEditorPlugin sharedInstance;
 
@@ -44,7 +44,6 @@ public class ThemeEditorPlugin extends AbstractUIPlugin {
   public Image getImage( String key ) {
     return getImageRegistry().get( key );
   }
-
 
   public static ImageDescriptor getImageDescriptor( final String path ) {
     return imageDescriptorFromPlugin( PLUGIN_ID, path );

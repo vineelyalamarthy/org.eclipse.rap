@@ -36,7 +36,6 @@ public class CSSTokenScanner implements ITokenScanner {
   private IRegionExt lastState;
   private int currentListPosition;
   private int lastListPosition;
-  private ITokenChangedListener listener = null;
   private String oldContent;
   private int oldListPosition;
   private SelectorRegion lastSelector;
@@ -121,10 +120,6 @@ public class CSSTokenScanner implements ITokenScanner {
         lastListPosition++;
       }
       oldListPosition = currentListPosition;
-      // notify token changed listener if one is registered
-      if( listener != null ) {
-        listener.tokensChanged();
-      }
     }
   }
 
@@ -145,10 +140,6 @@ public class CSSTokenScanner implements ITokenScanner {
 
   public List getTokenList() {
     return tokenList;
-  }
-
-  public void setTokenChangedListener( final ITokenChangedListener listener ) {
-    this.listener = listener;
   }
 
   /**

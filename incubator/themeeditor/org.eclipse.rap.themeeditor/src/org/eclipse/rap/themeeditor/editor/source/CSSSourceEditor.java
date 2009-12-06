@@ -24,11 +24,13 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.rap.themeeditor.editor.CSSContentOutlinePage;
 import org.eclipse.rap.themeeditor.editor.IOutlineSelectionChangedListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.texteditor.ContentAssistAction;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 /**
  * The general editor in the Source Tab. Providing content assists, syntax
@@ -39,16 +41,14 @@ public class CSSSourceEditor extends TextEditor
 {
 
   private CSSTokenScanner tokenScanner;
-
-  public CSSSourceEditor() {
-    super();
-//    getCSSTokenScanner().setTokenChangedListener( editor );
-//    outline.setSelectionChangedListener( this, ThemeEditor.SOURCE_TAB );
-  }
+  private CSSContentOutlinePage outlinePage;
 
   protected void initializeEditor() {
     super.initializeEditor();
-    setSourceViewerConfiguration( new CSSSourceViewerConfiguration( getCSSTokenScanner() ) );
+    tokenScanner = new CSSTokenScanner( this );
+    CSSSourceViewerConfiguration configuration
+      = new CSSSourceViewerConfiguration( tokenScanner );
+    setSourceViewerConfiguration( configuration );
   }
 
   public void createPartControl( Composite parent ) {
@@ -63,7 +63,8 @@ public class CSSSourceEditor extends TextEditor
       }
 
       public void documentChanged( DocumentEvent event ) {
-        getCSSTokenScanner().setRange( doc, 0, doc.getLength() );
+        tokenScanner.setRange( doc, 0, doc.getLength() );
+        outlinePage.setInput( getSelectorTokens() );
       }
     } );
   }
@@ -76,26 +77,7 @@ public class CSSSourceEditor extends TextEditor
   }
 
   public Object[] getSelectorTokens() {
-    return getCSSTokenScanner().getOutlineRegionsArray();
-  }
-
-  /**
-   * Returns the index of a rule in the StyleSheet at a given offset position
-   * within the document.
-   */
-  private int getRuleNumber( final int offset ) {
-    int result = -1;
-    Iterator it = getCSSTokenScanner().getOutlineRegionsList().iterator();
-    while( it.hasNext() ) {
-      IRegion regionExt = ( IRegion )it.next();
-      if( regionExt.getOffset() <= offset ) {
-        result++;
-      }
-    }
-    if( result < 0 ) {
-      result = 0;
-    }
-    return result;
+    return tokenScanner.getOutlineRegionsArray();
   }
 
   protected void handleCursorPositionChanged() {
@@ -104,24 +86,14 @@ public class CSSSourceEditor extends TextEditor
     if( selection instanceof ITextSelection ) {
       int offset = ( ( ITextSelection )selection ).getOffset();
       int index = getRuleNumber( offset );
-//      editor.updateOutlineSelection( index );
+      if( outlinePage != null ) {
+        outlinePage.setSelection( index );
+      }
     }
   }
 
   public void doCursorPositionChanged() {
     handleCursorPositionChanged();
-  }
-
-  private CSSTokenScanner getCSSTokenScanner() {
-    if( tokenScanner == null ) {
-      tokenScanner = new CSSTokenScanner( this );
-    }
-    return tokenScanner;
-  }
-
-  public void dispose() {
-    tokenScanner.setTokenChangedListener( null );
-    super.dispose();
   }
 
   protected void createActions() {
@@ -170,16 +142,47 @@ public class CSSSourceEditor extends TextEditor
     return getDocumentProvider().getDocument( getEditorInput() );
   }
 
+  public Object getAdapter( Class adapter ) {
+    Object result;
+    if( IContentOutlinePage.class.equals( adapter ) ) {
+      if( outlinePage == null ) {
+        outlinePage = new CSSContentOutlinePage( this );
+        outlinePage.setInput( getSelectorTokens() );
+      }
+      result = outlinePage;
+    } else {
+      result = super.getAdapter( adapter );
+    }
+    return result;
+  }
+
+  /**
+   * Returns the index of a rule in the StyleSheet at a given offset position
+   * within the document.
+   */
+  private int getRuleNumber( final int offset ) {
+    int result = -1;
+    Iterator it = tokenScanner.getOutlineRegionsList().iterator();
+    while( it.hasNext() ) {
+      IRegion regionExt = ( IRegion )it.next();
+      if( regionExt.getOffset() <= offset ) {
+        result++;
+      }
+    }
+    if( result < 0 ) {
+      result = 0;
+    }
+    return result;
+  }
+
   private ResourceBundle getResourceBundle() {
     return new ResourceBundle() {
       
       protected Object handleGetObject( String key ) {
-        // TODO Auto-generated method stub
         return null;
       }
       
       public Enumeration getKeys() {
-        // TODO Auto-generated method stub
         return null;
       }
     };
