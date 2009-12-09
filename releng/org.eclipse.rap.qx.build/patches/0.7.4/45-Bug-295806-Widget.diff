@@ -1,6 +1,6 @@
 --- qx-build/source/class/qx/ui/core/Widget.js	3 Nov 2009 11:59:09 -0000	1.7
 +++ qx-build/source/class/qx/ui/core/Widget.js	30 Nov 2009 08:56:48 -0000
-@@ -6400,6 +6400,24 @@
+@@ -6400,6 +6400,27 @@
      {
        "mshtml" :
        {
@@ -21,11 +21,14 @@
 +        "sw-resize" : "sw-resize",
 +        "col-resize" : "col-resize",
 +        "row-resize" : "row-resize",
++        "progress" : "progress",
++        "not-allowed" : "not-allowed",
++        "no-drop" : "no-drop",
 +        
          "cursor" : "hand",
          "ew-resize" : "e-resize",
          "ns-resize" : "n-resize",
-@@ -6408,6 +6426,22 @@
+@@ -6408,6 +6423,25 @@
        },
        "opera" :
        {
@@ -44,11 +47,14 @@
 +        "se-resize" : "se-resize",
 +        "nw-resize" : "nw-resize",
 +        "sw-resize" : "sw-resize",
++        "progress" : "progress",
++        "not-allowed" : "not-allowed",
++        "no-drop" : "no-drop",
 +        
          "col-resize" : "e-resize",
          "row-resize" : "n-resize",
          "ew-resize" : "e-resize",
-@@ -6415,14 +6449,34 @@
+@@ -6415,14 +6455,37 @@
          "nesw-resize" : "ne-resize",
          "nwse-resize" : "nw-resize"
        },
@@ -71,7 +77,10 @@
 +        "nw-resize" : "nw-resize",
 +        "sw-resize" : "sw-resize",
 +        "col-resize" : "col-resize",
-+        "row-resize" : "row-resize"
++        "row-resize" : "row-resize",
++        "progress" : "progress",
++        "not-allowed" : "not-allowed",
++        "no-drop" : "no-drop"
 +      }
      }),
  

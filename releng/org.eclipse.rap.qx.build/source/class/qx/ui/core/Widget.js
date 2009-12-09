@@ -6417,6 +6417,9 @@ qx.Class.define("qx.ui.core.Widget",
         "sw-resize" : "sw-resize",
         "col-resize" : "col-resize",
         "row-resize" : "row-resize",
+        "progress" : "progress",
+        "not-allowed" : "not-allowed",
+        "no-drop" : "no-drop",
         
         "cursor" : "hand",
         "ew-resize" : "e-resize",
@@ -6441,6 +6444,9 @@ qx.Class.define("qx.ui.core.Widget",
         "se-resize" : "se-resize",
         "nw-resize" : "nw-resize",
         "sw-resize" : "sw-resize",
+        "progress" : "progress",
+        "not-allowed" : "not-allowed",
+        "no-drop" : "no-drop",
         
         "col-resize" : "e-resize",
         "row-resize" : "n-resize",
@@ -6467,7 +6473,10 @@ qx.Class.define("qx.ui.core.Widget",
         "nw-resize" : "nw-resize",
         "sw-resize" : "sw-resize",
         "col-resize" : "col-resize",
-        "row-resize" : "row-resize"
+        "row-resize" : "row-resize",
+        "progress" : "progress",
+        "not-allowed" : "not-allowed",
+        "no-drop" : "no-drop"
       }
     }),
 
