@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import junit.framework.TestCase;
 
-import org.eclipse.swt.RWTFixture;
+import org.eclipse.rwt.Fixture;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.*;
@@ -419,7 +419,7 @@ public class SpreadSheetLayout_Test extends TestCase {
   }
   
   protected void setUp() throws Exception {
-    RWTFixture.setUp();
+    Fixture.setUp();
     display = new Display();
     shell = new Shell( display, SWT.SHELL_TRIM );
     shell.setSize( DEFAULT_SHELL_WIDTH, DEFAULT_SHELL_HEIGHT );
@@ -446,6 +446,6 @@ public class SpreadSheetLayout_Test extends TestCase {
       shell = null;
       display = null;
     }
-    RWTFixture.tearDown();
+    Fixture.tearDown();
   }
 }

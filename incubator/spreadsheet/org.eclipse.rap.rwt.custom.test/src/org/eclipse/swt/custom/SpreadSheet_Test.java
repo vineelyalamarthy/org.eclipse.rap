@@ -4,8 +4,8 @@ package org.eclipse.swt.custom;
 
 import junit.framework.TestCase;
 
+import org.eclipse.rwt.Fixture;
 import org.eclipse.rwt.lifecycle.PhaseId;
-import org.eclipse.swt.RWTFixture;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Rectangle;
@@ -73,7 +73,7 @@ public class SpreadSheet_Test extends TestCase {
     assertEquals( "", sheet.getText( ROW_TO_SELECT, COLUMN_TO_SELECT ) );
 
     sheet.setText( TEST_TEXT, ROW_TO_SELECT, COLUMN_TO_SELECT );
-    RWTFixture.fakePhase( PhaseId.PREPARE_UI_ROOT );
+    Fixture.fakePhase( PhaseId.PREPARE_UI_ROOT );
     shell.layout( true, true );
     CellPosition position
       = new CellPosition( ROW_TO_SELECT, COLUMN_TO_SELECT );
@@ -85,7 +85,7 @@ public class SpreadSheet_Test extends TestCase {
   
   public void testSlider() {
     SpreadSheet spreadSheet = new SpreadSheet( shell, SWT.NONE );
-    RWTFixture.fakePhase( PhaseId.PREPARE_UI_ROOT );
+    Fixture.fakePhase( PhaseId.PREPARE_UI_ROOT );
     shell.layout();
     
     Slider hScroll = null;
@@ -172,7 +172,7 @@ public class SpreadSheet_Test extends TestCase {
 
   public void testClientArea() {
     SpreadSheet spreadSheet = new SpreadSheet( shell, SWT.NONE );
-    RWTFixture.fakePhase( PhaseId.PREPARE_UI_ROOT );
+    Fixture.fakePhase( PhaseId.PREPARE_UI_ROOT );
     shell.layout();
 
     Rectangle shellClientArea = shell.getClientArea();
@@ -329,7 +329,7 @@ public class SpreadSheet_Test extends TestCase {
   }
 
   protected void setUp() throws Exception {
-    RWTFixture.setUp();
+    Fixture.setUp();
     display = new Display();
     shell = new Shell( display, SWT.SHELL_TRIM );
     shell.setSize( 600, 400 );
@@ -342,7 +342,7 @@ public class SpreadSheet_Test extends TestCase {
       shell = null;
       display = null;
     }
-    RWTFixture.tearDown();
+    Fixture.tearDown();
   }
 
 }

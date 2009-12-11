@@ -17,7 +17,6 @@ import org.eclipse.rwt.Fixture;
 import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.rwt.lifecycle.IWidgetAdapter;
 import org.eclipse.rwt.lifecycle.WidgetUtil;
-import org.eclipse.swt.RWTFixture;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.MouseAdapter;
@@ -41,8 +40,8 @@ public class StyledTextLCA_Test extends TestCase {
     Display display = new Display();
     Composite shell = new Shell( display, SWT.NONE );
     StyledText styledText = new StyledText( shell, SWT.NONE );
-    RWTFixture.markInitialized( display );
-    RWTFixture.preserveWidgets();
+    Fixture.markInitialized( display );
+    Fixture.preserveWidgets();
     IWidgetAdapter adapter = WidgetUtil.getAdapter( styledText );
     String html
       = ( String )adapter.getPreserved( StyledTextLCA.PROP_HTML );
@@ -53,7 +52,7 @@ public class StyledTextLCA_Test extends TestCase {
     Integer caretOffset
       = ( Integer )adapter.getPreserved( StyledTextLCA.PROP_CARET_OFFSET );
     assertEquals( StyledTextLCA.DEFAULT_CARET_OFFSET, caretOffset );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
     // Test preserved control properties
     testPreserveControlProperties( styledText );
     // Test preserved selection listeners
@@ -81,30 +80,30 @@ public class StyledTextLCA_Test extends TestCase {
     // bound
     Rectangle rectangle = new Rectangle( 10, 10, 10, 10 );
     styledText.setBounds( rectangle );
-    RWTFixture.preserveWidgets();
+    Fixture.preserveWidgets();
     IWidgetAdapter adapter = WidgetUtil.getAdapter( styledText );
     assertEquals( rectangle, adapter.getPreserved( Props.BOUNDS ) );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
     // enabled
-    RWTFixture.preserveWidgets();
+    Fixture.preserveWidgets();
     adapter = WidgetUtil.getAdapter( styledText );
     assertEquals( Boolean.TRUE, adapter.getPreserved( Props.ENABLED ) );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
     styledText.setEnabled( false );
-    RWTFixture.preserveWidgets();
+    Fixture.preserveWidgets();
     adapter = WidgetUtil.getAdapter( styledText );
     assertEquals( Boolean.FALSE, adapter.getPreserved( Props.ENABLED ) );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
     // visible
-    RWTFixture.preserveWidgets();
+    Fixture.preserveWidgets();
     adapter = WidgetUtil.getAdapter( styledText );
     assertEquals( Boolean.TRUE, adapter.getPreserved( Props.VISIBLE ) );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
     styledText.setVisible( false );
-    RWTFixture.preserveWidgets();
+    Fixture.preserveWidgets();
     adapter = WidgetUtil.getAdapter( styledText );
     assertEquals( Boolean.FALSE, adapter.getPreserved( Props.VISIBLE ) );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
     //foreground background font
     Color background = Graphics.getColor( 122, 33, 203 );
     styledText.setBackground( background );
@@ -112,46 +111,46 @@ public class StyledTextLCA_Test extends TestCase {
     styledText.setForeground( foreground );
     Font font = Graphics.getFont( "font", 12, SWT.BOLD );
     styledText.setFont( font );
-    RWTFixture.preserveWidgets();
+    Fixture.preserveWidgets();
     adapter = WidgetUtil.getAdapter( styledText );
     assertEquals( background, adapter.getPreserved( Props.BACKGROUND ) );
     assertEquals( foreground, adapter.getPreserved( Props.FOREGROUND ) );
     assertEquals( font, adapter.getPreserved( Props.FONT ) );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
   }
 
   private void testPreserveSelectionListener( final StyledText styledText ) {
-    RWTFixture.preserveWidgets();
+    Fixture.preserveWidgets();
     IWidgetAdapter adapter = WidgetUtil.getAdapter( styledText );
     Boolean hasListeners
       = ( Boolean )adapter.getPreserved( StyledTextLCA.SELECTION_LISTENERS );
     assertEquals( Boolean.FALSE, hasListeners );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
     SelectionListener selectionListener = new SelectionAdapter() { };
     styledText.addSelectionListener( selectionListener );
-    RWTFixture.preserveWidgets();
+    Fixture.preserveWidgets();
     adapter = WidgetUtil.getAdapter( styledText );
     hasListeners
       = ( Boolean )adapter.getPreserved( StyledTextLCA.SELECTION_LISTENERS );
     assertEquals( Boolean.TRUE, hasListeners );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
   }
 
   private void testPreserveMouseListener( final StyledText styledText ) {
-    RWTFixture.preserveWidgets();
+    Fixture.preserveWidgets();
     IWidgetAdapter adapter = WidgetUtil.getAdapter( styledText );
     Boolean hasListeners
       = ( Boolean )adapter.getPreserved( StyledTextLCA.MOUSE_LISTENERS );
     assertEquals( Boolean.FALSE, hasListeners );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
     MouseListener selectionListener = new MouseAdapter() { };
     styledText.addMouseListener( selectionListener );
-    RWTFixture.preserveWidgets();
+    Fixture.preserveWidgets();
     adapter = WidgetUtil.getAdapter( styledText );
     hasListeners
       = ( Boolean )adapter.getPreserved( StyledTextLCA.MOUSE_LISTENERS );
     assertEquals( Boolean.TRUE, hasListeners );
-    RWTFixture.clearPreserved();
+    Fixture.clearPreserved();
   }
 
   private void testSelectionEvent( final StyledText styledText ) {
@@ -175,7 +174,7 @@ public class StyledTextLCA_Test extends TestCase {
     Fixture.fakeRequestParam( styledTextId + ".selectionEnd", "20" );
     Fixture.fakeRequestParam( StyledTextLCA.EVENT_WIDGET_SELECTED,
                               styledTextId );
-    RWTFixture.readDataAndProcessAction( styledText );
+    Fixture.readDataAndProcessAction( styledText );
     assertEquals( "widgetSelected", log.toString() );
   }
 
@@ -211,10 +210,10 @@ public class StyledTextLCA_Test extends TestCase {
     Fixture.fakeRequestParam( reqParam, "30" );
     Fixture.fakeRequestParam( StyledTextLCA.EVENT_MOUSE_DOWN,
                               styledTextId );
-    RWTFixture.readDataAndProcessAction( styledText );
+    Fixture.readDataAndProcessAction( styledText );
     assertEquals( "mouseDown", log.toString() );
     log.setLength( 0 );
-    RWTFixture.fakeNewRequest();
+    Fixture.fakeNewRequest();
     reqParam = styledTextId + "." + StyledTextLCA.EVENT_MOUSE_UP_BUTTON;
     Fixture.fakeRequestParam( reqParam, "1" );
     reqParam = styledTextId + "." + StyledTextLCA.EVENT_MOUSE_UP_X;
@@ -225,15 +224,15 @@ public class StyledTextLCA_Test extends TestCase {
     Fixture.fakeRequestParam( reqParam, "30" );
     Fixture.fakeRequestParam( StyledTextLCA.EVENT_MOUSE_UP,
                               styledTextId );
-    RWTFixture.readDataAndProcessAction( styledText );
+    Fixture.readDataAndProcessAction( styledText );
     assertEquals( "mouseUp", log.toString() );
   }
 
   protected void setUp() throws Exception {
-    RWTFixture.setUp();
+    Fixture.setUp();
   }
 
   protected void tearDown() throws Exception {
-    RWTFixture.tearDown();
+    Fixture.tearDown();
   }
 }
