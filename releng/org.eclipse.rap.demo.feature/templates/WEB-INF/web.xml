@@ -16,6 +16,12 @@
 		</init-param>		
 		-->
     
+    <!-- Enable multi-language support for the extension registry -->
+    <init-param>
+      <param-name>commandline</param-name>
+      <param-value>-registryMultiLanguage</param-value>     
+    </init-param>
+    
     <!-- Framework Controls could be useful for testing purpose, but
          we disable it in RAP environment per default -->
 		<init-param>
