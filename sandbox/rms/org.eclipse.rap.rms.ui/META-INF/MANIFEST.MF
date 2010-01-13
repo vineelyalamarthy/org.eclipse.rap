@@ -8,8 +8,6 @@ Require-Bundle: org.eclipse.rap.rms.data,
  org.eclipse.rap.ui.forms,
  org.eclipse.core.runtime,
  org.eclipse.rap.ui.views,
- org.eclipse.rap.custom.viewers,
- org.eclipse.rap.rwt.custom,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
  org.eclipse.rap.jface.databinding
