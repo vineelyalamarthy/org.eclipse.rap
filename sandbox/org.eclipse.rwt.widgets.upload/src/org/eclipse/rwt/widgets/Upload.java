@@ -11,9 +11,9 @@ package org.eclipse.rwt.widgets;
 import java.io.File;
 
 import org.eclipse.rwt.graphics.Graphics;
-import org.eclipse.rwt.internal.theme.ThemeManager;
-import org.eclipse.rwt.theme.IControlThemeAdapter;
+import org.eclipse.rwt.internal.theme.IThemeAdapter;
 import org.eclipse.rwt.widgets.internal.uploadkit.IUploadAdapter;
+import org.eclipse.rwt.widgets.internal.uploadkit.UploadThemeAdapter;
 import org.eclipse.rwt.widgets.upload.servlet.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
@@ -361,10 +361,9 @@ public class Upload extends Control {
   }
 
   private int getButtonBorder() {
-    final ThemeManager themeMgr = ThemeManager.getInstance();
-    final IControlThemeAdapter buttonThemeAdapter = ( IControlThemeAdapter )themeMgr.getThemeAdapter( Button.class );
-    final int border = buttonThemeAdapter.getBorderWidth( this );
-    return border;
+    UploadThemeAdapter themeAdapter
+      = ( UploadThemeAdapter )getAdapter( IThemeAdapter.class );
+    return themeAdapter.getButtonBorderWidth( this );
   }
 
   private int computeBaseWidth() {
