@@ -112,6 +112,7 @@ rm ${TEMP}/class/qx/util/GuiBuilder.js
 rm ${TEMP}/class/qx/io/remote/Rpc.js
 rm ${TEMP}/class/qx/io/remote/ScriptTransport.js
 rm ${TEMP}/class/qx/io/Json.js
+rm ${TEMP}/class/qx/html/Location.js
 
 
 # *** command line switches to optimize generated output ***
