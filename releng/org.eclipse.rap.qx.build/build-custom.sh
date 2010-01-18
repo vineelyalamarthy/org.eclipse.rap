@@ -57,7 +57,9 @@ rm ${TEMP}/class/qx/dev/ObjectSummary.js
 rm ${TEMP}/class/qx/dev/Pollution.js
 rm ${TEMP}/class/qx/dev/TimeTracker.js
 rm ${TEMP}/class/qx/dev/Tokenizer.js
+rm ${TEMP}/class/qx/html/ElementFromPoint.js
 rm ${TEMP}/class/qx/html/Form.js
+rm ${TEMP}/class/qx/html/Location.js
 rm ${TEMP}/class/qx/html/Textile.js
 rm ${TEMP}/class/qx/xml/Document.js
 rm ${TEMP}/class/qx/xml/Element.js
@@ -112,7 +114,6 @@ rm ${TEMP}/class/qx/util/GuiBuilder.js
 rm ${TEMP}/class/qx/io/remote/Rpc.js
 rm ${TEMP}/class/qx/io/remote/ScriptTransport.js
 rm ${TEMP}/class/qx/io/Json.js
-rm ${TEMP}/class/qx/html/Location.js
 
 
 # *** command line switches to optimize generated output ***
