@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2002-2006 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2002-2009 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,8 +7,8 @@
  * 
  * Contributors:
  *     Innoopract Informationssysteme GmbH - initial API and implementation
+ *     EclipseSource - ongoing development
  ******************************************************************************/
-
 package org.eclipse.rap.tools;
 
 import java.io.File;
@@ -28,15 +28,15 @@ import java.io.File;
 public class ConfigIniCreator {
   
   private static final String FRAMEWORK_BUNDLE = "org.eclipse.osgi_";
-  private static final String EXTENSIONBUNDLE
+  private static final String EXTENSION_BUNDLE
     = "org.eclipse.equinox.servletbridge.extensionbundle";
 
-  public static void main( final String[] arx ) {
+  public static void main( final String[] args ) {
     ////////////////////////////////////////////////////////////////////////////
     // replace this with the absolute path to the plugin directory of
     // the deployment build for example
     // File file = new File( "C:\\projects\\org.eclipse.rap\\org.eclipse.rap.demo.feature\\build\\rapdemo\\WEB-INF\\eclipse\\plugins" );
-    File file = new File( "C:\\Users\\Ruediger\\RAP\\Presentations\\ECon 2009\\tutorial\\projects\\org.eclipse.rap.demo.feature\\build\\demo\\WEB-INF\\eclipse\\plugins" );
+    File file = new File( "C:\\Users\\Ruediger\\RAP\\Workspaces\\rap-runtime\\org.eclipse.rap.demo.feature\\build\\demo\\WEB-INF\\eclipse\\plugins" );
     ////////////////////////////////////////////////////////////////////////////
     
     String[] list = file.list();
@@ -45,7 +45,8 @@ public class ConfigIniCreator {
     buffer.append( "osgi.bundles=" );
     for( int i = 0; i < list.length; i++ ) {
       String fileName = list[ i ];
-      if( fileName.endsWith( ".jar" ) && !fileName.startsWith( FRAMEWORK_BUNDLE ) )
+      if(    fileName.endsWith( ".jar" ) 
+          && !fileName.startsWith( FRAMEWORK_BUNDLE ) )
       {
         // Remove version number
         int underscorePos = fileName.lastIndexOf( "_" );
@@ -62,7 +63,8 @@ public class ConfigIniCreator {
         }
         buffer.append( ",\\\n" );
         if( i + 1 >= list.length ) {
-          buffer.append( EXTENSIONBUNDLE );
+          buffer.append( "  " );
+          buffer.append( EXTENSION_BUNDLE );
         }
       }
     }
