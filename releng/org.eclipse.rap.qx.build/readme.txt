@@ -1,4 +1,4 @@
-(Very) short manual on how to build qooxdoo.jar from source.
+(Very) short manual on how to build qx.js/qx-debug.js from source.
 
 1. Obtain the desired qooxdoo version from SVN, we recommend to fetch it into
    your workspace. The code that is currently used by RAP resides in the

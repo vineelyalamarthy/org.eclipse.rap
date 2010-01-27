@@ -227,8 +227,16 @@ qx.Class.define("qx.ui.basic.ScrollBar",
     {
       if (this._horizontal) {
         this._scrollContent.setWidth(value);
+        // fix for Bug 299620: set maximum and value in same call:
+        if( this._scrollContent.isCreated() ) {
+          this._scrollContent.getElement().style.width = value + "px";
+        }
       } else {
         this._scrollContent.setHeight(value);
+        // fix for Bug 299620: set maximum and value in same call:
+        if( this._scrollContent.isCreated() ) {
+          this._scrollContent.getElement().style.height = value + "px";
+        }
       }
 
       // recheck the value
@@ -369,6 +377,18 @@ qx.Class.define("qx.ui.basic.ScrollBar",
     _afterAppear : function()
     {
       this.base(arguments);
+      // fix for RAP Bug 299620: scrolling in IE
+      if(    qx.core.Client.getEngine() == "mshtml" 
+          && this._scrollContent.isCreated() )
+      {
+        var style = this._scrollContent.getElement().style;
+        var width = style.width;
+        var height = style.height;
+        style.width = "0px";
+        style.height = "0px";
+        style.width = width;
+        style.height = height;       
+      } 
       this._positionKnob(this.getValue());
     }
   },
