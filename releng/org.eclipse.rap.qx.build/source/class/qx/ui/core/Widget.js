@@ -6484,7 +6484,7 @@ qx.Class.define("qx.ui.core.Widget",
     _applyCursor : function(value, old)
     {
       if (value) {
-        var url = "url( " + value + " ), default";
+        var url = "url( " + qx.io.Alias.getInstance().resolve( value ) + " ), default";
         this.setStyleProperty("cursor", this.__cursorMap[value] || url);
       } else {
         this.removeStyleProperty("cursor");
