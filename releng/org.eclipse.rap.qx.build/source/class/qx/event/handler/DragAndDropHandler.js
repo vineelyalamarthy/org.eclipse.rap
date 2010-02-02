@@ -505,10 +505,11 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
           if (this.__dragCache.dragHandlerActive)
           {
             // Fire first user events
-            this._fireUserEvents(this.__dragCache.currentDropWidget, this.__dragCache.sourceWidget, e);
+            var currentDropWidget = this.getDropTarget( e );
+            this._fireUserEvents( null, currentDropWidget, e);
 
             // Update status flags
-            this.__dragCache.currentDropWidget = this.__dragCache.sourceWidget;
+            this.__dragCache.currentDropWidget = currentDropWidget;
 
             // Activate capture for clientDocument
             qx.ui.core.ClientDocument.getInstance().setCapture(true);
