@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	
+  <extension
+      id="org.org.eclipse.rap.rwt.visualizations.google.jsapi"
+      point="org.eclipse.rap.ui.resources">
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.GoogleAPIResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.motionchartkit.MotionChartAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.motionchartkit.MotionChartResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.columnchartkit.ColumnChartAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.columnchartkit.ColumnChartResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.tablekit.TableAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.tablekit.TableResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.scatterchartkit.ScatterChartAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.scatterchartkit.ScatterChartResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.linechartkit.LineChartAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.linechartkit.LineChartResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.piechartkit.PieChartAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.piechartkit.PieChartResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.annotatedtimelinekit.AnnotatedTimeLineAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.annotatedtimelinekit.AnnotatedTimeLineResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.barchartkit.BarChartAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.barchartkit.BarChartResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.gaugekit.GaugeAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.gaugekit.GaugeResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.geomapkit.GeomapAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.geomapkit.GeomapResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.intensitymapkit.IntensityMapAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.intensitymapkit.IntensityMapResource"/>
+    
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.areachartkit.AreaChartAPIResource"/>
+    <resource class="org.eclipse.rap.rwt.visualization.google.internal.areachartkit.AreaChartResource"/>
+  </extension>
+</plugin>

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Bundle-Name
+Bundle-SymbolicName: org.eclipse.rap.rwt.visualization.google;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.rap.rwt
+Import-Package: javax.servlet;version="2.5.0",
+ javax.servlet.http;version="2.5.0"
+Export-Package: 
+ org.eclipse.rap.rwt.visualization.google,
+ org.eclipse.rap.rwt.visualization.google.json
+Eclipse-LazyStart: false
+Bundle-Vendor: %Bundle-Vendor
