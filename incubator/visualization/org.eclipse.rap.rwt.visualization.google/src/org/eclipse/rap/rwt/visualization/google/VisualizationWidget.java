@@ -38,7 +38,6 @@ public abstract class VisualizationWidget extends Composite {
   public VisualizationWidget( final Composite parent, final int style ) {
     super( parent, style );
     this.addControlListener(new ControlAdapter() {
-       @Override
       public void controlResized(ControlEvent e)
       {
           Point psz = getSize();
@@ -88,7 +87,6 @@ public abstract class VisualizationWidget extends Composite {
     return widgetOptions+widgetSize;
   }
   
-  @Override
   public void redraw() {
     super.redraw();
     dirty = true;

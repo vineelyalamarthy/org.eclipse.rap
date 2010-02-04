@@ -67,7 +67,6 @@ public class LineChart extends VisualizationWidget {
     super( parent, style );
   }
   
-  @Override
   public void redraw() {
     super.redraw();
     dirty = true;

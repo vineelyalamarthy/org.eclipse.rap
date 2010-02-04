@@ -17,7 +17,6 @@ import org.eclipse.rap.rwt.visualization.google.internal.VisualizationWidgetLCA;
 
 public class BarChartLCA extends VisualizationWidgetLCA {
 
-   @Override
    public Class getWidgetType () {
      return BarChart.class;
    }

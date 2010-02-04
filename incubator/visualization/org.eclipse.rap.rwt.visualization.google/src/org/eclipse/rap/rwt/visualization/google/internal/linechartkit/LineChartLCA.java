@@ -23,12 +23,10 @@ import org.eclipse.swt.widgets.Widget;
 public class LineChartLCA extends VisualizationWidgetLCA {
   protected static final String REDRAW_FUNC = "drawChart";
   
-  @Override
   public Class getWidgetType () {
     return LineChart.class;
   }
   
-  @Override
   public void renderChanges( final Widget widget ) throws IOException {
     super.renderChanges(widget);
     LineChart vWidget = ( LineChart )widget;

@@ -53,7 +53,7 @@ import org.eclipse.ui.part.ViewPart;
 public class Application implements IEntryPoint {
    
   private static Listener listener = new Listener() {
-     @Override
+     
      public void handleEvent(Event event)
      {
         VisualizationWidget widget = (VisualizationWidget)event.widget;
@@ -72,7 +72,7 @@ public class Application implements IEntryPoint {
   }
   
   public static class MotionExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("Model", "Model", "string", null);
@@ -88,7 +88,6 @@ public class Application implements IEntryPoint {
         viz.setWidgetData(dataTable.toString());
         viz.addStateListener(new StateListener()
         {
-          @Override
           public void stateChanged(String state)
           {
              System.out.println("State Changed: "+state);
@@ -97,12 +96,11 @@ public class Application implements IEntryPoint {
         viz.setToolTipText("Motion Chart");
      }
 
-     @Override
      public void setFocus(){}
   }
   
   public static class TimelineExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("Date", "Date", "date", null);
@@ -118,12 +116,11 @@ public class Application implements IEntryPoint {
         viz.setToolTipText("Annotated Timeline");
      }
      
-     @Override
      public void setFocus(){}
   }
   
   public static class AreaChartExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("theyear", "Date", "string", null);
@@ -137,12 +134,11 @@ public class Application implements IEntryPoint {
         viz.addListener(SWT.Selection, listener);
      }
      
-     @Override
      public void setFocus(){}
   }
   
   public static class BarChartExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("theyear", "Date", "string", null);
@@ -156,12 +152,11 @@ public class Application implements IEntryPoint {
         barChart.addListener(SWT.Selection, listener);
      }
      
-     @Override
      public void setFocus(){}
   }
   
   public static class ColumnChartExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("theyear", "Date", "string", null);
@@ -174,12 +169,11 @@ public class Application implements IEntryPoint {
         chart.setWidgetData(dataTable.toString());
      }
      
-     @Override
      public void setFocus(){}
   }
   
   public static class GaugeExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("CO2", "CO2", "number", null);
@@ -191,12 +185,11 @@ public class Application implements IEntryPoint {
         gauge.setWidgetData(dataTable.toString());
      }
      
-     @Override
      public void setFocus(){}
   }
   
   public static class GeomapExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("Country", "Country", "string", null);
@@ -209,12 +202,11 @@ public class Application implements IEntryPoint {
         geomap.addListener(SWT.Selection, listener);
      }
      
-     @Override
      public void setFocus(){}
   }
   
   public static class IntensityMapExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("Country", "Country", "string", null);
@@ -229,12 +221,11 @@ public class Application implements IEntryPoint {
         intensityMap.addListener(SWT.Selection, listener);
      }
      
-     @Override
      public void setFocus(){}
   }
   
   public static class LineChartExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("Month", "Month", "string", null);
@@ -250,12 +241,11 @@ public class Application implements IEntryPoint {
         lineChart.addListener(SWT.Selection, listener);
      }
      
-     @Override
      public void setFocus(){}
   }
   
   public static class PieChartExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("Activity", "Activity", "string", null);
@@ -269,12 +259,11 @@ public class Application implements IEntryPoint {
         pieChart.addListener(SWT.Selection, listener);
      }
      
-     @Override
      public void setFocus(){}
   }
   
   public static class ScatterChartExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("CO2", "CO2", "number", null);
@@ -289,12 +278,11 @@ public class Application implements IEntryPoint {
         scatterChart.addListener(SWT.Selection, listener);
      }
      
-     @Override
      public void setFocus(){}
   }
   
   public static class TableExample extends ViewPart {
-     @Override
+     
      public void createPartControl (Composite parent) {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("theyear", "Date", "string", null);
@@ -309,7 +297,6 @@ public class Application implements IEntryPoint {
         table.addListener(SWT.Selection, listener);
      }
      
-     @Override
      public void setFocus(){}
   }
   
