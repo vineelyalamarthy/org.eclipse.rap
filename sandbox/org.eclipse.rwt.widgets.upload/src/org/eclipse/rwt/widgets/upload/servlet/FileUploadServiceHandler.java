@@ -242,6 +242,9 @@ public class FileUploadServiceHandler implements IServiceHandler {
     URLHelper.appendFirstParam(url, REQUEST_PARAM, getServiceHandlerId());
     URLHelper.appendParam(url, REQUEST_WIDGET_ID, widgetId);
 
+    // convert to relative URL
+    int firstSlash = url.indexOf( "/" , url.indexOf( "//" ) + 2 ); // first slash after double slash of "http://"
+    url.delete( 0, firstSlash ); // Result is sth like "/rap?custom_service_handler..."
     return RWT.getResponse().encodeURL(url.toString());
   }
 }
