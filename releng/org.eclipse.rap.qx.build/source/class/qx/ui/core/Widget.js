@@ -70,6 +70,7 @@ qx.Class.define("qx.ui.core.Widget",
       this._generateHtmlId();
     }
     this.initHideFocus();
+    this._usesComplexBorder = false;
   },
 
 
@@ -6972,6 +6973,13 @@ qx.Class.define("qx.ui.core.Widget",
           border.resetLeft(this);
         }
       }
+      // RAP: Fix for Bug 301709
+      this._usesComplexBorder = this._computeUsesComplexBorder();
+    },
+
+    _computeUsesComplexBorder : function() {
+      // it is assumed that either all edges are complex or none
+      return this.__borderObject && this.__borderObject.__complexTop;
     },
 
     /**
@@ -7509,7 +7517,8 @@ qx.Class.define("qx.ui.core.Widget",
         this._style.pixelWidth = (v==null)?0:v;
 
         if (this._innerStyle) {
-          this._innerStyle.pixelWidth = (v==null)?0:v-2;
+          var innerValue = this._usesComplexBorder && v != null ? v - 2 : v; 
+          this._innerStyle.pixelWidth = innerValue == null ? 0 : v;
         }
       };
 
@@ -7518,7 +7527,8 @@ qx.Class.define("qx.ui.core.Widget",
         this._style.pixelHeight = (v==null)?0:v;
 
         if (this._innerStyle) {
-          this._innerStyle.pixelHeight = (v==null)?0:v-2;
+          var innerValue = this._usesComplexBorder && v != null ? v - 2 : v;
+          this._innerStyle.pixelHeight = innerValue == null ? 0 : v;
         }
       };
 
