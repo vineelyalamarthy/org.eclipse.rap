@@ -16,9 +16,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -54,7 +51,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class MotionChart extends VisualizationWidget {
 
-  protected Set<StateListener> listeners;
+  protected Set listeners;
   
   public MotionChart( Composite parent, int style ) {
     super( parent, style );
@@ -66,9 +63,10 @@ public class MotionChart extends VisualizationWidget {
   
   public void notifyListeners (String state) {
     if (listeners != null) {
-       for (StateListener listener : listeners.toArray(new StateListener[listeners.size()])) {
+      StateListener[] listenerArray = (StateListener[])listeners.toArray(new StateListener[listeners.size()]);
+      for (int i = 0; i < listenerArray.length; i++) {
          try {
-           listener.stateChanged(state);
+           listenerArray[i].stateChanged(state);
          } catch (Exception e) {
            e.printStackTrace();
          }
@@ -78,7 +76,7 @@ public class MotionChart extends VisualizationWidget {
 
   public void addStateListener(StateListener stateListener) {
     if (listeners == null) { 
-      listeners = Collections.synchronizedSet(new LinkedHashSet<StateListener>());
+      listeners = Collections.synchronizedSet(new LinkedHashSet());
     }
     listeners.add(stateListener);
   }
