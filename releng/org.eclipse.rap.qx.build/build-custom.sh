@@ -106,6 +106,7 @@ rm ${TEMP}/class/qx/ui/embed/IconHtmlEmbed.js
 rm ${TEMP}/class/qx/ui/embed/LinkEmbed.js
 rm ${TEMP}/class/qx/ui/embed/NodeEmbed.js
 rm ${TEMP}/class/qx/ui/embed/TextEmbed.js
+rm ${TEMP}/class/qx/ui/form/PasswordField.js
 rm ${TEMP}/class/qx/ui/groupbox/CheckGroupBox.js
 rm ${TEMP}/class/qx/ui/groupbox/RadioGroupBox.js
 rm ${TEMP}/class/qx/ui/resizer/Resizer.js
