@@ -12,9 +12,6 @@
  ******************************************************************************/
 package org.eclipse.rap.rwt.visualization.google;
 
-import java.util.logging.Logger;
-
-import org.eclipse.rap.rwt.visualization.google.internal.tablekit.TableLCA;
 import org.eclipse.swt.widgets.Composite;
 
 /**

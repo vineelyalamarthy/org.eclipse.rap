@@ -15,19 +15,20 @@ package org.eclipse.rap.rwt.visualization.google;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * Renders a Google Visualization Geomap.
- * @see http://code.google.com/apis/visualization/documentation/gallery/geomap.html
- * 
+ * <p>Renders a Google Visualization Geomap.</p>
+ * <p>
  * Note that this is a partial implementation of the Google GeoMap widget.
  * I have omitted the Markers capability of this widget, as this 
  * require a Google API developer key.  Support for markers could certainly
  * be added.
- * 
+ * </p>
+ * <p>
  * Note that this widget is rendered upon calling the setWidgetData method.  
  * So if you wish to set options like width, height, colors, etc., you must do this 
  * using method setWidgetOptions, before calling setWidgetData.
- * 
- * Usage:<code>
+ * </p>
+ * <p>
+ * Usage:<pre>
  * JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
     dataTable.addColumn("Country", "Country", "string", null);
     dataTable.addColumn("Happiness", "Happiness", "number", null);
@@ -41,15 +42,17 @@ import org.eclipse.swt.widgets.Composite;
     gridData = new GridData(500, 500);
     geomap.setLayoutData(gridData);
     geomap.addListener(SWT.Selection, this);
-   </code>
-    
-    <code>
+   </pre>
+    </p>
+    <p>
+    <pre>
     public void handleEvent(Event event) {
     log.info("Event: " + event);
     VisualizationWidget widget = (VisualizationWidget)event.widget;
     log.info( "Selected item=" + widget.getSelectedItem());
-    </code>
- * @See http://code.google.com/apis/visualization/documentation/gallery/columnchart.html
+    </pre>
+    </p>
+ * @see <a href="http://code.google.com/apis/visualization/documentation/gallery/geomap.html">Geomap Example</a>
  *
  */
 public class Geomap extends VisualizationWidget {

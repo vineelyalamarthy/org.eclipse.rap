@@ -12,11 +12,7 @@
  ******************************************************************************/
 package org.eclipse.rap.rwt.visualization.google;
 
-import org.eclipse.rap.rwt.visualization.google.json.JSONGoogleDataTable;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 /**
  * Renders a Google Visualization Line Chart.

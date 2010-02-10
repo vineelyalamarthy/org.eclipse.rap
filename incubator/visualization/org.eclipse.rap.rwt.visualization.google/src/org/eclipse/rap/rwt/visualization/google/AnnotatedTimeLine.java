@@ -13,7 +13,6 @@
 package org.eclipse.rap.rwt.visualization.google;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 
 /**
  * Renders a Google Visualization Annotated Timeline.
