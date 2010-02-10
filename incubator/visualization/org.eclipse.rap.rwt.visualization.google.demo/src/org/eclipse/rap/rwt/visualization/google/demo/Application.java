@@ -43,7 +43,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.part.ViewPart;
 
 /**
@@ -79,10 +78,10 @@ public class Application implements IEntryPoint {
         dataTable.addColumn("thedate", "Date", "date", null);
         dataTable.addColumn("CO2", "CO2", "number", null);
         dataTable.addColumn("Temperature", "Temperature", "number", null);
-        dataTable.addRow(new Object[] {"Model1", new Date(), 389, 14.8});
-        dataTable.addRow(new Object[] {"Model1", new Date(4070908800L), 450, 19});
-        dataTable.addRow(new Object[] {"Model2", new Date(), 389, 14.8});
-        dataTable.addRow(new Object[] {"Model2", new Date(4070908800L), 700, 23});
+        dataTable.addRow(new Object[] {"Model1", new Date(), Integer.valueOf(389), Double.valueOf(14.8)});
+        dataTable.addRow(new Object[] {"Model1", new Date(4070908800L), Integer.valueOf(450), Integer.valueOf(19)});
+        dataTable.addRow(new Object[] {"Model2", new Date(), Integer.valueOf(389), Double.valueOf(14.8)});
+        dataTable.addRow(new Object[] {"Model2", new Date(4070908800L), Integer.valueOf(700), Integer.valueOf(23)});
          
         MotionChart viz = new MotionChart( parent , SWT.NONE );
         viz.setWidgetData(dataTable.toString());
@@ -105,9 +104,9 @@ public class Application implements IEntryPoint {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("Date", "Date", "date", null);
         dataTable.addColumn("AverageGPA", "Average GPA", "number", null);
-        dataTable.addRow(new Object[] {new Date(), 2.85});
-        dataTable.addRow(new Object[] {new Date(1230809560), 3.5});
-        dataTable.addRow(new Object[] {new Date(1210000000), 3});
+        dataTable.addRow(new Object[] {new Date(), Double.valueOf(2.85)});
+        dataTable.addRow(new Object[] {new Date(1230809560), Double.valueOf(3.5)});
+        dataTable.addRow(new Object[] {new Date(1210000000), Integer.valueOf(3)});
         
         AnnotatedTimeLine viz = new AnnotatedTimeLine( parent, SWT.NONE );
         viz.setWidgetOptions("displayAnnotations: true");
@@ -126,8 +125,8 @@ public class Application implements IEntryPoint {
         dataTable.addColumn("theyear", "Date", "string", null);
         dataTable.addColumn("CO2", "CO2", "number", null);
         dataTable.addColumn("Temperature", "Temperature", "number", null);
-        dataTable.addRow(new Object[] {"1970", 325, 14.1});
-        dataTable.addRow(new Object[] {"2009", 389, 14.7});
+        dataTable.addRow(new Object[] {"1970", Integer.valueOf(325), Double.valueOf(14.1)});
+        dataTable.addRow(new Object[] {"2009", Integer.valueOf(389), Double.valueOf(14.7)});
         
         AreaChart viz = new AreaChart(parent, SWT.NONE );
         viz.setWidgetData(dataTable.toString());
@@ -144,8 +143,8 @@ public class Application implements IEntryPoint {
         dataTable.addColumn("theyear", "Date", "string", null);
         dataTable.addColumn("CO2", "CO2", "number", null);
         dataTable.addColumn("Temperature", "Temperature", "number", null);
-        dataTable.addRow(new Object[] {"1970", 325, 14.1});
-        dataTable.addRow(new Object[] {"2009", 389, 14.7});
+        dataTable.addRow(new Object[] {"1970", Integer.valueOf(325), Double.valueOf(14.1)});
+        dataTable.addRow(new Object[] {"2009", Integer.valueOf(389), Double.valueOf(14.7)});
         
         BarChart barChart = new BarChart( parent, SWT.NONE );
         barChart.setWidgetData(dataTable.toString());
@@ -162,8 +161,8 @@ public class Application implements IEntryPoint {
         dataTable.addColumn("theyear", "Date", "string", null);
         dataTable.addColumn("CO2", "CO2", "number", null);
         dataTable.addColumn("Temperature", "Temperature", "number", null);
-        dataTable.addRow(new Object[] {"1970", 325, 14.1});
-        dataTable.addRow(new Object[] {"2009", 389, 14.7});
+        dataTable.addRow(new Object[] {"1970", Integer.valueOf(325), Double.valueOf(14.1)});
+        dataTable.addRow(new Object[] {"2009", Integer.valueOf(389), Double.valueOf(14.7)});
         
         ColumnChart chart = new ColumnChart( parent, SWT.NONE );
         chart.setWidgetData(dataTable.toString());
@@ -179,7 +178,7 @@ public class Application implements IEntryPoint {
         dataTable.addColumn("CO2", "CO2", "number", null);
         dataTable.addColumn("CH4", "CH4", "number", null);
         dataTable.addColumn("Temperature", "Temperature", "number", null);
-        dataTable.addRow(new Object[] {389, 1800, 14});
+        dataTable.addRow(new Object[] {Integer.valueOf(389), Integer.valueOf(1800), Integer.valueOf(14)});
         
         Gauge gauge = new Gauge( parent, SWT.NONE );
         gauge.setWidgetData(dataTable.toString());
@@ -194,8 +193,8 @@ public class Application implements IEntryPoint {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("Country", "Country", "string", null);
         dataTable.addColumn("Happiness", "Happiness", "number", null);
-        dataTable.addRow(new Object[] {"Tanzania", 25});
-        dataTable.addRow(new Object[] {"US", 40});
+        dataTable.addRow(new Object[] {"Tanzania", Integer.valueOf(25)});
+        dataTable.addRow(new Object[] {"US", Integer.valueOf(40)});
         
         Geomap geomap = new Geomap( parent, SWT.NONE );
         geomap.setWidgetData(dataTable.toString());
@@ -212,9 +211,9 @@ public class Application implements IEntryPoint {
         dataTable.addColumn("Country", "Country", "string", null);
         dataTable.addColumn("Happiness", "Happiness", "number", null);
         dataTable.addColumn("Income", "Income", "number", null);
-        dataTable.addRow(new Object[] {"TZ", 25, 3});
-        dataTable.addRow(new Object[] {"US", 40, 40});
-        dataTable.addRow(new Object[] {"UK", 38, 35});
+        dataTable.addRow(new Object[] {"TZ", Integer.valueOf(25), Integer.valueOf(3)});
+        dataTable.addRow(new Object[] {"US", Integer.valueOf(40), Integer.valueOf(40)});
+        dataTable.addRow(new Object[] {"UK", Integer.valueOf(38), Integer.valueOf(35)});
         
         IntensityMap intensityMap = new IntensityMap( parent, SWT.NONE );
         intensityMap.setWidgetData(dataTable.toString());
@@ -232,9 +231,9 @@ public class Application implements IEntryPoint {
         dataTable.addColumn("Provider1", "Provider 1", "number", null);
         dataTable.addColumn("Provider2", "Provider 2", "number", null);
         dataTable.addColumn("Provider3", "Provider 3", "number", null);
-        dataTable.addRow(new Object[] {"May", 10, 15, 20});
-        dataTable.addRow(new Object[] {"June", 12, 23, 33});
-        dataTable.addRow(new Object[] {"July", 11, 25, 50});
+        dataTable.addRow(new Object[] {"May", Integer.valueOf(10), Integer.valueOf(15), Integer.valueOf(20)});
+        dataTable.addRow(new Object[] {"June", Integer.valueOf(12), Integer.valueOf(23), Integer.valueOf(33)});
+        dataTable.addRow(new Object[] {"July", Integer.valueOf(11), Integer.valueOf(25), Integer.valueOf(50)});
         
         LineChart lineChart = new LineChart( parent, SWT.NONE );
         lineChart.setWidgetData(dataTable.toString());
@@ -250,9 +249,9 @@ public class Application implements IEntryPoint {
         JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
         dataTable.addColumn("Activity", "Activity", "string", null);
         dataTable.addColumn("Hours", "Hours per Week", "number", null);
-        dataTable.addRow(new Object[] {"software architect", 40});
-        dataTable.addRow(new Object[] {"primary care medicine", 9});
-        dataTable.addRow(new Object[] {"open source development", 10});
+        dataTable.addRow(new Object[] {"software architect", Integer.valueOf(40)});
+        dataTable.addRow(new Object[] {"primary care medicine", Integer.valueOf(9)});
+        dataTable.addRow(new Object[] {"open source development", Integer.valueOf(10)});
         
         PieChart pieChart = new PieChart( parent, SWT.NONE );
         pieChart.setWidgetData(dataTable.toString());
@@ -269,9 +268,9 @@ public class Application implements IEntryPoint {
         dataTable.addColumn("CO2", "CO2", "number", null);
         dataTable.addColumn("CH4", "CH4", "number", null);
         dataTable.addColumn("Temperature", "Temperature", "number", null);
-        dataTable.addRow(new Object[] {350, 10, 22});
-        dataTable.addRow(new Object[] {375, 12, 23});
-        dataTable.addRow(new Object[] {400, 16, 25});
+        dataTable.addRow(new Object[] {Integer.valueOf(350), Integer.valueOf(10), Integer.valueOf(22)});
+        dataTable.addRow(new Object[] {Integer.valueOf(375), Integer.valueOf(12), Integer.valueOf(23)});
+        dataTable.addRow(new Object[] {Integer.valueOf(400), Integer.valueOf(16), Integer.valueOf(25)});
         
         ScatterChart scatterChart = new ScatterChart( parent, SWT.NONE );
         scatterChart.setWidgetData(dataTable.toString());
@@ -288,8 +287,8 @@ public class Application implements IEntryPoint {
         dataTable.addColumn("theyear", "Date", "string", null);
         dataTable.addColumn("CO2", "CO2", "number", null);
         dataTable.addColumn("Temperature", "Temperature (C)", "number", null);
-        dataTable.addRow(new Object[] {"1970", 325, 14.1});
-        dataTable.addRow(new Object[] {"2009", 389, 14.8});
+        dataTable.addRow(new Object[] {"1970", Integer.valueOf(325), Double.valueOf(14.1)});
+        dataTable.addRow(new Object[] {"2009", Integer.valueOf(389), Double.valueOf(14.8)});
         String serializedData = dataTable.toString();
         
         Table table = new Table( parent, SWT.NONE );
