@@ -10,14 +10,13 @@
  ******************************************************************************/
 package org.eclipse.rap.rwt.visualization.google.internal;
 
-import org.eclipse.rwt.internal.util.HTML;
 import org.eclipse.rwt.resources.IResource;
 import org.eclipse.rwt.resources.IResourceManager.RegisterOptions;
 
 public class GoogleAPIResource implements IResource {
 
   public String getCharset() {
-    return HTML.CHARSET_NAME_ISO_8859_1;
+    return "ISO-8859-1";
   }
 
   public ClassLoader getLoader() {
