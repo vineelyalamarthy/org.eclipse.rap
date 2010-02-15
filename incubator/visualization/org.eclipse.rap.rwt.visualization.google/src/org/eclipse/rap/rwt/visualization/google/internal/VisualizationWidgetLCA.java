@@ -38,7 +38,7 @@ public abstract class VisualizationWidgetLCA extends AbstractWidgetLCA {
   public void renderInitialization( final Widget widget ) throws IOException {
      JSWriter writer = JSWriter.getWriterFor( widget );
      String id = WidgetUtil.getId( widget );
-     writer.newWidget( getWidgetType().getCanonicalName(), new Object[]{
+     writer.newWidget( getWidgetType().getName(), new Object[]{
        id
      } );
      writer.set( "appearance", "composite" );

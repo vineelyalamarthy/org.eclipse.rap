@@ -47,7 +47,7 @@ public abstract class VisualizationWidget extends Composite {
           }
           else {
              widgetSize = "width: "+psz.x+", height: "+psz.y;
-             if (!widgetOptions.isEmpty()) {
+             if (!(widgetOptions.length() == 0)) {
                 widgetSize = ", "+widgetSize;
              }
           }
