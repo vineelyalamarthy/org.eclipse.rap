@@ -15,7 +15,7 @@ package org.eclipse.rap.rwt.visualization.google;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * <p>Renders a Google Visualization Annotated Timeline.</p>
+ * Renders a Google Visualization Annotated Timeline.
  * <p> 
  * This visualization is configured using the widget data and options 
  * set by <code>setWidgetData()</code> and <code>setWidgetOptions()</code>.  
@@ -36,8 +36,6 @@ import org.eclipse.swt.widgets.Composite;
  * AnnotatedTimeLine timeLine = new AnnotatedTimeLine( composite, SWT.NONE );
  * timeLine.setWidgetOptions("{width: 500, height: 300, displayAnnotations: true}");
  * timeLine.setWidgetData(widgetData);
- * gridData = new GridData(500, 300);
- * timeLine.setLayoutData(gridData);
  * timeLine.addListener(SWT.Selection, this);
  * </pre>
  * </p>

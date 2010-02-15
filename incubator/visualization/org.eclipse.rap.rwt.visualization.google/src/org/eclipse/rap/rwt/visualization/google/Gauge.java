@@ -16,37 +16,39 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * Renders a Google Visualization Gauge.
- * @See http://code.google.com/apis/visualization/documentation/gallery/gauge.html
- * 
- * Note that this widget is rendered upon calling the setWidgetData method.  
- * So if you wish to set options like width, height, colors, etc., you must do this 
- * using method setWidgetOptions, before calling setWidgetData.
- * 
- * Usage:<code>
-    JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
-    dataTable.addColumn("CO2", "CO2", "number", null);
-    dataTable.addColumn("CH4", "CH4", "number", null);
-    dataTable.addColumn("Temperature", "Temperature", "number", null);
-    dataTable.addRow(new Object[] {389, 1800, 14});
-    widgetData = dataTable.toString();
-    
-    Gauge gauge = new Gauge( composite, SWT.NONE );
-    gauge.setWidgetOptions("{width: 300, height: 300}");
-    gauge.setWidgetData(widgetData);
-    gridData = new GridData(300, 300);
-    gauge.setLayoutData(gridData);
-   </code>
-    
-    <code>
-    public void handleEvent(Event event) {
-    log.info("Event: " + event);
-    VisualizationWidget widget = (VisualizationWidget)event.widget;
-    log.info( "Selected item=" + widget.getSelectedItem() + 
-        "; row=" + widget.getSelectedRow() +
-        "; column=" + widget.getSelectedColumn() +
-        "; value=" + widget.getSelectedValue());
-    </code>
- * 
+* <p> 
+ * This visualization is configured using the widget data and options 
+ * set by <code>setWidgetData()</code> and <code>setWidgetOptions()</code>.  
+ * Note that if the widget data or options are changed after initial rendering, 
+ * the <code>redraw()</code> method should be called to render the changes.  
+ * </p>
+ * <p>
+ * <b>Usage:</b>
+ * <pre>
+ * JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
+ * dataTable.addColumn("CO2", "CO2", "number", null);
+ * dataTable.addColumn("CH4", "CH4", "number", null);
+ * dataTable.addColumn("Temperature", "Temperature", "number", null);
+ * dataTable.addRow(new Object[] {389, 1800, 14});
+ * widgetData = dataTable.toString();
+ *   
+ * Gauge gauge = new Gauge( composite, SWT.NONE );
+ * gauge.setWidgetOptions("{width: 300, height: 300}");
+ * gauge.setWidgetData(widgetData);
+ * </pre>
+ * </p>
+ * <pre>
+ * public void handleEvent(Event event) {
+ *   System.out.println("Event: " + event);
+ *   VisualizationWidget widget = (VisualizationWidget)event.widget;
+ *   System.out.println("Selected item=" + widget.getSelectedItem() + 
+ *     "; row=" + widget.getSelectedRow() +
+ *     "; column=" + widget.getSelectedColumn() +
+ *     "; value=" + widget.getSelectedValue());
+ * }
+ * </pre>
+ * </p>
+ * @see <a href="http://code.google.com/apis/visualization/documentation/gallery/gauge.html">Gauge Example</a>
  */
 public class Gauge extends VisualizationWidget {
 

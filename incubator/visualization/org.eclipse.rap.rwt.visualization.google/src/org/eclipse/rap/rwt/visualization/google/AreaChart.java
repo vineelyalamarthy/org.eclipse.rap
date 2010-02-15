@@ -36,8 +36,6 @@ import org.eclipse.swt.widgets.Composite;
  * AreaChart barChart = new AreaChart( composite, SWT.NONE );
  * barChart.setWidgetOptions("{width: 300, height: 300}");
  * barChart.setWidgetData(widgetData);
- * gridData = new GridData(300, 300);
- * barChart.setLayoutData(gridData);
  * barChart.addListener(SWT.Selection, this);
  * </pre>
  * </p>

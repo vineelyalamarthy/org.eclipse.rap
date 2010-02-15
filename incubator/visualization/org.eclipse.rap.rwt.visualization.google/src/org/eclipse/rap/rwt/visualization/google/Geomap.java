@@ -15,43 +15,42 @@ package org.eclipse.rap.rwt.visualization.google;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * <p>Renders a Google Visualization Geomap.</p>
+ * Renders a Google Visualization Geomap.
+ * <p>
+ * This visualization is configured using the widget data and options 
+ * set by <code>setWidgetData()</code> and <code>setWidgetOptions()</code>.  
+ * Note that if the widget data or options are changed after initial rendering, 
+ * the <code>redraw()</code> method should be called to render the changes.  
+ * </p>
  * <p>
  * Note that this is a partial implementation of the Google GeoMap widget.
- * I have omitted the Markers capability of this widget, as this 
- * require a Google API developer key.  Support for markers could certainly
- * be added.
+ * The Markers capability has been omitted since this would require a Google API developer key.  Support for markers could certainly
  * </p>
  * <p>
- * Note that this widget is rendered upon calling the setWidgetData method.  
- * So if you wish to set options like width, height, colors, etc., you must do this 
- * using method setWidgetOptions, before calling setWidgetData.
- * </p>
- * <p>
- * Usage:<pre>
+ * <b>Usage:</b>
+ * <pre>
  * JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
-    dataTable.addColumn("Country", "Country", "string", null);
-    dataTable.addColumn("Happiness", "Happiness", "number", null);
-    dataTable.addRow(new Object[] {"Tanzania", 25});
-    dataTable.addRow(new Object[] {"US", 40});
-    widgetData = dataTable.toString();
-    
-    Geomap geomap = new Geomap( composite, SWT.NONE );
-    geomap.setWidgetOptions("{width: 500, height: 500}");
-    geomap.setWidgetData(widgetData);
-    gridData = new GridData(500, 500);
-    geomap.setLayoutData(gridData);
-    geomap.addListener(SWT.Selection, this);
-   </pre>
-    </p>
-    <p>
-    <pre>
-    public void handleEvent(Event event) {
-    log.info("Event: " + event);
-    VisualizationWidget widget = (VisualizationWidget)event.widget;
-    log.info( "Selected item=" + widget.getSelectedItem());
-    </pre>
-    </p>
+ * dataTable.addColumn("Country", "Country", "string", null);
+ * dataTable.addColumn("Happiness", "Happiness", "number", null);
+ * dataTable.addRow(new Object[] {"Tanzania", 25});
+ * dataTable.addRow(new Object[] {"US", 40});
+ * widgetData = dataTable.toString();
+ *   
+ * Geomap geomap = new Geomap( composite, SWT.NONE );
+ * geomap.setWidgetOptions("{width: 500, height: 500}");
+ * geomap.setWidgetData(widgetData);
+ * geomap.addListener(SWT.Selection, this);
+ *  </pre>
+ *  </p>
+ *  <p>
+ *   <pre>
+ * public void handleEvent(Event event) {
+ *   System.out.println("Event: " + event);
+ *   VisualizationWidget widget = (VisualizationWidget)event.widget;
+ *   System.out.println("Selected item=" + widget.getSelectedItem());
+ * }
+ * </pre>
+ * </p>
  * @see <a href="http://code.google.com/apis/visualization/documentation/gallery/geomap.html">Geomap Example</a>
  *
  */

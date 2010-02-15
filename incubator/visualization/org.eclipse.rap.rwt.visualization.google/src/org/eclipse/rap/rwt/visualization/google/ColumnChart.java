@@ -16,40 +16,40 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * Renders a Google Visualization Column Chart.
- * @See http://code.google.com/apis/visualization/documentation/gallery/columnchart.html
- * 
- * Note that this widget is rendered upon calling the setWidgetData method.  
- * So if you wish to set options like width, height, colors, etc., you must do this 
- * using method setWidgetOptions, before calling setWidgetData.
- * 
- * Usage:
- * <code>
+ * <p> 
+ * This visualization is configured using the widget data and options 
+ * set by <code>setWidgetData()</code> and <code>setWidgetOptions()</code>.  
+ * Note that if the widget data or options are changed after initial rendering, 
+ * the <code>redraw()</code> method should be called to render the changes.  
+ * </p>
+ * <p>
+ * <b>Usage:</b>
+ * <pre>
  * JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
-    dataTable.addColumn("theyear", "Date", "string", null);
-    dataTable.addColumn("CO2", "CO2", "number", null);
-    dataTable.addColumn("Temperature", "Temperature", "number", null);
-    dataTable.addRow(new Object[] {"1970", 325, 14.1});
-    dataTable.addRow(new Object[] {"2009", 389, 14.7});
-    widgetData = dataTable.toString();
-    
-    ColumnChart chart = new ColumnChart( composite, SWT.NONE );
-    chart.setWidgetOptions("{width: 300, height: 300}");
-    chart.setWidgetData(serializedData);
-    gridData = new GridData(300, 300);
-    chart.setLayoutData(gridData);
-    </code>
-    
-    <code>
-    public void handleEvent(Event event) {
-    log.info("Event: " + event);
-    VisualizationWidget widget = (VisualizationWidget)event.widget;
-    log.info( "Selected item=" + widget.getSelectedItem() + 
-        "; row=" + widget.getSelectedRow() +
-        "; column=" + widget.getSelectedColumn() +
-        "; value=" + widget.getSelectedValue());
-    }
-    </code>
- *
+ * dataTable.addColumn("theyear", "Date", "string", null);
+ * dataTable.addColumn("CO2", "CO2", "number", null);
+ * dataTable.addColumn("Temperature", "Temperature", "number", null);
+ * dataTable.addRow(new Object[] {"1970", 325, 14.1});
+ * dataTable.addRow(new Object[] {"2009", 389, 14.7});
+ * widgetData = dataTable.toString();
+ *  
+ * ColumnChart chart = new ColumnChart( composite, SWT.NONE );
+ * chart.setWidgetOptions("{width: 300, height: 300}");
+ * chart.setWidgetData(serializedData);
+ * </pre>
+ * </p>
+ * <pre>
+ * public void handleEvent(Event event) {
+ *   System.out.println("Event: " + event);
+ *   VisualizationWidget widget = (VisualizationWidget)event.widget;
+ *   System.out.println("Selected item=" + widget.getSelectedItem() + 
+ *     "; row=" + widget.getSelectedRow() +
+ *     "; column=" + widget.getSelectedColumn() +
+ *     "; value=" + widget.getSelectedValue());
+ * }
+ * </pre>
+ * </p>
+ * @see <a href="http://code.google.com/apis/visualization/documentation/gallery/columnchart.html">Column Chart Example</a>
  */
 public class ColumnChart extends VisualizationWidget {
 
