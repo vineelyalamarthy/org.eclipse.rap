@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009-2010 David Donahue.
+ * Copyright (c) 2009-2010 David Donahue and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     David Donahue - initial API, implementation and documentation
+ *     Austin Riddle (Texas Center for Applied Technology) - performance enhancements and javadoc cleanup
  ******************************************************************************/
 package org.eclipse.rap.rwt.visualization.google.json;
 import org.eclipse.rap.rwt.visualization.google.internal.json.JSONArray;
@@ -14,13 +15,22 @@ import org.eclipse.rap.rwt.visualization.google.internal.json.JSONException;
 import org.eclipse.rap.rwt.visualization.google.internal.json.JSONObject;
 
 /**
- * Java object for creating Javascript/JSON objects of class google.visualization.DataTable.
- * 
- * @see http://code.google.com/apis/visualization/documentation/reference.html#DataTable
+ * <p>
+ * Provides a JSON data transport mechanism for visualization data.
+ * </p>
+ * <p>This implementation is not synchronized.</p>
+ * <p>
+ * @see <a href="http://code.google.com/apis/visualization/documentation/reference.html#DataTable">Corresponding Google Counterpart</a>
+ * </p>
  */
 public class JSONGoogleDataTable {
   
-  private static final String JSON_NAME_TABLE = "table";
+  public static final String TYPE_BOOLEAN = "boolean";
+  public static final String TYPE_NUMBER = "number";
+  public static final String TYPE_STRING = "string";
+  public static final String TYPE_DATE = "date";
+  public static final String TYPE_DATETIME = "datetime";
+  public static final String TYPE_TIMEOFDAY = "timeofday";
   
   private static final String JSON_NAME_COLUMNS = "cols";
   private static final String JSON_NAME_COLUMNS_ID = "id";
@@ -32,17 +42,31 @@ public class JSONGoogleDataTable {
   private static final String JSON_NAME_ROWS_V = "v";
   private static final String JSON_NAME_ROWS_F = "f";
 
-  private JSONArray columns = new JSONArray();
-  private JSONArray rows = new JSONArray();
+  private JSONArray columns;
+  private JSONArray rows;
   
-  public JSONObject createTable() throws JSONException{
+  /**
+   * Creates a JSON object table for portability within the JSON API.
+   * @return a JSON object that contains the columns and rows from this table. Will not return <code>null</code>.
+   */
+  public JSONObject createTable() {
     JSONObject table = new JSONObject();
-    table.put(JSON_NAME_COLUMNS, columns);
-    table.put(JSON_NAME_ROWS, rows);    
+    try {
+       if (columns != null) {
+          table.put(JSON_NAME_COLUMNS, columns);
+       }
+       if (rows != null) {
+          table.put(JSON_NAME_ROWS, rows);    
+       }
+    }
+    catch (JSONException e) {
+       //This really shouldn't ever happen
+       e.printStackTrace();
+    }
     return table;
   }
   
-  private JSONObject createCell(Object v, String f) throws JSONException{
+  private JSONObject createCell(Object v, String f) throws JSONException {
     JSONObject cell = new JSONObject();
     cell.put(JSON_NAME_ROWS_V, v);
     if(f != null)
@@ -51,16 +75,25 @@ public class JSONGoogleDataTable {
   }
   
   /**
-   * Add a column of data.
-   * id is required and it must be unique, the rest are optional
+   * <p>Adds a column of data to this table.</p>
+   *
+   * @param id unique column identifier, cannot be <code>null</code>.
+   * @param label display label of column, can be <code>null</code>.
+   * @param type should be one of: <ul>
+   * <li>boolean - corresponds to javascript boolean type</li>
+   * <li>number - corresponds to javascript number value</li>
+   * <li>string - corresponds to javascript string value
+   * <li>date - corresponds to javascript Date object (Zero-based month, with the time truncated)</li>
+   * <li>datetime - corresponds to javascript Date object including the time</li>
+   * <li>timeofday - corresponds to javascript array of three numbers and an optional fourth, 
+   * representing hour (0 indicates midnight), minute, second, and optional millisecond.</li>
+   * <p><b>See convenience TYPE_* constants in this class</b></p>
+   * </ul> 
    * 
-   * type should be one of
-   * 'boolean' - JavaScript boolean value ('true' or 'false'). Example value: v:'true'
-   * 'number' - JavaScript number value. Example values: v:7 , v:3.14, v:-55
-   * 'string' - JavaScript string value. Example value: v:'hello'
-   * 'date' - JavaScript Date object (zero-based month), with the time truncated. Example value: v:new Date(2008, 0, 15)
-   * 'datetime' - JavaScript Date object including the time. Example value: v:new Date(2008, 0, 15, 14, 30, 45)
-   * 'timeofday' - Array of three numbers and an optional fourth, representing hour (0 indicates midnight), minute, second, and optional millisecond. Example values: v:[8, 15, 0], v: [6, 12, 1, 144]
+   * @param pattern formatting string, can be <code>null</code>
+   * <p>
+   * @see <a href="http://code.google.com/apis/visualization/documentation/reference.html#DataTable">Google Data Table Specification</a>
+   * </p>
    */
   public void addColumn(String id, String label, String type, String pattern) {
     JSONObject column = new JSONObject();
@@ -72,36 +105,45 @@ public class JSONGoogleDataTable {
     } catch (Exception e) {
       //add null column
     }
+    if (columns == null) {
+       columns = new JSONArray();
+    }
     columns.put( column );
   }
-  
+
   /**
-   * Add a row of data
+   * Adds a row of data that corresponds to the columns in this table.
+   * Columns need not be added before rows.
+   * @param row - an array of objects whose indices correspond to a column in this table. 
+   * Each value should be of the type that is defined for that column.
+   * <p>Namely:
+   * Boolean, Double, Integer, JSONArray, JSONObject, Long, String, or the JSONObject.NULL object</p>
    */
-  public void addRow(Object[] vals) {
-    addRow(vals, false);
+  public void addRow(Object[] row) {
+    addRow(row, false);
   }
   
   /**
-   * Add a row of data.  Each row is an array of Strings.
-   * If hasFormattedValues is true, then each column is represented by
-   * a pair of values: the first is the value (an Object, should be one of:
-   * Boolean, Double, Integer, JSONArray, JSONObject, Long, String, or the JSONObject.NULL object.
-   * The second is that should be displayed.  Otherwise each column should be 
-   * represented by a single value in the array.
-   * The number of columns in the array should correspond to the
-   * number of columns added to this object. 
+   * Adds a row if data that corresponds to the columns in this table.  
+   * @param row
+   * @param hasFormattedValues if <b>true</b>, then each column is represented by a pair of values in the row: 
+   * <p>The first value is the data format type and should be one of:
+   * Boolean.class, Double.class, Integer.class, JSONArray.class, JSONObject.class, Long.class, String.class, or the JSONObject.NULL object.</p>
+   * <p>The second value is the actual row value.</p>  
    * 
-   * @see http://www.json.org/javadoc/org/json/JSONObject.html#put(java.lang.String,%20java.lang.Object)
+   * <p>If <code>false</code> each column should be represented by a single value in the row array. This is the same as <code>addRow(Object[] row)</code></p>
+   * <p> 
+   * @see <a href="http://www.json.org/javadoc/org/json/JSONObject.html#put(java.lang.String,%20java.lang.Object)">JSONObject Specification</a>
+   * </p>
    */
-  public void addRow(Object[] vals, boolean hasFormattedValues) {
+  public void addRow(Object[] row, boolean hasFormattedValues) {
     JSONArray rowArray = new JSONArray();
-    JSONObject row = new JSONObject();
-    for (int i=0; i<vals.length; i++) {
-      Object v = vals[i];
+    JSONObject rowObj = new JSONObject();
+    for (int i=0; i<row.length; i++) {
+      Object v = row[i];
       Object f = null;
-      if (hasFormattedValues && i+1 < vals.length) {
-        f = vals[i+1];
+      if (hasFormattedValues && i+1 < row.length) {
+        f = row[i+1];
         i++;
       }
       JSONObject cell = null;
@@ -117,26 +159,20 @@ public class JSONGoogleDataTable {
       rowArray.put( cell );
     }
     try {
-      row.put( "c", rowArray );
+      rowObj.put( "c", rowArray );
     } catch (Exception e) {
       //leave row blank
     }
-    rows.put( row );
+    if (rows == null) {
+       rows = new JSONArray();
+    }
+    rows.put( rowObj );
   }
   
+  /**
+   * Returns a JSON string representation of this table. If any errors occur, <code>null</code> is returned.
+   */
   public String toString() {
-//    JSONObject json = new JSONObject();
-//    try {
-//      
-//      json.put("requestId", "0");
-//      json.put("status", "ok");
-////      json.put("signature", "6173382439516707022");
-//      json.put(JSON_NAME_TABLE, this.createTable());
-//      return json.toString();
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
-//    return null;
     try {
       return createTable().toString();
     } catch (Exception e) {
