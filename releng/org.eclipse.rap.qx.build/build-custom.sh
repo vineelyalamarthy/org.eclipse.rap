@@ -134,7 +134,8 @@ rm ${TEMP}/class/qx/io/Json.js
 SETTINGS="--use-setting=qx.theme:org.eclipse.swt.theme.Default 
   --use-setting=qx.logAppender:qx.log.appender.Native 
   --add-require qx.log.Logger:qx.log.appender.Native
-  --use-variant=qx.compatibility:off"
+  --use-variant=qx.compatibility:off
+  --use-variant=qx.aspects:off"
 
 #  --include-without-dependencies=qx.client.NativeWindow 
 INCLUDES="--include=oo 
