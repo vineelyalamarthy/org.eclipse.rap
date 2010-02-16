@@ -12,6 +12,7 @@
  ******************************************************************************/
 package org.eclipse.rap.rwt.visualization.google;
 
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -50,11 +51,34 @@ import org.eclipse.swt.widgets.Composite;
  * }
  * </pre>
  * </p>
- *  @see <a href="http://code.google.com/apis/visualization/documentation/gallery/annotatedtimeline.html">Annotated Timeline Example</a>
+ * 
+ * @see <a href="http://code.google.com/apis/visualization/documentation/gallery/annotatedtimeline.html">Annotated Timeline Example</a>
  *
  */
 public class AnnotatedTimeLine extends VisualizationWidget {
 
+  /**
+   * Constructs an annotated timeline widget in the specified parent and style. 
+   * A visualization widget by default will auto-resize to fill its parent.
+   * <p>
+   * The style value is either one of the style constants defined in
+   * class <code>SWT</code> which is applicable to instances of this
+   * class, or must be built by <em>bitwise OR</em>'ing together
+   * (that is, using the <code>int</code> "|" operator) two or more
+   * of those <code>SWT</code> style constants. The class description
+   * lists the style constants that are applicable to the class, if any.
+   * Style bits are also inherited from superclasses.
+   * </p>
+   * @param parent the parent composite (cannot be <code>null</code>)
+   * @param style the style bits of the widget
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_NULL_ARGUMENT - if the parent is null</li>
+   * </ul>
+   * @exception SWTException <ul>
+   *    <li>ERROR_THREAD_INVALID_ACCESS - if not called from the thread that created the parent</li>
+   * </ul>
+   *
+   */
   public AnnotatedTimeLine( Composite parent, int style ) {
     super( parent, style );
   }

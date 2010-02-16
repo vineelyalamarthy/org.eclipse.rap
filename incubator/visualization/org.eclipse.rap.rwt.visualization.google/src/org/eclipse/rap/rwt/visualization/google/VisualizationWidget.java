@@ -37,8 +37,8 @@ public abstract class VisualizationWidget extends Composite {
   
   /**
    * Constructs a visualization widget in the specified parent and style. A visualization widget by
-   * default will resize to fill its parent.
-   * @param parent the parent composite
+   * default will auto-resize to fill its parent.
+   * @param parent the parent composite (cannot be <code>null</code>)
    * @param style the style of this widget
    */
   protected VisualizationWidget( final Composite parent, final int style ) {

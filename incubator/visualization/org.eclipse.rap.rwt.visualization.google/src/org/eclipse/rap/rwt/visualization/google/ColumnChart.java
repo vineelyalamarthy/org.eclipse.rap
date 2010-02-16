@@ -53,6 +53,29 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class ColumnChart extends VisualizationWidget {
 
+  
+  /**
+   * Constructs a column chart widget in the specified parent and style. 
+   * A visualization widget by default will auto-resize to fill its parent.
+   * <p>
+   * The style value is either one of the style constants defined in
+   * class <code>SWT</code> which is applicable to instances of this
+   * class, or must be built by <em>bitwise OR</em>'ing together
+   * (that is, using the <code>int</code> "|" operator) two or more
+   * of those <code>SWT</code> style constants. The class description
+   * lists the style constants that are applicable to the class, if any.
+   * Style bits are also inherited from superclasses.
+   * </p>
+   * @param parent the parent composite (cannot be <code>null</code>)
+   * @param style the style bits of the widget
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_NULL_ARGUMENT - if the parent is null</li>
+   * </ul>
+   * @exception SWTException <ul>
+   *    <li>ERROR_THREAD_INVALID_ACCESS - if not called from the thread that created the parent</li>
+   * </ul>
+   *
+   */
   public ColumnChart( final Composite parent, final int style ) {
     super( parent, style );
   }

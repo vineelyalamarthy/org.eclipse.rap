@@ -16,88 +16,70 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * Renders a Google Visualization Table widget.
- * @See http://code.google.com/apis/visualization/documentation/gallery/table.html
- * 
- * Note that this widget is rendered upon calling the setWidgetData method.  
- * So if you wish to set options like width, height, colors, etc., you must do this 
- * using method setWidgetOptions, before calling setWidgetData.
- * 
- * Usage:
- * <code>
+ * <p> 
+ * This visualization is configured using the widget data and options 
+ * set by <code>setWidgetData()</code> and <code>setWidgetOptions()</code>.  
+ * Note that if the widget data or options are changed after initial rendering, 
+ * the <code>redraw()</code> method should be called to render the changes.  
+ * </p>
+ * <p>
+ * <b>Usage:</b>
+ * <pre>
  * JSONGoogleDataTable dataTable = new JSONGoogleDataTable();
-    dataTable.addColumn("theyear", "Date", "string", null);
-    dataTable.addColumn("CO2", "CO2", "number", null);
-    dataTable.addColumn("Temperature", "Temperature (C)", "number", null);
-    dataTable.addRow(new Object[] {"1970", 325, 14.1});
-    dataTable.addRow(new Object[] {"2009", 389, 14.8});
-    String serializedData = dataTable.toString();
-    
-    Table table = new Table( composite, SWT.NONE );
-    table.setWidgetOptions("{width: 300, height: 300}");
-    table.setWidgetData(serializedData);
-    gridData = new GridData(300, 300);
-    table.setLayoutData(gridData);
-    table.addListener(SWT.Selection, this);
-    </code>
-    
-    <code>
-    public void handleEvent(Event event) {
-    log.info("Event: " + event);
-    VisualizationWidget widget = (VisualizationWidget)event.widget;
-    log.info( "Selected item=" + widget.getSelectedItem() + 
-        "; row=" + widget.getSelectedRow() +
-        "; column=" + widget.getSelectedColumn() +
-        "; value=" + widget.getSelectedValue());
-    </code>
+ * dataTable.addColumn("theyear", "Date", "string", null);
+ * dataTable.addColumn("CO2", "CO2", "number", null);
+ * dataTable.addColumn("Temperature", "Temperature (C)", "number", null);
+ * dataTable.addRow(new Object[] {"1970", 325, 14.1});
+ * dataTable.addRow(new Object[] {"2009", 389, 14.8});
+ * String serializedData = dataTable.toString();
+ *  
+ * Table table = new Table( composite, SWT.NONE );
+ * table.setWidgetOptions("{width: 300, height: 300}");
+ * table.setWidgetData(serializedData);
+ * table.addListener(SWT.Selection, this);
+ * </pre>
+ * </p>
+ * <pre>
+ * public void handleEvent(Event event) {
+ *   System.out.println("Event: " + event);
+ *   VisualizationWidget widget = (VisualizationWidget)event.widget;
+ *   System.out.println("Selected item=" + widget.getSelectedItem() + 
+ *     "; row=" + widget.getSelectedRow() +
+ *     "; column=" + widget.getSelectedColumn() +
+ *     "; value=" + widget.getSelectedValue());
+ * }
+ * </pre>
+ * </p>
+ * 
+ * @see <a href="http://code.google.com/apis/visualization/documentation/gallery/table.html">Table Example</a>
  * 
  */
 public class Table extends VisualizationWidget {
 
-//  private static final Logger log = Logger.getLogger(TableLCA.class);
-  
-  private String selectedItem;
-//  private List<SelectionListener> listeners = new ArrayList<SelectionListener>();
-  
+  /**
+   * Constructs a table widget in the specified parent and style. 
+   * A visualization widget by default will auto-resize to fill its parent.
+   * <p>
+   * The style value is either one of the style constants defined in
+   * class <code>SWT</code> which is applicable to instances of this
+   * class, or must be built by <em>bitwise OR</em>'ing together
+   * (that is, using the <code>int</code> "|" operator) two or more
+   * of those <code>SWT</code> style constants. The class description
+   * lists the style constants that are applicable to the class, if any.
+   * Style bits are also inherited from superclasses.
+   * </p>
+   * @param parent the parent composite (cannot be <code>null</code>)
+   * @param style the style bits of the widget
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_NULL_ARGUMENT - if the parent is null</li>
+   * </ul>
+   * @exception SWTException <ul>
+   *    <li>ERROR_THREAD_INVALID_ACCESS - if not called from the thread that created the parent</li>
+   * </ul>
+   *
+   */
   public Table( final Composite parent, final int style ) {
     super( parent, style );
   }
 
-//  public void addSelectionListener(SelectionListener listener) {
-//    listeners.add(listener);
-//  }
-  
-//  public void addSelectionListener (SelectionListener listener) {
-//    checkWidget ();
-//    TypedListener typedListener = new TypedListener (listener);
-//    addListener (SWT.Selection,typedListener);
-//    addListener (SWT.DefaultSelection,typedListener);
-//  }
-  
-//  public void removeSelectionListener(SelectionListener listener) {
-//    listeners.remove(listener);
-//  }
-  
-//  public void removeSelectionListener (SelectionListener listener) {
-//    checkWidget();
-//    TypedListener typedListener = new TypedListener(listener);
-//    removeListener(SWT.Selection,typedListener);
-//    removeListener(SWT.DefaultSelection,typedListener);
-//  }
-  
-//  private void selectionChanged() {
-//    Event event = new Event();
-//    event.data = selectedItem;
-//    event.text = selectedItem;
-//    event.widget = this;
-//    VisualizationSelectionEvent selectionEvent = new VisualizationSelectionEvent(event);
-//    selectionEvent.setWidget(this);
-//    selectionEvent.setSource(this);
-//    selectionEvent.data = selectedItem;
-//    selectionEvent.text = selectedItem;
-//    for (SelectionListener listener: listeners) {
-//      listener.widgetSelected( selectionEvent );
-//    }
-//  }
-  
-  
 }
