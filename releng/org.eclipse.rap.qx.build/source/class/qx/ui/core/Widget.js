@@ -201,7 +201,15 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     _autoFlushTimeout : null,
-
+    _flushGlobalQueuesPhase : 0,
+    _FLUSH_PHASE_IDLE : 0,
+    _FLUSH_PHASE_WIDGET : 1,
+    _FLUSH_PHASE_STATE : 2,
+    _FLUSH_PHASE_ELEMENT : 3,
+    _FLUSH_PHASE_JOB : 4,
+    _FLUSH_PHASE_LAYOUT : 5,
+    _FLUSH_PHASE_DISPLAY : 6,
+    _FLUSH_PHASE_DISPOSE : 7,
 
     /**
      * Creates an auto-flush timeout.
@@ -209,10 +217,15 @@ qx.Class.define("qx.ui.core.Widget",
      * @type static
      * @return {void}
      */
-    _initAutoFlush : function()
+    _initAutoFlush : function( phase )
     {
       if (qx.ui.core.Widget._autoFlushTimeout == null) {
-        qx.ui.core.Widget._autoFlushTimeout = window.setTimeout(qx.ui.core.Widget._autoFlushHelper, 0);
+        // RAP: Fix for bug 303162 
+        if(    !qx.ui.core.Widget._inFlushGlobalQueues 
+            || phase < qx.ui.core.Widget._flushGlobalQueuesPhase ) {
+          qx.ui.core.Widget._autoFlushTimeout 
+            = window.setTimeout( qx.ui.core.Widget._autoFlushHelper, 0 );
+        }
       }
     },
 
@@ -285,6 +298,8 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.Widget.flushGlobalDisplayQueue();
       qx.ui.core.Widget.flushGlobalDisposeQueue();
 
+      qx.ui.core.Widget._flushGlobalQueuesPhase 
+        = qx.ui.core.Widget._FLUSH_PHASE_IDLE;
       delete qx.ui.core.Widget._inFlushGlobalQueues;
     },
 
@@ -315,7 +330,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!vWidget._isInGlobalWidgetQueue && vWidget._isDisplayable)
       {
         if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
+          qx.ui.core.Widget._initAutoFlush( qx.ui.core.Widget._FLUSH_PHASE_WIDGET );
         }
 
         qx.ui.core.Widget._globalWidgetQueue.push(vWidget);
@@ -349,6 +364,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalWidgetQueue : function()
     {
+      qx.ui.core.Widget._flushGlobalQueuesPhase 
+        = qx.ui.core.Widget._FLUSH_PHASE_WIDGET;      
       var vQueue = qx.ui.core.Widget._globalWidgetQueue, vLength, vWidget;
 
       while ((vLength = vQueue.length) > 0)
@@ -393,7 +410,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!vWidget._isInGlobalElementQueue && vWidget._isDisplayable)
       {
         if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
+          qx.ui.core.Widget._initAutoFlush( qx.ui.core.Widget._FLUSH_PHASE_ELEMENT );
         }
 
         qx.ui.core.Widget._globalElementQueue.push(vWidget);
@@ -427,6 +444,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalElementQueue : function()
     {
+      qx.ui.core.Widget._flushGlobalQueuesPhase 
+        = qx.ui.core.Widget._FLUSH_PHASE_ELEMENT;
       var vQueue = qx.ui.core.Widget._globalElementQueue, vLength, vWidget;
 
       while ((vLength = vQueue.length) > 0)
@@ -471,7 +490,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!vWidget._isInGlobalStateQueue && vWidget._isDisplayable)
       {
         if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
+          qx.ui.core.Widget._initAutoFlush( qx.ui.core.Widget._FLUSH_PHASE_STATE );
         }
 
         qx.ui.core.Widget._globalStateQueue.push(vWidget);
@@ -505,6 +524,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalStateQueue : function()
     {
+      qx.ui.core.Widget._flushGlobalQueuesPhase 
+        = qx.ui.core.Widget._FLUSH_PHASE_STATE;
       var Widget = qx.ui.core.Widget;
 
       // the queue may change while doing the flush so we work on a copy of
@@ -552,7 +573,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!vWidget._isInGlobalJobQueue && vWidget._isDisplayable)
       {
         if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
+          qx.ui.core.Widget._initAutoFlush( qx.ui.core.Widget._FLUSH_PHASE_JOB );
         }
 
         qx.ui.core.Widget._globalJobQueue.push(vWidget);
@@ -586,6 +607,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalJobQueue : function()
     {
+      qx.ui.core.Widget._flushGlobalQueuesPhase 
+        = qx.ui.core.Widget._FLUSH_PHASE_JOB;
       var vQueue = qx.ui.core.Widget._globalJobQueue, vLength, vWidget;
 
       while ((vLength = vQueue.length) > 0)
@@ -630,7 +653,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!vParent._isInGlobalLayoutQueue && vParent._isDisplayable)
       {
         if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
+          qx.ui.core.Widget._initAutoFlush( qx.ui.core.Widget._FLUSH_PHASE_LAYOUT );
         }
 
         qx.ui.core.Widget._globalLayoutQueue.push(vParent);
@@ -664,6 +687,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalLayoutQueue : function()
     {
+      qx.ui.core.Widget._flushGlobalQueuesPhase 
+        = qx.ui.core.Widget._FLUSH_PHASE_LAYOUT;
       var vQueue = qx.ui.core.Widget._globalLayoutQueue, vLength, vParent;
 
       while ((vLength = vQueue.length) > 0)
@@ -709,7 +734,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!vWidget._isInGlobalDisplayQueue && vWidget._isDisplayable)
       {
         if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
+          qx.ui.core.Widget._initAutoFlush( qx.ui.core.Widget._FLUSH_PHASE_DISPLAY );
         }
 
         var vParent = vWidget.getParent();
@@ -752,6 +777,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalDisplayQueue : function()
     {
+      qx.ui.core.Widget._flushGlobalQueuesPhase 
+        = qx.ui.core.Widget._FLUSH_PHASE_DISPLAY;
       var vKey, vLazyQueue, vWidget, vFragment;
 
       var vFastQueue = qx.ui.core.Widget._fastGlobalDisplayQueue;
@@ -920,7 +947,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!vWidget._isInGlobalDisposeQueue && !vWidget.isDisposed())
       {
         if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
+          qx.ui.core.Widget._initAutoFlush( qx.ui.core.Widget._FLUSH_PHASE_DISPOSE );
         }
 
         qx.ui.core.Widget._globalDisposeQueue.push(vWidget);
@@ -954,6 +981,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalDisposeQueue : function()
     {
+      qx.ui.core.Widget._flushGlobalQueuesPhase 
+        = qx.ui.core.Widget._FLUSH_PHASE_DISPOSE;
       var vQueue = qx.ui.core.Widget._globalDisposeQueue, vLength, vWidget;
 
       while ((vLength = vQueue.length) > 0)

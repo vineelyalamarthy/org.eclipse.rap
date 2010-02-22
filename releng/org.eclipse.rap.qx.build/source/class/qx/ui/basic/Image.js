@@ -651,23 +651,6 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     /**
-     * Additionally (in comparison to base method) flushes global queues to
-     * get an up-to-date view when an image is loaded
-     *
-     * @type member
-     * @return {void}
-     */
-    _renderContent : function()
-    {
-      this.base(arguments);
-
-      // Images load asyncron, so we need to force flushing here
-      // to get an up-to-date view when an image is loaded.
-      qx.ui.core.Widget.flushGlobalQueues();
-    },
-
-
-    /**
      * Sets the style attributes for width and height
      *
      * @type member
