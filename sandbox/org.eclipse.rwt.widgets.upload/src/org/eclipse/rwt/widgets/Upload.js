@@ -75,18 +75,14 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     this.add(topLayout);
 
     if (this._showProgress) {
-        var bottomLayout = new qx.ui.layout.CanvasLayout();
-        bottomLayout.set({left:0,height:'auto',marginTop:2});
-        bottomLayout.setOverflow("hidden");
-        bottomLayout.setAppearance( "progressbar" );
-
         // Progress Bar
-        this._progressBar = new qx.ui.layout.CanvasLayout();
-        this._progressBar.setParent( bottomLayout );
-        this._progressBar.set({left:0,height:16});
-        this._progressBar.setAppearance( "progressbar-indicator" );
-
-        this.add(bottomLayout);
+        this._progressBar = new org.eclipse.swt.widgets.ProgressBar();
+        this._progressBar.set({left:0,height:20});
+        this._progressBar.setMinimum(0);
+        this._progressBar.setMaximum(100);
+        this._progressBar.setFlag(org.eclipse.swt.widgets.ProgressBar.FLAG_HORIZONTAL);
+        
+        this.add(this._progressBar);
     }
     
     if (this._fireProgressEvents) {
@@ -169,7 +165,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
             // make sure, that the progressbar (if visible) is filled completely after 
             // uploading finished
             if (this._showProgress) {
-              this._progressBar.setWidth("100%");
+              this._progressBar.setSelection(100);
             }
             this._isStarted = false;
     
@@ -244,7 +240,9 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
                 if (percentCompleted != null) {
                     
                     if (this._showProgress) {
-                        this._progressBar.setWidth(percentCompleted.firstChild.data + "%");
+                        var progress = percentCompleted.firstChild.data;
+                        this.debug("New Progress " + progress);
+                    	this._progressBar.setSelection(progress);
                     }
 
                     this.createDispatchDataEvent("upload", false);
@@ -276,7 +274,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
     
     _resetUpload : function() {
       if (this._progressBar) {
-         this._progressBar.setWidth("0%");
+         this._progressBar.setSelection(0);
       }
       if (this._uploadField) {
         this._uploadField.setValue("");
