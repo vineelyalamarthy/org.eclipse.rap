@@ -35,9 +35,9 @@ public class RMS implements IEntryPoint {
       }
     }
   
+    Display display = PlatformUI.createDisplay();
     Activator.getDefault().initializeImageRegistry( "org.eclipse.rap.rms.ui" );
     UICallBack.activate( RMS.class.getName() );
-    Display display = PlatformUI.createDisplay();
     RMSWorkbenchAdvisor workbenchAdvisor = new RMSWorkbenchAdvisor();
     return PlatformUI.createAndRunWorkbench( display, workbenchAdvisor );
   }
