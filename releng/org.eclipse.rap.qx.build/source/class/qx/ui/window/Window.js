@@ -1167,12 +1167,10 @@ qx.Class.define("qx.ui.window.Window",
       this._previousBottom = this.getBottom();
 
       // setup new dimension and location
-      this.setWidth(null);
-      this.setLeft(0);
-      this.setRight(0);
-      this.setHeight(null);
-      this.setTop(0);
-      this.setBottom(0);
+      this.setLeft( 0 );
+      this.setTop( 0 );
+      this.setWidth( "100%" );
+      this.setHeight( "100%" );
 
       // update state
       this.addState("maximized");
