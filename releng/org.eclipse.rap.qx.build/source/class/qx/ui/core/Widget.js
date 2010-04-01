@@ -7547,7 +7547,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         if (this._innerStyle) {
           var innerValue = this._usesComplexBorder && v != null ? v - 2 : v; 
-          this._innerStyle.pixelWidth = innerValue == null ? 0 : v;
+          this._innerStyle.pixelWidth = innerValue == null ? 0 : innerValue;
         }
       };
 
@@ -7557,7 +7557,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         if (this._innerStyle) {
           var innerValue = this._usesComplexBorder && v != null ? v - 2 : v;
-          this._innerStyle.pixelHeight = innerValue == null ? 0 : v;
+          this._innerStyle.pixelHeight = innerValue == null ? 0 : innerValue;
         }
       };
 

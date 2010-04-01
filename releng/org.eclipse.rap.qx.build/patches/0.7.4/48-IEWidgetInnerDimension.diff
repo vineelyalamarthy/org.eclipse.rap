@@ -28,7 +28,7 @@
          if (this._innerStyle) {
 -          this._innerStyle.pixelWidth = (v==null)?0:v-2;
 +          var innerValue = this._usesComplexBorder && v != null ? v - 2 : v; 
-+          this._innerStyle.pixelWidth = innerValue == null ? 0 : v;
++          this._innerStyle.pixelWidth = innerValue == null ? 0 : innerValue;
          }
        };
  
@@ -38,7 +38,7 @@
          if (this._innerStyle) {
 -          this._innerStyle.pixelHeight = (v==null)?0:v-2;
 +          var innerValue = this._usesComplexBorder && v != null ? v - 2 : v;
-+          this._innerStyle.pixelHeight = innerValue == null ? 0 : v;
++          this._innerStyle.pixelHeight = innerValue == null ? 0 : innerValue;
          }
        };
  
