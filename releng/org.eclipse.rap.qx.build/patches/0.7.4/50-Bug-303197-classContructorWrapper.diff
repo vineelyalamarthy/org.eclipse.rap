@@ -1,12 +1,5 @@
-### Eclipse Workspace Patch 1.0
-#P org.eclipse.rap.qx.build
-Index: source/class/qx/Class.js
-===================================================================
-RCS file: /cvsroot/rt/org.eclipse.rap/releng/org.eclipse.rap.qx.build/source/class/qx/Class.js,v
-retrieving revision 1.1
-diff -u -r1.1 Class.js
---- source/class/qx/Class.js	10 Dec 2008 16:57:53 -0000	1.1
-+++ source/class/qx/Class.js	18 Feb 2010 15:32:32 -0000
+--- qx-build/source/class/qx/Class.js	10 Dec 2008 16:57:53 -0000	1.1
++++ qx-build/source/class/qx/Class.js	18 Feb 2010 15:32:32 -0000
 @@ -1507,43 +1507,42 @@
       */
      __wrapConstructor : function(construct, name, type)
