@@ -3111,25 +3111,25 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (value)
       {
-        if (this._isDisplayable) {
+        if ( this._isDisplayable && this._isCreated ) {
           this._beforeAppear();
         }
 
         this.removeStyleProperty("display");
 
-        if (this._isDisplayable) {
+        if ( this._isDisplayable && this._isCreated ) {
           this._afterAppear();
         }
       }
       else
       {
-        if (this._isDisplayable) {
+        if ( this._isDisplayable && this._isCreated ) {
           this._beforeDisappear();
         }
 
         this.setStyleProperty("display", "none");
 
-        if (this._isDisplayable) {
+        if ( this._isDisplayable && this._isCreated ) {
           this._afterDisappear();
         }
       }
