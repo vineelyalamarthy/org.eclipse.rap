@@ -7,16 +7,25 @@
  * 
  * Contributors:
  *     David Donahue - initial API, implementation and documentation
- *     Austin Riddle (Texas Center for Applied Technology) - performance enhancements and javadoc cleanup
+ *     Austin Riddle (Texas Center for Applied Technology) - 
+ *         performance enhancements, javadoc cleanup, port of internal 
+ *         org.json code to external depenency.
  ******************************************************************************/
 package org.eclipse.rap.rwt.visualization.google.json;
-import org.eclipse.rap.rwt.visualization.google.internal.json.JSONArray;
-import org.eclipse.rap.rwt.visualization.google.internal.json.JSONException;
-import org.eclipse.rap.rwt.visualization.google.internal.json.JSONObject;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONString;
 
 /**
  * <p>
- * Provides a JSON data transport mechanism for visualization data.
+ * Provides a JSON data transport mechanism for google visualization data.
  * </p>
  * <p>This implementation is not synchronized.</p>
  * <p>
@@ -48,6 +57,12 @@ public class JSONGoogleDataTable {
   /**
    * Creates a JSON object table for portability within the JSON API.
    * @return a JSON object that contains the columns and rows from this table. Will not return <code>null</code>.
+   * However, the JSON object will not be compatible with the google widgets if java.util.Date instances have
+   * been added to this table.
+   * <p>
+   * @see JSONGoogleDataTable.toString() to transform this table into a string that is compatible with the
+   * google visualization widgets.
+   * </p>  
    */
   public JSONObject createTable() {
     JSONObject table = new JSONObject();
@@ -171,14 +186,165 @@ public class JSONGoogleDataTable {
   
   /**
    * Returns a JSON string representation of this table. If any errors occur, <code>null</code> is returned.
+   * This method returns a string that is compatible for use with the google visualization widgets.
+   * Date objects are processed according to Google visualization requirements. 
    */
+  //HACK [ar] : accomodation for bug 305278 - this is a bypass of JSONObject.toString().
   public String toString() {
     try {
-      return createTable().toString();
+      JSONObject table = createTable();
+      Iterator     keys = table.keys();
+      StringBuffer sb = new StringBuffer("{");
+      
+      while (keys.hasNext()) {
+        if (sb.length() > 1) {
+          sb.append(',');
+        }
+        Object o = keys.next();
+        sb.append(JSONObject.quote(o.toString()));
+        sb.append(':');
+        sb.append(valueToString(table.get((String)o)));
+      }
+      sb.append('}');
+      return sb.toString();
     } catch (Exception e) {
       e.printStackTrace();
     }
     return null;
+  }
+  
+  /**
+   * Make a JSON text of an Object value. If the object has an
+   * value.toJSONString() method, then that method will be used to produce
+   * the JSON text. The method is required to produce a strictly
+   * conforming text. If the object does not contain a toJSONString
+   * method (which is the most common case), then a text will be
+   * produced by other means. If the value is an array or Collection,
+   * then a JSONArray will be made from it and its toJSONString method
+   * will be called. If the value is a MAP, then a JSONObject will be made
+   * from it and its toJSONString method will be called. Otherwise, the
+   * value's toString method will be called, and the result will be quoted.
+   * Date objects are processed according to Google visualization requirements.
+   *
+   * <p>
+   * Warning: This method assumes that the data structure is acyclical.
+   * @param value The value to be serialized.
+   * @return a printable, displayable, transmittable
+   *  representation of the object, beginning
+   *  with <code>{</code>&nbsp;<small>(left brace)</small> and ending
+   *  with <code>}</code>&nbsp;<small>(right brace)</small>.
+   * @throws JSONException If the value is or contains an invalid number.
+   */
+  //HACK [ar] : accomodation for bug 305278 - this is a bypass of JSONObject.valueToString(). 
+  public static String valueToString(Object value) throws JSONException {
+    if (value == null || value.equals(null)) {
+      return "null";
+    }
+    if (value instanceof JSONString) {
+      Object o;
+      try {
+        o = ((JSONString)value).toJSONString();
+      } catch (Exception e) {
+        throw new JSONException(e);
+      }
+      if (o instanceof String) {
+        return (String)o;
+      }
+      throw new JSONException("Bad value from toJSONString: " + o);
+    }
+    if (value instanceof Number) {
+      return JSONObject.numberToString((Number) value);
+    }
+    if (value instanceof JSONArray) {
+      try {
+        return '[' + join((JSONArray)value,",") + ']';
+      } catch (Exception e) {
+        return null;
+      }
+    }
+    if (value instanceof Boolean) {
+      return value.toString();
+    }
+    if (value instanceof JSONObject) {
+      return jsonObjectToString((JSONObject)value);
+    }
+    if (value instanceof Date) {
+      return dateToString((Date)value);
+    }
+    if (value instanceof Map) {
+      return new JSONObject((Map)value).toString();
+    }
+    if (value instanceof Collection) {
+      return new JSONArray((Collection)value).toString();
+    }
+    if (value.getClass().isArray()) {
+      return new JSONArray(value).toString();
+    }
+    return JSONObject.quote(value.toString());
+  }
+  
+  /*
+   * Converts a date into the form required by the google api.
+   */
+  private static String dateToString( Date d ) throws JSONException {
+    if (d == null) {
+      throw new JSONException("Null pointer");
+    }
+    Calendar c = Calendar.getInstance();
+    c.setTime( d );
+    String s = "new Date(";
+    s += c.get(Calendar.YEAR) + ",";
+    s += c.get(Calendar.MONTH) + ",";
+    s += c.get(Calendar.DAY_OF_MONTH) + ",";
+    s += c.get(Calendar.HOUR_OF_DAY) + ",";
+    s += c.get(Calendar.MINUTE) + ",";
+    s += c.get(Calendar.SECOND);
+    s += ")";
+    return s;
+  }
+  
+  /*
+   * Converts a JSONObject instance to string in a way that is compatible with the google api.
+   * 
+   */
+  //HACK [ar] : accomodation for bug 305278 - this is a bypass of JSONObject.toString().
+  private static String jsonObjectToString (JSONObject jObj) {
+    try {
+      Iterator keys = jObj.keys();
+      StringBuffer sb = new StringBuffer("{");
+      
+      while (keys.hasNext()) {
+        if (sb.length() > 1) {
+          sb.append(',');
+        }
+        Object o = keys.next();
+        sb.append(JSONObject.quote(o.toString()));
+        sb.append(':');
+        sb.append(valueToString(jObj.get((String)o)));
+      }
+      sb.append('}');
+      return sb.toString();
+    } catch (Exception e) {
+      return null;
+    }
+  }
+  
+  /*
+   * Converts a JSONArray instance to string in a way that is compatible with the google api.
+   * 
+   */
+  //HACK [ar] : accomodation for bug 305278 - this is a bypass of JSONArray.join().
+  private static String join(JSONArray arr, String separator) throws JSONException {
+    int len = arr.length();
+    StringBuffer sb = new StringBuffer();
+    
+    for (int i = 0; i < len; i += 1) {
+      if (i > 0) {
+        sb.append(separator);
+      }
+      sb.append(valueToString(arr.get(i)));
+    }
+    return sb.toString();
   }
 
 }

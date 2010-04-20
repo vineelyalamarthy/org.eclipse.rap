@@ -21,7 +21,6 @@ import org.eclipse.rwt.lifecycle.JSWriter;
 import org.eclipse.swt.widgets.Widget;
 
 public class LineChartLCA extends VisualizationWidgetLCA {
-  protected static final String REDRAW_FUNC = "drawChart";
   
   public Class getWidgetType () {
     return LineChart.class;
