@@ -683,13 +683,19 @@ qx.Class.define("qx.ui.form.TextField",
       this.base(arguments);
       
       // RAP [if] Fix for bug 295758
-      //if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
-      var isIE = qx.core.Variant.isSet( "qx.client", "mshtml" );
-      if ((!qx.event.handler.FocusHandler.mouseFocus || isIE) && this.getEnableElementFocus())
+      // RAP [tb] Fix for bug 309934
+      if( this.getEnableElementFocus() )
       {
         try {
           this._inputElement.focus();
         } catch(ex) {}
+        if( qx.core.Variant.isSet( "qx.client", "webkit" ) ) {
+          // Workaround for a webkit bug needed since fixing 309934
+          if( this.getSelectionLength() > 0 ) {
+            this.setSelectionStart( this.getSelectionLength() );
+            this.setSelectionLength( 0 );
+          }
+        }
       }
     },
 
