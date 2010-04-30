@@ -95,6 +95,15 @@ qx.Class.define("qx.ui.basic.ScrollBar",
       }
     }
 
+    // Fix for http://bugzilla.qooxdoo.org/show_bug.cgi?id=1862
+    if( qx.core.Variant.isSet( "qx.client", "mshtml" ) || qx.core.Variant.isSet( "qx.client", "opera" ) ) {
+      if( this._horizontal ) {
+        this.addEventListener( "changeWidth", this._onresize, this );
+      } else {
+        this.addEventListener( "changeHeight", this._onresize, this );
+      }
+    }
+
     this.add(this._scrollBar);
 
     this._blocker = new qx.ui.basic.Terminator();
@@ -353,6 +362,21 @@ qx.Class.define("qx.ui.basic.ScrollBar",
       }
     },
 
+    // Fix for http://bugzilla.qooxdoo.org/show_bug.cgi?id=1862
+    // Event handler, called when the width of horizontal scroll bar 
+    // or the height of vertical scroll bar is changed. 
+    _onresize : function( evt ) {
+      var currentValue = this.getValue();
+      var maxValue = 0;
+      if( this._horizontal ) {
+        maxValue = this.getMaximum() - this.getWidth();
+      } else {
+        maxValue = this.getMaximum() - this.getHeight();
+      }
+      if( currentValue > maxValue ) {
+        this.setValue( maxValue );
+      }
+    },
 
     /**
      * Positions the scroll bar knob at a certain value.
