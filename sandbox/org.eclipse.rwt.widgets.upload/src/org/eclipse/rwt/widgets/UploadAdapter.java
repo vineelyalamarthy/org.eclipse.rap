@@ -15,9 +15,12 @@ package org.eclipse.rwt.widgets;
  * @author stefan.roeck */
 public class UploadAdapter implements UploadListener {
 
-  public void uploadFinished( UploadEvent uploadEvent ) {
+  public void uploadFinished( final UploadEvent uploadEvent ) {
   }
 
-  public void uploadInProgress( UploadEvent uploadEvent ) {
+  public void uploadInProgress( final UploadEvent uploadEvent ) {
+  }
+
+  public void uploadException( final UploadEvent uploadEvent ) {
   }
 }

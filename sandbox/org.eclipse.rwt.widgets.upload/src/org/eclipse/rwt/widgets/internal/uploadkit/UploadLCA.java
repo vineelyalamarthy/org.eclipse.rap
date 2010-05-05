@@ -64,17 +64,22 @@ public class UploadLCA extends AbstractWidgetLCA {
     
     if( finished != null ) 
     {
+      // Check if there was any exception during upload
+      final Exception uploadException = adapter.getStorageItem().getException();
+      
       // At the moment, the event must be fire directly via the ProcessActionRunner
       // because delayed execution doesn't work at the moment for custom events.
       // If this changes one day, processEvent() can be called directly.
       ProcessActionRunner.add( new Runnable() {
         
         public void run() {
-          UploadEvent evt = new UploadEvent( upload,
-                                             Boolean.valueOf( finished )
-                                             .booleanValue(),
-                                             uploadPartial,
-                                             uploadTotal );
+          final UploadEvent evt;
+          if (uploadException != null) {
+            evt = new UploadEvent( widget, uploadException);
+          } else {
+            evt = new UploadEvent( upload, Boolean.valueOf( finished )
+              .booleanValue(), uploadPartial, uploadTotal );            
+          }
           evt.processEvent();
 
         }

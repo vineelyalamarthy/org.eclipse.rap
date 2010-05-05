@@ -108,6 +108,10 @@ public class Upload extends Control {
       return uploadStorageItem != null ? uploadStorageItem.getBytesRead() : 0L;
     }
     
+    public FileUploadStorageItem getStorageItem() {
+      return Upload.this.getUploadStorageItem();
+    }
+    
     public long getContentLength() {
       final FileUploadStorageItem uploadStorageItem = FileUploadStorage.getInstance().getUploadStorageItem( getWidgetId());
       return uploadStorageItem != null ? uploadStorageItem.getContentLength() : 0L;
@@ -229,11 +233,20 @@ public class Upload extends Control {
    * Triggers a file upload. This method immediately returns, if the user hasn't
    * selected a file, yet. Otherwise, a upload is triggered on the Browser side.
    * This method returns, if the upload has finished.
+   * <br/>
+   * Note: This method doesn't fire exceptions. Instead, see {@link #addUploadListener(UploadListener)} 
+   * and {@link UploadEvent#getUploadException()} on how to get notified about exceptions during upload.
+   * @return <code>true</code> if the upload has been started and has finished
+   * without an error.
+   * @see Upload#addUploadListener(UploadListener)
    */
   public boolean performUpload() {
     checkWidget();
+
+    // Clean state (from previous uploads)
+    resetStorageItem();
     
-    boolean uploadPerformed = false;
+    final boolean uploadSuccessful[] = {false};
     // Always check if user selected a file because otherwise the UploadWidget itself doesn't trigger a POST and therefore, the
     // subsequent loop never terminates.
     if (getPath() != null && !"".equals( getPath() )) {
@@ -242,7 +255,12 @@ public class Upload extends Control {
         UploadListener listener =  new UploadAdapter() {
           public void uploadFinished(UploadEvent event) {
             uploadInProgresses[ 0 ] = false;
+            uploadSuccessful[ 0 ] = true;
           }
+          
+          public void uploadException( UploadEvent uploadEvent ) {
+            uploadInProgresses[ 0 ] = false;
+          }          
         };
         addUploadListener( listener );
         uploadInProgresses[ 0 ] = true;
@@ -252,7 +270,6 @@ public class Upload extends Control {
               getDisplay().sleep();
             }
           }
-          uploadPerformed = !uploadInProgresses[ 0 ];
         } finally {
           uploadInProgresses[ 0 ] = false;
           performUpload = false;
@@ -261,7 +278,7 @@ public class Upload extends Control {
     }
     
     }
-    return uploadPerformed;
+    return uploadSuccessful[ 0 ];
   }
   
   public Object getAdapter( final Class adapter ) {
@@ -506,8 +523,7 @@ public class Upload extends Control {
       SWT.error( SWT.ERROR_WIDGET_DISPOSED );
     }
     
-    final FileUploadStorage storage = FileUploadStorage.getInstance();
-    final FileUploadStorageItem uploadedFile = storage.getUploadStorageItem( getWidgetId() );
+    final FileUploadStorageItem uploadedFile = getUploadStorageItem();
     final UploadItem uploadItem = new UploadItem( uploadedFile.getFileInputStream(),
                                                   uploadedFile.getContentType(),
                                                   getLastFileUploaded(),
@@ -571,11 +587,32 @@ public class Upload extends Control {
     this.lastFileUploaded = null;
     this.path = null;
     
-    final FileUploadStorageItem storageItem = FileUploadStorage.getInstance().getUploadStorageItem( getWidgetId() );
-    storageItem.setContentType( null );
-    storageItem.setFileInputStream( null );
-    storageItem.updateProgress( -1, -1 );
+    resetStorageItem();
     
     resetUpload = true;
   }
+
+  /**
+   * Resets the internal storage item that is used to transfer the file content
+   * and progress between widget and ServiceHandler.
+   */
+  private void resetStorageItem() {
+    final FileUploadStorageItem storageItem = FileUploadStorage.getInstance().getUploadStorageItem( getWidgetId() );
+    storageItem.reset();
+  }
+  
+  /**
+   * Returns a configuration facade. Note that this configuration
+   * is shared for all update widgets.
+   */
+  public IUploadConfiguration getConfiguration() {
+    return FileUploadServiceHandler.getConfiguration();
+  }
+  
+  protected FileUploadStorageItem getUploadStorageItem() {
+    final FileUploadStorage storage = FileUploadStorage.getInstance();
+    final FileUploadStorageItem uploadedFile = storage.getUploadStorageItem( getWidgetId() );
+    return uploadedFile;
+  }
+  
 }

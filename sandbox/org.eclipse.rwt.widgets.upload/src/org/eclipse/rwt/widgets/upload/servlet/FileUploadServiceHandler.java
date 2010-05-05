@@ -24,6 +24,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.internal.util.URLHelper;
 import org.eclipse.rwt.service.IServiceHandler;
+import org.eclipse.rwt.widgets.IUploadConfiguration;
+import org.eclipse.rwt.widgets.internal.UploadConfiguration;
 
 
 /**
@@ -41,6 +43,11 @@ public class FileUploadServiceHandler implements IServiceHandler {
   private static final String REQUEST_WIDGET_ID = "widgetId";
   private static final String REQUEST_PROCESS_ID = "processId";
   private static final String XML_HEAD = "<?xml version=\"1.0\" encoding=\"utf-8\"?><response>";
+  
+  /**
+   * Holds configuration data for the upload widget.
+   */
+  private static final IUploadConfiguration uploadConfiguration = new UploadConfiguration();
 
   /**
    * Requests to this service handler without a valid session id are ignored for
@@ -95,12 +102,18 @@ public class FileUploadServiceHandler implements IServiceHandler {
     // Ignore upload requests which have no valid widgetId
     if (fileUploadStorageitem != null && uploadProcessId != null && !"".equals( uploadProcessId )) {
       
+      // Reset storage item to clear values from last upload process
+      fileUploadStorageitem.reset();
+      
       // Create file upload factory and upload servlet
       // You could use new DiskFileItemFactory(threshold, location)
       // to configure a custom in-memory threshold and storage location.
       // By default the upload files are stored in the java.io.tmpdir
-      FileItemFactory factory = new DiskFileItemFactory();
-      ServletFileUpload upload = new ServletFileUpload( factory );
+      final FileItemFactory factory = new DiskFileItemFactory();
+      final ServletFileUpload upload = new ServletFileUpload( factory );
+      
+      // apply configuration params
+      applyConfiguration(upload);
       
       // Create a file upload progress listener
       final ProgressListener listener = new ProgressListener() {
@@ -130,12 +143,22 @@ public class FileUploadServiceHandler implements IServiceHandler {
             fileUploadStorageitem.setContentType(fileItem.getContentType());
           }
         }
-      } catch( FileUploadException e ) {
-        e.printStackTrace();
+      } catch( final FileUploadException e ) {
+        fileUploadStorageitem.setException(e);
       } catch( final Exception e ) {
-        e.printStackTrace();
+        fileUploadStorageitem.setException(e);
       }
     }
+  }
+
+  /**
+   * Applies custom configuration parameters specified by the
+   * user.
+   * @param upload The upload handler to which the config is applied.
+   */
+  private void applyConfiguration( final ServletFileUpload upload ) {
+    upload.setFileSizeMax( getConfiguration().getFileSizeMax() );
+    upload.setSizeMax( getConfiguration().getSizeMax() );
   }
 
   /**
@@ -149,7 +172,7 @@ public class FileUploadServiceHandler implements IServiceHandler {
    * to let the Browser know, when polling can be stopped. 
    * @param uploadProcessId 
    */
-  private void handleUpdateProgress( final FileUploadStorageItem fileUploadStorageitem, String uploadProcessId )
+  private void handleUpdateProgress( final FileUploadStorageItem fileUploadStorageitem, final String uploadProcessId )
     throws IOException
   {
     final HttpServletResponse response = RWT.getResponse();
@@ -218,7 +241,7 @@ public class FileUploadServiceHandler implements IServiceHandler {
    * Registers this service handler. This method should be called only once.
    */
   public static void register() {
-    FileUploadServiceHandler instance = new FileUploadServiceHandler();
+    final FileUploadServiceHandler instance = new FileUploadServiceHandler();
     final String serviceHandlerId = getServiceHandlerId();
     RWT.getServiceManager().registerServiceHandler(serviceHandlerId, instance);
   }
@@ -236,15 +259,22 @@ public class FileUploadServiceHandler implements IServiceHandler {
    * as url parameters. 
    */
   public static String getUrl(final String widgetId) {
-    StringBuffer url = new StringBuffer();
+    final StringBuffer url = new StringBuffer();
     url.append(URLHelper.getURLString(false));
 
     URLHelper.appendFirstParam(url, REQUEST_PARAM, getServiceHandlerId());
     URLHelper.appendParam(url, REQUEST_WIDGET_ID, widgetId);
 
     // convert to relative URL
-    int firstSlash = url.indexOf( "/" , url.indexOf( "//" ) + 2 ); // first slash after double slash of "http://"
+    final int firstSlash = url.indexOf( "/" , url.indexOf( "//" ) + 2 ); // first slash after double slash of "http://"
     url.delete( 0, firstSlash ); // Result is sth like "/rap?custom_service_handler..."
     return RWT.getResponse().encodeURL(url.toString());
+  }
+  
+  /**
+   * Returns a configuration facade.
+   */
+  public static IUploadConfiguration getConfiguration() {
+    return uploadConfiguration;
   }
 }

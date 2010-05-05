@@ -11,6 +11,8 @@
 
 package org.eclipse.rwt.widgets.internal.uploadkit;
 
+import org.eclipse.rwt.widgets.upload.servlet.FileUploadStorageItem;
+
 public interface IUploadAdapter {
   boolean performUpload();
   int getFlags();
@@ -21,4 +23,5 @@ public interface IUploadAdapter {
   void setResetUpload(boolean resetUpload);
   public long getBytesRead();
   public long getContentLength();
+  FileUploadStorageItem getStorageItem();
 }

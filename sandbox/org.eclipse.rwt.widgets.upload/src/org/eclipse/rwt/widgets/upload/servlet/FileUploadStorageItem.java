@@ -29,6 +29,12 @@ public class FileUploadStorageItem {
   private String uploadProcessId;
   private long bytesRead;
   private long contentLength;
+  private Exception exception;
+  
+  
+  public FileUploadStorageItem() {
+    reset();
+  }
   
   public synchronized InputStream getFileInputStream() {
     return this.fileInputStream;
@@ -67,4 +73,19 @@ public class FileUploadStorageItem {
     return contentLength;
   }
 
+  public synchronized void reset() {
+    contentLength = -1;
+    bytesRead = -1;
+    contentType = null;
+    fileInputStream = null;
+    exception = null;
+  }
+
+  public synchronized void setException( Exception e ) {
+    this.exception = e;
+  }
+  
+  public synchronized Exception getException() {
+    return exception;
+  }
 }

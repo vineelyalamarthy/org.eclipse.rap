@@ -19,12 +19,12 @@ import java.util.EventListener;
  * finished.
  * 
  * @author tjarodrigues
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface UploadListener extends EventListener{
 
   /**
-   * Is called, when uploading a file is finished.
+   * Is called, when uploading a file has been finished sucessfully.
    * @param uploadEvent The Upload Event to be fired. 
    * {@link UploadEvent#getSource()} returns the upload
    * widget which triggered the event. All other fields are empty
@@ -37,4 +37,12 @@ public interface UploadListener extends EventListener{
    * {@link UploadEvent} to get details on the progress.
    */
   public void uploadInProgress( final UploadEvent uploadEvent );
+
+
+  /**
+   * Signals that an exception has ocurred while receiving the
+   * file to be uploaded. The exception can be retrieved
+   * using {@link UploadEvent#getUploadException()}.
+   */
+  public void uploadException( final UploadEvent uploadEvent );
 }

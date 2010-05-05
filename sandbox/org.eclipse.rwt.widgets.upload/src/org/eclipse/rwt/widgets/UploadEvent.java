@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Widget;
  * Represents an Upload Event.
  *
  * @author tjarodrigues
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class UploadEvent extends TypedEvent {
   
@@ -29,10 +29,22 @@ public class UploadEvent extends TypedEvent {
    */
   private static final int UPLOAD_FINISHED = 101;
   private static final int UPLOAD_IN_PROGRESS = 102;
+  private static final int UPLOAD_EXCEPTION = 103;
+  
   private static final Class LISTENER = UploadListener.class;
   private final boolean finished;
   private final int uploadedParcial;
   private final int uploadedTotal;
+  private final Exception uploadException;
+
+  
+  /**
+   * Returns an exception that ocurred during upload during
+   * processing the file on the server side.
+   */
+  public Exception getUploadException() {
+    return uploadException;
+  }
 
   /**
    * Checks if the Upload has finished.
@@ -81,8 +93,17 @@ public class UploadEvent extends TypedEvent {
     this.finished = finished;
     this.uploadedParcial = uploadedParcial;
     this.uploadedTotal = uploadedTotal;
+    this.uploadException = null;
   }
   
+  public UploadEvent( final Widget widget, final Exception uploadException ) {
+    super(widget, UPLOAD_EXCEPTION);
+    this.finished = true;
+    this.uploadedParcial = -1;
+    this.uploadedTotal = -1;
+    this.uploadException = uploadException;
+  }
+
   protected void dispatchToObserver( final Object listener ) {
     switch( getID() ) {
       case UPLOAD_IN_PROGRESS:
@@ -90,6 +111,9 @@ public class UploadEvent extends TypedEvent {
       break;
       case UPLOAD_FINISHED:
         ( ( UploadListener )listener ).uploadFinished( this );
+      break;
+      case UPLOAD_EXCEPTION:
+        ( ( UploadListener )listener ).uploadException( this );
       break;
       default:
         throw new IllegalStateException( "Invalid event handler type." );
