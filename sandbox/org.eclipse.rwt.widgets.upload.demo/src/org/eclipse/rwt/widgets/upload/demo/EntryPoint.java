@@ -19,6 +19,7 @@ import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -26,6 +27,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 public class EntryPoint implements IEntryPoint{
@@ -38,6 +40,7 @@ public class EntryPoint implements IEntryPoint{
     private Label uploadProgressLabel;
     protected String uploadBtnText = "Upload";
     protected String browseBtnText = "Browse";
+	private Text maxFileSizeText;
 
     public EntryPoint(){
     }
@@ -91,6 +94,7 @@ public class EntryPoint implements IEntryPoint{
         createUploadFlagButton("Show progress", Upload.SHOW_PROGRESS, false);
         createUploadFlagButton("Show upload button", Upload.SHOW_UPLOAD_BUTTON, false);
         createUploadFlagButton("Fire progress events", Upload.FIRE_PROGRESS_EVENTS, false);
+        createFileSizeMaxText();
         
         new Label(this.styleComp, SWT.HORIZONTAL | SWT.SEPARATOR);
         
@@ -102,7 +106,9 @@ public class EntryPoint implements IEntryPoint{
         btnStartUpload.addSelectionListener(new SelectionAdapter() {
 
             public void widgetSelected(SelectionEvent e){
-                EntryPoint.this.upload.performUpload();
+                if (applyConfig()) {
+                	EntryPoint.this.upload.performUpload();
+                }
             }
         });
         
@@ -167,7 +173,37 @@ public class EntryPoint implements IEntryPoint{
     }
 
     
-    private void handleUploadFinished(final Upload upload) {
+    protected boolean applyConfig() {
+    	try {
+    		Long maxFileSize = Long.valueOf(maxFileSizeText.getText());
+			this.upload.getConfiguration().setFileMaxSize(maxFileSize.longValue());
+    		return true;
+		} catch (NumberFormatException e) {
+			MessageDialog.openError(Display.getCurrent().getActiveShell(), "Error", "Invalid number: " + maxFileSizeText.getText());
+			return false;
+		}
+	}
+
+	private void createFileSizeMaxText() {
+        Composite container = new Composite(this.styleComp, SWT.NONE);
+        container.setLayout(new GridLayout(2, false));
+        container.setLayoutData(new RowData(150, -1));
+    	Label lbl = new Label(container, SWT.NONE);
+    	lbl.setText("Max. file size");
+        GridDataFactory.fillDefaults().applyTo(lbl);
+    	
+        maxFileSizeText = new Text(container, SWT.BORDER);
+        maxFileSizeText.setText("-1");
+        maxFileSizeText.addModifyListener(new ModifyListener() {
+			
+			public void modifyText(ModifyEvent event) {
+				applyConfig();
+			}
+		});
+        GridDataFactory.fillDefaults().align(SWT.FILL, SWT.TOP).grab(true, false).applyTo(maxFileSizeText);
+	}
+
+	private void handleUploadFinished(final Upload upload) {
         final String lastFileUploaded = upload.getLastFileUploaded();
         UploadItem uploadItem = upload.getUploadItem();
         
@@ -296,8 +332,16 @@ public class EntryPoint implements IEntryPoint{
                 EntryPoint.this.uploadProgressLabel.setText(String.valueOf(percent) + " %");
                 EntryPoint.this.uploadProgressLabel.getParent().layout();
             }
+            
+            public void uploadException(UploadEvent uploadEvent) {
+            	Exception exc = uploadEvent.getUploadException();
+				if (exc != null) {
+            		MessageDialog.openError(Display.getCurrent().getActiveShell(), "Error", exc.getMessage());
+            	}
+            }
         });
 
+        maxFileSizeText.setText(String.valueOf(upload.getConfiguration().getFileSizeMax()));
         
         this.uploadContainer.layout();
     }
