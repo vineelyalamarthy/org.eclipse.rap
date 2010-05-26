@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: warproducts core test
+Bundle-SymbolicName: org.eclipse.rap.warproducts.core.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Require-Bundle: org.junit;bundle-version="3.8.2",
+ org.eclipse.rap.warproducts.core;bundle-version="1.0.0"
