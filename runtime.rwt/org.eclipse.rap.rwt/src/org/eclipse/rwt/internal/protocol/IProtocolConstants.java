@@ -45,6 +45,5 @@ public interface IProtocolConstants {
   public static final String KEY_SCRIPT_TYPE = "scriptType";
   public static final String KEY_SCRIPT = "script";
   public static final String KEY_WIDGETS = "widgets";
-  public static final String KEY_REQUEST_COUNTER = "requestCounter";
-  
+  public static final String KEY_REQUEST_COUNTER = "requestCounter";  
 }
