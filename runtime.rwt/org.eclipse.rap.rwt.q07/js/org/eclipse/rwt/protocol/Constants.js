@@ -41,6 +41,7 @@ org.eclipse.rwt.protocol.constants = {
   KEY_WIDGETS : 'widgets',
   KEY_JAVA_SCRIPT : 'text/javascript',
   
+  
   TYPE_SHELL : 'org.eclipse.swt.widgets.Shell',
   MESSAGE_PART_INDENT : '  '
 };
