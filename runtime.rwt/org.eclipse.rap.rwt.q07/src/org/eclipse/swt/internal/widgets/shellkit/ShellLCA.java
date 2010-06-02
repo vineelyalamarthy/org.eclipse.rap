@@ -12,12 +12,18 @@
 package org.eclipse.swt.internal.widgets.shellkit;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.rwt.internal.lifecycle.JSConst;
+import org.eclipse.rwt.internal.protocol.Chunk;
+import org.eclipse.rwt.internal.protocol.IChunkAdapter;
 import org.eclipse.rwt.internal.service.ContextProvider;
 import org.eclipse.rwt.lifecycle.*;
+import org.eclipse.rwt.protocol.IWidgetSynchronizer;
+import org.eclipse.rwt.protocol.WidgetSynchronizerFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.*;
@@ -27,7 +33,7 @@ import org.eclipse.swt.internal.widgets.*;
 import org.eclipse.swt.widgets.*;
 
 
-public final class ShellLCA extends AbstractWidgetLCA {
+public final class ShellLCA extends AbstractWidgetLCA implements IChunkAdapter {
 
   private static final int MODAL
     = SWT.APPLICATION_MODAL | SWT.SYSTEM_MODAL | SWT.PRIMARY_MODAL;
@@ -68,11 +74,19 @@ public final class ShellLCA extends AbstractWidgetLCA {
   }
 
   public void readData( final Widget widget ) {
+//    HttpServletRequest request = ContextProvider.getRequest();
+//    String parameter = request.getParameter( "JSON" );
+//    if( parameter != null ) {
+//      System.out.println( "#### BEGIN ####");
+//      System.out.println( parameter );
+//      System.out.println( "#### END ####");
+//    }       
+    
     Shell shell = ( Shell )widget;
     // [if] Preserve the menu bounds before setting the new shell bounds.
     preserveMenuBounds( shell );
     // Important: Order matters, readMode() before readBounds()
-    readMode( shell );
+    
     readBounds( shell );
     if( WidgetLCAUtil.wasEventSent( shell, JSConst.EVENT_SHELL_CLOSED ) ) {
       shell.close();
@@ -84,47 +98,101 @@ public final class ShellLCA extends AbstractWidgetLCA {
     ControlLCAUtil.processMenuDetect( shell );
     WidgetLCAUtil.processHelp( shell );
   }
+  
+  public void readData( final Widget widget, final Chunk chunk ) {
+    Object value = chunk.getValue( "mode" );
+    if( value != null && value instanceof String ) {
+      readMode( ( Shell )widget, ( String) value );
+    }
+  }
+
+  public void processEvent( final Widget widget, final String eventName ) {
+    System.out.println(eventName);
+  }
 
   public void renderInitialization( final Widget widget ) throws IOException {
-    JSWriter writer = JSWriter.getWriterFor( widget );
-    Shell shell = ( Shell )widget;
-    writer.newWidget( QX_TYPE );
-    ControlLCAUtil.writeStyleFlags( shell );
+    IWidgetSynchronizer synchronizer 
+      = WidgetSynchronizerFactory.getSynchronizerForWidget( widget );
+    List styleList = new ArrayList();
     int style = widget.getStyle();
+    if( ( style & SWT.BORDER ) != 0 ) {
+      styleList.add( "BORDER" );      
+    }
     if( ( style & MODAL ) != 0 ) {
-      writer.call( "addState", new Object[] { "rwt_APPLICATION_MODAL" } );
+      styleList.add( "MODAL" );
     }
     if( ( style & SWT.ON_TOP ) != 0 ) {
-      writer.call( "addState", new Object[] { "rwt_ON_TOP" } );
+      styleList.add( "ON_TOP" );
     }
     if( ( style & SWT.TITLE ) != 0 ) {
-      writer.call( "addState", new Object[]{ "rwt_TITLE" } );
+      styleList.add( "TITLE" );
     }
     if( ( style & SWT.TOOL ) != 0 ) {
-      writer.call( "addState", new Object[]{ "rwt_TOOL" } );
+      styleList.add( "TOOL" );
     }
     if( ( style & SWT.SHEET ) != 0 ) {
-      writer.call( "addState", new Object[]{ "rwt_SHEET" } );
+      styleList.add( "SHEET" );
     }
-    writer.set( "showMinimize", ( style & SWT.MIN ) != 0 );
-    writer.set( "allowMinimize", ( style & SWT.MIN ) != 0 );
-    writer.set( "showMaximize", ( style & SWT.MAX ) != 0 );
-    writer.set( "allowMaximize", ( style & SWT.MAX ) != 0 );
-    writer.set( "showClose", ( style & SWT.CLOSE ) != 0 );
-    writer.set( "allowClose", ( style & SWT.CLOSE ) != 0 );
-    Boolean resizable = Boolean.valueOf( ( style & SWT.RESIZE ) != 0 );
-    writer.set( "resizable",
-                new Object[] { resizable, resizable, resizable, resizable } );
-    Composite parent = shell.getParent();
+    if( ( style & SWT.MIN ) != 0 ) {
+      styleList.add( "MIN" );
+    }
+    if( ( style & SWT.MAX ) != 0 ) {
+      styleList.add( "MAX" );
+    }
+    if( ( style & SWT.CLOSE ) != 0 ) {
+      styleList.add( "CLOSE" );
+    }
+    if( ( style & SWT.RESIZE ) != 0 ) {
+      styleList.add( "RESIZE" );
+    }
+    String[] styles = new String[ styleList.size() ];
+    styleList.toArray( styles );
+    Composite parent = ( ( Shell )widget ).getParent();
     if( parent instanceof Shell ) {
-      writer.set( "parentShell", parent );
+      String parentId = WidgetUtil.getId( parent );
+      synchronizer.newWidget( styles, new Object[] { parentId } );
     }
-    writer.call( "initialize", null );
+    synchronizer.newWidget( styles );
+    
+    
+    
+    // old
+//    JSWriter writer = JSWriter.getWriterFor( widget );
+//    Shell shell = ( Shell )widget;
+//    writer.newWidget( QX_TYPE );
+//    ControlLCAUtil.writeStyleFlags( shell );
+//    if( ( style & MODAL ) != 0 ) {
+//      writer.call( "addState", new Object[] { "rwt_APPLICATION_MODAL" } );
+//    }
+//    if( ( style & SWT.ON_TOP ) != 0 ) {
+//      writer.call( "addState", new Object[] { "rwt_ON_TOP" } );
+//    }
+//    if( ( style & SWT.TITLE ) != 0 ) {
+//      writer.call( "addState", new Object[]{ "rwt_TITLE" } );
+//    }
+//    if( ( style & SWT.TOOL ) != 0 ) {
+//      writer.call( "addState", new Object[]{ "rwt_TOOL" } );
+//    }
+//    if( ( style & SWT.SHEET ) != 0 ) {
+//      writer.call( "addState", new Object[]{ "rwt_SHEET" } );
+//    }
+//    writer.set( "showMinimize", ( style & SWT.MIN ) != 0 );
+//    writer.set( "allowMinimize", ( style & SWT.MIN ) != 0 );
+//    writer.set( "showMaximize", ( style & SWT.MAX ) != 0 );
+//    writer.set( "allowMaximize", ( style & SWT.MAX ) != 0 );
+//    writer.set( "showClose", ( style & SWT.CLOSE ) != 0 );
+//    writer.set( "allowClose", ( style & SWT.CLOSE ) != 0 );
+//    Boolean resizable = Boolean.valueOf( ( style & SWT.RESIZE ) != 0 );
+//    writer.set( "resizable",
+//                new Object[] { resizable, resizable, resizable, resizable } );
+//    if( parent instanceof Shell ) {
+//      writer.set( "parentShell", parent );
+//    }
+//    writer.call( "initialize", null );
   }
 
   public void renderChanges( final Widget widget ) throws IOException {
     Shell shell = ( Shell )widget;
-    WidgetLCAUtil.writeCustomVariant( shell ); // Order matters for animation
     writeImage( shell );
     writeText( shell );
     writeAlpha( shell );
@@ -140,12 +208,16 @@ public final class ShellLCA extends AbstractWidgetLCA {
     writeMinimumSize( shell );
     writeDefaultButton( shell );
     ControlLCAUtil.writeChanges( shell );
+    WidgetLCAUtil.writeCustomVariant( shell );
   }
 
   public void renderDispose( final Widget widget ) throws IOException {
-    JSWriter writer = JSWriter.getWriterFor( widget );
-    writer.call( "doClose", null );
-    writer.dispose();
+//    JSWriter writer = JSWriter.getWriterFor( widget );
+//    writer.call( "doClose", null );
+//    writer.dispose();
+    IWidgetSynchronizer synchronizer 
+      = WidgetSynchronizerFactory.getSynchronizerForWidget( widget );
+    synchronizer.disposeWidget();
   }
 
   //////////////////
@@ -154,9 +226,13 @@ public final class ShellLCA extends AbstractWidgetLCA {
   private static void writeText( final Shell shell ) throws IOException {
     String text = shell.getText();
     if( WidgetLCAUtil.hasChanged( shell, PROP_TEXT, text, "" ) ) {
-      JSWriter writer = JSWriter.getWriterFor( shell );
+//      JSWriter writer = JSWriter.getWriterFor( shell );
       text = WidgetLCAUtil.escapeText( text, false );
-      writer.set( JSConst.QX_FIELD_CAPTION, text );
+//      writer.set( JSConst.QX_FIELD_CAPTION, text );
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+      synchronizer.setWidgetProperty( JSConst.QX_FIELD_CAPTION, 
+                                      text );
     }
   }
 
@@ -167,9 +243,13 @@ public final class ShellLCA extends AbstractWidgetLCA {
                                   new Integer( alpha ),
                                   new Integer( 0xFF ) ) )
     {
-      JSWriter writer = JSWriter.getWriterFor( shell );
+//      JSWriter writer = JSWriter.getWriterFor( shell );
       float opacity = ( alpha & 0xFF ) * 1000 / 0xFF / 1000.0f;
-      writer.set( "opacity", opacity );
+//      writer.set( "opacity", opacity );
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+      synchronizer.setWidgetProperty( "opacity", 
+                                      opacity );
     }
   }
 
@@ -180,17 +260,24 @@ public final class ShellLCA extends AbstractWidgetLCA {
     if(    WidgetLCAUtil.hasChanged( shell, Props.VISIBLE, actValue, defValue )
         && shell.getVisible() )
     {
-      JSWriter writer = JSWriter.getWriterFor( shell );
-      writer.call( "open", null );
+//      JSWriter writer = JSWriter.getWriterFor( shell );
+//      writer.call( "open", null );
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+      synchronizer.call( "open" );
     }
   }
 
   private static void writeMinimumSize( final Shell shell ) throws IOException {
     Point newValue = shell.getMinimumSize();
     if( WidgetLCAUtil.hasChanged( shell, PROP_MINIMUM_SIZE, newValue ) ) {
-      JSWriter writer = JSWriter.getWriterFor( shell );
-      writer.set( "minWidth", new Integer( newValue.x ) );
-      writer.set( "minHeight", new Integer( newValue.y ) );
+//      JSWriter writer = JSWriter.getWriterFor( shell );
+//      writer.set( "minWidth", new Integer( newValue.x ) );
+//      writer.set( "minHeight", new Integer( newValue.y ) );
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+      synchronizer.setWidgetProperty( "minWidth", newValue.x ); 
+      synchronizer.setWidgetProperty( "minHeight", newValue.y );
     }
   }
 
@@ -198,8 +285,11 @@ public final class ShellLCA extends AbstractWidgetLCA {
   {
     Button defaultButton = shell.getDefaultButton();
     if( defaultButton != null && defaultButton.isDisposed() ) {
-      JSWriter writer = JSWriter.getWriterFor( shell );
-      writer.call( "setDefaultButton", NULL_PARAMETER );
+//      JSWriter writer = JSWriter.getWriterFor( shell );
+//      writer.call( "setDefaultButton", NULL_PARAMETER );
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+      synchronizer.call( "setDefaultButton" );
     }
   }
 
@@ -211,8 +301,11 @@ public final class ShellLCA extends AbstractWidgetLCA {
     boolean hasChanged
       = WidgetLCAUtil.hasChanged( shell, PROP_ACTIVE_SHELL, activeShell, null );
     if( shell == activeShell && hasChanged ) {
-      JSWriter writer = JSWriter.getWriterFor( shell );
-      writer.set( "active", true );
+//      JSWriter writer = JSWriter.getWriterFor( shell );
+//      writer.set( "active", true );
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+      synchronizer.setWidgetProperty( "active", true );
     }
   }
 
@@ -247,8 +340,12 @@ public final class ShellLCA extends AbstractWidgetLCA {
     final Control activeControl = getActiveControl( shell );
     String prop = PROP_ACTIVE_CONTROL;
     if( WidgetLCAUtil.hasChanged( shell, prop, activeControl, null ) ) {
-      JSWriter writer = JSWriter.getWriterFor( shell );
-      writer.set( "activeControl", new Object[] { activeControl } );
+//      JSWriter writer = JSWriter.getWriterFor( shell );
+//      writer.set( "activeControl", new Object[] { activeControl } );
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+      synchronizer.setWidgetProperty( "activeControl", 
+                                      WidgetUtil.getId( activeControl ) );
     }
   }
 
@@ -297,9 +394,13 @@ public final class ShellLCA extends AbstractWidgetLCA {
         }
       }
       if( WidgetLCAUtil.hasChanged( shell, PROP_IMAGE, image, null ) ) {
-        JSWriter writer = JSWriter.getWriterFor( shell );
-        writer.set( JSConst.QX_FIELD_ICON,
-                    ResourceFactory.getImagePath( image ) );
+//        JSWriter writer = JSWriter.getWriterFor( shell );
+//        writer.set( JSConst.QX_FIELD_ICON,
+//                    ResourceFactory.getImagePath( image ) );
+        IWidgetSynchronizer synchronizer 
+          = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+        synchronizer.setWidgetProperty( JSConst.QX_FIELD_ICON, 
+                                        ResourceFactory.getImagePath( image ) );
       }
     }
   }
@@ -311,12 +412,11 @@ public final class ShellLCA extends AbstractWidgetLCA {
     shellAdapter.setBounds( bounds );
   }
 
-  private static void readMode( final Shell shell ) {
-    final String value = WidgetLCAUtil.readPropertyValue( shell, "mode" );
-    if( value != null ) {
-      if( "maximized".equals( value ) ) {
+  private static void readMode( final Shell shell, final String mode ) {
+    if( mode != null ) {
+      if( "maximized".equals( mode ) ) {
         shell.setMaximized( true );
-      } else if( "minimized".equals( value ) ) {
+      } else if( "minimized".equals( mode ) ) {
         shell.setMinimized( true );
       } else {
         shell.setMinimized( false );
@@ -329,25 +429,42 @@ public final class ShellLCA extends AbstractWidgetLCA {
     Object defValue = null;
     Object newValue = getMode( shell );
     if( WidgetLCAUtil.hasChanged( shell, PROP_MODE, newValue, defValue ) ) {
-      JSWriter writer = JSWriter.getWriterFor( shell );
-      writer.set( "mode", newValue );
+//      JSWriter writer = JSWriter.getWriterFor( shell );
+//      writer.set( "mode", newValue );
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+      synchronizer.setWidgetProperty( "mode", newValue );
     }
   }
 
   private static void writeCloseListener( final Shell shell ) throws IOException
   {
-    JSWriter writer = JSWriter.getWriterFor( shell );
+//    JSWriter writer = JSWriter.getWriterFor( shell );
     Boolean newValue = Boolean.valueOf( ShellEvent.hasListener( shell ) );
     Boolean defValue = Boolean.FALSE;
-    writer.set( PROP_SHELL_LISTENER, "hasShellListener", newValue, defValue );
+//    writer.set( PROP_SHELL_LISTENER, "hasShellListener", newValue, defValue );    
+    boolean hasChanged 
+      = WidgetLCAUtil.hasChanged( shell, "hasShellListener", newValue, defValue );
+    if( hasChanged ) {
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+      if( newValue.booleanValue() ) {
+        synchronizer.addListener( "closelistener" );
+      } else {
+        synchronizer.removeListener( "closelistener" );
+      }
+    }
   }
 
   private static void writeFullScreen( final Shell shell ) throws IOException {
     Object defValue = Boolean.FALSE;
     Boolean newValue = Boolean.valueOf( shell.getFullScreen() );
     if( WidgetLCAUtil.hasChanged( shell, PROP_FULLSCREEN, newValue, defValue ) ) {
-      JSWriter writer = JSWriter.getWriterFor( shell );
-      writer.set( "fullScreen", newValue );
+//      JSWriter writer = JSWriter.getWriterFor( shell );
+//      writer.set( "fullScreen", newValue );
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );
+      synchronizer.setWidgetProperty( "fullScreen", newValue );
     }
   }
 
@@ -368,4 +485,5 @@ public final class ShellLCA extends AbstractWidgetLCA {
     IWidgetAdapter widgetAdapter = WidgetUtil.getAdapter( shell );
     widgetAdapter.preserve( PROP_SHELL_MENU_BOUNDS, menuBounds );
   }
+
 }

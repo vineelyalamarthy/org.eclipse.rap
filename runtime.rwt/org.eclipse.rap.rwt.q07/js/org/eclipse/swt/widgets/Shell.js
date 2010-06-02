@@ -68,6 +68,9 @@ qx.Class.define( "org.eclipse.swt.widgets.Shell", {
         var id = widgetManager.findIdByWidget( shell );
         var req = org.eclipse.swt.Request.getInstance();
         req.addEvent( "org.eclipse.swt.widgets.Shell_close", id );
+        // [hs] patched for protocol
+        var synchronizer = org.eclipse.rwt.protocol.widgetSynchronizer;
+        synchronizer.fireEvent( this, "org.eclipse.swt.widgets.Shell_close" );
       }
     },
 
@@ -79,6 +82,7 @@ qx.Class.define( "org.eclipse.swt.widgets.Shell", {
       if( vLength > 0 ) {
         var vTop = shells[ 0 ].getTopLevelWidget();
         var vZIndex = org.eclipse.swt.widgets.Shell.MIN_ZINDEX;
+        vTop._getBlocker().hide();
         for( var i = 0; i < vLength; i++ ) {
           vZIndex += 10;
           shells[ i ].setZIndex( vZIndex );
@@ -90,8 +94,6 @@ qx.Class.define( "org.eclipse.swt.widgets.Shell", {
           this._copyStates( upperModalShell, vTop._getBlocker() );
           vTop._getBlocker().show();
           vTop._getBlocker().setZIndex( upperModalShell.getZIndex() - 1 );
-        } else {
-          vTop._getBlocker().hide();
         }
       }
       org.eclipse.swt.widgets.Shell._upperModalShell = upperModalShell;
@@ -363,9 +365,15 @@ qx.Class.define( "org.eclipse.swt.widgets.Shell", {
           this._activeControl = widget;
           req.removeParameter( shellId + ".activeControl" );
           req.addEvent( "org.eclipse.swt.events.controlActivated", id );
+          // [hs] patched for protocol
+          var synchronizer = org.eclipse.rwt.protocol.widgetSynchronizer;
+          synchronizer.fireEvent( this, "org.eclipse.swt.events.controlActivated" );
           req.send();
         } else {
           req.addParameter( shellId + ".activeControl", id );
+          // [hs] patched for protocol
+          var synchronizer = org.eclipse.rwt.protocol.widgetSynchronizer;
+          synchronizer.setWidgetProperty( this, 'activeControl', id );
         }
       }
     },
@@ -391,6 +399,10 @@ qx.Class.define( "org.eclipse.swt.widgets.Shell", {
         var id = widgetMgr.findIdByWidget( this );
         var req = org.eclipse.swt.Request.getInstance();
         req.addEvent( "org.eclipse.swt.events.shellActivated", id );
+        
+        var synchronizer = org.eclipse.rwt.protocol.widgetSynchronizer;
+        synchronizer.fireEvent( this, "org.eclipse.swt.events.shellActivated" );
+        
         req.send();
       }
       var active = evt.getValue();
@@ -411,6 +423,9 @@ qx.Class.define( "org.eclipse.swt.widgets.Shell", {
       var id = widgetManager.findIdByWidget( evt.getTarget() );
       var req = org.eclipse.swt.Request.getInstance();
       req.addParameter( id + ".mode", value );
+      // [hs] patched for protocol
+      var synchronizer = org.eclipse.rwt.protocol.widgetSynchronizer;
+      synchronizer.setWidgetProperty( evt.getTarget(), 'mode', value );
     },
         
     _onChangeSize : function( evt ) {
@@ -422,6 +437,9 @@ qx.Class.define( "org.eclipse.swt.widgets.Shell", {
         var width = evt.getTarget().getWidthValue();
         req.addParameter( id + ".bounds.height", height );
         req.addParameter( id + ".bounds.width", width );
+        // [hs] patched for protocol
+        var synchronizer = org.eclipse.rwt.protocol.widgetSynchronizer;
+        synchronizer.setWidgetProperty( evt.getTarget(), 'size', [ height, width ] );
         req.send();
       }
     },
@@ -436,6 +454,9 @@ qx.Class.define( "org.eclipse.swt.widgets.Shell", {
         if( !isNaN( left ) && !isNaN( top ) ) {
           req.addParameter( id + ".bounds.x", left );
           req.addParameter( id + ".bounds.y", top );
+          // [hs] patched for protocol
+          var synchronizer = org.eclipse.rwt.protocol.widgetSynchronizer;
+          synchronizer.setWidgetProperty( evt.getTarget(), 'location', [ left, top ] );
         }
       req.send();
       }
@@ -466,7 +487,13 @@ qx.Class.define( "org.eclipse.swt.widgets.Shell", {
           var widgetManager = org.eclipse.swt.WidgetManager.getInstance();
           var focusedChildId = widgetManager.findIdByWidget( focusedChild );
           var req = org.eclipse.swt.Request.getInstance();
-          req.addParameter( req.getUIRootId() + ".focusControl", focusedChildId );    
+          req.addParameter( req.getUIRootId() + ".focusControl", focusedChildId );
+          // [hs] patched for protocol
+          if( focusedChildId !== null ) {
+            req.getMessageGenerator().appendDevice( req.getUIRootId(), 
+                                                    'focusControl', 
+                                                    focusedChildId );
+          }
         }
       }
     },

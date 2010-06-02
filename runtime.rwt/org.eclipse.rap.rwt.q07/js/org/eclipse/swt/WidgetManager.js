@@ -74,6 +74,7 @@ qx.Class.define( "org.eclipse.swt.WidgetManager", {
      */
     add : function( widget, id, isControl ) {
       this._map[ id ] = widget;
+      // TODO: Ruediger fragen
       if( isControl != "undefined" && isControl == true ) {
         widget.setUserData( "isControl", true );
       }

@@ -143,12 +143,23 @@ qx.Class.define( "org.eclipse.swt.Request", {
     sendSyncronous : function() {
       this._sendImmediate( false );
     },
+    
+    getMessageGenerator : function() {
+      if( this._messageGenerator === undefined ) {
+        this._messageGenerator 
+          = new org.eclipse.rwt.protocol.MessageGenerator();
+      }
+      return this._messageGenerator;
+    },
 
     _sendImmediate : function( async ) {
       this._dispatchSendEvent();
       // set mandatory parameters; do this after regular params to override them
       // in case of conflict
       this._parameters[ "uiRoot" ] = this._uiRootId;
+      if( this._messageGenerator ) {
+        this._parameters[ "JSON" ] = this._messageGenerator.finish();
+      }
       if( this._requestCounter == -1 ) {
         // TODO [fappel]: This is a workaround that prevents sending a request
         // without a valid request id. Needed for background proccessing.
@@ -174,6 +185,10 @@ qx.Class.define( "org.eclipse.swt.Request", {
         }
         // clear the parameter list
         this._parameters = {};
+        // [hs] patched for protocol
+        delete this._messageGenerator;
+        this._messageGenerator 
+          = new org.eclipse.rwt.protocol.MessageGenerator();
         // queue request to be sent (async) or send and block (sync)
         if( async ) {
           request.send();
@@ -286,7 +301,14 @@ qx.Class.define( "org.eclipse.swt.Request", {
     },
 
     _handleCompleted : function( evt ) {
-      var text = evt.getTarget().getImplementation().getRequest().responseText;
+      var responseText = evt.getTarget().getImplementation().getRequest().responseText;
+      // [hs] patched for protocol, extract json from response.
+      var text;
+      if( responseText.indexOf( '###BEGIN_JSON###') !== -1 ) {
+        text = this._extractJsonFromResponse( responseText );
+      } else {
+        text = responseText;
+      }
       if( text && text.indexOf( "<!DOCTYPE" ) === 0 ) {
         // Handle request to timed out session: write info page and offer
         // link to restart application. This way was chosen for two reasons:
@@ -301,7 +323,7 @@ qx.Class.define( "org.eclipse.swt.Request", {
         var errorOccured = false;
         try {
           if( text && text.length > 0 ) {
-            org.eclipse.swt.EventUtil.suspendEventHandling();
+            org.eclipse.swt.EventUtil.suspendEventHandling();            
             window.eval( text );
             qx.ui.core.Widget.flushGlobalQueues();
             org.eclipse.swt.EventUtil.resumeEventHandling();
@@ -324,6 +346,21 @@ qx.Class.define( "org.eclipse.swt.Request", {
           this._dispatchReceivedEvent();
         }
       }
+    },
+    
+    _extractJsonFromResponse : function( text ) {
+      var json = '';
+      var beginMarker = '###BEGIN_JSON###';
+      var endMarker = '###END_JSON###';
+      var result = text.replace( beginMarker, '' )
+      var indexOfEnd = result.indexOf( endMarker )
+      json = result.substring( 0, indexOfEnd );
+      var regexp = /\n/g;
+      json = json.replace( regexp, '' );
+      result = result.substring( indexOfEnd, result.length );
+      result = result.replace( endMarker, '' );      
+      var processor = new org.eclipse.rwt.protocol.Processor( json );
+      return result;
     },
 
     ///////////////////////////////
