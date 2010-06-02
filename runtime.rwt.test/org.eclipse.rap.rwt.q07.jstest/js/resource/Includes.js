@@ -87,6 +87,15 @@ document.write('\
 <script src="../org.eclipse.rap.rwt.q07/js/org/eclipse/swt/widgets/Canvas.js" type="text/javascript"></script>\
 <script src="../org.eclipse.rap.rwt.q07/js/org/eclipse/rwt/VMLCanvas.js" type="text/javascript"></script>\
 \
+<!-- rwt.protocol -->\
+<script src="../org.eclipse.rap.rwt.q07/js/org/eclipse/rwt/protocol/JSON2.js" type="text/javascript"></script>\
+<script src="../org.eclipse.rap.rwt.q07/js/org/eclipse/rwt/protocol/Constants.js" type="text/javascript"></script>\
+<script src="../org.eclipse.rap.rwt.q07/js/org/eclipse/rwt/protocol/Processor.js" type="text/javascript"></script>\
+<script src="../org.eclipse.rap.rwt.q07/js/org/eclipse/rwt/protocol/MessageGenerator.js" type="text/javascript"></script>\
+<script src="../org.eclipse.rap.rwt.q07/js/org/eclipse/rwt/protocol/WidgetSynchronizer.js" type="text/javascript"></script>\
+<script src="../org.eclipse.rap.rwt.q07/js/org/eclipse/rwt/protocol/WidgetStatusHandlerRegistry.js" type="text/javascript"></script>\
+<script src="../org.eclipse.rap.rwt.q07/js/org/eclipse/rwt/protocol/ShellStatusHandler.js" type="text/javascript"></script>\
+\
 <!-- rwt.test -->\
 <script src="./js/org/eclipse/rwt/test/fixture/RAPRequestPatch.js" type="text/javascript"></script>\
 <script src="./js/org/eclipse/rwt/test/fixture/DummyRequest.js" type="text/javascript"></script>\
