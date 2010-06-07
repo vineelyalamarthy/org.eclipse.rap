@@ -9,9 +9,7 @@
 *******************************************************************************/ 
 package org.eclipse.rwt.internal.protocol;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
 
 public class Chunk {

@@ -43,5 +43,6 @@ org.eclipse.rwt.protocol.constants = {
   
   
   TYPE_SHELL : 'org.eclipse.swt.widgets.Shell',
+  TYPE_BUTTON : 'org.eclipse.swt.widgets.Button',
   MESSAGE_PART_INDENT : '  '
 };

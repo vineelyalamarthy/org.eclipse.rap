@@ -40,14 +40,8 @@ org.eclipse.rwt.protocol.widgetStatusHandlerRegistry.addHandler( {
   },
   
   _handleStyles : function( shell, styleArray ) {
-    var StyleObject = function() {
-      var styleObject = {};
-      for( var i = 0; i < styleArray.length; i++ ) {
-        styleObject[ styleArray[ i ] ] = i;
-      }      
-      return styleObject;
-    };
-    var styleObject = new StyleObject();
+    var styleObject 
+      = org.eclipse.rwt.protocol.util.convertStyleArrayToObject( styleArray );
     if( 'BORDER' in styleObject ) {
       shell.addState( 'rwt_BORDER' );
     }

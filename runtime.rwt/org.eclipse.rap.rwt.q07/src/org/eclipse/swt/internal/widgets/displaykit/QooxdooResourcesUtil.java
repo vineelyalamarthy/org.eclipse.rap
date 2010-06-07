@@ -19,8 +19,7 @@ import org.eclipse.rwt.internal.resources.ResourceRegistry;
 import org.eclipse.rwt.internal.service.ContextProvider;
 import org.eclipse.rwt.internal.service.IServiceStateInfo;
 import org.eclipse.rwt.internal.util.HTML;
-import org.eclipse.rwt.resources.IResource;
-import org.eclipse.rwt.resources.IResourceManager;
+import org.eclipse.rwt.resources.*;
 import org.eclipse.rwt.resources.IResourceManager.RegisterOptions;
 
 
@@ -130,7 +129,9 @@ final class QooxdooResourcesUtil {
     "org/eclipse/rwt/protocol/Constants.js",
     "org/eclipse/rwt/protocol/JSON2.js",
     "org/eclipse/rwt/protocol/WidgetStatusHandlerRegistry.js",
+    "org/eclipse/rwt/protocol/ProtocolUtil.js",
     "org/eclipse/rwt/protocol/ShellStatusHandler.js",
+    "org/eclipse/rwt/protocol/ButtonStatusHandler.js",
     "org/eclipse/rwt/protocol/Processor.js",
     "org/eclipse/rwt/protocol/MessageGenerator.js",
     "org/eclipse/rwt/protocol/WidgetSynchronizer.js"
