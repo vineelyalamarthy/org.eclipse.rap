@@ -76,7 +76,115 @@ var object =
       var className = button.classname;
       assertEquals( 'org.eclipse.rwt.widgets.Button', className );
       assertEquals( 'radio-button', button.getAppearance() );
-    }
+    },
+    
+    testHasBorderState: function() {
+      var handler = this._buttonStatusHandler;
+      var style = [ 'PUSH', 'BORDER' ];
+      var button = handler.createWidget( style );
+      assertTrue( button.hasState( 'rwt_BORDER') );
+    },
+    
+    testHasPushState: function() {
+      var handler = this._buttonStatusHandler;
+      var style = [ 'PUSH' ];
+      var button = handler.createWidget( style );
+      assertTrue( button.hasState( 'rwt_PUSH') );
+    },
+    
+    testHasFlatState: function() {
+      var handler = this._buttonStatusHandler;
+      var style = [ 'PUSH', 'FLAT' ];
+      var button = handler.createWidget( style );
+      assertTrue( button.hasState( 'rwt_FLAT') );
+    },
+    
+    testHasToggleState: function() {
+      var handler = this._buttonStatusHandler;
+      var style = [ 'TOGGLE' ];
+      var button = handler.createWidget( style );
+      assertTrue( button.hasState( 'rwt_TOGGLE') );
+    },
+    
+    testHasCheckState: function() {
+      var handler = this._buttonStatusHandler;
+      var style = [ 'CHECK' ];
+      var button = handler.createWidget( style );
+      assertTrue( button.hasState( 'rwt_CHECK') );
+    },
+    
+    testHasRadioState: function() {
+      var handler = this._buttonStatusHandler;
+      var style = [ 'RADIO' ];
+      var button = handler.createWidget( style );
+      assertTrue( button.hasState( 'rwt_RADIO') );
+    },
+    
+    testSyncText : function() {
+      var handler = this._buttonStatusHandler;
+      var style = [ 'PUSH' ];
+      var button = handler.createWidget( style );
+      var syncObj = {
+          text : 'a caption'  
+        };
+      handler.synchronizeWidget( button, syncObj );
+      assertEquals( 'a caption', button.getCellContent( 2 ) );
+    },
+    
+    testHorizontalChildrenAligment: function() {      
+      var handler = this._buttonStatusHandler;
+      var style = [ 'PUSH' ];
+      var button = handler.createWidget( style );
+      var syncObj = {
+          horizontalChildrenAlign : 'left'  
+        };
+      handler.synchronizeWidget( button, syncObj );
+      assertEquals( 'left', button.getHorizontalChildrenAlign() );
+    },
+    
+    testSelection: function() {      
+      var handler = this._buttonStatusHandler;
+      var style = [ 'PUSH' ];
+      var button = handler.createWidget( style );
+      var syncObj = {
+          selection : true  
+        };
+      handler.synchronizeWidget( button, syncObj );
+      assertEquals( true, button._selected );
+    },
+    
+    testGrayed: function() {      
+      var handler = this._buttonStatusHandler;
+      var style = [ 'CHECK' ];
+      var button = handler.createWidget( style );
+      var syncObj = {
+          grayed : true  
+        };
+      handler.synchronizeWidget( button, syncObj );
+      assertEquals( true, button.hasState( 'grayed' ) );      
+    },
+    
+    testSlectionListener : function() {
+      var handler = this._buttonStatusHandler;
+      var style = [ 'PUSH' ];
+      var button = handler.createWidget( style );
+      var syncObj = {
+          selectionlistener : true  
+        };
+      handler.updateListeners( button, syncObj );
+      assertEquals( true, button._hasSelectionListener );
+    },
+    
+    testDispose : function() {
+      var handler = this._buttonStatusHandler;
+      var styles = [ 'PUSH' ];
+      var widget = handler.createWidget( styles );
+      handler.disposeWidget( widget );
+    },
+    
+    
+    
+    
   
   }
     

@@ -48,12 +48,12 @@ final class RadioButtonDelegateLCA extends ButtonDelegateLCA {
   void renderInitialization( final Button button ) throws IOException {
     JSWriter writer = JSWriter.getWriterFor( button );
     writer.newWidget( QX_TYPE, PARAM_RADIO );
-    ControlLCAUtil.writeStyleFlags( button );
-    WidgetLCAUtil.writeStyleFlag( button, SWT.RADIO, "RADIO" );
+    ControlLCAUtil.writeStyleFlags( button ); // done
+    WidgetLCAUtil.writeStyleFlag( button, SWT.RADIO, "RADIO" ); // done
   }
 
   void renderChanges( final Button button ) throws IOException {
-    ButtonLCAUtil.writeChanges( button );
+    ButtonLCAUtil.writeChanges( button ); // done
   }
 
   private static void processSelectionEvent( final Button button ) {

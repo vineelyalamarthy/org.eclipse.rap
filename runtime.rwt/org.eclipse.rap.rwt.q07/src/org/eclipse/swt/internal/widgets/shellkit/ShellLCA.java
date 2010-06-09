@@ -107,7 +107,7 @@ public final class ShellLCA extends AbstractWidgetLCA implements IChunkAdapter {
   }
 
   public void processEvent( final Widget widget, final String eventName ) {
-    System.out.println(eventName);
+    //System.out.println(eventName);
   }
 
   public void renderInitialization( final Widget widget ) throws IOException {
@@ -444,7 +444,7 @@ public final class ShellLCA extends AbstractWidgetLCA implements IChunkAdapter {
     Boolean defValue = Boolean.FALSE;
 //    writer.set( PROP_SHELL_LISTENER, "hasShellListener", newValue, defValue );    
     boolean hasChanged 
-      = WidgetLCAUtil.hasChanged( shell, "hasShellListener", newValue, defValue );
+      = WidgetLCAUtil.hasChanged( shell, PROP_SHELL_LISTENER, newValue, defValue );
     if( hasChanged ) {
       IWidgetSynchronizer synchronizer 
         = WidgetSynchronizerFactory.getSynchronizerForWidget( shell );

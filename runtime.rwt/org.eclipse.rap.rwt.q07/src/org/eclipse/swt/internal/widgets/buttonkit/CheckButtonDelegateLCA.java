@@ -14,7 +14,8 @@ package org.eclipse.swt.internal.widgets.buttonkit;
 import java.io.IOException;
 
 import org.eclipse.rwt.lifecycle.*;
-import org.eclipse.swt.SWT;
+import org.eclipse.rwt.protocol.IWidgetSynchronizer;
+import org.eclipse.rwt.protocol.WidgetSynchronizerFactory;
 import org.eclipse.swt.widgets.Button;
 
 
@@ -43,18 +44,22 @@ final class CheckButtonDelegateLCA extends ButtonDelegateLCA {
   void renderInitialization( final Button button )
     throws IOException
   {
-    JSWriter writer = JSWriter.getWriterFor( button );
-    writer.newWidget( QX_TYPE, PARAM_CHECK );
-    ControlLCAUtil.writeStyleFlags( button );
-    WidgetLCAUtil.writeStyleFlag( button, SWT.CHECK, "CHECK" );
+    String[] styles = new String[] { "CHECK" };
+    IWidgetSynchronizer synchronizer 
+      = WidgetSynchronizerFactory.getSynchronizerForWidget( button );
+    synchronizer.newWidget( styles );   
+//    JSWriter writer = JSWriter.getWriterFor( button );
+//    writer.newWidget( QX_TYPE, PARAM_CHECK );
+//    ControlLCAUtil.writeStyleFlags( button ); // done
+//    WidgetLCAUtil.writeStyleFlag( button, SWT.CHECK, "CHECK" ); // done
   }
 
   void renderChanges( final Button button ) throws IOException {
     // TODO [rh] the JSConst.JS_WIDGET_SELECTED does unnecessarily send
     // bounds of the widget that was clicked -> In the SelectionEvent
     // for Button the bounds are undefined
-    ButtonLCAUtil.writeChanges( button );
-    writeGrayed( button );
+    ButtonLCAUtil.writeChanges( button ); // done
+    writeGrayed( button ); // done
   }
 
   private static void writeGrayed( final Button button ) throws IOException {

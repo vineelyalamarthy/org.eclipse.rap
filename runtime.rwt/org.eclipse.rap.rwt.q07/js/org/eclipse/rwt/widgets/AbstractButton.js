@@ -81,10 +81,11 @@ qx.Class.define( "org.eclipse.rwt.widgets.AbstractButton", {
 
   members : {
 
-    setImage : function( value, width, height ) {
-      this._image = [ value, width, height ];
+    setImage : function( params ) {
+      this._image = [ params[ 0 ], params[ 1 ], params[ 2 ] ];
       this._updateButtonImage();
     },
+    
             
     setHotImage : function( value, width, height ) {
       this._hotImage = [ value, width, height ];

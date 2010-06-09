@@ -196,7 +196,7 @@ qx.Class.define( "org.eclipse.swt.widgets.Shell", {
     },
     
     setDefaultButton : function( value ) {
-      this._defaultButton = value;
+      this._defaultButton = value[ 0 ];
     },
 
     getDefaultButton : function() {
