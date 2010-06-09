@@ -34,10 +34,10 @@ public final class RWTStartupPageConfigurer
   implements StartupPage.IStartupPageConfigurer
 {
 
-  private static final String PACKAGE_NAME 
-    = RWTStartupPageConfigurer.class.getPackage().getName();
-  private final static String FOLDER = PACKAGE_NAME.replace( '.', '/' );
-  private final static String INDEX_TEMPLATE = FOLDER + "/rwt-index.html";
+//  private static final String PACKAGE_NAME 
+//    = RWTStartupPageConfigurer.class.getPackage().getName();
+//  private final static String FOLDER = PACKAGE_NAME.replace( '.', '/' );
+  private final static String INDEX_TEMPLATE = "/rwt-index.html";
   
   // TODO [fappel]: think about clusters
   // cache control variables
@@ -46,9 +46,19 @@ public final class RWTStartupPageConfigurer
 
   private static StartupPageTemplateHolder template;
   private static final List registeredBrandings = new ArrayList();
+  private static String templateFile;
   
   ////////////////////////////////////////////////////
   // ILifeCycleServiceHandlerConfigurer implementation 
+  
+  
+  public RWTStartupPageConfigurer() {
+    templateFile = INDEX_TEMPLATE;
+  }
+  
+  public static final void setTemplateFile( final String newTemplateFile ) {
+    templateFile = newTemplateFile;
+  }
   
   public StartupPageTemplateHolder getTemplate() throws IOException {
     readContent();
@@ -124,11 +134,11 @@ public final class RWTStartupPageConfigurer
     ClassLoader buffer = manager.getContextLoader();
     manager.setContextLoader( RWTStartupPageConfigurer.class.getClassLoader() );
     try {        
-      result = manager.getResourceAsStream( INDEX_TEMPLATE );
+      result = manager.getResourceAsStream( templateFile );
       if ( result == null ) {
         String text =   "Failed to load Browser Survey HTML Page. "
                       + "Resource {0} could not be found.";
-        Object[] param = new Object[]{ INDEX_TEMPLATE };
+        Object[] param = new Object[]{ templateFile };
         String msg = MessageFormat.format( text, param );
         throw new IOException( msg );
       }
