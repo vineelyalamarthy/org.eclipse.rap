@@ -1,0 +1,533 @@
+/*******************************************************************************
+ * Copyright (c) 2010 EclipseSource and others. All rights reserved.
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   EclipseSource - initial API and implementation
+ ******************************************************************************/
+
+qx.Class.define( "org.eclipse.rwt.VML", {
+
+  statics : {
+    
+    init : function() {
+      document.namespaces.add( "v", "urn:schemas-microsoft-com:vml");
+      document.namespaces.add( "o",
+                               "urn:schemas-microsoft-com:office:office");
+      var sheet = document.createStyleSheet();
+      sheet.cssText = "v\\:* { behavior:url(#default#VML);" +
+                              "display:inline-block; } "+
+                      "o\\:* { behavior: url(#default#VML);}";
+      this._vmlEnabled = true;      
+    },
+    
+    createCanvas : function() {
+      var result = {};
+      result.type = "vmlCanvas";
+      var node = this._createNode( "group" );
+      node.style.position = "absolute"
+      node.style.width = "100%";
+      node.style.height = "100%";
+      node.style.top = "0";
+      node.style.left = "0";
+      result.node = node;
+      result.children = {};
+      this.setLayoutMode( result, "relative" );      
+      return result;
+    },
+    
+    clearCanvas : function( canvas ) {
+      for( var hash in canvas.children ) {
+        canvas.node.removeChild( canvas.children[ hash ].node );
+      }
+      canvas.children = {};
+    },
+
+    setLayoutMode : function( canvas, mode ) {
+      if( mode == "absolute" ) {
+        var node = canvas.node;
+        node.style.width = 100 + "px";
+        node.style.height = 100 + "px";
+        var coordsize = 100 * this._VMLFACTOR + ", " + 100 * this._VMLFACTOR;
+        node.setAttribute( "coordsize", coordsize );
+      } else if( mode == "relative" ) {
+        var node = canvas.node;
+        node.style.width = "100%";
+        node.style.height = "100%";
+        node.setAttribute( "coordsize", "1000, 1000" );
+      }
+    },
+
+    getCanvasNode : function( canvas ) {
+      return canvas.node;
+    },
+    
+    handleAppear : function( canvas ) {
+      var children = canvas.children;
+      for( var hash in children ) {
+        this._handleAppearShape( children[ hash ] );
+      }
+    },
+    
+    createShape : function( type ) {
+      var result = null;
+      switch( type ) {
+        case "rect":
+          result = this._createRect();
+        break;
+        case "roundrect":
+        case "custom":
+          result = this._createCustomShape();
+        break;
+        case "image":
+          result = this._createImage();
+        break;
+        default: 
+          throw "VML does not support shape " + type;
+        break;
+      }
+      result.node.stroked = false;
+      // TODO [tb] : test if stroke-node conflicts with stroke-properties on 
+      // the element-node when moved in dom. 
+      var fill = this._createNode( "fill" );
+      fill.method = "sigma";
+      result.node.appendChild( fill );
+      result.fill = fill;
+      this.setFillColor( result, null );
+      return result;
+    },
+    
+    addToCanvas : function( canvas, shape ) {
+      var hash = qx.core.Object.toHashCode( shape );
+      canvas.children[ hash ] = shape;
+      canvas.node.appendChild( shape.node );
+    },
+    
+    removeFromCanvas : function( canvas, shape ) {
+      var hash = qx.core.Object.toHashCode( shape );
+      delete canvas.children[ hash ];
+      canvas.node.removeChild( shape.node );
+    },
+    
+    setDisplay : function( shape, value ) {
+      shape.node.style.display = value ? "" : "none";
+    },
+
+    getDisplay : function( shape) {
+      var result = shape.node.style.display == "none" ? false : true;
+      return result;
+    },
+
+    setRectBounds : function( shape, x, y, width, height ) {
+      var node = shape.node;      
+      node.style.width = this._convertNumeric( width, false );
+      node.style.height = this._convertNumeric( height, false );
+      node.style.left = this._convertNumeric( x, true );
+      node.style.top = this._convertNumeric( y, true );
+    },
+
+    /**
+     * "crop" is an optional array [ top, right, bottom, left ]. The values have 
+     * to be between 0 and 1, representing percentage of the image-dimension.
+     */
+    setImageData : function( shape, src, x, y, width, height, crop ) {
+      var node = shape.node;
+      node.src = src;
+      if( typeof crop != "undefined" ) {
+        node.cropTop = crop[ 0 ];
+        node.cropRight = crop[ 1 ];
+        node.cropBottom =  crop[ 2 ];
+        node.cropLeft = crop[ 3 ];
+      } 
+      node.style.width = this._convertNumeric( width, false );
+      node.style.height = this._convertNumeric( height, false );
+      node.style.left = this._convertNumeric( x, false );
+      node.style.top = this._convertNumeric( y, false );
+    },
+
+    setRoundRectLayout : function( shape, x, y, width, height, radii ) {
+      var quarter = this._VMLDEGREE * 90;
+      var radiusLeftTop = this._convertNumeric( radii[ 0 ], false );
+      var radiusTopRight = this._convertNumeric( radii[ 1 ], false );
+      var radiusRightBottom = this._convertNumeric( radii[ 2 ], false );
+      var radiusBottomLeft = this._convertNumeric( radii[ 3 ], false );
+      var rectLeft = this._convertNumeric( x, true );
+      var rectTop = this._convertNumeric( y, true )
+      var rectWidth = this._convertNumeric( width, false );
+      var rectHeight = this._convertNumeric( height, false );
+      if(    ( radiusLeftTop + radiusTopRight ) > rectWidth
+          || ( radiusRightBottom  + radiusBottomLeft ) > rectWidth
+          || ( radiusLeftTop + radiusBottomLeft ) > rectHeight
+          || ( radiusRightBottom + radiusTopRight ) > rectHeight )
+      {
+        radiusLeftTop = 0;
+        radiusTopRight = 0;
+        radiusRightBottom = 0;
+        radiusBottomLeft = 0;         
+      }      
+      var path = [];
+      if( radiusLeftTop > 0 ) {
+        path.push( "AL", rectLeft + radiusLeftTop, rectTop + radiusLeftTop );
+        path.push( radiusLeftTop, radiusLeftTop, 2 * quarter, quarter );
+      } else {
+        path.push( "M", rectLeft, rectTop + radiusLeftTop );
+      }
+      if( radiusTopRight > 0 ) {
+        path.push( "AE", rectLeft + rectWidth - radiusTopRight );
+        path.push( rectTop + radiusTopRight );
+        path.push( radiusTopRight, radiusTopRight, 3 * quarter, quarter );
+      } else {
+        path.push( "L", rectLeft + rectWidth, rectTop );
+      }
+      if( radiusRightBottom > 0 ) {
+        path.push( "AE", rectLeft + rectWidth - radiusRightBottom );
+        path.push( rectTop + rectHeight - radiusRightBottom );
+        path.push( radiusRightBottom, radiusRightBottom, 0, quarter );
+      } else {
+        path.push( "L", rectLeft + rectWidth, rectTop + rectHeight );
+      }
+      if( radiusBottomLeft > 0 ) {
+        path.push( "AE", rectLeft + radiusBottomLeft );
+        path.push( rectTop + rectHeight - radiusBottomLeft );
+        path.push( radiusBottomLeft, radiusBottomLeft, quarter, quarter );
+      } else {
+        path.push( "L", rectLeft, rectTop + rectHeight );
+      }
+
+      path.push( "X E" );
+      shape.node.path = path.join( " " );      
+    },
+    
+    applyDrawingContext : function( shape, context, fill ) {
+      var opacity = context.globalAlpha;
+      if( opacity != 1 ) {
+        this.setOpacity( shape, opacity );
+      }
+      if( fill ) {
+        var fill = context.fillStyle;
+        if( fill instanceof Array ) {
+          this.setFillGradient( shape, context.fillStyle );
+        } else {
+          this.setFillColor( shape, context.fillStyle );
+        }
+        this.setStroke( shape, null, 0 );
+      } else {
+        this.setFillColor( shape, null );
+        this.setStroke( shape, context.strokeStyle, context.lineWidth );
+        var endCap = context.lineCap == "butt" ? "flat" : context.lineCap;
+        var joinStyle = context.lineJoin;
+        var miterLimit = context.miterLimit;
+        this._setStrokeStyle( shape, joinStyle, miterLimit, endCap );
+      }
+      shape.node.path = this._convertPath( context._currentPath );
+    },
+    
+    createShapeFromContext : function( context, fill ) {
+      var shape = this.createShape( "custom" );
+      this.applyDrawingContext( shape, context, fill );
+      return shape;
+    },
+    
+    setFillColor : function( shape, color ) {
+      var fill = shape.fill;
+      fill.type = "solid";
+      if( color != null ) {
+        this._setFillEnabled( shape, true );
+        fill.color = color;
+        shape.restoreColor = color;
+      } else {
+        this._setFillEnabled( shape, false );
+        delete shape.restoreColor;
+      }
+    },
+    
+    getFillColor : function( shape ) {
+      var result = null;
+      if( this.getFillType( shape ) == "color" ) {
+        result = shape.restoreColor;
+      }
+      return result;
+    },
+
+    setFillGradient : function( shape, gradient ) {
+      var fill = shape.fill;
+      if( gradient != null ) {
+        shape.node.removeChild( shape.fill );
+        this._setFillEnabled( shape, true );
+        delete shape.restoreColor;
+        fill.type = "gradient";
+        //the "color" attribute of fill is lost when the node
+        //is removed from the dom. However, it can be overwritten
+        //by a transition colors, so it doesn't matter
+        var startColor = gradient[ 0 ][ 1 ];
+        //fill.color = startColor;
+        fill.color2 = gradient[ gradient.length - 1 ][ 1 ];
+        fill.angle = gradient.horizonal ? 270 : 180;
+        var transitionColors = "0% " + startColor;
+        var lastColor = qx.util.ColorUtil.stringToRgb( startColor );
+        var nextColor = null;
+        var lastOffset = 0;
+        var currentOffset = null;
+        for( var colorPos = 1; colorPos < gradient.length; colorPos++ ) {
+          var color = gradient[ colorPos ][ 1 ];
+          nextColor = qx.util.ColorUtil.stringToRgb( color );
+          nextOffset = gradient[ colorPos ][ 0 ];
+          transitionColors += ", ";
+          transitionColors += this._transitionColors( lastColor, 
+                                                      nextColor, 
+                                                      lastOffset, 
+                                                      nextOffset, 
+                                                      3 );
+          transitionColors += ", " + ( nextOffset * 100 ) + "% " + color;
+          lastColor = nextColor;
+          lastOffset = nextOffset;
+        }
+        fill.colors = transitionColors;
+        shape.node.appendChild( fill );
+      } else {
+        this._setFillEnabled( shape, true );
+      }
+    },
+
+    setFillPattern : function( shape, source, width, height ) {
+      var fill = shape.fill;
+      if( source != null ) {
+        shape.node.removeChild( shape.fill );
+        this._setFillEnabled( shape, true );
+        fill.type = "tile";
+        fill.src = source;
+        // IE only accepts "pt" for the size:
+        fill.size = ( width * 0.75 ) + "pt," + ( height * 0.75 ) + "pt";
+        shape.node.appendChild( fill );
+      } else {
+        this._setFillEnabled( shape, false );
+      }
+    },
+    
+    getFillType : function( shape ) {
+      var on = shape.fill.on;
+      var result = !on ? null : shape.fill.type;
+      if( result == "solid" ) result = "color";
+      if( result == "tile" ) result = "pattern";
+      return result;
+    },
+
+    // About VML-strokes and opacity:
+    // There is a bug in the VML antialiasing, that can produce grey pixels
+    // around vml elements if the css-opacity-filter is used on any of its
+    // parents, including the widgets div or any of the parent-widgets divs.
+    // However this ONLY happens if the element that the opacity is applied to,
+    // does NOT have a background of its own!
+    // If antialiasing is turned off, the effect is gone, but without
+    // antaliasing the element looks just as ugly as with the glitch.    
+    setStroke : function( shape, color, width ) {
+      if( width > 0 ) {
+        shape.node.stroked = true;
+        shape.node.strokecolor = color;
+        shape.node.strokeweight = width + "px";
+        // TODO [tb] : joinstyle (currently not implemented because it would
+        // need the subelement "stroke" and create conflict with the other
+        // stroke-attributes - IE "forgets" them if the element is moved in DOM)
+      } else {
+        shape.node.stroked = false;
+      }
+    },
+    
+    getStrokeWidth : function( shape ) {
+      // IE returns strokeweight either as number (then its pt)
+      // or as string with a "px" or "pt" postfix
+      var result = false;
+      if( shape.node.stroked ) {
+        result = shape.node.strokeweight;
+        var isPt = typeof result == "number" || result.search( "pt" ) != -1;
+        result = parseFloat( result );                     
+        result = isPt ? result / 0.75 : result;
+      }
+      return result; 
+    },
+    
+    setOpacity : function( shape, opacity ) {
+      var filterStr = "";
+      var antiAlias = true;
+      if( opacity < 1 ) {
+        filterStr =   "progid:DXImageTransform.Microsoft.Alpha"
+                    + "(opacity="
+                    + Math.round( opacity * 100 )
+                    + ")";
+        antiAlias = false;
+      } 
+      shape.node.style.filter = filterStr;
+      this._setAntiAlias( shape, antiAlias );
+    },
+    
+    /////////
+    // helper
+
+    _VMLFACTOR : 10,
+    _VMLDEGREE : -65535, 
+    _VMLRAD : -65535 * ( 180 / Math.PI ),
+        
+    _createNode : function( type ) {
+      return document.createElement( "v:" + type );
+    },
+    
+    _createRect : function() {
+      var result = {};
+      result.type = "vmlRect";
+      var node = this._createNode( "rect" );
+      node.style.position = "absolute"
+      node.style.width = 0;
+      node.style.height = 0;
+      node.style.top = 0;
+      node.style.left = 0;
+      node.style.antialias = false;
+      result.node = node;
+      return result;      
+    },
+    
+    _createImage : function() {
+      var result = {};
+      result.type = "vmlImage";
+      var node = this._createNode( "image" );
+      node.style.position = "absolute"
+      result.node = node;
+      return result;      
+    },
+    
+    _createCustomShape : function() {
+      var result = {};
+      var node = this._createNode( "shape" );
+      node.coordsize="100,100";
+      node.coordorigin="0 0";
+      node.style.width = 100;
+      node.style.height = 100;
+      node.style.top = 0;
+      node.style.left = 0;
+      result.node = node;
+      return result;      
+    },
+
+    _setFillEnabled : function( shape, value ) {
+      shape.fill.on = value;
+      shape.restoreFill = value;
+    },
+
+    _ensureStrokeNode : function( shape ) {
+      if( !shape.stroke ) {
+        var stroke = this._createNode( "stroke" );
+        shape.node.appendChild( stroke );
+        shape.stroke = stroke;
+      }      
+    },
+
+    _setStrokeStyle : function( shape, joinStyle, miterLimit, endCap ) {
+      this._ensureStrokeNode( shape );
+      shape.stroke.joinstyle = joinStyle;
+      shape.stroke.miterlimit = miterLimit;
+      shape.stroke.endcap = endCap;
+    },
+
+    _transitionColors : function( color1, color2, start, stop, steps ) {
+      var diff = stop-start;
+      var stepwidth = diff / ( steps + 1 );
+      var str =[];
+      var color3 = [];
+      var pos;
+      for ( var i = 1; i <= steps; i++ ) {
+        pos = i * ( 1 / ( steps + 1 ) );
+        color3[ 0 ] = this._transitionColorPart( color1[ 0 ], color2[ 0 ], pos);
+        color3[ 1 ] = this._transitionColorPart( color1[ 1 ], color2[ 1 ], pos);
+        color3[ 2 ] = this._transitionColorPart( color1[ 2 ], color2[ 2 ], pos);
+        str.push(   Math.round( ( ( start + ( i * stepwidth ) ) * 100 ) )
+                  + "% RGB(" + color3.join()
+                  + ")" );
+      }
+      return str.join(" ,");
+    },
+    
+    _handleAppearShape: function( shape ) {
+      shape.fill.on = shape.restoreFill;
+      if(   typeof shape.restoreColor != "undefined" 
+         && shape.restoreColor != null ) 
+      {
+        shape.fill.color = shape.restoreColor;
+      }
+    },
+
+    _transitionColorPart : function( color1, color2, pos ) {
+      var part = parseInt( color1 ) + ( ( color2 - color1 ) * pos );
+      return Math.round( part );
+    },
+    
+    _convertNumeric : function( value, fixOffset ) {
+      var result;
+      if( typeof value == "number" ) {
+        result = ( fixOffset ? value - 0.5 : value ) * this._VMLFACTOR;
+        result = Math.round( result );        
+      } else {
+        result = value;
+      }      
+      return  result;
+    },
+    
+    _convertPath : function( path ) {
+      var string = [];
+      for( var i = 0; i < path.length; i++ ) {
+        var item = path[ i ];
+        switch( item.type ) {
+          case "moveTo":
+            string.push( "M" )
+            string.push( this._convertNumeric( item.x, true ) );
+            string.push( this._convertNumeric( item.y, true ) );
+          break;
+          case "lineTo":
+            string.push( "L" );
+            string.push( this._convertNumeric( item.x, true ) );
+            string.push( this._convertNumeric( item.y, true ) );
+          break;
+          case "close":
+            string.push( "X" );
+            item = null;
+          break;
+          case "quadraticCurveTo":
+            string.push( "QB" );
+            string.push( this._convertNumeric( item.cp1x, true ) );
+            string.push( this._convertNumeric( item.cp1y, true ) );
+            string.push( "L" ); // a bug in VML requires this
+            string.push( this._convertNumeric( item.x, true ) );
+            string.push( this._convertNumeric( item.y, true ) );
+          break;
+          case "bezierCurveTo":
+            string.push( "C" );
+            string.push( this._convertNumeric( item.cp1x, true ) );
+            string.push( this._convertNumeric( item.cp1y, true ) );
+            string.push( this._convertNumeric( item.cp2x, true ) );
+            string.push( this._convertNumeric( item.cp2y, true ) );
+            string.push( this._convertNumeric( item.x, true ) );
+            string.push( this._convertNumeric( item.y, true ) );
+          break;
+          case "arc":
+            string.push( "AE" );
+            var startAngle = Math.round( item.startAngle * this._VMLRAD );
+            var endAngle = Math.round( item.endAngle * this._VMLRAD );
+            string.push( this._convertNumeric( item.centerX, true ) );
+            string.push( this._convertNumeric( item.centerY, true ) );
+            string.push( this._convertNumeric( item.radiusX, false ) );
+            string.push( this._convertNumeric( item.radiusY, false ) );
+            string.push( startAngle );
+            string.push( endAngle - startAngle );
+          break;
+        }
+      }
+      return string.join( " " );
+    },
+    
+    _setAntiAlias : function( shape, value ) {
+      shape.node.style.antialias = value;
+    }
+
+  }
+
+} );
