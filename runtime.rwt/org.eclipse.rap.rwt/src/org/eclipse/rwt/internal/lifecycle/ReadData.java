@@ -34,6 +34,7 @@ final class ReadData implements IPhase {
     HttpServletRequest request = ContextProvider.getRequest();
     String jsonMessage = request.getParameter( "JSON" );
     if( jsonMessage != null ) {
+      System.out.println( jsonMessage );
       Processor processor = new Processor( jsonMessage );
       Shell[] shells = display.getShells();
       for( int i = 0; i < shells.length; i++ ) {
