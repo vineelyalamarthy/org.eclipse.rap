@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+     <wizard
+        icon="icons/prd_config_wiz.gif"
+        class="org.eclipse.rap.warproducts.ui.wizards.NewWarProductFileWizard"
+        category="org.eclipse.pde.PDE"
+        name="%new.warproduct.config"
+        id="org.eclipse.rap.warproducts.ui.NewWarProductConfigurationWizard">
+       <description>
+          %new.warproduct.desc
+       </description>
+      </wizard>
+   </extension>
+
+</plugin>
