@@ -5,3 +5,5 @@ Bundle-SymbolicName: org.eclipse.rap.warproducts.core
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.4
 Export-Package: org.eclipse.rap.warproducts.core
+Require-Bundle: org.eclipse.core.resources;bundle-version="3.6.0",
+ org.eclipse.core.runtime;bundle-version="3.6.0"
