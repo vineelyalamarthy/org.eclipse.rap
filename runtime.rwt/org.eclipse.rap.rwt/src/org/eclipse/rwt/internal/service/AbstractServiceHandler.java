@@ -11,17 +11,13 @@
  ******************************************************************************/
 package org.eclipse.rwt.internal.service;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.rwt.internal.ConfigurationReader;
-import org.eclipse.rwt.internal.IConfiguration;
-import org.eclipse.rwt.internal.IInitialization;
+import org.eclipse.rwt.internal.*;
 import org.eclipse.rwt.internal.util.HTML;
 import org.eclipse.rwt.service.IServiceHandler;
 
@@ -41,13 +37,13 @@ public abstract class AbstractServiceHandler implements IServiceHandler {
     OutputStreamWriter utf8Writer;
     OutputStream out = getResponse().getOutputStream();
     // [hs] patched for protocol
-//    if( isAcceptEncoding() && getInitProps().isCompression() ) {
-//      GZIPOutputStream zipStream = new GZIPOutputStream( out );
-//      utf8Writer = new OutputStreamWriter( zipStream, HTML.CHARSET_NAME_UTF_8 );
-//      getResponse().setHeader( CONTENT_ENCODING, ENCODING_GZIP );
-//    } else {
+    if( isAcceptEncoding() && getInitProps().isCompression() ) {
+      GZIPOutputStream zipStream = new GZIPOutputStream( out );
+      utf8Writer = new OutputStreamWriter( zipStream, HTML.CHARSET_NAME_UTF_8 );
+      getResponse().setHeader( CONTENT_ENCODING, ENCODING_GZIP );
+    } else {
       utf8Writer = new OutputStreamWriter( out, HTML.CHARSET_NAME_UTF_8 );
-//    }
+    }
     return new PrintWriter( utf8Writer, false );
   }
 

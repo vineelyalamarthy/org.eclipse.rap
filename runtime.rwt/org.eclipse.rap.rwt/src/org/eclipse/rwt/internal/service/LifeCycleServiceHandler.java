@@ -11,8 +11,7 @@
  ******************************************************************************/
 package org.eclipse.rwt.internal.service;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -39,7 +38,7 @@ public class LifeCycleServiceHandler extends AbstractServiceHandler {
   final static String SESSION_INITIALIZED
     = LifeCycleServiceHandler.class.getName() + "#isSessionInitialized";
 
-  private static PrintWriter wrappedWriter;
+  private static StringWriter wrappedWriter;
 
   public void service() throws IOException, ServletException {
     synchronized( ContextProvider.getSession() ) {
@@ -103,15 +102,11 @@ public class LifeCycleServiceHandler extends AbstractServiceHandler {
     }
     // [hs] patched for protocol
     if( ContextProvider.getStateInfo().getProtocolMessageWriter() == null ) {
-      try {
-        wrappedWriter = new PrintWriter( getResponse().getOutputStream() );
-        ProtocolMessageWriter writer 
-          = new JsonMessageWriter( wrappedWriter );
-        wrappedWriter.write( "###BEGIN_JSON###\n" );
-        ContextProvider.getStateInfo().setProtocolMessageWriter( writer );
-      } catch( final IOException e ) {
-        e.printStackTrace();
-      }
+      wrappedWriter = new StringWriter();
+      ProtocolMessageWriter writer 
+        = new JsonMessageWriter( new PrintWriter( wrappedWriter ) );
+      wrappedWriter.write( "###BEGIN_JSON###\n" );
+      ContextProvider.getStateInfo().setProtocolMessageWriter( writer );
     }
   }
 
@@ -161,16 +156,17 @@ public class LifeCycleServiceHandler extends AbstractServiceHandler {
 
   public static void writeOutput() throws IOException {
     if( !ContextProvider.getContext().isDisposed() ) {
+      HtmlResponseWriter content
+        = ContextProvider.getStateInfo().getResponseWriter();
+      PrintWriter out = getOutputWriter();
       ProtocolMessageWriter protocolMessageWriter 
         = ContextProvider.getStateInfo().getProtocolMessageWriter();
       if( protocolMessageWriter.isStarted() ) {
         protocolMessageWriter.finish();
         wrappedWriter.write( "\n###END_JSON###\n" );
         wrappedWriter.flush();
+        appendProtocolToOutWriter( out );
       }
-      HtmlResponseWriter content
-        = ContextProvider.getStateInfo().getResponseWriter();
-      PrintWriter out = getOutputWriter();
       try {
         // send the body to the client
         for( int i = 0; i < content.getBodySize(); i++ ) {
@@ -180,5 +176,10 @@ public class LifeCycleServiceHandler extends AbstractServiceHandler {
         out.close();
       }
     }
+  }
+
+  private static void appendProtocolToOutWriter( final PrintWriter out ) {
+    StringBuffer buffer = wrappedWriter.getBuffer();
+    out.print( buffer.toString() );
   }
 }

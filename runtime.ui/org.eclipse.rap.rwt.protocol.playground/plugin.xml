@@ -8,6 +8,11 @@
             id="org.eclipse.rap.rwt.protocol.playground.entrypoint"
             parameter="playground">
       </entrypoint>
+      <entrypoint
+            class="org.eclipse.rap.rwt.protocol.playground.PerformanceEntryPoint"
+            id="org.eclipse.rap.rwt.protocol.playground.performance"
+            parameter="performance">
+      </entrypoint>
    </extension>
 
 </plugin>
