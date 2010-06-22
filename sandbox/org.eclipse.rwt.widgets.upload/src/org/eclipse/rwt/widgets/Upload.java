@@ -527,7 +527,8 @@ public class Upload extends Control {
     final UploadItem uploadItem = new UploadItem( uploadedFile.getFileInputStream(),
                                                   uploadedFile.getContentType(),
                                                   getLastFileUploaded(),
-                                                  getPath() );
+                                                  getPath(),
+                                                  uploadedFile.getContentLength());
     return uploadItem;
   }
 

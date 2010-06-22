@@ -21,25 +21,28 @@ import java.io.InputStream;
  */
 public class UploadItem {
 
-  private InputStream fileInputStream;
-  private String contentType;
-  private String fileName;
-  private String filePath;
+  private final InputStream fileInputStream;
+  private final String contentType;
+  private final String fileName;
+  private final String filePath;
+  private final long fileSize;
   
   /**
-   * Creates an UploadItem isntance with the given parameters which all can be
+   * Creates an UploadItem instance with the given parameters which all can be
    * null.
    */
-  public UploadItem( InputStream fileInputStream,
+  public UploadItem( final InputStream fileInputStream,
                      final String contentType,
                      final String fileName,
-                     final String filePath )
+                     final String filePath,
+                     final long fileSize)
   {
     super();
     this.fileInputStream = fileInputStream;
     this.fileName = fileName;
     this.filePath = filePath;
     this.contentType = contentType;
+    this.fileSize = fileSize;
   }
   
   /**
@@ -73,5 +76,13 @@ public class UploadItem {
    */
   public String getFilePath() {
     return filePath;
+  }
+
+  /**
+   * Returns the size of the File in the {@link UploadItem#getFileInputStream()} thats stored in this UploadItem
+   * . (Tested with RC3)
+   */
+  public long getFileSize() {
+    return fileSize;
   }
 }
