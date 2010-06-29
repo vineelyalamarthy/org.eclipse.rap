@@ -1,0 +1,409 @@
+[{
+        "id": "node0",
+        "name": "Large Circle",
+        "data": {
+            "$dim": 16.759175934208628,
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node1",
+            "data": {
+                "weight": 3,
+                "$lineWidth": 6,
+                "$color": "#990000",
+            }
+        }, {
+            "nodeTo": "node2",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node3",
+            "data": {
+                "weight": 3,
+                "$lineWidth": 2,
+                "$color": "#007722"
+            }
+        }, {
+            "nodeTo": "node4",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node5",
+            "data": {
+                "weight": 1,
+                "$lineWidth": 4,
+                "$color": "#FFEE11",
+            }
+        }]
+    }, {
+        "id": "node1",
+        "name": "Square",
+        "data": {
+            "$dim": 13.077119090372014,
+            "$type": "square",
+            "$color": "#440000",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node0",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node2",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node3",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node4",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node5",
+            "data": {
+                "weight": 1
+            }
+        }]
+    }, {
+        "id": "node2",
+        "name": "Large Triangle",
+        "data": {
+            "$dim": 24.937383149648717,
+            "$type": "triangle",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node0",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node1",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node3",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node4",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node5",
+            "data": {
+                "weight": 1
+            }
+        }]
+    }, {
+        "id": "node3",
+        "name": "Small Circle",
+        "data": {
+            "$dim": 10.53272740718869,
+            "$color": "#007722",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node0",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node1",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node2",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node4",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node5",
+            "data": {
+                "weight": 3
+            }
+        }]
+    }, {
+        "id": "node4",
+        "name": "Small Triangle",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type":"triangle",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node0",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node1",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node2",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node3",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node5",
+            "data": {
+                "weight": 3
+            }
+        }]
+    }, {
+        "id": "node5",
+        "name": "Star",
+        "data": {
+            "$dim": 32.26403873194912,
+            "$type": "star",
+            "$color": "#FF6600",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node0",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node1",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node2",
+            "data": {
+                "weight": 1
+            }
+        }, {
+            "nodeTo": "node3",
+            "data": {
+                "weight": 3
+            }
+        }, {
+            "nodeTo": "node4",
+            "data": {
+                "weight": 3
+            }
+        }]
+    },
+    {
+        "id": "node6",
+        "name": "Small Square 1",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "square",
+            "$color": "#FF0000",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node1",
+            "data": {
+                "weight": 3,
+                "$color": "#990000"
+            }
+        }]
+    }, {
+        "id": "node7",
+        "name": "Small Square 2",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "square",
+            "$color": "#FF0000",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node1",
+            "data": {
+                "weight": 3,
+                "$color": "#990000"
+            }
+        }]
+    }, {
+        "id": "node8",
+        "name": "Small Square 3",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "square",
+            "$color": "#FF0000",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node1",
+            "data": {
+                "weight": 3,
+                "$color": "#990000"
+            }
+        }]
+    }, {
+        "id": "node9",
+        "name": "Small Square 4",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "square",
+            "$color": "#FF0000",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node1",
+            "data": {
+                "weight": 3,
+                "$color": "#990000"
+            }
+        }]
+    }, {
+        "id": "node10",
+        "name": "Small Square 5",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "square",
+            "$color": "#FF0000",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node1",
+            "data": {
+                "weight": 3,
+                "$color": "#990000"
+            }
+        }]
+    }, {
+        "id": "node11",
+        "name": "Small Square 6",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "square",
+            "$color": "#FF0000",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node1",
+            "data": {
+                "weight": 3,
+                "$color": "#990000"
+            }
+        }]
+    },
+    {
+        "id": "node12",
+        "name": "Small Star 1",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "star",
+            "$color": "#FFFF11",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node5",
+            "data": {
+                "weight": 3,
+                "$color": "#FFEE11"
+            }
+        }]
+    }, {
+        "id": "node13",
+        "name": "Small Star 2",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "star",
+            "$color": "#FFFF11",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node5",
+            "data": {
+                "weight": 3,
+                "$color": "#FFEE11"
+            }
+        }]
+    }, {
+        "id": "node14",
+        "name": "Small Star 3",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "star",
+            "$color": "#FFFF11",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node5",
+            "data": {
+                "weight": 3,
+                "$color": "#FFEE11"
+            }
+        }]
+    },
+    {
+        "id": "node15",
+        "name": "Small Star 4",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "star",
+            "$color": "#FFFF11",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node5",
+            "data": {
+                "weight": 3,
+                "$color": "#FFEE11"
+            }
+        }]
+    },
+    {
+        "id": "node16",
+        "name": "Small Circle 1",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "circle",
+            "$color": "#007722",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node3",
+            "data": {
+                "weight": 3,
+                "$color": "#007722"
+            }
+        }]
+    },
+    {
+        "id": "node17",
+        "name": "Small Circle 2",
+        "data": {
+            "$dim": 5.3754347037767345,
+            "$type": "circle",
+            "$color": "#007722",
+            "some other key": "some other value"
+        },
+        "adjacencies": [{
+            "nodeTo": "node3",
+            "data": {
+                "weight": 3,
+                "$color": "#007722"
+            }
+        }]
+    }]

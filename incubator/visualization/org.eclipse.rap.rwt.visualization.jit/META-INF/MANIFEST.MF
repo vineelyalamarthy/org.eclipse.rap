@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Bundle-Name
+Bundle-SymbolicName: org.eclipse.rap.rwt.visualization.jit;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.rap.rwt,
+ org.eclipse.rap.jface,
+ org.eclipse.rap.ui.workbench,
+ org.eclipse.equinox.http.registry
+Export-Package: org.eclipse.rap.rwt.visualization.jit
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-Vendor: %Bundle-Vendor
