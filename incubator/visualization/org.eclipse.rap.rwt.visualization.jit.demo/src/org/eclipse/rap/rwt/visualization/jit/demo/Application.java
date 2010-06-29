@@ -74,8 +74,8 @@ public class Application implements IEntryPoint {
   {
     
     private SashForm mainSash;
-    private HyperTree topTree;
-    private HyperTree bottomTree;
+    protected HyperTree topTree;
+    protected HyperTree bottomTree;
     
     public void createPartControl (Composite parent) 
     {
@@ -140,6 +140,7 @@ public class Application implements IEntryPoint {
     private TreeMap sqViz;
     private TreeMap sliceViz;
     private TreeMap stripViz;
+    private int seedId = 0;
     
     public void createPartControl (Composite parent) 
     {
@@ -181,15 +182,16 @@ public class Application implements IEntryPoint {
      * Replaces all of the ids in the srcJSON with a unique set.
      * Widgets cannot share datasets with the same ids.
      * @param srcJSON
-     * @return
+     * @return the JSON string with unique ids substituted for all ids
      */
     public String makeUnique (String srcJSON) {
       String[] split = srcJSON.split("\"id\" : .*,");
-      StringBuilder sb = new StringBuilder();
+      StringBuffer sb = new StringBuffer();
       for (int i = 0; i < split.length; i++) {
         sb.append(split[i]);
         if ((i+1) < split.length) {
-          sb.append("\"id\" : ").append("\"").append(System.nanoTime()).append("\"").append(",");
+          seedId++;
+          sb.append("\"id\" : ").append("\"").append(seedId).append("\"").append(",");
         }
       }
 //      System.out.println(sb.toString());
@@ -246,7 +248,7 @@ public class Application implements IEntryPoint {
   
   public static String loadSampleData (String sampleFilePath) 
   {
-    StringBuilder data = new StringBuilder();
+    StringBuffer data = new StringBuffer();
     try 
     {
       InputStream in = Activator.getDefault().getBundle().getResource(sampleFilePath).openStream();

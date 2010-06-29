@@ -16,7 +16,7 @@ package org.eclipse.rap.rwt.visualization.jit.internal;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.Vector;
 
 import org.eclipse.rap.rwt.visualization.jit.JITVisualizationWidget;
 import org.eclipse.rwt.lifecycle.AbstractWidgetLCA;
@@ -111,11 +111,23 @@ public abstract class JITWidgetLCA extends AbstractWidgetLCA {
     }
   }
   
-  public static class WidgetCommandQueue extends ArrayBlockingQueue {
+  public static class WidgetCommandQueue extends Vector {
     private static final long serialVersionUID = -2296255246437590610L;
 
     public WidgetCommandQueue() {
       super(5);
+    }
+    
+    public synchronized Object peek () {
+      if (size() > 0) 
+        return get(0);
+      return null;
+    }
+    
+    public synchronized Object poll () {
+      if (size() > 0) 
+        return remove(0);
+      return null;
     }
   }
 

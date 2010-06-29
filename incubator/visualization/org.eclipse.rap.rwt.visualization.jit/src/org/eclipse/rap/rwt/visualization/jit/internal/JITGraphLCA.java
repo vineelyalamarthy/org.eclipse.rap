@@ -16,9 +16,7 @@ package org.eclipse.rap.rwt.visualization.jit.internal;
 import java.io.IOException;
 
 import org.eclipse.rap.rwt.visualization.jit.JITGraphWidget;
-import org.eclipse.rwt.lifecycle.ControlLCAUtil;
 import org.eclipse.rwt.lifecycle.IWidgetAdapter;
-import org.eclipse.rwt.lifecycle.JSVar;
 import org.eclipse.rwt.lifecycle.JSWriter;
 import org.eclipse.rwt.lifecycle.WidgetUtil;
 import org.eclipse.swt.graphics.RGB;
