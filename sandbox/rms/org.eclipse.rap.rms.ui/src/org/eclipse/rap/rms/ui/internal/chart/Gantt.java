@@ -18,17 +18,17 @@ import org.eclipse.swt.widgets.*;
 
 public class Gantt extends Composite {
 
-  private java.util.List items;
+  private java.util.List<GanttItem> items;
   private String[] legend;
   Label markLabel;
   int mark;
-  java.util.List legendLabels;
+  java.util.List<Label> legendLabels;
 
   public Gantt( final Composite parent, final int style ) {
     super( parent, style );
     super.setLayout( new GanttLayout() );
-    items = new ArrayList();
-    legendLabels = new ArrayList();
+    items = new ArrayList<GanttItem>();
+    legendLabels = new ArrayList<Label>();
     mark = -1;
   }
   
@@ -49,7 +49,7 @@ public class Gantt extends Composite {
     if( !( 0 <= index && index < items.size() ) ) {
       SWT.error( SWT.ERROR_INVALID_RANGE );
     }
-    return ( GanttItem )items.get( index );
+    return items.get( index );
   }
   
   public int getItemCount() {
@@ -76,7 +76,7 @@ public class Gantt extends Composite {
         label.setBackground( getBackground() );
         legendLabels.add( label );
       } else {
-        label = ( Label )legendLabels.get( i );
+        label = legendLabels.get( i );
       }
       label.setText( this.legend[ i ] );
     }

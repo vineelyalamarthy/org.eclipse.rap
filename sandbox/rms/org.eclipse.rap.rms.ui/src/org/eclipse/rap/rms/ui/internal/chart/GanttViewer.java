@@ -95,6 +95,7 @@ public class GanttViewer extends StructuredViewer {
     }
   }
 
+  @SuppressWarnings("unchecked")
   protected List getSelectionFromWidget() {
     return Collections.EMPTY_LIST;
   }
@@ -132,6 +133,7 @@ public class GanttViewer extends StructuredViewer {
   public void reveal( final Object element ) {
   }
 
+  @SuppressWarnings("unchecked")
   protected void setSelectionToWidget( final List list, final boolean reveal ) {
   }
 

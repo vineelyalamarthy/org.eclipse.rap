@@ -21,12 +21,12 @@ import org.eclipse.swt.widgets.Display;
 public class AutoColoProvider implements IColorProvider {
 
   private int colorIndex;
-  private final java.util.List colors;
-  private final Map elementColors;
+  private final java.util.List<Color> colors;
+  private final Map<Object,Color> elementColors;
   
   public AutoColoProvider() {
-    colors = new ArrayList();
-    elementColors = new HashMap();
+    colors = new ArrayList<Color>();
+    elementColors = new HashMap<Object,Color>();
   }
   
   public void addSystemColors( final Display display ) {
@@ -42,7 +42,7 @@ public class AutoColoProvider implements IColorProvider {
   }
   
   public Color getBackground( final Object element ) {
-    Color result = ( Color )elementColors.get( element );
+    Color result = elementColors.get( element );
     if( result == null ) {
       result = nextColor();
       elementColors.put( element, result );
@@ -63,7 +63,7 @@ public class AutoColoProvider implements IColorProvider {
     Color result = null;
     if( colorIndex + 1 < colors.size() ) {
       colorIndex++;
-      result = ( Color )colors.get( colorIndex );
+      result = colors.get( colorIndex );
     }
     return result;
   }
