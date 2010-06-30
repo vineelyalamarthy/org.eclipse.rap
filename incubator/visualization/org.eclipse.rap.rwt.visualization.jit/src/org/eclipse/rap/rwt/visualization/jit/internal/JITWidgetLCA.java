@@ -46,7 +46,7 @@ public abstract class JITWidgetLCA extends AbstractWidgetLCA {
   public void renderInitialization( final Widget widget ) throws IOException {
      JITVisualizationWidget vWidget = (JITVisualizationWidget)widget;
      JSWriter writer = JSWriter.getWriterFor( vWidget );
-     writer.newWidget( getWidgetType().getCanonicalName(), getInitializationParameters(vWidget).toArray() );
+     writer.newWidget( getWidgetType().getName(), getInitializationParameters(vWidget).toArray() );
      writer.set( "appearance", "composite" );
      writer.set( "overflow", "hidden" );
      ControlLCAUtil.writeStyleFlags( ( Control ) widget );

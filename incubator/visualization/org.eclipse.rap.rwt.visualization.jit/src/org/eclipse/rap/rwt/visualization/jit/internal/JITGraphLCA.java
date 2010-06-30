@@ -46,7 +46,7 @@ public abstract class JITGraphLCA extends JITWidgetLCA {
 
   protected String convertRGBToCSSString(RGB color) {
     if (color == null) return "";
-    StringBuilder sb = new StringBuilder("rgb(");
+    StringBuffer sb = new StringBuffer("rgb(");
     sb.append(color.red).append(",").
     append(color.green).append(",").
     append(color.blue).append(")").toString();

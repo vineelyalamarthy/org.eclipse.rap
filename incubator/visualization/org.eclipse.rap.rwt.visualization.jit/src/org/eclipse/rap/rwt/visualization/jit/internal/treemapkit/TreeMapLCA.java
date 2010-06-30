@@ -25,7 +25,7 @@ public class TreeMapLCA extends JITWidgetLCA {
   
   protected Collection getInitializationParameters(JITVisualizationWidget vWidget) {
     Collection params = super.getInitializationParameters(vWidget);
-    params.add(Integer.valueOf(((TreeMap)vWidget).getType()));
+    params.add(new Integer(((TreeMap)vWidget).getType()));
     return params;
   }
   
