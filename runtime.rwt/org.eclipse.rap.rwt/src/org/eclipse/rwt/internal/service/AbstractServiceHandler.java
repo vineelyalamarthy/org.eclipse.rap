@@ -36,7 +36,6 @@ public abstract class AbstractServiceHandler implements IServiceHandler {
   static PrintWriter getOutputWriter() throws IOException {
     OutputStreamWriter utf8Writer;
     OutputStream out = getResponse().getOutputStream();
-    // [hs] patched for protocol
     if( isAcceptEncoding() && getInitProps().isCompression() ) {
       GZIPOutputStream zipStream = new GZIPOutputStream( out );
       utf8Writer = new OutputStreamWriter( zipStream, HTML.CHARSET_NAME_UTF_8 );

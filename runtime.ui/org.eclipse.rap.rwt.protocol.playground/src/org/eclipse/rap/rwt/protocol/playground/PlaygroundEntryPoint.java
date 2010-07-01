@@ -79,6 +79,13 @@ public class PlaygroundEntryPoint implements IEntryPoint {
     fdEnableSwitcher.left = new FormAttachment( enableMeButton, 30 );
     fdEnableSwitcher.top = new FormAttachment( changeShellTitleButton, 11 );
     
+//    Slider slider = new Slider( shell, SWT.NONE );
+//    slider.addSelectionListener( new SelectionAdapter() {
+//      public void widgetSelected( final SelectionEvent e ) {
+//        System.out.println( "test");
+//      };
+//    } );
+    
     
     shell.open();
     while (!shell.isDisposed ()) {

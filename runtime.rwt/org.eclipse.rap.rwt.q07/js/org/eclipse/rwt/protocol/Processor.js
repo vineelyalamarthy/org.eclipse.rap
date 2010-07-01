@@ -10,30 +10,48 @@
 
 'use strict';
 org.eclipse.rwt.protocol.Processor = function( messageString ) {
-    var lastWidgetId, lastPayloadType;   
-    var that = this;  
-    delete JSON.parse( messageString, function( key, value ) {     
-      switch( key ) {
-        case that.constants.MESSAGE_META :
-          that.meta = value;
-          break;
-        case that.constants.MESSAGE_DEVICE :
-          that.device = value;
-          break;
-        case that.constants.WIDGETS_ID : 
-          lastWidgetId = value;
-          break;
-        case that.constants.WIDGETS_TYPE :
-          lastPayloadType = value;
-          break;
-        case that.constants.WIDGETS_PAYLOAD :
-          that.processPayload( lastWidgetId, lastPayloadType, value );
-          break;
-        default:
-          break;
-      } 
-      return value;
-    } );
+//  var messageObject = eval('(' + messageString + ')');
+//  var lastWidgetId, lastPayloadType;   
+//  if( this.constants.MESSAGE_META in messageObject ) {
+//    this.meta = messageObject[ this.constants.MESSAGE_META ];
+//  } 
+//  if( this.constants.MESSAGE_DEVICE in messageObject ) {
+//    this.device = messageObject[ this.constants.MESSAGE_DEVICE ];
+//  }
+//  if( this.constants.MESSAGE_WIDGETS in messageObject ) {
+//    var widgets = messageObject[ this.constants.MESSAGE_WIDGETS ];
+//    for( var i = 0; i < widgets.length; i++ ) {
+//      var widget = widgets[ i ];
+//      var widgetId = widget[ this.constants.WIDGETS_ID ];
+//      var payloadType = widget[ this.constants.WIDGETS_TYPE ];
+//      var payload = widget[ this.constants.WIDGETS_PAYLOAD ];
+//      this.processPayload( widgetId, payloadType, payload );
+//    }
+//  }
+
+  var that = this;  
+  JSON.parse( messageString, function( key, value ) {     
+    switch( key ) {
+    case that.constants.MESSAGE_META :
+      that.meta = value;
+      break;
+    case that.constants.MESSAGE_DEVICE :
+      that.device = value;
+      break;
+    case that.constants.WIDGETS_ID : 
+      lastWidgetId = value;
+      break;
+    case that.constants.WIDGETS_TYPE :
+      lastPayloadType = value;
+      break;
+    case that.constants.WIDGETS_PAYLOAD :
+      that.processPayload( lastWidgetId, lastPayloadType, value );
+      break;
+    default:
+      break;
+    } 
+    return value;
+  } );
 };
 
 org.eclipse.rwt.protocol.Processor.prototype.getRequestCounter = function() {
