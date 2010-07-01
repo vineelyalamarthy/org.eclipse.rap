@@ -19,39 +19,56 @@ org.eclipse.rwt.protocol.widgetStatusHandlerRegistry.addHandler( {
   },
   
   createWidget : function( styleArray, parameter ) {
-    var styleObject 
-    = org.eclipse.rwt.protocol.util.convertStyleArrayToObject( styleArray );
     var widget;
-    if( 'PUSH' in styleObject || 'TOGGLE' in styleObject ) {
-      widget = new org.eclipse.rwt.widgets.Button( 'push' );
-    } else if( 'CHECK' in styleObject ) {
-      widget = new org.eclipse.rwt.widgets.Button( 'check' );
-    } else if( 'RADIO' in styleObject ) {
-      widget = new org.eclipse.rwt.widgets.Button( 'radio' );
+    for( var i = 0; i < styleArray.length; i++ ) {
+      var style = styleArray[ i ];
+      switch( style ) {
+      case 'PUSH':
+        widget = new org.eclipse.rwt.widgets.Button( 'push' );
+        break;
+      case 'TOGGLE':
+        widget = new org.eclipse.rwt.widgets.Button( 'push' );
+        break;
+      case 'CHECK':
+        widget = new org.eclipse.rwt.widgets.Button( 'check' );
+        break;
+      case 'RADIO':
+        widget = new org.eclipse.rwt.widgets.Button( 'radio' );
+        break;
+      default:
+        break;
+      }
     }
-    this._handleStyles( widget, styleObject );
+    this._handleStyles( widget, styleArray );
     widget.addToDocument();
     return widget;
   },
   
-  _handleStyles : function( widget, styleObject ) {
-    if( 'BORDER' in styleObject ) {
-      widget.addState( 'rwt_BORDER' );
-    }
-    if( 'PUSH' in styleObject ) {
-      widget.addState( 'rwt_PUSH' );
-    }
-    if( 'FLAT' in styleObject ) {
-      widget.addState( 'rwt_FLAT' );
-    }
-    if( 'TOGGLE' in styleObject ) {
-      widget.addState( 'rwt_TOGGLE' );
-    }
-    if( 'CHECK' in styleObject ) {
-      widget.addState( 'rwt_CHECK' );
-    }
-    if( 'RADIO' in styleObject ) {
-      widget.addState( 'rwt_RADIO' );
+  _handleStyles : function( widget, styleArray ) {
+    for( var i = 0; i < styleArray.length; i++ ) {
+      var style = styleArray[ i ];
+      switch( style ) {
+      case 'BORDER':
+        widget.addState( 'rwt_BORDER' );
+        break;
+      case 'PUSH':
+        widget.addState( 'rwt_PUSH' );
+        break;
+      case 'FLAT':
+        widget.addState( 'rwt_FLAT' );
+        break;
+      case 'TOGGLE':
+        widget.addState( 'rwt_TOGGLE' );
+        break;
+      case 'CHECK':
+        widget.addState( 'rwt_CHECK' );
+        break;
+      case 'RADIO':
+        widget.addState( 'rwt_RADIO' );
+        break;
+      default:
+        break;
+      }
     }
   },
  

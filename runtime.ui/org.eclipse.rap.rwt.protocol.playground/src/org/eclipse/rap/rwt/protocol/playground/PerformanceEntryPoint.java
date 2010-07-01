@@ -38,7 +38,7 @@ public class PerformanceEntryPoint implements IEntryPoint {
         changeAllButtonTexts();
       }
     };
-    for( int i = 0; i < 200; i++ ) {
+    for( int i = 0; i < 1000; i++ ) {
       Button button = new Button( shell, SWT.PUSH );
       button.addSelectionListener( selectionListener );
       button.setText( "Button" + i );

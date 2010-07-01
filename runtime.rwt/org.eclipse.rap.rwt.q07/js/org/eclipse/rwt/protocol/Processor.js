@@ -10,6 +10,7 @@
 
 'use strict';
 org.eclipse.rwt.protocol.Processor = function( messageString ) {
+// DO WITH EVAL
 //  var messageObject = eval('(' + messageString + ')');
 //  var lastWidgetId, lastPayloadType;   
 //  if( this.constants.MESSAGE_META in messageObject ) {
@@ -28,7 +29,7 @@ org.eclipse.rwt.protocol.Processor = function( messageString ) {
 //      this.processPayload( widgetId, payloadType, payload );
 //    }
 //  }
-
+// DO WITHOUT EVAL
   var that = this;  
   JSON.parse( messageString, function( key, value ) {     
     switch( key ) {
