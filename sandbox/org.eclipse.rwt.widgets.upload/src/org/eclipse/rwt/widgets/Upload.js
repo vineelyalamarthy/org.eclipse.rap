@@ -276,7 +276,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Upload", {
       if (this._progressBar) {
          this._progressBar.setSelection(0);
       }
-      if (this._uploadField) {
+      if (this._uploadField.isCreated()) {
         this._uploadField.setValue("");
       }
     },
