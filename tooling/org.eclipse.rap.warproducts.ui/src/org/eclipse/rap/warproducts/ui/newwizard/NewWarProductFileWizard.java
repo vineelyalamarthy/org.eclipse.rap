@@ -1,4 +1,4 @@
-package org.eclipse.rap.warproducts.ui.wizards;
+package org.eclipse.rap.warproducts.ui.newwizard;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -16,20 +16,21 @@ public class NewWarProductFileWizard extends NewProductFileWizard {
   private WARProductFileWizardPage mainPage;
 
   public void addPages() {
-    mainPage = new WARProductFileWizardPage( "product", getSelection() ); //$NON-NLS-1$
+    mainPage = new WARProductFileWizardPage( "warproduct", getSelection() ); //$NON-NLS-1$
     addPage( mainPage );
   }
 
   public boolean performFinish() {
+    boolean result = true;
     try {
       getContainer().run( false, true, getOperation() );
     } catch( final InvocationTargetException e ) {
       PDEPlugin.logException( e );
-      return false;
+      result = false;
     } catch( final InterruptedException e ) {
-      return false;
+      result = false;
     }
-    return true;
+    return result;
   }
 
   private IRunnableWithProgress getOperation() {

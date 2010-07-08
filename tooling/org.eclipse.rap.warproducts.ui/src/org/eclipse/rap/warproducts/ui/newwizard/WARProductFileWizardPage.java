@@ -5,7 +5,7 @@
  * available at http://www.eclipse.org/legal/epl-v10.html Contributors:
  * EclipseSource - initial API and implementation
  *******************************************************************************/
-package org.eclipse.rap.warproducts.ui.wizards;
+package org.eclipse.rap.warproducts.ui.newwizard;
 
 import java.util.ArrayList;
 
@@ -28,6 +28,7 @@ import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.wizards.PDEWizardNewFileCreationPage;
 import org.eclipse.pde.launching.IPDELauncherConstants;
 import org.eclipse.pde.ui.launcher.EclipseLaunchShortcut;
+import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -49,7 +50,7 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
   private Button launchConfigButton;
   private Combo launchConfigCombo;
   private Group group;
-  private IPluginModelBase fModel;
+  private IPluginModelBase pluginModel;
 
   public WARProductFileWizardPage( final String pageName,
                                    final IStructuredSelection selection )
@@ -70,7 +71,7 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
       IResource resource = ( IResource )adaptable.getAdapter( IResource.class );
       if( resource != null ) {
         IProject project = resource.getProject();
-        fModel = PluginRegistry.findModel( project );
+        pluginModel = PluginRegistry.findModel( project );
       }
     }
   }
@@ -126,6 +127,14 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
       }
       // add osgi launch configs to the list
       type = manager.getLaunchConfigurationType( IPDELauncherConstants.OSGI_CONFIGURATION_TYPE );
+      configs = manager.getLaunchConfigurations( type );
+      for( int i = 0; i < configs.length; i++ ) {
+        if( !DebugUITools.isPrivate( configs[ i ] ) ) {
+          list.add( configs[ i ].getName() );
+        }
+      }
+      // add RAP launch configs to the list
+      type = manager.getLaunchConfigurationType( WARProductConstants.RAP_LAUNCH_CONFIG_TYPE );
       configs = manager.getLaunchConfigurations( type );
       for( int i = 0; i < configs.length; i++ ) {
         if( !DebugUITools.isPrivate( configs[ i ] ) ) {
