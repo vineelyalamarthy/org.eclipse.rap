@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RAP Theme Editor Tests
+Bundle-SymbolicName: org.eclipse.rap.themeeditor.ui.tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Eclipse.org - RAP
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
