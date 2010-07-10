@@ -16,7 +16,7 @@ public class NewWarProductFileWizard extends NewProductFileWizard {
   private WARProductFileWizardPage mainPage;
 
   public void addPages() {
-    mainPage = new WARProductFileWizardPage( "warproduct", getSelection() ); //$NON-NLS-1$
+    mainPage = new WARProductFileWizardPage( "warproduct", getSelection() ); 
     addPage( mainPage );
   }
 

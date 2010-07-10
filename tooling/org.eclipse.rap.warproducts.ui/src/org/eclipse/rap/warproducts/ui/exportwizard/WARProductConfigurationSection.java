@@ -45,7 +45,7 @@ public class WARProductConfigurationSection {
 
   private static final String DOTTED_WARPRODUCT_FILE_EXTENSION = ".warproduct";
   private static final String WARPRODUCT_FILE_EXTENSION = "warproduct";
-  private static final String S_PRODUCT_CONFIG = "WARProductConfig"; //$NON-NLS-1$
+  private static final String S_PRODUCT_CONFIG = "WARProductConfig";
   private Combo productCombo;
   private WARProductExportWizardPage page;
 
@@ -85,7 +85,7 @@ public class WARProductConfigurationSection {
     dialog.setAllowMultiple( false );
     dialog.setTitle( PDEUIMessages.ProductExportWizardPage_fileSelection );
     dialog.setMessage( "Select a WAR product configuration" );
-    dialog.addFilter( new FileExtensionFilter( WARPRODUCT_FILE_EXTENSION ) ); //$NON-NLS-1$
+    dialog.addFilter( new FileExtensionFilter( WARPRODUCT_FILE_EXTENSION ) ); 
     dialog.setInput( PDEPlugin.getWorkspace().getRoot() );
     IFile product = getProductFile();
     if( product != null ) {
@@ -127,7 +127,8 @@ public class WARProductConfigurationSection {
     hookListeners();
   }
 
-  private void fillProductComboFromSelection( final IStructuredSelection selection )
+  private void fillProductComboFromSelection( 
+    final IStructuredSelection selection )
   {
     Object object = selection.getFirstElement();
     if( object instanceof IFile ) {
@@ -229,7 +230,8 @@ public class WARProductConfigurationSection {
       result = "Specified WAR product configuration does not exist.";
     }
     if( !resource.getName().endsWith( DOTTED_WARPRODUCT_FILE_EXTENSION ) ) {
-      result = "A WAR product configuration file name must have a '.warproduct' extension.";
+      result = "A WAR product configuration file name must " +
+      		   "have a '.warproduct' extension.";
     }
     return result;
   }

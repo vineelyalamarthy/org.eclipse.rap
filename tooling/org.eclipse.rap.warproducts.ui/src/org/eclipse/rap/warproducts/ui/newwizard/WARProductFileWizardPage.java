@@ -8,11 +8,9 @@
 package org.eclipse.rap.warproducts.ui.newwizard;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
@@ -20,8 +18,6 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.pde.core.plugin.IPluginModelBase;
-import org.eclipse.pde.core.plugin.PluginRegistry;
 import org.eclipse.pde.internal.ui.IHelpContextIds;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
@@ -50,7 +46,6 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
   private Button launchConfigButton;
   private Combo launchConfigCombo;
   private Group group;
-  private IPluginModelBase pluginModel;
 
   public WARProductFileWizardPage( final String pageName,
                                    final IStructuredSelection selection )
@@ -61,20 +56,8 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
     setTitle( "WAR Product Configuration" );
     // Force the file extension to be 'warproduct'
     setFileExtension( FILE_EXTENSION );
-    initializeModel( selection );
   }
 
-  private void initializeModel( final IStructuredSelection selection ) {
-    Object selected = selection.getFirstElement();
-    if( selected instanceof IAdaptable ) {
-      IAdaptable adaptable = ( IAdaptable )selected;
-      IResource resource = ( IResource )adaptable.getAdapter( IResource.class );
-      if( resource != null ) {
-        IProject project = resource.getProject();
-        pluginModel = PluginRegistry.findModel( project );
-      }
-    }
-  }
 
   /*
    * (non-Javadoc)
@@ -92,7 +75,6 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
     gd.horizontalSpan = 2;
     basicButton.setLayoutData( gd );
     basicButton.setText( PDEUIMessages.ProductFileWizadPage_basic );
-    
     launchConfigButton = new Button( group, SWT.RADIO );
     launchConfigButton.setText( PDEUIMessages.ProductFileWizadPage_existingLaunchConfig );
     launchConfigButton.addSelectionListener( new SelectionAdapter() {
@@ -117,34 +99,35 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
   private String[] getLaunchConfigurations() {
     ArrayList list = new ArrayList();
     try {
-      ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-      ILaunchConfigurationType type = manager.getLaunchConfigurationType( EclipseLaunchShortcut.CONFIGURATION_TYPE );
-      ILaunchConfiguration[] configs = manager.getLaunchConfigurations( type );
-      for( int i = 0; i < configs.length; i++ ) {
-        if( !DebugUITools.isPrivate( configs[ i ] ) ) {
-          list.add( configs[ i ].getName() );
-        }
-      }
+      addLaunchConfigToListFromType( list, 
+                                     EclipseLaunchShortcut.CONFIGURATION_TYPE  );
       // add osgi launch configs to the list
-      type = manager.getLaunchConfigurationType( IPDELauncherConstants.OSGI_CONFIGURATION_TYPE );
-      configs = manager.getLaunchConfigurations( type );
-      for( int i = 0; i < configs.length; i++ ) {
-        if( !DebugUITools.isPrivate( configs[ i ] ) ) {
-          list.add( configs[ i ].getName() );
-        }
-      }
+      addLaunchConfigToListFromType( list, 
+                                     IPDELauncherConstants.OSGI_CONFIGURATION_TYPE  );
       // add RAP launch configs to the list
-      type = manager.getLaunchConfigurationType( WARProductConstants.RAP_LAUNCH_CONFIG_TYPE );
-      configs = manager.getLaunchConfigurations( type );
-      for( int i = 0; i < configs.length; i++ ) {
-        if( !DebugUITools.isPrivate( configs[ i ] ) ) {
-          list.add( configs[ i ].getName() );
-        }
-      }
+      addLaunchConfigToListFromType( list, 
+                                     WARProductConstants.RAP_LAUNCH_CONFIG_TYPE );
     } catch( final CoreException e ) {
       PDEPlugin.logException( e );
     }
-    return ( String[] )list.toArray( new String[ list.size() ] );
+    String[] launchConfigArray = new String[ list.size() ];
+    return ( String[] )list.toArray( launchConfigArray );
+  }
+  
+  private void addLaunchConfigToListFromType( final List list, 
+                                              final String type ) 
+    throws CoreException 
+  {
+    ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+    ILaunchConfigurationType configType 
+      = manager.getLaunchConfigurationType( type );
+    ILaunchConfiguration[] configs 
+      = manager.getLaunchConfigurations( configType );
+    for( int i = 0; i < configs.length; i++ ) {
+      if( !DebugUITools.isPrivate( configs[ i ] ) ) {
+        list.add( configs[ i ].getName() );
+      }
+    }
   }
 
   public ILaunchConfiguration getSelectedLaunchConfiguration() {
@@ -155,16 +138,24 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
         ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
         ILaunchConfigurationType type = manager.getLaunchConfigurationType( EclipseLaunchShortcut.CONFIGURATION_TYPE );
         ILaunchConfigurationType type2 = manager.getLaunchConfigurationType( IPDELauncherConstants.OSGI_CONFIGURATION_TYPE );
+        ILaunchConfigurationType type3 = manager.getLaunchConfigurationType( WARProductConstants.RAP_LAUNCH_CONFIG_TYPE );
         ILaunchConfiguration[] configs = manager.getLaunchConfigurations( type );
         ILaunchConfiguration[] configs2 = manager.getLaunchConfigurations( type2 );
+        ILaunchConfiguration[] configs3 = manager.getLaunchConfigurations( type3 );
         ILaunchConfiguration[] configurations = new ILaunchConfiguration[ configs.length
-                                                                          + configs2.length ];
+                                                                          + configs2.length 
+                                                                          + configs3.length ];
         System.arraycopy( configs, 0, configurations, 0, configs.length );
         System.arraycopy( configs2,
                           0,
                           configurations,
                           configs.length,
                           configs2.length );
+        System.arraycopy( configs3,
+                          0,
+                          configurations,
+                          configs2.length,
+                          configs3.length );
         for( int i = 0; i < configurations.length && result == null; i++ ) {
           if( configurations[ i ].getName().equals( configName )
               && !DebugUITools.isPrivate( configurations[ i ] ) ) 

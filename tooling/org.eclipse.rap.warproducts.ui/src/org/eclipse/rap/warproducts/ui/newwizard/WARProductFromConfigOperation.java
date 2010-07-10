@@ -15,6 +15,8 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -30,9 +32,12 @@ import org.eclipse.pde.internal.launching.launcher.BundleLauncherHelper;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.launching.IPDELauncherConstants;
 import org.eclipse.rap.warproducts.core.InfrastructreCreator;
+import org.eclipse.rap.warproducts.ui.WARProductConstants;
 
 
-public class WARProductFromConfigOperation extends BaseWARProductCreationOperation {
+public class WARProductFromConfigOperation 
+  extends BaseWARProductCreationOperation 
+{
 
   private IContainer productParent;
   private ILaunchConfiguration launchConfig;
@@ -52,97 +57,138 @@ public class WARProductFromConfigOperation extends BaseWARProductCreationOperati
     creator.createLaunchIni();
     creator.createWebXml();
   }
-  
-  /*
-   * (non-Javadoc)
-   * @see
-   * org.eclipse.pde.internal.ui.wizards.product.BaseProductCreationOperation
-   * #initializeProduct(org.eclipse.pde.internal.core.iproduct.IProduct)
-   */
+
   protected void internalInitializeProduct( final IProduct product ) {
-    if( launchConfig == null )
-      return;
-    try {
-      IProductModelFactory factory = product.getModel().getFactory();
-      boolean useProduct = launchConfig.getAttribute( IPDELauncherConstants.USE_PRODUCT,
-                                                      false );
-      if( useProduct ) {
-        String id = launchConfig.getAttribute( IPDELauncherConstants.PRODUCT,
-                                               ( String )null );
-        if( id != null ) {
-          initializeProductInfo( factory, product, id );
-        }
-      } else {
-        String appName = launchConfig.getAttribute( IPDELauncherConstants.APPLICATION,
-                                                    TargetPlatform.getDefaultApplication() );
-        product.setApplication( appName );
+    if( launchConfig != null ) {
+      try {
+        IProductModelFactory factory = product.getModel().getFactory();
+        handleApplication( product, factory );
+        handleJRE( product );
+        handlePluginModel( product, factory );
+        handleVMArguments( product, factory );
+      } catch( final CoreException e ) {
+        PDEPlugin.logException( e );
       }
-      // Set JRE info from information from the launch configuration
-      String jreString = launchConfig.getAttribute( IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH,
-                                                    ( String )null );
-      if( jreString != null ) {
-        IPath jreContainerPath = new Path( jreString );
-        IJREInfo jreInfo = product.getJREInfo();
-        if( jreInfo == null ) {
-          jreInfo = product.getModel().getFactory().createJVMInfo();
-        }
-        jreInfo.setJREContainerPath( TargetPlatform.getOS(), jreContainerPath );
-        product.setJREInfo( jreInfo );
-      }
-      // fetch the plug-ins models
-      String workspaceId = IPDELauncherConstants.SELECTED_WORKSPACE_PLUGINS;
-      String targetId = IPDELauncherConstants.SELECTED_TARGET_PLUGINS;
-      if( launchConfig.getType()
-        .getIdentifier()
-        .equals( IPDELauncherConstants.OSGI_CONFIGURATION_TYPE ) )
-      {
-        workspaceId = IPDELauncherConstants.WORKSPACE_BUNDLES;
-        targetId = IPDELauncherConstants.TARGET_BUNDLES;
-      }
-      Set set = new HashSet();
-      Map map = BundleLauncherHelper.getWorkspaceBundleMap( launchConfig,
-                                                            set,
-                                                            workspaceId );
-      map.putAll( BundleLauncherHelper.getTargetBundleMap( launchConfig,
-                                                           set,
-                                                           targetId ) );
-      addPlugins( factory, product, map );
-      if( launchConfig.getAttribute( IPDELauncherConstants.CONFIG_GENERATE_DEFAULT,
-                                     true ) )
-      {
-        super.initializeProduct( product );
-      } else {
-        String path = launchConfig.getAttribute( IPDELauncherConstants.CONFIG_TEMPLATE_LOCATION,
-                                                 "/" ); //$NON-NLS-1$
-        IContainer container = PDEPlugin.getWorkspace()
-          .getRoot()
-          .getContainerForLocation( new Path( path ) );
-        if( container != null ) {
-          IConfigurationFileInfo info = factory.createConfigFileInfo();
-          info.setUse( null, "custom" ); //$NON-NLS-1$
-          info.setPath( null, container.getFullPath().toString() );
-          product.setConfigurationFileInfo( info );
-        } else {
-          super.initializeProduct( product );
-        }
-      }
-      // set vm and program arguments from the launch configuration
-      String vmargs = launchConfig.getAttribute( IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-                                                 ( String )null );
-      String programArgs = launchConfig.getAttribute( IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
-                                                      ( String )null );
-      if( vmargs != null || programArgs != null ) {
-        IArgumentsInfo arguments = product.getLauncherArguments();
-        if( arguments == null )
-          arguments = factory.createLauncherArguments();
-        if( vmargs != null )
-          arguments.setVMArguments( vmargs, IArgumentsInfo.L_ARGS_ALL );
-        if( programArgs != null )
-          arguments.setProgramArguments( programArgs, IArgumentsInfo.L_ARGS_ALL );
-        product.setLauncherArguments( arguments );
-      }
-    } catch( final CoreException e ) {
-      PDEPlugin.logException( e );
     }
   }
+  
+  private void handleApplication( final IProduct product,
+                                  final IProductModelFactory factory )
+  throws CoreException
+  {
+    boolean useProduct 
+      = launchConfig.getAttribute( IPDELauncherConstants.USE_PRODUCT, false );
+    if( useProduct ) {
+      String id 
+        = launchConfig.getAttribute( IPDELauncherConstants.PRODUCT, "" );
+      if( !id.equals( "" ) ) {
+        initializeProductInfo( factory, product, id );
+      }
+    } else {
+      String application = IPDELauncherConstants.APPLICATION;
+      String defaultApplication = TargetPlatform.getDefaultApplication();
+      String appName 
+        = launchConfig.getAttribute( application, defaultApplication );
+      product.setApplication( appName );
+    }
+  }
+  
+  private void handleJRE( final IProduct product ) throws CoreException {
+    // Set JRE info from information from the launch configuration
+    String JreContainerPathName 
+      = IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH;
+    String jreString = launchConfig.getAttribute( JreContainerPathName, "" );
+    if( !jreString.equals( "" ) ) {
+      IPath jreContainerPath = new Path( jreString );
+      IJREInfo jreInfo = product.getJREInfo();
+      if( jreInfo == null ) {
+        jreInfo = product.getModel().getFactory().createJVMInfo();
+      }
+      jreInfo.setJREContainerPath( TargetPlatform.getOS(), jreContainerPath );
+      product.setJREInfo( jreInfo );
+    }
+  }
+
+  private void handlePluginModel( final IProduct product,
+                                  final IProductModelFactory factory )
+    throws CoreException
+  {
+    // fetch the plug-ins models
+    String workspaceId = IPDELauncherConstants.SELECTED_WORKSPACE_PLUGINS;
+    String targetId = IPDELauncherConstants.SELECTED_TARGET_PLUGINS;
+    String configType = launchConfig.getType().getIdentifier();
+    if( configType.equals( IPDELauncherConstants.OSGI_CONFIGURATION_TYPE )
+        || configType.equals( WARProductConstants.RAP_LAUNCH_CONFIG_TYPE ) )
+    {
+      workspaceId = IPDELauncherConstants.WORKSPACE_BUNDLES;
+      targetId = IPDELauncherConstants.TARGET_BUNDLES;
+    }
+    Set set = new HashSet();
+    Map map = BundleLauncherHelper.getWorkspaceBundleMap( launchConfig,
+                                                          set,
+                                                          workspaceId );
+    map.putAll( BundleLauncherHelper.getTargetBundleMap( launchConfig,
+                                                         set,
+                                                         targetId ) );
+    addPlugins( factory, product, map );
+    handleDefaultConfig( product, factory );
+  }
+
+  private void handleDefaultConfig( final IProduct product,
+                                    final IProductModelFactory factory )
+    throws CoreException
+  {
+    String configDefault = IPDELauncherConstants.CONFIG_GENERATE_DEFAULT;
+    boolean useDefault = launchConfig.getAttribute( configDefault, true );
+    if( useDefault ) {
+      super.initializeProduct( product );
+    } else {
+      handleTemplatePath( product, factory );
+    }
+  }
+
+  private void handleTemplatePath( final IProduct product,
+                                   final IProductModelFactory factory )
+    throws CoreException
+  {
+    String templateLocation = IPDELauncherConstants.CONFIG_TEMPLATE_LOCATION;
+    String path = launchConfig.getAttribute( templateLocation, "/" ); 
+    IWorkspace workspace = PDEPlugin.getWorkspace();
+    IWorkspaceRoot root = workspace.getRoot();
+    IContainer container = root.getContainerForLocation( new Path( path ) );
+    if( container != null ) {
+      IConfigurationFileInfo info = factory.createConfigFileInfo();
+      info.setUse( null, "custom" );
+      info.setPath( null, container.getFullPath().toString() );
+      product.setConfigurationFileInfo( info );
+    } else {
+      super.initializeProduct( product );
+    }
+  }
+
+  private void handleVMArguments( final IProduct product,
+                                  final IProductModelFactory factory )
+  throws CoreException
+  {
+    // set vm and program arguments from the launch configuration
+    String vmArgumentsName = IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS;
+    String vmargs = launchConfig.getAttribute( vmArgumentsName, "" );
+    String programArgumentsName 
+      = IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS;
+    String programArgs = launchConfig.getAttribute( programArgumentsName, "" );
+    if( !vmargs.equals( "" ) || !programArgs.equals( "" ) ) {
+      IArgumentsInfo arguments = product.getLauncherArguments();
+      if( arguments != null ) {
+        arguments = factory.createLauncherArguments();
+      }
+      if( !vmargs.equals( "" ) ) {
+        arguments.setVMArguments( vmargs, IArgumentsInfo.L_ARGS_ALL );
+      }
+      if( !programArgs.equals( "" ) ) {
+        arguments.setProgramArguments( programArgs, IArgumentsInfo.L_ARGS_ALL );
+      }
+      product.setLauncherArguments( arguments );
+    }
+  }
+  
 }
