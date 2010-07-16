@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.internal.lifecycle.JSConst;
 import org.eclipse.rwt.internal.service.ContextProvider;
+import org.eclipse.rwt.protocol.IWidgetSynchronizer;
+import org.eclipse.rwt.protocol.WidgetSynchronizerFactory;
 import org.eclipse.rwt.service.IServiceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -28,7 +30,8 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.internal.events.ActivateEvent;
 import org.eclipse.swt.internal.events.EventLCAUtil;
 import org.eclipse.swt.internal.graphics.ResourceFactory;
-import org.eclipse.swt.internal.widgets.*;
+import org.eclipse.swt.internal.widgets.IControlAdapter;
+import org.eclipse.swt.internal.widgets.Props;
 import org.eclipse.swt.widgets.*;
 
 
@@ -211,9 +214,14 @@ public class ControlLCAUtil {
     // TODO [rst] remove surrounding if statement as soon as z-order on shells
     //      is completely implemented
     if( !( control instanceof Shell ) ) {
-      JSWriter writer = JSWriter.getWriterFor( control );
       Integer newValue = new Integer( getZIndex( control ) );
-      writer.set( Props.Z_INDEX, JSConst.QX_FIELD_Z_INDEX, newValue, null );
+      boolean changed
+        = WidgetLCAUtil.hasChanged( control, Props.Z_INDEX, newValue, null );
+      if( changed ) {
+        IWidgetSynchronizer syncronizer 
+          = WidgetSynchronizerFactory.getSynchronizerForWidget( control );
+        syncronizer.setWidgetProperty( Props.Z_INDEX, getZIndex( control ) );
+      }
     }
   }
 
@@ -236,8 +244,13 @@ public class ControlLCAUtil {
     // contained controls
     Boolean newValue = Boolean.valueOf( getVisible( control ) );
     Boolean defValue = control instanceof Shell ? Boolean.FALSE : Boolean.TRUE;
-    JSWriter writer = JSWriter.getWriterFor( control );
-    writer.set( Props.VISIBLE, JSConst.QX_FIELD_VISIBLE, newValue, defValue );
+    boolean changed 
+      = WidgetLCAUtil.hasChanged( control, Props.VISIBLE, newValue, defValue );
+    if( changed ) {
+      IWidgetSynchronizer syncronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( control );
+      syncronizer.setWidgetProperty( JSConst.QX_FIELD_VISIBLE, newValue );
+    }
   }
 
   // [if] Fix for bug 263025, 297466, 223873 and more
@@ -413,7 +426,8 @@ public class ControlLCAUtil {
     Image image = controlAdapter.getUserBackgroundImage();
     if( WidgetLCAUtil.hasChanged( control, PROP_BACKGROUND_IMAGE, image, null ) )
     {
-      JSWriter writer = JSWriter.getWriterFor( control );
+      IWidgetSynchronizer synchronizer 
+        = WidgetSynchronizerFactory.getSynchronizerForWidget( control );
       if( image != null ) {
         String imagePath = ResourceFactory.getImagePath( image );
         Rectangle bounds = image.getBounds();
@@ -424,12 +438,12 @@ public class ControlLCAUtil {
             new Integer( bounds.height )
           }
         };
-        writer.call( "setUserData", args );
-        writer.set( "backgroundImage", imagePath );
+        synchronizer.call( "setUserData", args );
+        synchronizer.setWidgetProperty( "backgroundImage", imagePath );
       } else {
         Object[] args = new Object[]{ USER_DATA_BACKGROUND_IMAGE_SIZE, null };
-        writer.call( "setUserData", args );
-        writer.reset( "backgroundImage" );
+        synchronizer.call( "setUserData", args );
+        synchronizer.setWidgetProperty( "backgroundImage", null );
       }
     }
   }

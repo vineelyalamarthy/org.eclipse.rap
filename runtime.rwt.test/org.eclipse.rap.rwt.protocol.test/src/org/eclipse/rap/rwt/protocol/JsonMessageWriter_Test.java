@@ -218,7 +218,7 @@ public class JsonMessageWriter_Test extends TestCase {
     Display display = new Display();
     Shell shell = new Shell( display );
     Button button = new Button( shell, SWT.PUSH );
-    writer.addDestroyPaylod( WidgetUtil.getId( button ) );
+    writer.addDestroyPayload( WidgetUtil.getId( button ) );
     String widgetId = WidgetUtil.getId( button );    
     String actual = stringWriter.getBuffer().toString();
     JSONObject message = new JSONObject( actual + "]}" );
@@ -231,7 +231,7 @@ public class JsonMessageWriter_Test extends TestCase {
     assertEquals( widgetId, actualId );
     Object payload = widgetObject.get( IProtocolConstants.WIDGETS_PAYLOAD );
     assertEquals( JSONObject.NULL, payload );
-    writer.addDestroyPaylod( WidgetUtil.getId( shell ) );
+    writer.addDestroyPayload( WidgetUtil.getId( shell ) );
     writer.finish();
     String shellId = WidgetUtil.getId( shell );    
     actual = stringWriter.getBuffer().toString();

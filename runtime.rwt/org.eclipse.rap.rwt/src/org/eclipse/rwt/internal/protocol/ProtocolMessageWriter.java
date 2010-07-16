@@ -157,7 +157,7 @@ public abstract class ProtocolMessageWriter {
                                                   final String[] styles, 
                                                   final Object[] arguments );
 
-  public final void addDestroyPaylod( final String widgetId ) {
+  public final void addDestroyPayload( final String widgetId ) {
     setUpPayload( widgetId );    
     appendDestroyPayload();
     appendEndPayload();

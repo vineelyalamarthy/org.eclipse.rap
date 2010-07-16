@@ -147,7 +147,7 @@ public class ProtocolMessageWriter_Test extends TestCase {
     ProtocolMessageWriter writer = new DummyWriter( printWriter );
     Display display = new Display();
     Shell shell = new Shell( display );
-    writer.addDestroyPaylod( WidgetUtil.getId( shell ) );
+    writer.addDestroyPayload( WidgetUtil.getId( shell ) );
     writer.finish();    
     assertEquals( "*#D#*", stringWriter.getBuffer().toString() );
   }

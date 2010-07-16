@@ -78,7 +78,7 @@ public class WidgetSynchronizer implements IWidgetSynchronizer {
 
   public void disposeWidget() {
     ProtocolMessageWriter writer = getProtocolMessageWriter();
-    writer.addDestroyPaylod( WidgetUtil.getId( widget ) );
+    writer.addDestroyPayload( WidgetUtil.getId( widget ) );
   }
   
   public void setWidgetProperty( final String name, final int value ) {
