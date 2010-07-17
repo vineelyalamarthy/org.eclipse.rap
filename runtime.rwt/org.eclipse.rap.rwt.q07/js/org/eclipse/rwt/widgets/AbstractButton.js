@@ -151,7 +151,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.AbstractButton", {
           req.addParameter( id + ".selection", this._selected );
           org.eclipse.swt.EventUtil.addWidgetSelectedModifier();
         }
-      }
+      }      
     },
 
     // Not using EventUtil since no event should be sent for radio

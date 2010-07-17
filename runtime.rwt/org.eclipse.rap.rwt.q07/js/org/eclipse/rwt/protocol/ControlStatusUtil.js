@@ -28,4 +28,4 @@ org.eclipse.rwt.protocol.controlStatusUtil = ( function() {
     
   }
   
-}() )
+}() );

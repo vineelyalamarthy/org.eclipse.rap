@@ -98,6 +98,7 @@ org.eclipse.rwt.protocol.widgetStatusHandlerRegistry.addHandler( {
     if( 'minHeight' in properties ) {
       widget.setMinHeight( properties.minHeight );
     }
+    org.eclipse.rwt.protocol.controlStatusUtil.synchronize( widget, properties );
   },
   
   updateListeners : function( widget, shouldListenMap ) {

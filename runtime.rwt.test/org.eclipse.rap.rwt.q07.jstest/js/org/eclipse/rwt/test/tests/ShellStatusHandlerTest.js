@@ -213,6 +213,17 @@ var object =
       assertIdentical( syncObj.minWidth, widget.getMinWidth() );
     },
     
+    testControlStatusUtil : function() {
+      var handler = this._shellStatusHandler;
+      var styles = [ 'CLOSE' ];
+      var widget = handler.createWidget( styles );
+      var syncObj = {
+          zIndex : 3  
+        };
+      handler.synchronizeWidget( widget, syncObj );
+      assertEquals( 3, widget.getZIndex() );             
+    },
+    
     testSetMinHeight : function() {
       var handler = this._shellStatusHandler;
       var styles = [ 'CLOSE' ];

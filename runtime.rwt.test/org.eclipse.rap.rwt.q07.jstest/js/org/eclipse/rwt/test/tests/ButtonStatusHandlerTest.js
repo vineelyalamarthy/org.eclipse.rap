@@ -164,6 +164,17 @@ var object =
       assertEquals( true, button.hasState( 'grayed' ) );      
     },
     
+    testControlStatusUtil : function() {
+      var handler = this._buttonStatusHandler;
+      var style = [ 'CHECK' ];
+      var button = handler.createWidget( style );
+      var syncObj = {
+        zIndex : 3  
+      };
+      handler.synchronizeWidget( button, syncObj );
+      assertEquals( 3, button.getZIndex() );             
+    },
+    
     testSlectionListener : function() {
       var handler = this._buttonStatusHandler;
       var style = [ 'PUSH' ];
@@ -181,10 +192,7 @@ var object =
       var widget = handler.createWidget( styles );
       handler.disposeWidget( widget );
     },
-    
-    
-    
-    
+
   
   }
     

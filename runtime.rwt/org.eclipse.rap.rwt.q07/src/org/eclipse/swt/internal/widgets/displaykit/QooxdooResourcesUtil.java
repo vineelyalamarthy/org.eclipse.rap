@@ -130,6 +130,7 @@ final class QooxdooResourcesUtil {
     "org/eclipse/rwt/protocol/JSON2.js",
     "org/eclipse/rwt/protocol/WidgetStatusHandlerRegistry.js",
     "org/eclipse/rwt/protocol/ProtocolUtil.js",
+    "org/eclipse/rwt/protocol/ControlStatusUtil.js",
     "org/eclipse/rwt/protocol/ShellStatusHandler.js",
     "org/eclipse/rwt/protocol/ButtonStatusHandler.js",
     "org/eclipse/rwt/protocol/Processor.js",

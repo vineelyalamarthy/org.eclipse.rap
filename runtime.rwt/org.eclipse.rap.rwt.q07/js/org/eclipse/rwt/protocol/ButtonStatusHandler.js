@@ -74,6 +74,7 @@ org.eclipse.rwt.protocol.widgetStatusHandlerRegistry.addHandler( {
  
   
   synchronizeWidget : function( widget, properties ) {
+    org.eclipse.rwt.protocol.controlStatusUtil.synchronize( widget, properties );
     if( 'text' in properties ) {
       widget.setText( properties[ 'text' ] );
     }

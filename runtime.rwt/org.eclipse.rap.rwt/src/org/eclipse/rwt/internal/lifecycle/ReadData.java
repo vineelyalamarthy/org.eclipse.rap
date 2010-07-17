@@ -39,8 +39,8 @@ final class ReadData implements IPhase {
       Shell[] shells = display.getShells();
       for( int i = 0; i < shells.length; i++ ) {
         processor.addStreamListener( new ChunkDistributor( shells[ i ] ) );
-        processor.parse();        
       }
+      processor.parse();        
     }      
     return PhaseId.PROCESS_ACTION;
   }
