@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.internal.lifecycle.JSConst;
 import org.eclipse.rwt.internal.service.ContextProvider;
-import org.eclipse.rwt.protocol.IWidgetSynchronizer;
-import org.eclipse.rwt.protocol.WidgetSynchronizerFactory;
 import org.eclipse.rwt.service.IServiceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -214,14 +212,9 @@ public class ControlLCAUtil {
     // TODO [rst] remove surrounding if statement as soon as z-order on shells
     //      is completely implemented
     if( !( control instanceof Shell ) ) {
+      JSWriter writer = JSWriter.getWriterFor( control );
       Integer newValue = new Integer( getZIndex( control ) );
-      boolean changed
-        = WidgetLCAUtil.hasChanged( control, Props.Z_INDEX, newValue, null );
-      if( changed ) {
-        IWidgetSynchronizer syncronizer 
-          = WidgetSynchronizerFactory.getSynchronizerForWidget( control );
-        syncronizer.setWidgetProperty( Props.Z_INDEX, getZIndex( control ) );
-      }
+      writer.set( Props.Z_INDEX, JSConst.QX_FIELD_Z_INDEX, newValue, null );
     }
   }
 
@@ -244,13 +237,8 @@ public class ControlLCAUtil {
     // contained controls
     Boolean newValue = Boolean.valueOf( getVisible( control ) );
     Boolean defValue = control instanceof Shell ? Boolean.FALSE : Boolean.TRUE;
-    boolean changed 
-      = WidgetLCAUtil.hasChanged( control, Props.VISIBLE, newValue, defValue );
-    if( changed ) {
-      IWidgetSynchronizer syncronizer 
-        = WidgetSynchronizerFactory.getSynchronizerForWidget( control );
-      syncronizer.setWidgetProperty( JSConst.QX_FIELD_VISIBLE, newValue );
-    }
+    JSWriter writer = JSWriter.getWriterFor( control );
+    writer.set( Props.VISIBLE, JSConst.QX_FIELD_VISIBLE, newValue, defValue );
   }
 
   // [if] Fix for bug 263025, 297466, 223873 and more
@@ -426,8 +414,7 @@ public class ControlLCAUtil {
     Image image = controlAdapter.getUserBackgroundImage();
     if( WidgetLCAUtil.hasChanged( control, PROP_BACKGROUND_IMAGE, image, null ) )
     {
-      IWidgetSynchronizer synchronizer 
-        = WidgetSynchronizerFactory.getSynchronizerForWidget( control );
+      JSWriter writer = JSWriter.getWriterFor( control );
       if( image != null ) {
         String imagePath = ResourceFactory.getImagePath( image );
         Rectangle bounds = image.getBounds();
@@ -438,12 +425,12 @@ public class ControlLCAUtil {
             new Integer( bounds.height )
           }
         };
-        synchronizer.call( "setUserData", args );
-        synchronizer.setWidgetProperty( "backgroundImage", imagePath );
+        writer.call( "setUserData", args );
+        writer.set( "backgroundImage", imagePath );
       } else {
         Object[] args = new Object[]{ USER_DATA_BACKGROUND_IMAGE_SIZE, null };
-        synchronizer.call( "setUserData", args );
-        synchronizer.setWidgetProperty( "backgroundImage", null );
+        writer.call( "setUserData", args );
+        writer.reset( "backgroundImage" );
       }
     }
   }
