@@ -25,6 +25,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.rap.warproducts.core.InfrastructreCreator;
 
 
@@ -90,6 +91,15 @@ public class InfrastructureCreatorTest extends TestCase {
     assertEquals( expectedContent.toString(), webxmlContent.toString() );
   }
   
+  public void testGetWebXmlPath() {
+    InfrastructreCreator icreator = new InfrastructreCreator( tempDir);
+    icreator.createWebXml();
+    IFolder webInf = tempDir.getFolder( "WEB-INF" );
+    IFile webXml = webInf.getFile( "web.xml" );
+    IPath webXmlPath = webXml.getFullPath();
+    assertEquals( webXmlPath, icreator.getWebXmlPath() );
+  }
+  
   public void testCreateLaunchIni() throws IOException, CoreException {
     InfrastructreCreator icreator = new InfrastructreCreator( tempDir );
     icreator.createLaunchIni();
@@ -103,6 +113,17 @@ public class InfrastructureCreatorTest extends TestCase {
       = InfrastructreCreator.class.getResourceAsStream( "/launch.ini" );
     StringBuffer expectedLaunchIni = readFile( tempLaunchIni );
     assertEquals( expectedLaunchIni.toString(), actualLaunchIni.toString() );
+  }
+  
+  public void testGetLaunchIniPath() {
+    InfrastructreCreator icreator = new InfrastructreCreator( tempDir );
+    icreator.createLaunchIni();
+    IFolder webInf = tempDir.getFolder( "WEB-INF" );
+    IFolder eclipseFolder = webInf.getFolder( "eclipse" );
+    assertTrue( eclipseFolder.exists() );
+    IFile launchIni = eclipseFolder.getFile( "launch.ini" );
+    IPath launchIniPath = launchIni.getFullPath();
+    assertEquals( launchIniPath, icreator.getLaunchIniPath() );
   }
 
   private StringBuffer readFile( final InputStream fileStream ) 

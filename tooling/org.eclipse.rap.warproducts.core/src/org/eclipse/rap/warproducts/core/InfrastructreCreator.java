@@ -113,4 +113,15 @@ public class InfrastructreCreator {
     return fileInStream;
   }
 
+  public IPath getWebXmlPath() {
+    IPath webInfPath = webInfDir.getFullPath();
+    return webInfPath.append( WEB_XML_NAME );
+  }
+
+  public IPath getLaunchIniPath() {
+    IPath webInfPath = webInfDir.getFullPath();
+    IPath eclipsePath = webInfPath.append( ECLIPSE_PATH );
+    return eclipsePath.append( LAUNCH_INI_NAME );
+  }
+
 }

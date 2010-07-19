@@ -18,10 +18,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.pde.internal.core.iproduct.IProduct;
-import org.eclipse.pde.internal.core.product.WorkspaceProductModel;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.wizards.product.BaseProductCreationOperation;
 import org.eclipse.rap.warproducts.core.InfrastructreCreator;
+import org.eclipse.rap.warproducts.core.WARProduct;
+import org.eclipse.rap.warproducts.core.WARWorkspaceProductModel;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
@@ -51,6 +52,11 @@ public class BaseWARProductCreationOperation
     creator.createWebInf();
     creator.createLaunchIni();
     creator.createWebXml();
+    if( product instanceof WARProduct ) {
+      WARProduct warProduct = ( WARProduct )product;
+      warProduct.addLaunchIni( creator.getLaunchIniPath() );
+      warProduct.addWebXml( creator.getWebXmlPath() );
+    }
   }
   
   protected void execute( final IProgressMonitor monitor )
@@ -64,7 +70,8 @@ public class BaseWARProductCreationOperation
   }
 
   private void createContent() {
-    WorkspaceProductModel model = new WorkspaceProductModel( file, false );
+    WARWorkspaceProductModel model 
+      = new WARWorkspaceProductModel( file, false );
     initializeProduct( model.getProduct() );
     model.save();
     model.dispose();

@@ -1,0 +1,151 @@
+/******************************************************************************* 
+* Copyright (c) 2010 EclipseSource and others. All rights reserved. This
+* program and the accompanying materials are made available under the terms of
+* the Eclipse Public License v1.0 which accompanies this distribution, and is
+* available at http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+*   EclipseSource - initial API and implementation
+*******************************************************************************/ 
+package org.eclipse.rap.warproducts.core.test;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import junit.framework.TestCase;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.rap.warproducts.core.IWARProduct;
+import org.eclipse.rap.warproducts.core.WARProduct;
+import org.eclipse.rap.warproducts.core.WARProductModel;
+import org.eclipse.rap.warproducts.core.WARProductModelFactory;
+
+
+public class WARProductTest extends TestCase {
+  
+  public void testWARProductProxy() {
+	WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    assertNotNull( product );
+    assertTrue( product instanceof WARProduct );
+  }
+  
+  public void testGetId() {
+    WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    String id = "anId";
+    product.setId( id );
+    assertEquals( id, product.getId() );
+  }
+  
+  public void testAddJARFile() {
+    WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    IPath jarPath = new Path( "/test/test.jar" );
+    product.addLibrary( jarPath );
+    IPath[] pathes = product.getLibraries();
+    assertEquals( jarPath, pathes[ 0 ] );
+  }
+  
+  public void testContainsLibrary() {
+    WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    IPath jarPath = new Path( "/test/test.jar" );
+    product.addLibrary( jarPath );
+    assertTrue( product.contiansLibrary( jarPath ) );
+    IPath newPath = new Path( "/test/test.jar" );
+    assertTrue( product.contiansLibrary( newPath ) );
+  }
+  
+  public void testAddWebXml() {
+    WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    IPath webXmlPath = new Path( "/test/web.xml" );
+    product.addWebXml( webXmlPath );
+    IPath actualPath = product.getWebXml();
+    assertEquals( webXmlPath, actualPath );
+  }
+  
+  public void testAddLaunchIni() {
+    WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    IPath launchIniPath = new Path( "/test/launch.ini" );
+    product.addLaunchIni( launchIniPath );
+    IPath actualPath = product.getLaunchIni();
+    assertEquals( launchIniPath, actualPath );
+  }
+  
+  public void testWrite() {
+    String xml = writenXmlFromProduct();
+    assertTrue( xml.contains( "<warConfiguration webXml=\"/test/web.xml\" " +
+    		    "launchIni=\"/test/launch.ini\">" ) );
+    assertTrue( xml.contains( "</warConfiguration>" ) );
+    assertTrue( xml.contains( "<libraries>" ) );
+    assertTrue( xml.contains( "</libraries>" ) );
+    assertTrue( xml.contains( "<library path=\"/test/test.jar\"/>" ) );
+  }
+  
+  public void testParse() {
+    String xml = writenXmlFromProduct();
+    WARProductModel model = new WARProductModel();
+    InputStream stream = new ByteArrayInputStream( xml.getBytes() );
+    try {
+      model.load( stream, false );
+    } catch( CoreException e ) {
+      e.printStackTrace();
+    }
+    IWARProduct product = ( IWARProduct )model.getProduct();
+    IPath launchIniPath = new Path( "/test/launch.ini" );
+    assertEquals( launchIniPath, product.getLaunchIni() );
+    IPath webXmlPath = new Path( "/test/web.xml" );
+    assertEquals( webXmlPath, product.getWebXml() );
+    IPath jarPath = new Path( "/test/test.jar" );
+    assertEquals( jarPath, product.getLibraries()[ 0 ] );
+  }
+
+  private String writenXmlFromProduct() {
+    WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    IPath launchIniPath = new Path( "/test/launch.ini" );
+    product.addLaunchIni( launchIniPath );
+    IPath webXmlPath = new Path( "/test/web.xml" );
+    product.addWebXml( webXmlPath );
+    IPath jarPath = new Path( "/test/test.jar" );
+    product.addLibrary( jarPath );
+    StringWriter writer = new StringWriter();
+    PrintWriter printWriter = new PrintWriter( writer );
+    product.write( "", printWriter );
+    writer.flush();
+    StringBuffer buffer = writer.getBuffer();
+    String xml = buffer.toString();
+    return xml;
+  }
+  
+  public void testReset() {
+    WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    IPath launchIniPath = new Path( "/test/launch.ini" );
+    product.addLaunchIni( launchIniPath );
+    IPath webXmlPath = new Path( "/test/web.xml" );
+    product.addWebXml( webXmlPath );
+    IPath jarPath = new Path( "/test/test.jar" );
+    product.addLibrary( jarPath );
+    product.reset();
+    assertNull( product.getWebXml() );
+    assertNull( product.getLaunchIni() );
+    assertEquals( 0, product.getLibraries().length );
+  }
+  
+}
