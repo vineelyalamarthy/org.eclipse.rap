@@ -50,6 +50,7 @@ rm -r ${TEMP}/class/qx/ui/pageview/radioview
 rm -r ${TEMP}/class/qx/ui/component
 rm -r ${TEMP}/class/qx/ui/splitpane
 rm -r ${TEMP}/class/qx/ui/treevirtual
+rm -r ${TEMP}/class/qx/ui/tree
 rm ${TEMP}/class/qx/OO.js
 rm ${TEMP}/class/qx/core/MLegacyInit.js
 rm ${TEMP}/class/qx/client/NativeWindow.js
