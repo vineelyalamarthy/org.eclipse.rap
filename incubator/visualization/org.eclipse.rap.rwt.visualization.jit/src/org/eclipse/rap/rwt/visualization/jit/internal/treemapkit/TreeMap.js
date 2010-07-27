@@ -125,8 +125,8 @@ qx.Class.define("org.eclipse.rap.rwt.visualization.jit.TreeMap",
 			          //add content to the tooltip when a node
 			          //is hovered
 			          onShow: function(tip, node, isLeaf, domElement) {
-			              tip.innerHTML = "<div class=\"tip-title\">" + node.name + "</div>" + 
-			                "<div class=\"tip-text\">" + this.makeHTMLFromData(node.data) + "</div>"; 
+			              tip.innerHTML = "<div>" + node.name + "</div>" + 
+			                "<div>" + this.makeHTMLFromData(node.data) + "</div>"; 
 			          },  
 
 			          //Aux method: Build the tooltip inner html by using the data property
@@ -136,7 +136,7 @@ qx.Class.define("org.eclipse.rap.rwt.visualization.jit.TreeMap",
 			              if ("$color" in data) 
 			                  html += "rank" + ': ' + data.$color + '<br />';
 			              if ("image" in data) 
-			                  html += "<img class=\"album\" src=\"" + data.image + "\" />";
+			                  html += "<img src=\"" + data.image + "\" />";
 			              return html;
 			          }
 			        },
@@ -197,11 +197,15 @@ qx.Class.define("org.eclipse.rap.rwt.visualization.jit.TreeMap",
 				
 			    this.addEventListener("changeWidth", function(e) {
 					vizParent.width = this.getWidth();
-					parent.refreshData();
+					qx.client.Timer.once(function() {
+						parent.refreshData();
+					},this,100);
 				});
 				this.addEventListener("changeHeight", function(e) {
 					vizParent.height = this.getHeight();
-					parent.refreshData();
+					qx.client.Timer.once(function() {
+						parent.refreshData();
+					},this,100);
 				});
 			    
 				this._viz = tm;
