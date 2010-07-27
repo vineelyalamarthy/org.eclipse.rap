@@ -18,49 +18,11 @@ OUTPUT_FILE_DEBUG=${OUTPUT}/qx-debug.js
 echo "  CLEANING DIRECTORIES"
 rm -r -f ${OUTPUT}
 
-# *** command line switches to optimize generated output ***
-#  --use-variant=qx.debug:off \
-#  --add-new-lines \
-#  --add-file-ids \
-#  --optimize-strings \
-#  --optimize-variables \
-#  --optimize-base-call \
-#  --optimize-private \
-
-#  --add-file-ids \
-#  --add-new-lines \
-
-#  --print-modules \
-
 SETTINGS="--use-setting=qx.theme:org.eclipse.swt.theme.Default 
   --use-setting=qx.logAppender:qx.log.appender.Native 
   --add-require qx.log.Logger:qx.log.appender.Native
   --use-variant=qx.compatibility:off
   --use-variant=qx.aspects:off"
-
-#  --include-without-dependencies=qx.client.NativeWindow 
-INCLUDES="--include=oo 
-  --include=core 
-  --include=ui_core 
-  --include=ui_window 
-  --include=log 
-  --include=ui_treefullcontrol 
-  --include=ui_tooltip 
-  --include=ui_tabview 
-  --include=ui_toolbar 
-  --include=ui_splitpane 
-  --include=ui_popup 
-  --include=ui_form 
-  --include=ui_menu 
-  --include=ui_layout 
-  --include=ui_basic 
-  --include=ui_dragdrop 
-  --include=io_remote 
-  --include-without-dependencies=qx.ui.embed.Iframe 
-  --include-without-dependencies=qx.html.Window 
-  --include-without-dependencies=qx.ui.basic.ScrollBar 
-  --include-without-dependencies=qx.ui.basic.ScrollArea
-  --include-without-dependencies=qx.client.History"
 
 echo "  GENERATING ${OUTPUT_FILE}"
 ${TOOL}/generator.py \
