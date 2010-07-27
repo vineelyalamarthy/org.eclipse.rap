@@ -15,7 +15,7 @@ import org.eclipse.pde.internal.core.iproduct.IProduct;
 
 public interface IWARProduct extends IProduct {
 
-  public void addLibrary( final IPath relativePath );
+  public void addLibrary( final IPath absolutePath );
 
   public IPath[] getLibraries();
 
@@ -28,5 +28,9 @@ public interface IWARProduct extends IProduct {
   public void addLaunchIni( final IPath relativeWorkspacePath );
 
   public IPath getLaunchIni();
+
+  public void removeLibrary( final IPath libraryPath );
+
+  public void removeLibraries( final IPath[] pathes );
   
 }

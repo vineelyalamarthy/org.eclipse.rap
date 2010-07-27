@@ -4,13 +4,14 @@
  * the Eclipse Public License v1.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-v10.html Contributors:
  * EclipseSource - initial API and implementation
- *******************************************************************************/
+ ******************************************************************************/
 package org.eclipse.rap.warproducts.core;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -261,9 +262,11 @@ public class WARProductExportOperation extends FeatureExportOperation {
       properties.put( rootPrefix, "absolute:file:" + webXmlPath 
                                   + ",absolute:file:" + launchIniPath );
       String libDir = createLibDir();
+      copyLibraries( libDir );
       properties.put( rootPrefix + ".folder." + "lib", "absolute:" + libDir );
     }
   }
+
 
   private String createLibDir() {
     String location = featureLocation;
@@ -272,24 +275,50 @@ public class WARProductExportOperation extends FeatureExportOperation {
     return dir.getAbsolutePath();
   }
   
-  private String createWarContent( final IPath pathToContent, 
-                                   final String fileName ) 
-  {
-    IPath wsPath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
-    IPath absoluteWebXmlPath = wsPath.append( pathToContent );
-    File sourceFile = new File( featureLocation, fileName );
+  private void copyLibraries( final String libDir ) {
+    WARProduct warProduct = ( WARProduct)product;
+    IPath[] libraries = warProduct.getLibraries();
+    for( int i = 0; i < libraries.length; i++ ) {
+      IPath lib = libraries[ i ];
+      copyLibrary( libDir, lib );
+    }
+  }
+      
+  private void copyLibrary( final String libDir, final IPath filePath ) {
     InputStream stream = null;
     try {
-      URL sourceFileUrl 
-        = new URL( "file://" + absoluteWebXmlPath.toOSString() );
-      stream = sourceFileUrl.openStream();
-      CoreUtility.readFile( stream, sourceFile );
+      String fileName = filePath.segment( filePath.segmentCount() - 1 );
+      URL sourceFilePath = new URL( "file://" + filePath.toOSString() );
+      stream = sourceFilePath.openStream();
+      File destinationFile = new File( libDir + File.separator + fileName );
+      CoreUtility.readFile( stream, destinationFile );      
+    } catch( final MalformedURLException e ) {
+      e.printStackTrace();
     } catch( final IOException e ) {
       e.printStackTrace();
     } finally {
       closeStream( stream );
     }
-    return sourceFile.getAbsolutePath();
+  }
+
+  private String createWarContent( final IPath pathToContent, 
+                                   final String fileName ) 
+  {
+    IPath wsPath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
+    IPath absoluteWebXmlPath = wsPath.append( pathToContent );
+    File destinationFile = new File( featureLocation, fileName );
+    InputStream stream = null;
+    try {
+      URL sourceFileUrl 
+        = new URL( "file://" + absoluteWebXmlPath.toOSString() );
+      stream = sourceFileUrl.openStream();
+      CoreUtility.readFile( stream, destinationFile );
+    } catch( final IOException e ) {
+      e.printStackTrace();
+    } finally {
+      closeStream( stream );
+    }
+    return destinationFile.getAbsolutePath();
   }
   
   private void closeStream( final InputStream stream ) {

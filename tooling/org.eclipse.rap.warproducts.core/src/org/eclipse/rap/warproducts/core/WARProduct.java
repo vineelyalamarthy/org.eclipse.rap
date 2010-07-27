@@ -15,6 +15,9 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.pde.core.IModelChangeProvider;
+import org.eclipse.pde.core.IModelChangedEvent;
+import org.eclipse.pde.core.ModelChangedEvent;
 import org.eclipse.pde.internal.core.iproduct.IAboutInfo;
 import org.eclipse.pde.internal.core.iproduct.IArgumentsInfo;
 import org.eclipse.pde.internal.core.iproduct.IConfigurationFileInfo;
@@ -48,8 +51,30 @@ public class WARProduct implements IWARProduct {
     libraries = new ArrayList();
   }
   
-  public void addLibrary( final IPath relativeWorkspacePath ) {
-    libraries.add( relativeWorkspacePath );
+  public void addLibrary( final IPath absolutePath ) {
+    boolean modified = !libraries.contains( absolutePath );
+    if( modified ) {
+      libraries.add( absolutePath );
+    }
+    if( getModel().isEditable() && modified ) {
+      fireStructureChanged( new IPath[] { absolutePath }, 
+                            IModelChangedEvent.INSERT );
+    }
+  }
+  
+  public void removeLibrary( final IPath libraryPath ) {
+    boolean modified = libraries.contains( libraryPath );
+    libraries.remove( libraryPath );
+    if( getModel().isEditable() && modified ) {
+      fireStructureChanged( new IPath[] { libraryPath }, 
+                            IModelChangedEvent.REMOVE );
+    }
+  }
+  
+  public void removeLibraries( final IPath[] pathes ) {
+    for( int i = 0; i < pathes.length; i++ ) {
+      removeLibrary( pathes[ i ] );
+    }
   }
 
   public IPath[] getLibraries() {
@@ -316,6 +341,24 @@ public class WARProduct implements IWARProduct {
     return result;
   }
   
+  protected void fireStructureChanged( final Object child, 
+                                       final int changeType ) 
+  {
+    fireStructureChanged( new Object[]{ child }, changeType );
+  }
+
+  protected void fireStructureChanged( final Object[] children, 
+                                       final int changeType )
+  {
+    if( getModel().isEditable() ) {
+      IModelChangeProvider provider = getModel();
+      provider.fireModelChanged( new ModelChangedEvent( provider,
+                                                        changeType,
+                                                        children,
+                                                        null ) );
+    }
+  }
+  
   // simple delegate methods
 
   public String getId() {
@@ -515,5 +558,5 @@ public class WARProduct implements IWARProduct {
   public IProduct getProduct() {
     return delegate.getProduct();
   }
-  
+
 }

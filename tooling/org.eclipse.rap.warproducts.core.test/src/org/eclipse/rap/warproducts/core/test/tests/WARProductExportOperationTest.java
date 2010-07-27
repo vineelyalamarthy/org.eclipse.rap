@@ -27,6 +27,8 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.resolver.BundleDescription;
 import org.eclipse.osgi.service.resolver.State;
@@ -50,6 +52,7 @@ public class WARProductExportOperationTest extends TestCase {
     = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() 
       + File.separator + WAR_FILE;
   private IFolder tempDir;
+  private String jarFileName;
 
   protected void setUp() throws Exception {
     tempDir = createTempDir();
@@ -100,6 +103,7 @@ public class WARProductExportOperationTest extends TestCase {
 //    testEclipseFolderContainsConfiguration( warEntryList );
     testEclipseFolderContainsPlugins( warEntryList );
 //    testConfigurationFolderContainsConfigIni( warEntryList );
+    testLibContainsJar( warEntryList );
   }
   
   private void testWARFileRootIsWebInf( final List warEntryList ) 
@@ -147,6 +151,14 @@ public class WARProductExportOperationTest extends TestCase {
     assertTrue( warEntryList.contains( getFilePath( "WEB-INF", "plugins" ) 
                                        + File.separator ) );
   }
+  
+  private void testLibContainsJar( final List warEntryList ) 
+  throws Exception 
+{
+  String path = getFilePath( "WEB-INF" + File.separator + "lib", 
+                             jarFileName );
+  assertTrue( warEntryList.contains( path ) );
+}
 
   private List extractWarEntriesAsString( File war )
     throws ZipException, IOException
@@ -161,8 +173,7 @@ public class WARProductExportOperationTest extends TestCase {
     return warEntryList;
   }
 
-  private File runBlockingWARExportJob()
-    throws CoreException, InterruptedException
+  private File runBlockingWARExportJob() throws Exception
   {
     WARProductExportOperation job = createWarExportOperation();
     job.setUser( true );
@@ -173,7 +184,7 @@ public class WARProductExportOperationTest extends TestCase {
   }
 
   private WARProductExportOperation createWarExportOperation()
-    throws CoreException
+    throws Exception
   {
     IFolder tempDir = createTempDir();
     InfrastructreCreator creator = new InfrastructreCreator( tempDir );
@@ -183,6 +194,12 @@ public class WARProductExportOperationTest extends TestCase {
     creator.createWebInf();
     creator.createLaunchIni();
     creator.createWebXml();
+    product.removeLibrary( new Path( "/test.rap/lib.jar" ) );
+    File jar = File.createTempFile( "test", ".jar" );
+    jarFileName = jar.getName();
+    String pathToJar = jar.getAbsolutePath();
+    IPath jarPath = new Path( pathToJar );
+    product.addLibrary( jarPath );
     product.addLaunchIni( creator.getLaunchIniPath() );
     IProductModelFactory factory = model.getFactory();
     IConfigurationFileInfo configInfo = factory.createConfigFileInfo();

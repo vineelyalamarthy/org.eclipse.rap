@@ -17,8 +17,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.editor.context.InputContextManager;
-import org.eclipse.pde.internal.ui.editor.product.DependenciesPage;
-import org.eclipse.pde.internal.ui.editor.product.OverviewPage;
 import org.eclipse.pde.internal.ui.editor.product.ProductEditor;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.ui.IEditorInput;
@@ -39,12 +37,7 @@ public class WARProductEditor extends ProductEditor {
   protected void addEditorPages() {
     try {
       addPage( new OverviewPage( this ) );
-      addPage( new DependenciesPage( this, useFeatures() ) );
-      // addPage(new ConfigurationPage(this, false));
-      // addPage(new LaunchingPage(this));
-      // addPage(new SplashPage(this));
-      // addPage(new BrandingPage(this));
-      // addPage(new LicensingPage(this));
+      addPage( new ConfigurationPage( this, useFeatures() ) );
     } catch( final PartInitException e ) {
       PDEPlugin.logException( e );
     }
