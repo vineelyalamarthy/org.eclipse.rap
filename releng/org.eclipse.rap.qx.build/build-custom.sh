@@ -72,8 +72,7 @@ ${TOOL}/generator.py \
   --use-variant=qx.debug:off \
   --optimize-strings \
   --optimize-variables \
-  --optimize-base-call \
-  `echo ${INCLUDES}`
+  --optimize-base-call
 
 echo "  GENERATING ${OUTPUT_FILE_DEBUG}"
 ${TOOL}/generator.py \
@@ -84,8 +83,7 @@ ${TOOL}/generator.py \
   `echo ${SETTINGS}` \
   --use-variant=qx.debug:on \
   --add-file-ids \
-  --add-new-lines \
-  `echo ${INCLUDES}`
+  --add-new-lines
 
 echo "    Size of ${OUTPUT_FILE} is `stat -c %s ${OUTPUT_FILE}` bytes"
 echo "    Size of ${OUTPUT_FILE_DEBUG} is `stat -c %s ${OUTPUT_FILE_DEBUG}` bytes"
