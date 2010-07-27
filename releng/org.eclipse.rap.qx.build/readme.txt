@@ -1,8 +1,6 @@
 (Very) short manual on how to build qx.js/qx-debug.js from source.
 
-1. Obtain the desired qooxdoo version from SVN, we recommend to fetch it into
-   your workspace. The code that is currently used by RAP resides in the
-   qx-build/source folder.
+1. The code that is currently used by RAP resides in the source/ folder.
 2. Adjust the variables at the beginning of build-custom.sh to match the
    location of the just obtained qooxdoo source.
 3. Run build-custom.sh (requires Cygwin on Windows).
@@ -14,14 +12,9 @@
    readable. Therefore another file qx-debug.js is provided to ease debugging,
    tracing call stacks and so on.
 
-NOTE:
-  Due to legal issues the qx-build/source folder does NOT contain the following
-  files and folders that can be found in the original qooxdoo source trunk:
-  - class/qx/theme/icon/Nuvola.js
-  - class/qx/theme/icon/CrystalClear.js
-  - class/qx/xml/Namespace.js
-  - class/qx/ui/table
-  - class/qx/ui/progressive
+The code in this bundle is derived from qooxdoo 0.7.4.
+See bug 257022: Migrate to qooxdoo 0.7.4
+https://bugs.eclipse.org/bugs/show_bug.cgi?id=257022
 
   Amended the JSON license to reflect the license that Eclipse has been
   permitted to use for this code, which is the JSON License with the following
