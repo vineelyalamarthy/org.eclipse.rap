@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2010 EclipseSource and others. All rights reserved. This
+ * program and the accompanying materials are made available under the terms of
+ * the Eclipse Public License v1.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-v10.html Contributors:
+ * EclipseSource - initial API and implementation
+ ******************************************************************************/
 package org.eclipse.rap.warproducts.ui.exportwizard;
 
 import java.io.File;
@@ -12,13 +19,14 @@ import org.eclipse.osgi.service.resolver.State;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.pde.internal.core.TargetPlatformHelper;
 import org.eclipse.pde.internal.core.exports.FeatureExportInfo;
-import org.eclipse.pde.internal.core.exports.ProductExportOperation;
 import org.eclipse.pde.internal.core.iproduct.IProduct;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.pde.internal.core.product.WorkspaceProductModel;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.wizards.exports.ProductExportWizard;
+import org.eclipse.rap.warproducts.core.WARProductExportOperation;
+import org.eclipse.rap.warproducts.core.WARWorkspaceProductModel;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.osgi.framework.Version;
 
@@ -46,7 +54,7 @@ public class ExportWARProductWizard extends ProductExportWizard {
 
   protected boolean performPreliminaryChecks() {
     boolean result = true;
-    fProductModel = new WorkspaceProductModel( page.getProductFile(), false );
+    fProductModel = new WARWorkspaceProductModel( page.getProductFile(), false );
     try {
       fProductModel.load();
       if( !fProductModel.isLoaded() ) {
@@ -91,21 +99,21 @@ public class ExportWARProductWizard extends ProductExportWizard {
   protected void scheduleExportJob() {
     FeatureExportInfo info = new FeatureExportInfo();
     info.toDirectory = page.doExportToDirectory();
-    info.exportSource = page.doExportSource();
-    info.exportSourceBundle = page.doExportSourceBundles();
-    info.allowBinaryCycles = page.doBinaryCycles();
-    info.exportMetadata = page.doExportMetadata();
+    info.exportSource = false;
+    info.exportSourceBundle = false;
+    info.allowBinaryCycles = false;
+    info.exportMetadata = false;
     info.destinationDirectory = page.getDestination();
     info.zipFileName = page.getFileName();
     info.items = getPluginModels();
     String rootDirectory = page.getRootDirectory();
     if( "".equals( rootDirectory.trim() ) ) //$NON-NLS-1$
       rootDirectory = "."; //$NON-NLS-1$
-    ProductExportOperation job 
-      = new ProductExportOperation( info,
-                                    PDEUIMessages.ProductExportJob_name,
-                                    fProductModel.getProduct(),
-                                    rootDirectory );
+    WARProductExportOperation job 
+      = new WARProductExportOperation( info,
+                                       PDEUIMessages.ProductExportJob_name,
+                                       fProductModel.getProduct(),
+                                       rootDirectory );
     job.setUser( true );
     job.setRule( ResourcesPlugin.getWorkspace().getRoot() );
     job.schedule();

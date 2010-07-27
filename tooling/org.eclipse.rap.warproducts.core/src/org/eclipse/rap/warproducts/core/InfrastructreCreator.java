@@ -9,6 +9,7 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -24,8 +25,10 @@ public class InfrastructreCreator {
 
   private static final String ECLIPSE_PATH = "eclipse";
   private static final String WEB_INF_PATH = "WEB-INF";
-  private static final String WEB_XML_TEMPLATE_PATH = "/web.xml";
-  private static final String LAUNCH_INI_TEMPLATE_PATH = "/launch.ini";
+  private static final String WEB_XML_TEMPLATE_PATH 
+    = File.separator + "web.xml";
+  private static final String LAUNCH_INI_TEMPLATE_PATH 
+    = File.separator + "launch.ini";
   private static final String WEB_XML_NAME = "web.xml";
   private static final String LAUNCH_INI_NAME = "launch.ini";
   private IContainer rootFolder;

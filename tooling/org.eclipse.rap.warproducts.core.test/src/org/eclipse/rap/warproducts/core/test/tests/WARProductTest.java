@@ -7,9 +7,10 @@
 * Contributors:
 *   EclipseSource - initial API and implementation
 *******************************************************************************/ 
-package org.eclipse.rap.warproducts.core.test;
+package org.eclipse.rap.warproducts.core.test.tests;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -19,6 +20,9 @@ import junit.framework.TestCase;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.pde.internal.core.iproduct.IPluginConfiguration;
+import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
+import org.eclipse.pde.internal.core.product.ProductPlugin;
 import org.eclipse.rap.warproducts.core.IWARProduct;
 import org.eclipse.rap.warproducts.core.WARProduct;
 import org.eclipse.rap.warproducts.core.WARProductModel;
@@ -48,7 +52,7 @@ public class WARProductTest extends TestCase {
     WARProductModel model = new WARProductModel();
     WARProductModelFactory factory = new WARProductModelFactory( model );
     IWARProduct product = ( IWARProduct )factory.createProduct();
-    IPath jarPath = new Path( "/test/test.jar" );
+    IPath jarPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
     product.addLibrary( jarPath );
     IPath[] pathes = product.getLibraries();
     assertEquals( jarPath, pathes[ 0 ] );
@@ -58,10 +62,10 @@ public class WARProductTest extends TestCase {
     WARProductModel model = new WARProductModel();
     WARProductModelFactory factory = new WARProductModelFactory( model );
     IWARProduct product = ( IWARProduct )factory.createProduct();
-    IPath jarPath = new Path( "/test/test.jar" );
+    IPath jarPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
     product.addLibrary( jarPath );
     assertTrue( product.contiansLibrary( jarPath ) );
-    IPath newPath = new Path( "/test/test.jar" );
+    IPath newPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
     assertTrue( product.contiansLibrary( newPath ) );
   }
   
@@ -69,7 +73,7 @@ public class WARProductTest extends TestCase {
     WARProductModel model = new WARProductModel();
     WARProductModelFactory factory = new WARProductModelFactory( model );
     IWARProduct product = ( IWARProduct )factory.createProduct();
-    IPath webXmlPath = new Path( "/test/web.xml" );
+    IPath webXmlPath = new Path( getAbsoluteFilePath( "test", "web.xml" ) );
     product.addWebXml( webXmlPath );
     IPath actualPath = product.getWebXml();
     assertEquals( webXmlPath, actualPath );
@@ -79,7 +83,8 @@ public class WARProductTest extends TestCase {
     WARProductModel model = new WARProductModel();
     WARProductModelFactory factory = new WARProductModelFactory( model );
     IWARProduct product = ( IWARProduct )factory.createProduct();
-    IPath launchIniPath = new Path( "/test/launch.ini" );
+    IPath launchIniPath = new Path( getAbsoluteFilePath( "test", 
+                                                         "launch.ini" ) );
     product.addLaunchIni( launchIniPath );
     IPath actualPath = product.getLaunchIni();
     assertEquals( launchIniPath, actualPath );
@@ -87,12 +92,16 @@ public class WARProductTest extends TestCase {
   
   public void testWrite() {
     String xml = writenXmlFromProduct();
-    assertTrue( xml.contains( "<warConfiguration webXml=\"/test/web.xml\" " +
-    		    "launchIni=\"/test/launch.ini\">" ) );
-    assertTrue( xml.contains( "</warConfiguration>" ) );
-    assertTrue( xml.contains( "<libraries>" ) );
-    assertTrue( xml.contains( "</libraries>" ) );
-    assertTrue( xml.contains( "<library path=\"/test/test.jar\"/>" ) );
+    assertTrue( xml.indexOf( "<warConfiguration webXml=\"" 
+                             + getAbsoluteFilePath( "test", "web.xml" ) + "\" " 
+                             + "launchIni=\"" 
+                             + getAbsoluteFilePath( "test", "launch.ini" ) 
+                             + "\">" ) > -1 );
+    assertTrue( xml.indexOf( "</warConfiguration>" ) > -1 );
+    assertTrue( xml.indexOf( "<libraries>" ) > -1 );
+    assertTrue( xml.indexOf( "</libraries>" ) > -1 );
+    assertTrue( xml.indexOf( "<library path=\"" + File.separator + "test" 
+                             + File.separator + "test.jar\"/>" ) > -1 );
   }
   
   public void testParse() {
@@ -105,23 +114,52 @@ public class WARProductTest extends TestCase {
       e.printStackTrace();
     }
     IWARProduct product = ( IWARProduct )model.getProduct();
-    IPath launchIniPath = new Path( "/test/launch.ini" );
+    IPath launchIniPath = new Path( getAbsoluteFilePath( "test", "launch.ini" ) );
     assertEquals( launchIniPath, product.getLaunchIni() );
-    IPath webXmlPath = new Path( "/test/web.xml" );
+    IPath webXmlPath = new Path( getAbsoluteFilePath( "test", "web.xml" ) );
     assertEquals( webXmlPath, product.getWebXml() );
-    IPath jarPath = new Path( "/test/test.jar" );
+    IPath jarPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
     assertEquals( jarPath, product.getLibraries()[ 0 ] );
+  }
+  
+  public void testPluginConfiguration() throws CoreException {
+    WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    IProductPlugin[] plugins = new IProductPlugin[ 5 ];
+    for( int i = 0; i < plugins.length; i++ ) {
+      plugins[ i ] = new ProductPlugin( model );
+      plugins[ i ].setId( "a.bundle.id." + i );
+    }
+    product.addPlugins( plugins );
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter writer = new PrintWriter( stringWriter );
+    product.write( "", writer );
+    String serializedProduct = stringWriter.getBuffer().toString();
+    model = new WARProductModel();
+    ByteArrayInputStream stream 
+      = new ByteArrayInputStream( serializedProduct.getBytes() );
+    model.load( stream, false );
+    product = ( IWARProduct )model.getProduct();
+    IPluginConfiguration[] pluginConfigurations 
+      = product.getPluginConfigurations();
+    assertEquals( 5, pluginConfigurations.length );
+    for( int i = 0; i < pluginConfigurations.length; i++ ) {
+      IPluginConfiguration conf = pluginConfigurations[ i ];
+      assertEquals( "a.bundle.id." + i , conf.getId() );
+      assertTrue( conf.isAutoStart() );
+    }
   }
 
   private String writenXmlFromProduct() {
     WARProductModel model = new WARProductModel();
     WARProductModelFactory factory = new WARProductModelFactory( model );
     IWARProduct product = ( IWARProduct )factory.createProduct();
-    IPath launchIniPath = new Path( "/test/launch.ini" );
+    IPath launchIniPath = new Path( getAbsoluteFilePath( "test", "launch.ini" ) );
     product.addLaunchIni( launchIniPath );
-    IPath webXmlPath = new Path( "/test/web.xml" );
+    IPath webXmlPath = new Path( getAbsoluteFilePath( "test", "web.xml" ) );
     product.addWebXml( webXmlPath );
-    IPath jarPath = new Path( "/test/test.jar" );
+    IPath jarPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
     product.addLibrary( jarPath );
     StringWriter writer = new StringWriter();
     PrintWriter printWriter = new PrintWriter( writer );
@@ -136,16 +174,20 @@ public class WARProductTest extends TestCase {
     WARProductModel model = new WARProductModel();
     WARProductModelFactory factory = new WARProductModelFactory( model );
     IWARProduct product = ( IWARProduct )factory.createProduct();
-    IPath launchIniPath = new Path( "/test/launch.ini" );
+    IPath launchIniPath = new Path( getAbsoluteFilePath( "test", "launch.ini" ) );
     product.addLaunchIni( launchIniPath );
-    IPath webXmlPath = new Path( "/test/web.xml" );
+    IPath webXmlPath = new Path( getAbsoluteFilePath( "test", "web.xml" ) );
     product.addWebXml( webXmlPath );
-    IPath jarPath = new Path( "/test/test.jar" );
+    IPath jarPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
     product.addLibrary( jarPath );
     product.reset();
     assertNull( product.getWebXml() );
     assertNull( product.getLaunchIni() );
     assertEquals( 0, product.getLibraries().length );
+  }
+  
+  private String getAbsoluteFilePath( final String folder, final String file ) {
+    return File.separator + folder + File.separator + file;
   }
   
 }

@@ -26,12 +26,10 @@ import org.eclipse.pde.internal.core.iproduct.IPluginConfiguration;
 import org.eclipse.pde.internal.core.iproduct.IProduct;
 import org.eclipse.pde.internal.core.iproduct.IProductFeature;
 import org.eclipse.pde.internal.core.iproduct.IProductModel;
-import org.eclipse.pde.internal.core.iproduct.IProductModelFactory;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.pde.internal.core.iproduct.ISplashInfo;
 import org.eclipse.pde.internal.core.iproduct.IWindowImages;
 import org.eclipse.pde.internal.core.util.PDEXMLHelper;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -192,7 +190,7 @@ public class WARProduct implements IWARProduct {
                                           final PrintWriter writer )
   {
     IPluginConfiguration[] pluginConfigurations = getPluginConfigurations();
-    if( pluginConfigurations.length > 0 ) {
+    if( pluginConfigurations != null && pluginConfigurations.length > 0 ) {
       writer.println( indent + "   <configurations>" ); 
       for( int i = 0; i < pluginConfigurations.length; i++ ) {
         IPluginConfiguration configuration = pluginConfigurations[ i ];
@@ -232,110 +230,21 @@ public class WARProduct implements IWARProduct {
   }
   
   public void parse( final Node node ) {
+    delegate.parse( node );
     if( node.getNodeType() == Node.ELEMENT_NODE
         && node.getNodeName().equals( "product" ) ) { //$NON-NLS-1$
-      Element element = ( Element )node;
-      parseMetaInfo( element );
       parseInfo( node );
     }
-  }
-  
-  private void parseMetaInfo( final Element element ) {
-    setApplication( element.getAttribute( P_APPLICATION ) );
-    setProductId( element.getAttribute( P_ID ) );
-    setId( element.getAttribute( P_UID ) );
-    setName( element.getAttribute( P_NAME ) );
-    setVersion( element.getAttribute( P_VERSION ) );
-    setUseFeatures( "true".equals( element.getAttribute( P_USEFEATURES ) ) );
-    String launchers = element.getAttribute( P_INCLUDE_LAUNCHERS );
-    setIncludeLaunchers( ( "true".equals( launchers ) 
-                         || launchers.length() == 0 ) );
   }
 
   private void parseInfo( final Node node ) {
     NodeList children = node.getChildNodes();
-    IProductModelFactory factory = getModel().getFactory();
     for( int i = 0; i < children.getLength(); i++ ) {
       Node child = children.item( i );
       if( child.getNodeType() == Node.ELEMENT_NODE ) {
         String name = child.getNodeName();
-        if( name.equals( "aboutInfo" ) ) { //$NON-NLS-1$
-          setAboutInfo( factory.createAboutInfo() );
-          getAboutInfo().parse( child );
-        } else if( name.equals( "plugins" ) ) { //$NON-NLS-1$
-          parsePlugins( child.getChildNodes() );
-        } else if( name.equals( "features" ) ) { //$NON-NLS-1$
-          parseFeatures( child.getChildNodes() );
-        } else if( name.equals( "configurations" ) ) { //$NON-NLS-1$
-          parsePluginConfigurations( child.getChildNodes() );
-        } else if( name.equals( "configIni" ) ) { //$NON-NLS-1$
-          setConfigurationFileInfo( factory.createConfigFileInfo() );
-          getConfigurationFileInfo().parse( child );
-        } else if( name.equals( "windowImages" ) ) { //$NON-NLS-1$
-          setWindowImages( factory.createWindowImages() );
-          getWindowImages().parse( child );
-        } else if( name.equals( "splash" ) ) { //$NON-NLS-1$
-          setSplashInfo( factory.createSplashInfo() );
-          getSplashInfo().parse( child );
-        } else if( name.equals( "launcher" ) ) { //$NON-NLS-1$
-          setLauncherInfo( factory.createLauncherInfo() );
-          getLauncherInfo().parse( child );
-        } else if( name.equals( "launcherArgs" ) ) { //$NON-NLS-1$
-          setLauncherArguments( factory.createLauncherArguments() );
-          getLauncherArguments().parse( child );
-        } else if( name.equals( "intro" ) ) { //$NON-NLS-1$
-          setIntroInfo( factory.createIntroInfo() );
-          getIntroInfo().parse( child );
-        } else if( name.equals( "vm" ) ) { //$NON-NLS-1$
-          setJREInfo( factory.createJVMInfo() );
-          getJREInfo().parse( child );
-        } else if( name.equals( "license" ) ) { //$NON-NLS-1$
-          setLicenseInfo( factory.createLicenseInfo() );
-          getLicenseInfo().parse( child );
-        } else if( name.equals( "warConfiguration" ) ) {
+        if( name.equals( "warConfiguration" ) ) {
           parseWARConfiguration( child );
-        }
-      }
-    }
-  }
-
-  private void parsePlugins( NodeList children ) {
-    for( int i = 0; i < children.getLength(); i++ ) {
-      Node child = children.item( i );
-      if( child.getNodeType() == Node.ELEMENT_NODE ) {
-        if( child.getNodeName().equals( "plugin" ) ) { //$NON-NLS-1$
-          IProductPlugin plugin = getModel().getFactory().createPlugin();
-          plugin.parse( child );
-          addPlugins( new IProductPlugin[] { plugin } );
-        }
-      }
-    }
-  }
-
-  private void parsePluginConfigurations( NodeList children ) {
-    for( int i = 0; i < children.getLength(); i++ ) {
-      Node child = children.item( i );
-      if( child.getNodeType() == Node.ELEMENT_NODE ) {
-        if( child.getNodeName().equals( "plugin" ) ) { //$NON-NLS-1$
-          IPluginConfiguration configuration = getModel().getFactory()
-            .createPluginConfiguration();
-          configuration.parse( child );
-          IPluginConfiguration[] configurationsArray 
-            = new IPluginConfiguration[] { configuration };
-          addPluginConfigurations( configurationsArray );
-        }
-      }
-    }
-  }
-
-  private void parseFeatures( NodeList children ) {
-    for( int i = 0; i < children.getLength(); i++ ) {
-      Node child = children.item( i );
-      if( child.getNodeType() == Node.ELEMENT_NODE ) {
-        if( child.getNodeName().equals( "feature" ) ) { //$NON-NLS-1$
-          IProductFeature feature = getModel().getFactory().createFeature();
-          feature.parse( child );
-          addFeatures( new IProductFeature[] { feature } );
         }
       }
     }
@@ -390,6 +299,21 @@ public class WARProduct implements IWARProduct {
     webXmlPath = null;
     launchIniPath = null;
     libraries.clear();
+  }
+  
+  public IPluginConfiguration[] getPluginConfigurations() {
+    IPluginConfiguration[] result = null;
+    IProductPlugin[] plugins = getPlugins();
+    if( plugins != null && plugins.length > 0 ) {
+      result = new IPluginConfiguration[ plugins.length ];
+      WARProductModelFactory factory = new WARProductModelFactory( getModel() );
+      for( int i = 0; i < plugins.length; i++ ) {
+        result[ i ] = factory.createPluginConfiguration();
+        result[ i ].setId( plugins[ i ].getId() );
+        result[ i ].setAutoStart( true );
+      }
+    }
+    return result;
   }
   
   // simple delegate methods
@@ -500,10 +424,6 @@ public class WARProduct implements IWARProduct {
 
   public IProductFeature[] getFeatures() {
     return delegate.getFeatures();
-  }
-
-  public IPluginConfiguration[] getPluginConfigurations() {
-    return delegate.getPluginConfigurations();
   }
 
   public void setId( final String id ) {

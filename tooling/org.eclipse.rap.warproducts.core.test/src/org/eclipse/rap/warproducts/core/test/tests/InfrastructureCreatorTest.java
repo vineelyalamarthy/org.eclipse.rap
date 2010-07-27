@@ -7,9 +7,10 @@
 * Contributors:
 *   EclipseSource - initial API and implementation
 *******************************************************************************/ 
-package org.eclipse.rap.warproducts.core.test;
+package org.eclipse.rap.warproducts.core.test.tests;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -86,7 +87,8 @@ public class InfrastructureCreatorTest extends TestCase {
     assertTrue( webXml.exists() );
     StringBuffer webxmlContent = readFile( webXml.getContents( true ) );
     InputStream resourceStream 
-      = InfrastructreCreator.class.getResourceAsStream( "/web.xml" );
+      = InfrastructreCreator.class.getResourceAsStream( File.separator 
+                                                        + "web.xml" );
     StringBuffer expectedContent = readFile( resourceStream );
     assertEquals( expectedContent.toString(), webxmlContent.toString() );
   }
@@ -110,7 +112,8 @@ public class InfrastructureCreatorTest extends TestCase {
     assertTrue( launchIni.exists() );
     StringBuffer actualLaunchIni = readFile( launchIni.getContents() );
     InputStream tempLaunchIni 
-      = InfrastructreCreator.class.getResourceAsStream( "/launch.ini" );
+      = InfrastructreCreator.class.getResourceAsStream( File.separator 
+                                                        + "launch.ini" );
     StringBuffer expectedLaunchIni = readFile( tempLaunchIni );
     assertEquals( expectedLaunchIni.toString(), actualLaunchIni.toString() );
   }
