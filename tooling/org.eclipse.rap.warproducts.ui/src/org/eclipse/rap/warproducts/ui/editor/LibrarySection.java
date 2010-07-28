@@ -4,7 +4,7 @@
  * the Eclipse Public License v1.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-v10.html Contributors:
  * EclipseSource - initial API and implementation
- *******************************************************************************/
+ ******************************************************************************/
 package org.eclipse.rap.warproducts.ui.editor;
 
 import java.util.ArrayList;

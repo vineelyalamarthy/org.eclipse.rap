@@ -14,10 +14,15 @@ import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.pde.internal.core.iproduct.IProduct;
+import org.eclipse.pde.internal.core.iproduct.IProductModel;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
+import org.eclipse.pde.internal.ui.editor.ISortableContentOutlinePage;
 import org.eclipse.pde.internal.ui.editor.context.InputContextManager;
 import org.eclipse.pde.internal.ui.editor.product.ProductEditor;
+import org.eclipse.pde.internal.ui.editor.product.ProductValidateAction;
+import org.eclipse.rap.warproducts.core.IWARProduct;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
@@ -29,10 +34,6 @@ public class WARProductEditor extends ProductEditor {
 
   private static final String WARPRODUCT_FILE_EXTENSION = ".warproduct";
   private WARProductExportAction exportAction;
-
-  public WARProductEditor() {
-    System.out.println( "Editor started" );
-  }
 
   protected void addEditorPages() {
     try {
@@ -51,8 +52,11 @@ public class WARProductEditor extends ProductEditor {
     return WARProductConstants.EDITOR_ID;
   }
 
-  public void contributeToToolbar( IToolBarManager manager ) {
-    // super.contributeToToolbar( manager );
+  public void contributeToToolbar( final IToolBarManager manager ) {
+    IProductModel model = ( IProductModel )getAggregateModel();
+    IProduct product = model.getProduct();
+    manager.add( new WARProductValidateAction( ( IWARProduct )product ) );
+    manager.add( new ProductValidateAction( product ) );
     manager.add( getExportAction() );
   }
 
@@ -111,6 +115,10 @@ public class WARProductEditor extends ProductEditor {
   
   public boolean useFeatures() {
     return false;
+  }
+  
+  protected ISortableContentOutlinePage createContentOutline() {
+    return new WARProductOutlinePage( this );
   }
   
 }

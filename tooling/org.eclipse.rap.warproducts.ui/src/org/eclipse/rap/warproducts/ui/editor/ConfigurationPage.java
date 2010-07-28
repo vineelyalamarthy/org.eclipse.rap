@@ -8,9 +8,9 @@
 package org.eclipse.rap.warproducts.ui.editor;
 
 import org.eclipse.pde.internal.ui.IHelpContextIds;
+import org.eclipse.pde.internal.ui.PDELabelProvider;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
-import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.editor.FormLayoutFactory;
 import org.eclipse.pde.internal.ui.editor.PDEFormPage;
 import org.eclipse.pde.internal.ui.editor.product.PluginSection;
@@ -20,58 +20,50 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.help.IWorkbenchHelpSystem;
 
 public class ConfigurationPage extends PDEFormPage {
 
   public static final String PLUGIN_ID = "plugin-dependencies"; //$NON-NLS-1$
   public static final String FEATURE_ID = "feature-dependencies"; //$NON-NLS-1$
-  private PluginSection fPluginSection = null;
+  private PluginSection pluginSection = null;
 
-  public ConfigurationPage( FormEditor editor, boolean useFeatures ) {
-    super( editor, useFeatures
-                              ? FEATURE_ID
-                              : PLUGIN_ID, "Configuration" );
+  public ConfigurationPage( final FormEditor editor, final boolean useFeatures )
+  {
+    super( editor, PLUGIN_ID, "Configuration" );
   }
 
-  /*
-   * (non-Javadoc)
-   * @see org.eclipse.pde.internal.ui.editor.PDEFormPage#getHelpResource()
-   */
   protected String getHelpResource() {
     return IHelpContextIds.CONFIGURATION_PAGE;
   }
 
-  /*
-   * (non-Javadoc)
-   * @see
-   * org.eclipse.pde.internal.ui.editor.PDEFormPage#createFormContent(org.eclipse
-   * .ui.forms.IManagedForm)
-   */
-  protected void createFormContent( IManagedForm managedForm ) {
+  protected void createFormContent( final IManagedForm managedForm ) {
     super.createFormContent( managedForm );
     ScrolledForm form = managedForm.getForm();
     FormToolkit toolkit = managedForm.getToolkit();
-    form.setImage( PDEPlugin.getDefault()
-      .getLabelProvider()
-      .get( PDEPluginImages.DESC_REQ_PLUGINS_OBJ ) );
-    form.setText( PDEUIMessages.Product_DependenciesPage_title );
+    PDELabelProvider labelProvider = PDEPlugin.getDefault().getLabelProvider();
+    form.setImage( labelProvider.get( PDEPluginImages.DESC_REQ_PLUGINS_OBJ ) );
+    form.setText( "Configuration" );
     fillBody( managedForm, toolkit );
-    PlatformUI.getWorkbench()
-      .getHelpSystem()
-      .setHelp( form.getBody(), IHelpContextIds.CONFIGURATION_PAGE );
+    IWorkbenchHelpSystem helpSystem = PlatformUI.getWorkbench().getHelpSystem();
+    helpSystem.setHelp( form.getBody(), IHelpContextIds.CONFIGURATION_PAGE );
   }
 
-  private void fillBody( IManagedForm managedForm, FormToolkit toolkit ) {
+  private void fillBody( final IManagedForm managedForm, 
+                         final FormToolkit toolkit ) 
+  {
     Composite body = managedForm.getForm().getBody();
     body.setLayout( FormLayoutFactory.createFormGridLayout( false, 1 ) );
-    // sections
-    managedForm.addPart( fPluginSection = new PluginSection( this, body ) );
+    managedForm.addPart( pluginSection = new PluginSection( this, body ) );
     managedForm.addPart( new LibrarySection( this, body ) );
   }
 
   public boolean includeOptionalDependencies() {
-    return ( fPluginSection != null )
-                                     ? fPluginSection.includeOptionalDependencies()
-                                     : false;
+    boolean result = false;
+    if( pluginSection != null ) {
+      result = pluginSection.includeOptionalDependencies();
+    }
+    return result;
   }
+  
 }

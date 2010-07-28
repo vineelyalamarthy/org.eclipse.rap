@@ -13,6 +13,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.rap.warproducts.core.test.tests.InfrastructureCreatorTest;
+import org.eclipse.rap.warproducts.core.test.tests.ValidatorTest;
+import org.eclipse.rap.warproducts.core.test.tests.WARProductInitializerTest;
 import org.eclipse.rap.warproducts.core.test.tests.WARProductModelTest;
 import org.eclipse.rap.warproducts.core.test.tests.WARProductTest;
 
@@ -21,12 +23,11 @@ public class QuickTests {
   
   public static Test suite() {
     TestSuite suite = new TestSuite( "Quick WAR product tests" );
-    
     suite.addTestSuite( InfrastructureCreatorTest.class );
     suite.addTestSuite( WARProductTest.class );
     suite.addTestSuite( WARProductModelTest.class );
-   
-    
+    suite.addTestSuite( ValidatorTest.class );
+    suite.addTestSuite( WARProductInitializerTest.class );
     return suite;
   }
   

@@ -1,16 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2005, 2009 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *     EclipseSource Corporation - ongoing enhancements
- *******************************************************************************/
+ * Copyright (c) 2010 EclipseSource and others. All rights reserved. This
+ * program and the accompanying materials are made available under the terms of
+ * the Eclipse Public License v1.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-v10.html Contributors:
+ * EclipseSource - initial API and implementation
+ ******************************************************************************/
 package org.eclipse.rap.warproducts.ui.editor;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.pde.internal.ui.IHelpContextIds;
 import org.eclipse.pde.internal.ui.PDELabelProvider;
 import org.eclipse.pde.internal.ui.PDEPlugin;
@@ -20,102 +17,100 @@ import org.eclipse.pde.internal.ui.editor.FormLayoutFactory;
 import org.eclipse.pde.internal.ui.editor.ILauncherFormPageHelper;
 import org.eclipse.pde.internal.ui.editor.LaunchShortcutOverviewPage;
 import org.eclipse.pde.internal.ui.editor.PDELauncherFormEditor;
-import org.eclipse.pde.internal.ui.editor.product.DependenciesPage;
-import org.eclipse.pde.internal.ui.editor.product.GeneralInfoSection;
-import org.eclipse.pde.internal.ui.editor.product.ProductExportAction;
-import org.eclipse.pde.internal.ui.editor.product.ProductInfoSection;
 import org.eclipse.pde.internal.ui.editor.product.ProductLauncherFormPageHelper;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.help.IWorkbenchHelpSystem;
 
 public class OverviewPage extends LaunchShortcutOverviewPage {
 
-	public static final String PAGE_ID = "overview"; //$NON-NLS-1$
-	private ProductLauncherFormPageHelper fLauncherHelper;
+  public static final String PAGE_ID = "overview"; //$NON-NLS-1$
+  private ProductLauncherFormPageHelper launcherHelper;
 
-	public OverviewPage(PDELauncherFormEditor editor) {
-		super(editor, PAGE_ID, PDEUIMessages.OverviewPage_title);
-	}
+  public OverviewPage( final PDELauncherFormEditor editor ) {
+    super( editor, PAGE_ID, PDEUIMessages.OverviewPage_title );
+  }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.pde.internal.ui.editor.PDEFormPage#getHelpResource()
-	 */
-	protected String getHelpResource() {
-		return IHelpContextIds.OVERVIEW_PAGE;
-	}
+  protected String getHelpResource() {
+    return IHelpContextIds.OVERVIEW_PAGE;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.pde.internal.ui.editor.PDEFormPage#createFormContent(org.eclipse.ui.forms.IManagedForm)
-	 */
-	protected void createFormContent(IManagedForm managedForm) {
-		super.createFormContent(managedForm);
-		ScrolledForm form = managedForm.getForm();
-		FormToolkit toolkit = managedForm.getToolkit();
-		form.setText(PDEUIMessages.OverviewPage_title);
-		form.setImage(PDEPlugin.getDefault().getLabelProvider().get(PDEPluginImages.DESC_PRODUCT_DEFINITION));
-		fillBody(managedForm, toolkit);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(form.getBody(), IHelpContextIds.OVERVIEW_PAGE);
-	}
+  protected void createFormContent( final IManagedForm managedForm ) {
+    super.createFormContent( managedForm );
+    ScrolledForm form = managedForm.getForm();
+    FormToolkit toolkit = managedForm.getToolkit();
+    form.setText( PDEUIMessages.OverviewPage_title );
+    PDELabelProvider labelProvider = PDEPlugin.getDefault().getLabelProvider();
+    ImageDescriptor description = PDEPluginImages.DESC_PRODUCT_DEFINITION;
+    form.setImage( labelProvider.get( description ) );
+    fillBody( managedForm, toolkit );
+    IWorkbenchHelpSystem helpSystem = PlatformUI.getWorkbench().getHelpSystem();
+    helpSystem.setHelp( form.getBody(), IHelpContextIds.OVERVIEW_PAGE );
+  }
 
-	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite body = managedForm.getForm().getBody();
-		body.setLayout(FormLayoutFactory.createFormTableWrapLayout(true, 2));
+  private void fillBody( final IManagedForm managedForm, 
+                         final FormToolkit toolkit ) 
+  {
+    Composite body = managedForm.getForm().getBody();
+    body.setLayout( FormLayoutFactory.createFormTableWrapLayout( true, 2 ) );
+    GeneralInfoSection generalSection = new GeneralInfoSection( this, body );
+    managedForm.addPart( generalSection );
+    if( getModel().isEditable() ) {
+      createExportingSection( body, toolkit );
+    }
+  }
 
-		GeneralInfoSection generalSection = new GeneralInfoSection(this, body);
-		ProductInfoSection productSection = new ProductInfoSection(this, body);
+  private void createExportingSection( final Composite parent, 
+                                       final FormToolkit toolkit ) 
+  {
+    String title = PDEUIMessages.OverviewPage_exportingTitle;
+    Section section = createStaticSection( toolkit, parent, title );
+    String text = "<form>" +
+                  "<li style=\"text\" value=\"1.\" bindent=\"5\">Configure " +
+                  "the WAR product on the <a href=\"action.configuration\">" +
+                  "Configuration</a> page.</li>" +
+                  "<li style=\"text\" value=\"2.\" bindent=\"5\">" +
+                  "<a href=\"action.validate\">Validate</a> the WAR product " +
+                  "and fix possible errors.</li>" +
+    		      "<li style=\"text\" value=\"3.\" bindent=\"5\">Use the " +
+    		      "<a href=\"action.export\">Eclipse " +
+    		      "WAR Product export wizard</a> to package and export the " +
+    		      "WAR product defined in this configuration.</li></form>";
+    section.setClient( createClient( section, text, toolkit ) );
+  }
 
-		managedForm.addPart(generalSection);
-		managedForm.addPart(productSection);
-		if (getModel().isEditable()) {
-			createTestingSection(body, toolkit);
-			createExportingSection(body, toolkit);
-		}
-	}
+  public void linkActivated( final HyperlinkEvent linkEvent ) {
+    String href = ( String )linkEvent.getHref();
+    if( href.equals( "action.export" ) ) { //$NON-NLS-1$
+      if( getPDEEditor().isDirty() ) {
+        getPDEEditor().doSave( null );
+      }
+      new WARProductExportAction( getPDEEditor() ).run();
+    } else if( href.equals( "action.configuration" ) ) { //$NON-NLS-1$
+      String pageId = ConfigurationPage.PLUGIN_ID;
+      getEditor().setActivePage( pageId );
+    } else if( href.equals( "action.validate" ) ) { //$NON-NLS-1$
+      System.out.println( "validate" );
+    } else {
+      super.linkActivated( linkEvent );
+    }
+  }
 
-	private void createTestingSection(Composite parent, FormToolkit toolkit) {
-		Section section = createStaticSection(toolkit, parent, PDEUIMessages.Product_OverviewPage_testing);
-		FormText text = createClient(section, getLauncherText(getLauncherHelper().isOSGi(), PDEUIMessages.Product_overview_testing), toolkit);
-		PDELabelProvider lp = PDEPlugin.getDefault().getLabelProvider();
-		text.setImage("run", lp.get(PDEPluginImages.DESC_RUN_EXC)); //$NON-NLS-1$
-		text.setImage("debug", lp.get(PDEPluginImages.DESC_DEBUG_EXC)); //$NON-NLS-1$
-		text.setImage("profile", lp.get(PDEPluginImages.DESC_PROFILE_EXC)); //$NON-NLS-1$
-		section.setClient(text);
-	}
+  protected ILauncherFormPageHelper getLauncherHelper() {
+    if( launcherHelper == null ) {
+      launcherHelper 
+        = new ProductLauncherFormPageHelper( getPDELauncherEditor() );
+    }
+    return launcherHelper;
+  }
 
-	private void createExportingSection(Composite parent, FormToolkit toolkit) {
-		Section section = createStaticSection(toolkit, parent, PDEUIMessages.OverviewPage_exportingTitle);
-		section.setClient(createClient(section, PDEUIMessages.Product_overview_exporting, toolkit));
-	}
-
-	public void linkActivated(HyperlinkEvent e) {
-		String href = (String) e.getHref();
-		if (href.equals("action.synchronize")) { //$NON-NLS-1$
-			((ProductLauncherFormPageHelper) getLauncherHelper()).handleSynchronize(true);
-		} else if (href.equals("action.export")) { //$NON-NLS-1$
-			if (getPDEEditor().isDirty())
-				getPDEEditor().doSave(null);
-			new ProductExportAction(getPDEEditor()).run();
-		} else if (href.equals("configuration")) { //$NON-NLS-1$
-			String pageId = ((ProductLauncherFormPageHelper) getLauncherHelper()).getProduct().useFeatures() ? DependenciesPage.FEATURE_ID : DependenciesPage.PLUGIN_ID;
-			getEditor().setActivePage(pageId);
-		} else
-			super.linkActivated(e);
-	}
-
-	protected ILauncherFormPageHelper getLauncherHelper() {
-		if (fLauncherHelper == null)
-			fLauncherHelper = new ProductLauncherFormPageHelper(getPDELauncherEditor());
-		return fLauncherHelper;
-	}
-
-	protected short getIndent() {
-		return 35;
-	}
-
+  protected short getIndent() {
+    return 35;
+  }
+  
 }
