@@ -33,6 +33,7 @@ import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.launching.IPDELauncherConstants;
 import org.eclipse.rap.warproducts.core.InfrastructreCreator;
 import org.eclipse.rap.warproducts.core.WARProduct;
+import org.eclipse.rap.warproducts.core.WARProductInitializer;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 
 
@@ -61,6 +62,9 @@ public class WARProductFromConfigOperation
       WARProduct warProduct = ( WARProduct )product;
       warProduct.addLaunchIni( creator.getLaunchIniPath() );
       warProduct.addWebXml( creator.getWebXmlPath() );
+      WARProductInitializer initializer 
+        = new WARProductInitializer( warProduct );
+      initializer.initialize();
     }
   }
 

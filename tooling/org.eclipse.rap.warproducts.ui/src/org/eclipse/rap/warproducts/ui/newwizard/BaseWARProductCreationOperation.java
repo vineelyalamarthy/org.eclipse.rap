@@ -22,6 +22,7 @@ import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.wizards.product.BaseProductCreationOperation;
 import org.eclipse.rap.warproducts.core.InfrastructreCreator;
 import org.eclipse.rap.warproducts.core.WARProduct;
+import org.eclipse.rap.warproducts.core.WARProductInitializer;
 import org.eclipse.rap.warproducts.core.WARWorkspaceProductModel;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.widgets.Display;
@@ -56,6 +57,9 @@ public class BaseWARProductCreationOperation
       WARProduct warProduct = ( WARProduct )product;
       warProduct.addLaunchIni( creator.getLaunchIniPath() );
       warProduct.addWebXml( creator.getWebXmlPath() );
+      WARProductInitializer initializer 
+        = new WARProductInitializer( warProduct );
+      initializer.initialize();
     }
   }
   

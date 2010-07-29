@@ -19,10 +19,10 @@ import org.eclipse.rap.warproducts.core.WARProductModel;
 
 public class Validator {
 
-  private static final String SERVLET_BRIDGE_NAME 
+  public static final String SERVLET_BRIDGE_ID 
     = "org.eclipse.equinox.servletbridge";
 
-  private static final String[] BANNED_BUNDLES 
+  public static final String[] BANNED_BUNDLES 
     = new String[] { "javax.servlet",
                       "org.eclipse.update.configurator" 
                     };
@@ -76,7 +76,7 @@ public class Validator {
         || !librariesContainsServletBridge( libraries ) ) 
     {
       int type = ValidationError.LIBRARY_MISSING;
-      String message = "org.eclipse.equinox.servletbridge.jar not included";
+      String message = "org.eclipse.equinox.servletbridge.jar not included.";
       ValidationError error = new ValidationError( type, message, null );
       validation.addError( error );
     }
@@ -88,7 +88,7 @@ public class Validator {
     for( int i = 0; i < libraries.length && !result; i++ ) {
       IPath path = libraries[ i ];
       String pathString = path.toOSString();
-      if( pathString.indexOf( SERVLET_BRIDGE_NAME ) != -1 ) {
+      if( pathString.indexOf( SERVLET_BRIDGE_ID ) != -1 ) {
         result = true;
       }
     }
@@ -103,7 +103,8 @@ public class Validator {
       File lib = new File( pathString );
       if( !lib.exists() ) {
         int type = ValidationError.LIBRARY_DOESNT_EXIST;
-        String message = "Library doesn't exist at location " + pathString;
+        String message 
+          = "Library doesn't exist at location " + pathString + ".";
         ValidationError error = new ValidationError( type, message, path );
         validation.addError( error );
       }
@@ -117,7 +118,7 @@ public class Validator {
       IProductPlugin plugin = plugins[ i ];
       if( isBundleContained( plugin.getId(), BANNED_BUNDLES ) ) {
         int type = ValidationError.BUNDLE_BANNED;
-        String message = "Plug-In with id " + plugin.getId() + 
+        String message = "Plug-in with id " + plugin.getId() + 
                          " must be removed.";
         ValidationError error = new ValidationError( type, message, plugin );
         validation.addError( error );
@@ -149,7 +150,7 @@ public class Validator {
                                          final String bundleId )
   {
     int type = ValidationError.BUNDLE_MISSING;
-    String message = "Plug-In with id " + bundleId + 
+    String message = "Plug-in with id " + bundleId + 
     " must be included.";
     IProductPlugin missingBundle = new ProductPlugin( fakeModel );
     missingBundle.setId( bundleId );

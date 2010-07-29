@@ -84,7 +84,7 @@ public class LibrarySection extends TableSection
       if( element instanceof IPath ) {
         PDELabelProvider pdeLabelProvider 
           = PDEPlugin.getDefault().getLabelProvider();
-        result = pdeLabelProvider.get(PDEPluginImages.DESC_JAR_LIB_OBJ);
+        result = pdeLabelProvider.get( PDEPluginImages.DESC_JAR_LIB_OBJ );
       } else {
         result = super.getImage( element );
       }

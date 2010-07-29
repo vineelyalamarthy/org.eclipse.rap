@@ -17,6 +17,7 @@ import org.eclipse.rap.warproducts.core.WARProductInitializer;
 import org.eclipse.rap.warproducts.core.WARProductModel;
 import org.eclipse.rap.warproducts.core.WARProductModelFactory;
 import org.eclipse.rap.warproducts.core.validation.Validation;
+import org.eclipse.rap.warproducts.core.validation.ValidationError;
 import org.eclipse.rap.warproducts.core.validation.Validator;
 
 
@@ -29,10 +30,15 @@ public class WARProductInitializerTest extends TestCase {
     IProductPlugin javaxServletBundle = factory.createPlugin();
     javaxServletBundle.setId( "javax.servlet" );
     javaxServletBundle.setVersion( "0.0.0" );
+    product.addPlugins( new IProductPlugin[] { javaxServletBundle } );
     WARProductInitializer initializer = new WARProductInitializer( product );
     initializer.initialize();
     Validator validator = new Validator( product );
     Validation validation = validator.validate();
+    ValidationError[] errors = validation.getErrors();
+    for( int i = 0; i < errors.length; i++ ) {
+      System.out.println( i + " - " + errors[ i ].getMessage() );
+    }
     assertTrue( validation.isValid() );
   }
   

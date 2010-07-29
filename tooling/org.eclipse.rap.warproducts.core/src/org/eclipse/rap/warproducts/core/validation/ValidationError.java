@@ -41,4 +41,8 @@ public class ValidationError {
     return causingObject;
   }
   
+  public String toString() {
+    return message;
+  }
+  
 }

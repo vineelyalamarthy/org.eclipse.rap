@@ -9,6 +9,11 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core;
 
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.core.plugin.ModelEntry;
+import org.eclipse.pde.core.plugin.PluginRegistry;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.rap.warproducts.core.validation.Validation;
 import org.eclipse.rap.warproducts.core.validation.ValidationError;
@@ -27,7 +32,7 @@ public class WARProductInitializer {
     Validator validator = new Validator( product );
     Validation validation = validator.validate();
     if( !validation.isValid() ) {
-    	makeProductValid( validation.getErrors() );
+      makeProductValid( validation.getErrors() );
     }
   }
 
@@ -47,15 +52,36 @@ public class WARProductInitializer {
   }
 
   private void removeBannedBundle( final IProductPlugin bundle ) {
-    // TODO: remove passed bundle form product
+    product.removePlugins( new IProductPlugin[] { bundle } );
   }
   
-  private void addRequiredBundle( final IProductPlugin bundle ) {
-    // TODO: copy passed bundle and add it to product with the right model (not the fakemodel)
+  private void addRequiredBundle( final IProductPlugin requiredBundle ) {
+    ModelEntry entry = PluginRegistry.findEntry( requiredBundle.getId() );
+    if( entry != null ) {
+      WARProductModelFactory factory 
+        = new WARProductModelFactory( product.getModel() );
+      IProductPlugin bundle = factory.createPlugin();
+      bundle.setId( requiredBundle.getId() );
+      bundle.setVersion( requiredBundle.getVersion() );
+      product.addPlugins( new IProductPlugin[] { bundle } );
+    }
   }
   
   private void addServletBridge() {
-    // TODO: search servletbridge.jar in workspace and target, add the path to the libraries
+    ModelEntry entry = PluginRegistry.findEntry( Validator.SERVLET_BRIDGE_ID );
+    if( entry != null ) {
+      IPluginModelBase[] targetModels = entry.getExternalModels();
+      boolean foundBridge = false;
+      for( int i = 0; i < targetModels.length && !foundBridge; i++ ) {
+        IPluginModelBase bridgeModel = targetModels[ i ];
+        String location = bridgeModel.getInstallLocation();
+        if( location != null && location.indexOf( ".jar" ) != -1 ) {
+          IPath bridgePath = new Path( location );
+          product.addLibrary( bridgePath );
+          foundBridge = true;
+        }
+      }
+    }
   }
   
 }

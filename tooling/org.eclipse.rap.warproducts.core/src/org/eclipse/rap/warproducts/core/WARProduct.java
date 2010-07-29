@@ -18,6 +18,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.pde.core.IModelChangeProvider;
 import org.eclipse.pde.core.IModelChangedEvent;
 import org.eclipse.pde.core.ModelChangedEvent;
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.core.plugin.ModelEntry;
+import org.eclipse.pde.core.plugin.PluginRegistry;
 import org.eclipse.pde.internal.core.iproduct.IAboutInfo;
 import org.eclipse.pde.internal.core.iproduct.IArgumentsInfo;
 import org.eclipse.pde.internal.core.iproduct.IConfigurationFileInfo;
@@ -327,20 +330,38 @@ public class WARProduct implements IWARProduct {
   }
   
   public IPluginConfiguration[] getPluginConfigurations() {
-    IPluginConfiguration[] result = null;
+    List containedBundles = new ArrayList();
     IProductPlugin[] plugins = getPlugins();
     if( plugins != null && plugins.length > 0 ) {
-      result = new IPluginConfiguration[ plugins.length ];
       WARProductModelFactory factory = new WARProductModelFactory( getModel() );
       for( int i = 0; i < plugins.length; i++ ) {
-        result[ i ] = factory.createPluginConfiguration();
-        result[ i ].setId( plugins[ i ].getId() );
-        result[ i ].setAutoStart( true );
+        String pluginId = plugins[ i ].getId();
+        if( !isBundleFragment( pluginId ) ) {
+          IPluginConfiguration conf = factory.createPluginConfiguration();
+          conf.setId( pluginId ); 
+          conf.setAutoStart( true );
+          containedBundles.add( conf );
+        }
+      }
+    }
+    IPluginConfiguration[] result 
+      = new IPluginConfiguration[ containedBundles.size() ];
+    containedBundles.toArray( result );
+    return result;
+  }
+  
+  private boolean isBundleFragment( final String pluginId ) {
+    boolean result = false;
+    ModelEntry entry = PluginRegistry.findEntry( pluginId );
+    if( entry != null ) {
+      IPluginModelBase[] models = entry.getActiveModels();
+      for( int i = 0; i < models.length && !result; i++ ) {
+        result = models[ i ].isFragmentModel();
       }
     }
     return result;
   }
-  
+
   protected void fireStructureChanged( final Object child, 
                                        final int changeType ) 
   {

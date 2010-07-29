@@ -7,32 +7,13 @@
 * Contributors:
 *   EclipseSource - initial API and implementation
 *******************************************************************************/ 
-package org.eclipse.rap.warproducts.core.validation;
+package org.eclipse.rap.warproducts.ui.validation;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 
-public class Validation {
-  
-  private List errors;
+public interface IValidationListener {
 
-  Validation() {
-    this.errors = new ArrayList();
-  }
-
-  public boolean isValid() {
-    return errors.isEmpty();
-  }
-
-  public ValidationError[] getErrors() {
-    ValidationError[] result = new ValidationError[ errors.size() ];
-    errors.toArray( result );
-    return result;
-  }
-
-  void addError( final ValidationError error ) {
-    errors.add( error );
-  }
+  public void validationFinished( final Map errors );
   
 }

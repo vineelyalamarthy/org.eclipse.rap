@@ -29,14 +29,14 @@ import org.eclipse.ui.help.IWorkbenchHelpSystem;
 
 public class WARProductExportWizardPage extends ProductExportWizardPage {
 
-  private WARProductConfigurationSection fConfigurationGroup;
-  private IStructuredSelection fSelection;
-  private boolean fPageInitialized;
-  private WARProductDestinationGroup fExportGroup;
+  private WARProductConfigurationSection configurationGroup;
+  private IStructuredSelection selection;
+  private boolean pageInitialized;
+  private WARProductDestinationGroup exportGroup;
 
   public WARProductExportWizardPage( final IStructuredSelection selection ) {
     super( selection );
-    fSelection = selection;
+    this.selection = selection;
     setTitle( "WAR product" );
     setDescription( "Use an existing WAR product configuration to " +
     		        "export the WAR product as a WAR file.");
@@ -64,51 +64,51 @@ public class WARProductExportWizardPage extends ProductExportWizardPage {
     IWorkbench workbench = PlatformUI.getWorkbench();
     IWorkbenchHelpSystem helpSystem = workbench.getHelpSystem();
     helpSystem.setHelp( group, IHelpContextIds.PRODUCT_EXPORT_WIZARD );
-    fPageInitialized = true;
+    pageInitialized = true;
   }
 
   private void createConfigurationSection( final Composite parent ) {
-    fConfigurationGroup = new WARProductConfigurationSection( this );
-    fConfigurationGroup.createControl( parent );
+    configurationGroup = new WARProductConfigurationSection( this );
+    configurationGroup.createControl( parent );
   }
 
   private void createDestinationSection( final Composite container ) {
-    fExportGroup = new WARProductDestinationGroup( this );
-    fExportGroup.createControl( container );
+    exportGroup = new WARProductDestinationGroup( this );
+    exportGroup.createControl( container );
   }
 
   protected void updateProductFields() {
-    fExportGroup.updateDestination( fConfigurationGroup.getProductFile() );
+    exportGroup.updateDestination( configurationGroup.getProductFile() );
   }
 
   protected String getRootDirectory() {
-    return fConfigurationGroup.getRootDirectory();
+    return configurationGroup.getRootDirectory();
   }
 
   protected IFile getProductFile() {
-    return fConfigurationGroup.getProductFile();
+    return configurationGroup.getProductFile();
   }
 
   protected void initialize() {
     IDialogSettings settings = getDialogSettings();
-    fConfigurationGroup.initialize( fSelection, settings );
-    fExportGroup.initialize( settings, fConfigurationGroup.getProductFile() );
+    configurationGroup.initialize( selection, settings );
+    exportGroup.initialize( settings, configurationGroup.getProductFile() );
   }
 
   protected void saveSettings( final IDialogSettings settings ) {
-    fConfigurationGroup.saveSettings( settings );
-    fExportGroup.saveSettings( settings );
+    configurationGroup.saveSettings( settings );
+    exportGroup.saveSettings( settings );
   }
 
   protected void pageChanged() {
     if( getMessage() != null ) {
       setMessage( null );
     }
-    String error = fConfigurationGroup.validate();
+    String error = configurationGroup.validate();
     if( error == null ) {
-      error = fExportGroup.validate();
+      error = exportGroup.validate();
     }
-    if( fPageInitialized ) {
+    if( pageInitialized ) {
       setErrorMessage( error );
     } else {
       setMessage( error );
@@ -121,11 +121,11 @@ public class WARProductExportWizardPage extends ProductExportWizardPage {
   }
 
   protected String getFileName() {
-    return fExportGroup.getFileName();
+    return exportGroup.getFileName();
   }
 
   protected String getDestination() {
-    return fExportGroup.getDestination();
+    return exportGroup.getDestination();
   }
   
   protected boolean doExportSource() {

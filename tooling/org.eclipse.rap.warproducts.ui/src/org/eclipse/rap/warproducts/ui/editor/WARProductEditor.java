@@ -8,29 +8,37 @@
 package org.eclipse.rap.warproducts.ui.editor;
 
 import java.io.File;
+import java.util.Map;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.pde.internal.core.iproduct.IProduct;
 import org.eclipse.pde.internal.core.iproduct.IProductModel;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
+import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.editor.ISortableContentOutlinePage;
 import org.eclipse.pde.internal.ui.editor.context.InputContextManager;
 import org.eclipse.pde.internal.ui.editor.product.ProductEditor;
-import org.eclipse.pde.internal.ui.editor.product.ProductValidateAction;
 import org.eclipse.rap.warproducts.core.IWARProduct;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
+import org.eclipse.rap.warproducts.ui.validation.IValidationListener;
+import org.eclipse.rap.warproducts.ui.validation.PluginStatusDialog;
+import org.eclipse.rap.warproducts.ui.validation.WARProductValidateAction;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.FileStoreEditorInput;
 
-public class WARProductEditor extends ProductEditor {
+public class WARProductEditor extends ProductEditor 
+  implements IValidationListener 
+{
 
   private static final String WARPRODUCT_FILE_EXTENSION = ".warproduct";
   private WARProductExportAction exportAction;
@@ -55,8 +63,10 @@ public class WARProductEditor extends ProductEditor {
   public void contributeToToolbar( final IToolBarManager manager ) {
     IProductModel model = ( IProductModel )getAggregateModel();
     IProduct product = model.getProduct();
-    manager.add( new WARProductValidateAction( ( IWARProduct )product ) );
-    manager.add( new ProductValidateAction( product ) );
+    WARProductValidateAction validationAction 
+      = new WARProductValidateAction( ( IWARProduct )product );
+    validationAction.addValidationListener( this );
+    manager.add( validationAction );
     manager.add( getExportAction() );
   }
 
@@ -119,6 +129,23 @@ public class WARProductEditor extends ProductEditor {
   
   protected ISortableContentOutlinePage createContentOutline() {
     return new WARProductOutlinePage( this );
+  }
+
+  public void validationFinished( final Map errors ) {
+    Shell shell = PDEPlugin.getActiveWorkbenchShell();
+    if( !errors.isEmpty() ) {
+      PluginStatusDialog dialog = new PluginStatusDialog( shell );
+      dialog.setInput( errors );
+      dialog.open();
+    } else {
+      String pluginValidationMessage 
+        = PDEUIMessages.PluginStatusDialog_pluginValidation;
+      String noProblemsMessage 
+        = PDEUIMessages.AbstractLauncherToolbar_noProblems;
+      MessageDialog.openInformation( shell,
+                                     pluginValidationMessage,
+                                     noProblemsMessage );
+    }
   }
   
 }

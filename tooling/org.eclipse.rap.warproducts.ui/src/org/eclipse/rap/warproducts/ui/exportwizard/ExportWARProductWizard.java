@@ -33,7 +33,7 @@ import org.osgi.framework.Version;
 public class ExportWARProductWizard extends ProductExportWizard {
 
   private WARProductExportWizardPage page;
-  private WorkspaceProductModel fProductModel;
+  private WorkspaceProductModel productModel;
 
   public ExportWARProductWizard() {
     this( null );
@@ -44,6 +44,7 @@ public class ExportWARProductWizard extends ProductExportWizard {
   }
 
   public void addPages() {
+    // TODO: add validation
     page = new WARProductExportWizardPage( getSelection() );
     addPage( page );
   }
@@ -54,10 +55,10 @@ public class ExportWARProductWizard extends ProductExportWizard {
 
   protected boolean performPreliminaryChecks() {
     boolean result = true;
-    fProductModel = new WARWorkspaceProductModel( page.getProductFile(), false );
+    productModel = new WARWorkspaceProductModel( page.getProductFile(), false );
     try {
-      fProductModel.load();
-      if( !fProductModel.isLoaded() ) {
+      productModel.load();
+      if( !productModel.isLoaded() ) {
         MessageDialog.openError( getContainer().getShell(),
                                  PDEUIMessages.ProductExportWizard_error,
                                  PDEUIMessages.ProductExportWizard_corrupt ); 
@@ -112,7 +113,7 @@ public class ExportWARProductWizard extends ProductExportWizard {
     WARProductExportOperation job 
       = new WARProductExportOperation( info,
                                        PDEUIMessages.ProductExportJob_name,
-                                       fProductModel.getProduct(),
+                                       productModel.getProduct(),
                                        rootDirectory );
     job.setUser( true );
     job.setRule( ResourcesPlugin.getWorkspace().getRoot() );
@@ -124,7 +125,7 @@ public class ExportWARProductWizard extends ProductExportWizard {
   private BundleDescription[] getPluginModels() {
     ArrayList list = new ArrayList();
     State state = TargetPlatformHelper.getState();
-    IProduct product = fProductModel.getProduct();
+    IProduct product = productModel.getProduct();
     IProductPlugin[] plugins = product.getPlugins();
     for( int i = 0; i < plugins.length; i++ ) {
       BundleDescription bundle = null;
