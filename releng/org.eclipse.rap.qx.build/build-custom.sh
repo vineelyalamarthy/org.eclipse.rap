@@ -6,8 +6,8 @@
 VERSION=0.7.4
 REVISION=16878
 
-# point to the directory that contains the generator.py
-TOOL=../qx-0.7.4/qooxdoo/frontend/framework/tool
+# point to a qx 0.7.4 base directory (contains the generator.py)
+test "$QXROOT" || QXROOT=../qx-0.7.4
 
 SOURCE=./source
 OUTPUT=./output
@@ -25,7 +25,7 @@ SETTINGS="--use-setting=qx.theme:org.eclipse.swt.theme.Default
   --use-variant=qx.aspects:off"
 
 echo "  GENERATING ${OUTPUT_FILE}"
-${TOOL}/generator.py \
+$QXROOT/qooxdoo/frontend/framework/tool/generator.py \
   --generate-compiled-script \
   --compiled-script-file ${OUTPUT_FILE} \
   --class-path ${SOURCE}/class/ \
@@ -37,7 +37,7 @@ ${TOOL}/generator.py \
   --optimize-base-call
 
 echo "  GENERATING ${OUTPUT_FILE_DEBUG}"
-${TOOL}/generator.py \
+$QXROOT/qooxdoo/frontend/framework/tool/generator.py \
   --generate-compiled-script \
   --compiled-script-file ${OUTPUT_FILE_DEBUG} \
   --class-path ${SOURCE}/class/ \
@@ -51,3 +51,4 @@ echo "    Size of ${OUTPUT_FILE} is `stat -c %s ${OUTPUT_FILE}` bytes"
 echo "    Size of ${OUTPUT_FILE_DEBUG} is `stat -c %s ${OUTPUT_FILE_DEBUG}` bytes"
 
 echo "  DONE"
+
