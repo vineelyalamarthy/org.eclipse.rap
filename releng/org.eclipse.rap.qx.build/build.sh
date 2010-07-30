@@ -9,14 +9,10 @@ REVISION=16878
 # point to a qx 0.7.4 base directory (contains the generator.py)
 test "$QXROOT" || QXROOT=../qx-0.7.4
 
-SOURCE=./source
-OUTPUT=./output
+SOURCE=../org.eclipse.rap.rwt.q07/js
+OUTPUT=../org.eclipse.rap.rwt.q07/resources
 
-OUTPUT_FILE=${OUTPUT}/qx.js
-OUTPUT_FILE_DEBUG=${OUTPUT}/qx-debug.js
-
-echo "  CLEANING DIRECTORIES"
-rm -r -f ${OUTPUT}
+OUTPUT_FILE=${OUTPUT}/client.js
 
 SETTINGS="--use-setting=qx.theme:org.eclipse.swt.theme.Default 
   --use-setting=qx.logAppender:qx.log.appender.Native 
@@ -28,27 +24,14 @@ echo "  GENERATING ${OUTPUT_FILE}"
 $QXROOT/qooxdoo/frontend/framework/tool/generator.py \
   --generate-compiled-script \
   --compiled-script-file ${OUTPUT_FILE} \
-  --class-path ${SOURCE}/class/ \
+  --class-path ${SOURCE} \
   --version="${VERSION} (r${REVISION})" \
   `echo ${SETTINGS}` \
   --use-variant=qx.debug:off \
+  --exclude=debug-settings \
   --optimize-strings \
   --optimize-variables \
   --optimize-base-call
 
-echo "  GENERATING ${OUTPUT_FILE_DEBUG}"
-$QXROOT/qooxdoo/frontend/framework/tool/generator.py \
-  --generate-compiled-script \
-  --compiled-script-file ${OUTPUT_FILE_DEBUG} \
-  --class-path ${SOURCE}/class/ \
-  --version="${VERSION} (r${REVISION}) [debug]" \
-  `echo ${SETTINGS}` \
-  --use-variant=qx.debug:on \
-  --add-file-ids \
-  --add-new-lines
-
 echo "    Size of ${OUTPUT_FILE} is `stat -c %s ${OUTPUT_FILE}` bytes"
-echo "    Size of ${OUTPUT_FILE_DEBUG} is `stat -c %s ${OUTPUT_FILE_DEBUG}` bytes"
-
 echo "  DONE"
-
