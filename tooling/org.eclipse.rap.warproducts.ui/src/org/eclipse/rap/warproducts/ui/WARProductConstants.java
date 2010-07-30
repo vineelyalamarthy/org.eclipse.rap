@@ -16,4 +16,7 @@ public class WARProductConstants {
     = "org.eclipse.rap.warproducts.WARProductEditor";
   public static final String RAP_LAUNCH_CONFIG_TYPE 
     = "org.eclipse.rap.ui.launch.RAPLauncher";
+  public static final String PLUGIN_ID = "org.eclipse.rap.warproducts.ui";
+  public static final String FILE_EXTENSION = "warproduct";
+  public static final String ARCHIVE_EXTENSION = ".war";
 }

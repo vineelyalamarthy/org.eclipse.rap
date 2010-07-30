@@ -12,9 +12,8 @@ package org.eclipse.rap.warproducts.ui.exportwizard;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.pde.internal.ui.IHelpContextIds;
-import org.eclipse.pde.internal.ui.wizards.exports.ProductExportWizardPage;
+import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -27,18 +26,15 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.help.IWorkbenchHelpSystem;
 
 
-public class WARProductExportWizardPage extends ProductExportWizardPage {
+public class WARProductExportWizardPage extends AbstractExportWizardPage {
 
-  private WARProductConfigurationSection configurationGroup;
-  private IStructuredSelection selection;
-  private boolean pageInitialized;
   private WARProductDestinationGroup exportGroup;
+  private ExportWARProductWizard wizard;
 
-  public WARProductExportWizardPage( final IStructuredSelection selection ) {
-    super( selection );
-    this.selection = selection;
-    setTitle( "WAR product" );
-    setDescription( "Use an existing WAR product configuration to " +
+  public WARProductExportWizardPage() {
+	super( "exportPage" );
+    setTitle( "WAR product export" );
+    setDescription( "Use the selected WAR product configuration to " +
     		        "export the WAR product as a WAR file.");
   }
   
@@ -54,66 +50,37 @@ public class WARProductExportWizardPage extends ProductExportWizardPage {
     fdGroup.left = new FormAttachment( 0 );
     fdGroup.top = new FormAttachment( 0 );
     fdGroup.right = new FormAttachment( 100 );
-    createConfigurationSection( group );
     createDestinationSection( group );
     initialize();
     pageChanged();
     setControl( group );
-    hookHelpContext( group );
     Dialog.applyDialogFont( group );
     IWorkbench workbench = PlatformUI.getWorkbench();
     IWorkbenchHelpSystem helpSystem = workbench.getHelpSystem();
     helpSystem.setHelp( group, IHelpContextIds.PRODUCT_EXPORT_WIZARD );
-    pageInitialized = true;
   }
 
-  private void createConfigurationSection( final Composite parent ) {
-    configurationGroup = new WARProductConfigurationSection( this );
-    configurationGroup.createControl( parent );
-  }
 
   private void createDestinationSection( final Composite container ) {
+    wizard = ( ExportWARProductWizard )getWizard();
     exportGroup = new WARProductDestinationGroup( this );
     exportGroup.createControl( container );
   }
 
   protected void updateProductFields() {
-    exportGroup.updateDestination( configurationGroup.getProductFile() );
-  }
-
-  protected String getRootDirectory() {
-    return configurationGroup.getRootDirectory();
-  }
-
-  protected IFile getProductFile() {
-    return configurationGroup.getProductFile();
+    exportGroup.updateDestination( wizard.getProductFile() );
   }
 
   protected void initialize() {
     IDialogSettings settings = getDialogSettings();
-    configurationGroup.initialize( selection, settings );
-    exportGroup.initialize( settings, configurationGroup.getProductFile() );
+    exportGroup.initialize( settings, wizard.getProductFile() );
   }
 
   protected void saveSettings( final IDialogSettings settings ) {
-    configurationGroup.saveSettings( settings );
     exportGroup.saveSettings( settings );
   }
 
   protected void pageChanged() {
-    if( getMessage() != null ) {
-      setMessage( null );
-    }
-    String error = configurationGroup.validate();
-    if( error == null ) {
-      error = exportGroup.validate();
-    }
-    if( pageInitialized ) {
-      setErrorMessage( error );
-    } else {
-      setMessage( error );
-    }
-    setPageComplete( error == null );
   }
 
   protected boolean doExportToDirectory() {
@@ -142,6 +109,10 @@ public class WARProductExportWizardPage extends ProductExportWizardPage {
   
   protected boolean doExportMetadata() {
     return false;
+  }
+
+  public IFile getProductFile() {
+    return wizard.getProductFile();
   }
 
 }

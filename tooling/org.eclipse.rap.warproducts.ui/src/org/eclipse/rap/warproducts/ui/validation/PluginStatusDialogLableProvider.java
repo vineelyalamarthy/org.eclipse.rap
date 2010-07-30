@@ -10,11 +10,14 @@
 package org.eclipse.rap.warproducts.ui.validation;
 
 import org.eclipse.debug.internal.ui.DefaultLabelProvider;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.pde.internal.ui.PDELabelProvider;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.rap.warproducts.core.validation.ValidationError;
+import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class PluginStatusDialogLableProvider extends DefaultLabelProvider {
 
@@ -23,7 +26,11 @@ public class PluginStatusDialogLableProvider extends DefaultLabelProvider {
       = PDEPlugin.getDefault().getLabelProvider();
     Image result = null;
     if( element instanceof String ) {
-      result = pdeLabelProvider.get( PDEPluginImages.DESC_ERROR_ST_OBJ );
+      String pluginId = WARProductConstants.PLUGIN_ID;
+      String imagePath = "icons/problem_server.gif";
+      ImageDescriptor imageDescriptor 
+        = AbstractUIPlugin.imageDescriptorFromPlugin( pluginId, imagePath );
+      result = pdeLabelProvider.get( imageDescriptor );
     } else if( element instanceof ValidationError ) {
       result = getValidationErrorImage( element );
     } else {

@@ -18,6 +18,7 @@ import org.eclipse.pde.internal.ui.IPDEUIConstants;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.util.SWTUtil;
 import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportTab;
+import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -36,7 +37,7 @@ public class WARProductDestinationGroup extends AbstractExportTab {
   protected static final String EXPORT_DIRECTORY = "exportDirectory"; //$NON-NLS-1$
   protected static final String DESTINATION = "destination"; //$NON-NLS-1$
   protected static final String ZIP_FILENAME = "zipFileName"; //$NON-NLS-1$
-  protected static String WAR_EXTENSION = ".war"; //$NON-NLS-1$
+  
   protected Combo archiveCombo;
   protected Button browseFile;
   private WARProductExportWizardPage page;
@@ -105,7 +106,9 @@ public class WARProductDestinationGroup extends AbstractExportTab {
   protected void hookListeners() {
     browseFile.addSelectionListener( new SelectionAdapter() {
       public void widgetSelected( final SelectionEvent e ) {
-        chooseFile( archiveCombo, new String[] { "*" + WAR_EXTENSION } ); //$NON-NLS-1$
+        String[] filters 
+          = new String[] { "*" + WARProductConstants.ARCHIVE_EXTENSION };
+        chooseFile( archiveCombo, filters ); //$NON-NLS-1$
       }
     } );
     archiveCombo.addModifyListener( new ModifyListener() {
@@ -115,18 +118,13 @@ public class WARProductDestinationGroup extends AbstractExportTab {
     } );
   }
 
-  /*
-   * (non-Javadoc)
-   * @see
-   * org.eclipse.pde.internal.ui.wizards.exports.AbstractExportTab#saveSettings
-   * (org.eclipse.jface.dialogs.IDialogSettings)
-   */
   protected void saveSettings( final IDialogSettings settings ) {
     saveCombo( settings, ZIP_FILENAME, archiveCombo );
     IFile file = ( ( WARProductExportWizardPage )page ).getProductFile();
     try {
       if( file != null && file.exists() ) {
-        QualifiedName location = IPDEUIConstants.DEFAULT_PRODUCT_EXPORT_LOCATION;
+        QualifiedName location 
+          = IPDEUIConstants.DEFAULT_PRODUCT_EXPORT_LOCATION;
         file.setPersistentProperty( location,
                                     archiveCombo.getText().trim() );
       }
@@ -149,8 +147,8 @@ public class WARProductDestinationGroup extends AbstractExportTab {
     String path = archiveCombo.getText();
     if( path != null && path.length() > 0 ) {
       String fileName = new Path( path ).lastSegment();
-      if( !fileName.endsWith( WAR_EXTENSION ) ) {
-        fileName += WAR_EXTENSION;
+      if( !fileName.endsWith( WARProductConstants.ARCHIVE_EXTENSION ) ) {
+        fileName += WARProductConstants.ARCHIVE_EXTENSION;
       }
       result = fileName;
     }

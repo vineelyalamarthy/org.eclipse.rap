@@ -76,7 +76,7 @@ public class Validator {
         || !librariesContainsServletBridge( libraries ) ) 
     {
       int type = ValidationError.LIBRARY_MISSING;
-      String message = "org.eclipse.equinox.servletbridge.jar not included.";
+      String message = "Missing Library: org.eclipse.equinox.servletbridge.jar";
       ValidationError error = new ValidationError( type, message, null );
       validation.addError( error );
     }
@@ -118,8 +118,7 @@ public class Validator {
       IProductPlugin plugin = plugins[ i ];
       if( isBundleContained( plugin.getId(), BANNED_BUNDLES ) ) {
         int type = ValidationError.BUNDLE_BANNED;
-        String message = "Plug-in with id " + plugin.getId() + 
-                         " must be removed.";
+        String message = "Forbidden Bundle: " + plugin.getId();
         ValidationError error = new ValidationError( type, message, plugin );
         validation.addError( error );
       }
@@ -150,8 +149,7 @@ public class Validator {
                                          final String bundleId )
   {
     int type = ValidationError.BUNDLE_MISSING;
-    String message = "Plug-in with id " + bundleId + 
-    " must be included.";
+    String message = "Missing Bundle: " + bundleId;
     IProductPlugin missingBundle = new ProductPlugin( fakeModel );
     missingBundle.setId( bundleId );
     missingBundle.setVersion( "0.0.0" );

@@ -9,31 +9,43 @@ package org.eclipse.rap.warproducts.ui.exportwizard;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.osgi.service.resolver.BundleDescription;
 import org.eclipse.osgi.service.resolver.State;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.pde.internal.core.TargetPlatformHelper;
 import org.eclipse.pde.internal.core.exports.FeatureExportInfo;
-import org.eclipse.pde.internal.core.iproduct.IProduct;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
-import org.eclipse.pde.internal.core.product.WorkspaceProductModel;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.wizards.exports.ProductExportWizard;
+import org.eclipse.rap.warproducts.core.IWARProduct;
 import org.eclipse.rap.warproducts.core.WARProductExportOperation;
 import org.eclipse.rap.warproducts.core.WARWorkspaceProductModel;
+import org.eclipse.rap.warproducts.ui.WARProductConstants;
+import org.eclipse.rap.warproducts.ui.validation.IValidationListener;
+import org.eclipse.rap.warproducts.ui.validation.WARProductValidateAction;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.osgi.framework.Version;
 
 public class ExportWARProductWizard extends ProductExportWizard {
 
-  private WARProductExportWizardPage page;
-  private WorkspaceProductModel productModel;
+  private IWARProduct product;
+  private IFile warProductFile;
+  private WARProductExportWizardPage exportPage;
+  private WARProductSelectionPage selectionPage;
+  private WARProductValidationPage validationPage;
+  private boolean isProductValid;
 
   public ExportWARProductWizard() {
     this( null );
@@ -44,39 +56,61 @@ public class ExportWARProductWizard extends ProductExportWizard {
   }
 
   public void addPages() {
-    // TODO: add validation
-    page = new WARProductExportWizardPage( getSelection() );
-    addPage( page );
+    selectionPage = new WARProductSelectionPage();
+    validationPage = new WARProductValidationPage();
+    exportPage = new WARProductExportWizardPage();
+    loadProductFromSelection( getSelection() );
+    if( product == null ) {
+      addPage( selectionPage );
+      addPage( validationPage );
+    } else if( !isProductValid ) {
+      addPage( validationPage );
+    }
+    addPage( exportPage );
   }
 
   public boolean canFinish() {
-    return page.isPageComplete();
+    return product != null && exportPage.isPageComplete();
   }
-
-  protected boolean performPreliminaryChecks() {
-    boolean result = true;
-    productModel = new WARWorkspaceProductModel( page.getProductFile(), false );
+  
+  private void loadProductFromFile() {
+    WARWorkspaceProductModel productModel 
+      = new WARWorkspaceProductModel( warProductFile, false );
     try {
       productModel.load();
       if( !productModel.isLoaded() ) {
         MessageDialog.openError( getContainer().getShell(),
                                  PDEUIMessages.ProductExportWizard_error,
                                  PDEUIMessages.ProductExportWizard_corrupt ); 
-        result = false;
+      } else {
+        product = ( IWARProduct )productModel.getProduct();
+        validateProduct();
       }
     } catch( final CoreException e ) {
       MessageDialog.openError( getContainer().getShell(),
                                PDEUIMessages.ProductExportWizard_error,
                                PDEUIMessages.ProductExportWizard_corrupt ); 
-      result = false;
     }
-    return result;
+  }
+
+  private void validateProduct() {
+    WARProductValidateAction action = new WARProductValidateAction( product );
+    action.addValidationListener( new IValidationListener() {
+      
+      public void validationFinished( final Map errors ) {
+        validationPage.setInput( errors );
+        isProductValid = errors.size() == 0;
+      }
+      
+    } );
+    action.run();
   }
 
   protected boolean confirmDelete() {
     boolean result = true;
-    if( !page.doExportToDirectory() ) {
-      File zipFile = new File( page.getDestination(), page.getFileName() );
+    if( !exportPage.doExportToDirectory() ) {
+      File zipFile 
+        = new File( exportPage.getDestination(), exportPage.getFileName() );
       if( zipFile.exists() ) {
         String bind 
           = NLS.bind( PDEUIMessages.BaseExportWizard_confirmReplace_desc, 
@@ -99,21 +133,19 @@ public class ExportWARProductWizard extends ProductExportWizard {
 
   protected void scheduleExportJob() {
     FeatureExportInfo info = new FeatureExportInfo();
-    info.toDirectory = page.doExportToDirectory();
+    info.toDirectory = exportPage.doExportToDirectory();
     info.exportSource = false;
     info.exportSourceBundle = false;
     info.allowBinaryCycles = false;
     info.exportMetadata = false;
-    info.destinationDirectory = page.getDestination();
-    info.zipFileName = page.getFileName();
+    info.destinationDirectory = exportPage.getDestination();
+    info.zipFileName = exportPage.getFileName();
     info.items = getPluginModels();
-    String rootDirectory = page.getRootDirectory();
-    if( "".equals( rootDirectory.trim() ) ) //$NON-NLS-1$
-      rootDirectory = "."; //$NON-NLS-1$
+    String rootDirectory = "WEB-INF";
     WARProductExportOperation job 
       = new WARProductExportOperation( info,
                                        PDEUIMessages.ProductExportJob_name,
-                                       productModel.getProduct(),
+                                       product,
                                        rootDirectory );
     job.setUser( true );
     job.setRule( ResourcesPlugin.getWorkspace().getRoot() );
@@ -125,7 +157,6 @@ public class ExportWARProductWizard extends ProductExportWizard {
   private BundleDescription[] getPluginModels() {
     ArrayList list = new ArrayList();
     State state = TargetPlatformHelper.getState();
-    IProduct product = productModel.getProduct();
     IProductPlugin[] plugins = product.getPlugins();
     for( int i = 0; i < plugins.length; i++ ) {
       BundleDescription bundle = null;
@@ -145,5 +176,80 @@ public class ExportWARProductWizard extends ProductExportWizard {
     Object[] bundleArray = list.toArray( new BundleDescription[ list.size() ] );
     return ( BundleDescription[] )bundleArray;
   }
+
+  public void loadProductFromFile( final IFile file ) {
+    warProductFile = file;
+    loadProductFromFile();
+  }
   
+  protected void initialize( final IStructuredSelection selection )
+  {
+    if( selection.size() > 0 ) {
+      loadProductFromSelection( selection );
+    }
+  }
+
+  private void loadProductFromSelection( final IStructuredSelection selection )
+  {
+    Object object = selection.getFirstElement();
+    if( object instanceof IFile ) {
+      handleFileSelection( object );
+    } else if( object instanceof IContainer ) {
+      handleContainerSelection( object );
+    }
+  }
+
+  private void handleFileSelection( final Object object ) {
+    IFile file = ( IFile )object;
+    boolean isWarProduct 
+      = WARProductConstants.FILE_EXTENSION.equals( file.getFileExtension() );
+    if( isWarProduct ) {
+      loadProductFromFile( file );
+    }
+  }
+
+  private void handleContainerSelection( final Object object ) {
+    IContainer container = ( IContainer )object;
+    try {
+      if( container.isAccessible() ) {
+        IResource[] resources = container.members();
+        for( int i = 0; i < resources.length; i++ ) {
+          IResource resource = resources[ i ];
+          String resourceName = resource.getName();
+          boolean hasWarProductExtension 
+            = resourceName.endsWith( "." + WARProductConstants.FILE_EXTENSION );
+          if( resource instanceof IFile && hasWarProductExtension ) {
+            IFile file = ( IFile )resource;
+            loadProductFromFile( file );
+          }
+        }
+      }
+    } catch( final CoreException e ) {
+      e.printStackTrace();
+    }
+  }
+
+  public IFile getProductFile() {
+    return warProductFile;
+  }
+  
+  protected boolean performPreliminaryChecks()  {
+    return product != null;
+  }
+  
+  public IWizardPage getNextPage( final IWizardPage page ) {
+    IWizardPage nextPage = null;
+    if( page.equals( selectionPage ) ) {
+      if( isProductValid ) {
+        nextPage = exportPage;
+      } else {
+        nextPage = validationPage;
+      }
+    } else if( page.equals( validationPage ) ) {
+      nextPage = exportPage;
+    }
+    
+    return nextPage;
+  }
+ 
 }

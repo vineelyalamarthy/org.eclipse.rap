@@ -13,33 +13,23 @@ import java.util.Map;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerComparator;
-import org.eclipse.pde.internal.ui.PDEUIMessages;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 
 public class PluginStatusContentVisualizer {
   
-  public TreeViewer treeViewer;
+  private TreeViewer treeViewer;
   private Map input;
   
-  public void createControls(final Composite parent ) {
-    GridData gd = new GridData( GridData.FILL_BOTH );
-    gd.widthHint = 400;
-    gd.heightHint = 300;
-    parent.setLayoutData( gd );
-    Label label = new Label( parent, SWT.NONE );
-    label.setText( PDEUIMessages.PluginStatusDialog_label );
+  public void createControls( final Composite parent ) {
     treeViewer = new TreeViewer( parent );
-    PluginStatusDialogContentProvider contentProcider 
+    PluginStatusDialogContentProvider contentProvider 
       = new PluginStatusDialogContentProvider( input );
-    treeViewer.setContentProvider( contentProcider );
+    treeViewer.setContentProvider( contentProvider );
     treeViewer.setLabelProvider( new PluginStatusDialogLableProvider() );
     treeViewer.setComparator( new ViewerComparator() );
     treeViewer.setInput( input );
-    treeViewer.getControl().setLayoutData( new GridData( GridData.FILL_BOTH ) );
+    treeViewer.refresh();
   }
   
   public TreeViewer getViewer() {
@@ -48,6 +38,10 @@ public class PluginStatusContentVisualizer {
   
   public void setInput( final Map input ) {
     this.input = input;
+    if( treeViewer != null ) {
+      treeViewer.setInput( input );
+      treeViewer.refresh();
+    }
   }
   
   

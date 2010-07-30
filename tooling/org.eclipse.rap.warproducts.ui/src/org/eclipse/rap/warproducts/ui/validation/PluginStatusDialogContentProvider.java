@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.osgi.service.resolver.BundleDescription;
 import org.eclipse.pde.internal.ui.elements.DefaultContentProvider;
 
-class PluginStatusDialogContentProvider extends DefaultContentProvider
+public class PluginStatusDialogContentProvider extends DefaultContentProvider
   implements ITreeContentProvider
 {
   
@@ -41,5 +41,9 @@ class PluginStatusDialogContentProvider extends DefaultContentProvider
 
   public Object[] getElements( final Object inputElement ) {
     return ( ( Map )inputElement ).keySet().toArray();
+  }
+
+  public void setInput( final Map input ) {
+    this.input = input;
   }
 }

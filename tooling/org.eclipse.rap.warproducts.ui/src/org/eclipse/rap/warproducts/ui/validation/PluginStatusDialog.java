@@ -19,8 +19,10 @@ import org.eclipse.pde.internal.ui.IHelpContextIds;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.help.IWorkbenchHelpSystem;
@@ -56,8 +58,15 @@ public class PluginStatusDialog extends TrayDialog {
 
   protected Control createDialogArea( final Composite parent ) {
     Composite container = ( Composite )super.createDialogArea( parent );
-    
+    GridData gd = new GridData( GridData.FILL_BOTH );
+    gd.widthHint = 400;
+    gd.heightHint = 300;
+    container.setLayoutData( gd );
+    Label label = new Label( container, SWT.NONE );
+    label.setText( PDEUIMessages.PluginStatusDialog_label );
     viewer.createControls( container );
+    Control control = viewer.getViewer().getControl();
+    control.setLayoutData( new GridData( GridData.FILL_BOTH ) );
     getShell().setText( PDEUIMessages.PluginStatusDialog_pluginValidation );
     Dialog.applyDialogFont( container );
     return container;

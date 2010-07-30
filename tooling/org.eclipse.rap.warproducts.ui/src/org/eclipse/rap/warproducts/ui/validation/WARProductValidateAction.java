@@ -151,7 +151,7 @@ public class WARProductValidateAction extends Action {
   private void handleWARValiadtionErrors( final Map map, 
                                           final ValidationError[] errors ) 
   {
-    String key = "Deployment problems";
+    String key = "Deployment";
     map.put( key, errors );
   }
   
