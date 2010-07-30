@@ -26,12 +26,12 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.help.IWorkbenchHelpSystem;
 
 
-public class WARProductExportWizardPage extends AbstractExportWizardPage {
+public class ExportPage extends AbstractExportWizardPage {
 
-  private WARProductDestinationGroup exportGroup;
+  private DestinationGroup exportGroup;
   private ExportWARProductWizard wizard;
 
-  public WARProductExportWizardPage() {
+  public ExportPage() {
 	super( "exportPage" );
     setTitle( "WAR product export" );
     setDescription( "Use the selected WAR product configuration to " +
@@ -63,7 +63,7 @@ public class WARProductExportWizardPage extends AbstractExportWizardPage {
 
   private void createDestinationSection( final Composite container ) {
     wizard = ( ExportWARProductWizard )getWizard();
-    exportGroup = new WARProductDestinationGroup( this );
+    exportGroup = new DestinationGroup( this );
     exportGroup.createControl( container );
   }
 

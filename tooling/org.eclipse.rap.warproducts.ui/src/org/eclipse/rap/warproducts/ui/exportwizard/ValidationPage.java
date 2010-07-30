@@ -26,13 +26,13 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
 
-public class WARProductValidationPage extends AbstractExportWizardPage {
+public class ValidationPage extends AbstractExportWizardPage {
   
   private Composite container;
   private TreeViewer treeViewer;
   private Map input;
 
-  public WARProductValidationPage() {
+  public ValidationPage() {
     super( "Validation" );
     setTitle( "Validation" );
     setErrorMessage( "The WAR product contains erros. The exported " +

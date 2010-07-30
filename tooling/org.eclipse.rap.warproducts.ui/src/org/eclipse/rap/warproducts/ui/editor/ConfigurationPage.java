@@ -54,7 +54,8 @@ public class ConfigurationPage extends PDEFormPage {
   {
     Composite body = managedForm.getForm().getBody();
     body.setLayout( FormLayoutFactory.createFormGridLayout( false, 1 ) );
-    managedForm.addPart( pluginSection = new PluginSection( this, body ) );
+    pluginSection = new PluginSectionExtended( this, body );
+    managedForm.addPart( pluginSection );
     managedForm.addPart( new LibrarySection( this, body ) );
   }
 

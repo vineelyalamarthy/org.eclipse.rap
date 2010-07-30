@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
-public class WARProductDestinationGroup extends AbstractExportTab {
+public class DestinationGroup extends AbstractExportTab {
 
   protected static final String EXPORT_DIRECTORY = "exportDirectory"; //$NON-NLS-1$
   protected static final String DESTINATION = "destination"; //$NON-NLS-1$
@@ -40,9 +40,9 @@ public class WARProductDestinationGroup extends AbstractExportTab {
   
   protected Combo archiveCombo;
   protected Button browseFile;
-  private WARProductExportWizardPage page;
+  private ExportPage page;
 
-  public WARProductDestinationGroup( final WARProductExportWizardPage page ) {
+  public DestinationGroup( final ExportPage page ) {
     super( page );
     this.page = page;
   }
@@ -120,7 +120,7 @@ public class WARProductDestinationGroup extends AbstractExportTab {
 
   protected void saveSettings( final IDialogSettings settings ) {
     saveCombo( settings, ZIP_FILENAME, archiveCombo );
-    IFile file = ( ( WARProductExportWizardPage )page ).getProductFile();
+    IFile file = ( ( ExportPage )page ).getProductFile();
     try {
       if( file != null && file.exists() ) {
         QualifiedName location 

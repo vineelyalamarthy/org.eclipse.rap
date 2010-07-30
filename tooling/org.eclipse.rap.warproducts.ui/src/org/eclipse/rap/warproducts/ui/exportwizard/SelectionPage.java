@@ -28,11 +28,11 @@ import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 
-public class WARProductSelectionPage extends AbstractExportWizardPage {
+public class SelectionPage extends AbstractExportWizardPage {
 
   protected IFile warProductFile;
 
-  public WARProductSelectionPage() {
+  public SelectionPage() {
     super( "WAR product selection" );
     setTitle( "WAR product selection" );
     setDescription( "Please select a WAR product within the " +

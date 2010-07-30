@@ -42,9 +42,9 @@ public class ExportWARProductWizard extends ProductExportWizard {
 
   private IWARProduct product;
   private IFile warProductFile;
-  private WARProductExportWizardPage exportPage;
-  private WARProductSelectionPage selectionPage;
-  private WARProductValidationPage validationPage;
+  private ExportPage exportPage;
+  private SelectionPage selectionPage;
+  private ValidationPage validationPage;
   private boolean isProductValid;
 
   public ExportWARProductWizard() {
@@ -56,9 +56,9 @@ public class ExportWARProductWizard extends ProductExportWizard {
   }
 
   public void addPages() {
-    selectionPage = new WARProductSelectionPage();
-    validationPage = new WARProductValidationPage();
-    exportPage = new WARProductExportWizardPage();
+    selectionPage = new SelectionPage();
+    validationPage = new ValidationPage();
+    exportPage = new ExportPage();
     loadProductFromSelection( getSelection() );
     if( product == null ) {
       addPage( selectionPage );
