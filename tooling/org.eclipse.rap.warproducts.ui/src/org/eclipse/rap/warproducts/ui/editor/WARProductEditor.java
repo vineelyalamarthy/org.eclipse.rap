@@ -12,6 +12,9 @@ import java.util.Map;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -22,6 +25,8 @@ import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.editor.ISortableContentOutlinePage;
+import org.eclipse.pde.internal.ui.editor.PDEFormEditor;
+import org.eclipse.pde.internal.ui.editor.PDESourcePage;
 import org.eclipse.pde.internal.ui.editor.context.InputContextManager;
 import org.eclipse.pde.internal.ui.editor.product.ProductEditor;
 import org.eclipse.rap.warproducts.core.IWARProduct;
@@ -35,6 +40,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.FileStoreEditorInput;
+import org.eclipse.ui.part.FileEditorInput;
 
 public class WARProductEditor extends ProductEditor 
   implements IValidationListener 
@@ -49,7 +55,22 @@ public class WARProductEditor extends ProductEditor
       addPage( new ConfigurationPage( this, useFeatures() ) );
     } catch( final PartInitException e ) {
       PDEPlugin.logException( e );
+    }    
+    addSourcePage( WebXMLInputContext.CONTEXT_ID );
+  }
+  
+  protected PDESourcePage createSourcePage( final PDEFormEditor editor,
+                                            final String title,
+                                            final String name,
+                                            final String contextId )
+  {
+    PDESourcePage result = null;
+    if( contextId.equals( WebXMLInputContext.CONTEXT_ID ) ) {
+      result = new WebXMLSourcePage( editor, title, name );
+    } else {
+      result = super.createSourcePage( editor, title, name, contextId );
     }
+    return result;
   }
   
   public String getContextIDForSaveAs() {
@@ -121,7 +142,17 @@ public class WARProductEditor extends ProductEditor
       = new WARProductInputContext( this, input, true );
     manager.putContext( input, context );
     manager.monitorFile( input.getFile() );
+    IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+    IProductModel model = ( IProductModel )getAggregateModel();
+    IWARProduct product = ( IWARProduct )model.getProduct();
+    IFile webXml = root.getFile( product.getWebXml() );
+    IEditorInput webXmlInput = new FileEditorInput( webXml );
+    WebXMLInputContext webXmlContext 
+      = new WebXMLInputContext( this, webXmlInput, false );
+    manager.putContext( webXmlInput, webXmlContext );
+    manager.monitorFile( webXml );
   }
+
   
   public boolean useFeatures() {
     return false;
