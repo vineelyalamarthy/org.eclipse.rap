@@ -58,7 +58,7 @@
 
    <warConfiguration webXml="/test.rap/WEB-INF/web.xml" launchIni="/test.rap/WEB-INF/eclipse/launch.ini">
    <libraries>
-      <library path="/test.rap/lib.jar"/>
+      <library path="/test.rap/lib.jar" fromTarget="false"/>
    </libraries>
    </warConfiguration>
 </product>

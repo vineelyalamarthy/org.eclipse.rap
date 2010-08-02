@@ -106,9 +106,7 @@ public class InfrastructureCreatorTest extends TestCase {
     InfrastructreCreator icreator = new InfrastructreCreator( tempDir );
     icreator.createLaunchIni();
     IFolder webInf = tempDir.getFolder( "WEB-INF" );
-    IFolder eclipseFolder = webInf.getFolder( "eclipse" );
-    assertTrue( eclipseFolder.exists() );
-    IFile launchIni = eclipseFolder.getFile( "launch.ini" );
+    IFile launchIni = webInf.getFile( "launch.ini" );
     assertTrue( launchIni.exists() );
     StringBuffer actualLaunchIni = readFile( launchIni.getContents() );
     InputStream tempLaunchIni 
@@ -122,9 +120,7 @@ public class InfrastructureCreatorTest extends TestCase {
     InfrastructreCreator icreator = new InfrastructreCreator( tempDir );
     icreator.createLaunchIni();
     IFolder webInf = tempDir.getFolder( "WEB-INF" );
-    IFolder eclipseFolder = webInf.getFolder( "eclipse" );
-    assertTrue( eclipseFolder.exists() );
-    IFile launchIni = eclipseFolder.getFile( "launch.ini" );
+    IFile launchIni = webInf.getFile( "launch.ini" );
     IPath launchIniPath = launchIni.getFullPath();
     assertEquals( launchIniPath, icreator.getLaunchIniPath() );
   }

@@ -10,6 +10,7 @@
 package org.eclipse.rap.warproducts.core.test.tests;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.zip.ZipFile;
 
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -27,7 +29,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.resolver.BundleDescription;
@@ -99,10 +100,8 @@ public class WARProductExportOperationTest extends TestCase {
     testWARFileRootIsWebInf( warEntryList );
     testWARFileContainsWebXML( warEntryList );
     testWARFileContainsLibFolder( warEntryList );
-    testEclipseFolderContainsLaunchIni( warEntryList );
-//    testEclipseFolderContainsConfiguration( warEntryList );
-    testEclipseFolderContainsPlugins( warEntryList );
-//    testConfigurationFolderContainsConfigIni( warEntryList );
+    testWebInfFolderContainsLaunchIni( warEntryList );
+    testWebInfFolderContainsPlugins( warEntryList );
     testLibContainsJar( warEntryList );
   }
   
@@ -125,27 +124,14 @@ public class WARProductExportOperationTest extends TestCase {
                                        + File.separator ) );
   }
   
-  private void testEclipseFolderContainsLaunchIni( final List warEntryList ) 
+  private void testWebInfFolderContainsLaunchIni( final List warEntryList ) 
     throws Exception 
   {
     assertTrue( warEntryList.contains( getFilePath( "WEB-INF", 
                                                     "launch.ini" ) ) );
   }
   
-//  private void testEclipseFolderContainsConfiguration( final List warEntryList )
-//    throws Exception 
-//  {
-//    assertTrue( warEntryList.contains( "WEB-INF/configuration/" ) );
-//  }
-//  
-//  private void testConfigurationFolderContainsConfigIni( 
-//    final List warEntryList ) throws Exception 
-//  {
-//    String configIniEntry = "WEB-INF/configuration/config.ini";
-////    assertTrue( warEntryList.contains( configIniEntry ) );
-//  }
-  
-  private void testEclipseFolderContainsPlugins( final List warEntryList ) 
+  private void testWebInfFolderContainsPlugins( final List warEntryList ) 
     throws Exception 
   {
     assertTrue( warEntryList.contains( getFilePath( "WEB-INF", "plugins" ) 
@@ -156,7 +142,7 @@ public class WARProductExportOperationTest extends TestCase {
   throws Exception 
 {
   String path = getFilePath( "WEB-INF" + File.separator + "lib", 
-                             jarFileName );
+                             "test.jar" );
   assertTrue( warEntryList.contains( path ) );
 }
 
@@ -195,11 +181,13 @@ public class WARProductExportOperationTest extends TestCase {
     creator.createLaunchIni();
     creator.createWebXml();
     product.removeLibrary( new Path( "/test.rap/lib.jar" ) );
-    File jar = File.createTempFile( "test", ".jar" );
-    jarFileName = jar.getName();
-    String pathToJar = jar.getAbsolutePath();
-    IPath jarPath = new Path( pathToJar );
-    product.addLibrary( jarPath );
+    IFile file = tempDir.getFile( "test.jar" );
+    if( !file.exists() ) {
+      File jar = File.createTempFile( "test", ".jar" );
+      FileInputStream stream = new FileInputStream( jar );
+      file.create( stream, true, null );
+    }
+    product.addLibrary( file.getFullPath(), false );
     product.addLaunchIni( creator.getLaunchIniPath() );
     IProductModelFactory factory = model.getFactory();
     IConfigurationFileInfo configInfo = factory.createConfigFileInfo();

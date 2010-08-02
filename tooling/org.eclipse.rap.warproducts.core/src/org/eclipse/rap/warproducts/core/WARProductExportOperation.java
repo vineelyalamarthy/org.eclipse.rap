@@ -276,10 +276,11 @@ public class WARProductExportOperation extends FeatureExportOperation {
   }
   
   private void copyLibraries( final String libDir ) {
-    WARProduct warProduct = ( WARProduct)product;
+    IWARProduct warProduct = ( IWARProduct)product;
     IPath[] libraries = warProduct.getLibraries();
     for( int i = 0; i < libraries.length; i++ ) {
-      IPath lib = libraries[ i ];
+      IPath lib 
+        = WARProductUtility.getAbsolutLibraryPath( libraries[ i ], warProduct );
       copyLibrary( libDir, lib );
     }
   }

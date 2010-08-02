@@ -9,9 +9,6 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.ModelEntry;
 import org.eclipse.pde.core.plugin.PluginRegistry;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
@@ -46,7 +43,7 @@ public class WARProductInitializer {
         IProductPlugin bundle = ( IProductPlugin )error.getCausingObject();
         addRequiredBundle( bundle );
       } else if( error.getType() == ValidationError.LIBRARY_MISSING ) {
-        addServletBridge();
+        WARProductUtility.addServletBridgeFromTarget( product );
       }
     }
   }
@@ -64,23 +61,6 @@ public class WARProductInitializer {
       bundle.setId( requiredBundle.getId() );
       bundle.setVersion( requiredBundle.getVersion() );
       product.addPlugins( new IProductPlugin[] { bundle } );
-    }
-  }
-  
-  private void addServletBridge() {
-    ModelEntry entry = PluginRegistry.findEntry( Validator.SERVLET_BRIDGE_ID );
-    if( entry != null ) {
-      IPluginModelBase[] targetModels = entry.getExternalModels();
-      boolean foundBridge = false;
-      for( int i = 0; i < targetModels.length && !foundBridge; i++ ) {
-        IPluginModelBase bridgeModel = targetModels[ i ];
-        String location = bridgeModel.getInstallLocation();
-        if( location != null && location.indexOf( ".jar" ) != -1 ) {
-          IPath bridgePath = new Path( location );
-          product.addLibrary( bridgePath );
-          foundBridge = true;
-        }
-      }
     }
   }
   

@@ -15,9 +15,11 @@ import org.eclipse.pde.internal.core.iproduct.IProduct;
 
 public interface IWARProduct extends IProduct {
 
-  public void addLibrary( final IPath absolutePath );
+  public void addLibrary( final IPath absolutePath, final boolean fromTarget );
 
   public IPath[] getLibraries();
+  
+  public boolean isLibraryFromTarget( final IPath libraryPath );
 
   public boolean contiansLibrary( final IPath relativeWorkspacePath );
 

@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.Path;
 
 public class InfrastructreCreator {
 
-  private static final String ECLIPSE_PATH = "eclipse";
   private static final String WEB_INF_PATH = "WEB-INF";
   private static final String WEB_XML_TEMPLATE_PATH 
     = File.separator + "web.xml";
@@ -67,23 +66,9 @@ public class InfrastructreCreator {
     if( webInfDir == null ) {
     	createWebInf();
     }
-    IFolder eclipseDir = createEclipseDir();
-    internalCopyFile( LAUNCH_INI_TEMPLATE_PATH, eclipseDir, LAUNCH_INI_NAME );
+    internalCopyFile( LAUNCH_INI_TEMPLATE_PATH, webInfDir, LAUNCH_INI_NAME );
   }
 
-  private IFolder createEclipseDir() {
-    IFolder eclipseDir = webInfDir.getFolder( ECLIPSE_PATH );
-    if( !eclipseDir.exists() ) {
-    	try {
-        eclipseDir.create( true, true, null );
-      } catch( final CoreException e ) {
-        System.err.println( "Could not create eclipse directory" );
-        e.printStackTrace();
-      }
-    }
-    return eclipseDir;
-  }
-  
   private void internalCopyFile( final String from, 
                                  final IContainer container,
                                  final String fileName ) 
@@ -123,8 +108,7 @@ public class InfrastructreCreator {
 
   public IPath getLaunchIniPath() {
     IPath webInfPath = webInfDir.getFullPath();
-    IPath eclipsePath = webInfPath.append( ECLIPSE_PATH );
-    return eclipsePath.append( LAUNCH_INI_NAME );
+    return webInfPath.append( LAUNCH_INI_NAME );
   }
 
 }

@@ -38,6 +38,10 @@ import org.eclipse.pde.internal.ui.editor.build.JARFileFilter;
 import org.eclipse.pde.internal.ui.elements.DefaultTableProvider;
 import org.eclipse.pde.internal.ui.parts.TablePart;
 import org.eclipse.rap.warproducts.core.IWARProduct;
+import org.eclipse.rap.warproducts.core.WARProductUtility;
+import org.eclipse.rap.warproducts.core.validation.Validation;
+import org.eclipse.rap.warproducts.core.validation.ValidationError;
+import org.eclipse.rap.warproducts.core.validation.Validator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -57,6 +61,10 @@ import org.eclipse.ui.views.navigator.ResourceComparator;
 public class LibrarySection extends TableSection
   implements IPluginModelListener
 {
+
+  private static final int BUTTON_ADD_REQUIRED = 2;
+  private static final int BUTTON_REMOVE = 1;
+  private static final int BUTTON_ADD = 0;
 
   class LibraryContentProvider extends DefaultTableProvider {
 
@@ -100,9 +108,10 @@ public class LibrarySection extends TableSection
   }
 
   private static String[] getButtonLabels() {
-    String[] labels = new String[ 2 ];
-    labels[ 0 ] = PDEUIMessages.Product_PluginSection_add;
-    labels[ 1 ] = PDEUIMessages.PluginSection_remove;
+    String[] labels = new String[ 3 ];
+    labels[ BUTTON_ADD ] = PDEUIMessages.Product_PluginSection_add;
+    labels[ BUTTON_REMOVE ] = PDEUIMessages.PluginSection_remove;
+    labels[ BUTTON_ADD_REQUIRED ] = "Add Required";
     return labels;
   }
 
@@ -244,12 +253,16 @@ public class LibrarySection extends TableSection
   }
 
   protected void buttonSelected( final int index ) {
-    if( index == 0 ) {
+    if( index == BUTTON_ADD ) {
       handleAddLibrary();
-    } else if( index == 1 ) {
+    } else if( index == BUTTON_REMOVE ) {
       handleRemoveLibrary();
+    } else if( index == BUTTON_ADD_REQUIRED ) {
+      handleAddRequiredLibraries();
     }
   }
+
+
 
   private void handleRemoveLibrary() {
     IStructuredSelection sel 
@@ -294,9 +307,32 @@ public class LibrarySection extends TableSection
       Object element = elements[ i ];
       if( element instanceof IFile ) {
         IFile file = ( IFile )element;
-        IPath fullPath = file.getLocation();
+        IPath fullPath = file.getFullPath();
         newLibs.add( fullPath );
-        getProduct().addLibrary( fullPath );
+        getProduct().addLibrary( fullPath, false );
+      }
+    }
+  }
+  
+  private void handleAddRequiredLibraries() {
+    IWARProduct product = getProduct();
+    Validator validator = new Validator( product );
+    Validation validation = validator.validate();
+    if( !validation.isValid() ) {
+      tryToAddServletBridge( product, validation );
+    }
+  }
+
+  private void tryToAddServletBridge( final IWARProduct product, 
+                                      final Validation validation )
+  {
+    ValidationError[] errors = validation.getErrors();
+    for( int i = 0; i < errors.length; i++ ) {
+      ValidationError error = errors[ i ];
+      if( error.getType() == ValidationError.LIBRARY_MISSING ) {
+        if( error.getMessage().indexOf( "servletbridge" ) != -1 ) {
+          WARProductUtility.addServletBridgeFromTarget( product );
+        }
       }
     }
   }

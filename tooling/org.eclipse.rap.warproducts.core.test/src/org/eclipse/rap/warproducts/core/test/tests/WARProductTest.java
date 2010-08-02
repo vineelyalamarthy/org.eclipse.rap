@@ -53,7 +53,7 @@ public class WARProductTest extends TestCase {
     WARProductModelFactory factory = new WARProductModelFactory( model );
     IWARProduct product = ( IWARProduct )factory.createProduct();
     IPath jarPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
-    product.addLibrary( jarPath );
+    product.addLibrary( jarPath, false );
     IPath[] pathes = product.getLibraries();
     assertEquals( jarPath, pathes[ 0 ] );
   }
@@ -63,7 +63,7 @@ public class WARProductTest extends TestCase {
     WARProductModelFactory factory = new WARProductModelFactory( model );
     IWARProduct product = ( IWARProduct )factory.createProduct();
     IPath jarPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
-    product.addLibrary( jarPath );
+    product.addLibrary( jarPath, false );
     assertTrue( product.contiansLibrary( jarPath ) );
     IPath newPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
     assertTrue( product.contiansLibrary( newPath ) );
@@ -101,7 +101,7 @@ public class WARProductTest extends TestCase {
     assertTrue( xml.indexOf( "<libraries>" ) > -1 );
     assertTrue( xml.indexOf( "</libraries>" ) > -1 );
     assertTrue( xml.indexOf( "<library path=\"" + File.separator + "test" 
-                             + File.separator + "test.jar\"/>" ) > -1 );
+                             + File.separator + "test.jar\" fromTarget=\"false\"/>" ) > -1 );
   }
   
   public void testParse() {
@@ -160,7 +160,7 @@ public class WARProductTest extends TestCase {
     IPath webXmlPath = new Path( getAbsoluteFilePath( "test", "web.xml" ) );
     product.addWebXml( webXmlPath );
     IPath jarPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
-    product.addLibrary( jarPath );
+    product.addLibrary( jarPath, false );
     StringWriter writer = new StringWriter();
     PrintWriter printWriter = new PrintWriter( writer );
     product.write( "", printWriter );
@@ -179,11 +179,23 @@ public class WARProductTest extends TestCase {
     IPath webXmlPath = new Path( getAbsoluteFilePath( "test", "web.xml" ) );
     product.addWebXml( webXmlPath );
     IPath jarPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
-    product.addLibrary( jarPath );
+    product.addLibrary( jarPath, false );
     product.reset();
     assertNull( product.getWebXml() );
     assertNull( product.getLaunchIni() );
     assertEquals( 0, product.getLibraries().length );
+  }
+  
+  public void testIsLibFromTarget() {
+    WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    IPath jarPath = new Path( getAbsoluteFilePath( "test", "test.jar" ) );
+    IPath jarPath2 = new Path( getAbsoluteFilePath( "test", "test2.jar" ) );
+    product.addLibrary( jarPath, true );
+    product.addLibrary( jarPath2, false );
+    assertTrue( product.isLibraryFromTarget( jarPath ) );
+    assertFalse( product.isLibraryFromTarget( jarPath2 ) );
   }
   
   private String getAbsoluteFilePath( final String folder, final String file ) {

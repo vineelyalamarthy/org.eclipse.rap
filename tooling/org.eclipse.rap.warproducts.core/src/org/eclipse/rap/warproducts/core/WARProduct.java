@@ -11,7 +11,10 @@ package org.eclipse.rap.warproducts.core;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -45,28 +48,30 @@ public class WARProduct implements IWARProduct {
 
   private static final long serialVersionUID = -8956436490095281273L;
   private IProduct delegate;
-  private List libraries;
+  private Map libraries;
   private IPath webXmlPath;
   private IPath launchIniPath;
 
   public WARProduct( final IProduct delegate ) {
     this.delegate = delegate;
-    libraries = new ArrayList();
+    libraries = new HashMap();
   }
   
-  public void addLibrary( final IPath absolutePath ) {
-    boolean modified = !libraries.contains( absolutePath );
+  public void addLibrary( final IPath libraryPath, final boolean fromTarget ) {
+    Object containedPath = libraries.get( libraryPath );
+    boolean modified = containedPath == null;
     if( modified ) {
-      libraries.add( absolutePath );
+      libraries.put( libraryPath, Boolean.valueOf( fromTarget ) );
     }
     if( getModel().isEditable() && modified ) {
-      fireStructureChanged( new IPath[] { absolutePath }, 
+      fireStructureChanged( new IPath[] { libraryPath }, 
                             IModelChangedEvent.INSERT );
     }
   }
   
   public void removeLibrary( final IPath libraryPath ) {
-    boolean modified = libraries.contains( libraryPath );
+    Object containedPath = libraries.get( libraryPath );
+    boolean modified = containedPath != null;
     libraries.remove( libraryPath );
     if( getModel().isEditable() && modified ) {
       fireStructureChanged( new IPath[] { libraryPath }, 
@@ -82,12 +87,19 @@ public class WARProduct implements IWARProduct {
 
   public IPath[] getLibraries() {
     IPath[] result = new IPath[ libraries.size() ];
-    libraries.toArray( result );
+    Set keySet = libraries.keySet();
+    keySet.toArray( result );
     return result;
   }
   
+  public boolean isLibraryFromTarget( final IPath libraryPath ) {
+    Boolean result = ( Boolean )libraries.get( libraryPath );
+    return result.booleanValue();
+  }
+  
   public boolean contiansLibrary( final IPath relativeWorkspacePath ) {
-    return libraries.contains( relativeWorkspacePath );
+    Object containedPath = libraries.get( relativeWorkspacePath );
+    return containedPath != null;
   }
   
   public void addWebXml( final IPath relativeWorkspacePath ) {
@@ -240,9 +252,13 @@ public class WARProduct implements IWARProduct {
     writer.println( ">" );
     if( libraries.size() > 0 ) {
       writer.println( "   " + "<libraries>" );
-      for( int i = 0; i < libraries.size(); i++ ) {
-        String libraryPath = ( ( IPath )libraries.get( i ) ).toOSString();
-        writer.println( "      " + "<library path=\"" + libraryPath + "\"/>" );
+      IPath[] pathes = new IPath[ libraries.size() ];
+      libraries.keySet().toArray( pathes );
+      for( int i = 0; i < pathes.length; i++ ) {
+        String libraryPath = pathes[ i ].toOSString();
+        Boolean fromTarget = ( Boolean )libraries.get( pathes[ i ] );
+        writer.println( "      " + "<library path=\"" + libraryPath + 
+                        "\" fromTarget=\"" + fromTarget + "\"/>" );
       }
       writer.println( "   " + "</libraries>" );
     }
@@ -316,7 +332,10 @@ public class WARProduct implements IWARProduct {
         if( childNode.getNodeName().equals( "library" ) ) {
           NamedNodeMap attributes = childNode.getAttributes();
           Node pathItem = attributes.getNamedItem( "path" );
-          libraries.add( new Path( pathItem.getNodeValue() ) );
+          Node fromTargetString = attributes.getNamedItem( "fromTarget" );
+          Boolean fromTarget 
+            = Boolean.valueOf( fromTargetString.getNodeValue() );
+          libraries.put( new Path( pathItem.getNodeValue() ), fromTarget );
         }
       }
     }

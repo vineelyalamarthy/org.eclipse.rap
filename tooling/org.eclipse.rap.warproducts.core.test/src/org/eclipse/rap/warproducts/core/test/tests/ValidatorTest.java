@@ -10,10 +10,15 @@
 package org.eclipse.rap.warproducts.core.test.tests;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.pde.internal.core.product.ProductPlugin;
@@ -68,12 +73,22 @@ public class ValidatorTest extends TestCase {
     assertTrue( foundServletBridgeMissing );
   }
   
-  public void testContainsServletBridgeLibrary() throws IOException {
+  public void testContainsServletBridgeLibrary() throws Exception {
     IWARProduct product = createBasicProduct();
-    File bridge 
-      = File.createTempFile( SERVLETBRIDGE, ".jar" );
-    Path path = new Path( bridge.getAbsolutePath() );
-    product.addLibrary( path );
+    IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+    IProject project = wsRoot.getProject( "warProduct" );
+    if( !project.exists() ) {
+      project.create( null );
+      project.open( null );
+    }
+    IFile jar = project.getFile( SERVLETBRIDGE + ".jar" );
+    if( !jar.exists() ) {
+      File bridge 
+        = File.createTempFile( SERVLETBRIDGE, ".jar" );
+      FileInputStream stream = new FileInputStream( bridge );
+      jar.create( stream, true, null );
+    }
+    product.addLibrary( jar.getFullPath(), false );
     Validator validator = new Validator( product );
     Validation validation = validator.validate();
     assertTrue( validation.isValid() );
@@ -82,10 +97,10 @@ public class ValidatorTest extends TestCase {
   public void testLibrariesDoesntExist() {
     IWARProduct product = createBasicProduct();
     Path path = new Path( File.separator + "test.jar" );
-    product.addLibrary( path );
+    product.addLibrary( path, false );
     Path servletBridgePath 
       = new Path( File.separator + SERVLETBRIDGE_JAR );
-    product.addLibrary( servletBridgePath );
+    product.addLibrary( servletBridgePath, false );
     Validator validator = new Validator( product );
     Validation validation = validator.validate();
     assertFalse( validation.isValid() );
@@ -103,24 +118,24 @@ public class ValidatorTest extends TestCase {
     assertTrue( testJarIsMissing );
   }
   
-  public void testLibrariesExist() throws IOException {
+  public void testLibrariesExist() throws Exception {
     IWARProduct product = createBasicProductWithLibraries();
     Validator validator = new Validator( product );
     Validation validation = validator.validate();
     assertTrue( validation.isValid() );
   }
   
-  public void testJavaxServletIsExcluded() throws IOException {
+  public void testJavaxServletIsExcluded() throws Exception {
     String id = JAVAX_SERVLET;
     checkForBannedBundle( id );
   }
   
-  public void testUpdateConfiguratorIsExcluded() throws IOException {
+  public void testUpdateConfiguratorIsExcluded() throws Exception {
     String id = UPDATE_CONFIGURATOR;
     checkForBannedBundle( id );
   }
 
-  private void checkForBannedBundle( final String id ) throws IOException 
+  private void checkForBannedBundle( final String id ) throws Exception 
   {
     IWARProduct product = createBasicProductWithLibraries();
     IProductPlugin plugin = new ProductPlugin( product.getModel() );
@@ -228,15 +243,29 @@ public class ValidatorTest extends TestCase {
     assertTrue( foundMissingBundle );
   }
 
-  private IWARProduct createBasicProductWithLibraries() throws IOException {
+  private IWARProduct createBasicProductWithLibraries() throws Exception {
     IWARProduct product = createBasicProduct();
-    File testJar = File.createTempFile( "test", ".jar" );
-    Path testPath = new Path( testJar.getAbsolutePath() );
-    product.addLibrary( testPath );
-    File bridgeJar 
-      = File.createTempFile( SERVLETBRIDGE, ".jar" );
-    Path servletBridgePath = new Path( bridgeJar.getAbsolutePath() );
-    product.addLibrary( servletBridgePath );
+    IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+    IProject project = wsRoot.getProject( "warProduct" );
+    if( !project.exists() ) {
+      project.create( null );
+      project.open( null );
+    }
+    IFile jar = project.getFile( "test.jar" );
+    if( !jar.exists() ) {
+      File testJar = File.createTempFile( "test", ".jar" );
+      FileInputStream stream = new FileInputStream( testJar );
+      jar.create( stream, true, null );
+    }
+    product.addLibrary( jar.getFullPath(), false );
+    IFile bridge = project.getFile( SERVLETBRIDGE + ".jar" );
+    if( !bridge.exists() ) {
+      File bridgeJar 
+        = File.createTempFile( SERVLETBRIDGE, ".jar" );
+      FileInputStream stream = new FileInputStream( bridgeJar );
+      bridge.create( stream, true, null );
+    }
+    product.addLibrary( bridge.getFullPath(), false );
     return product;
   }
 
@@ -255,11 +284,11 @@ public class ValidatorTest extends TestCase {
     IWARProduct product = createPlainProduct();
     File testJar = File.createTempFile( "test", ".jar" );
     Path testPath = new Path( testJar.getAbsolutePath() );
-    product.addLibrary( testPath );
+    product.addLibrary( testPath, false );
     File bridgeJar 
       = File.createTempFile( SERVLETBRIDGE, ".jar" );
     Path servletBridgePath = new Path( bridgeJar.getAbsolutePath() );
-    product.addLibrary( servletBridgePath );
+    product.addLibrary( servletBridgePath, false );
     return product;
   }
   
