@@ -16,7 +16,7 @@ import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.pde.internal.core.product.ProductPlugin;
 import org.eclipse.rap.warproducts.core.IWARProduct;
 import org.eclipse.rap.warproducts.core.WARProductModel;
-import org.eclipse.rap.warproducts.core.WARProductUtility;
+import org.eclipse.rap.warproducts.core.WARProductUtil;
 
 public class Validator {
 
@@ -100,7 +100,7 @@ public class Validator {
   {
     for( int i = 0; i < libraries.length; i++ ) {
       IPath path 
-        = WARProductUtility.getAbsolutLibraryPath( libraries[ i ], product );
+        = WARProductUtil.getAbsolutLibraryPath( libraries[ i ], product );
       String pathString = path.toOSString();
       File lib = new File( pathString );
       if( !lib.exists() ) {

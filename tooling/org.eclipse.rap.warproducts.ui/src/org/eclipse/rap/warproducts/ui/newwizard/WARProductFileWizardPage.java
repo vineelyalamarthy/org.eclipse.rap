@@ -10,7 +10,12 @@ package org.eclipse.rap.warproducts.ui.newwizard;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
@@ -54,17 +59,9 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
     setDescription( "Create a new WAR product configuration and " +
     		        "initialize it's content." );
     setTitle( "WAR Product Configuration" );
-    // Force the file extension to be 'warproduct'
     setFileExtension( FILE_EXTENSION );
   }
 
-
-  /*
-   * (non-Javadoc)
-   * @see
-   * org.eclipse.ui.dialogs.WizardNewFileCreationPage#createAdvancedControls
-   * (org.eclipse.swt.widgets.Composite)
-   */
   protected void createAdvancedControls( final Composite parent ) {
     group = new Group( parent, SWT.NONE );
     group.setText( PDEUIMessages.ProductFileWizadPage_groupTitle );
@@ -76,7 +73,8 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
     basicButton.setLayoutData( gd );
     basicButton.setText( PDEUIMessages.ProductFileWizadPage_basic );
     launchConfigButton = new Button( group, SWT.RADIO );
-    launchConfigButton.setText( PDEUIMessages.ProductFileWizadPage_existingLaunchConfig );
+    String buttonText = PDEUIMessages.ProductFileWizadPage_existingLaunchConfig;
+    launchConfigButton.setText( buttonText );
     launchConfigButton.addSelectionListener( new SelectionAdapter() {
       public void widgetSelected( final SelectionEvent e ) {
         launchConfigCombo.setEnabled( launchConfigButton.getSelection() );
@@ -99,14 +97,14 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
   private String[] getLaunchConfigurations() {
     ArrayList list = new ArrayList();
     try {
-      addLaunchConfigToListFromType( list, 
-                                     EclipseLaunchShortcut.CONFIGURATION_TYPE  );
+      String eclipseConf = EclipseLaunchShortcut.CONFIGURATION_TYPE;
+      addLaunchConfigToListFromType( list, eclipseConf  );
       // add osgi launch configs to the list
-      addLaunchConfigToListFromType( list, 
-                                     IPDELauncherConstants.OSGI_CONFIGURATION_TYPE  );
+      String osgiConf = IPDELauncherConstants.OSGI_CONFIGURATION_TYPE;
+      addLaunchConfigToListFromType( list, osgiConf  );
       // add RAP launch configs to the list
-      addLaunchConfigToListFromType( list, 
-                                     WARProductConstants.RAP_LAUNCH_CONFIG_TYPE );
+      String rapConf = WARProductConstants.RAP_LAUNCH_CONFIG_TYPE;
+      addLaunchConfigToListFromType( list, rapConf );
     } catch( final CoreException e ) {
       PDEPlugin.logException( e );
     }
@@ -136,15 +134,25 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
       String configName = launchConfigCombo.getText();
       try {
         ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-        ILaunchConfigurationType type = manager.getLaunchConfigurationType( EclipseLaunchShortcut.CONFIGURATION_TYPE );
-        ILaunchConfigurationType type2 = manager.getLaunchConfigurationType( IPDELauncherConstants.OSGI_CONFIGURATION_TYPE );
-        ILaunchConfigurationType type3 = manager.getLaunchConfigurationType( WARProductConstants.RAP_LAUNCH_CONFIG_TYPE );
-        ILaunchConfiguration[] configs = manager.getLaunchConfigurations( type );
-        ILaunchConfiguration[] configs2 = manager.getLaunchConfigurations( type2 );
-        ILaunchConfiguration[] configs3 = manager.getLaunchConfigurations( type3 );
-        ILaunchConfiguration[] configurations = new ILaunchConfiguration[ configs.length
-                                                                          + configs2.length 
-                                                                          + configs3.length ];
+        String eclipseConf = EclipseLaunchShortcut.CONFIGURATION_TYPE;
+        ILaunchConfigurationType type 
+          = manager.getLaunchConfigurationType( eclipseConf );
+        String osgiConf = IPDELauncherConstants.OSGI_CONFIGURATION_TYPE;
+        ILaunchConfigurationType type2 
+          = manager.getLaunchConfigurationType( osgiConf );
+        String rapCong = WARProductConstants.RAP_LAUNCH_CONFIG_TYPE;
+        ILaunchConfigurationType type3 
+          = manager.getLaunchConfigurationType( rapCong );
+        ILaunchConfiguration[] configs 
+          = manager.getLaunchConfigurations( type );
+        ILaunchConfiguration[] configs2 
+          = manager.getLaunchConfigurations( type2 );
+        ILaunchConfiguration[] configs3 
+          = manager.getLaunchConfigurations( type3 );
+        ILaunchConfiguration[] configurations 
+          = new ILaunchConfiguration[ configs.length
+                                      + configs2.length 
+                                      + configs3.length ];
         System.arraycopy( configs, 0, configurations, 0, configs.length );
         System.arraycopy( configs2,
                           0,
@@ -184,4 +192,49 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
     IWorkbenchHelpSystem helpSystem = PlatformUI.getWorkbench().getHelpSystem();
     helpSystem.setHelp( getControl(), IHelpContextIds.PRODUCT_FILE_PAGE );
   }
+  
+  protected boolean validatePage() {
+    boolean valid =  super.validatePage();
+    if( valid ) {
+      IPath containerPath = getContainerFullPath();
+      valid = validateWarProductLocation( valid, containerPath );
+    }
+    return valid;
+  }
+
+
+  private boolean validateWarProductLocation( boolean valid, 
+                                              final IPath containerPath )
+  {
+    
+    IContainer container = getSelectedContainer( containerPath );
+    try {
+      IResource[] members = container.members();
+      for( int i = 0; i < members.length && valid; i++ ) {
+        IResource member = members[ i ];
+        String extension = member.getFileExtension();
+        if( extension != null 
+            && extension.equals( WARProductConstants.FILE_EXTENSION ) ) 
+        {
+          valid = false;
+          setErrorMessage( "Folder already contains a WAR product." );
+        }
+      }
+    } catch( final CoreException e ) {
+      e.printStackTrace();
+    }
+    return valid;
+  }
+
+  private IContainer getSelectedContainer( final IPath containerPath ) {
+    IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+    IContainer container;
+    if( containerPath.segmentCount() > 1 ) {
+      container = root.getFolder( containerPath );
+    } else {
+      container = root.getProject( containerPath.toOSString() );
+    }
+    return container;
+  }
+  
 }

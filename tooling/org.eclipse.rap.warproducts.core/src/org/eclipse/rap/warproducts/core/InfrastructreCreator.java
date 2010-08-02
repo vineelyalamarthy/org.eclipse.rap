@@ -9,13 +9,13 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -25,9 +25,9 @@ public class InfrastructreCreator {
 
   private static final String WEB_INF_PATH = "WEB-INF";
   private static final String WEB_XML_TEMPLATE_PATH 
-    = File.separator + "web.xml";
+    = "/web.xml";
   private static final String LAUNCH_INI_TEMPLATE_PATH 
-    = File.separator + "launch.ini";
+    = "/launch.ini";
   private static final String WEB_XML_NAME = "web.xml";
   private static final String LAUNCH_INI_NAME = "launch.ini";
   private IContainer rootFolder;
@@ -48,6 +48,7 @@ public class InfrastructreCreator {
       if( !webInfDir.exists() ) {
     	  try {
           webInfDir.create( true, false, null );
+          refreshWebInf();
         } catch( final CoreException e ) {
           e.printStackTrace();
         }
@@ -60,6 +61,7 @@ public class InfrastructreCreator {
       createWebInf();
     }
     internalCopyFile( WEB_XML_TEMPLATE_PATH, webInfDir, WEB_XML_NAME );
+    refreshWebInf();
   }
   
   public void createLaunchIni() {
@@ -67,6 +69,7 @@ public class InfrastructreCreator {
     	createWebInf();
     }
     internalCopyFile( LAUNCH_INI_TEMPLATE_PATH, webInfDir, LAUNCH_INI_NAME );
+    refreshWebInf();
   }
 
   private void internalCopyFile( final String from, 
@@ -109,6 +112,14 @@ public class InfrastructreCreator {
   public IPath getLaunchIniPath() {
     IPath webInfPath = webInfDir.getFullPath();
     return webInfPath.append( LAUNCH_INI_NAME );
+  }
+  
+  private void refreshWebInf() {
+    try {
+      webInfDir.refreshLocal( IResource.DEPTH_ONE, null );
+    } catch( final CoreException e ) {
+      e.printStackTrace();
+    }
   }
 
 }

@@ -43,7 +43,7 @@ public class WARProductInitializer {
         IProductPlugin bundle = ( IProductPlugin )error.getCausingObject();
         addRequiredBundle( bundle );
       } else if( error.getType() == ValidationError.LIBRARY_MISSING ) {
-        WARProductUtility.addServletBridgeFromTarget( product );
+        WARProductUtil.addServletBridgeFromTarget( product );
       }
     }
   }

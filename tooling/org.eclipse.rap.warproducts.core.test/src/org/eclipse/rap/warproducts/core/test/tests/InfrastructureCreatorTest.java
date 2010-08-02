@@ -77,7 +77,7 @@ public class InfrastructureCreatorTest extends TestCase {
     icreator.createWebInf();    
     IFolder webInf = tempDir.getFolder( "WEB-INF" );
     assertTrue( webInf.exists() );
-  }  
+  }
   
   public void testCreateWebXml() throws IOException, CoreException {
     InfrastructreCreator icreator = new InfrastructreCreator( tempDir);

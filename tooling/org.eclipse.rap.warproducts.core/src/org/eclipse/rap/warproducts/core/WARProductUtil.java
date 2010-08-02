@@ -19,7 +19,7 @@ import org.eclipse.pde.core.plugin.TargetPlatform;
 import org.eclipse.rap.warproducts.core.validation.Validator;
 
 
-public class WARProductUtility {
+public class WARProductUtil {
   
   public static IPath getAbsolutLibraryPath( final IPath libPath, 
                                              final IWARProduct product ) 
@@ -47,7 +47,9 @@ public class WARProductUtility {
         String libLocation = bridgeModel.getInstallLocation();
         if( libLocation != null && libLocation.indexOf( ".jar" ) != -1 ) {
           String targetLocation = TargetPlatform.getLocation();
-          String pathToAdd = libLocation.replaceAll( targetLocation, "" );
+          int targetLength = targetLocation.length();
+          int liblength = libLocation.length();
+          String pathToAdd = libLocation.substring( targetLength, liblength );
           IPath bridgePath = new Path( pathToAdd );
           product.addLibrary( bridgePath, true );
           foundBridge = true;

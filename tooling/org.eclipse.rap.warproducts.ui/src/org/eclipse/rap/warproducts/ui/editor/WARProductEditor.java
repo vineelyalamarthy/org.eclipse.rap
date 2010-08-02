@@ -22,7 +22,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.pde.internal.core.iproduct.IProduct;
 import org.eclipse.pde.internal.core.iproduct.IProductModel;
 import org.eclipse.pde.internal.ui.PDEPlugin;
-import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.editor.ISortableContentOutlinePage;
 import org.eclipse.pde.internal.ui.editor.PDEFormEditor;
@@ -41,6 +40,7 @@ import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class WARProductEditor extends ProductEditor 
   implements IValidationListener 
@@ -95,8 +95,10 @@ public class WARProductEditor extends ProductEditor
     if( exportAction == null ) {
       exportAction = new WARProductExportAction( this );
       exportAction.setToolTipText( "Export WAR product" );
+      String pluginId = WARProductConstants.PLUGIN_ID;
+      String imagePath = "icons/exp_product.gif";
       ImageDescriptor descExportProductTool 
-        = PDEPluginImages.DESC_EXPORT_PRODUCT_TOOL;
+        = AbstractUIPlugin.imageDescriptorFromPlugin( pluginId, imagePath );
       exportAction.setImageDescriptor( descExportProductTool );
     }
     return exportAction;
@@ -177,6 +179,10 @@ public class WARProductEditor extends ProductEditor
                                      pluginValidationMessage,
                                      noProblemsMessage );
     }
+  }
+
+  protected String computeInitialPageId() {
+    return OverviewPage.PAGE_ID;
   }
   
 }

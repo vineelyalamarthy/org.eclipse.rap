@@ -38,7 +38,7 @@ import org.eclipse.pde.internal.ui.editor.build.JARFileFilter;
 import org.eclipse.pde.internal.ui.elements.DefaultTableProvider;
 import org.eclipse.pde.internal.ui.parts.TablePart;
 import org.eclipse.rap.warproducts.core.IWARProduct;
-import org.eclipse.rap.warproducts.core.WARProductUtility;
+import org.eclipse.rap.warproducts.core.WARProductUtil;
 import org.eclipse.rap.warproducts.core.validation.Validation;
 import org.eclipse.rap.warproducts.core.validation.ValidationError;
 import org.eclipse.rap.warproducts.core.validation.Validator;
@@ -331,7 +331,7 @@ public class LibrarySection extends TableSection
       ValidationError error = errors[ i ];
       if( error.getType() == ValidationError.LIBRARY_MISSING ) {
         if( error.getMessage().indexOf( "servletbridge" ) != -1 ) {
-          WARProductUtility.addServletBridgeFromTarget( product );
+          WARProductUtil.addServletBridgeFromTarget( product );
         }
       }
     }

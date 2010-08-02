@@ -280,7 +280,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
     IPath[] libraries = warProduct.getLibraries();
     for( int i = 0; i < libraries.length; i++ ) {
       IPath lib 
-        = WARProductUtility.getAbsolutLibraryPath( libraries[ i ], warProduct );
+        = WARProductUtil.getAbsolutLibraryPath( libraries[ i ], warProduct );
       copyLibrary( libDir, lib );
     }
   }
