@@ -53,7 +53,6 @@ public class WARProductExportOperationTest extends TestCase {
     = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() 
       + File.separator + WAR_FILE;
   private IFolder tempDir;
-  private String jarFileName;
 
   protected void setUp() throws Exception {
     tempDir = createTempDir();

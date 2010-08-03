@@ -9,6 +9,7 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -303,12 +304,13 @@ public class WARProduct implements IWARProduct {
     NamedNodeMap attributes = child.getAttributes();
     Node webXmlNode = attributes.getNamedItem( "webXml" );
     if( webXmlNode != null ) {
-      String webXml = webXmlNode.getNodeValue();
+      String webXml = getValidPath( webXmlNode.getNodeValue() );
       webXmlPath = new Path( webXml );
     }
     Node launchIniNode = attributes.getNamedItem( "launchIni" );
     if( launchIniNode != null ) {
-      launchIniPath = new Path( launchIniNode.getNodeValue() );
+      String launchIni = getValidPath( launchIniNode.getNodeValue() );
+      launchIniPath = new Path( launchIni );
     }
   }
 
@@ -335,10 +337,23 @@ public class WARProduct implements IWARProduct {
           Node fromTargetString = attributes.getNamedItem( "fromTarget" );
           Boolean fromTarget 
             = Boolean.valueOf( fromTargetString.getNodeValue() );
-          libraries.put( new Path( pathItem.getNodeValue() ), fromTarget );
+          String libPath = getValidPath( pathItem.getNodeValue() );
+          libraries.put( new Path( libPath ), fromTarget );
         }
       }
     }
+  }
+  
+  private String getValidPath( final String path ) {
+    StringBuffer buffer = new StringBuffer();
+    for( int i = 0; i < path.length(); i++ ) {
+      char charAt = path.charAt( i );
+      if( charAt == '/' || charAt == '\\' ) {
+        charAt = File.separatorChar;
+      }
+      buffer.append( charAt );
+    }
+    return buffer.toString();
   }
   
   public void reset() {
