@@ -188,6 +188,7 @@ public class WARProductExportOperationTest extends TestCase {
     }
     product.addLibrary( file.getFullPath(), false );
     product.addLaunchIni( creator.getLaunchIniPath() );
+    product.setIncludeLaunchers( false );
     IProductModelFactory factory = model.getFactory();
     IConfigurationFileInfo configInfo = factory.createConfigFileInfo();
     product.setConfigurationFileInfo( configInfo );

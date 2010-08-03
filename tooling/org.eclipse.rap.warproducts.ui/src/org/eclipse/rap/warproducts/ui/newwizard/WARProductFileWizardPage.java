@@ -23,7 +23,6 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.pde.internal.ui.IHelpContextIds;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.wizards.PDEWizardNewFileCreationPage;
@@ -190,7 +189,8 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
     super.createControl( parent );
     Dialog.applyDialogFont( group );
     IWorkbenchHelpSystem helpSystem = PlatformUI.getWorkbench().getHelpSystem();
-    helpSystem.setHelp( getControl(), IHelpContextIds.PRODUCT_FILE_PAGE );
+    String contextId = WARProductConstants.HELP_CONTEXT_NEWFILE_PAGE;
+    helpSystem.setHelp( getControl(), contextId );
   }
   
   protected boolean validatePage() {

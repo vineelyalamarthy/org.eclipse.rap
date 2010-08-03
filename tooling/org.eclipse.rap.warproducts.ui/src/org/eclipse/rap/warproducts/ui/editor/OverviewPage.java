@@ -8,7 +8,7 @@
 package org.eclipse.rap.warproducts.ui.editor;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.pde.internal.ui.IHelpContextIds;
+import org.eclipse.pde.internal.core.iproduct.IProductModel;
 import org.eclipse.pde.internal.ui.PDELabelProvider;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
@@ -18,6 +18,10 @@ import org.eclipse.pde.internal.ui.editor.ILauncherFormPageHelper;
 import org.eclipse.pde.internal.ui.editor.LaunchShortcutOverviewPage;
 import org.eclipse.pde.internal.ui.editor.PDELauncherFormEditor;
 import org.eclipse.pde.internal.ui.editor.product.ProductLauncherFormPageHelper;
+import org.eclipse.rap.warproducts.core.IWARProduct;
+import org.eclipse.rap.warproducts.ui.WARProductConstants;
+import org.eclipse.rap.warproducts.ui.validation.IValidationListener;
+import org.eclipse.rap.warproducts.ui.validation.WARProductValidateAction;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
@@ -37,7 +41,7 @@ public class OverviewPage extends LaunchShortcutOverviewPage {
   }
 
   protected String getHelpResource() {
-    return IHelpContextIds.OVERVIEW_PAGE;
+    return WARProductConstants.HELP_CONTEXT_OVERVIEW_PAGE;
   }
 
   protected void createFormContent( final IManagedForm managedForm ) {
@@ -50,7 +54,8 @@ public class OverviewPage extends LaunchShortcutOverviewPage {
     form.setImage( labelProvider.get( description ) );
     fillBody( managedForm, toolkit );
     IWorkbenchHelpSystem helpSystem = PlatformUI.getWorkbench().getHelpSystem();
-    helpSystem.setHelp( form.getBody(), IHelpContextIds.OVERVIEW_PAGE );
+    String contextId = WARProductConstants.HELP_CONTEXT_OVERVIEW_PAGE;
+    helpSystem.setHelp( form.getBody(), contextId );
   }
 
   private void fillBody( final IManagedForm managedForm, 
@@ -95,7 +100,12 @@ public class OverviewPage extends LaunchShortcutOverviewPage {
       String pageId = ConfigurationPage.PLUGIN_ID;
       getEditor().setActivePage( pageId );
     } else if( href.equals( "action.validate" ) ) { //$NON-NLS-1$
-      System.out.println( "validate" );
+      IProductModel model= ( IProductModel )getPDEEditor().getAggregateModel();
+      WARProductValidateAction validationAction 
+        = new WARProductValidateAction( ( IWARProduct )model.getProduct() );
+      IValidationListener listener = ( IValidationListener )getPDEEditor();
+      validationAction.addValidationListener( listener );
+      validationAction.run();
     } else {
       super.linkActivated( linkEvent );
     }

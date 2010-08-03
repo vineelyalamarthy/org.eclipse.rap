@@ -7,13 +7,13 @@
  ******************************************************************************/
 package org.eclipse.rap.warproducts.ui.editor;
 
-import org.eclipse.pde.internal.ui.IHelpContextIds;
 import org.eclipse.pde.internal.ui.PDELabelProvider;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.editor.FormLayoutFactory;
 import org.eclipse.pde.internal.ui.editor.PDEFormPage;
 import org.eclipse.pde.internal.ui.editor.product.PluginSection;
+import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
@@ -34,7 +34,7 @@ public class ConfigurationPage extends PDEFormPage {
   }
 
   protected String getHelpResource() {
-    return IHelpContextIds.CONFIGURATION_PAGE;
+    return WARProductConstants.HELP_CONTEXT_CONFIGURATION_PAGE;
   }
 
   protected void createFormContent( final IManagedForm managedForm ) {
@@ -46,7 +46,8 @@ public class ConfigurationPage extends PDEFormPage {
     form.setText( "Configuration" );
     fillBody( managedForm, toolkit );
     IWorkbenchHelpSystem helpSystem = PlatformUI.getWorkbench().getHelpSystem();
-    helpSystem.setHelp( form.getBody(), IHelpContextIds.CONFIGURATION_PAGE );
+    String contextId = WARProductConstants.HELP_CONTEXT_CONFIGURATION_PAGE;
+    helpSystem.setHelp( form.getBody(), contextId );
   }
 
   private void fillBody( final IManagedForm managedForm, 

@@ -16,6 +16,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportWizardPage;
+import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.rap.warproducts.ui.validation.PluginStatusContentVisualizer;
 import org.eclipse.rap.warproducts.ui.validation.PluginStatusDialogContentProvider;
 import org.eclipse.swt.SWT;
@@ -24,6 +25,9 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.help.IWorkbenchHelpSystem;
 
 
 public class ValidationPage extends AbstractExportWizardPage {
@@ -58,6 +62,10 @@ public class ValidationPage extends AbstractExportWizardPage {
     treeViewer = visualizer.getViewer();
     treeViewer.getControl().setLayoutData( fd );
     setControl( container );
+    IWorkbench workbench = PlatformUI.getWorkbench();
+    IWorkbenchHelpSystem helpSystem = workbench.getHelpSystem();
+    String contextId = WARProductConstants.HELP_CONTEXT_VALIDATION_PAGE;
+    helpSystem.setHelp( container, contextId );
   }
 
   protected void pageChanged() {

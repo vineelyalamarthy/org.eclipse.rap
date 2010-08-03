@@ -24,6 +24,9 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.help.IWorkbenchHelpSystem;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
@@ -58,6 +61,10 @@ public class SelectionPage extends AbstractExportWizardPage {
     fdViewer.right = new FormAttachment( 100 );
     fdViewer.bottom = new FormAttachment( 100 );
     setControl( container );
+    IWorkbench workbench = PlatformUI.getWorkbench();
+    IWorkbenchHelpSystem helpSystem = workbench.getHelpSystem();
+    String contextId = WARProductConstants.HELP_CONTEXT_SELECTION_PAGE;
+    helpSystem.setHelp( container, contextId );
   }
 
   private void hookSelectionListener( final TreeViewer viewer ) {

@@ -35,7 +35,6 @@ import org.eclipse.pde.core.plugin.TargetPlatform;
 import org.eclipse.pde.internal.build.BuildScriptGenerator;
 import org.eclipse.pde.internal.build.IBuildPropertiesConstants;
 import org.eclipse.pde.internal.build.IXMLConstants;
-import org.eclipse.pde.internal.core.FeatureModelManager;
 import org.eclipse.pde.internal.core.ICoreConstants;
 import org.eclipse.pde.internal.core.PDECore;
 import org.eclipse.pde.internal.core.PDECoreMessages;
@@ -121,7 +120,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
     IStatus result = null;
     String[][] configurations = fInfo.targets;
     if( configurations == null ) {
-      configurations = new String[][]{
+      configurations = new String[][] {
         {
           TargetPlatform.getOS(),
           TargetPlatform.getWS(),
@@ -223,11 +222,8 @@ public class WARProductExportOperation extends FeatureExportOperation {
     if( !file.exists() || !file.isDirectory() ) {
       file.mkdirs();
     }
-    FeatureModelManager modelManager 
-      = PDECore.getDefault().getFeatureModelManager();
-    boolean hasLaunchers = modelManager.getDeltaPackFeature() != null;
     Properties properties = new Properties();
-    handleRootFiles( configurations, hasLaunchers, properties );
+    handleRootFiles( configurations, properties );
     handleJREInfo( configurations, properties );
     handleExportSource( properties );
     File fileToSave = new File( file, ICoreConstants.BUILD_FILENAME_DESCRIPTOR );
@@ -235,18 +231,14 @@ public class WARProductExportOperation extends FeatureExportOperation {
   }
 
   private void handleRootFiles( final String[][] configurations,
-                                final boolean hasLaunchers,
                                 final Properties properties )
   {
-    if( product.includeLaunchers()
-        && !hasLaunchers
-        && configurations.length > 0 )
-    {
+    if( configurations.length > 0 ) {
       String rootPrefix = IBuildPropertiesConstants.ROOT_PREFIX
                           + configurations[ 0 ][ 0 ]
                           + "." + configurations[ 0 ][ 1 ] 
                           + "." + configurations[ 0 ][ 2 ];
-      properties.put( rootPrefix, getRootFileLocations( hasLaunchers ) );
+      properties.put( rootPrefix, getRootFileLocations( false ) );
       prepareWARFile( properties, rootPrefix );
     }
   }

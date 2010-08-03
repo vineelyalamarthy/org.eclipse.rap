@@ -12,8 +12,8 @@ package org.eclipse.rap.warproducts.ui.exportwizard;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.pde.internal.ui.IHelpContextIds;
 import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportWizardPage;
+import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -57,7 +57,8 @@ public class ExportPage extends AbstractExportWizardPage {
     Dialog.applyDialogFont( group );
     IWorkbench workbench = PlatformUI.getWorkbench();
     IWorkbenchHelpSystem helpSystem = workbench.getHelpSystem();
-    helpSystem.setHelp( group, IHelpContextIds.PRODUCT_EXPORT_WIZARD );
+    String contextId = WARProductConstants.HELP_CONTEXT_EXPORT_PAGE;
+    helpSystem.setHelp( group, contextId );
   }
 
 
