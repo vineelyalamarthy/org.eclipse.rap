@@ -121,7 +121,6 @@ public class WARProduct implements IWARProduct {
   
   public void write( final String indent, final PrintWriter writer) {
     writeMetaInfos( indent, writer );
-    writeInfo( indent, writer );
     writePlugins( indent, writer ); 
     writeFeatures( indent, writer );
     writePluginConfigurations( indent, writer );
@@ -144,9 +143,6 @@ public class WARProduct implements IWARProduct {
     if( getProductId() != null && getProductId().length() > 0 ) {
       writer.print( " " + P_ID + "=\"" + getProductId() + "\"" );
     }
-    if( getApplication() != null && getApplication().length() > 0 ) {
-      writer.print( " " + P_APPLICATION + "=\"" + getApplication() + "\"" );
-    }
     if( getVersion() != null && getVersion().length() > 0 ) {
       writer.print( " " + P_VERSION + "=\"" + getVersion() + "\"" );
     }
@@ -161,46 +157,6 @@ public class WARProduct implements IWARProduct {
                   + Boolean.toString( includeLaunchers() )
                   + "\"" );
     writer.println( ">" );
-  }
-
-  private void writeInfo( final String indent, final PrintWriter writer ) {
-    if( getAboutInfo() != null ) {
-      writer.println();
-      getAboutInfo().write( indent + "   ", writer );
-    }
-    if( getConfigurationFileInfo() != null ) {
-      writer.println();
-      getConfigurationFileInfo().write( indent + "   ", writer );
-    }
-    if( getLauncherArguments() != null ) {
-      writer.println();
-      getLauncherArguments().write( indent + "   ", writer ); 
-    }
-    if( getWindowImages() != null ) {
-      writer.println();
-      getWindowImages().write( indent + "   ", writer ); 
-    }
-    if( getSplashInfo() != null ) {
-      writer.println();
-      getSplashInfo().write( indent + "   ", writer ); 
-    }
-    if( getLauncherInfo() != null ) {
-      writer.println();
-      getLauncherInfo().write( indent + "   ", writer ); 
-    }
-    if( getIntroInfo() != null ) {
-      writer.println();
-      getIntroInfo().write( indent + "   ", writer ); 
-    }
-    if( getJREInfo() != null ) {
-      writer.println();
-      getJREInfo().write( indent + "   ", writer ); 
-    }
-    if( getLicenseInfo() != null ) {
-      writer.println();
-      getLicenseInfo().write( indent + "   ", writer ); 
-    }
-    writer.println();
   }
 
   private void writePlugins( final String indent, final PrintWriter writer ) {

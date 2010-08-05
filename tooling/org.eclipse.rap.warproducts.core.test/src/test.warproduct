@@ -1,13 +1,4 @@
-<product application="org.eclipse.ui.ide.workbench" useFeatures="false" includeLaunchers="true">
-
-   <configIni use="default">
-   </configIni>
-
-   <launcherArgs>
-      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -console -consolelog</programArgs>
-      <vmArgs>-Declipse.ignoreApp=true -Dosgi.noShutdown=true -Dorg.eclipse.rwt.compression=true -Dorg.eclipse.equinox.http.jetty.log.stderr.threshold=info</vmArgs>
-   </launcherArgs>
-
+<product useFeatures="false" includeLaunchers="true">
    <plugins>
       <plugin id="com.ibm.icu.base" fragment=""/>
       <plugin id="javax.servlet"/>
