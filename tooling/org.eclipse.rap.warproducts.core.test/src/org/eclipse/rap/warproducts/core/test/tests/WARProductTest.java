@@ -104,6 +104,13 @@ public class WARProductTest extends TestCase {
                              + File.separator + "test.jar\" fromTarget=\"false\"/>" ) > -1 );
   }
   
+  public void testIncludeLauncher() {
+    WARProductModel model = new WARProductModel();
+    WARProductModelFactory factory = new WARProductModelFactory( model );
+    IWARProduct product = ( IWARProduct )factory.createProduct();
+    assertFalse( product.includeLaunchers() );
+  }
+  
   public void testParse() {
     String xml = writenXmlFromProduct();
     WARProductModel model = new WARProductModel();

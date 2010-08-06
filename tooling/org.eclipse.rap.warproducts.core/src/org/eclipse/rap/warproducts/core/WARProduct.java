@@ -370,6 +370,10 @@ public class WARProduct implements IWARProduct {
     }
   }
   
+  public boolean includeLaunchers() {
+    return false;
+  }
+  
   // simple delegate methods
 
   public String getId() {
@@ -398,10 +402,6 @@ public class WARProduct implements IWARProduct {
 
   public boolean useFeatures() {
     return delegate.useFeatures();
-  }
-
-  public boolean includeLaunchers() {
-    return delegate.includeLaunchers();
   }
 
   public IAboutInfo getAboutInfo() {

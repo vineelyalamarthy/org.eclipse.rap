@@ -1,4 +1,4 @@
-<product useFeatures="false" includeLaunchers="true">
+<product useFeatures="false" includeLaunchers="false">
    <plugins>
       <plugin id="com.ibm.icu.base" fragment=""/>
       <plugin id="javax.servlet"/>
