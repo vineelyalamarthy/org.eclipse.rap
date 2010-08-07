@@ -18,6 +18,7 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.pde.internal.ui.util.FileExtensionFilter;
 import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportWizardPage;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -36,10 +37,10 @@ public class SelectionPage extends AbstractExportWizardPage {
   protected IFile warProductFile;
 
   public SelectionPage() {
-    super( "WAR product selection" );
-    setTitle( "WAR product selection" );
-    setDescription( "Please select a WAR product within the " +
-    		        "listed workspace projects." );
+    super( Messages.SelectionPageTitle );
+    setTitle( Messages.SelectionPageTitle );
+    setDescription( Messages.SelectionPageSelect +
+    		        Messages.SelectionPageListProjects );
   }
 
   public void createControl( final Composite parent ) {

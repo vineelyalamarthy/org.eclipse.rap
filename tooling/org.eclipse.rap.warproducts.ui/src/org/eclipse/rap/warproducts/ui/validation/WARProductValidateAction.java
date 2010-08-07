@@ -30,6 +30,7 @@ import org.eclipse.rap.warproducts.core.IWARProduct;
 import org.eclipse.rap.warproducts.core.validation.Validation;
 import org.eclipse.rap.warproducts.core.validation.ValidationError;
 import org.eclipse.rap.warproducts.core.validation.Validator;
+import org.eclipse.rap.warproducts.ui.Messages;
 
 public class WARProductValidateAction extends Action {
 
@@ -37,7 +38,7 @@ public class WARProductValidateAction extends Action {
   List listeners;
 
   public WARProductValidateAction( final IWARProduct product ) {
-    super( "Vaidate WAR product", IAction.AS_PUSH_BUTTON );
+    super( Messages.ValidateActionTitle, IAction.AS_PUSH_BUTTON );
     setImageDescriptor( PDEPluginImages.DESC_VALIDATE_TOOL );
     this.product = ( IWARProduct )product;
   }
@@ -151,7 +152,7 @@ public class WARProductValidateAction extends Action {
   private void handleWARValiadtionErrors( final Map map, 
                                           final ValidationError[] errors ) 
   {
-    String key = "Deployment";
+    String key = Messages.ValidateAction1;
     map.put( key, errors );
   }
   

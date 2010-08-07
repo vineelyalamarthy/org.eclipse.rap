@@ -24,6 +24,7 @@ import org.eclipse.rap.warproducts.core.InfrastructreCreator;
 import org.eclipse.rap.warproducts.core.WARProduct;
 import org.eclipse.rap.warproducts.core.WARProductInitializer;
 import org.eclipse.rap.warproducts.core.WARWorkspaceProductModel;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
@@ -66,7 +67,7 @@ public class BaseWARProductCreationOperation
   protected void execute( final IProgressMonitor monitor )
     throws CoreException, InvocationTargetException, InterruptedException
   {
-    monitor.beginTask( "Creating WAR product configuration...", 2 );
+    monitor.beginTask( Messages.BaseWARProductCreationOperation0, 2 );
     createContent();
     monitor.worked( 1 );
     openFile();

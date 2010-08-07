@@ -15,31 +15,32 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.pde.internal.core.product.ProductPlugin;
 import org.eclipse.rap.warproducts.core.IWARProduct;
+import org.eclipse.rap.warproducts.core.Messages;
 import org.eclipse.rap.warproducts.core.WARProductModel;
 import org.eclipse.rap.warproducts.core.WARProductUtil;
 
 public class Validator {
 
   public static final String SERVLET_BRIDGE_ID 
-    = "org.eclipse.equinox.servletbridge";
+    = "org.eclipse.equinox.servletbridge"; //$NON-NLS-1$
 
   public static final String[] BANNED_BUNDLES 
-    = new String[] { "javax.servlet",
-                      "org.eclipse.update.configurator" 
+    = new String[] { "javax.servlet", //$NON-NLS-1$
+                      "org.eclipse.update.configurator"  //$NON-NLS-1$
                     };
 
   public static final String[] REQUIRED_BUNDLES 
-    = new String[] { "org.eclipse.equinox.servletbridge.extensionbundle",
-                     "org.eclipse.core.jobs",
-                     "org.eclipse.equinox.common",
-                     "org.eclipse.equinox.ds",
-                     "org.eclipse.equinox.http.registry",
-                     "org.eclipse.equinox.registry",
-                     "org.eclipse.equinox.util",
-                     "org.eclipse.osgi",
-                     "org.eclipse.osgi.services",
-                     "org.eclipse.equinox.http.servlet",
-                     "org.eclipse.equinox.http.servletbridge"
+    = new String[] { "org.eclipse.equinox.servletbridge.extensionbundle", //$NON-NLS-1$
+                     "org.eclipse.core.jobs", //$NON-NLS-1$
+                     "org.eclipse.equinox.common", //$NON-NLS-1$
+                     "org.eclipse.equinox.ds", //$NON-NLS-1$
+                     "org.eclipse.equinox.http.registry", //$NON-NLS-1$
+                     "org.eclipse.equinox.registry", //$NON-NLS-1$
+                     "org.eclipse.equinox.util", //$NON-NLS-1$
+                     "org.eclipse.osgi", //$NON-NLS-1$
+                     "org.eclipse.osgi.services", //$NON-NLS-1$
+                     "org.eclipse.equinox.http.servlet", //$NON-NLS-1$
+                     "org.eclipse.equinox.http.servletbridge" //$NON-NLS-1$
                     };
   
   private IWARProduct product;
@@ -77,7 +78,7 @@ public class Validator {
         || !librariesContainsServletBridge( libraries ) ) 
     {
       int type = ValidationError.LIBRARY_MISSING;
-      String message = "Missing Library: org.eclipse.equinox.servletbridge.jar";
+      String message = Messages.validatorMissingLibrary;
       ValidationError error = new ValidationError( type, message, null );
       validation.addError( error );
     }
@@ -106,7 +107,7 @@ public class Validator {
       if( !lib.exists() ) {
         int type = ValidationError.LIBRARY_DOESNT_EXIST;
         String message 
-          = "Library doesn't exist at location " + pathString + ".";
+          = Messages.validatorLibraryNotExist + pathString + ".";//$NON-NLS-1$
         ValidationError error = new ValidationError( type, message, path );
         validation.addError( error );
       }
@@ -120,7 +121,7 @@ public class Validator {
       IProductPlugin plugin = plugins[ i ];
       if( isBundleContained( plugin.getId(), BANNED_BUNDLES ) ) {
         int type = ValidationError.BUNDLE_BANNED;
-        String message = "Forbidden Bundle: " + plugin.getId();
+        String message = Messages.validatorForbiddenBundle + plugin.getId();
         ValidationError error = new ValidationError( type, message, plugin );
         validation.addError( error );
       }
@@ -151,10 +152,10 @@ public class Validator {
                                          final String bundleId )
   {
     int type = ValidationError.BUNDLE_MISSING;
-    String message = "Missing Bundle: " + bundleId;
+    String message = Messages.validatorMissingBundle + bundleId;
     IProductPlugin missingBundle = new ProductPlugin( fakeModel );
     missingBundle.setId( bundleId );
-    missingBundle.setVersion( "0.0.0" );
+    missingBundle.setVersion( "0.0.0" ); //$NON-NLS-1$
     ValidationError error 
       = new ValidationError( type, message, missingBundle );
     validation.addError( error );

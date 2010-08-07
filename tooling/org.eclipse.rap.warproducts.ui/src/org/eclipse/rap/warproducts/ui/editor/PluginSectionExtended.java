@@ -63,7 +63,7 @@ public class PluginSectionExtended extends PluginSection {
         = TargetPlatformHelper.getState().getBundles();
       for( int i = 0; i < bundles.length; i++ ) {
         HostSpecification host = bundles[ i ].getHost();
-        String compatibilityId = "org.eclipse.ui.workbench.compatibility";
+        String compatibilityId = "org.eclipse.ui.workbench.compatibility"; //$NON-NLS-1$
         String bundleName = bundles[ i ].getSymbolicName();
         boolean compatible = compatibilityId.equals( bundleName );
         if( host != null ) {

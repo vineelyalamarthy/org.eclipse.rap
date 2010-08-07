@@ -22,13 +22,13 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.pde.internal.core.iproduct.IProduct;
 import org.eclipse.pde.internal.core.iproduct.IProductModel;
 import org.eclipse.pde.internal.ui.PDEPlugin;
-import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.editor.ISortableContentOutlinePage;
 import org.eclipse.pde.internal.ui.editor.PDEFormEditor;
 import org.eclipse.pde.internal.ui.editor.PDESourcePage;
 import org.eclipse.pde.internal.ui.editor.context.InputContextManager;
 import org.eclipse.pde.internal.ui.editor.product.ProductEditor;
 import org.eclipse.rap.warproducts.core.IWARProduct;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.rap.warproducts.ui.validation.IValidationListener;
 import org.eclipse.rap.warproducts.ui.validation.PluginStatusDialog;
@@ -46,7 +46,7 @@ public class WARProductEditor extends ProductEditor
   implements IValidationListener 
 {
 
-  private static final String WARPRODUCT_FILE_EXTENSION = ".warproduct";
+  private static final String WARPRODUCT_FILE_EXTENSION = ".warproduct"; //$NON-NLS-1$
   private WARProductExportAction exportAction;
 
   protected void addEditorPages() {
@@ -94,9 +94,9 @@ public class WARProductEditor extends ProductEditor
   private WARProductExportAction getExportAction() {
     if( exportAction == null ) {
       exportAction = new WARProductExportAction( this );
-      exportAction.setToolTipText( "Export WAR product" );
+      exportAction.setToolTipText( Messages.editorExport );
       String pluginId = WARProductConstants.PLUGIN_ID;
-      String imagePath = "icons/exp_product.gif";
+      String imagePath = "icons/exp_product.gif"; //$NON-NLS-1$
       ImageDescriptor descExportProductTool 
         = AbstractUIPlugin.imageDescriptorFromPlugin( pluginId, imagePath );
       exportAction.setImageDescriptor( descExportProductTool );
@@ -119,7 +119,8 @@ public class WARProductEditor extends ProductEditor
         try {
           store = EFS.getStore( file.toURI() );
           IEditorInput in = new FileStoreEditorInput( store );
-          manager.putContext( in, new WARProductInputContext( this, in, true ) );
+          manager.putContext( in, 
+                              new WARProductInputContext( this, in, true ) );
         } catch( final CoreException e ) {
           PDEPlugin.logException( e );
         }
@@ -172,9 +173,9 @@ public class WARProductEditor extends ProductEditor
       dialog.open();
     } else {
       String pluginValidationMessage 
-        = PDEUIMessages.PluginStatusDialog_pluginValidation;
+        = Messages.Validation;
       String noProblemsMessage 
-        = PDEUIMessages.AbstractLauncherToolbar_noProblems;
+        = Messages.noProblems;
       MessageDialog.openInformation( shell,
                                      pluginValidationMessage,
                                      noProblemsMessage );

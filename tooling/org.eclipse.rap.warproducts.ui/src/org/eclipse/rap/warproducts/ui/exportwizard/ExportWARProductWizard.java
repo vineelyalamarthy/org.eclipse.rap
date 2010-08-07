@@ -141,7 +141,7 @@ public class ExportWARProductWizard extends ProductExportWizard {
     info.destinationDirectory = exportPage.getDestination();
     info.zipFileName = exportPage.getFileName();
     info.items = getPluginModels();
-    String rootDirectory = "WEB-INF";
+    String rootDirectory = "WEB-INF"; //$NON-NLS-1$
     WARProductExportOperation job 
       = new WARProductExportOperation( info,
                                        PDEUIMessages.ProductExportJob_name,
@@ -217,7 +217,7 @@ public class ExportWARProductWizard extends ProductExportWizard {
           IResource resource = resources[ i ];
           String resourceName = resource.getName();
           boolean hasWarProductExtension 
-            = resourceName.endsWith( "." + WARProductConstants.FILE_EXTENSION );
+            = resourceName.endsWith( "." + WARProductConstants.FILE_EXTENSION ); //$NON-NLS-1$
           if( resource instanceof IFile && hasWarProductExtension ) {
             IFile file = ( IFile )resource;
             loadProductFromFile( file );

@@ -13,6 +13,7 @@ import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.editor.FormLayoutFactory;
 import org.eclipse.pde.internal.ui.editor.PDEFormPage;
 import org.eclipse.pde.internal.ui.editor.product.PluginSection;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -30,7 +31,7 @@ public class ConfigurationPage extends PDEFormPage {
 
   public ConfigurationPage( final FormEditor editor, final boolean useFeatures )
   {
-    super( editor, PLUGIN_ID, "Configuration" );
+    super( editor, PLUGIN_ID, Messages.ConfigurationPageTitle );
   }
 
   protected String getHelpResource() {
@@ -43,7 +44,7 @@ public class ConfigurationPage extends PDEFormPage {
     FormToolkit toolkit = managedForm.getToolkit();
     PDELabelProvider labelProvider = PDEPlugin.getDefault().getLabelProvider();
     form.setImage( labelProvider.get( PDEPluginImages.DESC_REQ_PLUGINS_OBJ ) );
-    form.setText( "Configuration" );
+    form.setText( Messages.ConfigurationPageTitle );
     fillBody( managedForm, toolkit );
     IWorkbenchHelpSystem helpSystem = PlatformUI.getWorkbench().getHelpSystem();
     String contextId = WARProductConstants.HELP_CONTEXT_CONFIGURATION_PAGE;

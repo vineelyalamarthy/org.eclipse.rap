@@ -23,13 +23,13 @@ import org.eclipse.core.runtime.Path;
 
 public class InfrastructreCreator {
 
-  private static final String WEB_INF_PATH = "WEB-INF";
+  private static final String WEB_INF_PATH = "WEB-INF"; //$NON-NLS-1$
   private static final String WEB_XML_TEMPLATE_PATH 
-    = "/web.xml";
+    = "/web.xml"; //$NON-NLS-1$
   private static final String LAUNCH_INI_TEMPLATE_PATH 
-    = "/launch.ini";
-  private static final String WEB_XML_NAME = "web.xml";
-  private static final String LAUNCH_INI_NAME = "launch.ini";
+    = "/launch.ini"; //$NON-NLS-1$
+  private static final String WEB_XML_NAME = "web.xml"; //$NON-NLS-1$
+  private static final String LAUNCH_INI_NAME = "launch.ini"; //$NON-NLS-1$
   private IContainer rootFolder;
   private IFolder webInfDir;
 
@@ -93,7 +93,7 @@ public class InfrastructreCreator {
         try {
           file.create( getFileStream( from ), true, null );
         } catch( final CoreException e ) {
-          System.err.println("Could not copy file: " + from );
+          System.err.println(Messages.creatorCouldntCopy + from );
           e.printStackTrace();
         }
       }

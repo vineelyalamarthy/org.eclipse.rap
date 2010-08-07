@@ -16,6 +16,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportWizardPage;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.rap.warproducts.ui.validation.PluginStatusContentVisualizer;
 import org.eclipse.rap.warproducts.ui.validation.PluginStatusDialogContentProvider;
@@ -37,10 +38,10 @@ public class ValidationPage extends AbstractExportWizardPage {
   private Map input;
 
   public ValidationPage() {
-    super( "Validation" );
-    setTitle( "Validation" );
-    setErrorMessage( "The WAR product contains erros. The exported " +
-                     "archive may not work as expected." );
+    super( "Validation" ); //$NON-NLS-1$
+    setTitle( Messages.ValidationPageTitle );
+    setErrorMessage( Messages.ValidationPageDesc +
+                     Messages.ValidationPage3 );
   }
 
   public void createControl( final Composite parent ) {

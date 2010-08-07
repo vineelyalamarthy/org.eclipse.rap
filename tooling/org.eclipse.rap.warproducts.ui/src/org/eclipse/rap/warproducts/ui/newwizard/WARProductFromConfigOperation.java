@@ -90,8 +90,8 @@ public class WARProductFromConfigOperation
       = launchConfig.getAttribute( IPDELauncherConstants.USE_PRODUCT, false );
     if( useProduct ) {
       String id 
-        = launchConfig.getAttribute( IPDELauncherConstants.PRODUCT, "" );
-      if( !id.equals( "" ) ) {
+        = launchConfig.getAttribute( IPDELauncherConstants.PRODUCT, "" ); //$NON-NLS-1$
+      if( !id.equals( "" ) ) { //$NON-NLS-1$
         initializeProductInfo( factory, product, id );
       }
     } else {
@@ -107,8 +107,8 @@ public class WARProductFromConfigOperation
     // Set JRE info from information from the launch configuration
     String JreContainerPathName 
       = IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH;
-    String jreString = launchConfig.getAttribute( JreContainerPathName, "" );
-    if( !jreString.equals( "" ) ) {
+    String jreString = launchConfig.getAttribute( JreContainerPathName, "" ); //$NON-NLS-1$
+    if( !jreString.equals( "" ) ) { //$NON-NLS-1$
       IPath jreContainerPath = new Path( jreString );
       IJREInfo jreInfo = product.getJREInfo();
       if( jreInfo == null ) {
@@ -162,13 +162,13 @@ public class WARProductFromConfigOperation
     throws CoreException
   {
     String templateLocation = IPDELauncherConstants.CONFIG_TEMPLATE_LOCATION;
-    String path = launchConfig.getAttribute( templateLocation, "/" ); 
+    String path = launchConfig.getAttribute( templateLocation, "/" );  //$NON-NLS-1$
     IWorkspace workspace = PDEPlugin.getWorkspace();
     IWorkspaceRoot root = workspace.getRoot();
     IContainer container = root.getContainerForLocation( new Path( path ) );
     if( container != null ) {
       IConfigurationFileInfo info = factory.createConfigFileInfo();
-      info.setUse( null, "custom" );
+      info.setUse( null, "custom" ); //$NON-NLS-1$
       info.setPath( null, container.getFullPath().toString() );
       product.setConfigurationFileInfo( info );
     } else {
@@ -181,20 +181,21 @@ public class WARProductFromConfigOperation
   throws CoreException
   {
     // set vm and program arguments from the launch configuration
-    String vmArgumentsName = IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS;
-    String vmargs = launchConfig.getAttribute( vmArgumentsName, "" );
+    String vmArgumentsName 
+      = IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS;
+    String vmargs = launchConfig.getAttribute( vmArgumentsName, "" ); //$NON-NLS-1$
     String programArgumentsName 
       = IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS;
-    String programArgs = launchConfig.getAttribute( programArgumentsName, "" );
-    if( !vmargs.equals( "" ) || !programArgs.equals( "" ) ) {
+    String programArgs = launchConfig.getAttribute( programArgumentsName, "" ); //$NON-NLS-1$
+    if( !vmargs.equals( "" ) || !programArgs.equals( "" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
       IArgumentsInfo arguments = product.getLauncherArguments();
       if( arguments != null ) {
         arguments = factory.createLauncherArguments();
       }
-      if( !vmargs.equals( "" ) ) {
+      if( !vmargs.equals( "" ) ) { //$NON-NLS-1$
         arguments.setVMArguments( vmargs, IArgumentsInfo.L_ARGS_ALL );
       }
-      if( !programArgs.equals( "" ) ) {
+      if( !programArgs.equals( "" ) ) { //$NON-NLS-1$
         arguments.setProgramArguments( programArgs, IArgumentsInfo.L_ARGS_ALL );
       }
       product.setLauncherArguments( arguments );

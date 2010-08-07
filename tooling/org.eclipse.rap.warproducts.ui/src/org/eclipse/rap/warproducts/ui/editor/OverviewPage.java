@@ -75,17 +75,7 @@ public class OverviewPage extends LaunchShortcutOverviewPage {
   {
     String title = PDEUIMessages.OverviewPage_exportingTitle;
     Section section = createStaticSection( toolkit, parent, title );
-    String text = "<form>" +
-                  "<li style=\"text\" value=\"1.\" bindent=\"5\">Configure " +
-                  "the WAR product on the <a href=\"action.configuration\">" +
-                  "Configuration</a> page.</li>" +
-                  "<li style=\"text\" value=\"2.\" bindent=\"5\">" +
-                  "<a href=\"action.validate\">Validate</a> the WAR product " +
-                  "and fix possible errors.</li>" +
-    		      "<li style=\"text\" value=\"3.\" bindent=\"5\">Use the " +
-    		      "<a href=\"action.export\">Eclipse " +
-    		      "WAR Product export wizard</a> to package and export the " +
-    		      "WAR product defined in this configuration.</li></form>";
+    String text = WARProductConstants.EXPORT_SECTION;
     section.setClient( createClient( section, text, toolkit ) );
   }
 

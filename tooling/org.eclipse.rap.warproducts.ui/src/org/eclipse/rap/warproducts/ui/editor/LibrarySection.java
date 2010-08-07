@@ -30,7 +30,6 @@ import org.eclipse.pde.internal.ui.IHelpContextIds;
 import org.eclipse.pde.internal.ui.PDELabelProvider;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
-import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.editor.FormLayoutFactory;
 import org.eclipse.pde.internal.ui.editor.PDEFormPage;
 import org.eclipse.pde.internal.ui.editor.TableSection;
@@ -42,6 +41,7 @@ import org.eclipse.rap.warproducts.core.WARProductUtil;
 import org.eclipse.rap.warproducts.core.validation.Validation;
 import org.eclipse.rap.warproducts.core.validation.ValidationError;
 import org.eclipse.rap.warproducts.core.validation.Validator;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -77,7 +77,7 @@ public class LibrarySection extends TableSection
   class LibraryLabelProvider extends LabelProvider {
     
     public String getText( final Object element ) {
-      String result = "";
+      String result = ""; //$NON-NLS-1$
       if( element instanceof IPath ) {
         IPath path = ( IPath )element;
         result = path.segment( path.segmentCount() - 1 );
@@ -109,9 +109,9 @@ public class LibrarySection extends TableSection
 
   private static String[] getButtonLabels() {
     String[] labels = new String[ 3 ];
-    labels[ BUTTON_ADD ] = PDEUIMessages.Product_PluginSection_add;
-    labels[ BUTTON_REMOVE ] = PDEUIMessages.PluginSection_remove;
-    labels[ BUTTON_ADD_REQUIRED ] = "Add Required";
+    labels[ BUTTON_ADD ] = Messages.Product_PluginSection_add;
+    labels[ BUTTON_REMOVE ] = Messages.PluginSection_remove;
+    labels[ BUTTON_ADD_REQUIRED ] = Messages.LibrarySectionAddRequired;
     return labels;
   }
 
@@ -137,9 +137,9 @@ public class LibrarySection extends TableSection
     tablePart.setButtonEnabled( 1, isEditable() );
     toolkit.paintBordersFor( container );
     section.setClient( container );
-    section.setText( "Libraries" );
-    section.setDescription( "List all the libraries that goes into the "
-                            + "lib folder of the WAR file." );
+    section.setText( Messages.LibrarySectionLibraries );
+    section.setDescription( Messages.LibrarySectionListLibraries
+                            + Messages.LibrarySectionLibFolder );
     getModel().addModelChangedListener( this );
   }
 
@@ -281,9 +281,9 @@ public class LibrarySection extends TableSection
     WorkbenchContentProvider contentProvider = new WorkbenchContentProvider();
     ElementTreeSelectionDialog dialog 
       = new ElementTreeSelectionDialog( shell, labelProvider, contentProvider );
-    dialog.setTitle( PDEUIMessages.BuildEditor_ClasspathSection_jarsTitle );
-    dialog.setMessage( "Select JAR archives to be added to the " +
-    		           "WAR file's lib directory." );
+    dialog.setTitle( Messages.BuildEditor_ClasspathSection_jarsTitle );
+    dialog.setMessage( Messages.LibrarySectionSelectJar +
+    		           Messages.LibrarySectionWARLibDir );
     IWorkspace workspace = ResourcesPlugin.getWorkspace();
     dialog.addFilter( new JARFileFilter() );
     dialog.setInput( workspace );
@@ -330,7 +330,10 @@ public class LibrarySection extends TableSection
     for( int i = 0; i < errors.length; i++ ) {
       ValidationError error = errors[ i ];
       if( error.getType() == ValidationError.LIBRARY_MISSING ) {
-        if( error.getMessage().indexOf( "servletbridge" ) != -1 ) {
+        String message = error.getMessage();
+        boolean containsError 
+          = message.indexOf( Messages.LibrarySectionServletBridge ) != -1;
+        if( containsError ) {
           WARProductUtil.addServletBridgeFromTarget( product );
         }
       }

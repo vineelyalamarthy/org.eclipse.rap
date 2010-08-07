@@ -27,7 +27,7 @@ public class PluginStatusDialogLableProvider extends DefaultLabelProvider {
     Image result = null;
     if( element instanceof String ) {
       String pluginId = WARProductConstants.PLUGIN_ID;
-      String imagePath = "icons/problem_server.gif";
+      String imagePath = "icons/problem_server.gif"; //$NON-NLS-1$
       ImageDescriptor imageDescriptor 
         = AbstractUIPlugin.imageDescriptorFromPlugin( pluginId, imagePath );
       result = pdeLabelProvider.get( imageDescriptor );

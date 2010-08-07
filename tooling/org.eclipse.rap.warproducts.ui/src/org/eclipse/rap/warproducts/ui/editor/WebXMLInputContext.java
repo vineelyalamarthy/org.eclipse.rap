@@ -23,7 +23,7 @@ import org.eclipse.ui.IFileEditorInput;
 
 public class WebXMLInputContext extends XMLInputContext {
 	
-  public static final String CONTEXT_ID = "web-context";
+  public static final String CONTEXT_ID = "web-context"; //$NON-NLS-1$
 
   public WebXMLInputContext( final PDEFormEditor editor,
                              final IEditorInput input,
@@ -41,7 +41,7 @@ public class WebXMLInputContext extends XMLInputContext {
   }
 
   protected String getPartitionName() {
-    return "___webxml_partition";
+    return "___webxml_partition"; //$NON-NLS-1$
   }
 
   protected IBaseModel createModel( final IEditorInput input ) 

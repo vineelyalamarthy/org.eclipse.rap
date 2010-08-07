@@ -13,6 +13,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportWizardPage;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -32,17 +33,17 @@ public class ExportPage extends AbstractExportWizardPage {
   private ExportWARProductWizard wizard;
 
   public ExportPage() {
-	super( "exportPage" );
-    setTitle( "WAR product export" );
-    setDescription( "Use the selected WAR product configuration to " +
-    		        "export the WAR product as a WAR file.");
+	super( "exportPage" ); //$NON-NLS-1$
+    setTitle( Messages.ExportPageTitle );
+    setDescription( Messages.ExportPageDescription +
+    		        Messages.ExportPageDescription2);
   }
   
   public void createControl( final Composite parent ) {
     Composite container = new Composite( parent, SWT.NONE );
     container.setLayout( new FormLayout() );
     Group group = new Group( container, SWT.NONE );
-    group.setText( "Export Options" );
+    group.setText( Messages.ExportPage4 );
     GridLayout layout = new GridLayout();
     group.setLayout( layout );
     FormData fdGroup = new FormData();

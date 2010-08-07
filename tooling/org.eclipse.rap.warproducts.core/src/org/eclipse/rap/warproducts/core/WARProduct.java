@@ -129,56 +129,56 @@ public class WARProduct implements IWARProduct {
   }
 
   private void writeMetaInfos( final String indent, final PrintWriter writer ) {
-    writer.print( indent + "<product" );
+    writer.print( indent + "<product" ); //$NON-NLS-1$
     if( getName() != null && getName().length() > 0 ) {
-      writer.print( " "
+      writer.print( " " //$NON-NLS-1$
                     + P_NAME
-                    + "=\""
+                    + "=\"" //$NON-NLS-1$
                     + getWritableString( getName() )
-                    + "\"" );
+                    + "\"" ); //$NON-NLS-1$
     }
     if( getId() != null && getId().length() > 0 ) {
-      writer.print( " " + P_UID + "=\"" + getId() + "\"" );
+      writer.print( " " + P_UID + "=\"" + getId() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
     if( getProductId() != null && getProductId().length() > 0 ) {
-      writer.print( " " + P_ID + "=\"" + getProductId() + "\"" );
+      writer.print( " " + P_ID + "=\"" + getProductId() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
     if( getVersion() != null && getVersion().length() > 0 ) {
-      writer.print( " " + P_VERSION + "=\"" + getVersion() + "\"" );
+      writer.print( " " + P_VERSION + "=\"" + getVersion() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
-    writer.print( " "
+    writer.print( " " //$NON-NLS-1$
                   + P_USEFEATURES
-                  + "=\""
+                  + "=\"" //$NON-NLS-1$
                   + Boolean.toString( useFeatures() )
-                  + "\"" );
-    writer.print( " "
+                  + "\"" ); //$NON-NLS-1$
+    writer.print( " " //$NON-NLS-1$
                   + P_INCLUDE_LAUNCHERS
-                  + "=\""
+                  + "=\"" //$NON-NLS-1$
                   + Boolean.toString( includeLaunchers() )
-                  + "\"" );
-    writer.println( ">" );
+                  + "\"" ); //$NON-NLS-1$
+    writer.println( ">" ); //$NON-NLS-1$
   }
 
   private void writePlugins( final String indent, final PrintWriter writer ) {
-    writer.println( indent + "   <plugins>" ); 
+    writer.println( indent + "   <plugins>" );  //$NON-NLS-1$
     IProductPlugin[] plugins = getPlugins();
     for( int i = 0; i < plugins.length; i++ ) {
       IProductPlugin plugin = plugins[ i ];
-      plugin.write( indent + "      ", writer ); 
+      plugin.write( indent + "      ", writer );  //$NON-NLS-1$
     }
-    writer.println( indent + "   </plugins>" );
+    writer.println( indent + "   </plugins>" ); //$NON-NLS-1$
   }
 
   private void writeFeatures( final String indent, final PrintWriter writer ) {
     IProductFeature[] features = getFeatures();
     if( features.length > 0 ) {
       writer.println();
-      writer.println( indent + "   <features>" ); 
+      writer.println( indent + "   <features>" );  //$NON-NLS-1$
       for( int i = 0; i < features.length; i++ ) {
         IProductFeature feature = features[ i ];
-        feature.write( indent + "      ", writer );
+        feature.write( indent + "      ", writer ); //$NON-NLS-1$
       }
-      writer.println( indent + "   </features>" );
+      writer.println( indent + "   </features>" ); //$NON-NLS-1$
     }
     writer.println();
   }
@@ -188,42 +188,42 @@ public class WARProduct implements IWARProduct {
   {
     IPluginConfiguration[] pluginConfigurations = getPluginConfigurations();
     if( pluginConfigurations != null && pluginConfigurations.length > 0 ) {
-      writer.println( indent + "   <configurations>" ); 
+      writer.println( indent + "   <configurations>" );  //$NON-NLS-1$
       for( int i = 0; i < pluginConfigurations.length; i++ ) {
         IPluginConfiguration configuration = pluginConfigurations[ i ];
-        configuration.write( indent + "      ", writer ); 
+        configuration.write( indent + "      ", writer );  //$NON-NLS-1$
       }
-      writer.println( indent + "   </configurations>" ); 
+      writer.println( indent + "   </configurations>" );  //$NON-NLS-1$
     }
     writer.println();
   }
   
   private void writeWARInfo( final String indent, final PrintWriter writer ) {
-    writer.print( indent + "   <warConfiguration" );
+    writer.print( indent + "   <warConfiguration" ); //$NON-NLS-1$
     if( webXmlPath != null ) {
-      writer.write(  " webXml=\"" + webXmlPath.toOSString() + "\"" );
+      writer.write(  " webXml=\"" + webXmlPath.toOSString() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
     }
     if( launchIniPath != null ) {
-      writer.write(  " launchIni=\"" + launchIniPath.toOSString() + "\"" );
+      writer.write(  " launchIni=\"" + launchIniPath.toOSString() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
     }
-    writer.println( ">" );
+    writer.println( ">" ); //$NON-NLS-1$
     if( libraries.size() > 0 ) {
-      writer.println( "   " + "<libraries>" );
+      writer.println( "   " + "<libraries>" ); //$NON-NLS-1$ //$NON-NLS-2$
       IPath[] pathes = new IPath[ libraries.size() ];
       libraries.keySet().toArray( pathes );
       for( int i = 0; i < pathes.length; i++ ) {
         String libraryPath = pathes[ i ].toOSString();
         Boolean fromTarget = ( Boolean )libraries.get( pathes[ i ] );
-        writer.println( "      " + "<library path=\"" + libraryPath + 
-                        "\" fromTarget=\"" + fromTarget + "\"/>" );
+        writer.println( "      " + "<library path=\"" + libraryPath +  //$NON-NLS-1$ //$NON-NLS-2$
+                        "\" fromTarget=\"" + fromTarget + "\"/>" ); //$NON-NLS-1$ //$NON-NLS-2$
       }
-      writer.println( "   " + "</libraries>" );
+      writer.println( "   " + "</libraries>" ); //$NON-NLS-1$ //$NON-NLS-2$
     }
-    writer.println( indent + "   </warConfiguration>" );
+    writer.println( indent + "   </warConfiguration>" ); //$NON-NLS-1$
   }
 
   private void writeCloseProduct( final PrintWriter writer ) {
-    writer.println( "</product>" );
+    writer.println( "</product>" ); //$NON-NLS-1$
   }
 
   public String getWritableString(String source) {
@@ -244,7 +244,7 @@ public class WARProduct implements IWARProduct {
       Node child = children.item( i );
       if( child.getNodeType() == Node.ELEMENT_NODE ) {
         String name = child.getNodeName();
-        if( name.equals( "warConfiguration" ) ) {
+        if( name.equals( "warConfiguration" ) ) { //$NON-NLS-1$
           parseWARConfiguration( child );
         }
       }
@@ -258,12 +258,12 @@ public class WARProduct implements IWARProduct {
 
   private void processWARConfigurationAttributes( final Node child ) {
     NamedNodeMap attributes = child.getAttributes();
-    Node webXmlNode = attributes.getNamedItem( "webXml" );
+    Node webXmlNode = attributes.getNamedItem( "webXml" ); //$NON-NLS-1$
     if( webXmlNode != null ) {
       String webXml = getValidPath( webXmlNode.getNodeValue() );
       webXmlPath = new Path( webXml );
     }
-    Node launchIniNode = attributes.getNamedItem( "launchIni" );
+    Node launchIniNode = attributes.getNamedItem( "launchIni" ); //$NON-NLS-1$
     if( launchIniNode != null ) {
       String launchIni = getValidPath( launchIniNode.getNodeValue() );
       launchIniPath = new Path( launchIni );
@@ -287,10 +287,10 @@ public class WARProduct implements IWARProduct {
     for( int i = 0; i < children.getLength(); i++ ) {
       Node childNode = children.item( i );
       if( childNode.getNodeType() == Node.ELEMENT_NODE ) {
-        if( childNode.getNodeName().equals( "library" ) ) {
+        if( childNode.getNodeName().equals( "library" ) ) { //$NON-NLS-1$
           NamedNodeMap attributes = childNode.getAttributes();
-          Node pathItem = attributes.getNamedItem( "path" );
-          Node fromTargetString = attributes.getNamedItem( "fromTarget" );
+          Node pathItem = attributes.getNamedItem( "path" ); //$NON-NLS-1$
+          Node fromTargetString = attributes.getNamedItem( "fromTarget" ); //$NON-NLS-1$
           Boolean fromTarget 
             = Boolean.valueOf( fromTargetString.getNodeValue() );
           String libPath = getValidPath( pathItem.getNodeValue() );

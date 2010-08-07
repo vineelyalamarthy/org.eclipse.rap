@@ -28,6 +28,7 @@ import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.wizards.PDEWizardNewFileCreationPage;
 import org.eclipse.pde.launching.IPDELauncherConstants;
 import org.eclipse.pde.ui.launcher.EclipseLaunchShortcut;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -55,24 +56,24 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
                                    final IStructuredSelection selection )
   {
     super( pageName, selection );
-    setDescription( "Create a new WAR product configuration and " +
-    		        "initialize it's content." );
-    setTitle( "WAR Product Configuration" );
+    setDescription( Messages.FileWizardPageNewFile +
+    		        Messages.FileWizardPageInit );
+    setTitle( Messages.FileWizardPageTitle );
     setFileExtension( FILE_EXTENSION );
   }
 
   protected void createAdvancedControls( final Composite parent ) {
     group = new Group( parent, SWT.NONE );
-    group.setText( PDEUIMessages.ProductFileWizadPage_groupTitle );
+    group.setText( Messages.FileWizardPageInit2 );
     group.setLayout( new GridLayout( 2, false ) );
     group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
     basicButton = new Button( group, SWT.RADIO );
     GridData gd = new GridData();
     gd.horizontalSpan = 2;
     basicButton.setLayoutData( gd );
-    basicButton.setText( PDEUIMessages.ProductFileWizadPage_basic );
+    basicButton.setText( Messages.FileWizardPageCreate );
     launchConfigButton = new Button( group, SWT.RADIO );
-    String buttonText = PDEUIMessages.ProductFileWizadPage_existingLaunchConfig;
+    String buttonText = Messages.FileWizardPageLaunchConfig;
     launchConfigButton.setText( buttonText );
     launchConfigButton.addSelectionListener( new SelectionAdapter() {
       public void widgetSelected( final SelectionEvent e ) {
@@ -217,7 +218,7 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
             && extension.equals( WARProductConstants.FILE_EXTENSION ) ) 
         {
           valid = false;
-          setErrorMessage( "Folder already contains a WAR product." );
+          setErrorMessage( Messages.FileWizardPageError );
         }
       }
     } catch( final CoreException e ) {

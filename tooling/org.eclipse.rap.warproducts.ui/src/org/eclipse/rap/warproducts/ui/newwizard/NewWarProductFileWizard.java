@@ -16,6 +16,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.wizards.product.NewProductFileWizard;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.ui.IWorkbench;
 
 public class NewWarProductFileWizard extends NewProductFileWizard {
@@ -23,7 +24,7 @@ public class NewWarProductFileWizard extends NewProductFileWizard {
   private WARProductFileWizardPage mainPage;
 
   public void addPages() {
-    mainPage = new WARProductFileWizardPage( "warproduct", getSelection() ); 
+    mainPage = new WARProductFileWizardPage( "warproduct", getSelection() );  //$NON-NLS-1$
     addPage( mainPage );
   }
 
@@ -59,7 +60,7 @@ public class NewWarProductFileWizard extends NewProductFileWizard {
                     final IStructuredSelection currentSelection )
   {
     super.init( workbench, currentSelection );
-    setWindowTitle( "New WAR Product Configuration" );
+    setWindowTitle( Messages.NewWarProductFileWizard1 );
     setNeedsProgressMonitor( true );
   }
 

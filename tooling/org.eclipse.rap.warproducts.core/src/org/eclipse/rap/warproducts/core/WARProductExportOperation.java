@@ -37,7 +37,6 @@ import org.eclipse.pde.internal.build.IBuildPropertiesConstants;
 import org.eclipse.pde.internal.build.IXMLConstants;
 import org.eclipse.pde.internal.core.ICoreConstants;
 import org.eclipse.pde.internal.core.PDECore;
-import org.eclipse.pde.internal.core.PDECoreMessages;
 import org.eclipse.pde.internal.core.exports.FeatureExportInfo;
 import org.eclipse.pde.internal.core.exports.FeatureExportOperation;
 import org.eclipse.pde.internal.core.ifeature.IFeature;
@@ -71,7 +70,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
     IStatus result = null;
     if( errorMessage != null ) {
       MultiStatus status = null;
-      StringTokenizer tokenizer = new StringTokenizer( errorMessage, "\n" ); 
+      StringTokenizer tokenizer = new StringTokenizer( errorMessage, "\n" );  //$NON-NLS-1$
       while( tokenizer.hasMoreTokens() ) {
         String line = tokenizer.nextToken().trim();
         if( line.startsWith( STATUS_ENTRY ) && tokenizer.hasMoreElements() ) {
@@ -151,7 +150,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
         PDECore.log( e );
       } catch( final InvocationTargetException e ) {
         String problemMessage 
-          = PDECoreMessages.FeatureBasedExportOperation_ProblemDuringExport;
+          = Messages.FeatureBasedExportOperation_ProblemDuringExport;
         result = new Status( IStatus.ERROR,
                              PDECore.PLUGIN_ID,
                              problemMessage,
@@ -175,7 +174,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
       }
       if( hasAntErrors() ) {
         String compilationErrors 
-          = PDECoreMessages.FeatureExportOperation_CompilationErrors;
+          = Messages.FeatureExportOperation_CompilationErrors;
         String bind = NLS.bind( compilationErrors,
                                 fInfo.destinationDirectory );
         result = new Status( IStatus.WARNING,
@@ -226,7 +225,8 @@ public class WARProductExportOperation extends FeatureExportOperation {
     handleRootFiles( configurations, properties );
     handleJREInfo( configurations, properties );
     handleExportSource( properties );
-    File fileToSave = new File( file, ICoreConstants.BUILD_FILENAME_DESCRIPTOR );
+    File fileToSave 
+      = new File( file, ICoreConstants.BUILD_FILENAME_DESCRIPTOR );
     save( fileToSave, properties, "Build Configuration" ); //$NON-NLS-1$
   }
 
@@ -236,8 +236,8 @@ public class WARProductExportOperation extends FeatureExportOperation {
     if( configurations.length > 0 ) {
       String rootPrefix = IBuildPropertiesConstants.ROOT_PREFIX
                           + configurations[ 0 ][ 0 ]
-                          + "." + configurations[ 0 ][ 1 ] 
-                          + "." + configurations[ 0 ][ 2 ];
+                          + "." + configurations[ 0 ][ 1 ]  //$NON-NLS-1$
+                          + "." + configurations[ 0 ][ 2 ]; //$NON-NLS-1$
       properties.put( rootPrefix, getRootFileLocations( false ) );
       prepareWARFile( properties, rootPrefix );
     }
@@ -249,20 +249,20 @@ public class WARProductExportOperation extends FeatureExportOperation {
     if( product instanceof IWARProduct ) {
       IWARProduct warProduct = ( IWARProduct )product;
       String launchIniPath 
-        = createWarContent( warProduct.getLaunchIni(), "launch.ini" );
-      String webXmlPath = createWarContent( warProduct.getWebXml(), "web.xml" );
-      properties.put( rootPrefix, "absolute:file:" + webXmlPath 
-                                  + ",absolute:file:" + launchIniPath );
+        = createWarContent( warProduct.getLaunchIni(), "launch.ini" ); //$NON-NLS-1$
+      String webXmlPath = createWarContent( warProduct.getWebXml(), "web.xml" ); //$NON-NLS-1$
+      properties.put( rootPrefix, "absolute:file:" + webXmlPath  //$NON-NLS-1$
+                                  + ",absolute:file:" + launchIniPath ); //$NON-NLS-1$
       String libDir = createLibDir();
       copyLibraries( libDir );
-      properties.put( rootPrefix + ".folder." + "lib", "absolute:" + libDir );
+      properties.put( rootPrefix + ".folder." + "lib", "absolute:" + libDir ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
   }
 
 
   private String createLibDir() {
     String location = featureLocation;
-    File dir = new File( location, "lib" );
+    File dir = new File( location, "lib" ); //$NON-NLS-1$
     dir.mkdirs();
     return dir.getAbsolutePath();
   }
@@ -281,7 +281,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
     InputStream stream = null;
     try {
       String fileName = filePath.segment( filePath.segmentCount() - 1 );
-      URL sourceFilePath = new URL( "file://" + filePath.toOSString() );
+      URL sourceFilePath = new URL( "file://" + filePath.toOSString() ); //$NON-NLS-1$
       stream = sourceFilePath.openStream();
       File destinationFile = new File( libDir + File.separator + fileName );
       CoreUtility.readFile( stream, destinationFile );      
@@ -303,7 +303,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
     InputStream stream = null;
     try {
       URL sourceFileUrl 
-        = new URL( "file://" + absoluteWebXmlPath.toOSString() );
+        = new URL( "file://" + absoluteWebXmlPath.toOSString() ); //$NON-NLS-1$
       stream = sourceFileUrl.openStream();
       CoreUtility.readFile( stream, destinationFile );
     } catch( final IOException e ) {
@@ -332,20 +332,20 @@ public class WARProductExportOperation extends FeatureExportOperation {
       String[] config = configurations[ i ];
       File vm = jreInfo != null ? jreInfo.getJVMLocation( config[ 0 ] ) : null;
       if( vm != null ) {
-        if( config[ 0 ].equals( "macosx" ) 
+        if( config[ 0 ].equals( "macosx" )  //$NON-NLS-1$
             && vm.getPath().startsWith( MAC_JAVA_FRAMEWORK ) ) 
         { 
           continue;
         }
         String rootPrefix = IBuildPropertiesConstants.ROOT_PREFIX
                             + config[ 0 ]
-                            + "." + config[ 1 ] +
-                            "."
+                            + "." + config[ 1 ] + //$NON-NLS-1$
+                            "." //$NON-NLS-1$
                             + config[ 2 ]; 
-        properties.put( rootPrefix + ".folder.jre", "absolute:" 
+        properties.put( rootPrefix + ".folder.jre", "absolute:"  //$NON-NLS-1$ //$NON-NLS-2$
                         + vm.getAbsolutePath() ); 
         String perms = ( String )properties.get( rootPrefix
-                                                 + ".permissions.755" ); 
+                                                 + ".permissions.755" );  //$NON-NLS-1$
         if( perms != null ) {
           StringBuffer buffer = new StringBuffer( perms );
           buffer.append( "," ); //$NON-NLS-1$
@@ -365,7 +365,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
       for( int i = 0; i < fInfo.items.length; i++ ) {
         if( fInfo.items[ i ] instanceof IFeatureModel ) {
           IFeature feature = ( ( IFeatureModel )fInfo.items[ i ] ).getFeature();
-          properties.put( "generate.feature@" + feature.getId().trim()
+          properties.put( "generate.feature@" + feature.getId().trim() //$NON-NLS-1$
                           + ".source", feature.getId() ); //$NON-NLS-1$ //$NON-NLS-2$
         } else {
           BundleDescription bundle = null;
@@ -384,7 +384,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
           // aren't exporting for
           if( workspacePlugins.contains( PluginRegistry.findModel( bundle ) ) )
           {
-            properties.put( "generate.plugin@" + bundle.getSymbolicName().trim() 
+            properties.put( "generate.plugin@" + bundle.getSymbolicName().trim()  //$NON-NLS-1$
                             + ".source", bundle.getSymbolicName() ); //$NON-NLS-1$ //$NON-NLS-2$
           }
         }

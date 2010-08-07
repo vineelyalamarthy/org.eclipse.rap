@@ -18,6 +18,7 @@ import org.eclipse.pde.internal.ui.IPDEUIConstants;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.util.SWTUtil;
 import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportTab;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -54,11 +55,11 @@ public class DestinationGroup extends AbstractExportTab {
     layout.marginHeight = 0;
     container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
     Label description = new Label( container, SWT.NONE );
-    description.setText( "WAR File:" );
+    description.setText( Messages.DestinationGroupFile );
     archiveCombo = new Combo( container, SWT.BORDER );
     archiveCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
     browseFile = new Button( container, SWT.PUSH );
-    browseFile.setText( PDEUIMessages.ExportWizard_browse );
+    browseFile.setText( Messages.DestinationGroupBrowe );
     browseFile.setLayoutData( new GridData() );
     SWTUtil.setButtonDimensionHint( browseFile );
     return container;
@@ -107,7 +108,7 @@ public class DestinationGroup extends AbstractExportTab {
     browseFile.addSelectionListener( new SelectionAdapter() {
       public void widgetSelected( final SelectionEvent e ) {
         String[] filters 
-          = new String[] { "*" + WARProductConstants.ARCHIVE_EXTENSION };
+          = new String[] { "*" + WARProductConstants.ARCHIVE_EXTENSION }; //$NON-NLS-1$
         chooseFile( archiveCombo, filters ); //$NON-NLS-1$
       }
     } );
@@ -135,9 +136,9 @@ public class DestinationGroup extends AbstractExportTab {
   protected String validate() {
     String result = null;
     if( archiveCombo.getText().trim().length() == 0 ) {
-      result = "WAR file must be specified.";
+      result = Messages.DestinationGroupWarning;
     } else if( !isValidLocation( archiveCombo.getText().trim() ) ) {
-      result = PDEUIMessages.ExportWizard_status_invaliddirectory;
+      result = Messages.DestinationGroupWarningDirectory;
     }
     return result;
   }

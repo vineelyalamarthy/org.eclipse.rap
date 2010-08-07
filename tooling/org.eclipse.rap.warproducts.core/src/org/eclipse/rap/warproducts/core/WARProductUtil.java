@@ -45,7 +45,7 @@ public class WARProductUtil {
       for( int i = 0; i < targetModels.length && !foundBridge; i++ ) {
         IPluginModelBase bridgeModel = targetModels[ i ];
         String libLocation = bridgeModel.getInstallLocation();
-        if( libLocation != null && libLocation.indexOf( ".jar" ) != -1 ) {
+        if( libLocation != null && libLocation.indexOf( ".jar" ) != -1 ) { //$NON-NLS-1$
           String targetLocation = TargetPlatform.getLocation();
           int targetLength = targetLocation.length();
           int liblength = libLocation.length();
