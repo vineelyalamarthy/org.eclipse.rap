@@ -283,7 +283,7 @@ public class LibrarySection extends TableSection
       = new ElementTreeSelectionDialog( shell, labelProvider, contentProvider );
     dialog.setTitle( Messages.BuildEditor_ClasspathSection_jarsTitle );
     dialog.setMessage( Messages.LibrarySectionSelectJar +
-    		           Messages.LibrarySectionWARLibDir );
+                       Messages.LibrarySectionWARLibDir );
     IWorkspace workspace = ResourcesPlugin.getWorkspace();
     dialog.addFilter( new JARFileFilter() );
     dialog.setInput( workspace );

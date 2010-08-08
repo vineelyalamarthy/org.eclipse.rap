@@ -22,7 +22,7 @@ import org.eclipse.ui.IFileEditorInput;
 
 
 public class WebXMLInputContext extends XMLInputContext {
-	
+  
   public static final String CONTEXT_ID = "web-context"; //$NON-NLS-1$
 
   public WebXMLInputContext( final PDEFormEditor editor,

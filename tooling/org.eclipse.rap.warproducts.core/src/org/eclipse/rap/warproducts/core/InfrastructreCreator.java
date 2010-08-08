@@ -9,16 +9,10 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core;
 
-import java.io.IOException;
 import java.io.InputStream;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.*;
 
 
 public class InfrastructreCreator {
@@ -46,7 +40,7 @@ public class InfrastructreCreator {
       IPath webInfPath = new Path( WEB_INF_PATH );
       webInfDir = rootFolder.getFolder( webInfPath );
       if( !webInfDir.exists() ) {
-    	  try {
+        try {
           webInfDir.create( true, false, null );
           refreshWebInf();
         } catch( final CoreException e ) {
@@ -66,7 +60,7 @@ public class InfrastructreCreator {
   
   public void createLaunchIni() {
     if( webInfDir == null ) {
-    	createWebInf();
+      createWebInf();
     }
     internalCopyFile( LAUNCH_INI_TEMPLATE_PATH, webInfDir, LAUNCH_INI_NAME );
     refreshWebInf();
@@ -76,17 +70,13 @@ public class InfrastructreCreator {
                                  final IContainer container,
                                  final String fileName ) 
   {
-    try {
-      copyFile( from, container, fileName );
-    } catch( final IOException e ) {
-      e.printStackTrace();
-    }
+    copyFile( from, container, fileName );
   }
 
   private void copyFile( final String from, 
                          final IContainer container, 
-                         final String fileName ) throws IOException 
-  {	  	  
+                         final String fileName ) 
+  {        
       IPath path = new Path( fileName );
       IFile file = container.getFile( path );
       if( !file.exists() ) {
@@ -99,7 +89,7 @@ public class InfrastructreCreator {
       }
   }
 
-  private InputStream getFileStream( final String from ) throws IOException {
+  private InputStream getFileStream( final String from ) {
     InputStream fileInStream = getClass().getResourceAsStream( from );
     return fileInStream;
   }
@@ -121,5 +111,4 @@ public class InfrastructreCreator {
       e.printStackTrace();
     }
   }
-
 }

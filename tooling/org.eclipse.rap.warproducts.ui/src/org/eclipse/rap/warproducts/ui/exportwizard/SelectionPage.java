@@ -40,7 +40,7 @@ public class SelectionPage extends AbstractExportWizardPage {
     super( Messages.SelectionPageTitle );
     setTitle( Messages.SelectionPageTitle );
     setDescription( Messages.SelectionPageSelect +
-    		        Messages.SelectionPageListProjects );
+                    Messages.SelectionPageListProjects );
   }
 
   public void createControl( final Composite parent ) {

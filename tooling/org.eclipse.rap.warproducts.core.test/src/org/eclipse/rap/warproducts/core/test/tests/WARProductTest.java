@@ -32,7 +32,7 @@ import org.eclipse.rap.warproducts.core.WARProductModelFactory;
 public class WARProductTest extends TestCase {
   
   public void testWARProductProxy() {
-	WARProductModel model = new WARProductModel();
+    WARProductModel model = new WARProductModel();
     WARProductModelFactory factory = new WARProductModelFactory( model );
     IWARProduct product = ( IWARProduct )factory.createProduct();
     assertNotNull( product );

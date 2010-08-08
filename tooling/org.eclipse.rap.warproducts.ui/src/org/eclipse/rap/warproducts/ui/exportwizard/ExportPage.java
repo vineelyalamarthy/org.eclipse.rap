@@ -33,10 +33,10 @@ public class ExportPage extends AbstractExportWizardPage {
   private ExportWARProductWizard wizard;
 
   public ExportPage() {
-	super( "exportPage" ); //$NON-NLS-1$
+    super( "exportPage" ); //$NON-NLS-1$
     setTitle( Messages.ExportPageTitle );
     setDescription( Messages.ExportPageDescription +
-    		        Messages.ExportPageDescription2);
+                    Messages.ExportPageDescription2);
   }
   
   public void createControl( final Composite parent ) {

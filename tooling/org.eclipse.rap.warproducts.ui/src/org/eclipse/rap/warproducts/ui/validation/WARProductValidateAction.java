@@ -58,12 +58,12 @@ public class WARProductValidateAction extends Action {
     for( int i = 0; i < plugins.length; i++ ) {
       String id = plugins[ i ].getId();
       if( id != null && !map.containsKey( id ) ) {
-    	  IPluginModelBase model = PluginRegistry.findModel( id );
-          boolean matchesCurrentEnvironment 
-            = TargetPlatformHelper.matchesCurrentEnvironment( model );
-          if( model != null && matchesCurrentEnvironment ) {
-            map.put( id, model );
-          }
+        IPluginModelBase model = PluginRegistry.findModel( id );
+        boolean matchesCurrentEnvironment 
+          = TargetPlatformHelper.matchesCurrentEnvironment( model );
+        if( model != null && matchesCurrentEnvironment ) {
+          map.put( id, model );
+        }
       }
     }
     validate( map );
