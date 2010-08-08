@@ -24,7 +24,6 @@ import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.pde.internal.ui.PDEPlugin;
-import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.wizards.PDEWizardNewFileCreationPage;
 import org.eclipse.pde.launching.IPDELauncherConstants;
 import org.eclipse.pde.ui.launcher.EclipseLaunchShortcut;
@@ -47,6 +46,7 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
   public final static int USE_DEFAULT = 0;
   public final static int USE_LAUNCH_CONFIG = 1;
   private static final String FILE_EXTENSION = "warproduct"; //$NON-NLS-1$   
+  
   private Button basicButton;
   private Button launchConfigButton;
   private Combo launchConfigCombo;
@@ -57,7 +57,7 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
   {
     super( pageName, selection );
     setDescription( Messages.FileWizardPageNewFile +
-    		        Messages.FileWizardPageInit );
+                    Messages.FileWizardPageInit );
     setTitle( Messages.FileWizardPageTitle );
     setFileExtension( FILE_EXTENSION );
   }
@@ -150,7 +150,7 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
         ILaunchConfiguration[] configs3 
           = manager.getLaunchConfigurations( type3 );
         ILaunchConfiguration[] configurations 
-          = new ILaunchConfiguration[ configs.length
+          = new ILaunchConfiguration[   configs.length
                                       + configs2.length 
                                       + configs3.length ];
         System.arraycopy( configs, 0, configurations, 0, configs.length );

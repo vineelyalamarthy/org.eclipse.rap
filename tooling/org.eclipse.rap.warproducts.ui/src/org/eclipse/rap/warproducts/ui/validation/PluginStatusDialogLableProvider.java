@@ -45,7 +45,7 @@ public class PluginStatusDialogLableProvider extends DefaultLabelProvider {
     Image result;
     ValidationError error = ( ValidationError )element;
     int type = error.getType();
-    if( type == ValidationError.LIBRARY_MISSING 
+    if(    type == ValidationError.LIBRARY_MISSING 
         || type == ValidationError.LIBRARY_DOESNT_EXIST ) 
     {
       result = pdeLabelProvider.get( PDEPluginImages.DESC_JAR_LIB_OBJ );
@@ -58,5 +58,4 @@ public class PluginStatusDialogLableProvider extends DefaultLabelProvider {
   public String getText( final Object element ) {
     return PDEPlugin.getDefault().getLabelProvider().getText( element );
   }
-  
 }

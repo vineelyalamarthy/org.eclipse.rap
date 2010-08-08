@@ -24,27 +24,26 @@ public class Validator {
   public static final String SERVLET_BRIDGE_ID 
     = "org.eclipse.equinox.servletbridge"; //$NON-NLS-1$
 
-  public static final String[] BANNED_BUNDLES 
-    = new String[] { "javax.servlet", //$NON-NLS-1$
-                      "org.eclipse.update.configurator"  //$NON-NLS-1$
-                    };
+  public static final String[] BANNED_BUNDLES = new String[] { 
+    "javax.servlet", //$NON-NLS-1$
+    "org.eclipse.update.configurator"  //$NON-NLS-1$
+  };
 
-  public static final String[] REQUIRED_BUNDLES 
-    = new String[] { "org.eclipse.equinox.servletbridge.extensionbundle", //$NON-NLS-1$
-                     "org.eclipse.core.jobs", //$NON-NLS-1$
-                     "org.eclipse.equinox.common", //$NON-NLS-1$
-                     "org.eclipse.equinox.ds", //$NON-NLS-1$
-                     "org.eclipse.equinox.http.registry", //$NON-NLS-1$
-                     "org.eclipse.equinox.registry", //$NON-NLS-1$
-                     "org.eclipse.equinox.util", //$NON-NLS-1$
-                     "org.eclipse.osgi", //$NON-NLS-1$
-                     "org.eclipse.osgi.services", //$NON-NLS-1$
-                     "org.eclipse.equinox.http.servlet", //$NON-NLS-1$
-                     "org.eclipse.equinox.http.servletbridge" //$NON-NLS-1$
-                    };
+  public static final String[] REQUIRED_BUNDLES = new String[] { 
+    "org.eclipse.equinox.servletbridge.extensionbundle", //$NON-NLS-1$
+    "org.eclipse.core.jobs", //$NON-NLS-1$
+    "org.eclipse.equinox.common", //$NON-NLS-1$
+    "org.eclipse.equinox.ds", //$NON-NLS-1$
+    "org.eclipse.equinox.http.registry", //$NON-NLS-1$
+    "org.eclipse.equinox.registry", //$NON-NLS-1$
+    "org.eclipse.equinox.util", //$NON-NLS-1$
+    "org.eclipse.osgi", //$NON-NLS-1$
+    "org.eclipse.osgi.services", //$NON-NLS-1$
+    "org.eclipse.equinox.http.servlet", //$NON-NLS-1$
+    "org.eclipse.equinox.http.servletbridge" //$NON-NLS-1$
+  };
   
   private IWARProduct product;
-
   private Validation validation;
 
   public Validator( final IWARProduct product ) {
@@ -82,7 +81,6 @@ public class Validator {
       ValidationError error = new ValidationError( type, message, null );
       validation.addError( error );
     }
-    
   }
 
   private boolean librariesContainsServletBridge( final IPath[] libraries ) {
@@ -97,8 +95,7 @@ public class Validator {
     return result;
   }
   
-  private void checkLibrariesExist( final IPath[] libraries ) 
-  {
+  private void checkLibrariesExist( final IPath[] libraries ) {
     for( int i = 0; i < libraries.length; i++ ) {
       IPath path 
         = WARProductUtil.getAbsolutLibraryPath( libraries[ i ], product );
@@ -173,5 +170,4 @@ public class Validator {
     }
     return result;
   }
-  
 }

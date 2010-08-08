@@ -15,24 +15,17 @@ import org.eclipse.pde.internal.core.iproduct.IProduct;
 
 public interface IWARProduct extends IProduct {
 
-  public void addLibrary( final IPath absolutePath, final boolean fromTarget );
+  void addLibrary( final IPath absolutePath, final boolean fromTarget );
+  IPath[] getLibraries();
+  boolean isLibraryFromTarget( final IPath libraryPath );
+  boolean contiansLibrary( final IPath relativeWorkspacePath );
 
-  public IPath[] getLibraries();
-  
-  public boolean isLibraryFromTarget( final IPath libraryPath );
+  void addWebXml( final IPath relativeWorkspacePath );
+  IPath getWebXml();
 
-  public boolean contiansLibrary( final IPath relativeWorkspacePath );
+  void addLaunchIni( final IPath relativeWorkspacePath );
+  IPath getLaunchIni();
 
-  public void addWebXml( final IPath relativeWorkspacePath );
-
-  public IPath getWebXml();
-
-  public void addLaunchIni( final IPath relativeWorkspacePath );
-
-  public IPath getLaunchIni();
-
-  public void removeLibrary( final IPath libraryPath );
-
-  public void removeLibraries( final IPath[] pathes );
-  
+  void removeLibrary( final IPath libraryPath );
+  void removeLibraries( final IPath[] pathes );
 }
