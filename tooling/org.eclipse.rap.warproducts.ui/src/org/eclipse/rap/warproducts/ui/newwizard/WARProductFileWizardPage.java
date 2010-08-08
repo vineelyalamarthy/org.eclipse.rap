@@ -195,10 +195,10 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
   }
 
 
-  private boolean validateWarProductLocation( boolean valid, 
+  private boolean validateWarProductLocation( final boolean valid, 
                                               final IPath containerPath )
   {
-    
+    boolean result = valid;
     IContainer container = getSelectedContainer( containerPath );
     try {
       IResource[] members = container.members();
@@ -208,14 +208,14 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
         if( extension != null 
             && extension.equals( WARProductConstants.FILE_EXTENSION ) ) 
         {
-          valid = false;
+          result = false;
           setErrorMessage( Messages.FileWizardPageError );
         }
       }
     } catch( final CoreException e ) {
       e.printStackTrace();
     }
-    return valid;
+    return result;
   }
 
   private IContainer getSelectedContainer( final IPath containerPath ) {

@@ -9,31 +9,19 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.ui.newwizard;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.*;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.pde.core.plugin.TargetPlatform;
-import org.eclipse.pde.internal.core.iproduct.IArgumentsInfo;
-import org.eclipse.pde.internal.core.iproduct.IConfigurationFileInfo;
-import org.eclipse.pde.internal.core.iproduct.IJREInfo;
+import org.eclipse.pde.internal.core.iproduct.*;
 import org.eclipse.pde.internal.core.iproduct.IProduct;
-import org.eclipse.pde.internal.core.iproduct.IProductModelFactory;
 import org.eclipse.pde.internal.launching.launcher.BundleLauncherHelper;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.launching.IPDELauncherConstants;
-import org.eclipse.rap.warproducts.core.InfrastructreCreator;
-import org.eclipse.rap.warproducts.core.WARProduct;
-import org.eclipse.rap.warproducts.core.WARProductInitializer;
+import org.eclipse.rap.warproducts.core.*;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 
 
@@ -191,14 +179,14 @@ public class WARProductFromConfigOperation
       IArgumentsInfo arguments = product.getLauncherArguments();
       if( arguments != null ) {
         arguments = factory.createLauncherArguments();
+        if( !vmargs.equals( "" ) ) { //$NON-NLS-1$
+          arguments.setVMArguments( vmargs, IArgumentsInfo.L_ARGS_ALL );
+        }
+        if( !programArgs.equals( "" ) ) { //$NON-NLS-1$
+          arguments.setProgramArguments( programArgs, IArgumentsInfo.L_ARGS_ALL );
+        }
+        product.setLauncherArguments( arguments );
       }
-      if( !vmargs.equals( "" ) ) { //$NON-NLS-1$
-        arguments.setVMArguments( vmargs, IArgumentsInfo.L_ARGS_ALL );
-      }
-      if( !programArgs.equals( "" ) ) { //$NON-NLS-1$
-        arguments.setProgramArguments( programArgs, IArgumentsInfo.L_ARGS_ALL );
-      }
-      product.setLauncherArguments( arguments );
     }
   }
   

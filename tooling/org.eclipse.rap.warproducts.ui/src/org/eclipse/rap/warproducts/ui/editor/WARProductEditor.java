@@ -12,9 +12,7 @@ import java.util.Map;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -22,22 +20,15 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.pde.internal.core.iproduct.IProduct;
 import org.eclipse.pde.internal.core.iproduct.IProductModel;
 import org.eclipse.pde.internal.ui.PDEPlugin;
-import org.eclipse.pde.internal.ui.editor.ISortableContentOutlinePage;
-import org.eclipse.pde.internal.ui.editor.PDEFormEditor;
-import org.eclipse.pde.internal.ui.editor.PDESourcePage;
+import org.eclipse.pde.internal.ui.editor.*;
 import org.eclipse.pde.internal.ui.editor.context.InputContextManager;
 import org.eclipse.pde.internal.ui.editor.product.ProductEditor;
 import org.eclipse.rap.warproducts.core.IWARProduct;
 import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
-import org.eclipse.rap.warproducts.ui.validation.IValidationListener;
-import org.eclipse.rap.warproducts.ui.validation.PluginStatusDialog;
-import org.eclipse.rap.warproducts.ui.validation.WARProductValidateAction;
+import org.eclipse.rap.warproducts.ui.validation.*;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IStorageEditorInput;
-import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.*;
 import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -112,18 +103,16 @@ public class WARProductEditor extends ProductEditor
                                            final FileStoreEditorInput input )
   {
     File file = new File( input.getURI() );
-    if( file != null ) {
-      String name = file.getName();
-      if( name.endsWith( WARPRODUCT_FILE_EXTENSION ) ) { //$NON-NLS-1$
-        IFileStore store;
-        try {
-          store = EFS.getStore( file.toURI() );
-          IEditorInput in = new FileStoreEditorInput( store );
-          manager.putContext( in, 
-                              new WARProductInputContext( this, in, true ) );
-        } catch( final CoreException e ) {
-          PDEPlugin.logException( e );
-        }
+    String name = file.getName();
+    if( name.endsWith( WARPRODUCT_FILE_EXTENSION ) ) { //$NON-NLS-1$
+      IFileStore store;
+      try {
+        store = EFS.getStore( file.toURI() );
+        IEditorInput in = new FileStoreEditorInput( store );
+        manager.putContext( in, 
+                            new WARProductInputContext( this, in, true ) );
+      } catch( final CoreException e ) {
+        PDEPlugin.logException( e );
       }
     }
   }

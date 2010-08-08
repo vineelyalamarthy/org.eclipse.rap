@@ -22,3 +22,8 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.6.0",
  org.eclipse.ui.editors;bundle-version="3.6.0",
  org.eclipse.ui.views;bundle-version="3.5.0"
 Bundle-Vendor: %Bundle-Vendor
+Export-Package: org.eclipse.rap.warproducts.ui,
+ org.eclipse.rap.warproducts.ui.editor,
+ org.eclipse.rap.warproducts.ui.exportwizard,
+ org.eclipse.rap.warproducts.ui.newwizard,
+ org.eclipse.rap.warproducts.ui.validation

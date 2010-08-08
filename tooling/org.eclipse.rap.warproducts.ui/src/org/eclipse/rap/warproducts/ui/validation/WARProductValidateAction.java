@@ -7,10 +7,7 @@
  *******************************************************************************/
 package org.eclipse.rap.warproducts.ui.validation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -27,9 +24,7 @@ import org.eclipse.pde.internal.launching.launcher.ProductValidationOperation;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.rap.warproducts.core.IWARProduct;
-import org.eclipse.rap.warproducts.core.validation.Validation;
-import org.eclipse.rap.warproducts.core.validation.ValidationError;
-import org.eclipse.rap.warproducts.core.validation.Validator;
+import org.eclipse.rap.warproducts.core.validation.*;
 import org.eclipse.rap.warproducts.ui.Messages;
 
 public class WARProductValidateAction extends Action {
@@ -40,7 +35,7 @@ public class WARProductValidateAction extends Action {
   public WARProductValidateAction( final IWARProduct product ) {
     super( Messages.ValidateActionTitle, IAction.AS_PUSH_BUTTON );
     setImageDescriptor( PDEPluginImages.DESC_VALIDATE_TOOL );
-    this.product = ( IWARProduct )product;
+    this.product = product;
   }
   
   public void addValidationListener( final IValidationListener listener ) {

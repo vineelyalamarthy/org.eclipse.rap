@@ -32,13 +32,13 @@ public class WARProductExportAction extends Action {
     if( editor != null ) {
       IModel model = ( IModel )editor.getAggregateModel();
       resource = model.getUnderlyingResource();
+      if( resource != null ) {
+        selection = new StructuredSelection( resource );
+      } else {
+        selection = new StructuredSelection();
+      }
+      project = editor.getCommonProject();
     }
-    if( resource != null ) {
-      selection = new StructuredSelection( resource );
-    } else {
-      selection = new StructuredSelection();
-    }
-    project = editor.getCommonProject();
   }
 
   public WARProductExportAction( final IStructuredSelection selection ) {

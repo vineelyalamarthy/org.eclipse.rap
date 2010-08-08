@@ -10,9 +10,7 @@ package org.eclipse.rap.warproducts.ui.exportwizard;
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.core.runtime.*;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.pde.internal.ui.IPDEUIConstants;
 import org.eclipse.pde.internal.ui.util.SWTUtil;
@@ -20,17 +18,10 @@ import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportTab;
 import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.*;
 
 public class DestinationGroup extends AbstractExportTab {
 
@@ -120,7 +111,7 @@ public class DestinationGroup extends AbstractExportTab {
 
   protected void saveSettings( final IDialogSettings settings ) {
     saveCombo( settings, ZIP_FILENAME, archiveCombo );
-    IFile file = ( ( ExportPage )page ).getProductFile();
+    IFile file = page.getProductFile();
     try {
       if( file != null && file.exists() ) {
         QualifiedName location 

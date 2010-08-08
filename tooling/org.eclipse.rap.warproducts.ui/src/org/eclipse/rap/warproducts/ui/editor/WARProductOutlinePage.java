@@ -7,10 +7,7 @@
  ******************************************************************************/
 package org.eclipse.rap.warproducts.ui.editor;
 
-import org.eclipse.pde.internal.core.iproduct.IProduct;
-import org.eclipse.pde.internal.core.iproduct.IProductFeature;
-import org.eclipse.pde.internal.core.iproduct.IProductModel;
-import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
+import org.eclipse.pde.internal.core.iproduct.*;
 import org.eclipse.pde.internal.ui.editor.FormOutlinePage;
 import org.eclipse.pde.internal.ui.editor.PDEFormEditor;
 
@@ -34,7 +31,7 @@ public class WARProductOutlinePage extends FormOutlinePage {
   }
 
   protected String getParentPageId( final Object item ) {
-    String result = super.getParentPageId( item );;
+    String result = super.getParentPageId( item );
     if( item instanceof IProductPlugin ) {
       result = ConfigurationPage.PLUGIN_ID;
     }
