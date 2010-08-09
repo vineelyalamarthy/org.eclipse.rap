@@ -14,10 +14,7 @@ import java.io.File;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.pde.internal.core.product.ProductPlugin;
-import org.eclipse.rap.warproducts.core.IWARProduct;
-import org.eclipse.rap.warproducts.core.Messages;
-import org.eclipse.rap.warproducts.core.WARProductModel;
-import org.eclipse.rap.warproducts.core.WARProductUtil;
+import org.eclipse.rap.warproducts.core.*;
 
 public class Validator {
 
@@ -103,8 +100,9 @@ public class Validator {
       File lib = new File( pathString );
       if( !lib.exists() ) {
         int type = ValidationError.LIBRARY_DOESNT_EXIST;
+        String relativePath = libraries[ i ].toOSString();
         String message 
-          = Messages.validatorLibraryNotExist + pathString + ".";//$NON-NLS-1$
+          = Messages.validatorLibraryNotExist + relativePath + ".";//$NON-NLS-1$
         ValidationError error = new ValidationError( type, message, path );
         validation.addError( error );
       }
