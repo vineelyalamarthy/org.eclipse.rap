@@ -11,11 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -29,9 +25,7 @@ import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.wizards.exports.ProductExportWizard;
-import org.eclipse.rap.warproducts.core.IWARProduct;
-import org.eclipse.rap.warproducts.core.WARProductExportOperation;
-import org.eclipse.rap.warproducts.core.WARWorkspaceProductModel;
+import org.eclipse.rap.warproducts.core.*;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.rap.warproducts.ui.validation.IValidationListener;
 import org.eclipse.rap.warproducts.ui.validation.WARProductValidateAction;
@@ -70,7 +64,16 @@ public class ExportWARProductWizard extends ProductExportWizard {
   }
 
   public boolean canFinish() {
-    return product != null && exportPage.isPageComplete();
+    boolean result = false;
+    IWizardPage currentPage = getContainer().getCurrentPage();
+    if(    currentPage != null
+        && currentPage.equals( exportPage ) 
+        && exportPage.isPageComplete() 
+        && product != null ) 
+    {
+      result = true;
+    }
+    return result;
   }
   
   private void loadProductFromFile() {
@@ -180,6 +183,10 @@ public class ExportWARProductWizard extends ProductExportWizard {
   public void loadProductFromFile( final IFile file ) {
     warProductFile = file;
     loadProductFromFile();
+  }
+  
+  void resetProduct() {
+    warProductFile = null;
   }
   
   protected void initialize( final IStructuredSelection selection )

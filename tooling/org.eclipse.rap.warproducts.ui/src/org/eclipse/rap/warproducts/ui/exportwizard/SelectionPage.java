@@ -12,18 +12,13 @@ package org.eclipse.rap.warproducts.ui.exportwizard;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.pde.internal.ui.util.FileExtensionFilter;
 import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportWizardPage;
 import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -74,19 +69,20 @@ public class SelectionPage extends AbstractExportWizardPage {
       public void selectionChanged( final SelectionChangedEvent event ) {
         TreeSelection selection = ( TreeSelection )event.getSelection();
         Object firstElement = selection.getFirstElement();
+        ExportWARProductWizard wizard 
+          = ( ExportWARProductWizard )getWizard();
         if( firstElement != null && firstElement instanceof IFile ) {
           IFile file = ( IFile )firstElement;
           String fileExtension = file.getFileExtension();
           if( fileExtension.equals( WARProductConstants.FILE_EXTENSION ) ) {
             warProductFile = file;
-            ExportWARProductWizard wizard 
-              = ( ExportWARProductWizard )getWizard();
             wizard.loadProductFromFile( file );
-            wizard.getContainer().updateButtons();
           }
         } else {
           warProductFile = null;
+          wizard.resetProduct();
         }
+        wizard.getContainer().updateButtons();
       }
       
     } );
