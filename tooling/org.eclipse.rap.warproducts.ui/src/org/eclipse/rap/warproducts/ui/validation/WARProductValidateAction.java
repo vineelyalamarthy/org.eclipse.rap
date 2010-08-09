@@ -52,16 +52,30 @@ public class WARProductValidateAction extends Action {
     IProductPlugin[] plugins = product.getPlugins();
     for( int i = 0; i < plugins.length; i++ ) {
       String id = plugins[ i ].getId();
-      if( id != null && !map.containsKey( id ) ) {
-        IPluginModelBase model = PluginRegistry.findModel( id );
-        boolean matchesCurrentEnvironment 
-          = TargetPlatformHelper.matchesCurrentEnvironment( model );
-        if( model != null && matchesCurrentEnvironment ) {
-          map.put( id, model );
-        }
-      }
+      addBundleIfExisting( map, id );
     }
     validate( map );
+  }
+
+  private void addBundleIfExisting( final HashMap map, final String id ) {
+    if( id != null && !map.containsKey( id ) ) {
+      IPluginModelBase model = PluginRegistry.findModel( id );
+      if( bundleExist( id, model ) ) {
+        map.put( id, model );
+      }
+    }
+  }
+  
+  private boolean bundleExist( final String id, final IPluginModelBase model ) {
+    boolean result = false;
+    if( model != null ) {
+      boolean matchesCurrentEnvironment 
+      = TargetPlatformHelper.matchesCurrentEnvironment( model );
+      if( matchesCurrentEnvironment ) {
+        result = true;
+      }
+    }
+    return result;
   }
 
   private void validate( final HashMap map ) {
@@ -115,9 +129,11 @@ public class WARProductValidateAction extends Action {
     for( int i = 0; i < errors.length; i++ ) {
       ResolverError error = errors[ i ];
       VersionConstraint constraint = error.getUnsatisfiedConstraint();
-      String unresolvedBundleId = constraint.getName();
-      if( !isBanned( unresolvedBundleId ) ) {
-        validErrors.add( error );
+      if( constraint != null ) {
+        String unresolvedBundleId = constraint.getName();
+        if( !isBanned( unresolvedBundleId ) ) {
+          validErrors.add( error );
+        }
       }
     }
     ResolverError[] result = new ResolverError[ validErrors.size() ];
