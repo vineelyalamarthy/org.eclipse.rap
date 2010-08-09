@@ -9,40 +9,22 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core.test.tests;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import junit.framework.TestCase;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.*;
 import org.eclipse.osgi.service.resolver.BundleDescription;
 import org.eclipse.osgi.service.resolver.State;
 import org.eclipse.pde.internal.core.TargetPlatformHelper;
 import org.eclipse.pde.internal.core.exports.FeatureExportInfo;
-import org.eclipse.pde.internal.core.iproduct.IConfigurationFileInfo;
+import org.eclipse.pde.internal.core.iproduct.*;
 import org.eclipse.pde.internal.core.iproduct.IProduct;
-import org.eclipse.pde.internal.core.iproduct.IProductModelFactory;
-import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
-import org.eclipse.rap.warproducts.core.IWARProduct;
-import org.eclipse.rap.warproducts.core.InfrastructreCreator;
-import org.eclipse.rap.warproducts.core.WARProductExportOperation;
-import org.eclipse.rap.warproducts.core.WARProductModel;
+import org.eclipse.rap.warproducts.core.*;
 import org.osgi.framework.Version;
 
 
@@ -101,6 +83,7 @@ public class WARProductExportOperationTest extends TestCase {
     testWARFileContainsLibFolder( warEntryList );
     testWebInfFolderContainsLaunchIni( warEntryList );
     testWebInfFolderContainsPlugins( warEntryList );
+    testDidntContainsDotEclipseProduct( warEntryList );
     testLibContainsJar( warEntryList );
   }
   
@@ -132,6 +115,12 @@ public class WARProductExportOperationTest extends TestCase {
     throws Exception 
   {
     assertTrue( warEntryList.contains( "WEB-INF/plugins/" ) );
+  }
+  
+  private void testDidntContainsDotEclipseProduct( final List warEntryList ) 
+    throws Exception 
+  {
+    assertTrue( !warEntryList.contains( "WEB-INF/.eclipseproduct" ) );
   }
   
   private void testLibContainsJar( final List warEntryList ) 
