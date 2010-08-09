@@ -19,7 +19,8 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.*;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.rap.warproducts.core.*;
-import org.eclipse.rap.warproducts.core.validation.*;
+import org.eclipse.rap.warproducts.core.validation.Validation;
+import org.eclipse.rap.warproducts.core.validation.Validator;
 
 
 public class WARProductInitializerTest extends TestCase {
@@ -60,15 +61,15 @@ public class WARProductInitializerTest extends TestCase {
   private void addFakeServletBridge( final IWARProduct product ) 
     throws Exception 
   {
-    File file 
-      = File.createTempFile( "org.eclipse.equinox.servletbridge", ".jar" );
+    String bridgeId = "org.eclipse.equinox.servletbridge";
+    File file = File.createTempFile( bridgeId, ".jar" );
     IWorkspace workspace = ResourcesPlugin.getWorkspace();
     IProject project = workspace.getRoot().getProject( "testing" );
     if( !project.exists() ) {
       project.create( null );
       project.open( null );
     }
-    IFile bridge = project.getFile( "org.eclipse.equinox.servletbridge.jar" );
+    IFile bridge = project.getFile( bridgeId + ".jar" );
     if( !bridge.exists() ) {
       bridge.create( new FileInputStream( file ), true, null );
     }
