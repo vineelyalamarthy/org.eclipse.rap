@@ -9,7 +9,6 @@ package org.eclipse.rap.warproducts.core;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.util.*;
 
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -261,13 +260,11 @@ public class WARProductExportOperation extends FeatureExportOperation {
   }
       
   private void copyLibrary( final String libDir, final IPath filePath ) {
+    String fileName = filePath.segment( filePath.segmentCount() - 1 );
+    File template = new File( filePath.toOSString() );
+    File destinationFile = new File( libDir + File.separator + fileName );
     try {
-      String fileName = filePath.segment( filePath.segmentCount() - 1 );
-      File template = new File( filePath.toOSString() );
-      File destinationFile = new File( libDir + File.separator + fileName );
       CoreUtility.readFile( new FileInputStream( template ), destinationFile );      
-    } catch( final MalformedURLException e ) {
-      e.printStackTrace();
     } catch( final IOException e ) {
       e.printStackTrace();
     } 
@@ -279,8 +276,8 @@ public class WARProductExportOperation extends FeatureExportOperation {
     IPath wsPath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
     IPath absoluteWebXmlPath = wsPath.append( pathToContent );
     File destinationFile = new File( featureLocation, fileName );
+    File template = new File( absoluteWebXmlPath.toOSString() );
     try {
-      File template = new File( absoluteWebXmlPath.toOSString() );
       CoreUtility.readFile( new FileInputStream( template ), destinationFile );
     } catch( final IOException e ) {
       e.printStackTrace();
