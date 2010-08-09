@@ -25,8 +25,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.*;
 import org.eclipse.rap.warproducts.core.InfrastructreCreator;
 
 
@@ -86,9 +85,9 @@ public class InfrastructureCreatorTest extends TestCase {
     IFile webXml = webInf.getFile( "web.xml" );
     assertTrue( webXml.exists() );
     StringBuffer webxmlContent = readFile( webXml.getContents( true ) );
+    ClassLoader classLoader = InfrastructreCreator.class.getClassLoader();
     InputStream resourceStream 
-      = InfrastructreCreator.class.getResourceAsStream( File.separator 
-                                                        + "web.xml" );
+      = classLoader.getResourceAsStream( File.separator + "web.xml" );
     StringBuffer expectedContent = readFile( resourceStream );
     assertEquals( expectedContent.toString(), webxmlContent.toString() );
   }
@@ -109,9 +108,9 @@ public class InfrastructureCreatorTest extends TestCase {
     IFile launchIni = webInf.getFile( "launch.ini" );
     assertTrue( launchIni.exists() );
     StringBuffer actualLaunchIni = readFile( launchIni.getContents() );
+    ClassLoader classLoader = InfrastructreCreator.class.getClassLoader();
     InputStream tempLaunchIni 
-      = InfrastructreCreator.class.getResourceAsStream( File.separator 
-                                                        + "launch.ini" );
+      = classLoader.getResourceAsStream( File.separator + "launch.ini" );
     StringBuffer expectedLaunchIni = readFile( tempLaunchIni );
     assertEquals( expectedLaunchIni.toString(), actualLaunchIni.toString() );
   }

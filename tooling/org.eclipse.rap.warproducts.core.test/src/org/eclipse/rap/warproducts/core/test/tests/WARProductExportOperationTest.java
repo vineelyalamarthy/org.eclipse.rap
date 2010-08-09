@@ -107,41 +107,37 @@ public class WARProductExportOperationTest extends TestCase {
   private void testWARFileRootIsWebInf( final List warEntryList ) 
     throws Exception 
   {
-    assertTrue( warEntryList.contains( "WEB-INF" + File.separator ) );
+    assertTrue( warEntryList.contains( "WEB-INF/" ) );
   }
   
   private void testWARFileContainsWebXML( final List warEntryList ) 
     throws Exception 
   {
-    assertTrue( warEntryList.contains( getFilePath( "WEB-INF", "web.xml" ) ) );
+    assertTrue( warEntryList.contains( "WEB-INF/web.xml" ) );
   }
   
   private  void testWARFileContainsLibFolder( final List warEntryList) 
     throws Exception 
   {
-    assertTrue( warEntryList.contains( getFilePath( "WEB-INF", "lib" ) 
-                                       + File.separator ) );
+    assertTrue( warEntryList.contains( "WEB-INF/lib/" ) );
   }
   
   private void testWebInfFolderContainsLaunchIni( final List warEntryList ) 
     throws Exception 
   {
-    assertTrue( warEntryList.contains( getFilePath( "WEB-INF", 
-                                                    "launch.ini" ) ) );
+    assertTrue( warEntryList.contains( "WEB-INF/launch.ini" ) );
   }
   
   private void testWebInfFolderContainsPlugins( final List warEntryList ) 
     throws Exception 
   {
-    assertTrue( warEntryList.contains( getFilePath( "WEB-INF", "plugins" ) 
-                                       + File.separator ) );
+    assertTrue( warEntryList.contains( "WEB-INF/plugins/" ) );
   }
   
   private void testLibContainsJar( final List warEntryList ) 
   throws Exception 
 {
-  String path = getFilePath( "WEB-INF" + File.separator + "lib", 
-                             "test.jar" );
+  String path = "WEB-INF/lib/test.jar";
   assertTrue( warEntryList.contains( path ) );
 }
 
@@ -247,9 +243,4 @@ public class WARProductExportOperationTest extends TestCase {
     Object[] bundleArray = list.toArray( new BundleDescription[ list.size() ] );
     return ( BundleDescription[] )bundleArray;
   }
-  
-  private String getFilePath( final String folder, final String file ) {
-    return folder + File.separator + file;
-  }
-  
 }

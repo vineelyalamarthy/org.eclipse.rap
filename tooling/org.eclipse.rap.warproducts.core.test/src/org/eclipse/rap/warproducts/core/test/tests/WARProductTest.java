@@ -92,16 +92,14 @@ public class WARProductTest extends TestCase {
   
   public void testWrite() {
     String xml = writenXmlFromProduct();
-    assertTrue( xml.indexOf( "<warConfiguration webXml=\"" 
-                             + getAbsoluteFilePath( "test", "web.xml" ) + "\" " 
-                             + "launchIni=\"" 
-                             + getAbsoluteFilePath( "test", "launch.ini" ) 
+    assertTrue( xml.indexOf( "<warConfiguration webXml=\"/test/web.xml" + "\" " 
+                             + "launchIni=\"/test/launch.ini" 
                              + "\">" ) > -1 );
     assertTrue( xml.indexOf( "</warConfiguration>" ) > -1 );
     assertTrue( xml.indexOf( "<libraries>" ) > -1 );
     assertTrue( xml.indexOf( "</libraries>" ) > -1 );
-    assertTrue( xml.indexOf( "<library path=\"" + File.separator + "test" 
-                             + File.separator + "test.jar\" fromTarget=\"false\"/>" ) > -1 );
+    assertTrue( xml.indexOf( "<library path=\"/test/test.jar\" " +
+    		                     "fromTarget=\"false\"/>" ) > -1 );
   }
   
   public void testIncludeLauncher() {

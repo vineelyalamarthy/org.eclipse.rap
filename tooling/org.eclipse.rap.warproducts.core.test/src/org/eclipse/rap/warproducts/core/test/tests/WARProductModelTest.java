@@ -36,9 +36,10 @@ public class WARProductModelTest extends TestCase {
   
   public void testLoad() throws CoreException {
     WARProductModel model = new WARProductModel();
-    String separator = File.separator;
-    model.load( getClass().getResourceAsStream( separator + "test.warproduct" ), 
-                false );
+    String separator = "/";
+    ClassLoader classLoader = getClass().getClassLoader();
+    String fileName = separator + "test.warproduct";
+    model.load( classLoader.getResourceAsStream( fileName ), false );
     IWARProduct product = ( IWARProduct )model.getProduct();
     String webXmlPath = product.getWebXml().toString();
     assertEquals( separator + "test.rap" + separator + "WEB-INF" 
@@ -54,11 +55,12 @@ public class WARProductModelTest extends TestCase {
   public void testWrite() throws Exception {
     WARProductModel model = new WARProductModel();
     String separator = File.separator;
+    ClassLoader classLoader = getClass().getClassLoader();
     InputStream stream 
-      = getClass().getResourceAsStream( separator + "test.warproduct" );
+      = classLoader.getResourceAsStream( separator + "test.warproduct" );
     String xml = readStream( stream );
     InputStream stream2 
-      = getClass().getResourceAsStream( separator + "test.warproduct" );
+      = classLoader.getResourceAsStream( separator + "test.warproduct" );
     model.load( stream2, false );
     IProduct product = model.getProduct();
     StringWriter stringWriter = new StringWriter();
@@ -66,7 +68,7 @@ public class WARProductModelTest extends TestCase {
     product.write( "", writer );
     stringWriter.close();
     String actualXml = stringWriter.toString();
-    assertEquals( xml, actualXml );
+    assertEquals( xml.replaceAll( " ", "" ), actualXml.replaceAll( " ", "" ) );
   }
   
   public void testLoadWindowsFile() throws Exception {
@@ -74,7 +76,8 @@ public class WARProductModelTest extends TestCase {
     WARProductModel model = new WARProductModel();
     String separator = File.separator;
     String fileName = separator + "testWin.warproduct";
-    model.load( getClass().getResourceAsStream( fileName ), false );
+    ClassLoader classLoader = getClass().getClassLoader();
+    model.load( classLoader.getResourceAsStream( fileName ), false );
     IWARProduct product = ( IWARProduct )model.getProduct();
     IPath webXml = product.getWebXml();
     IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();

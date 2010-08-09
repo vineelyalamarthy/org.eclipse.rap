@@ -9,37 +9,69 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core.test.tests;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.*;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
-import org.eclipse.rap.warproducts.core.IWARProduct;
-import org.eclipse.rap.warproducts.core.WARProductInitializer;
-import org.eclipse.rap.warproducts.core.WARProductModel;
-import org.eclipse.rap.warproducts.core.WARProductModelFactory;
-import org.eclipse.rap.warproducts.core.validation.Validation;
-import org.eclipse.rap.warproducts.core.validation.ValidationError;
-import org.eclipse.rap.warproducts.core.validation.Validator;
+import org.eclipse.rap.warproducts.core.*;
+import org.eclipse.rap.warproducts.core.validation.*;
 
 
 public class WARProductInitializerTest extends TestCase {
   
-  public void testValidInitialization() {
+  public void testValidInitialization() throws Exception {
     WARProductModel model = new WARProductModel();
     WARProductModelFactory factory = new WARProductModelFactory( model );
     IWARProduct product = ( IWARProduct )factory.createProduct();
-    IProductPlugin javaxServletBundle = factory.createPlugin();
-    javaxServletBundle.setId( "javax.servlet" );
-    javaxServletBundle.setVersion( "0.0.0" );
-    product.addPlugins( new IProductPlugin[] { javaxServletBundle } );
+    product.addPlugins( createFakeEnvironment( factory ) );
+    addFakeServletBridge( product );
     WARProductInitializer initializer = new WARProductInitializer( product );
     initializer.initialize();
     Validator validator = new Validator( product );
     Validation validation = validator.validate();
-    ValidationError[] errors = validation.getErrors();
-    for( int i = 0; i < errors.length; i++ ) {
-      System.out.println( i + " - " + errors[ i ].getMessage() );
-    }
     assertTrue( validation.isValid() );
   }
+
+  private IProductPlugin[] createFakeEnvironment( 
+    final WARProductModelFactory factory ) 
+  {
+    String[] bundles = Validator.REQUIRED_BUNDLES;
+    List bundleList = new ArrayList();
+    for( int i = 0; i < bundles.length; i++ ) {
+      IProductPlugin plugin = factory.createPlugin();
+      plugin.setId( bundles[ i ] );
+      plugin.setVersion( "0.0.0" );
+      bundleList.add( plugin );
+    }
+    IProductPlugin javaxServletBundle = factory.createPlugin();
+    javaxServletBundle.setId( "javax.servlet" );
+    javaxServletBundle.setVersion( "0.0.0" );
+    bundleList.add( javaxServletBundle );
+    IProductPlugin[] result = new IProductPlugin[ bundleList.size() ];
+    bundleList.toArray( result );
+    return result;
+  }
   
+  private void addFakeServletBridge( final IWARProduct product ) 
+    throws Exception 
+  {
+    File file 
+      = File.createTempFile( "org.eclipse.equinox.servletbridge", ".jar" );
+    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+    IProject project = workspace.getRoot().getProject( "testing" );
+    if( !project.exists() ) {
+      project.create( null );
+      project.open( null );
+    }
+    IFile bridge = project.getFile( "org.eclipse.equinox.servletbridge.jar" );
+    if( !bridge.exists() ) {
+      bridge.create( new FileInputStream( file ), true, null );
+    }
+    product.addLibrary( bridge.getFullPath(), false );
+  }
 }

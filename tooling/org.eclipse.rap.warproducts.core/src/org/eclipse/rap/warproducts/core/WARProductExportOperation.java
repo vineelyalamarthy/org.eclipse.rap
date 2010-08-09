@@ -7,34 +7,17 @@
  ******************************************************************************/
 package org.eclipse.rap.warproducts.core;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.*;
 import org.eclipse.osgi.service.resolver.BundleDescription;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.pde.core.plugin.IPluginModelBase;
-import org.eclipse.pde.core.plugin.PluginRegistry;
-import org.eclipse.pde.core.plugin.TargetPlatform;
-import org.eclipse.pde.internal.build.BuildScriptGenerator;
-import org.eclipse.pde.internal.build.IBuildPropertiesConstants;
-import org.eclipse.pde.internal.build.IXMLConstants;
+import org.eclipse.pde.core.plugin.*;
+import org.eclipse.pde.internal.build.*;
 import org.eclipse.pde.internal.core.ICoreConstants;
 import org.eclipse.pde.internal.core.PDECore;
 import org.eclipse.pde.internal.core.exports.FeatureExportInfo;
@@ -278,20 +261,16 @@ public class WARProductExportOperation extends FeatureExportOperation {
   }
       
   private void copyLibrary( final String libDir, final IPath filePath ) {
-    InputStream stream = null;
     try {
       String fileName = filePath.segment( filePath.segmentCount() - 1 );
-      URL sourceFilePath = new URL( "file://" + filePath.toOSString() ); //$NON-NLS-1$
-      stream = sourceFilePath.openStream();
+      File template = new File( filePath.toOSString() );
       File destinationFile = new File( libDir + File.separator + fileName );
-      CoreUtility.readFile( stream, destinationFile );      
+      CoreUtility.readFile( new FileInputStream( template ), destinationFile );      
     } catch( final MalformedURLException e ) {
       e.printStackTrace();
     } catch( final IOException e ) {
       e.printStackTrace();
-    } finally {
-      closeStream( stream );
-    }
+    } 
   }
 
   private String createWarContent( final IPath pathToContent, 
@@ -300,28 +279,13 @@ public class WARProductExportOperation extends FeatureExportOperation {
     IPath wsPath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
     IPath absoluteWebXmlPath = wsPath.append( pathToContent );
     File destinationFile = new File( featureLocation, fileName );
-    InputStream stream = null;
     try {
-      URL sourceFileUrl 
-        = new URL( "file://" + absoluteWebXmlPath.toOSString() ); //$NON-NLS-1$
-      stream = sourceFileUrl.openStream();
-      CoreUtility.readFile( stream, destinationFile );
+      File template = new File( absoluteWebXmlPath.toOSString() );
+      CoreUtility.readFile( new FileInputStream( template ), destinationFile );
     } catch( final IOException e ) {
       e.printStackTrace();
-    } finally {
-      closeStream( stream );
     }
     return destinationFile.getAbsolutePath();
-  }
-  
-  private void closeStream( final InputStream stream ) {
-    if( stream != null ) {
-      try {
-        stream.close();
-      } catch( final IOException e ) {
-        e.printStackTrace();
-      }
-    }
   }
   
   private void handleJREInfo( final String[][] configurations,

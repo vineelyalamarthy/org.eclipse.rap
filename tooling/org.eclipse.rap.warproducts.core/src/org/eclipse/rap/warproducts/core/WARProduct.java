@@ -201,10 +201,11 @@ public class WARProduct implements IWARProduct {
   private void writeWARInfo( final String indent, final PrintWriter writer ) {
     writer.print( indent + "   <warConfiguration" ); //$NON-NLS-1$
     if( webXmlPath != null ) {
-      writer.write(  " webXml=\"" + webXmlPath.toOSString() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+      writer.write(  " webXml=\"" + webXmlPath.toPortableString() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
     }
     if( launchIniPath != null ) {
-      writer.write(  " launchIni=\"" + launchIniPath.toOSString() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+      writer.write(  " launchIni=\"" + launchIniPath.toPortableString() 
+                     + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
     }
     writer.println( ">" ); //$NON-NLS-1$
     if( libraries.size() > 0 ) {
@@ -212,7 +213,7 @@ public class WARProduct implements IWARProduct {
       IPath[] pathes = new IPath[ libraries.size() ];
       libraries.keySet().toArray( pathes );
       for( int i = 0; i < pathes.length; i++ ) {
-        String libraryPath = pathes[ i ].toOSString();
+        String libraryPath = pathes[ i ].toPortableString();
         Boolean fromTarget = ( Boolean )libraries.get( pathes[ i ] );
         writer.println( "      " + "<library path=\"" + libraryPath +  //$NON-NLS-1$ //$NON-NLS-2$
                         "\" fromTarget=\"" + fromTarget + "\"/>" ); //$NON-NLS-1$ //$NON-NLS-2$
