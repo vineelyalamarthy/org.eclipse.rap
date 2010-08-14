@@ -32,15 +32,18 @@ public class Scanner {
     if( currentToken == regions.size() - 1 ) {
       return null;
     }
-    AbstractRegion region1 = ( AbstractRegion )regions.get( currentToken );
-    int start = region1.getOffset();
-    int end = start + region1.getLength();
-    if( start < end ) {
-      region1.setContent( fullContent.substring( start, end ) );
-    }
-    AbstractRegion region = region1;
+    AbstractRegion region = ( AbstractRegion )regions.get( currentToken );
+    fillContent( region );
     currentToken++;
     return region;
+  }
+
+  private void fillContent( AbstractRegion region ) {
+    int start = region.getOffset();
+    int end = start + region.getLength();
+    if( start < end ) {
+      region.setContent( fullContent.substring( start, end ) );
+    }
   }
 
   public void scanSheet( String content ) {
@@ -80,7 +83,9 @@ public class Scanner {
   public String toString() {
     String result = "";
     for( int i = 0; i < regions.size() - 1; i++ ) {
-      result += regions.get( i ) + "\n";
+      AbstractRegion region = ( AbstractRegion )regions.get( i );
+      fillContent( region );
+      result += region +  "\n";
     }
     result += "-------------";
     return result;

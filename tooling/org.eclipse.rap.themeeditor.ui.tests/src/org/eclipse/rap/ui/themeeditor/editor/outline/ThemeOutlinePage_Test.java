@@ -36,8 +36,18 @@ public class ThemeOutlinePage_Test extends TestCase {
     IRegionExt[] regions = scanner.getRegions();
     Object[] elements = contentProvider.getElements( regions );
     assertEquals( 2, elements.length );
-    assertTrue( contentProvider.hasChildren( regions[ 0 ] ) );
-    assertFalse( contentProvider.hasChildren( regions[ 1 ] ) );
+    assertTrue( contentProvider.hasChildren( elements[ 0 ] ) );
+    assertTrue( contentProvider.hasChildren( elements[ 1 ] ) );
+  }
+
+  public void testContentProviderComments() {
+    RegionContentProvider contentProvider = new RegionContentProvider();
+    Scanner scanner = new Scanner();
+    scanner.scanSheet( "*/copyright*/ Button{color:blue;}" );
+    IRegionExt[] regions = scanner.getRegions();
+    Object[] elements = contentProvider.getElements( regions );
+    assertEquals( 2, elements.length );
+    assertTrue( contentProvider.hasChildren( elements[ 1 ] ) );
   }
 
   public void testLabelProvider() {
@@ -48,7 +58,6 @@ public class ThemeOutlinePage_Test extends TestCase {
     IRegionExt rootRule = regions[ 0 ];
     assertEquals( "*", labelProvider.getText( rootRule ) );
     assertNotNull( labelProvider.getImage( rootRule ) );
-    System.out.println( scanner );
     IRegionExt buttonRule = regions[ 4 ];
     assertEquals( "Button", labelProvider.getText( buttonRule ) );
     assertNotNull( labelProvider.getImage( buttonRule ) );

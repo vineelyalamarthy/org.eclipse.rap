@@ -11,15 +11,18 @@
 package org.eclipse.rap.ui.themeeditor.editor.outline;
 
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.rap.ui.themeeditor.editor.outline.CommentFilter.CommentFilterAction;
 import org.eclipse.rap.ui.themeeditor.scanner.Scanner;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 public class ThemeOutlinePage extends ContentOutlinePage {
 
   private Scanner scanner;
 
-  public ThemeOutlinePage( Scanner scanner) {
+  public ThemeOutlinePage( Scanner scanner ) {
     this.scanner = scanner;
   }
 
@@ -30,8 +33,18 @@ public class ThemeOutlinePage extends ContentOutlinePage {
     viewer.setLabelProvider( new RegionLabelProvider() );
     viewer.setInput( scanner.getRegions() );
   }
-  
-  // for testing
+
+  public void init( IPageSite pageSite ) {
+    super.init( pageSite );
+    CommentFilterAction commentAction = new CommentFilterAction( getTreeViewer() );
+    pageSite.getActionBars().getToolBarManager().add( commentAction );
+  }
+
+  public void setActionBars( IActionBars actionBars ) {
+    super.setActionBars( actionBars );
+  }
+
+  /* for testing */
   public TreeViewer getViewer() {
     return super.getTreeViewer();
   }

@@ -31,8 +31,8 @@ public class RegionContentProvider extends ArrayContentProvider
   }
 
   public boolean hasChildren( Object element ) {
-    IRegionExt region = (IRegionExt) element;
-    return region.getTokenType() == TokenStyleProvider.SELECTOR_TOKEN;
+    IRegionExt region = ( IRegionExt )element;
+    return isSelector( region );
   }
 
   public Object[] getElements( Object inputElement ) {
@@ -40,12 +40,19 @@ public class RegionContentProvider extends ArrayContentProvider
     IRegionExt[] elements = ( IRegionExt[] )inputElement;
     for( int i = 0; i < elements.length; i++ ) {
       IRegionExt region = elements[ i ];
-      if( region.getTokenType() == TokenStyleProvider.SELECTOR_TOKEN
-          && !region.getContent().equals( "" ) )
-      {
+      if( isSelector( region ) || isComment( region ) ) {
         result.add( region );
       }
     }
     return result.toArray( new Object[ 0 ] );
+  }
+
+  private boolean isComment( IRegionExt region ) {
+    return region.getTokenType() == TokenStyleProvider.COMMENT_TOKEN;
+  }
+
+  private boolean isSelector( IRegionExt region ) {
+    return    region.getTokenType() == TokenStyleProvider.SELECTOR_TOKEN
+           && !region.getContent().equals( "" );
   }
 }

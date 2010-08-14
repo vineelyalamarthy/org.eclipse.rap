@@ -48,6 +48,8 @@ public abstract class AbstractRegion implements IRegionExt {
            + length
            + ", lastCharacter="
            + lastCharacter
+           + ", content="
+           + content
            + "]";
   }
   

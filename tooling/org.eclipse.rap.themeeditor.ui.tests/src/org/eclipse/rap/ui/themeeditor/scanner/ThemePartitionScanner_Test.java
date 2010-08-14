@@ -50,7 +50,6 @@ public class ThemePartitionScanner_Test extends TestCase {
     partitionScanner.setRange( document, 0, css.length() );
     partitionScanner.nextToken();
     partitionScanner.nextToken();
-    System.out.println(partitionScanner.getScanner());
     assertEquals( Token.EOF, partitionScanner.nextToken() );
   }
   
