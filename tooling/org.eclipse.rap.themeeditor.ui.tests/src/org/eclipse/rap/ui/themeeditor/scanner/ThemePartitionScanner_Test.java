@@ -10,11 +10,10 @@
  ******************************************************************************/
 package org.eclipse.rap.ui.themeeditor.scanner;
 
-import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.Token;
-
 import junit.framework.TestCase;
+
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.rules.Token;
 
 public class ThemePartitionScanner_Test extends TestCase {
 
