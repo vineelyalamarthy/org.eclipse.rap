@@ -19,16 +19,24 @@ import org.eclipse.ui.editors.text.FileDocumentProvider;
 
 public class ThemeDocumentProvider extends FileDocumentProvider {
 
+  private ThemePartitionScanner scanner;
+
   protected IDocument createDocument( Object element ) throws CoreException {
     IDocument document = super.createDocument( element );
     String[] contentTypes = new String[]{
       IDocument.DEFAULT_CONTENT_TYPE,
     };
-    ThemePartitionScanner scanner = new ThemePartitionScanner();
+    scanner = new ThemePartitionScanner();
     IDocumentPartitioner partitioner = new FastPartitioner( scanner,
                                                             contentTypes );
     partitioner.connect( document );
     document.setDocumentPartitioner( partitioner );
     return document;
   }
+  
+  
+  public ThemePartitionScanner getPartitionScanner() {
+    return scanner;
+  }
+  
 }

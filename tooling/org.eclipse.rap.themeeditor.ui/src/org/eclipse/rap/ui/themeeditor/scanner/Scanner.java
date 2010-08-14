@@ -20,28 +20,26 @@ import org.eclipse.rap.ui.themeeditor.scanner.region.SelectorRegion;
 
 public class Scanner {
 
-  private List regionList;
+  private List regions;
   private int currentToken = 0;
   private String fullContent;
-  
+
   public Scanner() {
-    regionList = new LinkedList();
-  }
-  
-  public AbstractRegion nextRegion() {
-    if( currentToken == regionList.size() - 1 ) {
-      return null;
-    }
-    AbstractRegion region = currentToken();
-    currentToken++;
-    return region;
+    regions = new LinkedList();
   }
 
-  public AbstractRegion currentToken() {
-    AbstractRegion region = ( AbstractRegion )regionList.get( currentToken );
-    int start = region.getOffset();
-    int end = start + region.getLength();
-    region.setContent( fullContent.substring( start, end  ) );
+  public AbstractRegion nextRegion() {
+    if( currentToken == regions.size() - 1 ) {
+      return null;
+    }
+    AbstractRegion region1 = ( AbstractRegion )regions.get( currentToken );
+    int start = region1.getOffset();
+    int end = start + region1.getLength();
+    if( start < end ) {
+      region1.setContent( fullContent.substring( start, end ) );
+    }
+    AbstractRegion region = region1;
+    currentToken++;
     return region;
   }
 
@@ -53,7 +51,7 @@ public class Scanner {
       char character = content.charAt( i );
       IRegionExt newState = currentState.getNextState( character );
       if( newState != currentState ) {
-        regionList.add( currentState );
+        regions.add( currentState );
         if( currentState instanceof SelectorRegion ) {
           SelectorRegion sr = ( SelectorRegion )currentState;
           if( sr.getContent().trim().length() > 0 ) {
@@ -67,7 +65,7 @@ public class Scanner {
         currentState = newState;
       }
     }
-    regionList.add( currentState );
+    regions.add( currentState );
     if( currentState instanceof SelectorRegion ) {
       lastSelector = ( SelectorRegion )currentState;
     } else if( currentState instanceof IHasParentRegion ) {
@@ -75,10 +73,14 @@ public class Scanner {
     }
   }
 
+  public IRegionExt[] getRegions() {
+    return ( IRegionExt[] )regions.toArray( new IRegionExt[ regions.size() ] );
+  }
+
   public String toString() {
     String result = "";
-    for( int i = 0; i < regionList.size() - 1; i++ ) {
-      result += regionList.get( i ) + "\n";
+    for( int i = 0; i < regions.size() - 1; i++ ) {
+      result += regions.get( i ) + "\n";
     }
     result += "-------------";
     return result;

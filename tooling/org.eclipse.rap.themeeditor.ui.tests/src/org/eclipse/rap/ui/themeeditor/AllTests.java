@@ -14,8 +14,11 @@ package org.eclipse.rap.ui.themeeditor;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.rap.ui.themeeditor.editor.Scanner_Test;
+import org.eclipse.rap.ui.themeeditor.editor.ThemeDocumentProvider_Test;
 import org.eclipse.rap.ui.themeeditor.editor.TokenProvider_Test;
+import org.eclipse.rap.ui.themeeditor.editor.outline.ThemeOutlinePage_Test;
+import org.eclipse.rap.ui.themeeditor.scanner.Scanner_Test;
+import org.eclipse.rap.ui.themeeditor.scanner.ThemePartitionScanner_Test;
 
 
 public class AllTests {
@@ -25,6 +28,9 @@ public class AllTests {
     //$JUnit-BEGIN$
     suite.addTestSuite( TokenProvider_Test.class );
     suite.addTestSuite( Scanner_Test.class );
+    suite.addTestSuite( ThemeOutlinePage_Test.class );
+    suite.addTestSuite( ThemePartitionScanner_Test.class );
+    suite.addTestSuite( ThemeDocumentProvider_Test.class );
     //$JUnit-END$
     return suite;
   }

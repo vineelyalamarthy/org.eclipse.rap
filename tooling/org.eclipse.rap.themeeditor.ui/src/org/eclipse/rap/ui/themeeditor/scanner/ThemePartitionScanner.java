@@ -24,17 +24,18 @@ public class ThemePartitionScanner implements IPartitionTokenScanner {
 
   private TokenStyleProvider styleProvider;
   private Scanner scanner;
+  private AbstractRegion currentRegion;
 
   public ThemePartitionScanner() {
     styleProvider = new TokenStyleProvider();
   }
 
   public int getTokenLength() {
-    return scanner.currentToken().getLength();
+    return currentRegion.getLength();
   }
 
   public int getTokenOffset() {
-    return scanner.currentToken().getOffset();
+    return currentRegion.getOffset();
   }
 
   public IToken nextToken() {
@@ -45,6 +46,7 @@ public class ThemePartitionScanner implements IPartitionTokenScanner {
     } else {
       result = styleProvider.createToken( region.getTokenType() );
     }
+    currentRegion = region;
     return result;
   }
 
@@ -63,5 +65,12 @@ public class ThemePartitionScanner implements IPartitionTokenScanner {
                                final String contentType,
                                final int partitionOffset )
   {
+    setRange( document, offset, length );
   }
+  
+  
+  public Scanner getScanner() {
+    return scanner;
+  }
+  
 }

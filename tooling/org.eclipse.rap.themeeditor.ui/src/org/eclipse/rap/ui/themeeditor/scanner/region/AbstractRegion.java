@@ -40,4 +40,16 @@ public abstract class AbstractRegion implements IRegionExt {
   public void setContent( String content ) {
     this.content = content;
   }
+
+  public String toString() {
+    return "AbstractRegion [offset="
+           + offset
+           + ", length="
+           + length
+           + ", lastCharacter="
+           + lastCharacter
+           + "]";
+  }
+  
+  
 }

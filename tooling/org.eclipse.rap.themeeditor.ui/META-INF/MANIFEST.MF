@@ -9,7 +9,12 @@ Require-Bundle: org.eclipse.core.contenttype,
  org.eclipse.ui,
  org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.ui.editors;bundle-version="[3.6.0,4.0.0)",
- org.eclipse.jface.text;bundle-version="3.6.0"
-Export-Package: org.eclipse.rap.ui.themeeditor.editor,
+ org.eclipse.jface.text;bundle-version="3.6.0",
+ org.eclipse.ui.views;bundle-version="3.5.0"
+Export-Package: org.eclipse.rap.ui.themeeditor,
+ org.eclipse.rap.ui.themeeditor.editor,
+ org.eclipse.rap.ui.themeeditor.editor.outline,
  org.eclipse.rap.ui.themeeditor.scanner,
  org.eclipse.rap.ui.themeeditor.scanner.region
+Bundle-Activator: org.eclipse.rap.ui.themeeditor.Activator
+Bundle-ActivationPolicy: lazy

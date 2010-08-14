@@ -8,7 +8,7 @@
  * Contributors:
  *     EclipseSource - initial API and implementation
  ******************************************************************************/
-package org.eclipse.rap.ui.themeeditor.editor;
+package org.eclipse.rap.ui.themeeditor.scanner;
 
 import junit.framework.TestCase;
 
