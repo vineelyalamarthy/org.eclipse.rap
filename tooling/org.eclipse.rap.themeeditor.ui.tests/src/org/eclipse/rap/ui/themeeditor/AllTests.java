@@ -8,9 +8,24 @@
  * Contributors:
  *     EclipseSource - initial API and implementation
  ******************************************************************************/
-package org.eclipse.rap.ui.themeeditor.editor;
 
-import junit.framework.TestCase;
+package org.eclipse.rap.ui.themeeditor;
 
-public class ThemeEditorTest extends TestCase {
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import org.eclipse.rap.ui.themeeditor.editor.Scanner_Test;
+import org.eclipse.rap.ui.themeeditor.editor.TokenProvider_Test;
+
+
+public class AllTests {
+
+  public static Test suite() {
+    TestSuite suite = new TestSuite( AllTests.class.getName() );
+    //$JUnit-BEGIN$
+    suite.addTestSuite( TokenProvider_Test.class );
+    suite.addTestSuite( Scanner_Test.class );
+    //$JUnit-END$
+    return suite;
+  }
 }
