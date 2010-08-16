@@ -9,25 +9,16 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core.test.tests;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 
 import junit.framework.TestCase;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.pde.internal.core.product.ProductPlugin;
-import org.eclipse.rap.warproducts.core.IWARProduct;
-import org.eclipse.rap.warproducts.core.WARProductModel;
-import org.eclipse.rap.warproducts.core.WARProductModelFactory;
-import org.eclipse.rap.warproducts.core.validation.Validation;
-import org.eclipse.rap.warproducts.core.validation.ValidationError;
-import org.eclipse.rap.warproducts.core.validation.Validator;
+import org.eclipse.rap.warproducts.core.*;
+import org.eclipse.rap.warproducts.core.validation.*;
 
 public class ValidatorTest extends TestCase {
   
@@ -35,15 +26,9 @@ public class ValidatorTest extends TestCase {
     = "org.eclipse.equinox.http.servletbridge";
   private static final String EQUINOX_HTTP_SERVLET 
     = "org.eclipse.equinox.http.servlet";
-  private static final String OSGI_SERVICES = "org.eclipse.osgi.services";
-  private static final String OSGI = "org.eclipse.osgi";
-  private static final String EQUINOX_UTIL = "org.eclipse.equinox.util";
   private static final String EQUINOX_REGISTRY = "org.eclipse.equinox.registry";
   private static final String EQUINOX_HTTP_REGISTRY 
     = "org.eclipse.equinox.http.registry";
-  private static final String EQUINOX_DS = "org.eclipse.equinox.ds";
-  private static final String EQUINOX_COMMON = "org.eclipse.equinox.common";
-  private static final String CORE_JOBS = "org.eclipse.core.jobs";
   private static final String SERVLETBRIDGE_EXTENSIONBUNDLE 
     = "org.eclipse.equinox.servletbridge.extensionbundle";
   private static final String UPDATE_CONFIGURATOR 
@@ -166,21 +151,6 @@ public class ValidatorTest extends TestCase {
     checkForMissingRequiredBundle( id );
   }
   
-  public void testCoreJobsBundleIsIncluded() throws IOException {
-    String id = CORE_JOBS;
-    checkForMissingRequiredBundle( id );
-  }
-  
-  public void testEquinoxCommonBundleIsIncluded() throws IOException {
-    String id = EQUINOX_COMMON;
-    checkForMissingRequiredBundle( id );
-  }
-  
-  public void testEquinoxDSBundleIsIncluded() throws IOException {
-    String id = EQUINOX_DS;
-    checkForMissingRequiredBundle( id );
-  }
-  
   public void testEquinoxHTTPRegistryBundleIsIncluded() throws IOException {
     String id = EQUINOX_HTTP_REGISTRY;
     checkForMissingRequiredBundle( id );
@@ -188,21 +158,6 @@ public class ValidatorTest extends TestCase {
   
   public void testEquinoxRegistryBundleIsIncluded() throws IOException {
     String id = EQUINOX_REGISTRY;
-    checkForMissingRequiredBundle( id );
-  }
-  
-  public void testEquinoxUtilBundleIsIncluded() throws IOException {
-    String id = EQUINOX_UTIL;
-    checkForMissingRequiredBundle( id );
-  }
-  
-  public void testOSGiBundleIsIncluded() throws IOException {
-    String id = OSGI;
-    checkForMissingRequiredBundle( id );
-  }
-  
-  public void testOSGiServicesBundleIsIncluded() throws IOException {
-    String id = OSGI_SERVICES;
     checkForMissingRequiredBundle( id );
   }
   
