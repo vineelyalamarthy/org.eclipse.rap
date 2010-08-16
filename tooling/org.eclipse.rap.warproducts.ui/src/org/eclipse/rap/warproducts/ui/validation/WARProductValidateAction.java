@@ -163,7 +163,7 @@ public class WARProductValidateAction extends Action {
   private void handleWARValiadtionErrors( final Map map, 
                                           final ValidationError[] errors ) 
   {
-    String key = Messages.ValidateAction1;
+    String key = Messages.ValidateAction;
     map.put( key, errors );
   }
   

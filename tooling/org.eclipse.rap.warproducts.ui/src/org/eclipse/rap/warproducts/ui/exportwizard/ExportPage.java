@@ -16,10 +16,7 @@ import org.eclipse.pde.internal.ui.wizards.exports.AbstractExportWizardPage;
 import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
@@ -35,15 +32,14 @@ public class ExportPage extends AbstractExportWizardPage {
   public ExportPage() {
     super( "exportPage" ); //$NON-NLS-1$
     setTitle( Messages.ExportPageTitle );
-    setDescription( Messages.ExportPageDescription +
-                    Messages.ExportPageDescription2);
+    setDescription( Messages.ExportPageDescription );
   }
   
   public void createControl( final Composite parent ) {
     Composite container = new Composite( parent, SWT.NONE );
     container.setLayout( new FormLayout() );
     Group group = new Group( container, SWT.NONE );
-    group.setText( Messages.ExportPage4 );
+    group.setText( Messages.ExportPage );
     GridLayout layout = new GridLayout();
     group.setLayout( layout );
     FormData fdGroup = new FormData();

@@ -9,16 +9,11 @@ package org.eclipse.rap.warproducts.ui.editor;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.pde.internal.core.iproduct.IProductModel;
-import org.eclipse.pde.internal.ui.PDELabelProvider;
-import org.eclipse.pde.internal.ui.PDEPlugin;
-import org.eclipse.pde.internal.ui.PDEPluginImages;
-import org.eclipse.pde.internal.ui.PDEUIMessages;
-import org.eclipse.pde.internal.ui.editor.FormLayoutFactory;
-import org.eclipse.pde.internal.ui.editor.ILauncherFormPageHelper;
-import org.eclipse.pde.internal.ui.editor.LaunchShortcutOverviewPage;
-import org.eclipse.pde.internal.ui.editor.PDELauncherFormEditor;
+import org.eclipse.pde.internal.ui.*;
+import org.eclipse.pde.internal.ui.editor.*;
 import org.eclipse.pde.internal.ui.editor.product.ProductLauncherFormPageHelper;
 import org.eclipse.rap.warproducts.core.IWARProduct;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.rap.warproducts.ui.validation.IValidationListener;
 import org.eclipse.rap.warproducts.ui.validation.WARProductValidateAction;
@@ -26,9 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.forms.widgets.*;
 import org.eclipse.ui.help.IWorkbenchHelpSystem;
 
 public class OverviewPage extends LaunchShortcutOverviewPage {
@@ -75,7 +68,7 @@ public class OverviewPage extends LaunchShortcutOverviewPage {
   {
     String title = PDEUIMessages.OverviewPage_exportingTitle;
     Section section = createStaticSection( toolkit, parent, title );
-    String text = WARProductConstants.EXPORT_SECTION;
+    String text = Messages.EditorExportSection;
     section.setClient( createClient( section, text, toolkit ) );
   }
 

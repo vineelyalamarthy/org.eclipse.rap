@@ -12,7 +12,7 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS {
 
   private static final String BUNDLE_NAME = "org.eclipse.rap.warproducts.ui.messages"; //$NON-NLS-1$
-  public static String BaseWARProductCreationOperation0;
+  public static String BaseWARProductCreationOperation;
   public static String BuildEditor_ClasspathSection_jarsTitle;
   public static String ConfigurationPageTitle;
   public static String DestinationGroupBrowe;
@@ -21,35 +21,29 @@ public class Messages extends NLS {
   public static String DestinationGroupWarningDirectory;
   public static String editorExport;
   public static String LibrarySectionAddRequired;
-  public static String LibrarySectionLibFolder;
   public static String LibrarySectionLibraries;
   public static String LibrarySectionListLibraries;
   public static String LibrarySectionSelectJar;
   public static String LibrarySectionServletBridge;
-  public static String LibrarySectionWARLibDir;
   public static String noProblems;
   public static String PluginSection_remove;
   public static String Product_PluginSection_add;
-  public static String ValidateAction1;
+  public static String ValidateAction;
   public static String ValidateActionTitle;
   public static String Validation;
-  public static String ValidationPage3;
   public static String ValidationPageDesc;
   public static String ValidationPageTitle;
   public static String EditorExportSection;
-  public static String ExportPage4;
+  public static String ExportPage;
   public static String ExportPageDescription;
-  public static String ExportPageDescription2;
   public static String ExportPageTitle;
   public static String FileWizardPageCreate;
   public static String FileWizardPageError;
   public static String FileWizardPageInit;
-  public static String FileWizardPageInit2;
   public static String FileWizardPageLaunchConfig;
   public static String FileWizardPageNewFile;
   public static String FileWizardPageTitle;
-  public static String NewWarProductFileWizard1;
-  public static String SelectionPageListProjects;
+  public static String NewWarProductFileWizard;
   public static String SelectionPageSelect;
   public static String SelectionPageTitle;
   static {

@@ -60,7 +60,7 @@ public class NewWarProductFileWizard extends NewProductFileWizard {
                     final IStructuredSelection currentSelection )
   {
     super.init( workbench, currentSelection );
-    setWindowTitle( Messages.NewWarProductFileWizard1 );
+    setWindowTitle( Messages.NewWarProductFileWizard );
     setNeedsProgressMonitor( true );
   }
 

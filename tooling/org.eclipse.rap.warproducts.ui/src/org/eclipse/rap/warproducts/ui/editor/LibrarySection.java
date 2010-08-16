@@ -10,45 +10,27 @@ package org.eclipse.rap.warproducts.ui.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.window.Window;
 import org.eclipse.pde.core.IModelChangedEvent;
 import org.eclipse.pde.internal.core.IPluginModelListener;
 import org.eclipse.pde.internal.core.PluginModelDelta;
 import org.eclipse.pde.internal.core.iproduct.IProductModel;
-import org.eclipse.pde.internal.ui.IHelpContextIds;
-import org.eclipse.pde.internal.ui.PDELabelProvider;
-import org.eclipse.pde.internal.ui.PDEPlugin;
-import org.eclipse.pde.internal.ui.PDEPluginImages;
-import org.eclipse.pde.internal.ui.editor.FormLayoutFactory;
-import org.eclipse.pde.internal.ui.editor.PDEFormPage;
-import org.eclipse.pde.internal.ui.editor.TableSection;
+import org.eclipse.pde.internal.ui.*;
+import org.eclipse.pde.internal.ui.editor.*;
 import org.eclipse.pde.internal.ui.editor.build.JARFileFilter;
 import org.eclipse.pde.internal.ui.elements.DefaultTableProvider;
 import org.eclipse.pde.internal.ui.parts.TablePart;
 import org.eclipse.rap.warproducts.core.IWARProduct;
 import org.eclipse.rap.warproducts.core.WARProductUtil;
-import org.eclipse.rap.warproducts.core.validation.Validation;
-import org.eclipse.rap.warproducts.core.validation.ValidationError;
-import org.eclipse.rap.warproducts.core.validation.Validator;
+import org.eclipse.rap.warproducts.core.validation.*;
 import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -138,8 +120,7 @@ public class LibrarySection extends TableSection
     toolkit.paintBordersFor( container );
     section.setClient( container );
     section.setText( Messages.LibrarySectionLibraries );
-    section.setDescription( Messages.LibrarySectionListLibraries
-                            + Messages.LibrarySectionLibFolder );
+    section.setDescription( Messages.LibrarySectionListLibraries );
     getModel().addModelChangedListener( this );
   }
 
@@ -282,8 +263,7 @@ public class LibrarySection extends TableSection
     ElementTreeSelectionDialog dialog 
       = new ElementTreeSelectionDialog( shell, labelProvider, contentProvider );
     dialog.setTitle( Messages.BuildEditor_ClasspathSection_jarsTitle );
-    dialog.setMessage( Messages.LibrarySectionSelectJar +
-                       Messages.LibrarySectionWARLibDir );
+    dialog.setMessage( Messages.LibrarySectionSelectJar );
     IWorkspace workspace = ResourcesPlugin.getWorkspace();
     dialog.addFilter( new JARFileFilter() );
     dialog.setInput( workspace );

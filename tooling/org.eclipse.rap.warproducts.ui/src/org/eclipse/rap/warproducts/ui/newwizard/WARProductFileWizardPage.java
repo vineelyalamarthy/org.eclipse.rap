@@ -47,15 +47,14 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
                                    final IStructuredSelection selection )
   {
     super( pageName, selection );
-    setDescription( Messages.FileWizardPageNewFile +
-                    Messages.FileWizardPageInit );
+    setDescription( Messages.FileWizardPageNewFile );
     setTitle( Messages.FileWizardPageTitle );
     setFileExtension( FILE_EXTENSION );
   }
 
   protected void createAdvancedControls( final Composite parent ) {
     group = new Group( parent, SWT.NONE );
-    group.setText( Messages.FileWizardPageInit2 );
+    group.setText( Messages.FileWizardPageInit );
     group.setLayout( new GridLayout( 2, false ) );
     group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
     basicButton = new Button( group, SWT.RADIO );

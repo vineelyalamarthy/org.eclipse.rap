@@ -67,7 +67,7 @@ public class BaseWARProductCreationOperation
   protected void execute( final IProgressMonitor monitor )
     throws CoreException, InvocationTargetException, InterruptedException
   {
-    monitor.beginTask( Messages.BaseWARProductCreationOperation0, 2 );
+    monitor.beginTask( Messages.BaseWARProductCreationOperation, 2 );
     createContent();
     monitor.worked( 1 );
     openFile();
