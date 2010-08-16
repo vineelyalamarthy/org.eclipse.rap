@@ -26,6 +26,7 @@ import org.eclipse.pde.internal.ui.PDEPluginImages;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.wizards.exports.ProductExportWizard;
 import org.eclipse.rap.warproducts.core.*;
+import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.rap.warproducts.ui.validation.IValidationListener;
 import org.eclipse.rap.warproducts.ui.validation.WARProductValidateAction;
@@ -232,7 +233,9 @@ public class ExportWARProductWizard extends ProductExportWizard {
         }
       }
     } catch( final CoreException e ) {
-      e.printStackTrace();
+      MessageDialog.openError( getShell(), 
+                               Messages.LoadWARProductError, 
+                               e.getMessage() );
     }
   }
 

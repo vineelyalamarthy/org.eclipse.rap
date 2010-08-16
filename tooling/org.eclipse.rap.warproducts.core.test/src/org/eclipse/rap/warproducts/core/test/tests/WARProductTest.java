@@ -9,24 +9,15 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core.test.tests;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 
 import junit.framework.TestCase;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.*;
 import org.eclipse.pde.internal.core.iproduct.IPluginConfiguration;
 import org.eclipse.pde.internal.core.iproduct.IProductPlugin;
 import org.eclipse.pde.internal.core.product.ProductPlugin;
-import org.eclipse.rap.warproducts.core.IWARProduct;
-import org.eclipse.rap.warproducts.core.WARProduct;
-import org.eclipse.rap.warproducts.core.WARProductModel;
-import org.eclipse.rap.warproducts.core.WARProductModelFactory;
+import org.eclipse.rap.warproducts.core.*;
 
 
 public class WARProductTest extends TestCase {
@@ -109,15 +100,11 @@ public class WARProductTest extends TestCase {
     assertFalse( product.includeLaunchers() );
   }
   
-  public void testParse() {
+  public void testParse() throws CoreException {
     String xml = writenXmlFromProduct();
     WARProductModel model = new WARProductModel();
     InputStream stream = new ByteArrayInputStream( xml.getBytes() );
-    try {
-      model.load( stream, false );
-    } catch( CoreException e ) {
-      e.printStackTrace();
-    }
+    model.load( stream, false );
     IWARProduct product = ( IWARProduct )model.getProduct();
     IPath launchIniPath = new Path( getAbsoluteFilePath( "test", "launch.ini" ) );
     assertEquals( launchIniPath, product.getLaunchIni() );

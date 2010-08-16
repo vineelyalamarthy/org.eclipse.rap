@@ -197,7 +197,8 @@ public class WARProductExportOperation extends FeatureExportOperation {
   }
 
   private void createBuildPropertiesFile( final String featureLocation,
-                                          final String[][] configurations )
+                                          final String[][] configurations ) 
+    throws IOException
   {
     File file = new File( featureLocation );
     if( !file.exists() || !file.isDirectory() ) {
@@ -213,7 +214,8 @@ public class WARProductExportOperation extends FeatureExportOperation {
   }
 
   private void handleRootFiles( final String[][] configurations,
-                                final Properties properties )
+                                final Properties properties ) 
+    throws IOException
   {
     if( configurations.length > 0 ) {
       String rootPrefix = IBuildPropertiesConstants.ROOT_PREFIX
@@ -226,7 +228,8 @@ public class WARProductExportOperation extends FeatureExportOperation {
   }
   
   private void prepareWARFile( final Properties properties,
-                               final String rootPrefix )
+                               final String rootPrefix ) 
+    throws IOException
   {
     if( product instanceof IWARProduct ) {
       IWARProduct warProduct = ( IWARProduct )product;
@@ -249,7 +252,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
     return dir.getAbsolutePath();
   }
   
-  private void copyLibraries( final String libDir ) {
+  private void copyLibraries( final String libDir ) throws IOException {
     IWARProduct warProduct = ( IWARProduct)product;
     IPath[] libraries = warProduct.getLibraries();
     for( int i = 0; i < libraries.length; i++ ) {
@@ -259,29 +262,24 @@ public class WARProductExportOperation extends FeatureExportOperation {
     }
   }
       
-  private void copyLibrary( final String libDir, final IPath filePath ) {
+  private void copyLibrary( final String libDir, final IPath filePath ) 
+    throws IOException 
+  {
     String fileName = filePath.segment( filePath.segmentCount() - 1 );
     File template = new File( filePath.toOSString() );
     File destinationFile = new File( libDir + File.separator + fileName );
-    try {
-      CoreUtility.readFile( new FileInputStream( template ), destinationFile );      
-    } catch( final IOException e ) {
-      e.printStackTrace();
-    } 
+    CoreUtility.readFile( new FileInputStream( template ), destinationFile );      
   }
 
   private String createWarContent( final IPath pathToContent, 
                                    final String fileName ) 
+    throws IOException 
   {
     IPath wsPath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
     IPath absoluteWebXmlPath = wsPath.append( pathToContent );
     File destinationFile = new File( featureLocation, fileName );
     File template = new File( absoluteWebXmlPath.toOSString() );
-    try {
-      CoreUtility.readFile( new FileInputStream( template ), destinationFile );
-    } catch( final IOException e ) {
-      e.printStackTrace();
-    }
+    CoreUtility.readFile( new FileInputStream( template ), destinationFile );
     return destinationFile.getAbsolutePath();
   }
   

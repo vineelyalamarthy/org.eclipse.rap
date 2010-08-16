@@ -15,22 +15,19 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.pde.internal.core.PDECore;
 import org.eclipse.pde.internal.core.iproduct.IProduct;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.wizards.product.BaseProductCreationOperation;
-import org.eclipse.rap.warproducts.core.InfrastructreCreator;
-import org.eclipse.rap.warproducts.core.WARProduct;
-import org.eclipse.rap.warproducts.core.WARProductInitializer;
-import org.eclipse.rap.warproducts.core.WARWorkspaceProductModel;
+import org.eclipse.rap.warproducts.core.*;
 import org.eclipse.rap.warproducts.ui.Messages;
 import org.eclipse.rap.warproducts.ui.WARProductConstants;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.*;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
@@ -51,9 +48,7 @@ public class BaseWARProductCreationOperation
   protected void initializeProduct( final IProduct product ) {
     super.initializeProduct( product );
     InfrastructreCreator creator = new InfrastructreCreator( productParent );
-    creator.createWebInf();
-    creator.createLaunchIni();
-    creator.createWebXml();
+    createWebInfContent( creator );
     if( product instanceof WARProduct ) {
       WARProduct warProduct = ( WARProduct )product;
       warProduct.addLaunchIni( creator.getLaunchIniPath() );
@@ -61,6 +56,20 @@ public class BaseWARProductCreationOperation
       WARProductInitializer initializer 
         = new WARProductInitializer( warProduct );
       initializer.initialize();
+    }
+  }
+
+  protected void createWebInfContent( final InfrastructreCreator creator )
+  {
+    try {
+      creator.createWebInf();
+      creator.createLaunchIni();
+      creator.createWebXml();
+    } catch( final CoreException e ) {
+      Shell shell = PlatformUI.getWorkbench().getDisplay().getActiveShell();
+      MessageDialog.openError( shell, 
+                               Messages.NewWARProductError, 
+                               e.getMessage() );
     }
   }
   
@@ -97,7 +106,7 @@ public class BaseWARProductCreationOperation
             try {
               IDE.openEditor( page, file, WARProductConstants.EDITOR_ID );
             } catch( final PartInitException e ) {
-              e.printStackTrace();
+              PDECore.log( e );
             }
           }
         }

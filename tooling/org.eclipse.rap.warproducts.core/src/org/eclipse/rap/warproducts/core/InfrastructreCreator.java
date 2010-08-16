@@ -35,22 +35,18 @@ public class InfrastructreCreator {
     return rootFolder;
   }
 
-  public void createWebInf() {
+  public void createWebInf() throws CoreException {
     if( webInfDir == null ) {
       IPath webInfPath = new Path( WEB_INF_PATH );
       webInfDir = rootFolder.getFolder( webInfPath );
       if( !webInfDir.exists() ) {
-        try {
-          webInfDir.create( true, false, null );
-          refreshWebInf();
-        } catch( final CoreException e ) {
-          e.printStackTrace();
-        }
+        webInfDir.create( true, false, null );
+        refreshWebInf();
       }
     }
   }
 
-  public void createWebXml() {
+  public void createWebXml() throws CoreException {
     if( webInfDir == null ) {
       createWebInf();
     }
@@ -58,7 +54,7 @@ public class InfrastructreCreator {
     refreshWebInf();
   }
   
-  public void createLaunchIni() {
+  public void createLaunchIni() throws CoreException {
     if( webInfDir == null ) {
       createWebInf();
     }
@@ -69,6 +65,7 @@ public class InfrastructreCreator {
   private void internalCopyFile( final String from, 
                                  final IContainer container,
                                  final String fileName ) 
+    throws CoreException 
   {
     copyFile( from, container, fileName );
   }
@@ -76,16 +73,12 @@ public class InfrastructreCreator {
   private void copyFile( final String from, 
                          final IContainer container, 
                          final String fileName ) 
+    throws CoreException 
   {        
       IPath path = new Path( fileName );
       IFile file = container.getFile( path );
       if( !file.exists() ) {
-        try {
-          file.create( getFileStream( from ), true, null );
-        } catch( final CoreException e ) {
-          System.err.println(Messages.creatorCouldntCopy + from );
-          e.printStackTrace();
-        }
+        file.create( getFileStream( from ), true, null );
       }
   }
 
@@ -104,11 +97,7 @@ public class InfrastructreCreator {
     return webInfPath.append( LAUNCH_INI_NAME );
   }
   
-  private void refreshWebInf() {
-    try {
-      webInfDir.refreshLocal( IResource.DEPTH_ONE, null );
-    } catch( final CoreException e ) {
-      e.printStackTrace();
-    }
+  private void refreshWebInf() throws CoreException {
+    webInfDir.refreshLocal( IResource.DEPTH_ONE, null );
   }
 }
