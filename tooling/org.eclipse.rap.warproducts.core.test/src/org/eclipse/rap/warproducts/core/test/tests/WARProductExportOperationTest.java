@@ -34,10 +34,8 @@ public class WARProductExportOperationTest extends TestCase {
   private static final String WAR_FILE_PATH 
     = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() 
       + File.separator + WAR_FILE;
-  private IFolder tempDir;
 
   protected void setUp() throws Exception {
-    tempDir = createTempDir();
   }
   
   private IFolder createTempDir() throws CoreException {
@@ -56,15 +54,7 @@ public class WARProductExportOperationTest extends TestCase {
   }
   
   protected void tearDown() throws Exception {
-    deleteTempDir();
     deleteWarFile();
-  }
-  
-
-  private void deleteTempDir() throws CoreException {
-    if( tempDir != null && tempDir.exists() ) {
-      tempDir.delete( IResource.FORCE, null );
-    }    
   }
   
   private void deleteWarFile() {
@@ -74,9 +64,37 @@ public class WARProductExportOperationTest extends TestCase {
     }
   }
   
+  public void testWARFileWithLinkedResources() throws Exception {
+    IFolder folder = getLinkedFolder();
+    File war = runBlockingWARExportJob( folder );
+    testWARContents( war );
+  }
+
+  private IFolder getLinkedFolder() throws CoreException, IOException {
+    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+    IWorkspaceRoot root = workspace.getRoot();
+    IProject project = root.getProject( "testLinkedResources" );
+    project.create( null );
+    project.open( null );
+    IFolder folder = project.getFolder( project.getFullPath() );
+    File tempFolder = File.createTempFile( "tempFolder", null );
+    tempFolder.delete();
+    tempFolder.mkdir();
+    folder.createLink( new Path( tempFolder.getAbsolutePath() ), 
+                       IResource.REPLACE, 
+                       null );
+    return folder;
+  }
+  
   public void testWARFileContents() throws Exception {
-    File war = runBlockingWARExportJob();
+    IFolder folder = createTempDir();
+    File war = runBlockingWARExportJob( folder );
     assertTrue( war.exists() );
+    testWARContents( war );
+  }
+
+  private void testWARContents( final File war ) throws Exception
+  {
     List warEntryList = extractWarEntriesAsString( war );
     testWARFileRootIsWebInf( warEntryList );
     testWARFileContainsWebXML( warEntryList );
@@ -143,9 +161,9 @@ public class WARProductExportOperationTest extends TestCase {
     return warEntryList;
   }
 
-  private File runBlockingWARExportJob() throws Exception
+  private File runBlockingWARExportJob( final IFolder folder ) throws Exception
   {
-    WARProductExportOperation job = createWarExportOperation();
+    WARProductExportOperation job = createWarExportOperation( folder );
     job.setUser( true );
     job.setRule( ResourcesPlugin.getWorkspace().getRoot() );
     job.schedule();
@@ -153,11 +171,11 @@ public class WARProductExportOperationTest extends TestCase {
     return new File( WAR_FILE_PATH );
   }
 
-  private WARProductExportOperation createWarExportOperation()
+  private WARProductExportOperation createWarExportOperation( 
+    final IFolder folder )
     throws Exception
   {
-    IFolder tempDir = createTempDir();
-    InfrastructreCreator creator = new InfrastructreCreator( tempDir );
+    InfrastructreCreator creator = new InfrastructreCreator( folder );
     WARProductModel model = new WARProductModel();
     model.load( getTestWarProduct(), false );
     IWARProduct product = ( IWARProduct )model.getProduct();
@@ -165,7 +183,7 @@ public class WARProductExportOperationTest extends TestCase {
     creator.createLaunchIni();
     creator.createWebXml();
     product.removeLibrary( new Path( "/test.rap/lib.jar" ) );
-    IFile file = tempDir.getFile( "test.jar" );
+    IFile file = folder.getFile( "test.jar" );
     if( !file.exists() ) {
       File jar = File.createTempFile( "test", ".jar" );
       FileInputStream stream = new FileInputStream( jar );

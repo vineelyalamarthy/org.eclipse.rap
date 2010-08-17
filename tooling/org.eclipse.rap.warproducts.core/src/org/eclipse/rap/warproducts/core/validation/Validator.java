@@ -90,18 +90,25 @@ public class Validator {
     for( int i = 0; i < libraries.length; i++ ) {
       IPath path 
         = WARProductUtil.getAbsolutLibraryPath( libraries[ i ], product );
-      String pathString = path.toOSString();
-      File lib = new File( pathString );
-      if( !lib.exists() ) {
-        int type = ValidationError.LIBRARY_DOESNT_EXIST;
-        String relativePath = libraries[ i ].toOSString();
-        String message 
-          = Messages.validatorLibraryNotExist + relativePath + ".";//$NON-NLS-1$
-        ValidationError error = new ValidationError( type, message, path );
-        validation.addError( error );
+      if( path != null ) {
+        String pathString = path.toOSString();
+        File lib = new File( pathString );
+        if( !lib.exists() ) {
+          createLibraryMissingError( libraries[ i ] );
+        }
+      } else{
+        createLibraryMissingError( libraries[ i ] );
       }
-      
     }
+  }
+
+  private void createLibraryMissingError( final IPath path )
+  {
+    int type = ValidationError.LIBRARY_DOESNT_EXIST;
+    String message 
+      = Messages.validatorLibraryNotExist + path + ".";//$NON-NLS-1$
+    ValidationError error = new ValidationError( type, message, path );
+    validation.addError( error );
   }
   
   private void validateBannedBundles() {

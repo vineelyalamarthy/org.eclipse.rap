@@ -81,10 +81,11 @@ public class ValidatorTest extends TestCase {
   
   public void testLibrariesDoesntExist() {
     IWARProduct product = createBasicProduct();
-    Path path = new Path( File.separator + "test.jar" );
+    String projectPath = File.separator + "test";
+    Path path = new Path( projectPath + File.separator + "test.jar" );
     product.addLibrary( path, false );
     Path servletBridgePath 
-      = new Path( File.separator + SERVLETBRIDGE_JAR );
+      = new Path( projectPath + File.separator + SERVLETBRIDGE_JAR );
     product.addLibrary( servletBridgePath, false );
     Validator validator = new Validator( product );
     Validation validation = validator.validate();
