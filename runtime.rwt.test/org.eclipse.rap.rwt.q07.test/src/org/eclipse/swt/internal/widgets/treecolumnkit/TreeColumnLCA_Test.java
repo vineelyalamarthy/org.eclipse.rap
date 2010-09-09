@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007, 2008 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2007, 2010 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,8 +7,11 @@
  *
  * Contributors:
  *     Innoopract Informationssysteme GmbH - initial API and implementation
+ *     EclipseSource - ongoing development
  ******************************************************************************/
 package org.eclipse.swt.internal.widgets.treecolumnkit;
+
+import java.io.IOException;
 
 import junit.framework.TestCase;
 
@@ -298,4 +301,26 @@ public class TreeColumnLCA_Test extends TestCase {
     assertEquals( 0, columnOrder[ 1 ] );
     assertEquals( 2, columnOrder[ 2 ] );
   }
+
+  public void testRenderAlignment() throws IOException {
+    Fixture.fakeResponseWriter();
+    Display display = new Display();
+    Shell shell = new Shell( display, SWT.NONE );
+    Tree tree = new Tree( shell, SWT.NONE );
+    new TreeColumn( tree, SWT.NONE );
+    TreeColumn column = new TreeColumn( tree, SWT.NONE );
+    shell.open();
+    Fixture.markInitialized( display );
+    Fixture.markInitialized( shell );
+    Fixture.markInitialized( tree );
+    Fixture.markInitialized( column );
+    Fixture.clearPreserved();
+    Fixture.preserveWidgets();
+    TreeColumnLCA lca = new TreeColumnLCA();
+    column.setAlignment(  SWT.RIGHT );
+    lca.renderChanges( column );
+    String expected = "w.setAlignment( 1, qx.constant.Layout.ALIGN_RIGHT )";
+    assertTrue( Fixture.getAllMarkup().indexOf( expected ) != -1 );
+  }
+
 }

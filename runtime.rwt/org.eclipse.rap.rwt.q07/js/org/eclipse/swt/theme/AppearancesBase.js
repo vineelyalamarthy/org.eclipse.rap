@@ -190,7 +190,7 @@ qx.Theme.define( "org.eclipse.swt.theme.AppearancesBase",
       var tv = new org.eclipse.swt.theme.ThemeValues( states );
       var result = {};
       result.border = tv.getCssBorder( "ToolTip", "border" );
-      result.animation = tv.getCssAnimation( "ToolTip", "animation" ),
+      result.animation = tv.getCssAnimation( "ToolTip", "animation" );
       result.padding = tv.getCssBoxDimensions( "ToolTip", "padding" );
       result.textColor = tv.getCssColor( "ToolTip", "color" );
       result.font = tv.getCssFont( "ToolTip", "font" );
@@ -732,7 +732,7 @@ qx.Theme.define( "org.eclipse.swt.theme.AppearancesBase",
     include : "list",
     style : function( states ) {
       var tv = new org.eclipse.swt.theme.ThemeValues( states );
-   	  var result = {};
+      var result = {};
       result.border = tv.getCssBorder( "Combo-List", "border" );
       result.height = "auto";
       result.overflow = "scrollY";
@@ -878,94 +878,36 @@ qx.Theme.define( "org.eclipse.swt.theme.AppearancesBase",
   ---------------------------------------------------------------------------
   */
 
-  "tree-element" : {
-    style : function( states ) {
-      return {
-        height : 16,
-        verticalChildrenAlign : "middle"
-      };
-    }
-  },
-
-  "tree-element-icon" : {
-    style : function( states ) {
-      return {
-        width : 16,
-        height : 16,
-        marginRight : 2
-      };
-    }
-  },
-
-  "tree-element-label" : {
-    include : "label",
-
-    style : function( states ) {
-      var tv = new org.eclipse.swt.theme.ThemeValues( states );
-      var result = {};
-      result.cursor = "default";
-      result.height = 16;
-      result.padding = 2;
-      result.textColor = tv.getCssColor( "TreeItem", "color" );
-      result.backgroundColor = tv.getCssColor( "TreeItem", "background-color" );
-      return result;
-    }
-  },
-
-  "tree-folder" : {
-    include : "tree-element"
-  },
-
-  "tree-folder-icon" : {
-    include : "tree-element-icon"
-  },
-
-  "tree-folder-label" : {
-    include : "tree-element-label"
-  },
-
-  "tree-container" : {
-    style : function( states ) {
-      var tv = new org.eclipse.swt.theme.ThemeValues( states );
-      var result = {};
-      result.font = tv.getCssFont( "*", "font" );
-      result.border = tv.getCssBorder( "*", "border" );
-      return result;
-    }
-  },
-
   "tree" : {
-    include : "tree-folder",
     style : function( states ) {
       var tv = new org.eclipse.swt.theme.ThemeValues( states );
-      var result = {};
-      result.verticalChildrenAlign = "top";
-      result.backgroundColor = tv.getCssColor( "Tree", "background-color" );
-      result.textColor = tv.getCssColor( "Tree", "color" );
-      return result;
+      return {
+        backgroundColor : tv.getCssColor( "Tree", "background-color" ),
+        textColor : tv.getCssColor( "Tree", "color" ),
+        font : tv.getCssFont( "*", "font" ),
+        border : tv.getCssBorder( "Tree", "border" )
+      };
     }
   },
 
-  "tree-icon" : {
-    include : "tree-folder-icon"
-  },
 
-  "tree-label" : {
-    include : "tree-folder-label"
-  },
-
-  "tree-check-box" : {
-    include : "image",
+  "tree-row" : {
     style : function( states ) {
       var tv = new org.eclipse.swt.theme.ThemeValues( states );
       var result = {};
-      result.width = 13;
-      result.height = 13;
-      result.clipWidth = 13;
-      result.clipHeight = 13;
-      result.source = tv.getCssImage( "Tree-Checkbox", "background-image" );
-      result.marginRight = 3;
-      return result;
+      result.checkBox = tv.getCssImage( "Tree-Checkbox", "background-image" );
+      result.itemBackground = tv.getCssColor( "TreeItem", "background-color" );
+      result.itemForeground = tv.getCssColor( "TreeItem", "color" );
+      return result; 
+    }
+  },
+
+  "tree-indent" : {
+    style : function( states ) {
+      var tv = new org.eclipse.swt.theme.ThemeValues( states );
+      return {
+        backgroundImage : tv.getCssImage( "Tree-Indent", "background-image" )
+      };        
     }
   },
 
@@ -1110,7 +1052,7 @@ qx.Theme.define( "org.eclipse.swt.theme.AppearancesBase",
           }
         }
       } else {
-        result.zIndex = 0, // TODO [rst] Doesn't this interfere with our z-order?
+        result.zIndex = 0; // TODO [rst] Doesn't this interfere with our z-order?
         result.padding = [ 2, 6, 2, 5 ];
         result.marginRight = 1;
         result.marginLeft = 0;

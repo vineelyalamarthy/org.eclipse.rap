@@ -29,24 +29,32 @@ public class TreeTab extends ExampleTab {
   private final static int INITIAL_COLUMNS = 5;
   private static final int INITIAL_ITEMS = 15;
 
+  private boolean headerVisible;
+  private boolean linesVisible;
   private Tree tree;
   private boolean showImages;
   private final Image treeImage;
+  private boolean addMouseListener;
 
   public TreeTab( final CTabFolder topFolder ) {
     super( topFolder, "Tree" );
     treeImage = Graphics.getImage( "resources/tree_item.gif",
                                    getClass().getClassLoader() );
     showImages = true;
+    headerVisible = true;
   }
 
   protected void createStyleControls( final Composite parent ) {
     createStyleButton( "BORDER", SWT.BORDER );
     createStyleButton( "CHECK", SWT.CHECK );
     createStyleButton( "MULTI", SWT.MULTI );
+    createStyleButton( "VIRTUAL", SWT.VIRTUAL );
+    createStyleButton( "FULL_SELECTION", SWT.FULL_SELECTION );
     createStyleButton( "NO_SCROLL", SWT.NO_SCROLL );
     createVisibilityButton();
     createEnablementButton();
+    createHeaderVisibleButton();
+    createLinesVisibleButton();
     createImagesButton( parent );
     createAddNodeButton( parent );
     createDisposeNodeButton( parent );
@@ -105,6 +113,15 @@ public class TreeTab extends ExampleTab {
         }
       }
     } );
+    Button cbAddMouseListener = new Button( parent, SWT.CHECK );
+    cbAddMouseListener.setText( "Attach MouseListener" );
+    cbAddMouseListener.addSelectionListener( new SelectionAdapter() {
+      public void widgetSelected( SelectionEvent e ) {
+        addMouseListener = !addMouseListener;
+        createNew();
+      }
+    } );
+    cbAddMouseListener.setSelection( addMouseListener );
   }
 
   protected void createExampleControls( final Composite parent ) {
@@ -191,8 +208,46 @@ public class TreeTab extends ExampleTab {
     } );
     tree.setSelection( tree.getItem( 0 ) );
     tree.setHeaderVisible( true );
+    if( addMouseListener ) {
+      MouseListener listener = new MouseListener(  ) {
+        public void mouseDoubleClick( MouseEvent e ) {
+          log( "mouseDoubleClick: " + e );
+        }
+        public void mouseDown( MouseEvent e ) {
+          log( "mouseDown: " + e );
+        }
+        public void mouseUp( MouseEvent e ) {
+          log( "mouseUp: " + e );
+        }
+      };
+      tree.addMouseListener( listener );
+    }
 
     registerControl( tree );
+  }
+
+  private void createHeaderVisibleButton() {
+    final Button button = new Button( styleComp, SWT.CHECK );
+    button.setText( "headerVisible" );
+    button.setSelection( headerVisible );
+    button.addSelectionListener( new SelectionAdapter() {
+      public void widgetSelected( final SelectionEvent event ) {
+        headerVisible = button.getSelection();
+        tree.setHeaderVisible( headerVisible );
+      }
+    } );
+  }
+
+  private void createLinesVisibleButton() {
+    final Button button = new Button( styleComp, SWT.CHECK );
+    button.setText( "linesVisible" );
+    button.setSelection( linesVisible );
+    button.addSelectionListener( new SelectionAdapter() {
+      public void widgetSelected( final SelectionEvent event ) {
+        linesVisible = button.getSelection();
+        tree.setLinesVisible( linesVisible );
+      }
+    } );
   }
 
   private void createImagesButton( final Composite parent ) {

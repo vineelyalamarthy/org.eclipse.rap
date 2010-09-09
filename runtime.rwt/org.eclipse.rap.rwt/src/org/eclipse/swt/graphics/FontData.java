@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2002, 2009 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2002, 2010 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,8 +11,7 @@
  ******************************************************************************/
 package org.eclipse.swt.graphics;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.internal.graphics.ResourceFactory;
+import org.eclipse.swt.*;
 
 /**
  * Instances of this class describe fonts.
@@ -20,16 +19,25 @@ import org.eclipse.swt.internal.graphics.ResourceFactory;
  * Application code does <em>not</em> need to explicitly release the
  * resources managed by each instance when those instances are no longer
  * required, and thus no <code>dispose()</code> method is provided.
- *
+ * 
  * @see Font
  * @since 1.0
  */
 public final class FontData {
 
-  private final String name;
-  private final int height;
-  private final int style;
-  
+  private String name;
+  private int height;
+  private int style;
+  private String locale;
+
+  /**
+   * Constructs a new uninitialized font data.
+   * @since 1.4
+   */
+  public FontData() {
+    this( "", 12, SWT.NORMAL );
+  }
+
   /**  
    * Constructs a new font data given a font name,
    * the height of the desired font in points, 
@@ -53,7 +61,8 @@ public final class FontData {
     }
     this.name = name;
     this.height = height;
-    this.style = ResourceFactory.checkFontStyle( style );
+    this.style = checkFontStyle( style );
+    this.locale = "";
   }
 
   /**
@@ -71,9 +80,9 @@ public final class FontData {
    * @param string the string representation of a <code>FontData</code> (must not be null)
    *
    * @exception IllegalArgumentException <ul>
-   *    <li>ERROR_NULL_ARGUMENT - if the argument is null</li>
+   *              <li>ERROR_NULL_ARGUMENT - if the argument is null</li>
    *    <li>ERROR_INVALID_ARGUMENT - if the argument does not represent a valid description</li>
-   * </ul>
+   *              </ul>
    *
    * @see #toString
    */
@@ -127,6 +136,7 @@ public final class FontData {
     this.name = name;
     this.height = height;
     this.style = style;
+    this.locale = "";
   }
 
   /**
@@ -147,20 +157,21 @@ public final class FontData {
     buffer.append( "|" ); //$NON-NLS-1$
     return buffer.toString();
   }
-  
+
   /**
    * Returns the height of the receiver in points.
-   *
+   * 
    * @return the height of this FontData
+   * @see #setHeight(int)
    */
   public int getHeight() {
     return height;
   }
-
   /**
    * Returns the name of the receiver.
    * 
    * @return the name of this <code>FontData</code>
+   * @see #setName
    */
   public String getName() {
     return name;
@@ -170,13 +181,14 @@ public final class FontData {
    * Returns the style of the receiver which is a bitwise OR of 
    * one or more of the <code>SWT</code> constants NORMAL, BOLD
    * and ITALIC.
-   *
+   * 
    * @return the style of this <code>FontData</code>
+   * @see #setStyle
    */
   public int getStyle() {
     return style;
   }
-  
+
   /**
    * Returns the locale of the receiver.
    * <p>
@@ -194,8 +206,101 @@ public final class FontData {
    * @return the <code>String</code> representing a Locale object
    * @since 1.3
    */
-  public String getLocale() {
-    return "";
+  public String getLocale () {
+    return locale;
+  }
+
+  /**
+   * Sets the height of the receiver. The parameter is
+   * specified in terms of points, where a point is one
+   * seventy-second of an inch.
+   *
+   * @param height the height of the <code>FontData</code>
+   *
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_INVALID_ARGUMENT - if the height is negative</li>
+   * </ul>
+   * 
+   * @see #getHeight
+   * @since 1.4
+   */
+  public void setHeight( final int height ) {
+    if( height < 0 ) {
+      SWT.error( SWT.ERROR_INVALID_ARGUMENT );
+    }
+    this.height = height;
+  }
+
+  /**
+   * Sets the name of the receiver.
+   *
+   * @param name the name of the font data (must not be null)
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_NULL_ARGUMENT - when the font name is null</li>
+   * </ul>
+   *
+   * @see #getName
+   * @since 1.4
+   */
+  public void setName( final String name ) {
+    if( name == null ) {
+      SWT.error( SWT.ERROR_NULL_ARGUMENT );
+    }
+    this.name = name;
+  }
+
+  /**
+   * Sets the style of the receiver to the argument which must
+   * be a bitwise OR of one or more of the <code>SWT</code> 
+   * constants NORMAL, BOLD and ITALIC.  All other style bits are
+   * ignored.
+   *
+   * @param style the new style for this <code>FontData</code>
+   *
+   * @see #getStyle
+   * @since 1.4
+   */
+  public void setStyle( final int style ) {
+    this.style = style;
+  }
+
+  /**
+   * Sets the locale of the receiver.
+   * <p>
+   * The locale determines which platform character set this
+   * font is going to use. Widgets and graphics operations that
+   * use this font will convert UNICODE strings to the platform
+   * character set of the specified locale.
+   * </p>
+   * <p>
+   * On platforms where there are multiple character sets for a
+   * given language/country locale, the variant portion of the
+   * locale will determine the character set.
+   * </p>
+   * 
+   * @param locale the <code>String</code> representing a Locale object
+   * @see java.util.Locale#toString
+   * @since 1.4
+   */
+  public void setLocale( final String locale ) {
+    String result = "";
+    if( locale != null ) {
+      int length = locale.length();
+      if( length > 0 ) {
+        char sep = '_';
+        result = locale;
+        for( int i = 0; i < 2; i++ ) {
+          if( length > 0 && result.charAt( 0 ) == sep ) {
+            result = result.substring( 1 );
+            length -= 1;
+          }
+        }
+        if( length > 0 && result.charAt( length - 1 ) == sep ) {
+          result = result.substring( 0, length - 1 );
+        }
+      }
+    }
+    this.locale = result;
   }
 
   /**
@@ -210,9 +315,10 @@ public final class FontData {
    */
   public boolean equals( final Object obj ) {
     boolean result = false;
-    if( obj != null && obj instanceof FontData ) {
+    if( obj instanceof FontData ) {
       FontData toCompare = ( FontData )obj;
-      result =    name.hashCode() == toCompare.name.hashCode()
+      // name can never be null
+      result = name.equals( toCompare.name )
                && height == toCompare.height
                && style == toCompare.style;
     }
@@ -224,12 +330,23 @@ public final class FontData {
    * objects that return <code>true</code> when passed to 
    * <code>equals</code> must return the same value for this
    * method.
-   *
+   * 
    * @return the receiver's hash
    *
    * @see #equals
    */
   public int hashCode() {
-    return ResourceFactory.fontHashCode( name, height, style );
+    return name.hashCode() ^ height << 8 ^ style;
+  }
+
+  private static int checkFontStyle( final int style ) {
+    int result = SWT.NORMAL;
+    if( ( style & SWT.BOLD ) != 0 ) {
+      result |= SWT.BOLD;
+    }
+    if( ( style & SWT.ITALIC ) != 0 ) {
+      result |= SWT.ITALIC;
+    }
+    return result;
   }
 }

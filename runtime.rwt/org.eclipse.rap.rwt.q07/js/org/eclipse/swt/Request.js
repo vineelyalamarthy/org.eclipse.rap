@@ -37,8 +37,6 @@ qx.Class.define( "org.eclipse.swt.Request", {
     requestQueue.setMaxConcurrentRequests( 1 );
     // References the currently running request or null if no request is active
     this._currentRequest = null;
-    // References the last running transport
-    this._lastTransport = null;
     this._timeoutPage = "";
   },
 
@@ -70,6 +68,10 @@ qx.Class.define( "org.eclipse.swt.Request", {
 
     setRequestCounter : function( requestCounter ) {
       this._requestCounter = requestCounter;
+    },
+
+    getRequestCounter : function() {
+      return this._requestCounter;
     },
 
     setTimeoutPage : function( content ) {
@@ -230,12 +232,6 @@ qx.Class.define( "org.eclipse.swt.Request", {
     },
 
     _sendStandalone : function( request ) {
-      // [if] Dispose the last transport before creating the new one
-      // see bug 301261
-      if( this._lastTransport != null ) {
-        this._lastTransport.getRequest().dispose();
-        this._lastTransport.dispose();
-      }
       // TODO [rh] WORKAROUND
       //      we would need two requestQueues (one for 'normal' requests that
       //      is limited to 1 concurrent request and one for the 'independant'
@@ -253,7 +249,6 @@ qx.Class.define( "org.eclipse.swt.Request", {
       vTransport.addEventListener("timeout", vRequest._ontimeout, vRequest);
       vTransport.addEventListener("failed", vRequest._onfailed, vRequest);
       vTransport._start = (new Date).valueOf();
-      this._lastTransport = vTransport;
       vTransport.send();
       // END WORKAROUND
     },
@@ -280,7 +275,7 @@ qx.Class.define( "org.eclipse.swt.Request", {
         this._hideWaitHint();
         var content;
         var text = null;
-        var request = evt.getTarget().getImplementation().getRequest();
+        var request = exchange.getImplementation().getRequest();
         // [if] typeof(..) == "unknown" is IE specific. Used to prevent error:
         // "The data  necessary to complete this operation is not yet available"
         if( typeof( request.responseText ) != "unknown" ) {
@@ -298,10 +293,13 @@ qx.Class.define( "org.eclipse.swt.Request", {
         }
         this._writeErrorPage( content );
       }
+      // [if] Dispose the only finished transport - see bug 301261, 317616
+      exchange.dispose();
     },
 
     _handleCompleted : function( evt ) {
-      var responseText = evt.getTarget().getImplementation().getRequest().responseText;
+      var exchange = evt.getTarget();
+      var responseText = exchange.getImplementation().getRequest().responseText;
       // [hs] patched for protocol, extract json from response.
       var text;
       if( responseText.indexOf( '###BEGIN_JSON###') !== -1 ) {
@@ -361,6 +359,8 @@ qx.Class.define( "org.eclipse.swt.Request", {
       result = result.replace( endMarker, '' );      
       var processor = new org.eclipse.rwt.protocol.Processor( json );
       return result;
+      // [if] Dispose the only finished transport - see bug 301261, 317616
+      exchange.dispose();
     },
 
     ///////////////////////////////
@@ -413,7 +413,8 @@ qx.Class.define( "org.eclipse.swt.Request", {
         result = (    statusCode === 12007    // ERROR_INTERNET_NAME_NOT_RESOLVED
                    || statusCode === 12029    // ERROR_INTERNET_CANNOT_CONNECT
                    || statusCode === 12030    // ERROR_INTERNET_CONNECTION_ABORTED
-                   || statusCode === 12031 ); // ERROR_INTERNET_CONNECTION_RESET
+                   || statusCode === 12031    // ERROR_INTERNET_CONNECTION_RESET
+                   || statusCode === 12152 ); // ERROR_HTTP_INVALID_SERVER_RESPONSE
       } else if( qx.core.Variant.isSet( "qx.client", "gecko" ) ) {
         // Firefox 3 reports other statusCode than oder versions (bug #249814)
         // Check if Gecko > 1.9 is running (used in FF 3)

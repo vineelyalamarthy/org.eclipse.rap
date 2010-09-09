@@ -8,6 +8,7 @@
  * Contributors:
  *     Innoopract Informationssysteme GmbH - initial API and implementation
  *     EclipseSource - ongoing development
+ *     Ruediger Herrmann - bug 314453: Disable spell checking in Chrome
  ******************************************************************************/
 
 qx.Class.define( "org.eclipse.swt.Application", {
@@ -49,7 +50,10 @@ qx.Class.define( "org.eclipse.swt.Application", {
     _onResize : function( evt ) {
       org.eclipse.swt.Application._appendWindowSize();
       var req = org.eclipse.swt.Request.getInstance();
-      req.send();
+      // Fix for bug 315230
+      if( req.getRequestCounter() != null ) {
+        req.send();
+      }
     },
 
     _onKeyPress : function( evt ) {
@@ -150,11 +154,15 @@ qx.Class.define( "org.eclipse.swt.Application", {
       var doc = qx.ui.core.ClientDocument.getInstance();
       doc.addEventListener( "windowresize",
                             org.eclipse.swt.Application._onResize );
+      // Install key-listener to prevent certain keys from being processed
       doc.addEventListener( "keypress",
                             org.eclipse.swt.Application._onKeyPress );
+      // Disable spell-checking in general
+      doc.getElement().setAttribute( "spellcheck", "false" );
+      // Gecko-specific settings
       if( qx.core.Variant.isSet( "qx.client", "gecko" ) ) {
-	      // Prevent url-dropping in FF as a whole (see bug 304651)
-	      doc.getElement().setAttribute( "ondrop", "event.preventDefault();" );
+        // Prevent url-dropping in FF as a whole (see bug 304651)
+        doc.getElement().setAttribute( "ondrop", "event.preventDefault();" );
         // Fix for bug 193703:
         doc.getElement().style.position = "absolute";      
         doc.setSelectable( true );

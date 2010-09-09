@@ -75,7 +75,7 @@ public class UploadLCA extends AbstractWidgetLCA {
         public void run() {
           final UploadEvent evt;
           if (uploadException != null) {
-            evt = new UploadEvent( widget, uploadException);
+            evt = new UploadEvent(widget, uploadException);
           } else {
             evt = new UploadEvent( upload, Boolean.valueOf( finished )
               .booleanValue(), uploadPartial, uploadTotal );            

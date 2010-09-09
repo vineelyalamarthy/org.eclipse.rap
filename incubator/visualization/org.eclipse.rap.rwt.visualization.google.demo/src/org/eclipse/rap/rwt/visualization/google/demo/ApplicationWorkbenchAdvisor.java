@@ -34,6 +34,6 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor
 
    public String getInitialWindowPerspectiveId()
    {
-      return PerspectiveFactory.class.getCanonicalName();
+      return PerspectiveFactory.class.getName();
    }
 }

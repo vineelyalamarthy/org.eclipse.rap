@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+  <extension
+      id="org.eclipse.rap.rwt.visualization.jit"
+      point="org.eclipse.rap.ui.resources">
+     <resource
+           class="org.eclipse.rap.rwt.visualization.jit.internal.JITAPIResource">
+     </resource>
+     <resource
+           class="org.eclipse.rap.rwt.visualization.jit.internal.hypertreekit.HyperTreeResource">
+     </resource>
+     <resource
+           class="org.eclipse.rap.rwt.visualization.jit.internal.treemapkit.TreeMapResource">
+     </resource>
+     <resource
+           class="org.eclipse.rap.rwt.visualization.jit.internal.rgraphkit.RGraphResource">
+     </resource>
+     <resource
+           class="org.eclipse.rap.rwt.visualization.jit.internal.spacetreekit.SpaceTreeResource">
+     </resource>
+  </extension>
+</plugin>

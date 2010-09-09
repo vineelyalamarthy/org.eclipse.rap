@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            file-extensions="css"
+            id="org.eclipse.rap.themeeditor.ui.theme"
+            name="RAP Theme File"
+            priority="normal">
+      </content-type>
+      <file-association
+            content-type="org.eclipse.rap.themeeditor.ui.theme"
+            file-extensions="css">
+      </file-association>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.rap.ui.themeeditor.editor.ThemeEditor"
+            default="false"
+            extensions="css"
+            icon="icons/obj16/pageedit.gif"
+            id="org.eclipse.rap.themeeditor.ui.editor"
+            name="RAP Theme Editor">
+      </editor>
+   </extension>
+
+</plugin>

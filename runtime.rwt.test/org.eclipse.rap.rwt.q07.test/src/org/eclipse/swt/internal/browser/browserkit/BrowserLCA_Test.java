@@ -231,6 +231,31 @@ public class BrowserLCA_Test extends TestCase {
     result = BrowserLCA.toJson( input, true );
     expected = "[3,true,null,[\"a string\",false],\"hi\",2.0]";
     assertEquals( expected, result );
+    input = new String( "\"RAP\"" );
+    result = BrowserLCA.toJson( input, true );
+    expected = "\"\\\"RAP\\\"\"";
+    assertEquals( expected, result );
+  }
+
+  public void testToJson_EmptyArray() {
+    Object input = new Object[ 0 ];
+    String result = BrowserLCA.toJson( input, true );
+    String expected = "[]";
+    assertEquals( expected, result );
+    input = new Object[] {
+      new Object[ 0 ]
+    };
+    result = BrowserLCA.toJson( input, true );
+    expected = "[[]]";
+    assertEquals( expected, result );
+    input = new Object[] {
+      "string1",
+      new Object[ 0 ],
+      "string2"
+    };
+    result = BrowserLCA.toJson( input, true );
+    expected = "[\"string1\",[],\"string2\"]";
+    assertEquals( expected, result );
   }
 
   protected void setUp() throws Exception {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2002, 2009 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2002, 2010 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -172,7 +172,7 @@ qx.Class.define( "org.eclipse.swt.widgets.List", {
       if( state.substr( 0, 8 ) == "variant_" ) {
         var items = this.getManager().getItems();
         for( var i = 0; i < items.length; i++ ) {
-        	items[ i ].addState( state );
+          items[ i ].addState( state );
         }
       }
     },
@@ -217,7 +217,7 @@ qx.Class.define( "org.eclipse.swt.widgets.List", {
     },
     
     _onSendRequest : function( evt ) {
-      var topIndex = this._getTopIndex();
+      var topIndex = this._isCreated ? this._getTopIndex() : 0;
       if( this._topIndex != topIndex ) {
         var widgetManager = org.eclipse.swt.WidgetManager.getInstance();
         var id = widgetManager.findIdByWidget( this );

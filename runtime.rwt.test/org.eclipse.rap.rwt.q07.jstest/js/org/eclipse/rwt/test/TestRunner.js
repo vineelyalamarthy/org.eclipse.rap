@@ -16,23 +16,24 @@ qx.Class.define("org.eclipse.rwt.test.TestRunner", {
     this.base( arguments );
     qx.log.Logger.ROOT_LOGGER.setMinLevel( qx.log.Logger.LEVEL_ERROR );
     this._FREEZEONFAIL = true; 
-    this._NOTRYCATCH = false; // set to true for better debugging in IE
+    this._NOTRYCATCH = this._getURLParam( "notry" ) !== null; 
     this._FULLSCREEN = true;
     this._presenter = org.eclipse.rwt.test.Presenter.getInstance();
     this._presenter.setFullScreen( this._FULLSCREEN );    
-    this._testClasses = null;
-    this._currentClass = null;
-    this._currentFunction = null;
+    this._testClasses = [];
+    this._testFunctions = [];
+    this._currentClass = 0;
+    this._currentInstance = null;
+    this._currentFunction = 0;
+    this._failed = false;
     this._log = null;
-    this._testsTotal = 0;
     this._asserts = 0;
-    var classes = qx.Class.__registry;
-    this._testClasses = {};
+    this._loopWrapper = null;
     var testScripts = this._getTestScripts();
-    var engine = qx.core.Client.getEngine();
-    var skip;
+    var classes = qx.Class.__registry;
+    var filter = this._createTestClassFilter();
     var shortName;
-    for( var clazz in classes) {
+    for( var clazz in classes ) {
       if( clazz.substr( clazz.length - 4 ) == "Test" ) {
         shortName = this._getShortClassName( clazz );
         if( testScripts[ shortName ] ) {
@@ -40,15 +41,9 @@ qx.Class.define("org.eclipse.rwt.test.TestRunner", {
         } else {
           var msg = "TestClass " + clazz + " does not match filename.";
           this._criticalFail( msg );
-        }
-        skip = false;       
-        if( classes[ clazz ].prototype.TARGETENGINE instanceof Array ) {
-          var targetEngine = classes[ clazz ].prototype.TARGETENGINE;
-          skip = targetEngine.indexOf( engine ) == -1;
-        }
-        if( !skip ) {
-          this._testClasses[clazz] = classes[clazz];
-          this._testsTotal++;
+        }       
+        if( filter( clazz ) ) {
+          this._testClasses.push( classes[ clazz ] );
         }
       }
     }    
@@ -60,77 +55,130 @@ qx.Class.define("org.eclipse.rwt.test.TestRunner", {
     getLog = function() {
       return org.eclipse.rwt.test.TestRunner.getInstance().getLog();
     }
+    // also stop on "this.error":
+    qx.core.Object.prototype.error = function( msg, exc ) {
+      this.getLogger().error(msg, this.toHashCode(), exc);
+      throw msg; 
+    };
   },
 
   members : {
   	
   	run : function() {
-  	  // prevent flush by timer
-  	  this._disableAutoFlush();
-  	  // prevent actual dom-events
-  	  qx.event.handler.EventHandler.getInstance().detachEvents();
-      this.info( "Starting tests...", false );
-      if( this._NOTRYCATCH ) {
-        this._run();
-      } else {    
-    	  try {
-      	  this._run();
-    	  } catch( e ) { 
-    	    this.info( e );      
-    	  }
-      }
+  	  this._prepare();
+  	  this._initTest();
+      this._loopWrapper();
   	},
 
-  	_run : function() {
-  		var finished = 0;
-      for( this._currentClass in this._testClasses ) {
-        this._presenter.setNumberTestsFinished( finished + 0.5 , 
-                                                this._testsTotal );
-        this._presenter.log( '', false );
-        this.info( "+ " + this._currentClass, false );      	
-      	var obj = null;
-      	this._currentFunction = "construct";
-      	// also stop on "this.error":
-      	qx.core.Object.prototype.error = function( msg, exc ) {
-          this.getLogger().error(msg, this.toHashCode(), exc);
-      	  throw msg; 
-      	};
-      	if( this._NOTRYCATCH ) {
-          obj = new this._testClasses[ this._currentClass ]();
-          var testFunctions = this._getTestFunctions( obj );      
-          for ( this._currentFunction in testFunctions ){   
-            this._asserts = 0;       	
-            testFunctions[ this._currentFunction ].call( obj );
-            this.info( this._currentFunction + " - OK ", true );
-          }      	  
-      	}  else {    	
-          try {
-            obj = new this._testClasses[ this._currentClass ]();
-            var testFunctions = this._getTestFunctions( obj );      
-            for ( this._currentFunction in testFunctions ){   
-              this._asserts = 0;       	
-              testFunctions[ this._currentFunction ].call( obj );
-              this.info( this._currentFunction + " - OK ", true );
-            }
-          } catch( e ) {
-            // a test failed:          
-            if( this._FREEZEONFAIL ) this._freezeQooxdoo();
-            this._presenter.setFailed( true );
-            this.info( this._currentFunction + " failed:", true );
-            this.info( e, false );          
-            this.info( this._asserts + " asserts succeeded.", false );          
-            this._createFailLog( e, obj );
-            this._checkFlushState();
-            throw( "Tests aborted!" );
-          }
-      	}          
-        qx.ui.core.ClientDocument.getInstance().removeAll();
-        obj.dispose();
-        finished++;
-        this._presenter.setNumberTestsFinished( finished, this._testsTotal );
-      }
+  	_loop : function() {
+      this._executeTestFunction();
+    	if( this._iterate() ) {
+    	  window.setTimeout( this._loopWrapper, 5 );
+    	}                  
+  	},
+  	
+  	_iterate : function() {
+  	  var result = true;
+  	  if( this._failed ) {
+  	    result = false;
+  	  } else {
+    	  this._currentFunction++;
+    	  if( this._currentFunction == this._testFunctions.length ) {
+    	    this._currentClass++;
+    	    this._testFinished();
+    	    if( this._currentClass == this._testClasses.length ) {
+    	      this._allFinished();
+    	      result = false;
+    	    } else {
+    	      this._initTest();
+    	    }
+    	  }
+  	  }
+  	  return result;
+  	},
+  	
+  	_prepare : function() {
+      // prevent flush by timer
+      this._disableAutoFlush();
+      // prevent actual dom-events
+      qx.event.handler.EventHandler.getInstance().detachEvents();
+      var that = this;
+      this._loopWrapper = function(){ that._loop(); };
+      this.info( "Found " + this._testClasses.length + " Tests.", false );
+      this.info( "Starting tests...", false );
+  	},
+
+  	_initTest : function() {
+      this._presenter.setNumberTestsFinished( this._currentClass + 0.5 , 
+                                              this._testClasses.length );
+      var className = this._testClasses[ this._currentClass ].classname;
+      this._presenter.log( '', false );
+      this.info( "+ " + className, false );       
+      this._currentInstance = null;
+      this._createTestInstance();
+      this._testFunctions = this._getTestFunctions( this._currentInstance );      
+      this._currentFunction = 0;
+  	},
+  	
+  	_testFinished : function() {
+        this._currentInstance.dispose();
+        this._presenter.setNumberTestsFinished( this._currentClass, 
+                                                this._testClasses.length );  	
+    },
+    
+    _allFinished : function() {
       this.info( '', false );
-      this.info( "Tests done.", false );
+      this.info( "Tests done.", false );      
+    },
+  	
+  	_executeTestFunction : function() {
+      this._asserts = 0;
+      var functionName = this._testFunctions[ this._currentFunction ];
+      if( this._NOTRYCATCH ) {
+        this._currentInstance[ functionName ]();
+        this._cleanUp();
+        this.info( functionName + " - OK ", true );  	  
+      } else {
+        try {
+          this._currentInstance[ functionName ]();
+          this._cleanUp();
+          this.info( functionName + " - OK ", true );  	  
+        } catch( e ) {
+          this._handleException( e );
+        }
+      }    
+  	},
+  	
+  	_createTestInstance : function() {
+      if( this._NOTRYCATCH ) {
+        this._currentInstance = new this._testClasses[ this._currentClass ]();
+      } else {
+        try {
+          this._currentInstance = new this._testClasses[ this._currentClass ]();
+        } catch( e ) {
+          this._handleException( e );
+        }          
+      }  	  
+  	},
+  	
+  	_handleException : function( e ) {
+      if( this._FREEZEONFAIL ) this._freezeQooxdoo();
+      this._presenter.setFailed( true );
+      this._failed = true;
+      var classname = this._testFunctions[ this._currentFunction ];
+      this.info( classname + " failed:", true );
+      this.info( e, false );          
+      this.info( this._asserts + " asserts succeeded.", false );          
+      this._createFailLog( e, this._currentInstance );
+      this._checkFlushState();
+      this.info( "Tests aborted!", false );
+  	},
+
+  	_cleanUp : function() {
+  	  org.eclipse.rwt.test.fixture.TestUtil.clearRequestLog();
+  	  org.eclipse.rwt.test.fixture.TestUtil.clearTimerOnceLog();
+  	  org.eclipse.rwt.test.fixture.TestUtil.restoreAppearance();
+  	  qx.ui.core.Widget.flushGlobalQueues();
   	},
   	
   	// called by Asserts.js
@@ -141,15 +189,15 @@ qx.Class.define("org.eclipse.rwt.test.TestRunner", {
         var errorMessage =   'Assert "' 
                            + ( message ? message : this._asserts + 1 )
                            + '", type "' 
-                           + assertType                
+                           + assertType
                            + '" failed : Expected "'
-                           + expected
+                           + this._getObjectSummary( expected )
                            + '" but found "'
-                           + value
+                           + this._getObjectSummary( value )
                            + '"';
         var error = {
           "assert" : true,
-          "testClass" : this._currentClass, 
+          "testClass" : this._testClasses[ this._currentClass ].classname, 
           "testFunction" : this._currentFunction, 
           "trace" : trace,
           "expected" : expected,
@@ -163,6 +211,22 @@ qx.Class.define("org.eclipse.rwt.test.TestRunner", {
       } else {
         this._asserts++;
       }
+  	},
+  	
+  	_getObjectSummary : function( value ) {
+  	  var result = value;
+  	  if( value instanceof Array ) {
+  	    result = value.join();
+  	  } else if(    value instanceof Object 
+  	             && !( value instanceof qx.core.Object ) )
+  	  {
+  	    var arr = [];
+  	    for( var key in value ) {
+  	      arr.push( " " + key + " : " + value[ key ] ); 
+  	    }
+  	    result = "{" + arr.join() + " }";
+  	  }
+  	  return result;
   	},
   	
   	_criticalFail : function( msg ) {
@@ -268,12 +332,12 @@ qx.Class.define("org.eclipse.rwt.test.TestRunner", {
     },
     
     _getTestFunctions : function( obj ){
-      var testFunctions = {};
+      var testFunctions = [];
       for ( var fun in obj ) {
         if(    fun.substr( 0, 4 ) == "test" 
             && typeof obj[ fun ] == "function") 
          {
-          testFunctions[ fun ] = obj[ fun ];
+          testFunctions.push( fun );
         }
       }
       return testFunctions;
@@ -307,7 +371,53 @@ qx.Class.define("org.eclipse.rwt.test.TestRunner", {
       var splitted = result.split( separator );
       result = splitted.pop();
       return result;
-   },
+    },
+   
+    _createTestClassFilter : function() {
+      var classes = qx.Class.__registry;
+      var engine = qx.core.Client.getEngine();
+      var param = this._getFilterParam();
+      var filter = function( clazz ) {
+        var result = true;
+        if( classes[ clazz ].prototype.TARGETENGINE instanceof Array ) {
+          var targetEngine = classes[ clazz ].prototype.TARGETENGINE;
+          result = targetEngine.indexOf( engine ) != -1;
+        }
+        if( result && param != null ) {
+          var found = false;
+          for( var i = 0; i < param.length; i++ ) {
+            if( clazz.indexOf( param[ i ] ) != -1 ) {
+              found = true;
+            }
+          }
+          result = found;
+        }
+        return result;
+      }
+      return filter;
+    },
+    
+    _getURLParam : function( name ) {
+      var result = null;
+      var href = window.location.href;
+      var hashes = href.slice( href.indexOf( "?" ) + 1).split( "&" );
+      for( var i = 0; i < hashes.length; i++ ) {
+        var hash = hashes[ i ].split( "=" );
+        if( hash[ 0 ] === name ) {
+          result = hash[ 1 ];
+        }
+      }
+      return result;
+    },
+    
+    _getFilterParam : function() {
+      var result = null;
+      var param = this._getURLParam( "filter" );
+      if( param != null ) {
+        result = param.split( "," );
+      }
+      return result;
+    },
    
     info : function( text, indent ) {
       this.base( arguments, text );

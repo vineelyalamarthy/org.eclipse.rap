@@ -21,6 +21,7 @@ import org.eclipse.rwt.internal.theme.*;
 import org.eclipse.rwt.internal.theme.QxAnimation.Animation;
 import org.w3c.css.sac.*;
 
+
 public class PropertyResolver_Test extends TestCase {
 
   private static Parser parser = new Parser();
@@ -371,40 +372,54 @@ public class PropertyResolver_Test extends TestCase {
     assertEquals( 2, res4.gradientPercents.length );
     assertEquals( 0f, res4.gradientPercents[ 0 ], 0 );
     assertEquals( 100f, res4.gradientPercents[ 1 ], 0 );
-    String input5 = "gradient( radial, left top, left bottom, "
-                  + "from( #0000FF ), "
-                  + "to( #00FF00 ) )";
+  }
+
+  public void testGradient_InvalidValues() throws Exception {
+    String input = "gradient( radial, left top, left bottom, "
+                 + "from( #0000FF ), "
+                 + "to( #00FF00 ) )";
     try {
-      PropertyResolver.readBackgroundImage( parseProperty( input5 ),
+      PropertyResolver.readBackgroundImage( parseProperty( input ),
                                             RESOURCE_LOADER );
       fail( "Must throw IAE" );
     } catch( IllegalArgumentException e ) {
       // expected
     }
-    String input6 = "gradient( linear, 10 10, left bottom, "
-                  + "from( #0000FF ), "
-                  + "to( #00FF00 ) )";
+    input = "gradient( linear, 10 10, left bottom, "
+          + "from( #0000FF ), "
+          + "to( #00FF00 ) )";
     try {
-      PropertyResolver.readBackgroundImage( parseProperty( input6 ),
+      PropertyResolver.readBackgroundImage( parseProperty( input ),
                                             RESOURCE_LOADER );
       fail( "Must throw IAE" );
     } catch( IllegalArgumentException e ) {
       // expected
     }
-    String input7 = "gradient( linear, left top, 10 10, "
-                  + "from( #0000FF ), "
-                  + "to( #00FF00 ) )";
+    input = "gradient( linear, left top, 10 10, "
+          + "from( #0000FF ), "
+          + "to( #00FF00 ) )";
     try {
-      PropertyResolver.readBackgroundImage( parseProperty( input7 ),
+      PropertyResolver.readBackgroundImage( parseProperty( input ),
                                             RESOURCE_LOADER );
       fail( "Must throw IAE" );
     } catch( IllegalArgumentException e ) {
       // expected
     }
-    String input8 = "gradient( linear, left top, left bottom )";
+    input = "gradient( linear, left top, left bottom )";
     try {
-      PropertyResolver.readBackgroundImage( parseProperty( input8 ),
+      PropertyResolver.readBackgroundImage( parseProperty( input ),
                                             RESOURCE_LOADER );
+      fail( "Must throw IAE" );
+    } catch( IllegalArgumentException e ) {
+      // expected
+    }
+    input = "gradient( linear, left, right, "
+          + "from( blue ), "
+          + "to( white ) )";
+    try {
+      PropertyResolver.readBackgroundImage( parseProperty( input ),
+                                            RESOURCE_LOADER );
+      fail( "Must throw IAE" );
     } catch( IllegalArgumentException e ) {
       // expected
     }
@@ -544,7 +559,7 @@ public class PropertyResolver_Test extends TestCase {
     }
   }
 
-  public void testIsColorProperty() throws Exception {
+  public void testIsColorProperty() {
     assertFalse( PropertyResolver.isColorProperty( "border" ) );
     assertTrue( PropertyResolver.isColorProperty( "color" ) );
     assertTrue( PropertyResolver.isColorProperty( "background-color" ) );
@@ -552,28 +567,28 @@ public class PropertyResolver_Test extends TestCase {
     assertTrue( PropertyResolver.isColorProperty( "rwt-selectionmarker-color" ) );
   }
 
-  public void testIsBorderProperty() throws Exception {
+  public void testIsBorderProperty() {
     assertTrue( PropertyResolver.isBorderProperty( "border" ) );
   }
 
-  public void testIsFontProperty() throws Exception {
+  public void testIsFontProperty() {
     assertTrue( PropertyResolver.isFontProperty( "font" ) );
   }
 
-  public void testIsBoxDimProperty() throws Exception {
+  public void testIsBoxDimProperty() {
     assertTrue( PropertyResolver.isBoxDimensionProperty( "padding" ) );
     assertTrue( PropertyResolver.isBoxDimensionProperty( "margin" ) );
   }
 
-  public void testIsImageProperty() throws Exception {
+  public void testIsImageProperty() {
     assertTrue( PropertyResolver.isImageProperty( "background-image" ) );
   }
 
-  public void testIsCursorProperty() throws Exception {
+  public void testIsCursorProperty() {
     assertTrue( PropertyResolver.isCursorProperty( "cursor" ) );
   }
 
-  public void testIsAnimationProperty() throws Exception {
+  public void testIsAnimationProperty() {
     assertTrue( PropertyResolver.isAnimationProperty( "animation" ) );
   }
 

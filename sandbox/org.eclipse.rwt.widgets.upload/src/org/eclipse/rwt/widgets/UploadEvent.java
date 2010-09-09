@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Widget;
  * Represents an Upload Event.
  *
  * @author tjarodrigues
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class UploadEvent extends TypedEvent {
   
@@ -39,7 +39,7 @@ public class UploadEvent extends TypedEvent {
 
   
   /**
-   * Returns an exception that ocurred during upload during
+   * Returns an exception that occurred during upload during
    * processing the file on the server side.
    */
   public Exception getUploadException() {
@@ -57,9 +57,9 @@ public class UploadEvent extends TypedEvent {
   }
 
   /**
-   * Gets the parcial amount of data uploaded.
+   * Gets the partial amount of data uploaded.
    *
-   * @return The parcial amount of data uploaded.
+   * @return The partial amount of data uploaded.
    */
   public final int getUploadedParcial() {
     return this.uploadedParcial;
@@ -78,7 +78,7 @@ public class UploadEvent extends TypedEvent {
    * Creates a new instance of the Upload Event.
    *
    * @param finished Indicates if the upload is finished.
-   * @param uploadedParcial The parcial amount of data uploaded.
+   * @param uploadedParcial The partial amount of data uploaded.
    * @param uploadedTotal The total file size.
    * @param widget The sender of the event, must not be null
    */

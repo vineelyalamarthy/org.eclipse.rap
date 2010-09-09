@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2002, 2009 Innoopract Informationssysteme GmbH.
+ * Copyright (c) 2002, 2010 Innoopract Informationssysteme GmbH.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,9 +14,9 @@ package org.eclipse.rwt.graphics;
 import java.io.InputStream;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.internal.graphics.ResourceFactory;
-import org.eclipse.swt.internal.graphics.TextSizeDetermination;
+import org.eclipse.swt.internal.graphics.*;
 
 
 /**
@@ -34,9 +34,9 @@ public final class Graphics {
    * <code>RGB</code> describing the desired red, green and blue values.
    *
    * <p>Note: it is considered an error to attempt to dispose of colors
-   * that were created by this method. An <code>IllegalStateException</code> is 
-   * thrown in this case.</p>  
-   * 
+   * that were created by this method. An <code>IllegalStateException</code> is
+   * thrown in this case.</p>
+   *
    * @param rgb the RGB values of the desired color - must not be null
    * @return the color
    *
@@ -53,9 +53,9 @@ public final class Graphics {
    * 0 to 255 (where 0 is black and 255 is full brightness).
    *
    * <p>Note: it is considered an error to attempt to dispose of colors
-   * that were created by this method. An <code>IllegalStateException</code> is 
-   * thrown in this case.</p>  
-   * 
+   * that were created by this method. An <code>IllegalStateException</code> is
+   * thrown in this case.</p>
+   *
    * @param red the amount of red in the color
    * @param green the amount of green in the color
    * @param blue the amount of blue in the color
@@ -71,14 +71,21 @@ public final class Graphics {
    * which describes the desired font's appearance.
    *
    * <p>Note: it is considered an error to attempt to dispose of fonts
-   * that were created by this method. An <code>IllegalStateException</code> is 
-   * thrown in this case.</p>  
-   * 
+   * that were created by this method. An <code>IllegalStateException</code> is
+   * thrown in this case.</p>
+   *
    * @param data the {@link FontData} to use - must not be null
    * @return the font
+   *
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_NULL_ARGUMENT - if the data argument is null</li>
+   * </ul>
    */
   public static Font getFont( final FontData data ) {
-    return getFont( data.getName(), data.getHeight(), data.getStyle() );
+    if( data == null ) {
+      SWT.error( SWT.ERROR_NULL_ARGUMENT );
+    }
+    return ResourceFactory.getFont( data );
   }
 
   /**
@@ -86,74 +93,127 @@ public final class Graphics {
    * font in points, and a font style.
    *
    * <p>Note: it is considered an error to attempt to dispose of fonts
-   * that were created by this method. An <code>IllegalStateException</code> is 
-   * thrown in this case.</p>  
+   * that were created by this method. An <code>IllegalStateException</code> is
+   * thrown in this case.</p>
    *
    * @param name the name of the font (must not be null)
    * @param height the font height in points
    * @param style a bit or combination of <code>NORMAL</code>,
    *          <code>BOLD</code>, <code>ITALIC</code>
    * @return the font
+   *
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_NULL_ARGUMENT - if the name argument is null</li>
+   *    <li>ERROR_INVALID_ARGUMENT - if the height is negative</li>
+   * </ul>
    */
   public static Font getFont( final String name,
                               final int height,
                               final int style )
   {
-    return ResourceFactory.getFont( name, height, style );
+    return ResourceFactory.getFont( new FontData( name, height, style ) );
   }
 
   /**
-   * Returns an instance of {@link Image} based on the specified
-   * image path. The image has to be on the applications class-path.
+   * Returns an instance of {@link Image} based on the specified image path. The
+   * image has to be on the applications class-path.
    *
    * @param path the path to the image
-   *
    * @return the image
+   *
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_NULL_ARGUMENT - if the path is null</li>
+   *    <li>ERROR_ILLEGAL_ARGUMENT - if the path is invalid</li>
+   * </ul>
+   * @exception SWTException <ul>
+   *    <li>ERROR_IO - if an IO error occurs while reading from the stream</li>
+   *    <li>ERROR_INVALID_IMAGE - if the image stream contains invalid data</li>
+   *    <li>ERROR_UNSUPPORTED_FORMAT - if the image stream contains an unrecognized format</li>
+   * </ul>
    */
   public static Image getImage( final String path ) {
-    return ResourceFactory.findImage( path );
+    if( path == null ) {
+      SWT.error( SWT.ERROR_NULL_ARGUMENT );
+    }
+    if( "".equals( path ) ) {
+      SWT.error( SWT.ERROR_INVALID_ARGUMENT );
+    }
+    return ImageFactory.findImage( path );
   }
 
   /**
-   * Returns an instance of {@link Image} based on the specified
-   * image path. The image has to be on the applications class-path.
-   * Uses the specified classloader to load the image.
+   * Returns an instance of {@link Image} based on the specified image path. The
+   * image has to be on the applications class-path. Uses the specified
+   * classloader to load the image.
    *
    * @param path the path to the image
    * @param imageLoader the classloader to use
-   *
    * @return the image
+   *
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_NULL_ARGUMENT - if the path is null</li>
+   *    <li>ERROR_ILLEGAL_ARGUMENT - if the path is invalid</li>
+   * </ul>
+   * @exception SWTException <ul>
+   *    <li>ERROR_IO - if an IO error occurs while reading from the stream</li>
+   *    <li>ERROR_INVALID_IMAGE - if the image stream contains invalid data</li>
+   *    <li>ERROR_UNSUPPORTED_FORMAT - if the image stream contains an unrecognized format</li>
+   * </ul>
    */
   public static Image getImage( final String path,
                                 final ClassLoader imageLoader )
   {
-    return ResourceFactory.findImage( path, imageLoader );
+    if( path == null ) {
+      SWT.error( SWT.ERROR_NULL_ARGUMENT );
+    }
+    if( "".equals( path ) ) {
+      SWT.error( SWT.ERROR_INVALID_ARGUMENT );
+    }
+    return ImageFactory.findImage( path, imageLoader );
   }
 
-
   /**
-   * Returns an instance of {@link Image} based on the specified
-   * image path. The image will be read from the provided InputStream.
+   * Returns an instance of {@link Image} based on the specified image path. The
+   * image will be read from the provided InputStream.
    *
-   * @param path the path to the image
+   * @param path the path the image resource is registered at
    * @param inputStream the input stream for the image
-   *
    * @return the image
+   *
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_NULL_ARGUMENT - if the path is null</li>
+   *    <li>ERROR_NULL_ARGUMENT - if the inputStream is null</li>
+   *    <li>ERROR_INVALID_ARGUMENT - if the path is invalid</li>
+   * </ul>
+   * @exception SWTException <ul>
+   *    <li>ERROR_IO - if an IO error occurs while reading from the stream</li>
+   *    <li>ERROR_INVALID_IMAGE - if the image stream contains invalid data</li>
+   *    <li>ERROR_UNSUPPORTED_FORMAT - if the image stream contains an unrecognized format</li>
+   * </ul>
    */
   public static Image getImage( final String path,
                                 final InputStream inputStream )
   {
-    return ResourceFactory.findImage( path, inputStream );
+    if( path == null ) {
+      SWT.error( SWT.ERROR_NULL_ARGUMENT );
+    }
+    if( inputStream == null ) {
+      SWT.error( SWT.ERROR_NULL_ARGUMENT );
+    }
+    if( "".equals( path ) ) {
+      SWT.error( SWT.ERROR_INVALID_ARGUMENT );
+    }
+    return ImageFactory.findImage( path, inputStream );
   }
 
   /**
    * Returns an instance of {@link Cursor} based on a style constant describing
    * the desired cursor appearance.
-   * 
+   *
    * <p>Note: it is considered an error to attempt to dispose of cursors
-   * that were created by this method. An <code>IllegalStateException</code> is 
-   * thrown in this case.</p>  
-   * 
+   * that were created by this method. An <code>IllegalStateException</code> is
+   * thrown in this case.</p>
+   *
    * @param style the style of the cursor to create
    * @return the cursor
    * @see SWT#CURSOR_ARROW
@@ -173,9 +233,9 @@ public final class Graphics {
    * @see SWT#CURSOR_SIZENW
    * @see SWT#CURSOR_IBEAM
    * @see SWT#CURSOR_HAND
-   * 
+   *
    * @since 1.2
-   * @deprecated use {@link org.eclipse.swt.widgets.Display#getSystemCursor(int) 
+   * @deprecated use {@link org.eclipse.swt.widgets.Display#getSystemCursor(int)
    * Display#getSystemCursor(int)}
    */
   public static Cursor getCursor( final int style ) {

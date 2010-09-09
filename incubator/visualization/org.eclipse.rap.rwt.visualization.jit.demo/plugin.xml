@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.rap.ui.entrypoint">
+      <entrypoint
+            class="org.eclipse.rap.rwt.visualization.jit.demo.Application"
+            parameter="jit"
+            id="visualization.jit.Application">
+      </entrypoint>
+   </extension>
+   <extension
+         point="org.eclipse.rap.ui.branding">
+      <branding
+            defaultEntrypointId="visualization.jit.Application"
+            id="visualization.jit.branding"
+            servletName="visualization"
+            title="JIT Visualizations Demo">
+      </branding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.eclipse.rap.rwt.visualization.jit.demo.PerspectiveFactory"
+            id="org.eclipse.rap.rwt.visualization.jit.demo.PerspectiveFactory"
+            name="JIT Visualizations">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.eclipse.rap.rwt.visualization.jit.demo.Application$HyperTreeExample"
+            id="org.eclipse.rap.rwt.visualization.jit.demo.Application$HyperTreeExample"
+            name="Hyper Tree"
+            restorable="true">
+      </view>
+      <view
+            class="org.eclipse.rap.rwt.visualization.jit.demo.Application$TreeMapExample"
+            id="org.eclipse.rap.rwt.visualization.jit.demo.Application$TreeMapExample"
+            name="Tree Map"
+            restorable="true">
+      </view>
+      <view
+            class="org.eclipse.rap.rwt.visualization.jit.demo.Application$RGraphExample"
+            id="org.eclipse.rap.rwt.visualization.jit.demo.Application$RGraphExample"
+            name="Radial Graph"
+            restorable="true">
+      </view>
+       <view
+            class="org.eclipse.rap.rwt.visualization.jit.demo.Application$SpaceTreeExample"
+            id="org.eclipse.rap.rwt.visualization.jit.demo.Application$SpaceTreeExample"
+            name="Space Tree"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.rap.rwt.visualization.jit.demo.PerspectiveFactory">
+         <view
+               closeable="true"
+               id="org.eclipse.rap.rwt.visualization.jit.demo.Application$HyperTreeExample"
+               minimized="false"
+               moveable="true"
+               ratio="0.5"
+               relationship="left"
+               relative="org.eclipse.ui.editorss"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
+               id="org.eclipse.rap.rwt.visualization.jit.demo.Application$TreeMapExample"
+               minimized="false"
+               moveable="true"
+               ratio="0.5"
+               relationship="stack"
+               relative="org.eclipse.rap.rwt.visualization.jit.demo.Application$HyperTreeExample"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
+               id="org.eclipse.rap.rwt.visualization.jit.demo.Application$RGraphExample"
+               minimized="false"
+               moveable="true"
+               ratio="0.5"
+               relationship="stack"
+               relative="org.eclipse.rap.rwt.visualization.jit.demo.Application$HyperTreeExample"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
+               id="org.eclipse.rap.rwt.visualization.jit.demo.Application$SpaceTreeExample"
+               minimized="false"
+               moveable="true"
+               ratio="0.5"
+               relationship="stack"
+               relative="org.eclipse.rap.rwt.visualization.jit.demo.Application$HyperTreeExample"
+               showTitle="true"
+               visible="true">
+         </view>
+      </perspectiveExtension>
+   </extension>
+</plugin>

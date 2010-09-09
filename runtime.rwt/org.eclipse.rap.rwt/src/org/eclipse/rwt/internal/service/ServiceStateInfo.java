@@ -25,8 +25,12 @@ import org.eclipse.rwt.internal.protocol.ProtocolMessageWriter;
 public final class ServiceStateInfo implements IServiceStateInfo {
 
   private HtmlResponseWriter responseWriter;
+  private final Map attributes;
   
-  private final Map attributes = new HashMap();
+  
+  public ServiceStateInfo() {
+    attributes = new HashMap();
+  }
 
   private ProtocolMessageWriter writer;
   

@@ -170,10 +170,13 @@ public class RWTHostTestSuite {
     suite.addTestSuite( DragSourceEffect_Test.class );
     suite.addTestSuite( Transfer_Test.class );
     suite.addTestSuite( ByteArrayTransfer_Test.class );
+    suite.addTestSuite( Tree_Test.class );
+    suite.addTestSuite( TreeItem_Test.class );
 
     suite.addTestSuite( Image_Test.class );
     suite.addTestSuite( ImageData_Test.class );
     suite.addTestSuite( ImageDataCache_Test.class );
+    suite.addTestSuite( ImageDataFactory_Test.class );
     suite.addTestSuite( Color_Test.class );
     suite.addTestSuite( RGB_Test.class );
     suite.addTestSuite( Font_Test.class );
@@ -187,7 +190,10 @@ public class RWTHostTestSuite {
     suite.addTestSuite( TextSizeEstimation_Test.class );
     suite.addTestSuite( TextSizeDetermination_Test.class );
     suite.addTestSuite( ResourceFactory_Test.class );
+    suite.addTestSuite( ImageFactory_Test.class );
+    suite.addTestSuite( InternalImageFactory_Test.class );
     suite.addTestSuite( WidgetGraphicsAdapter_Test.class );
+    suite.addTestSuite( FontDataFactory_Test.class );
 
     // == Theming ==
     suite.addTestSuite( Theme_Test.class );
