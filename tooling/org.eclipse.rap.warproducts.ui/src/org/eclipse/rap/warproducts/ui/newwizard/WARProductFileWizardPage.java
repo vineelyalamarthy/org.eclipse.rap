@@ -16,8 +16,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.debug.core.*;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.pde.internal.ui.PDEPlugin;
+import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.pde.internal.ui.wizards.PDEWizardNewFileCreationPage;
 import org.eclipse.pde.launching.IPDELauncherConstants;
 import org.eclipse.pde.ui.launcher.EclipseLaunchShortcut;
@@ -47,15 +49,14 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
                                    final IStructuredSelection selection )
   {
     super( pageName, selection );
-    setDescription( Messages.FileWizardPageNewFile +
-                    Messages.FileWizardPageInit );
+    setDescription( Messages.FileWizardPageNewFile );
     setTitle( Messages.FileWizardPageTitle );
     setFileExtension( FILE_EXTENSION );
   }
 
   protected void createAdvancedControls( final Composite parent ) {
     group = new Group( parent, SWT.NONE );
-    group.setText( Messages.FileWizardPageInit2 );
+    group.setText( Messages.FileWizardPageInit );
     group.setLayout( new GridLayout( 2, false ) );
     group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
     basicButton = new Button( group, SWT.RADIO );
@@ -194,7 +195,6 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
     return valid;
   }
 
-
   private boolean validateWarProductLocation( final boolean valid, 
                                               final IPath containerPath )
   {
@@ -213,7 +213,9 @@ public class WARProductFileWizardPage extends PDEWizardNewFileCreationPage {
         }
       }
     } catch( final CoreException e ) {
-      e.printStackTrace();
+      MessageDialog.openError( getShell(), 
+                               PDEUIMessages.ProductExportWizard_error, 
+                               e.getMessage() );
     }
     return result;
   }

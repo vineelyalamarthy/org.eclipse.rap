@@ -55,12 +55,12 @@ qx.Class.define( "org.eclipse.rwt.widgets.TreeRow", {
       this._hideRemainingElements();
     },
 
-    isExpandClick : function( event ) {
+    isExpandSymbolTarget : function( event ) {
       var node = event.getDomTarget();
       return this._expandElement !== null && this._expandElement === node;
     },
     
-    isCheckBoxClick : function( event ) {
+    isCheckBoxTarget : function( event ) {
       var node = event.getDomTarget();
       return this._checkBoxElement !== null && this._checkBoxElement === node;      
     },
@@ -69,11 +69,19 @@ qx.Class.define( "org.eclipse.rwt.widgets.TreeRow", {
       var result;
       var node = event.getDomTarget();
       if( this._tree.getHasFullSelection() ) {
-        result = this._checkBoxElement !== node && this._expandElement !== node;
+        result = this._checkBoxElement !== node;
       } else {
         result = this._selectionElements.indexOf( node ) != -1;
       }
       return result;
+    },
+    
+    updateEvenState : function( index ) {
+      this._setState( "even", index % 2 == 0 );
+    },
+    
+    updateGridlinesState : function( value ) {
+      this._setState( "linesvisible", value );
     },
 
     ////////////
@@ -82,12 +90,16 @@ qx.Class.define( "org.eclipse.rwt.widgets.TreeRow", {
     _renderStates : function( item, selection ) {
       this._setState( "checked", item.isChecked() );      
       this._setState( "grayed", item.isGrayed() );
-      this._setState( "over", this._tree.isHoverItem( item ) );
       this._setState( "parent_unfocused", this._renderAsUnfocused() );
       this._setState( "selected", selection && this._renderAsSelected( item ) );
+      this._renderOverState( item );
       this._styleMap = this._getStyleMap();
     },
     
+    _renderOverState : function( item ) {
+      this._setState( "over", this._tree.isHoverItem( item ) );
+    },
+
     _setState : function( state, value ) {
       if( !this.__states ) {
         this.__states = {};
@@ -125,18 +137,27 @@ qx.Class.define( "org.eclipse.rwt.widgets.TreeRow", {
     _getRenderThemingBackground : function( item ) {
       var renderFullSelection =    this._renderAsSelected( item ) 
                                 && this._tree.getHasFullSelection();
-      var hasItemBackground = item !== null && item.getBackground() !== null                    
-      return renderFullSelection || !hasItemBackground;
+      var hasItemBackground = item !== null && item.getBackground() !== null;
+      var result =    !hasItemBackground 
+                   || renderFullSelection 
+                   || this._hasHoverBackground(); 
+      return result;
+    },
+    
+    _hasHoverBackground : function() {
+      // TODO [tb] : This detection is not prefect; Should the item be hovered,
+      // but a hover-independent theming-background be set, this returns true.
+      var result =    this.hasState( "over" ) 
+                   && this._styleMap.itemBackground !== "undefined"; 
+      return result;
     },
 
     _renderIndention : function( item ) {
-      this._expandElement = null;
       var expandSymbol = this._getExpandSymbol( item );
+      this._expandElement = null;
       if( expandSymbol != null ) {
         var element =  this._addIndentSymbol( item.getLevel(), expandSymbol );
-        if( item.hasChildren() ) {
-          this._expandElement = element;
-        }
+        this._expandElement = element;
       }
       var lineSymbol = this._getLineSymbol( item );
       if( lineSymbol != null ) {
@@ -165,6 +186,9 @@ qx.Class.define( "org.eclipse.rwt.widgets.TreeRow", {
           states.collapsed = true;
         } 
       }
+      if( this._tree.isHoverElement( this._expandElement ) ) {
+        states.over = true;
+      } 
       return this._getImageFromAppearance( "tree-indent", states );
     },
 
@@ -197,16 +221,20 @@ qx.Class.define( "org.eclipse.rwt.widgets.TreeRow", {
       return result;
     },
 
-    // TODO [tb] : fix hover after fixing 316735
     _renderCheckBox : function( item ) {
-      if( this._tree.getHasCheckBoxes() && this._styleMap.checkBox != null ) {
+      if( this._tree.getHasCheckBoxes() ) {
+        var oldCheckBox = this._checkBoxElement;
+        var states = this.__states;
+        this._setState( "over", this._tree.isHoverElement( oldCheckBox ) );
+        var image = this._getImageFromAppearance( "tree-check-box", states );
+        this._renderOverState( item );
         var element = this._getNextElement( 3 );
-        this._setImage( element, this._styleMap.checkBox, true );
+        this._setImage( element, image, true );
         var left = this._tree.getCheckBoxLeft( item );
         var width = this._tree.getCheckBoxWidth( item );
         var height = this._tree.getItemHeight();
         this._setBounds( element, left, 0, width, height );
-        this._checkBoxElement = element; 
+        this._checkBoxElement = element;
       }
     },
 
@@ -245,7 +273,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.TreeRow", {
         var left = this._tree.getItemTextLeft( item, cell, true );
         left -= padding[ 0 ];
         var width = this._tree.getItemTextWidth( item, cell, true );
-        width += padding[ 0 ];
+        width += width > 0 ? padding[ 0 ] : 0;
         var visualWidth  = this._getVisualTextWidth( item, cell );
         visualWidth  += padding[ 0 ] + padding[ 1 ];
         width = Math.min( width, visualWidth );
@@ -255,8 +283,8 @@ qx.Class.define( "org.eclipse.rwt.widgets.TreeRow", {
     },
 
     _renderCellBackground : function( item, cell ) {
-      var background = item.getCellBackground( cell );
-      if( background != "undefined" 
+      var background = this._getCellBackground( item, cell );
+      if(    background != "undefined" 
           && background != this._styleMap.backgroundColor ) 
       {
         var element = this._getNextElement( 1 );
@@ -307,9 +335,25 @@ qx.Class.define( "org.eclipse.rwt.widgets.TreeRow", {
       return element;
     },
     
+    _getCellBackground : function( item, cell ) {
+      var result;
+      if(    this.hasState( "selected" ) 
+          || this._hasHoverBackground() 
+      ) {
+        result = "undefined";
+      } else {
+        result = item.getCellBackground( cell );
+      }
+      return result;
+    },
+    
     _getCellColor : function( item, cell ) {
       var result = item.getCellForeground( cell )
-      if( result === null || result === "" ) {
+      if(    result === null 
+          || result === "" 
+          || this.hasState( "selected" ) 
+          || this._hasHoverBackground()
+      ) {
         result = this._styleMap.itemForeground;
         if( result === "undefined" ) { 
           result = this._tree.getTextColor();
@@ -384,7 +428,11 @@ qx.Class.define( "org.eclipse.rwt.widgets.TreeRow", {
     },
 
     _setImage : function( element, src, center ) {
-      element.style.backgroundImage = "url( " + src + ")";
+      if( src !== null ) {
+        element.style.backgroundImage = "url( " + src + ")";
+      } else {
+        element.style.backgroundImage = "";
+      }
       element.style.backgroundRepeat = "no-repeat";
       element.style.backgroundPosition = center ? "center" : "";
     },

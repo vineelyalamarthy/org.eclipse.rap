@@ -14,20 +14,29 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.rules.FastPartitioner;
+import org.eclipse.rap.ui.themeeditor.scanner.ThemePartitionScanner;
 import org.eclipse.ui.editors.text.FileDocumentProvider;
 
 public class ThemeDocumentProvider extends FileDocumentProvider {
 
+  private ThemePartitionScanner scanner;
+
   protected IDocument createDocument( Object element ) throws CoreException {
     IDocument document = super.createDocument( element );
-    ThemePartitionScanner scanner = new ThemePartitionScanner();
     String[] contentTypes = new String[]{
-      ThemePartitionScanner.CSS_COMMENT
+      IDocument.DEFAULT_CONTENT_TYPE,
     };
+    scanner = new ThemePartitionScanner();
     IDocumentPartitioner partitioner = new FastPartitioner( scanner,
                                                             contentTypes );
     partitioner.connect( document );
     document.setDocumentPartitioner( partitioner );
     return document;
   }
+  
+  
+  public ThemePartitionScanner getPartitionScanner() {
+    return scanner;
+  }
+  
 }

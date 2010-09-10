@@ -30,6 +30,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
     this._selection = [];
     this._focusItem = null;
     this._hoverItem = null;
+    this._hoverElement = null;
     this._renderQueue = {};
     this._resizeLine = null;
     this._linesVisible = false;
@@ -62,6 +63,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
     this._dummyColumn = new qx.ui.basic.Atom();
     this._horzScrollBar = new qx.ui.basic.ScrollBar( true );
     this._vertScrollBar = new qx.ui.basic.ScrollBar( false );
+    this._hasScrollBarsSelectionListener = false;
     this._rows = this._clientArea.getChildren();
     this._vertGridLines = [];
     this.add( this._columnArea );
@@ -96,6 +98,8 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
     this._topItem = null;
     this._leadItem = null;
     this._focusItem = null;
+    this._hoverItem = null;
+    this._hoverElement = null;
     this._resizeLine = null;
   },
 
@@ -111,6 +115,8 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       this.addEventListener( "mousedown", this._onMouseDown, this );
       this.addEventListener( "mouseover", this._onMouseOver, this );
       this.addEventListener( "mouseout", this._onMouseOut, this );
+      this.addEventListener( "elementOver", this._onElementChange, this );
+      this.addEventListener( "elementOut", this._onElementChange, this );
       this.addEventListener( "keypress", this._onKeyPress, this );
       this._clientArea.addEventListener( "mousewheel", 
                                          this._onClientAreaMouseWheel, 
@@ -130,11 +136,13 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       var dragBlocker = function( event ) { event.stopPropagation(); };
       var preferredWidth = this._vertScrollBar.getPreferredBoxWidth()
       var preferredHeight = this._horzScrollBar.getPreferredBoxHeight();
+      this._horzScrollBar.setZIndex( 1e8 );
       this._horzScrollBar.setVisibility( false );
       this._horzScrollBar.setLeft( 0 );
       this._horzScrollBar.setMergeEvents( false );
       this._horzScrollBar.setHeight( preferredHeight );
       this._horzScrollBar.addEventListener( "dragstart", dragBlocker );
+      this._vertScrollBar.setZIndex( 1e8 );
       this._vertScrollBar.setVisibility( false );
       this._vertScrollBar.setWidth( preferredWidth );
       this._vertScrollBar.setMergeEvents( false );
@@ -152,8 +160,19 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       this._columnArea.addEventListener( "dragstart", dragBlocker );
       this._dummyColumn.setAppearance( "tree-column" );
       this._dummyColumn.setHeight( "100%" );
+      this._dummyColumn.setLabel( "&nbsp;" );
       this._dummyColumn.addState( "dummy" );
       this._columnArea.add( this._dummyColumn );
+    },
+    
+    _createSendRequestTimer : function() {
+      if( this._sendRequestTimer === null ) {
+        var timer = new qx.client.Timer( 400 );
+        var req = org.eclipse.swt.Request.getInstance();
+        timer.addEventListener( "interval", req.send, req );
+        req.addEventListener( "send", timer.stop, timer );
+        this._sendRequestTimer = timer;
+      }
     },
     
     /////////////////////////////////
@@ -189,12 +208,8 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
     
     setIsVirtual : function( value ) {
       this._isVirtual = value;
-      if( value && this._sendRequestTimer === null ) {
-        var timer = new qx.client.Timer( 400 );
-        var req = org.eclipse.swt.Request.getInstance();
-        timer.addEventListener( "interval", req.send, req );
-        req.addEventListener( "send", timer.stop, timer );
-        this._sendRequestTimer = timer;
+      if( value ) {
+        this._createSendRequestTimer();
       }
     },
 
@@ -209,7 +224,9 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
     },
 
     setHeaderHeight : function( value ) {
-      this._headerHeight = value; 
+      this._headerHeight = value;
+      this._layoutX();
+      this._layoutY();
       this._scheduleUpdate( true );
     },
 
@@ -292,6 +309,15 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
     
     setLinesVisible : function( value ) {
       this._linesVisible = value;
+      if( value ) {
+        this.addState( "linesvisible" );
+      } else {
+        this.removeState( "linesvisible" );
+      }
+      for( var i = 0; i < this._rows.length; i++ ) {
+        this._rows[ i ].updateGridlinesState( value );
+      }
+      this._scheduleUpdate();
       this._renderGridHorizontal();
       this._renderGridVertical();
     },
@@ -416,6 +442,10 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       return this._hoverItem === item;
     },
 
+    isHoverElement : function( element ) {
+      return element !== null && this._hoverElement === element;
+    },
+
     isItemSelected : function( item ) {
       return this._selection.indexOf( item ) != -1;
     },
@@ -535,10 +565,17 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       this._topItemIndex = Math.ceil( scrollTop / this._itemHeight );
       this._updateTopItem( oldIndex );
       if( this._inServerResponse() ) {
+        this._updateRowsEvenState();
         this._scheduleUpdate();
       } else {
         this._sendTopItemIndexChange();
         this._scrollContentVertical( oldIndex );
+      }
+    },
+    
+    _updateRowsEvenState: function() {
+      for( var i = 0; i < this._rows.length; i++ ) {
+        this._rows[ i ].updateEvenState( this._topItemIndex + i );
       }
     },
 
@@ -559,13 +596,13 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
     _onRowMouseDown : function( row, event ) {
       var item = this._findItemByRow( row );
       if( item != null ) {
-        if( row.isExpandClick( event ) && item.hasChildren() ) {
+        if( row.isExpandSymbolTarget( event ) && item.hasChildren() ) {
           var expanded = !item.isExpanded();
           if( !expanded ) {
             this._deselectVisibleChildren( item );
           }
           item.setExpanded( expanded );
-        } else if( row.isCheckBoxClick( event ) ) {
+        } else if( row.isCheckBoxTarget( event ) ) {
           item.setChecked( !item.isChecked() );
           this._sendItemCheckedChange( item );
         } else if( row.isSelectionClick( event ) ) {
@@ -604,6 +641,20 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       if( target instanceof org.eclipse.rwt.widgets.TreeRow ) {
         this._onRowOver( null );
       }      
+    },
+
+    _onElementChange : function( event ) {
+    	var isOver = event.getType() === "elementOver";
+    	this._hoverElement = isOver ? event.getDomTarget() : null;
+    	var row = event.getTarget();
+    	var internal = row === event.getRelatedTarget();
+    	if( internal && row instanceof org.eclipse.rwt.widgets.TreeRow ) {
+    	  var hoverable =    row.isCheckBoxTarget( event )
+    	                  || row.isExpandSymbolTarget( event );
+    	  if( this._hoverItem !== null && hoverable ) { 
+    	    row.renderItem( this._hoverItem );
+    	  }
+    	}
     },
 
     _onRowOver : function( row ) {
@@ -815,12 +866,14 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
         var row = new org.eclipse.rwt.widgets.TreeRow( this );
         row.setHeight( this._itemHeight );
         row.setWidth( rowWidth );
+        row.updateGridlinesState( this._linesVisible );
         this._clientArea.add( row );
       }
       while( this._rows.length > rowsNeeded ) {
         this._rows[ this._rows.length - 1 ].destroy();
       }
       this._renderGridHorizontal();
+      this._updateRowsEvenState();
     },
 
     _updateAllRows : function() {
@@ -933,7 +986,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
         }
       }
       return result;
-   },
+    },
 
     _scrollIntoView : function( index ) {
       if( index < this._topItemIndex ) {
@@ -947,13 +1000,15 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       var delta = this._topItemIndex - oldTopItemIndex;
       var forwards = delta > 0;
       delta = Math.abs( delta );
-      if( delta >= this._rows.length ) { 
+      if( delta >= this._rows.length ) {
+        this._updateRowsEvenState();
         this._updateAllRows();
       } else {
         var numberOfShiftingRows = this._rows.length - delta;
         var updateFromRow = forwards ? numberOfShiftingRows : 0;
         var newFirstRow = forwards ? delta : numberOfShiftingRows;
         this._switchRows( newFirstRow );
+        this._updateRowsEvenState();
         this._updateRows( updateFromRow, delta );
       }
     },
@@ -968,6 +1023,13 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       var changes = { "locationY" : true };
       for( var i = 0; i < this._rows.length; i++ ) {
         layouter.layoutChild( this._rows[ i ], changes );
+      }
+    },
+    
+    setHasScrollBarsSelectionListener : function( value ) {
+      this._hasScrollBarsSelectionListener = value;
+      if( value ) {
+        this._createSendRequestTimer();
       }
     },
         
@@ -1000,7 +1062,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       var wm = org.eclipse.swt.WidgetManager.getInstance();
       var id = wm.findIdByWidget( this );
       req.addParameter( id + ".topItemIndex", this._topItemIndex );
-      if( this._isVirtual ) {
+      if( this._isVirtual || this._hasScrollBarsSelectionListener ) {
         this._sendRequestTimer.start();
       }
     },
@@ -1012,7 +1074,7 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
         var id = wm.findIdByWidget( this );
         req.addParameter( id + ".scrollLeft", this._horzScrollBar.getValue() );
       }
-      if( this._isVirtual ) {
+      if( this._isVirtual || this._hasScrollBarsSelectionListener ) {
         this._sendRequestTimer.start();
       }
     },
@@ -1207,12 +1269,12 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       this._layoutX();
       this._layoutY();
     },
-    
+
     _renderGridVertical : function() {
       var lineNr = 0;
       if( this._linesVisible ) {
-        while( this._renderVerticalGridline( lineNr ) ) {
-          lineNr++;
+        for( var columnNr = 0; columnNr < this._columnCount; columnNr++ ) {
+          lineNr = this._renderVerticalGridline( columnNr, lineNr );          
         }
       }
       while( this._vertGridLines.length > lineNr ) {
@@ -1220,23 +1282,19 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
       }
     },
     
-    _renderVerticalGridline : function( lineNr ) {
-      var result = false;
-      if( lineNr < this._columnCount ) {
-        var clientWidth = this._clientArea.getWidth();
-        var left = this._itemLeft[ lineNr ] + this._itemWidth[ lineNr ] - 1;
-        left -= this._horzScrollBar.getValue(); 
-        if( left < clientWidth ) {
-          result = true;
-          if( left > 0 ) {
-            var line = this._getVerticalGridline( lineNr );
-            line.setLeft( left );
-            line.setTop( this._clientArea.getTop() );
-            line.setHeight( this._clientArea.getHeight() );
-          }
-        }
+    _renderVerticalGridline : function( columnNr, lineNr ) {
+      var newLineNr = lineNr;
+      var clientWidth = this._clientArea.getWidth();
+      var left = this._itemLeft[ columnNr ] + this._itemWidth[ columnNr ] - 1;
+      left -= this._horzScrollBar.getValue(); 
+      if( left > 0 && left < clientWidth ) {
+        var line = this._getVerticalGridline( lineNr );
+        line.setLeft( left );
+        line.setTop( this._clientArea.getTop() );
+        line.setHeight( this._clientArea.getHeight() );
+        newLineNr++
       }
-      return result;
+      return newLineNr;
     },
     
     _getVerticalGridline : function( number ) {
@@ -1259,23 +1317,31 @@ qx.Class.define( "org.eclipse.rwt.widgets.Tree", {
     },
     
     _getHorizontalGridBorder : function() {
-      if( this._horzGridBorder === null ) {
-        var border = new qx.ui.core.Border( 0 );
-        border.setColor( "#d0d0d0" );
-        border.setWidthBottom( 1 );
-        this._horzGridBorder = border; // TODO [tb] : make static or themeable
+      if( this._horzGridBorder === null ) { 
+        this._horzGridBorder = this._getGridBorder( { "horizontal" : true } );
       }
       return this._horzGridBorder;
     },
     
     _getVerticalGridBorder : function() {
       if( this._vertGridBorder === null ) {
-        var border = new qx.ui.core.Border( 0 );
-        border.setColor( "#d0d0d0" );
-        border.setWidthRight( 1 );
-        this._vertGridBorder = border; // TODO [tb] : make static or themeable
+        this._vertGridBorder = this._getGridBorder( { "vertical" : true } );
       }
       return this._vertGridBorder;
+    },
+    
+    _getGridBorder : function( state ) {
+      var border = new qx.ui.core.Border( 0 );
+      var tvGrid = new org.eclipse.swt.theme.ThemeValues( state );
+      var gridColor = tvGrid.getCssColor( "Tree-GridLine", "color" );
+      tvGrid.dispose();
+      border.setColor( gridColor );
+      if( state.horizontal ) {
+        border.setWidthBottom( 1 );
+      } else if( state.vertical ) {
+        border.setWidthRight( 1 );
+      }
+      return border;
     },
     
     _layoutX : function() {

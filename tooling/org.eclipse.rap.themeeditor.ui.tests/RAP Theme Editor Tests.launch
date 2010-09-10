@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.pde.ui.JunitLaunchConfig">
+<booleanAttribute key="append.args" value="true"/>
+<stringAttribute key="application" value="org.eclipse.pde.junit.runtime.coretestapplication"/>
+<booleanAttribute key="askclear" value="false"/>
+<booleanAttribute key="automaticAdd" value="true"/>
+<booleanAttribute key="automaticValidate" value="false"/>
+<stringAttribute key="bootstrap" value=""/>
+<stringAttribute key="checked" value="[NONE]"/>
+<booleanAttribute key="clearConfig" value="true"/>
+<booleanAttribute key="clearws" value="true"/>
+<booleanAttribute key="clearwslog" value="false"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/pde-junit"/>
+<booleanAttribute key="default" value="false"/>
+<stringAttribute key="deselected_workspace_plugins" value="org.eclipse.rap.ui.intro,org.eclipse.rap.help,org.eclipse.rap.js.testrunner,org.w3c.dom.events,editor,org.apache.batik.util,org.eclipse.rap.ui.templates,org.w3c.css.sac,org.eclipse.rap.ui.tests,org.apache.batik.css,org.apache.batik.util.gui,org.w3c.dom.smil,org.eclipse.rap.themeeditor,org.w3c.dom.svg,org.eclipse.rap.ui.launch"/>
+<booleanAttribute key="includeOptional" value="true"/>
+<stringAttribute key="location" value="${workspace_loc}/../junit-themeeditor"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/org.eclipse.rap.themeeditor.ui.tests/src/org/eclipse/rap/ui/themeeditor/AllTests.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
+<booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
+<stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
+<stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit3"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.rap.ui.themeeditor.AllTests"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.rap.themeeditor.ui.tests"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
+<stringAttribute key="pde.version" value="3.3"/>
+<stringAttribute key="product" value="org.eclipse.sdk.ide"/>
+<booleanAttribute key="run_in_ui_thread" value="true"/>
+<stringAttribute key="selected_target_plugins" value="org.eclipse.help@default:default,org.eclipse.core.expressions@default:default,org.eclipse.jface.databinding@default:default,org.eclipse.core.databinding.property@default:default,org.eclipse.ui.ide@default:default,org.eclipse.core.filebuffers@default:default,org.eclipse.core.runtime.compatibility.registry@default:false,org.eclipse.swt@default:default,org.eclipse.equinox.p2.engine@default:default,org.eclipse.ecf.provider.filetransfer.ssl@default:false,org.eclipse.equinox.p2.repository@default:default,org.eclipse.equinox.concurrent@default:default,org.eclipse.equinox.p2.metadata.repository@default:default,org.eclipse.equinox.registry@default:default,org.eclipse.text@default:default,org.eclipse.osgi.services@default:default,org.eclipse.osgi@-1:true,org.eclipse.ant.core@default:default,org.eclipse.pde.junit.runtime@default:default,org.eclipse.core.databinding.observable@default:default,org.eclipse.core.net@default:default,org.eclipse.jface@default:default,org.eclipse.ecf.provider.filetransfer@default:default,org.eclipse.ecf@default:default,org.eclipse.jface.text@default:default,org.eclipse.core.jobs@default:default,org.eclipse.ui.workbench.texteditor@default:default,org.eclipse.core.variables@default:default,org.eclipse.core.runtime.compatibility.auth@default:default,org.eclipse.ui.forms@default:default,com.ibm.icu@default:default,org.eclipse.ui.views@default:default,org.eclipse.core.filesystem.linux.x86@default:false,org.eclipse.core.runtime@default:true,org.eclipse.swt.gtk.linux.x86@default:false,org.eclipse.equinox.common@2:true,org.eclipse.jdt.junit.runtime@default:default,org.eclipse.core.resources@default:default,org.eclipse.core.net.linux.x86@default:false,org.eclipse.equinox.app@default:default,org.eclipse.ecf.identity@default:default,org.eclipse.equinox.p2.core@default:default,org.eclipse.core.commands@default:default,org.eclipse.core.databinding@default:default,org.junit*3.8.2.v3_8_2_v20100427-1100@default:default,org.eclipse.core.filesystem@default:default,org.eclipse.equinox.security@default:default,org.eclipse.ui.editors@default:default,org.eclipse.compare.core@default:default,org.eclipse.ecf.filetransfer@default:default,org.eclipse.equinox.p2.metadata@default:default,org.eclipse.equinox.preferences@default:default,org.eclipse.core.contenttype@default:default,org.eclipse.ui@default:default,javax.servlet@default:default,org.eclipse.ecf.ssl@default:false,org.eclipse.ui.workbench@default:default"/>
+<stringAttribute key="selected_workspace_plugins" value="org.eclipse.rap.themeeditor.ui.tests@default:default,org.eclipse.rap.themeeditor.ui@default:default"/>
+<booleanAttribute key="show_selected_only" value="false"/>
+<stringAttribute key="templateConfig" value="${target_home}/configuration/config.ini"/>
+<booleanAttribute key="tracing" value="false"/>
+<booleanAttribute key="useCustomFeatures" value="false"/>
+<booleanAttribute key="useDefaultConfig" value="true"/>
+<booleanAttribute key="useDefaultConfigArea" value="false"/>
+<booleanAttribute key="useProduct" value="false"/>
+</launchConfiguration>

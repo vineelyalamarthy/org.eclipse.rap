@@ -273,7 +273,11 @@ public class Upload extends Control {
         } finally {
           uploadInProgresses[ 0 ] = false;
           performUpload = false;
-          removeUploadListener( listener );
+          // 324732: [upload] Widget is disposed if widget is disposed while upload is in progress
+          // https://bugs.eclipse.org/bugs/show_bug.cgi?id=324732
+          if (!isDisposed()) {
+            removeUploadListener( listener );
+          }
         }
     }
 

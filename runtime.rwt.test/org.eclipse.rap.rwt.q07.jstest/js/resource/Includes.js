@@ -265,6 +265,7 @@
     "org/eclipse/swt/widgets/Separator.js",
     "org/eclipse/swt/theme/AppearancesBase.js",
     "org/eclipse/rwt/widgets/ControlDecorator.js",
+    "org/eclipse/rwt/MobileWebkitSupport.js",
     "org/eclipse/rwt/protocol/JSON2.js",
     "org/eclipse/rwt/protocol/Constants.js",
     "org/eclipse/rwt/protocol/Processor.js",

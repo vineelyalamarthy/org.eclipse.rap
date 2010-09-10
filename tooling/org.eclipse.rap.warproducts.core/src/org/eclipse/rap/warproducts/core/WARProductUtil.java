@@ -9,13 +9,10 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core;
 
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.pde.core.plugin.IPluginModelBase;
-import org.eclipse.pde.core.plugin.ModelEntry;
-import org.eclipse.pde.core.plugin.PluginRegistry;
-import org.eclipse.pde.core.plugin.TargetPlatform;
+import org.eclipse.pde.core.plugin.*;
 import org.eclipse.rap.warproducts.core.validation.Validator;
 
 
@@ -31,8 +28,9 @@ public class WARProductUtil {
       IPath targetPath = new Path( targetString );
       result = targetPath.append( libPath );
     } else {
-      IPath wsLocation = ResourcesPlugin.getWorkspace().getRoot().getLocation();
-      result = wsLocation.append( libPath );
+      IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+      IFile lib = root.getFile( libPath );
+      result = lib.getLocation();
     }
     return result;
   }

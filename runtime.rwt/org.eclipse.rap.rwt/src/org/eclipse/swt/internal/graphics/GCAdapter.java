@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2010 EclipseSource and others. All rights reserved.
  * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v1.0 which accompanies this distribution, 
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
@@ -12,26 +12,58 @@ package org.eclipse.swt.internal.graphics;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.swt.internal.graphics.GCOperation.SetFont;
+import org.eclipse.swt.internal.graphics.GCOperation.SetProperty;
 
 public final class GCAdapter implements IGCAdapter {
 
   private final List gcOperations;
-  
+  private boolean forceRedraw;
+
   public GCAdapter() {
     gcOperations = new LinkedList();
   }
-  
+
   public void addGCOperation( final GCOperation operation ) {
     gcOperations.add( operation );
   }
-  
+
   public GCOperation[] getGCOperations() {
     GCOperation[] result = new GCOperation[ gcOperations.size() ];
     gcOperations.toArray( result );
     return result;
   }
-  
+
   public void clearGCOperations() {
     gcOperations.clear();
+  }
+
+  public GCOperation[] getTrimmedGCOperations() {
+    int counter = 0;
+    boolean stop = false;
+    GCOperation[] operations = getGCOperations();
+    for( int i = operations.length - 1; i >= 0 && !stop; i-- ) {
+      if( isDrawOperation( operations[ i ] ) ) {
+        stop = true;
+      } else {
+        counter++;
+      }
+    }
+    GCOperation[] result = new GCOperation[ operations.length - counter ];
+    System.arraycopy( operations, 0, result, 0, result.length );
+    return result;
+  }
+
+  public void setForceRedraw( final boolean forceRedraw ) {
+    this.forceRedraw = forceRedraw;
+  }
+
+  public boolean getForceRedraw() {
+    return forceRedraw;
+  }
+
+  private static boolean isDrawOperation( final GCOperation operation ) {
+    return !(    operation instanceof SetProperty
+              || operation instanceof SetFont );
   }
 }

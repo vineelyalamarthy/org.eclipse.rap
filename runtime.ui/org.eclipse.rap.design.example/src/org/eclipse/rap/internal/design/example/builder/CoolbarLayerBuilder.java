@@ -1,5 +1,5 @@
 /******************************************************************************* 
-* Copyright (c) 2009 EclipseSource and others. All rights reserved. This
+* Copyright (c) 2009, 2010 EclipseSource and others. All rights reserved. This
 * program and the accompanying materials are made available under the terms of
 * the Eclipse Public License v1.0 which accompanies this distribution, and is
 * available at http://www.eclipse.org/legal/epl-v10.html
@@ -57,7 +57,7 @@ public class CoolbarLayerBuilder extends ElementBuilder {
     }
     Composite layerParent = new Composite( parent, SWT.NONE );
     layerParent.setBackgroundMode( SWT.INHERIT_FORCE );
-    layerParent.setData( WidgetUtil.CUSTOM_VARIANT, "compTrans" );
+    layerParent.setData( WidgetUtil.CUSTOM_VARIANT, "compTrans" ); //$NON-NLS-1$
     layerParent.setLayout( new FormLayout() );
     FormData fdLayerParent = new FormData();
     layerParent.setLayoutData( fdLayerParent );

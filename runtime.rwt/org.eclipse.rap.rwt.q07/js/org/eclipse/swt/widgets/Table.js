@@ -32,7 +32,8 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
     // click-events while double-clicking
     this._suspendClicksOnRow = null;
     // Should the selected item be hightlighted?
-    this._hideSelection = false;
+    this._alwaysHideSelection = false;
+    this._hideSelection = qx.lang.String.contains( style, "hideSelection" );
     // Draw grid lines?
     this._linesVisible = false;
     this._borderWidth = 0;
@@ -259,7 +260,7 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
       themeable : true
     },
     
-    checkImageHeight : {
+    checkHeight : {
       check : "Integer",
       init : 13,
       themeable : true
@@ -404,8 +405,13 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
       return this._itemHeight;
     },
 
-    setHideSelection : function( value ) {
-      this._hideSelection = value;
+    setAlwaysHideSelection : function( value ) {
+      this._alwaysHideSelection = value;
+    },
+    
+    shouldHideSelection : function() {
+       return    this._alwaysHideSelection
+              || ( this._hideSelection && !this.getFocused() );
     },
 
     setItemMetrics : function( columnIndex, left, width, imageLeft, imageWidth, textLeft, textWidth ) {
@@ -519,6 +525,11 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
 
     setLinesVisible : function( value ) {
       this._linesVisible = value;
+      if( value ) {
+        this.addState( "linesvisible" );
+      } else {
+        this.removeState( "linesvisible" );
+      }
       for( var i = 0; i < this._rows.length; i++ ) {
         this._rows[ i ].setLinesVisible( value );
       }
@@ -1323,7 +1334,7 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
           // Re-calculate the position and size for each row
           this._updateRowBounds();
           this._updateRowTop();
-          this._updateFocusState();
+          this._updateRowsState();
           result = true;
         }
       }
@@ -1347,7 +1358,7 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
     },
 
     _updateRowTop : function() {
-      var checkBoxOffset = this._itemHeight / 2 - this.getCheckImageHeight() / 2;
+      var checkBoxOffset = this._itemHeight / 2 - this.getCheckHeight() / 2;
       var top = 0;
       for( var i = 0; i < this._rows.length; i++ ) {
         if( this._checkBoxes !== null ) {
@@ -1360,16 +1371,16 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
 
     _updateRowBounds : function() {
       var left = 0 - this._horzScrollBar.getValue();
-      var checkImageHeight = 0;
-      var checkBoxWidth = 0;
+      var checkHeight = 0;
+      var checkWidth = 0;
       if( this._checkBoxes !== null ) {
-        checkBoxWidth = this.getCheckWidth();
-        checkImageHeight = this.getCheckImageHeight();
+        checkWidth = this.getCheckWidth();
+        checkHeight = this.getCheckHeight();
       }
       var width;
       if( this.getColumnCount() === 0 ) {
         // see bug 290565 and bug 290879
-        width = this.getDefaultColumnWidth() + checkBoxWidth;
+        width = this.getDefaultColumnWidth() + checkWidth;
       } else {
         width = this.getColumnsWidth();
       }
@@ -1380,8 +1391,8 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
         if( this._checkBoxes !== null ) {
           var checkBox = this._checkBoxes[ i ];
           checkBox.setLeft( left );
-          checkBox.setWidth( checkBoxWidth );
-          checkBox.setHeight( checkImageHeight );
+          checkBox.setWidth( checkWidth );
+          checkBox.setHeight( checkHeight );
         }
         var row = this._rows[ i ];
         row.setLeft( left );
@@ -1456,6 +1467,12 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
         row.addEventListener( "create", listener );
       }
     },
+    
+    _updateRowsState : function() {
+      for( var i = 0; i < this._rows.length; i++ ) {
+        this._updateRowState( i, this._getItemIndexFromRowIndex( i ) );
+      }
+    },
 
     _updateRowState : function( rowIndex, itemIndex ) {
       var row = this._rows[ rowIndex ];
@@ -1466,10 +1483,8 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
           this._checkBoxes[ rowIndex ].setVisibility( false );
         }
       } else {
-        if( this._isItemSelected( itemIndex ) ) {
-          if( !this._hideSelection ) {
-            row.addState( "selected" );
-          }
+        if( this._isItemSelected( itemIndex ) && !this.shouldHideSelection() ) {
+          row.addState( "selected" );
         } else {
           row.removeState( "selected" );
         }
@@ -1498,16 +1513,10 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
           }
         }
       }
-    },
-
-    _updateFocusState : function() {
-      var focused = this.getFocused();
-      for( var i = 0; i < this._rows.length; i++ ) {
-        if( focused ) {
-          this._rows[ i ].removeState( "parent_unfocused" );
-        } else {
-          this._rows[ i ].addState( "parent_unfocused" );
-        }
+      if( this.getFocused() ) {
+        row.removeState( "parent_unfocused" );
+      } else {
+        row.addState( "parent_unfocused" );
       }
     },
 
@@ -1619,11 +1628,11 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
     // Focus tracking - may change appearance of selected row
 
     _onFocusIn : function( evt ) {
-      this._updateFocusState();
+      this._updateRowsState();
     },
 
     _onFocusOut : function( evt ) {
-      this._updateFocusState();
+      this._updateRowsState();
     },
 
     ////////////////////////////////////////////////////////////
@@ -1701,10 +1710,11 @@ qx.Class.define( "org.eclipse.swt.widgets.Table", {
         var columnIndex = -1;
         var columns = this.getColumns();
         for( var i = 0; columnIndex == -1 && i < columns.length; i++ ) {
-          var element = columns[ i ].getElement();
-          var pageLeft = qx.bom.element.Location.getLeft( element );
+          var element = this._clientArea.getElement();
+          var pageLeft = qx.bom.element.Location.getLeft( element )
+                       + this._itemLeft[ i ];
           if(    pageX >= pageLeft
-              && pageX < pageLeft + columns[ i ].getWidth() )
+              && pageX < pageLeft + this._itemWidth[ i ] )
           {
             columnIndex = i;
           }

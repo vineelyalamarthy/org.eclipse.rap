@@ -43,9 +43,7 @@ public class WARProductFromConfigOperation
   protected void initializeProduct( final IProduct product ) {
     internalInitializeProduct( product );
     InfrastructreCreator creator = new InfrastructreCreator( productParent );
-    creator.createWebInf();
-    creator.createLaunchIni();
-    creator.createWebXml();
+    createWebInfContent( creator );
     if( product instanceof WARProduct ) {
       WARProduct warProduct = ( WARProduct )product;
       warProduct.addLaunchIni( creator.getLaunchIniPath() );

@@ -575,7 +575,7 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
 
     testVerticalScrollBarLayout : function() {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
-      tree = this._createDefaultTree();
+      var tree = this._createDefaultTree();
       tree.setScrollBarsVisible( false, true );
       testUtil.flush();
       var area = testUtil.getElementBounds( tree._clientArea.getElement() )
@@ -591,7 +591,7 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
 
     testHorizontalScrollBarLayout : function() {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
-      tree = this._createDefaultTree();
+      var tree = this._createDefaultTree();
       tree.setScrollBarsVisible( true, false );
       testUtil.flush();
       var area = testUtil.getElementBounds( tree._clientArea.getElement() )
@@ -607,7 +607,7 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
 
     testBothScrollBarsLayout : function() {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
-      tree = this._createDefaultTree();
+      var tree = this._createDefaultTree();
       tree.setScrollBarsVisible( true, true );
       testUtil.flush();
       var area = testUtil.getElementBounds( tree._clientArea.getElement() )
@@ -689,7 +689,7 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
     
     testScrollHeightWithHeaderBug : function() {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
-      tree = this._createDefaultTree();
+      var tree = this._createDefaultTree();
       tree.setHeaderHeight( 20 );
       tree.setHeaderVisible( true );
       tree.setHeight( 490 );
@@ -783,7 +783,7 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
     
     testScrollBugExpanded : function() {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
-      tree = this._createDefaultTree();
+      var tree = this._createDefaultTree();
       var i = 0;
       while( i < 100 ) {
         var item = new org.eclipse.rwt.widgets.TreeItem( tree );
@@ -824,7 +824,7 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
     
     testDestroy : function() {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
-      tree = this._createDefaultTree();
+      var tree = this._createDefaultTree();
       var item = new org.eclipse.rwt.widgets.TreeItem( tree );
       tree._showResizeLine( 0 );
       tree.setIsVirtual( true );
@@ -833,7 +833,8 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
       testUtil.flush();
       tree.setFocusItem( item );
       tree._shiftSelectItem( item );
-      var row = tree._rows[ 0 ];
+      var row = tree._rows[ 0 ]
+      testUtil.hoverFromTo( document.body, row._getTargetNode() );
       var area = tree._clientArea;
       var dummy = tree._dummyColumn;
       var hscroll = tree._horzScrollBar;
@@ -849,6 +850,8 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
       assertNotNull( tree._focusItem );
       assertNotNull( tree._leadItem );
       assertNotNull( tree._topItem );
+      assertNotNull( tree._hoverItem );
+      assertNotNull( tree._hoverElement );
       tree.destroy();
       testUtil.flush();
       assertTrue( element.parentNode !== document.body );
@@ -870,6 +873,8 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
       assertNull( tree._leadItem );
       assertNull( tree._rows );
       assertNull( tree._topItem );
+      assertNull( tree._hoverItem );
+      assertNull( tree._hoverElement );
       assertNull( tree._mergeEventsTimer );
       assertNull( tree._sendRequestTimer );
       assertNull( tree._clientArea );
@@ -1575,6 +1580,24 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
       tree.destroy();
     },
 
+    testIsHoverElement : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createDefaultTree();
+      var item = new org.eclipse.rwt.widgets.TreeItem( tree );
+      item.setTexts( [ "bla" ] );
+      item.setImages( [ "bla.jpg" ] );
+      assertFalse( tree.isHoverElement( null ) );
+      testUtil.flush();
+      var rowNode = tree._rows[ 0 ]._getTargetNode();
+      testUtil.hoverFromTo( document.body, rowNode );
+      assertFalse( tree.isHoverElement( rowNode.firstChild ) );
+      assertFalse( tree.isHoverElement( rowNode.lastChild ) );
+      testUtil.hoverFromTo( rowNode, rowNode.firstChild );
+      assertTrue( tree.isHoverElement( rowNode.firstChild ) );
+      assertFalse( tree.isHoverElement( rowNode.lastChild ) );
+      tree.destroy();
+    },
+
     testRenderOnItemHover : function() {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
       var tree = this._createDefaultTree();
@@ -1593,6 +1616,92 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
       assertEquals( "red", style.backgroundColor );
       testUtil.mouseOut( tree._rows[ 0 ] );
       assertEquals( "green", style.backgroundColor );
+      tree.destroy();
+    },
+
+    testRenderOnCheckBoxHover : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createDefaultTree();
+      tree.setHasCheckBoxes( true );
+      tree.setCheckBoxMetrics( 5, 5 );
+      testUtil.fakeAppearance( "tree-check-box",  {
+        style : function( states ) {
+          return {
+            "backgroundImage" : states.over ? "over.gif" : "normal.gif"
+          }
+        }
+      } );
+      var item = new org.eclipse.rwt.widgets.TreeItem( tree );
+      testUtil.flush()
+      var rowNode = tree._rows[ 0 ]._getTargetNode();
+      testUtil.hoverFromTo( document.body, rowNode );
+      var normal = testUtil.getCssBackgroundImage( rowNode.firstChild );
+      testUtil.hoverFromTo( rowNode, rowNode.firstChild );
+      var over = testUtil.getCssBackgroundImage( rowNode.firstChild );
+      testUtil.hoverFromTo( rowNode.firstChild, rowNode );
+      var normalAgain = testUtil.getCssBackgroundImage( rowNode.firstChild );
+      assertTrue( normal.indexOf( "normal.gif" ) != -1 );
+      assertTrue( over.indexOf( "over.gif" ) != -1 );
+      assertTrue( normalAgain.indexOf( "normal.gif" ) != -1 );
+      tree.destroy();
+    },
+
+    testRenderOnCheckBoxHoverSkip : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createDefaultTree();
+      tree.setHasCheckBoxes( true );
+      tree.setCheckBoxMetrics( 5, 5 );
+      testUtil.fakeAppearance( "tree-check-box",  {
+        style : function( states ) {
+          return {
+            "backgroundImage" : states.over ? "over.gif" : "normal.gif"
+          }
+        }
+      } );
+      var item1 = new org.eclipse.rwt.widgets.TreeItem( tree );
+      var item2 = new org.eclipse.rwt.widgets.TreeItem( tree );
+      testUtil.flush()
+      var rowNode1 = tree._rows[ 0 ]._getTargetNode();
+      var rowNode2 = tree._rows[ 1 ]._getTargetNode();
+      testUtil.hoverFromTo( document.body, rowNode1.firstChild );
+      var check1 = testUtil.getCssBackgroundImage( rowNode1.firstChild );
+      var check2 = testUtil.getCssBackgroundImage( rowNode2.firstChild );
+      assertTrue( check1.indexOf( "over.gif" ) != -1 );
+      assertTrue( check2.indexOf( "normal.gif" ) != -1 );
+      testUtil.hoverFromTo( rowNode1.firstChild, rowNode2.firstChild );
+      check1 = testUtil.getCssBackgroundImage( rowNode1.firstChild );
+      check2 = testUtil.getCssBackgroundImage( rowNode2.firstChild );
+      assertTrue( check1.indexOf( "normal.gif" ) != -1 );
+      assertTrue( check2.indexOf( "over.gif" ) != -1 );
+      tree.destroy();
+    },
+
+    testRenderOnExpandSymbolHover : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createDefaultTree();
+      testUtil.fakeAppearance( "tree-indent",  {
+        style : function( states ) {
+        	var result = null;
+        	if( !states.line ) {
+        		result = states.over ? "over.gif" : "normal.gif";
+        	}
+          return {
+            "backgroundImage" : result
+          }
+        }
+      } );
+      var item = new org.eclipse.rwt.widgets.TreeItem( tree );
+      testUtil.flush()
+      var rowNode = tree._rows[ 0 ]._getTargetNode();
+      testUtil.hoverFromTo( document.body, rowNode );
+      var normal = testUtil.getCssBackgroundImage( rowNode.firstChild );
+      testUtil.hoverFromTo( rowNode, rowNode.firstChild );
+      var over = testUtil.getCssBackgroundImage( rowNode.firstChild );
+      testUtil.hoverFromTo( rowNode.firstChild, rowNode );
+      var normalAgain = testUtil.getCssBackgroundImage( rowNode.firstChild );
+      assertTrue( normal.indexOf( "normal.gif" ) != -1 );
+      assertTrue( over.indexOf( "over.gif" ) != -1 );
+      assertTrue( normalAgain.indexOf( "normal.gif" ) != -1 );
       tree.destroy();
     },
 
@@ -1713,6 +1822,8 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
       assertEquals( tree._columnArea, column.getParent() );
       assertTrue( dummy.getVisibility() );
       assertTrue( dummy.hasState( "dummy" ) );
+      // Fix for IEs DIV-height bug (322802):
+      assertEquals( "&nbsp;", dummy.getLabel() );
       assertEquals( 500, dummy.getLeft() );
       assertEquals( 100, dummy.getWidth() );
       tree.destroy();
@@ -1974,11 +2085,10 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
       var tree = this._createDefaultTree();
       tree.setHasCheckBoxes( true );
       tree.setCheckBoxMetrics( 5, 5 );
-      testUtil.fakeAppearance( "tree-row",  {
+      testUtil.fakeAppearance( "tree-check-box",  {
         style : function( states ) {
           return {
-            "itemBackground" : null, 
-            "checkBox" : states.grayed ? "grayed.gif" : "normal.gif"
+            "backgroundImage" : states.grayed ? "grayed.gif" : "normal.gif"
           }
         }
       } );
@@ -2007,6 +2117,20 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
       var copy = tree.getStatesCopy();
       assertTrue( copy.bla );
       assertTrue( copy.blub );
+      tree.destroy();
+    },
+    
+    testGridLinesState : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createDefaultTree( true );
+      tree.setLinesVisible( true );
+      testUtil.flush();
+      var row = tree._rows[ 0 ];
+      assertTrue( tree.hasState( "linesvisible" ) );
+      assertTrue( row.hasState( "linesvisible" ) );
+      tree.setLinesVisible( false );
+      assertFalse( tree.hasState( "linesvisible" ) );
+      assertFalse( row.hasState( "linesvisible" ) );
       tree.destroy();
     },
     
@@ -2111,10 +2235,12 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
       tree.setHeaderHeight( 20 );
       tree.setHeaderVisible( true );
       assertEquals( 20, line.getTop() );
-      assertEquals( 480, line.getHeight() );      
-      tree.setScrollBarsVisible( true, true );
-      assertEquals( 20, line.getTop() );
-      assertTrue( line.getHeight() < 480 );      
+      assertEquals( 480, line.getHeight() );
+      if( !testUtil.isMobileWebkit() ) {
+	      tree.setScrollBarsVisible( true, true );
+	      assertEquals( 20, line.getTop() );
+	      assertTrue( line.getHeight() < 480 );
+      }      
       tree.destroy();
     },
     
@@ -2150,18 +2276,55 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
       tree.destroy();
     },
     
+    testGridLinesVerticalPositionXScrolledOut : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createDefaultTree();
+      tree.setWidth( 170 );
+      tree.setColumnCount( 3 );
+      tree.setLinesVisible( true );
+      tree.setItemMetrics( 0, 0, 30, 0, 0, 0, 400 );
+      testUtil.flush();
+      tree.setScrollLeft( 40 );
+      testUtil.flush();
+      assertEquals( 4, tree.getChildren().length );
+      tree.destroy();
+    },
+    
+    testGridLinesScrolledOutChangedColumnOrder : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createDefaultTree();
+      tree.setWidth( 170 );
+      tree.setColumnCount( 3 );
+      tree.setLinesVisible( true );
+      tree.setItemMetrics( 0, 0, 30, 0, 0, 0, 400 );
+      tree.setItemMetrics( 1, 200, 30, 0, 0, 0, 400 );
+      tree.setItemMetrics( 2, 40, 30, 0, 0, 0, 400 );
+      testUtil.flush();
+      var line1 = tree.getChildren()[ 4 ];
+      var line2 = tree.getChildren()[ 5 ];
+      assertEquals( 29, line1.getLeft() )
+      assertEquals( 69, line2.getLeft() )
+      testUtil.flush();
+      tree.destroy();
+    },
+    
     testGridLinesVerticalOverflow : function() {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
       var tree = this._createDefaultTree();
       tree.setScrollBarsVisible( true, true );
-      tree.setColumnCount( 3 );
       tree.setLinesVisible( true );
       tree.setItemMetrics( 0, 0, 202, 0, 0, 0, 400 );
       tree.setItemMetrics( 1, 205, 100, 0, 0, 0, 400 );
       tree.setItemMetrics( 2, 310, 50, 0, 0, 0, 400 );
+      tree.setItemMetrics( 3, 360, 11, 0, 0, 0, 400 );
+      tree.setColumnCount( 4 );
       tree.setWidth( 370 );
       testUtil.flush();
-      assertEquals( 6, tree.getChildren().length );
+      var expected = 6;
+      if( testUtil.isMobileWebkit() ) {
+      	expected += 1; // No scrollbars => bigger client-area
+      }
+      assertEquals( expected, tree.getChildren().length );
       tree.destroy();
     },
     
@@ -2833,7 +2996,6 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
           return {
             "itemBackground" : "undefined",
             "itemForeground" : "undefined",
-            "checkBox" : null,
             "backgroundImage" : null
           }
         }
@@ -2844,12 +3006,10 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeTest", {
     
     _addCheckBoxes : function( tree ) {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
-      testUtil.fakeAppearance( "tree-row", {
+      testUtil.fakeAppearance( "tree-check-box", {
         style : function( states ) {
           var result = {
-            "itemBackground" : null,
-            "itemForeground" : null,
-            "checkBox" : "check.png"
+            "backgroundImage" : "check.png"
           };
           return result;
         }

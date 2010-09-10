@@ -895,10 +895,18 @@ qx.Theme.define( "org.eclipse.swt.theme.AppearancesBase",
     style : function( states ) {
       var tv = new org.eclipse.swt.theme.ThemeValues( states );
       var result = {};
-      result.checkBox = tv.getCssImage( "Tree-Checkbox", "background-image" );
       result.itemBackground = tv.getCssColor( "TreeItem", "background-color" );
       result.itemForeground = tv.getCssColor( "TreeItem", "color" );
       return result; 
+    }
+  },
+
+  "tree-check-box" : {
+    style : function( states ) {
+      var tv = new org.eclipse.swt.theme.ThemeValues( states );
+      return {
+        backgroundImage : tv.getCssImage( "Tree-Checkbox", "background-image" )
+      } 
     }
   },
 
@@ -927,7 +935,11 @@ qx.Theme.define( "org.eclipse.swt.theme.AppearancesBase",
       result.padding = tv.getCssBoxDimensions( "TreeColumn", "padding" );
       var border = new qx.ui.core.Border( 0 );
       if( !states.dummy ) {
-        border.setColorRight( tv.getCssColor( "Table-GridLine", "color" ) );
+        var verticalState = { "vertical" : true };
+        var tvGrid = new org.eclipse.swt.theme.ThemeValues( verticalState );
+        var gridColor = tvGrid.getCssColor( "Tree-GridLine", "color" );
+        gridColor = gridColor == "undefined" ? "transparent" : gridColor;
+        border.setColorRight( gridColor );
         border.setWidthRight( 1 );
       }
       var borderBottom = tv.getCssBorder( "TreeColumn", "border-bottom" );
@@ -1226,13 +1238,19 @@ qx.Theme.define( "org.eclipse.swt.theme.AppearancesBase",
   "table" : {
     style : function( states ) {
       var tv = new org.eclipse.swt.theme.ThemeValues( states );
+      var checkWidth = tv.getCssDimension( "Table-Checkbox", "width" );
+      var checkImage = tv.getCssSizedImage( "Table-Checkbox", "background-image" );
+      var checkMargin =  tv.getCssBoxDimensions( "Table-Checkbox", "margin" );
+      if( checkMargin.join() !== "0,0,0,0" ) {
+        checkWidth = checkImage[ 1 ] + checkMargin[ 1 ] + checkMargin[ 3 ];
+      }
+      var checkHeight = checkImage[ 2 ] + checkMargin[ 0 ] + checkMargin[ 2 ];
       return {
         textColor : tv.getCssColor( "Table", "color" ),
         font : tv.getCssFont( "*", "font" ),
         border : tv.getCssBorder( "*", "border" ),
-        checkWidth : tv.getCssDimension( "Table-Checkbox", "width" ),
-        checkImageHeight : tv.getCssSizedImage( "Table-Checkbox", 
-                                                "background-image" )[2]
+        checkWidth : checkWidth,
+        checkHeight : checkHeight
       };
     }
   },
@@ -1308,7 +1326,7 @@ qx.Theme.define( "org.eclipse.swt.theme.AppearancesBase",
       var result = {
         cursor : "default"
       };
-      if( states.lines ) {
+      if( states.linesvisible ) {
         // TODO [rst] Optimize: this function might be called a few times,
         //            the border can be cached somewhere
         var border = new qx.ui.core.Border( 0 );
@@ -1338,7 +1356,13 @@ qx.Theme.define( "org.eclipse.swt.theme.AppearancesBase",
       var result = {};
       var checkWidth = tv.getCssDimension( "Table-Checkbox", "width" );
       var checkImage = tv.getCssSizedImage( "Table-Checkbox", "background-image" );
-      result.paddingLeft = Math.max( 0, ( checkWidth - checkImage[ 1 ] ) / 2 );
+      var checkMargin =  tv.getCssBoxDimensions( "Table-Checkbox", "margin" );
+      if( checkMargin.join() !== "0,0,0,0" ) {
+        result.paddingLeft = checkMargin[ 3 ];
+      } else {
+        result.paddingLeft = Math.max( 0, ( checkWidth - checkImage[ 1 ] ) / 2 );
+      }
+      result.paddingTop = checkMargin[ 0 ]
       result.source = checkImage[ 0 ];
       return result;
     }

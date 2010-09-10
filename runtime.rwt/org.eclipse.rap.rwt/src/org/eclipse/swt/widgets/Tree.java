@@ -18,7 +18,6 @@ import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.rwt.internal.theme.IThemeAdapter;
 import org.eclipse.rwt.lifecycle.ProcessActionRunner;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.internal.events.SetDataEvent;
@@ -94,10 +93,7 @@ public class Tree extends Composite {
   // This values must be kept in sync with appearance of list items
   private static final int MIN_ITEM_HEIGHT = 16;
 
-  private static final Rectangle CELL_PADDING = new Rectangle( 2, 0, 4, 0 ); 
-  private static final Rectangle TEXT_MARGIN = new Rectangle( 3, 0, 8, 0 ); 
-  private static int IMAGE_TEXT_SPACING = 3; 
-  private static final Rectangle CHECKBOX_MARGIN = new Rectangle( 0, 0, 2, 0 );
+  private static final Rectangle TEXT_MARGIN = new Rectangle( 3, 0, 8, 0 );
 
   /* package */final ItemHolder itemHolder;
   /* package */final ItemHolder columnHolder;
@@ -114,7 +110,12 @@ public class Tree extends Composite {
   private int topItemIndex = 0;
   private boolean hasVScrollBar;
   private boolean hasHScrollBar;
+  private ScrollBar verticalBar;
+  private ScrollBar horizontalBar;
   private Point itemImageSize;
+  private Rectangle bufferedCellPadding = null;
+  private int bufferedCellSpacing = -1;
+  private Rectangle bufferedCheckBoxMargin = null;
 
   private final class CompositeItemHolder implements IItemHolderAdapter {
 
@@ -210,7 +211,7 @@ public class Tree extends Composite {
     }
 
     public int getCheckLeft() {
-      return CHECKBOX_MARGIN.x;
+      return getCheckBoxMargin().x;
     }
 
     public Rectangle getTextMargin() {
@@ -225,8 +226,13 @@ public class Tree extends Composite {
       Tree.this.setTopItemIndex( index );
     }
 
+    public int getColumnLeft( final TreeColumn column ) {
+      int index = Tree.this.indexOf( column );
+      return Tree.this.getColumn( index ).getLeft();
+    }
+
   }
-  
+
   private static final class ResizeListener extends ControlAdapter {
     public void controlResized( final ControlEvent event ) {
       Tree tree = ( Tree )event.widget;
@@ -274,6 +280,7 @@ public class Tree extends Composite {
     itemHolder = new ItemHolder( TreeItem.class );
     columnHolder = new ItemHolder( TreeColumn.class );
     treeAdapter = new InternalTreeAdapter();
+    createScrollBars();
     selection = EMPTY_SELECTION;
     resizeListener = new ResizeListener();
     addControlListener( resizeListener );
@@ -505,25 +512,97 @@ public class Tree extends Composite {
     if( item.flatIndex <= topItemIndex ) {
       setTopItemIndex( item.flatIndex );
     } else {
-      int rows 
-        = ( int )Math.floor( getClientArea().height / this.getItemHeight() ); 
+      int itemsAreaHeight = getClientArea().height - getHeaderHeight();
+      int rows = ( int )Math.floor( itemsAreaHeight / getItemHeight() );
       if( item.flatIndex >= topItemIndex + rows ) {
         setTopItemIndex( item.flatIndex - rows + 1 );
       }
     }
   }
-  
+
+  /**
+   * Sets the item which is currently at the top of the receiver.
+   * This item can change when items are expanded, collapsed, scrolled
+   * or new items are added or removed.
+   *
+   * @param item the item to be shown
+   *
+   * @exception IllegalArgumentException <ul>
+   *    <li>ERROR_NULL_ARGUMENT - if the item is null</li>
+   *    <li>ERROR_INVALID_ARGUMENT - if the item has been disposed</li>
+   * </ul>
+   * @exception SWTException <ul>
+   *    <li>ERROR_WIDGET_DISPOSED - if the receiver has been disposed</li>
+   *    <li>ERROR_THREAD_INVALID_ACCESS - if not called from the thread that created the receiver</li>
+   * </ul>
+   *
+   * @see Tree#getTopItem()
+   *
+   * @since 1.4
+   */
+  public void setTopItem( final TreeItem item ) {
+    checkWidget();
+    if( item == null ) {
+      error( SWT.ERROR_NULL_ARGUMENT );
+    }
+    if( item.isDisposed() ) {
+      error( SWT.ERROR_INVALID_ARGUMENT );
+    }
+    if( item.getParent() == this ) {
+      TreeItem parent = item.getParentItem();
+      while( parent != null ) {
+        parent.setExpanded( true );
+        parent = parent.getParentItem();
+      }
+      int visibleItemsCount = collectVisibleItems( null ).size();
+      int itemsAreaHeight = getClientArea().height - getHeaderHeight();
+      int rows = ( int )Math.floor( itemsAreaHeight / getItemHeight() );
+      if(    item.flatIndex <= topItemIndex
+          || item.flatIndex + rows <= visibleItemsCount )
+      {
+        setTopItemIndex( item.flatIndex );
+      } else {
+        int index = Math.max( 0, visibleItemsCount - rows );
+        setTopItemIndex( index );
+      }
+    }
+  }
+
+  /**
+   * Returns the item which is currently at the top of the receiver.
+   * This item can change when items are expanded, collapsed, scrolled
+   * or new items are added or removed.
+   *
+   * @return the item at the top of the receiver
+   *
+   * @exception SWTException <ul>
+   *    <li>ERROR_WIDGET_DISPOSED - if the receiver has been disposed</li>
+   *    <li>ERROR_THREAD_INVALID_ACCESS - if not called from the thread that created the receiver</li>
+   * </ul>
+   *
+   * @since 1.4
+   */
+  public TreeItem getTopItem() {
+    checkWidget();
+    TreeItem result = null;
+    if( getItemCount() > 0 ) {
+      List visibleItems = collectVisibleItems( null );
+      result = ( TreeItem )visibleItems.get( topItemIndex );
+    }
+    return result;
+  }
+
   private void setTopItemIndex( final int index ) {
     if( index != topItemIndex ) {
       topItemIndex = index;
       checkAllData( this );
     }
   }
-  
+
   int getTopIndex() {
     return topItemIndex;
   }
-  
+
   /**
    * Shows the column.  If the column is already showing in the receiver,
    * this method simply returns.  Otherwise, the columns are scrolled until
@@ -994,9 +1073,10 @@ public class Tree extends Composite {
    */
   public int getItemHeight() {
     checkWidget();
+    Rectangle padding = getCellPadding();
     int textHeight = Graphics.getCharHeight( getFont() );
-    textHeight += TEXT_MARGIN.height + CELL_PADDING.height;
-    int itemImageHeight = getItemImageSize().y + CELL_PADDING.height;
+    textHeight += TEXT_MARGIN.height + padding.height;
+    int itemImageHeight = getItemImageSize().y + padding.height;
     int result = Math.max( itemImageHeight, textHeight );
     if( hasCheckBoxes( 0 )) {
       result = Math.max( getCheckImageOuterSize().y, result );
@@ -1669,10 +1749,10 @@ public class Tree extends Composite {
     }
     return new Point( width, height );
   }
-  
+
   /////////////////////
   // item layout helper
-  
+
   private int getMaxInnerWidth( final TreeItem[] items, final int level ) {
     int maxInnerWidth = 0;
     for( int i = 0; i < items.length; i++ ) {
@@ -1692,41 +1772,41 @@ public class Tree extends Composite {
   int getCellLeft( final int index ) {
     return getColumnCount() == 0 ? 0 : getColumn( index ).getLeft();
   }
-  
+
   private int getCellWidth( final int index ) {
     return   getColumnCount() == 0 && index == 0
-           ? getClientArea().width 
+           ? getClientArea().width
            : getColumn( index ).getWidth();
   }
-  
+
   int getImageOffset( final int index ) {
     // Note: The left cell-padding is visually ignored for the tree-column
-    int result = isTreeColumn( index ) ? 0 : CELL_PADDING.x;
+    int result = isTreeColumn( index ) ? 0 : getCellPadding().x;
     if( hasCheckBoxes( index ) ) {
       result += getCheckImageOuterSize().x;
     }
     return result;
   }
-   
+
   private int getTextOffset( final int index ) {
     int result = getImageOffset( index );
     result += getItemImageOuterWidth( index );
     result += TEXT_MARGIN.x;
     return result;
   }
-  
+
   int getTextWidth( final int index ) {
-    return   getCellWidth( index ) 
-           - getTextOffset( index ) 
+    return   getCellWidth( index )
+           - getTextOffset( index )
            - ( TEXT_MARGIN.width - TEXT_MARGIN.x );
   }
-  
+
   int getIndentionOffset( final TreeItem item ) {
     return this.getIndentionWidth() * ( item.depth + 1);
   }
-  
+
   int getVisualCellLeft( final int index, final TreeItem item ) {
-    int result = getCellLeft( index );
+    int result = getCellLeft( index ) - scrollLeft;
     if( isTreeColumn( index ) ) {
       result += getIndentionOffset( item );
     }
@@ -1736,16 +1816,16 @@ public class Tree extends Composite {
     return result;
   }
 
-  int getVisualCellWidth( final int index, 
-                          final TreeItem item, 
-                          final boolean checkData ) 
+  int getVisualCellWidth( final int index,
+                          final TreeItem item,
+                          final boolean checkData )
   {
     int result;
     if( getColumnCount() == 0 && index == 0 ) {
-      String text = item.getText( 0, checkData );    
-      int textWidth 
+      String text = item.getText( 0, checkData );
+      int textWidth
         = Graphics.stringExtent( item.getFont( checkData ), text ).x;
-      result =   CELL_PADDING.width
+      result =   getCellPadding().width
                + getItemImageOuterWidth( index )
                + textWidth
                + TEXT_MARGIN.width;
@@ -1755,7 +1835,7 @@ public class Tree extends Composite {
         result -= getIndentionOffset( item );
       }
       if( hasCheckBoxes( index ) ) {
-        result -= getCheckImageOuterSize().x;          
+        result -= getCheckImageOuterSize().x;
       }
       result = Math.max( 0, result );
     }
@@ -1764,8 +1844,8 @@ public class Tree extends Composite {
 
   int getVisualTextLeft( final int index, final TreeItem item ) {
     return    getVisualCellLeft( index, item )
-            + CELL_PADDING.x
-            + getItemImageOuterWidth( index );    
+            + getCellPadding().x
+            + getItemImageOuterWidth( index );
   }
 
   int getVisualTextWidth( final int index, final TreeItem item ) {
@@ -1774,36 +1854,37 @@ public class Tree extends Composite {
       result = Graphics.stringExtent( item.getFont(), item.getText( 0 ) ).x;
       result += TEXT_MARGIN.width;
     } else if( index >= 0 && index < getColumnCount() ) {
-      result = getTextWidth( index ) - getIndentionOffset( item ); 
+      result = getTextWidth( index ) - getIndentionOffset( item );
       result = Math.max( 0, result );
     }
     return result;
   }
 
-  int getPreferredCellWidth( final TreeItem item, 
-                             final int columnIndex, 
-                             final boolean checkData ) 
+  int getPreferredCellWidth( final TreeItem item,
+                             final int columnIndex,
+                             final boolean checkData )
   {
     int result = getTextOffset( columnIndex ) ;
+    Rectangle padding = getCellPadding();
     result += Graphics.stringExtent( getFont(),
                                      item.getText( columnIndex, checkData ) ).x;
-    result += ( CELL_PADDING.width - CELL_PADDING.x );
+    result += ( padding.width - padding.x );
     result += ( TEXT_MARGIN.width - TEXT_MARGIN.x );
     return result;
   }
 
   boolean isTreeColumn( final int index ) {
-    return    ( index == 0 && getColumnCount() == 0 ) 
+    return    ( index == 0 && getColumnCount() == 0 )
            || getColumnCount() > 0 && getColumnOrder()[ 0 ] == index;
   }
-  
+
   private boolean hasCheckBoxes( final int index ) {
     return ( style & SWT.CHECK ) != 0 && isTreeColumn( index );
-  }  
+  }
 
   private boolean hasColumnImages( final int columnIndex ) {
-    int count = columnIndex == 0 
-              ? itemImageCount 
+    int count = columnIndex == 0
+              ? itemImageCount
               : getColumn( columnIndex ).itemImageCount;
     return count > 0;
   }
@@ -1834,50 +1915,60 @@ public class Tree extends Composite {
       itemImageSize = new Point( imageBounds.width, imageBounds.height );
     }
   }
-  
+
   Point getItemImageSize( final int index ) {
     return hasColumnImages( index ) ? getItemImageSize() : new Point( 0, 0 );
-  }  
+  }
 
   private int getItemImageOuterWidth( final int index ) {
     int result = 0;
     if( hasColumnImages( index ) ) {
       result += getItemImageSize().x;
-      result += IMAGE_TEXT_SPACING;
+      result += getCellSpacing();
     }
     return result;
-  }  
-  
+  }
+
   private Point getItemImageSize() {
     return itemImageSize == null ? new Point( 0, 0 ) : itemImageSize;
   }
-  
-  private Point getCheckImageSize() { 
+
+  private Point getCheckImageSize() {
     TreeThemeAdapter themeAdapter
       = ( TreeThemeAdapter )getAdapter( IThemeAdapter.class );
     return themeAdapter.getCheckBoxImageSize( this );
   }
-  
-  private Point getCheckImageOuterSize() { 
+
+  private Point getCheckImageOuterSize() {
     Point result = getCheckImageSize();
-    result.x += CHECKBOX_MARGIN.width;
-    result.y += CHECKBOX_MARGIN.height;
+    Rectangle margin = getCheckBoxMargin();
+    result.x += margin.width;
+    result.y += margin.height;
     return result;
   }
-  
-  private int getIndentionWidth() { 
+
+  private Rectangle getCheckBoxMargin() {
+    if( bufferedCheckBoxMargin == null ) {
+      TreeThemeAdapter themeAdapter
+        = ( TreeThemeAdapter )getAdapter( IThemeAdapter.class );
+      bufferedCheckBoxMargin = themeAdapter.getCheckBoxMargin( this );
+    }
+    return bufferedCheckBoxMargin;
+  }
+
+  private int getIndentionWidth() {
     TreeThemeAdapter themeAdapter
       = ( TreeThemeAdapter )getAdapter( IThemeAdapter.class );
     return themeAdapter.getIndentionWidth( this );
   }
-  
+
   ///////////////////
   // Helping methods
 
-  
+
   static void checkAllData( final Tree tree ) {
     // TODO [tb] : call only in doRedrawFake?
-    ProcessActionRunner.add( new Runnable() {      
+    ProcessActionRunner.add( new Runnable() {
       public void run() {
         WidgetTreeVisitor visitor = new AllWidgetTreeVisitor() {
           int flatIndex = 0;
@@ -1974,6 +2065,77 @@ public class Tree extends Composite {
     return checkBits( result, SWT.SINGLE, SWT.MULTI, 0, 0, 0, 0 );
   }
 
+  Rectangle getCellPadding() {
+    if( bufferedCellPadding == null ) {
+      TreeThemeAdapter themeAdapter
+        = ( TreeThemeAdapter )getAdapter( IThemeAdapter.class );
+      bufferedCellPadding = themeAdapter.getCellPadding( this );
+    }
+    return bufferedCellPadding;
+  }
+
+  int getCellSpacing() {
+    if( bufferedCellSpacing < 0 ) {
+      TreeThemeAdapter themeAdapter
+        = ( TreeThemeAdapter )getAdapter( IThemeAdapter.class );
+      bufferedCellSpacing = themeAdapter.getCellSpacing( this );
+    }
+    return bufferedCellSpacing;
+  }
+
+  /////////////
+  // ScrollBars
+
+  // TODO [if] move to Scrollable as in SWT
+  private void createScrollBars() {
+    if( ( style & SWT.H_SCROLL ) != 0 ) {
+      horizontalBar = new ScrollBar( this, SWT.H_SCROLL );
+      horizontalBar.setVisible( false );
+    }
+    if( ( style & SWT.V_SCROLL ) != 0 ) {
+      verticalBar = new ScrollBar( this, SWT.V_SCROLL );
+      verticalBar.setVisible( false );
+    }
+  }
+
+  /**
+   * Returns the receiver's horizontal scroll bar if it has
+   * one, and null if it does not.
+   *
+   * @return the horizontal scroll bar (or null)
+   *
+   * @exception SWTException <ul>
+   *    <li>ERROR_WIDGET_DISPOSED - if the receiver has been disposed</li>
+   *    <li>ERROR_THREAD_INVALID_ACCESS - if not called from the thread that created the receiver</li>
+   * </ul>
+   *
+   * @since 1.4
+   */
+  // TODO [if] move to Scrollable as in SWT
+  public ScrollBar getHorizontalBar() {
+    checkWidget();
+    return horizontalBar;
+  }
+
+  /**
+   * Returns the receiver's vertical scroll bar if it has
+   * one, and null if it does not.
+   *
+   * @return the vertical scroll bar (or null)
+   *
+   * @exception SWTException <ul>
+   *    <li>ERROR_WIDGET_DISPOSED - if the receiver has been disposed</li>
+   *    <li>ERROR_THREAD_INVALID_ACCESS - if not called from the thread that created the receiver</li>
+   * </ul>
+   *
+   * @since 1.4
+   */
+  //  TODO [if] move to Scrollable as in SWT
+  public ScrollBar getVerticalBar() {
+    checkWidget();
+    return verticalBar;
+  }
+
   ///////////////////////////////////////
   // Helping methods - dynamic scrollbars
 
@@ -2052,6 +2214,8 @@ public class Tree extends Composite {
     }
     hasVScrollBar = ( style & SWT.V_SCROLL ) != 0 && hasVScrollBar;
     hasHScrollBar = ( style & SWT.H_SCROLL ) != 0 && hasHScrollBar;
+    horizontalBar.setVisible( hasHScrollBar );
+    verticalBar.setVisible( hasVScrollBar );
   }
 
   private int getScrollBarSize() {

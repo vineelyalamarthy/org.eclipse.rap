@@ -158,7 +158,9 @@ public class Canvas extends Composite {
 
   void notifyResize( final Point oldSize ) {
     super.notifyResize( oldSize );
-    repaint();
+    if( !oldSize.equals( getSize() ) ) {
+      repaint();
+    }
   }
 
   void internalSetRedraw( final boolean redraw ) {
@@ -171,6 +173,7 @@ public class Canvas extends Composite {
   private void repaint() {
     if( gcAdapter != null ) {
       gcAdapter.clearGCOperations();
+      gcAdapter.setForceRedraw( true );
     }
     GC gc = new GC( this );
     Rectangle clientArea = getClientArea();

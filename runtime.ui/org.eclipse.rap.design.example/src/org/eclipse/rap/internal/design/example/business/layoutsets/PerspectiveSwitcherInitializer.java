@@ -1,5 +1,5 @@
 /******************************************************************************* 
-* Copyright (c) 2009 EclipseSource and others. All rights reserved. This
+* Copyright (c) 2009, 2010 EclipseSource and others. All rights reserved. This
 * program and the accompanying materials are made available under the terms of
 * the Eclipse Public License v1.0 which accompanies this distribution, and is
 * available at http://www.eclipse.org/legal/epl-v10.html
@@ -21,16 +21,16 @@ public class PerspectiveSwitcherInitializer implements ILayoutSetInitializer {
   public void initializeLayoutSet( final LayoutSet layoutSet ) {
     String path = ILayoutSetConstants.IMAGE_PATH_BUSINESS;
     layoutSet.addImagePath( ILayoutSetConstants.PERSP_CLOSE, 
-                            path + "close.png" );
+                            path + "close.png" ); //$NON-NLS-1$
     layoutSet.addImagePath( ILayoutSetConstants.PERSP_LEFT_ACTIVE, 
-                            path + "perspective_left_active.png" );
+                            path + "perspective_left_active.png" ); //$NON-NLS-1$
     layoutSet.addImagePath( ILayoutSetConstants.PERSP_RIGHT_ACTIVE,  
-                            path + "perspective_right_active.png" );
+                            path + "perspective_right_active.png" ); //$NON-NLS-1$
     layoutSet.addImagePath( ILayoutSetConstants.PERSP_BG,  
-                            path + "perspective_bg.png" );   
+                            path + "perspective_bg.png" );    //$NON-NLS-1$
     layoutSet.addImagePath( ILayoutSetConstants.PERSP_BG_ACTIVE, 
                             ILayoutSetConstants.IMAGE_PATH_BUSINESS 
-                            + "perspective_bg_active.png" );
+                            + "perspective_bg_active.png" ); //$NON-NLS-1$
     FormData fdButton = new FormData();
     fdButton.top = new FormAttachment( 0, 9 );
     layoutSet.addPosition( ILayoutSetConstants.PERSP_BUTTON_POS, 

@@ -37,6 +37,7 @@ public class WARProductEditor extends ProductEditor
   implements IValidationListener 
 {
 
+  private static final String PRODUCT_EDITOR_IMAGE = "icons/exp_product.gif";
   private static final String WARPRODUCT_FILE_EXTENSION = ".warproduct"; //$NON-NLS-1$
   private WARProductExportAction exportAction;
 
@@ -87,7 +88,7 @@ public class WARProductEditor extends ProductEditor
       exportAction = new WARProductExportAction( this );
       exportAction.setToolTipText( Messages.editorExport );
       String pluginId = WARProductConstants.PLUGIN_ID;
-      String imagePath = "icons/exp_product.gif"; //$NON-NLS-1$
+      String imagePath = PRODUCT_EDITOR_IMAGE; //$NON-NLS-1$
       ImageDescriptor descExportProductTool 
         = AbstractUIPlugin.imageDescriptorFromPlugin( pluginId, imagePath );
       exportAction.setImageDescriptor( descExportProductTool );
@@ -145,7 +146,6 @@ public class WARProductEditor extends ProductEditor
     manager.monitorFile( webXml );
   }
 
-  
   public boolean useFeatures() {
     return false;
   }

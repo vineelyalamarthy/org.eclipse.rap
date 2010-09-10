@@ -1,5 +1,5 @@
 /******************************************************************************* 
-* Copyright (c) 2008 EclipseSource and others. All rights reserved. This
+* Copyright (c) 2008, 2010 EclipseSource and others. All rights reserved. This
 * program and the accompanying materials are made available under the terms of
 * the Eclipse Public License v1.0 which accompanies this distribution, and is
 * available at http://www.eclipse.org/legal/epl-v10.html
@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.ToolItem;
 
 public class ViewToolBarManager extends ToolBarManager2 {
   
-  private static final String STYLING_VARIANT = "viewToolbar";
+  private static final String STYLING_VARIANT = "viewToolbar"; //$NON-NLS-1$
   private ToolBar toolBar;
   private ToolBar fakeToolbar;
 

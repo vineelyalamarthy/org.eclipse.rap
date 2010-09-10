@@ -1,5 +1,5 @@
 /******************************************************************************* 
-* Copyright (c) 2009 EclipseSource and others. All rights reserved. This
+* Copyright (c) 2009, 2010 EclipseSource and others. All rights reserved. This
 * program and the accompanying materials are made available under the terms of
 * the Eclipse Public License v1.0 which accompanies this distribution, and is
 * available at http://www.eclipse.org/legal/epl-v10.html
@@ -64,7 +64,7 @@ public class FancyWindowComposer implements IWindowComposer {
     
     // create the menubar composite
     Composite menuBarComp = new Composite( shell, SWT.NONE );
-    menuBarComp.setData( WidgetUtil.CUSTOM_VARIANT, "compGray" );
+    menuBarComp.setData( WidgetUtil.CUSTOM_VARIANT, "compGray" ); //$NON-NLS-1$
     ElementBuilder dummyBuilder 
       = new DummyBuilder( null, ILayoutSetConstants.SET_ID_MENUBAR );
     Image bg = dummyBuilder.getImage( ILayoutSetConstants.MENUBAR_BG );
@@ -80,7 +80,7 @@ public class FancyWindowComposer implements IWindowComposer {
     
     // pageBg
     Composite pageBg = new Composite( shell, SWT.NONE );
-    pageBg.setData( WidgetUtil.CUSTOM_VARIANT, "compGray" );
+    pageBg.setData( WidgetUtil.CUSTOM_VARIANT, "compGray" ); //$NON-NLS-1$
     FormData fdPageBg = new FormData();
     pageBg.setLayoutData( fdPageBg );
     fdPageBg.left = new FormAttachment( 0, MARGIN );
@@ -92,7 +92,7 @@ public class FancyWindowComposer implements IWindowComposer {
     // create the page Parent Composite
     page = new Composite( pageBg, SWT.NONE );
     page.setLayout( new FillLayout() );
-    page.setData( WidgetUtil.CUSTOM_VARIANT, "compGray" );
+    page.setData( WidgetUtil.CUSTOM_VARIANT, "compGray" ); //$NON-NLS-1$
     FormData fdPage = new FormData();
     page.setLayoutData( fdPage );
     fdPage.left = new FormAttachment( 0, 7 );
@@ -129,7 +129,7 @@ public class FancyWindowComposer implements IWindowComposer {
     final IWorkbenchWindowConfigurer configurer )
   {
     this.shell = shell;
-    shell.setData( WidgetUtil.CUSTOM_VARIANT, "shellGray" );
+    shell.setData( WidgetUtil.CUSTOM_VARIANT, "shellGray" ); //$NON-NLS-1$
     this.configurer = configurer;
     IWorkbench workbench = PlatformUI.getWorkbench();
     IWorkbenchWindow activeWbWindow = workbench.getActiveWorkbenchWindow();
@@ -213,7 +213,7 @@ public class FancyWindowComposer implements IWindowComposer {
     fdPerspBar.right = new FormAttachment( 100, 0 );
     fdPerspBar.top = new FormAttachment( 0, 0 );
     fdPerspBar.height = 22;
-    perspBar.setData( WidgetUtil.CUSTOM_VARIANT, "compTrans" );
+    perspBar.setData( WidgetUtil.CUSTOM_VARIANT, "compTrans" ); //$NON-NLS-1$
     ElementBuilder perspBuilder 
       = new PerspectiveSwitcherBuilder( perspBar, 
                                         ILayoutSetConstants.SET_ID_PERSP );
@@ -233,7 +233,7 @@ public class FancyWindowComposer implements IWindowComposer {
   {
     if( manager != null ) {
       Composite coolBar = new Composite( header, SWT.NONE );
-      coolBar.setData( WidgetUtil.CUSTOM_VARIANT, "compTrans" );
+      coolBar.setData( WidgetUtil.CUSTOM_VARIANT, "compTrans" ); //$NON-NLS-1$
       FormData fdCoolBar = new FormData();
       coolBar.setLayoutData( fdCoolBar );
       fdCoolBar.top = new FormAttachment( 0, 70 );
@@ -267,7 +267,7 @@ public class FancyWindowComposer implements IWindowComposer {
   private void styleButtons( final Control[] buttons ) {
     for( int i = 0; i < buttons.length; i++ ) {
       if( buttons[ i ] instanceof Button ) {
-        buttons[ i ].setData( WidgetUtil.CUSTOM_VARIANT, "clearButton" );
+        buttons[ i ].setData( WidgetUtil.CUSTOM_VARIANT, "clearButton" ); //$NON-NLS-1$
       }
     }
   }

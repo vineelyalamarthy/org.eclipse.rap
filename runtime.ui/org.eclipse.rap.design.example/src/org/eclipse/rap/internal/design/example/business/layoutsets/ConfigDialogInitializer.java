@@ -1,5 +1,5 @@
 /******************************************************************************* 
-* Copyright (c) 2009 EclipseSource and others. All rights reserved. This
+* Copyright (c) 2010 EclipseSource and others. All rights reserved. This
 * program and the accompanying materials are made available under the terms of
 * the Eclipse Public License v1.0 which accompanies this distribution, and is
 * available at http://www.eclipse.org/legal/epl-v10.html
@@ -24,8 +24,8 @@ public class ConfigDialogInitializer implements ILayoutSetInitializer {
                         Graphics.getColor( 255, 255, 255 ) );
     String path = ILayoutSetConstants.IMAGE_PATH_BUSINESS;
     layoutSet.addImagePath( ILayoutSetConstants.CONFIG_DIALOG_CLOSE, 
-                            path + "close.png" );
+                            path + "close.png" ); //$NON-NLS-1$
     layoutSet.addImagePath( ILayoutSetConstants.CONFIG_DIALOG_ICON, 
-                            path + "conf_dialog_icon.png" );
+                            path + "conf_dialog_icon.png" ); //$NON-NLS-1$
   }
 }

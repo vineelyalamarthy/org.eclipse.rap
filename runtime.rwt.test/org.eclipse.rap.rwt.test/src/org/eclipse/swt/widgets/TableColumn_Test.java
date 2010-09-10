@@ -280,6 +280,42 @@ public class TableColumn_Test extends TestCase {
     assertEquals( column, event.getSource() );
   }
 
+  public void testMoveEvent() {
+    Fixture.fakePhase( PhaseId.PROCESS_ACTION );
+    final java.util.List log = new ArrayList();
+    Display display = new Display();
+    Shell shell = new Shell( display );
+    Table table = new Table( shell, SWT.NONE );
+    final TableColumn column = new TableColumn( table, SWT.NONE );
+    column.addControlListener( new ControlListener() {
+      public void controlMoved( final ControlEvent event ) {
+        fail( "unexpected event: controlMoved" );
+      }
+      public void controlResized( final ControlEvent event ) {
+        log.add( event );
+      }
+    } );
+    final TableColumn column1 = new TableColumn( table, SWT.NONE );
+    column1.addControlListener( new ControlListener() {
+      public void controlMoved( final ControlEvent event ) {
+        log.add( event );
+      }
+      public void controlResized( final ControlEvent event ) {
+        fail( "unexpected event: controlResized" );
+      }
+    } );
+    ControlEvent event;
+    // Changing column width leads to resize event and move event of the next
+    // columns
+    log.clear();
+    column.setWidth( column.getWidth() + 1 );
+    assertEquals( 2, log.size() );
+    event = ( ControlEvent )log.get( 0 );
+    assertSame( column, event.getSource() );
+    event = ( ControlEvent )log.get( 1 );
+    assertSame( column1, event.getSource() );
+  }
+
   public void testDisposeLast() {
     Display display = new Display();
     Shell shell = new Shell( display );
@@ -298,5 +334,25 @@ public class TableColumn_Test extends TestCase {
     assertEquals( 0, table.getColumnCount() );
     assertEquals( 1, table.getItemCount() );
     assertEquals( "itemText for column 0", item.getText() );
+  }
+
+  // 323179: Creating and disposing a TableColumn (without updating the
+  // TableItems) results in an ArrayIndexOutOfBoundsException
+  // https://bugs.eclipse.org/bugs/show_bug.cgi?id=323179
+  public void testCreateDisposeColumnWithoutDataUpdate() {
+    Display display = new Display();
+    Shell shell = new Shell( display );
+    Table table = new Table( shell, SWT.NONE );
+    TableColumn column1 = new TableColumn( table, SWT.NONE );
+    column1.setText( "First Column" );
+    int number = 5;
+    TableItem[] items = new TableItem[ number ];
+    for( int i = 0; i < number; i++ ) {
+      items[ i ] = new TableItem( table, SWT.NONE );
+      items[ i ].setText( 0, "x1" );
+    }
+    TableColumn column2 = new TableColumn( table, SWT.NONE );
+    column2.setText( "Second Column" );
+    column2.dispose();
   }
 }

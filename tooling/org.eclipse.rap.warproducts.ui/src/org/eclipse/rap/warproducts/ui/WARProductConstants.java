@@ -33,5 +33,4 @@ public class WARProductConstants {
     = DOC_PLUGIN_ID + ".warproduct_export_wizard_selection"; //$NON-NLS-1$
   public static final String HELP_CONTEXT_NEWFILE_PAGE 
     = DOC_PLUGIN_ID + ".warproduct_new_wizard_filepage"; //$NON-NLS-1$
-  public static final String EXPORT_SECTION = Messages.EditorExportSection;
 }

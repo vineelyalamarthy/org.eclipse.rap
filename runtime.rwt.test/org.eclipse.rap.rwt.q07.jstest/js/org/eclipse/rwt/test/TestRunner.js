@@ -178,6 +178,7 @@ qx.Class.define("org.eclipse.rwt.test.TestRunner", {
   	  org.eclipse.rwt.test.fixture.TestUtil.clearRequestLog();
   	  org.eclipse.rwt.test.fixture.TestUtil.clearTimerOnceLog();
   	  org.eclipse.rwt.test.fixture.TestUtil.restoreAppearance();
+  	  org.eclipse.rwt.test.fixture.TestUtil.emptyDragCache();
   	  qx.ui.core.Widget.flushGlobalQueues();
   	},
   	
@@ -376,12 +377,17 @@ qx.Class.define("org.eclipse.rwt.test.TestRunner", {
     _createTestClassFilter : function() {
       var classes = qx.Class.__registry;
       var engine = qx.core.Client.getEngine();
+      var platform = qx.core.Client.getPlatform();
       var param = this._getFilterParam();
       var filter = function( clazz ) {
         var result = true;
         if( classes[ clazz ].prototype.TARGETENGINE instanceof Array ) {
           var targetEngine = classes[ clazz ].prototype.TARGETENGINE;
           result = targetEngine.indexOf( engine ) != -1;
+        }
+        if( classes[ clazz ].prototype.TARGETPLATFORM instanceof Array ) {
+          var targetPlatform = classes[ clazz ].prototype.TARGETPLATFORM;
+          result = result && targetPlatform.indexOf( platform ) != -1;
         }
         if( result && param != null ) {
           var found = false;

@@ -30,6 +30,9 @@
     <state name="disabled"
         description="Applies to disabled trees." />
 
+    <state name="linesvisible"
+        description="Applies to trees with gridlines." />
+
     <element name="TreeItem"
         description="Item elements of tree controls">
 
@@ -45,8 +48,17 @@
       <state name="unfocused"
           description="When the focus is not on the tree" />
 
+      <state name="even"
+          description="Applies when the tree item has an even visible index" />
+          
       <state name="disabled"
           description="Applies to the items of a disabled tree." />
+
+      <state name="linesvisible"
+          description="Applies to items of a tree with gridlines." />
+          
+      <state name="hover"
+          description="Mouse over state." />
 
     </element>
 
@@ -89,9 +101,37 @@
       </element>
 
     </element>
+    
+    <element name="Tree-Cell"
+        description="A single cell in a multi-column Tree">
+
+      <property name="padding"
+          description="Defines the padding (i.e. the inner distance between border and content) for a tree cell." />
+
+      <property name="spacing"
+          description="Defines the spacing between image and text within a tree cell." />
+
+    </element>
+    
+    <element name="Tree-GridLine"
+        description="Grid lines in Tree controls">
+
+      <property name="color"
+          description="Grid line color when linesVisible is true" />
+
+      <state name="vertical"
+          description="Applies for vertical grid lines." />
+
+      <state name="horizontal"
+          description="Applies for horizontal grid lines." />
+
+    </element>
 
     <element name="Tree-Checkbox"
         description="Checkboxes in Tree controls">
+        
+      <property name="margin"
+          description="Space around the check boxes" />
 
       <property name="background-image">
         <description>
@@ -147,7 +187,10 @@
     
       <state name="expanded"
         description="Used for the final level if the item is expanded" />
-    
+
+      <state name="hover"
+          description="Mouse over state. Can not be used together with line." />
+
     </element>
 
   </element>

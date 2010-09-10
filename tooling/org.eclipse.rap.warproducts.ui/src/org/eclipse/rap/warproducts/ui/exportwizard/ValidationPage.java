@@ -22,9 +22,7 @@ import org.eclipse.rap.warproducts.ui.validation.PluginStatusContentVisualizer;
 import org.eclipse.rap.warproducts.ui.validation.PluginStatusDialogContentProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -40,8 +38,7 @@ public class ValidationPage extends AbstractExportWizardPage {
   public ValidationPage() {
     super( "Validation" ); //$NON-NLS-1$
     setTitle( Messages.ValidationPageTitle );
-    setErrorMessage( Messages.ValidationPageDesc +
-                     Messages.ValidationPage3 );
+    setErrorMessage( Messages.ValidationPageDesc );
   }
 
   public void createControl( final Composite parent ) {

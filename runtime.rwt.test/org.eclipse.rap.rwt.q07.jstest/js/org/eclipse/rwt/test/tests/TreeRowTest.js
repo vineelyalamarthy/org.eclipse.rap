@@ -810,7 +810,7 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeRowTest", {
       item.setTexts( [ "Test" ] );
       row.renderItem( item );
       row.addEventListener( "mousedown", function( event ) {
-        log.push( row.isExpandClick( event ) );
+        log.push( row.isExpandSymbolTarget( event ) );
       } );
       testUtil.clickDOM( row._getTargetNode().childNodes[ 0 ] );
       testUtil.clickDOM( row._getTargetNode().childNodes[ 1 ] );
@@ -828,6 +828,7 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeRowTest", {
       var item = this._createItem( tree, false, false );
       item.setTexts( [ "Test" ] );
       tree.setHasCheckBoxes( true );
+      tree.setCheckBoxMetrics( 5, 20 );
       this._addToDom( row );
       row.renderItem( item );
       assertNotNull( row._expandImage );
@@ -898,7 +899,7 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeRowTest", {
       item.setTexts( [ "Test" ] );
       row.renderItem( item );
       row.addEventListener( "mousedown", function( event ) {
-        log.push( row.isCheckBoxClick( event ) );
+        log.push( row.isCheckBoxTarget( event ) );
       } );
       testUtil.clickDOM( row._getTargetNode().childNodes[ 0 ] );
       testUtil.clickDOM( row._getTargetNode().childNodes[ 1 ] );
@@ -1084,6 +1085,113 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeRowTest", {
       row.destroy();
     },  
 
+    testFullSelectionOverwritesTheming : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createTree();
+      testUtil.fakeAppearance( "tree-row", {
+        style : function( states ) {
+          var result = {};
+          if( states.selected ) {
+            result.itemBackground = "blue";
+            result.itemForeground = "white";
+          } else {
+            result.itemBackground = "#888888";
+            result.itemForeground = "black"
+          }
+          return result;
+        }
+      } );  
+      tree.setHasFullSelection( true );
+      var row = new org.eclipse.rwt.widgets.TreeRow( tree );
+      this._addToDom( row );
+      row.setAppearance( "tree-row" );
+      var item = this._createItem( tree );
+      item.setTexts( [ "Test1" ] );
+      item.setCellBackgrounds( [ "red" ] );
+      item.setCellForegrounds( [ "yellow" ] );
+      row.renderItem( item );
+      var children = row._getTargetNode().childNodes;
+      assertEquals( "#888888", row.getBackgroundColor() );
+      assertEquals( "red", children[ 1 ].style.backgroundColor );
+      assertEquals( "yellow", children[ 2 ].style.color );
+      tree.selectItem( item );
+      row.renderItem( item );
+      assertEquals( "blue", row.getBackgroundColor() );
+      assertEquals( "", children[ 1 ].style.backgroundColor );
+      assertEquals( "white", children[ 1 ].style.color );
+      row.renderItem( item );
+      tree.destroy();
+      row.destroy();
+    },  
+
+   testHoverColorsOverwritesTheming : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createTree();
+      testUtil.fakeAppearance( "tree-row", {
+        style : function( states ) {
+          var result = {};
+          if( states.over ) {
+            result.itemBackground = "blue";
+            result.itemForeground = "white";
+          } else {
+            result.itemBackground = "#888888";
+            result.itemForeground = "black"
+          }
+          return result;
+        }
+      } );  
+      tree.setHasFullSelection( false );
+      var row = new org.eclipse.rwt.widgets.TreeRow( tree );
+      this._addToDom( row );
+      row.setAppearance( "tree-row" );
+      var item = this._createItem( tree );
+      item.setTexts( [ "Test1" ] );
+      item.setCellBackgrounds( [ "red" ] );
+      item.setBackground( "black" );
+      item.setCellForegrounds( [ "yellow" ] );
+      row.renderItem( item );
+      var children = row._getTargetNode().childNodes;
+      assertEquals( "black", row.getBackgroundColor() );
+      assertEquals( "red", children[ 1 ].style.backgroundColor );
+      assertEquals( "yellow", children[ 2 ].style.color );
+      tree._hoverItem = item;
+      row.renderItem( item );
+      assertEquals( "blue", row.getBackgroundColor() );
+      assertEquals( "", children[ 1 ].style.backgroundColor );
+      assertEquals( "white", children[ 1 ].style.color );
+      row.renderItem( item );
+      tree.destroy();
+      row.destroy();
+    },  
+
+   testHoverWithoutColorDoesNotOverwriteTheming : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createTree();
+      tree.setHasFullSelection( false );
+      var row = new org.eclipse.rwt.widgets.TreeRow( tree );
+      this._addToDom( row );
+      row.setAppearance( "tree-row" );
+      var item = this._createItem( tree );
+      item.setTexts( [ "Test1" ] );
+      item.setCellBackgrounds( [ "red" ] );
+      item.setBackground( "black" );
+      item.setCellForegrounds( [ "yellow" ] );
+      row.renderItem( item );
+      var children = row._getTargetNode().childNodes;
+      assertEquals( "black", row.getBackgroundColor() );
+      assertEquals( "red", children[ 1 ].style.backgroundColor );
+      assertEquals( "yellow", children[ 2 ].style.color );
+      tree._hoverItem = item;
+      row.renderItem( item );
+      assertEquals( "black", row.getBackgroundColor() );
+      assertEquals( "red", children[ 1 ].style.backgroundColor );
+      assertEquals( "yellow", children[ 2 ].style.color );
+      row.renderItem( item );
+      tree.destroy();
+      row.destroy();
+    },  
+
+
     testRenderThemingItemForeground : function() {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
       var tree = this._createTree();
@@ -1242,40 +1350,6 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeRowTest", {
       row.destroy();
     },
 
-    testIsSelectionClickFullSelectionAndChildren : function() {
-      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
-      var tree = this._createTree();
-      tree.setItemMetrics( 1, 50, 40, 50, 12, 65, 12 );
-      tree.setColumnCount( 2 );
-      tree.setHasCheckBoxes( true );
-      tree.setHasFullSelection( true );
-      tree.setCheckBoxMetrics( 5, 20 );
-      var row = new org.eclipse.rwt.widgets.TreeRow( tree );
-      this._addToDom( row );
-      var parent = this._createItem( tree, false, true  );
-      var item = this._createItem( parent );
-      this._createItem( item );
-      item.setTexts( [ "Test", "Test2" ] );
-      item.setImages( [ "bla.jpg" ] );
-      this._setCheckBox( "mycheckbox.gif" );
-      row.renderItem( item );
-      var log = [];
-      row.addEventListener( "mousedown", function( event ) {
-        log.push( row.isSelectionClick( event ) );
-      } );
-      var nodes = row._getTargetNode().childNodes;
-      testUtil.clickDOM( nodes[ 0 ] ); // expandimage
-      testUtil.clickDOM( nodes[ 1 ] ); // treeline
-      testUtil.clickDOM( nodes[ 2 ] ); // checkbox
-      testUtil.clickDOM( nodes[ 3 ] ); // image
-      testUtil.clickDOM( nodes[ 4 ] ); // label
-      testUtil.clickDOM( nodes[ 5 ] ); // label
-      testUtil.clickDOM( row._getTargetNode() );
-      assertEquals( [ false, true, false, true, true, true, true ], log );
-      tree.destroy();
-      row.destroy();
-    },
-
     testInheritItemForeground : function() {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
       var tree = this._createTree();
@@ -1354,6 +1428,97 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeRowTest", {
       row.destroy();
     },
     
+    testSelectionBackgroundLayout : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createTree();
+      testUtil.fakeAppearance( "tree-row", {
+        style : function( states ) {
+          var result = {};
+          if( states.selected ) {
+            result.itemBackground = "blue";
+          } else {
+            result.itemBackground = "#888888";
+          }
+          return result;
+        }
+      } );
+      var row = new org.eclipse.rwt.widgets.TreeRow( tree );
+      this._addToDom( row );
+      var item = new org.eclipse.rwt.widgets.TreeItem( tree );
+      item.setTexts( [ "Test1" ] );
+      tree.selectItem( item );
+      var selectionPadding = 4;
+      tree.setItemMetrics( 0, 0, 100, 0, 0 ,0, 100 );       
+      row.renderItem( item );
+      var rowNode = row._getTargetNode();
+      var color = rowNode.childNodes[ 2 ].style.backgroundColor;
+      assertEquals( "blue", color );
+      var textWidth = row._getVisualTextWidth( item, 0 );
+      //parseInt( rowNode.childNodes[ 1 ].style.width );
+      var selectionWidth = parseInt( rowNode.childNodes[ 2 ].style.width );
+      assertEquals( textWidth + selectionPadding, selectionWidth );
+      tree.destroy();
+      row.destroy();
+    },
+    
+    testSelectionBackgroundLayoutCutOff : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createTree();
+      testUtil.fakeAppearance( "tree-row", {
+        style : function( states ) {
+          var result = {};
+          if( states.selected ) {
+            result.itemBackground = "blue";
+          } else {
+            result.itemBackground = "#888888";
+          }
+          return result;
+        }
+      } );
+      var row = new org.eclipse.rwt.widgets.TreeRow( tree );
+      this._addToDom( row );
+      var item = new org.eclipse.rwt.widgets.TreeItem( tree );
+      item.setTexts( [ "Test1" ] );
+      tree.selectItem( item );
+      var selectionPadding = 3; // only the left side
+      tree.setItemMetrics( 0, 0, 100, 0, 0 ,0, 25 );       
+      row.renderItem( item );
+      var rowNode = row._getTargetNode();
+      var textWidth = parseInt( rowNode.childNodes[ 1 ].style.width );
+      var selectionWidth = parseInt( rowNode.childNodes[ 2 ].style.width );
+      assertEquals( textWidth + selectionPadding, selectionWidth );
+      tree.destroy();
+      row.destroy();
+    },
+    
+    testSelectionBackgroundLayoutInvisible : function() {
+      var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
+      var tree = this._createTree();
+      testUtil.fakeAppearance( "tree-row", {
+        style : function( states ) {
+          var result = {};
+          if( states.selected ) {
+            result.itemBackground = "blue";
+          } else {
+            result.itemBackground = "#888888";
+          }
+          return result;
+        }
+      } );
+      var row = new org.eclipse.rwt.widgets.TreeRow( tree );
+      this._addToDom( row );
+      var item = new org.eclipse.rwt.widgets.TreeItem( tree );
+      item.setTexts( [ "Test1" ] );
+      tree.selectItem( item );
+      tree.setItemMetrics( 0, 0, 100, 0, 0 ,0, 0 );       
+      row.renderItem( item );
+      var rowNode = row._getTargetNode();
+      var selectionWidth = parseInt( rowNode.childNodes[ 2 ].style.width );
+      assertEquals( 0, selectionWidth );
+      tree.destroy();
+      row.destroy();
+    },
+
 //     TODO : png-ie6-support.
 
      /////////
@@ -1423,12 +1588,10 @@ qx.Class.define( "org.eclipse.rwt.test.tests.TreeRowTest", {
     
     _setCheckBox : function( value ) {
       var testUtil = org.eclipse.rwt.test.fixture.TestUtil;
-      testUtil.fakeAppearance( "tree-row",  {
+      testUtil.fakeAppearance( "tree-check-box",  {
         style : function( states ) {
           return {
-            "itemBackground" : "undefined",
-            "itemForeground" : "undefined",
-            "checkBox" : value
+            "backgroundImage" : states.over ? "over.gif" : value
           }
         }
       } );

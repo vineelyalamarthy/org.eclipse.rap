@@ -57,7 +57,7 @@ import org.eclipse.swt.internal.widgets.tablekit.TableThemeAdapter;
  * </p><p>
  * <dl>
  * <dt><b>Styles:</b></dt>
- * <dd>SINGLE, MULTI, CHECK, FULL_SELECTION<!--, HIDE_SELECTION-->, VIRTUAL</dd>
+ * <dd>SINGLE, MULTI, CHECK, FULL_SELECTION, HIDE_SELECTION, VIRTUAL</dd>
  * <dt><b>Events:</b></dt>
  * <dd>Selection, DefaultSelection, SetData<!--, MeasureItem, EraseItem, PaintItem--></dd>
  * </dl>
@@ -114,7 +114,7 @@ public class Table extends Composite {
     private ICellToolTipProvider provider;
 
     public int getCheckWidth() {
-      return Table.this.getCheckWidth();
+      return Table.this.getCheckSize().x;
     }
 
     public int getItemImageWidth( final int columnIndex ) {
@@ -240,8 +240,8 @@ public class Table extends Composite {
    * within the packages provided by SWT. It should never be accessed from
    * application code.
    */
-  public static final String HIDE_SELECTION
-    = Table.class.getName() + "#hideSelection";
+  public static final String ALWAYS_HIDE_SELECTION
+    = Table.class.getName() + "#alwaysHideSelection";
 
   /**
    * <strong>IMPORTANT:</strong> This field is <em>not</em> part of the SWT
@@ -308,7 +308,7 @@ public class Table extends Composite {
    * @see SWT#MULTI
    * @see SWT#CHECK
    * @see SWT#FULL_SELECTION
-   * <!--@see SWT#HIDE_SELECTION-->
+   * @see SWT#HIDE_SELECTION
    * @see SWT#VIRTUAL
    * @see Widget#checkSubclass
    * @see Widget#getStyle
@@ -1831,9 +1831,7 @@ public class Table extends Composite {
     int itemImageHeight = getItemImageSize().y + paddingHeight;
     int result = Math.max( itemImageHeight, textHeight );
     if( ( style & SWT.CHECK ) != 0 ) {
-      TableThemeAdapter adapter
-        = ( TableThemeAdapter )getAdapter( IThemeAdapter.class );
-      result = Math.max( adapter.getCheckBoxImageSize( this ).y, result );
+      result = Math.max( getCheckSize().y, result );
     }
     return result;
   }
@@ -1995,7 +1993,7 @@ public class Table extends Composite {
 
   final int getItemsPreferredWidth( final int columnIndex ) {
     // Mimic Windows behaviour that has a minimal width
-    int width = getCheckWidth( columnIndex ) + 12;
+    int width = getCheckSize( columnIndex ).x + 12;
     // dont't access virtual items, they would get resolved unintentionally
     TableItem[] items = getCachedItems();
     for( int i = 0; i < items.length; i++ ) {
@@ -2313,7 +2311,7 @@ public class Table extends Composite {
   final Point getItemImageSize() {
     return itemImageSize == null ? new Point( 0, 0 ) : itemImageSize;
   }
-  
+
   final void clearItemImageSize() {
     itemImageSize = null;
   }
@@ -2438,24 +2436,31 @@ public class Table extends Composite {
   ////////////////////////////
   // Helping methods - various
 
-  final int getCheckWidth() {
-    int result = 0;
+  final Point getCheckSize() {
+    Point result = new Point( 0, 0 );
     if( ( style & SWT.CHECK ) != 0 ) {
+      Rectangle zeroMargin = new Rectangle( 0, 0, 0, 0 );
       TableThemeAdapter themeAdapter
         = ( TableThemeAdapter )getAdapter( IThemeAdapter.class );
-      result = themeAdapter.getCheckBoxWidth( this );
+      Point checkImageSize = themeAdapter.getCheckBoxImageSize( this );
+      Rectangle margin = themeAdapter.getCheckBoxMargin( this );
+      result.x = themeAdapter.getCheckBoxWidth( this );
+      if( !margin.equals( zeroMargin ) ) {
+        result.x = checkImageSize.x + margin.width;
+      }
+      result.y = checkImageSize.y + margin.height;
     }
     return result;
   }
 
-  final int getCheckWidth( final int index ) {
-    int result = 0;
+  final Point getCheckSize( final int index ) {
+    Point result = new Point( 0, 0 );
     if( index == 0 && getColumnCount() == 0 ) {
-      result = getCheckWidth();
+      result = getCheckSize();
     } else {
       int[] columnOrder = getColumnOrder();
       if( columnOrder[ 0 ] == index ) {
-        result = getCheckWidth();
+        result = getCheckSize();
       }
     }
     return result;

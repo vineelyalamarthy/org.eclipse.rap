@@ -11,7 +11,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.osgi.service.resolver.BundleDescription;
 import org.eclipse.osgi.util.NLS;
@@ -197,7 +197,8 @@ public class WARProductExportOperation extends FeatureExportOperation {
   }
 
   private void createBuildPropertiesFile( final String featureLocation,
-                                          final String[][] configurations )
+                                          final String[][] configurations ) 
+    throws IOException
   {
     File file = new File( featureLocation );
     if( !file.exists() || !file.isDirectory() ) {
@@ -213,7 +214,8 @@ public class WARProductExportOperation extends FeatureExportOperation {
   }
 
   private void handleRootFiles( final String[][] configurations,
-                                final Properties properties )
+                                final Properties properties ) 
+    throws IOException
   {
     if( configurations.length > 0 ) {
       String rootPrefix = IBuildPropertiesConstants.ROOT_PREFIX
@@ -226,13 +228,17 @@ public class WARProductExportOperation extends FeatureExportOperation {
   }
   
   private void prepareWARFile( final Properties properties,
-                               final String rootPrefix )
+                               final String rootPrefix ) 
+    throws IOException
   {
     if( product instanceof IWARProduct ) {
       IWARProduct warProduct = ( IWARProduct )product;
+      IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+      IFile launchIni = wsRoot.getFile( warProduct.getLaunchIni() );
       String launchIniPath 
-        = createWarContent( warProduct.getLaunchIni(), "launch.ini" ); //$NON-NLS-1$
-      String webXmlPath = createWarContent( warProduct.getWebXml(), "web.xml" ); //$NON-NLS-1$
+        = createWarContent( launchIni.getLocation(), "launch.ini" ); //$NON-NLS-1$
+      IFile webXml = wsRoot.getFile( warProduct.getWebXml() );
+      String webXmlPath = createWarContent( webXml.getLocation(), "web.xml" ); //$NON-NLS-1$
       properties.put( rootPrefix, "absolute:file:" + webXmlPath  //$NON-NLS-1$
                                   + ",absolute:file:" + launchIniPath ); //$NON-NLS-1$
       String libDir = createLibDir();
@@ -241,7 +247,6 @@ public class WARProductExportOperation extends FeatureExportOperation {
     }
   }
 
-
   private String createLibDir() {
     String location = featureLocation;
     File dir = new File( location, "lib" ); //$NON-NLS-1$
@@ -249,7 +254,7 @@ public class WARProductExportOperation extends FeatureExportOperation {
     return dir.getAbsolutePath();
   }
   
-  private void copyLibraries( final String libDir ) {
+  private void copyLibraries( final String libDir ) throws IOException {
     IWARProduct warProduct = ( IWARProduct)product;
     IPath[] libraries = warProduct.getLibraries();
     for( int i = 0; i < libraries.length; i++ ) {
@@ -259,29 +264,22 @@ public class WARProductExportOperation extends FeatureExportOperation {
     }
   }
       
-  private void copyLibrary( final String libDir, final IPath filePath ) {
+  private void copyLibrary( final String libDir, final IPath filePath ) 
+    throws IOException 
+  {
     String fileName = filePath.segment( filePath.segmentCount() - 1 );
     File template = new File( filePath.toOSString() );
     File destinationFile = new File( libDir + File.separator + fileName );
-    try {
-      CoreUtility.readFile( new FileInputStream( template ), destinationFile );      
-    } catch( final IOException e ) {
-      e.printStackTrace();
-    } 
+    CoreUtility.readFile( new FileInputStream( template ), destinationFile );      
   }
 
   private String createWarContent( final IPath pathToContent, 
                                    final String fileName ) 
+    throws IOException 
   {
-    IPath wsPath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
-    IPath absoluteWebXmlPath = wsPath.append( pathToContent );
     File destinationFile = new File( featureLocation, fileName );
-    File template = new File( absoluteWebXmlPath.toOSString() );
-    try {
-      CoreUtility.readFile( new FileInputStream( template ), destinationFile );
-    } catch( final IOException e ) {
-      e.printStackTrace();
-    }
+    File template = new File( pathToContent.toOSString() );
+    CoreUtility.readFile( new FileInputStream( template ), destinationFile );
     return destinationFile.getAbsolutePath();
   }
   

@@ -9,23 +9,13 @@
 *******************************************************************************/ 
 package org.eclipse.rap.warproducts.core.test.tests;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import junit.framework.TestCase;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.*;
+import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.rap.warproducts.core.InfrastructreCreator;
 
 
@@ -44,8 +34,8 @@ public class InfrastructureCreatorTest extends TestCase {
     IProject project = root.getProject( TEMP_PROJECT );
     if( !project.exists() ) {
       project.create( null );
-      project.open( null );
     }
+    project.open( null );
     IFolder tempFolder = project.getFolder( "temp" );
     if( !tempFolder.exists() ) {
       tempFolder.create( true, true, null );
@@ -71,11 +61,24 @@ public class InfrastructureCreatorTest extends TestCase {
     assertEquals( tempDir.getParent(), root );
   }
   
-  public void testCreateWebInf() {
+  public void testCreateWebInf() throws CoreException {
     InfrastructreCreator icreator = new InfrastructreCreator( tempDir );
     icreator.createWebInf();    
     IFolder webInf = tempDir.getFolder( "WEB-INF" );
     assertTrue( webInf.exists() );
+  }
+  
+  public void testCreateWebInfWithClosedProject() throws CoreException {
+    InfrastructreCreator icreator = new InfrastructreCreator( tempDir );
+    IProject project = ( IProject )tempDir.getParent();
+    project.close( null );
+    boolean exceptionThrown = false;
+    try {
+      icreator.createWebInf();
+    } catch( final CoreException e ) {
+      exceptionThrown = true;
+    }   
+    assertTrue( exceptionThrown );
   }
   
   public void testCreateWebXml() throws IOException, CoreException {
@@ -92,7 +95,7 @@ public class InfrastructureCreatorTest extends TestCase {
     assertEquals( expectedContent.toString(), webxmlContent.toString() );
   }
   
-  public void testGetWebXmlPath() {
+  public void testGetWebXmlPath() throws CoreException {
     InfrastructreCreator icreator = new InfrastructreCreator( tempDir);
     icreator.createWebXml();
     IFolder webInf = tempDir.getFolder( "WEB-INF" );
@@ -115,13 +118,37 @@ public class InfrastructureCreatorTest extends TestCase {
     assertEquals( expectedLaunchIni.toString(), actualLaunchIni.toString() );
   }
   
-  public void testGetLaunchIniPath() {
+  public void testGetLaunchIniPath() throws CoreException {
     InfrastructreCreator icreator = new InfrastructreCreator( tempDir );
     icreator.createLaunchIni();
     IFolder webInf = tempDir.getFolder( "WEB-INF" );
     IFile launchIni = webInf.getFile( "launch.ini" );
     IPath launchIniPath = launchIni.getFullPath();
     assertEquals( launchIniPath, icreator.getLaunchIniPath() );
+  }
+  
+  public void testCreateLaunchIniWithDeletedFolder() throws CoreException {
+    InfrastructreCreator icreator = new InfrastructreCreator( tempDir );
+    tempDir.delete( true, null );
+    boolean exceptionThrown = false;
+    try {
+      icreator.createLaunchIni();
+    } catch ( final CoreException e ) {
+      exceptionThrown = true;
+    }
+    assertTrue( exceptionThrown );
+  }
+  
+  public void testCreateWebXmlWithDeletedFolder() throws CoreException {
+    InfrastructreCreator icreator = new InfrastructreCreator( tempDir );
+    tempDir.delete( true, null );
+    boolean exceptionThrown = false;
+    try {
+      icreator.createWebXml();
+    } catch ( final CoreException e ) {
+      exceptionThrown = true;
+    }
+    assertTrue( exceptionThrown );
   }
 
   private StringBuffer readFile( final InputStream fileStream ) 

@@ -12,5 +12,11 @@ package org.eclipse.rap.ui.themeeditor.editor;
 
 import junit.framework.TestCase;
 
-public class ThemeEditorTest extends TestCase {
+public class ThemeDocumentProvider_Test extends TestCase {
+
+  public void testGetPartitionScanner() throws Exception {
+    ThemeDocumentProvider documentProvider = new ThemeDocumentProvider();
+    documentProvider.connect( new MockEditorInput() );
+    assertNotNull( documentProvider.getPartitionScanner() );
+  }
 }
