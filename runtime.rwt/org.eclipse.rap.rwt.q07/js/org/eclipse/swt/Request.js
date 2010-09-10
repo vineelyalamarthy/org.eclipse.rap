@@ -359,8 +359,8 @@ qx.Class.define( "org.eclipse.swt.Request", {
       result = result.replace( endMarker, '' );      
       var processor = new org.eclipse.rwt.protocol.Processor( json );
       return result;
-      // [if] Dispose the only finished transport - see bug 301261, 317616
-      exchange.dispose();
+//      // [if] Dispose the only finished transport - see bug 301261, 317616
+//      exchange.dispose();
     },
 
     ///////////////////////////////
